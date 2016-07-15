@@ -6,6 +6,7 @@ public class test{
 		// TODO Auto-generated method stub
 		System.out.println("1231321");
 		System.out.println(divR(100));//
+		//tset feature1
 	}
 
 	public static int divR(int a){
