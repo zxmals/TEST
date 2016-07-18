@@ -1,5 +1,9 @@
 package test;
 
+/**
+ * @author Administrator
+ *
+ */
 public class test{
 
 	public static void main(String[] args) {
@@ -8,7 +12,11 @@ public class test{
 		System.out.println(divR(100));//
 		//quick & sample
 		//test new branch dev
+<<<<<<< Updated upstream
 		//git stash list1
+=======
+		//add more git stash
+>>>>>>> Stashed changes
 	}
 
 	public static int divR(int a){
