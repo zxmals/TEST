@@ -7,6 +7,7 @@ public class test{
 		System.out.println("1231321");
 		System.out.println(divR(100));//
 		//quick & sample
+		//test new branch dev
 	}
 
 	public static int divR(int a){
