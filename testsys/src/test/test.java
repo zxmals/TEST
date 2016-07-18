@@ -8,6 +8,7 @@ public class test{
 		System.out.println(divR(100));//
 		//quick & sample
 		//test new branch dev
+		//git stash list1
 	}
 
 	public static int divR(int a){
