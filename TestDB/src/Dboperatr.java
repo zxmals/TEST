@@ -64,7 +64,7 @@ public class Dboperatr {
 	}
 	/***
 	 * 链接数据库
-	 * @return
+	 * @return Connection
 	 */
 	public static Connection getConn(){
 		Connection conn = null;
@@ -82,14 +82,14 @@ public class Dboperatr {
 	}	
 	/**
 	 * 增加部门或者用户/add depart or user
-	 * @param o
-	 * @return
+	 * @param o 类型 Object 包含的对象类型{T_DEPART,T_USER}
+	 * @return int 函数执行状态值  1:成功     0:失败
 	 */
 	public static int insert(Object o){
 		int flag = 1;
 		String objtype = o.getClass().getSimpleName();
 		Connection con = null;
-		Statement state = null;
+		PreparedStatement ps = null;
 		T_DEPART depart = null;
 		T_USER user = null;
 		String sql = null;
@@ -104,30 +104,28 @@ public class Dboperatr {
 		try{
 			con = getConn();
 			con.setAutoCommit(false);
-			state = con.createStatement();
-			state.execute(sql);
+			ps = con.prepareStatement(sql);
+			ps.execute();
 			con.commit();
 		}catch(Exception e){
 			e.printStackTrace();
-		}
-		finally{
-			try{				
-				if(state!=null)
-					state.close();
-				if(con!=null)
-					con.close();
-			}catch(Exception e){
-				e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+		} finally{
+			close(ps, null, con);	
 		}
 		return flag;
 	}
 	/**
 	 * update/修改  表   dbo.T_USER
-	 * @param colname
-	 * @param value
-	 * @param id
-	 * @return
+	 * @param colname   	目标列名
+	 * @param value 	目标值
+	 * @param id 	所在行唯一标识符值
+	 * @return int 函数执行状态值  1:成功     0:失败
 	 */
 	public static int updateUser(String colname,String value,String id){
 		int flag = 1;		
@@ -144,25 +142,23 @@ public class Dboperatr {
 			con.commit();
 		}catch(Exception e){
 			e.printStackTrace();
-		}
-		finally{
-			try{				
-				if(ps!=null)
-					ps.close();
-				if(con!=null)
-					con.close();
-			}catch(Exception e){
-				e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+		} finally{
+			close(ps, null, con);	
 		}
 		return flag;
 	}
 	/**
 	 * update/修改  表   dbo.T_DEPART
-	 * @param colname
-	 * @param value
-	 * @param id
-	 * @return
+	 * @param colname   	目标列名
+	 * @param value 	目标值
+	 * @param id 	所在行唯一标识符值
+	 * @return int 函数执行状态值  1:成功     0:失败
 	 */
 	public static int updateDepart(String colname,String value,String id){
 		int flag = 1;		
@@ -179,23 +175,22 @@ public class Dboperatr {
 			con.commit();
 		}catch(Exception e){
 			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		finally{
-			try{				
-				if(ps!=null)
-					ps.close();
-				if(con!=null)
-					con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			close(ps, null, con);	
 		}
 		return flag;
 	}
 	/**
 	 * 删除行从表T_DEPART
-	 * @param id
-	 * @return
+	 * @param id 所在行唯一标识符值
+	 * @return int 函数执行状态值  1:成功     0:失败
 	 */
 	public static int deleteDepart(String id){
 		int flag = 1;		
@@ -211,23 +206,22 @@ public class Dboperatr {
 			con.commit();
 		}catch(Exception e){
 			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		finally{
-			try{				
-				if(ps!=null)
-					ps.close();
-				if(con!=null)
-					con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			close(ps, null, con);	
 		}
 		return flag;
 	}
 	/**
 	 * 删除行从表T_USER
-	 * @param id
-	 * @return
+	 * @param id 所在行唯一标识符值
+	 * @return int 函数执行状态值  1:成功     0:失败
 	 */
 	public static int deleteUser(String id){
 		int flag = 1;		
@@ -243,22 +237,21 @@ public class Dboperatr {
 			con.commit();
 		}catch(Exception e){
 			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		finally{
-			try{				
-				if(ps!=null)
-					ps.close();
-				if(con!=null)
-					con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			close(ps, null, con);	
 		}
 		return flag;
 	}
 	/**
 	 * 用Map存储所有用户的用户代码
-	 * @return
+	 * @return Map<String,Object>
 	 */
 	public static Map<String, Object> mapquerytest(){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -276,16 +269,9 @@ public class Dboperatr {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		finally{			
-				try {
-					if(rs!=null)
-						rs.close();
-					if(conn!=null)
-						conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		finally{		
+			
+			close(ps, rs, conn);
 		}		
 
 		return map;
@@ -293,7 +279,7 @@ public class Dboperatr {
 	
 	/**
 	 * 用List 存储所有用户的信息，包括用户代码（T_USER.YHDM），用户姓名（T_USER.YHXM），部门代码（T_USER.YHBM），用户所在部门名称 (T_DEPART.BMMC)
-	 * @return
+	 * @return List<T_USER>
 	 */
 	public static List<T_USER> getUser(){
 		List<T_USER> userli = new ArrayList<T_USER>();
@@ -311,9 +297,9 @@ public class Dboperatr {
 				userli.add(user);
 			}
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}finally{
-			
+			close(ps, rs, conn);
 		}
 		if(userli.size()!=0)
 			return userli;
@@ -355,31 +341,22 @@ public class Dboperatr {
 //			}
 //			flag = 0;
 //		}finally{
-//			try{				
-//				if(rs!=null)
-//					rs.close();
-//				if(ps!=null)
-//					ps.close();
-//				if(con!=null)
-//					con.close();
-//			}catch(Exception e){
-//				e.printStackTrace();
-//			}
+//			close(ps, rs, con);
 //		}
 //		return flag;
 //	}
 	/**
-	 * 查询/select
-	 * @param sql
-	 * @param param
-	 * @return
+	 * 查询/select 查询数据库中现存的表
+	 * @param sql sql查询语句
+	 * @param param  数组 string[] 用于设置sql语句中通配符得值
+	 * @return List List<Map<K,V>>
 	 */	
 	public static List query(String sql,String[] param){		
 		Connection con = null;
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		ResultSetMetaData mdata = null;
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = null;
 		List<Object> li = new ArrayList<>();
 		int colnum = 0;		
 		try{
@@ -390,6 +367,7 @@ public class Dboperatr {
 					ps.setString(i, param[i-1]);
 			rs = ps.executeQuery();
 			while(rs.next()){
+				map = new HashMap<>();
 				mdata = rs.getMetaData();
 				colnum = mdata.getColumnCount();
 				for(int j=1;j<=colnum;j++){
@@ -401,15 +379,35 @@ public class Dboperatr {
 			e.printStackTrace();
 		}
 		finally{
-			try{
-				if(con!=null)
-					con.close();
-				if(rs!=null)
-					rs.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			close(ps, rs, con);
 		}
 		return li;
+	}
+	
+	public static void close(PreparedStatement ps,ResultSet rs,Connection con){
+		
+		if(ps!=null)
+			try {
+				ps.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+		
+		if(rs!=null)
+			try {
+				rs.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+			
+		if(con!=null)
+			try {
+				con.close();						
+			} catch (Exception e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
 	}
 }
