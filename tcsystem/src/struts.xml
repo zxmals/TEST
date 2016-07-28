@@ -5,4 +5,9 @@
 
 <struts>
     <constant name="struts.devMode" value="false" />    
+    <package name="TeacherMange" extends="struts-default" namespace="/">
+    	<action name="login">
+    		
+    	</action>
+    </package>
 </struts>
