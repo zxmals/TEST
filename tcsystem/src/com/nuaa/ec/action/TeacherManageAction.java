@@ -12,7 +12,7 @@ public class TeacherManageAction {
 	}
 
 	public String login() {
-		return "";
+		return "zzz";
 	}
 
 	public String getTeacherid() {
