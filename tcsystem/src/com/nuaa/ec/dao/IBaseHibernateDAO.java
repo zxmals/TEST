@@ -8,5 +8,15 @@ import org.hibernate.Session;
  * @author MyEclipse Persistence Tools
  */
 public interface IBaseHibernateDAO {
+	/***
+	 * get session
+	 * @return
+	 */
 	public Session getSession();
+	/***
+	 * close session
+	 * 
+	 * commit transaction
+	 */
+	public void closeSession(Session session);
 }

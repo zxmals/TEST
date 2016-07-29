@@ -1,10 +1,8 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
-<jsp:directive.page import="com.nuaa.ec.science.Permodel.TeacherLoginStatus"/>
 <%@taglib uri="/struts-tags" prefix="s" %>
 <%
 	String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-TeacherLoginStatus a = (TeacherLoginStatus)session.getAttribute("teacherloginStatus");
 %>
 
 
@@ -32,7 +30,7 @@ TeacherLoginStatus a = (TeacherLoginStatus)session.getAttribute("teacherloginSta
     		function checkID() {
 				var resAdmin = "${teacher.researchLabAdmin}";
 				var resA = document.getElementById("resAdmin");
-				var departAdmin = "${teacher.deaprtAdmin}";
+				var departAdmin = "${teacher.departAdmin}";
 				var departA = document.getElementById("departAdmin");
 				if(resAdmin =="1" )
 					resA.style.display = "block";
@@ -55,7 +53,7 @@ TeacherLoginStatus a = (TeacherLoginStatus)session.getAttribute("teacherloginSta
                             <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold"><%=a.getTeacherName()%></strong></span>
+                               <span class="block m-t-xs"><strong class="font-bold">${teacher.teacherName }</strong></span>
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
