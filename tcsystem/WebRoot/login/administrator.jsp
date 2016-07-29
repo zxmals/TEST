@@ -1,12 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:directive.page import="javax.servlet.http.HttpSession"/>
-<jsp:directive.page import="com.nuaa.ec.science.Permodel.TeacherLoginStatus"/>
 <jsp:directive.page import="java.text.DateFormat"/>
 <%@taglib uri="/struts-tags" prefix="s" %>
 <%
 	String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-TeacherLoginStatus a = (TeacherLoginStatus)session.getAttribute("teacherloginStatus");
 %>
 
 <!DOCTYPE html>
@@ -60,7 +58,7 @@ TeacherLoginStatus a = (TeacherLoginStatus)session.getAttribute("teacherloginSta
                             <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold"><%=a.getTeacherName()%></strong></span>
+                               <span class="block m-t-xs"><strong class="font-bold">${teacher.teacherName }</strong></span>
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
