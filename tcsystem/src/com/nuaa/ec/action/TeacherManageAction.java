@@ -23,7 +23,7 @@ public class TeacherManageAction implements SessionAware {
 
 	public String login() {
 		TeacherLoginInfo teacherlg = null;
-		Teacher teacher = null;
+//		Teacher teacher = null;
 		String loginresult = "500";
 		/*
 		 * 验证登录者是否为管理员或已经不是第一次登录
@@ -39,7 +39,8 @@ public class TeacherManageAction implements SessionAware {
 				teacherlg.setLastLoginDate(new java.sql.Timestamp(new java.util.Date().getTime()));
 				teacherlg.setLoginTime(teacherlg.getLoginTime()+1);
 				teacherlgdao.save(teacherlg);
-				session.put("teacher", teacherdao.findById(teacherid));
+				this.setTeacher(teacherdao.findById(teacherid));
+				session.put("teacher", teacher);
 				/*
 				 * 验证身份/check user level
 				 */

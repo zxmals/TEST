@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		function checkID() {
 				var resAdmin = "${teacher.researchLabAdmin}";
 				var resA = document.getElementById("resAdmin");
-				var departAdmin = "${teacher.deaprtAdmin}";
+				var departAdmin = "${teacher.departAdmin}";
 				var departA = document.getElementById("departAdmin");
 				if(resAdmin =="1" )
 					resA.style.display = "block";
