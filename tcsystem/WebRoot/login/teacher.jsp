@@ -36,6 +36,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					resA.style.display = "block";
 				if(departAdmin =="1" )
 					departA.style.display = "block";
+				var message = "${loginstatus}";
+				if(message!=""&&message!=null)
+					alert(message);
 			}
     </script>
 </head>

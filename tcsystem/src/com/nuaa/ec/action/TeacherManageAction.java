@@ -67,6 +67,7 @@ public class TeacherManageAction implements SessionAware {
 				/* 密码验证/check pwd */
 				if (password.equals(teacher.getTeacherId())) {
 					System.out.println("first login,welcome!");
+					this.setLoginstatus("first login,welcome!");
 					/*
 					 * 第一次登录 初始默认信息: level:1(普通教师) logintime: 1(登录次数)/ first
 					 * login default-info:level:1(general-teacher),logintime:1
