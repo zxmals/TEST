@@ -25,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet">
-    <script type="text/javascript">
+    <script type="text/javascript">    		
     		function checkID() {
 				var resAdmin = "${teacher.researchLabAdmin}";
 				var resA = document.getElementById("resAdmin");
@@ -35,6 +35,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					resA.style.display = "block";
 				if(departAdmin =="1" )
 					departA.style.display = "block";
+				var message = "${loginstatus}";
+				if(message!=""&&message!=null)
+					alert(message);
 			}
     		function get(action,predate,lasdate) {
     			var date1 = document.getElementById(predate).value;
