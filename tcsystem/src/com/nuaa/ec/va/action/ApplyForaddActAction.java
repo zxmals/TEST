@@ -22,6 +22,7 @@ public class ApplyForaddActAction {
 
 	public String addAnoAct() {
 		String destPath = "F:/Tomcat/Tomcat-6.0.45/work";
+		String filepath = destPath+actFileFileName;
 		try {
 //			 System.out.println("Src File name: " + actFile);
 //			 System.out.println("Dst File name: " + actFileFileName);

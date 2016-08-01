@@ -36,15 +36,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            </div><br>
 	            <div class="betu">
 	                <label>活动名称:</label>
-	                <input type="text" name="">
+	                <input type="text" name="vaact.actName">
 	            </div><br>
 	            <div class="betu" style="display: none">
 	                <label>&nbsp;申请人:</label>
-	                <input type="text" name="" value="${teacher.teacherId }">
+	                <input type="text" name="vaact.teacher.teacherId" value="${teacher.teacherId }">
 	            </div>
 	            <div class="betu">
 	                <label>&nbsp;参与人:</label>
-	                <input type="text" name="">
+	                <input type="text" name="vaact.attendee">
 	            </div><br>
 	            <div class="betu">
 	                <label>申请文件:</label>
@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            </div><br>
 	            <div class="betu" style=" display: none;">
 	                <label>活动类别:</label>
-	                <input type="text" name="">
+	                <input type="text" name="vaact.actType" value="0">
 	            </div>
 	            <div class="button">
 	                <button>提交</button>
