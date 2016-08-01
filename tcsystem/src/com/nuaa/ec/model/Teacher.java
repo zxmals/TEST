@@ -19,6 +19,7 @@ public class Teacher  implements java.io.Serializable {
      private String spareTire;
      private String teacherName;
      private String departAdmin;
+     private String vaadmin;
      private String researchLabAdmin;
      private Integer teacherprimaryid;
      private String teacherPost;
@@ -66,7 +67,7 @@ public class Teacher  implements java.io.Serializable {
     }
     
     /** full constructor */
-    public Teacher(String teacherId, ResearchLab researchLab, Department department, String spareTire, String teacherName, String departAdmin, String researchLabAdmin, Integer teacherprimaryid, String teacherPost, Set teacherAndinvitedExpertsSpeechs, Set tfprofessionalProjectDeclarePerformances, Set tfstudentCompetitionGuidancePerformances, Set teacherAndperiodicals, Set tfteachingCompetitionPerformances, Set tfdegreeThesisGuidancePerformances, Set tfsummerCourseInternationalConstructionPerformances, Set tftextbookConstructionPerformances, Set teacherAndmainUndertakeAcademicMeetings, Set tfteachingPaperPerformances, Set tfteachingAbilityImprovePerformances, Set teacherAndscientificResearchProjects, Set teacherAndselectedTalentProjects, Set tffineCourseConstructionPerformances, Set tfenterpriseWorkstationTrainingBaseConstructionPerformances, Set tfclassTeachPefromances, Set tfjoinStudentActivityPerformances, Set tfundergraduateTutorGuidancePerformances, Set tfpracticeInnovationGuidePerformances, Set tfteachingRearchPerformances, Set vateacherAndCollectiveActs, Set teacherAndjoinAcademicMeetings, Set vacollectiveActs, Set tfteachingAchievementPerformances, Set teacherLoginInfos, Set teacherAndscientificResearchRewards, Set teacherAndacademicWorks, Set tffamousTeacherTeamPerformances) {
+    public Teacher(String teacherId, ResearchLab researchLab, Department department, String spareTire, String teacherName, String departAdmin, String researchLabAdmin,String vaadmin, Integer teacherprimaryid, String teacherPost, Set teacherAndinvitedExpertsSpeechs, Set tfprofessionalProjectDeclarePerformances, Set tfstudentCompetitionGuidancePerformances, Set teacherAndperiodicals, Set tfteachingCompetitionPerformances, Set tfdegreeThesisGuidancePerformances, Set tfsummerCourseInternationalConstructionPerformances, Set tftextbookConstructionPerformances, Set teacherAndmainUndertakeAcademicMeetings, Set tfteachingPaperPerformances, Set tfteachingAbilityImprovePerformances, Set teacherAndscientificResearchProjects, Set teacherAndselectedTalentProjects, Set tffineCourseConstructionPerformances, Set tfenterpriseWorkstationTrainingBaseConstructionPerformances, Set tfclassTeachPefromances, Set tfjoinStudentActivityPerformances, Set tfundergraduateTutorGuidancePerformances, Set tfpracticeInnovationGuidePerformances, Set tfteachingRearchPerformances, Set vateacherAndCollectiveActs, Set teacherAndjoinAcademicMeetings, Set vacollectiveActs, Set tfteachingAchievementPerformances, Set teacherLoginInfos, Set teacherAndscientificResearchRewards, Set teacherAndacademicWorks, Set tffamousTeacherTeamPerformances) {
         this.teacherId = teacherId;
         this.researchLab = researchLab;
         this.department = department;
@@ -74,6 +75,7 @@ public class Teacher  implements java.io.Serializable {
         this.teacherName = teacherName;
         this.departAdmin = departAdmin;
         this.researchLabAdmin = researchLabAdmin;
+        this.vaadmin = vaadmin;
         this.teacherprimaryid = teacherprimaryid;
         this.teacherPost = teacherPost;
         this.teacherAndinvitedExpertsSpeechs = teacherAndinvitedExpertsSpeechs;
@@ -404,6 +406,14 @@ public class Teacher  implements java.io.Serializable {
     public void setTffamousTeacherTeamPerformances(Set tffamousTeacherTeamPerformances) {
         this.tffamousTeacherTeamPerformances = tffamousTeacherTeamPerformances;
     }
+
+	public String getVaadmin() {
+		return vaadmin;
+	}
+
+	public void setVaadmin(String vaadmin) {
+		this.vaadmin = vaadmin;
+	}
    
 
 
