@@ -1,3 +1,8 @@
+<%@ page language="java" pageEncoding="UTF-8" %>
+<%
+	String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE html>
 <html>
 
@@ -7,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
 
-    <title>NUAA经管院绩效管理系统 - 登录</title>
+    <title>NUAA.EC.TPM</title>
     
 
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
@@ -19,9 +24,10 @@
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
     <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+    <script>function checkmess() {var message="${loginstatus}";if(message!=null&&message!="")alert(message);}</script>
 </head>
 
-<body class="gray-bg">
+<body class="gray-bg" onload="checkmess()">
 
     <div class="middle-box text-center loginscreen  animated fadeInDown">
         <div>
@@ -30,17 +36,17 @@
                 <h2 class="logo-name">66</h2>
 
             </div>
-            <h3>欢迎使用</h3>
-            <h4>经济与管理学院绩效管理系统</h4>
+            <h3>测试一</h3>
+            <h4></h4>
 
-            <form class="m-t" role="form" action="teacher_login!login"  method =  "post">
+            <form class="m-t" role="form" action="login!login"  method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="工号" name="TeacherID" required="">
+                    <input type="text" class="form-control" placeholder="工号" name="teacherid" required="">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="密码" name="Password" required="">
+                    <input type="password" class="form-control" placeholder="密码" name="password" required="">
                 </div>
-                <button type="submit" class="btn btn-primary block full-width m-b" >登 录</button>
+                <button type="submit" class="btn btn-primary block full-width m-b" >登陆</button>
             </form>
         </div>
     </div>
