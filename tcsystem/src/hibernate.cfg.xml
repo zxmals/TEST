@@ -68,8 +68,6 @@
 		<mapping
 			resource="com/nuaa/ec/model/TfclassTeachEvaluation.hbm.xml" />
 		<mapping
-			resource="com/nuaa/ec/model/VacollectiveActivitiesPublish.hbm.xml" />
-		<mapping
 			resource="com/nuaa/ec/model/TfstudentCompetitionGuidancePerformance.hbm.xml" />
 		<mapping resource="com/nuaa/ec/model/WordsNumber.hbm.xml" />
 		<mapping
@@ -188,6 +186,8 @@
 			resource="com/nuaa/ec/model/TfdegreeThesisGuidanceRewardLevel.hbm.xml" />
 		<mapping resource="com/nuaa/ec/model/VacollectiveAct.hbm.xml" />
 		<mapping resource="com/nuaa/ec/model/TeacherLoginInfo.hbm.xml" />
+		<mapping
+			resource="com/nuaa/ec/model/VacollectiveActivitiesPublish.hbm.xml" />
 		<mapping resource="com/nuaa/ec/model/VaunJoinRecord.hbm.xml" />
 	</session-factory>
 

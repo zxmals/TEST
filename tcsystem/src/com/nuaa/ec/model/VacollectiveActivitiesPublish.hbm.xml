@@ -11,8 +11,11 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="vacollectiveAct" class="com.nuaa.ec.model.VacollectiveAct" fetch="select">
-            <column name="ActID" length="20" />
+            <column name="ActID" length="20" not-null="true" />
         </many-to-one>
+        <property name="teacherId" type="java.lang.String">
+            <column name="TeacherID" length="20" not-null="true" />
+        </property>
         <property name="actDate" type="java.lang.String">
             <column name="ActDate" length="200" />
         </property>

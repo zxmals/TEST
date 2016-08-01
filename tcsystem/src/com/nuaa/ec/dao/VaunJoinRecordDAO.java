@@ -25,11 +25,13 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 	private static final Logger log = LoggerFactory
 			.getLogger(VaunJoinRecordDAO.class);
 	// property constants
+	public static final String TEACHER_ID = "teacherId";
 	public static final String ACT_ID = "actId";
 	public static final String UNJOINREASON = "unjoinreason";
 	public static final String LEAVEREQOBTAIN = "leavereqobtain";
 	public static final String RESULTSCORE = "resultscore";
 	public static final String SPARETIRE = "sparetire";
+	public static final String ASPARETIRE = "asparetire";
 
 	public void save(VaunJoinRecord transientInstance) {
 		log.debug("saving VaunJoinRecord instance");
@@ -95,6 +97,10 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public List findByTeacherId(Object teacherId) {
+		return findByProperty(TEACHER_ID, teacherId);
+	}
+
 	public List findByActId(Object actId) {
 		return findByProperty(ACT_ID, actId);
 	}
@@ -113,6 +119,10 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 
 	public List findBySparetire(Object sparetire) {
 		return findByProperty(SPARETIRE, sparetire);
+	}
+
+	public List findByAsparetire(Object asparetire) {
+		return findByProperty(ASPARETIRE, asparetire);
 	}
 
 	public List findAll() {
