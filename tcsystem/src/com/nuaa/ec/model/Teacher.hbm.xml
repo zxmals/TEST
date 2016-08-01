@@ -28,6 +28,9 @@
         <property name="researchLabAdmin" type="java.lang.String">
             <column name="ResearchLabAdmin" length="20" />
         </property>
+        <property name="vaadmin" type="java.lang.String">
+            <column name="vaadmin" length="20" />
+        </property>
         <property name="teacherprimaryid" type="java.lang.Integer">
             <column name="teacherprimaryid" not-null="true" />
         </property>
