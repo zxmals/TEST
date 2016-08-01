@@ -9,11 +9,13 @@ public class VaunJoinRecord implements java.io.Serializable {
 	// Fields
 
 	private String unjoinId;
+	private String teacherId;
 	private String actId;
 	private String unjoinreason;
 	private String leavereqobtain;
 	private Double resultscore;
 	private String sparetire;
+	private String asparetire;
 
 	// Constructors
 
@@ -22,19 +24,26 @@ public class VaunJoinRecord implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public VaunJoinRecord(String unjoinId) {
+	public VaunJoinRecord(String unjoinId, String teacherId, String actId,
+			String leavereqobtain) {
 		this.unjoinId = unjoinId;
+		this.teacherId = teacherId;
+		this.actId = actId;
+		this.leavereqobtain = leavereqobtain;
 	}
 
 	/** full constructor */
-	public VaunJoinRecord(String unjoinId, String actId, String unjoinreason,
-			String leavereqobtain, Double resultscore, String sparetire) {
+	public VaunJoinRecord(String unjoinId, String teacherId, String actId,
+			String unjoinreason, String leavereqobtain, Double resultscore,
+			String sparetire, String asparetire) {
 		this.unjoinId = unjoinId;
+		this.teacherId = teacherId;
 		this.actId = actId;
 		this.unjoinreason = unjoinreason;
 		this.leavereqobtain = leavereqobtain;
 		this.resultscore = resultscore;
 		this.sparetire = sparetire;
+		this.asparetire = asparetire;
 	}
 
 	// Property accessors
@@ -45,6 +54,14 @@ public class VaunJoinRecord implements java.io.Serializable {
 
 	public void setUnjoinId(String unjoinId) {
 		this.unjoinId = unjoinId;
+	}
+
+	public String getTeacherId() {
+		return this.teacherId;
+	}
+
+	public void setTeacherId(String teacherId) {
+		this.teacherId = teacherId;
 	}
 
 	public String getActId() {
@@ -85,6 +102,14 @@ public class VaunJoinRecord implements java.io.Serializable {
 
 	public void setSparetire(String sparetire) {
 		this.sparetire = sparetire;
+	}
+
+	public String getAsparetire() {
+		return this.asparetire;
+	}
+
+	public void setAsparetire(String asparetire) {
+		this.asparetire = asparetire;
 	}
 
 }
