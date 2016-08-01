@@ -22,9 +22,6 @@ public class TeacherManageAction implements SessionAware {
 	}
 
 	public String login() {
-<<<<<<< HEAD
-		return "success";
-=======
 		TeacherLoginInfo teacherlg = null;
 		// Teacher teacher = null;
 		String loginresult = "500";
@@ -97,7 +94,6 @@ public class TeacherManageAction implements SessionAware {
 		new BaseHibernateDAO()
 				.closeSession(new BaseHibernateDAO().getSession());
 		return loginresult;
->>>>>>> zxma
 	}
 
 	public String getTeacherid() {
