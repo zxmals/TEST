@@ -109,10 +109,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <a class="J_menuItem" href="">公益绩效管理  <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
 		                            <li>
-		                                <a   data-toggle="modal"  data-target="#VAaddreq"   href="">申请新增公益活动</a>
+		                                <a  class="J_menuItem"  href="VA/add_applay_act.jsp">申请新增公益活动</a>
 		                            </li>   
 		                            <li>
-		                                <a class="J_menuItem" href="">公益活动管理</a>
+		                                <a class="J_menuItem" href="VA/test.jsp">公益活动管理</a>
 		                            </li>                           
                         		</ul>
                             </li>
@@ -273,46 +273,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
     </div>
     
-    <div id="VAaddreq" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row">
-                            <h3 class="m-t-none m-b">申请其他公益活动</h3>
-                            <form role="form" id="onlyForm" name="vaaddreq"action="" enctype="multipart/form-data">                          
-                                <div class="form-group">                                
-                                    <label>活动名称:</label>
-                                    <input id="actname" type="text"  class="form-control" name="act_name" value="">
-                                </div>
-                                 <div class="form-group">
-									<label>申请人:</label>
-									<div style="position:relative;">
-										<input id="proposer" type="text"  class="form-control" name="proposer" value="">											
-									</div>
-								</div>
-								<div class="form-group">
-									<label>参与人:</label>
-									<div style="position:relative;">
-										<input id="proposer" type="text"  class="form-control" name="proposer" value="">											
-									</div>
-								</div>
-								<div class="form-group">
-									<label>申请文件:</label>
-									<div style="position:relative;">
-										<input id="proposer" type="file"  class="form-control" name="proposer" value="">											
-									</div>
-								</div>                                    
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
-                                     <i class="fa fa-check"></i>
-                                    <strong>提交</strong>
-                                    </button	>
-                                    	<button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    </form>
-                               </div>                           
-                    </div>
-                </div>
-            </div>
-        </div>             
+    
     <script src="js/jquery.min.js?v=2.1.4"></script>
     <script src="js/bootstrap.min.js?v=3.3.5"></script>
     <script src="js/plugins/jeditable/jquery.jeditable.js"></script>

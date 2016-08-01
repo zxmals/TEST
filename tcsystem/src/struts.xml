@@ -6,12 +6,18 @@
 <struts>
 	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
     <constant name="struts.devMode" value="false" />
+    <constant name="struts.multipart.maxSize" value="1000000" />
     <package name="TeacherMange" extends="struts-default" namespace="/">
     	<action name="login" class="com.nuaa.ec.action.TeacherManageAction">
     		<result name="general-t">/login/teacher.jsp</result>
     		<result name="admin-t">/login/administrator.jsp</result>
     		<result name="relogin">/login.jsp</result>
     		<result name="500">/error/500.html</result>
+    	</action>
+    </package>
+    <package name="va" extends="struts-default" namespace="/">
+    	<action name="addapply" class="com.nuaa.ec.va.action.ApplyForaddActAction">
+    		<result>/VA/add_applay_act.jsp</result>
     	</action>
     </package>
 </struts>

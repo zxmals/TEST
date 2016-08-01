@@ -1,0 +1,34 @@
+#f {
+    margin-left: 100px;
+    margin-top: 60px;
+     background-color: #98c0e9;
+    width: 50%;
+    border: 1px solid #cdff46;
+}
+.betu {
+    width: 100%;
+}
+.left {
+    text-align: left;
+}
+.left hr {
+    border: 1.5px solid #cdff46;
+}
+.betu label {
+    margin-left: 30%;
+}
+.betu input{
+    margin-left: 1%;
+}
+.button{
+    width: 100%;
+    text-align: center;
+}
+.button button{
+    background-color: beige;
+    width: 60px;
+    height: 30px;
+    border: hidden;
+    font-family: 宋体;
+    font-size: 14px;
+}
