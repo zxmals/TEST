@@ -188,6 +188,7 @@
 			resource="com/nuaa/ec/model/TfdegreeThesisGuidanceRewardLevel.hbm.xml" />
 		<mapping resource="com/nuaa/ec/model/VacollectiveAct.hbm.xml" />
 		<mapping resource="com/nuaa/ec/model/TeacherLoginInfo.hbm.xml" />
+		<mapping resource="com/nuaa/ec/model/VaunJoinRecord.hbm.xml" />
 	</session-factory>
 
 </hibernate-configuration>
