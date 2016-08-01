@@ -26,6 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet">    
+     <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
      <script type="text/javascript">
     		function checkID() {
 				var resAdmin = "${teacher.researchLabAdmin}";
@@ -60,20 +61,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li></a>
-                                </li>
                                 <li><a class="J_menuItem" href="searchjiben.jsp">个人资料</a>
                                 </li>
                                 <li><a class="J_menuItem" href="xiugaimima.jsp">修改密码</a>
-                                </li>
-                                <li></a>
                                 </li>
                                 <li class="divider"></li>
                                 <li><a href="logout!out">安全退出</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="logo-element">bamanker
+                        <div class="logo-element">bamanker</div>
                     </li>
                     <li>
                         <a href="#">
@@ -109,7 +106,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <a class="J_menuItem" href="doPerformance_tf.jsp">教学绩效管理</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="graph_echarts.html">公益绩效管理</a>
+                                <a class="J_menuItem" href="">公益绩效管理  <span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+		                            <li>
+		                                <a   data-toggle="modal"  data-target="#VAaddreq"   href="">申请新增公益活动</a>
+		                            </li>   
+		                            <li>
+		                                <a class="J_menuItem" href="">公益活动管理</a>
+		                            </li>                           
+                        		</ul>
                             </li>
                         </ul>
                     </li>
@@ -267,8 +272,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!--右侧边栏结束-->
         
     </div>
+    
+    <div id="VAaddreq" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                            <h3 class="m-t-none m-b">申请其他公益活动</h3>
+                            <form role="form" id="onlyForm" name="vaaddreq"action="" enctype="multipart/form-data">                          
+                                <div class="form-group">                                
+                                    <label>活动名称:</label>
+                                    <input id="actname" type="text"  class="form-control" name="act_name" value="">
+                                </div>
+                                 <div class="form-group">
+									<label>申请人:</label>
+									<div style="position:relative;">
+										<input id="proposer" type="text"  class="form-control" name="proposer" value="">											
+									</div>
+								</div>
+								<div class="form-group">
+									<label>参与人:</label>
+									<div style="position:relative;">
+										<input id="proposer" type="text"  class="form-control" name="proposer" value="">											
+									</div>
+								</div>
+								<div class="form-group">
+									<label>申请文件:</label>
+									<div style="position:relative;">
+										<input id="proposer" type="file"  class="form-control" name="proposer" value="">											
+									</div>
+								</div>                                    
+                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                     <i class="fa fa-check"></i>
+                                    <strong>提交</strong>
+                                    </button	>
+                                    	<button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
+                                    </form>
+                               </div>                           
+                    </div>
+                </div>
+            </div>
+        </div>             
     <script src="js/jquery.min.js?v=2.1.4"></script>
     <script src="js/bootstrap.min.js?v=3.3.5"></script>
+    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+      <script src="js/content.min.js?v=1.0.0"></script>
+      <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="js/plugins/layer/layer.min.js"></script>

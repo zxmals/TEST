@@ -20,6 +20,7 @@ public class VacollectiveAct  implements java.io.Serializable {
      private Double score;
      private String actType;
      private Double baseNum;
+     private String actapplyfile;
      private String spareTire;
      private String aspareTire;
      private Set vacollectiveActivitiesPublishs = new HashSet(0);
@@ -37,7 +38,7 @@ public class VacollectiveAct  implements java.io.Serializable {
     }
     
     /** full constructor */
-    public VacollectiveAct(String actId, Teacher teacher, String actName, String attendee, Double score, String actType, Double baseNum, String spareTire, String aspareTire, Set vacollectiveActivitiesPublishs) {
+    public VacollectiveAct(String actId, Teacher teacher, String actName, String attendee, Double score, String actType, Double baseNum, String actapplyfile,String spareTire, String aspareTire, Set vacollectiveActivitiesPublishs) {
         this.actId = actId;
         this.teacher = teacher;
         this.actName = actName;
@@ -45,6 +46,7 @@ public class VacollectiveAct  implements java.io.Serializable {
         this.score = score;
         this.actType = actType;
         this.baseNum = baseNum;
+        this.actapplyfile = actapplyfile;
         this.spareTire = spareTire;
         this.aspareTire = aspareTire;
         this.vacollectiveActivitiesPublishs = vacollectiveActivitiesPublishs;
@@ -132,6 +134,14 @@ public class VacollectiveAct  implements java.io.Serializable {
     public void setVacollectiveActivitiesPublishs(Set vacollectiveActivitiesPublishs) {
         this.vacollectiveActivitiesPublishs = vacollectiveActivitiesPublishs;
     }
+
+	public String getActapplyfile() {
+		return actapplyfile;
+	}
+
+	public void setActapplyfile(String actapplyfile) {
+		this.actapplyfile = actapplyfile;
+	}
    
 
 
