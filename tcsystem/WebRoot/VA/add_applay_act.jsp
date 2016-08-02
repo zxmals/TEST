@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            </div><br>
 	            <div class="betu" style="display: none">
 	                <label>&nbsp;申请人:</label>
-	                <input type="text" name="vaact.teacher.teacherId" value="${teacher.teacherId }">
+	                <input type="text" name="teacher.teacherId" value="${teacher.teacherId }">
 	            </div>
 	            <div class="betu">
 	                <label>&nbsp;参与人:</label>
