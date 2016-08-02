@@ -15,7 +15,8 @@ public class PrimaryKMaker {
 		String lpk  = null;
 		try{			
 			Query query = session.createSQLQuery(sql);
-			lpk = (String)query.list().get(0);		
+			if(query.list().size()>0)
+				lpk = (String)query.list().get(0);
 			transaction.commit();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -32,14 +33,17 @@ public class PrimaryKMaker {
 		return lpk;
 	}
 	/***
-	 * 找到对应的的表的最后一个主键并生成一个新的主键/find the last-pk to the table which you find and make the next-pk.
+	 * 找到对应的的表的最后一个主键并生成一个新的主键
+	 * /find the last-pk to the table which you find and make the next-pk.
 	 * @param colname 列名
 	 * @param table 表名
-	 * @param foreword	主键钱标志关键字
+	 * @param foreword	主键前标志关键字
 	 * @return
 	 */
 	public String mkpk(String colname,String table,String foreword){
 		String lastpk = getLastElement(colname, table);
+		if(lastpk==null)
+			return foreword+"000000001";		
 		String pk = 1+Integer.parseInt(lastpk.substring(foreword.length(), lastpk.length()))+"";
 		int j = pk.length();
 		for(int i=0;i<9-j;i++){
@@ -49,4 +53,10 @@ public class PrimaryKMaker {
 		return foreword+pk;
 	}
 
+	public static void main(String[] args){
+		String colname = "ActID";
+		String table = "VACollectiveAct";
+		String foreword = "vact";
+		System.out.println(new PrimaryKMaker().mkpk(colname, table, foreword));
+	}
 }
