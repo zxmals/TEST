@@ -22,6 +22,7 @@ public class ApplyForaddActAction {
 	private VacollectiveActDAO vadao = new VacollectiveActDAO();
 	private PrimaryKMaker pkm = new PrimaryKMaker();
 	private TeacherDAO teacherdao = new TeacherDAO();
+	private String AddResStatus;
 
 	public String execute() {
 		return "success";
@@ -30,22 +31,28 @@ public class ApplyForaddActAction {
 	public String addAnoAct() {
 		String destPath = "F:/Tomcat/Tomcat-6.0.45/work";
 		String filepath = destPath + actFileFileName;
-		try {
-			// System.out.println("Src File name: " + actFile);
-			// System.out.println("Dst File name: " + actFileFileName);
-			File destFile = new File(destPath, actFileFileName);
-			FileUtils.copyFile(actFile, destFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
 		vaact.setActapplyfile(filepath);
 		vaact.setTeacher(teacherdao.findById(teacher.getTeacherId()));
 		vaact.setActId(pkm.mkpk("ActID", "VACollectiveAct", "vaact"));
 		vaact.setScore(0.0);
 		vaact.setBaseNum(null);
-		vaact.setSpareTire("10");
-		vaact.setSpareTire("0");
-		new BaseHibernateDAO().closeSession();
+		vaact.setAspareTire("0");
+		vaact.setSpareTire("1");
+		try {
+			// System.out.println("Src File name: " + actFile);
+			// System.out.println("Dst File name: " + actFileFileName);
+			File destFile = new File(destPath, actFileFileName);
+			FileUtils.copyFile(actFile, destFile);
+			vadao.save(vaact);
+			new BaseHibernateDAO().getSession().beginTransaction().commit();
+			this.setAddResStatus("已申请，请等待审核！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			new BaseHibernateDAO().getSession().beginTransaction().rollback();
+			this.setAddResStatus("申请失败，请稍后重试！");
+		} finally {
+			new BaseHibernateDAO().closeSession();
+		}
 		return "success";
 	}
 
@@ -87,6 +94,14 @@ public class ApplyForaddActAction {
 
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
+	}
+
+	public String getAddResStatus() {
+		return AddResStatus;
+	}
+
+	public void setAddResStatus(String addResStatus) {
+		AddResStatus = addResStatus;
 	}
 
 }

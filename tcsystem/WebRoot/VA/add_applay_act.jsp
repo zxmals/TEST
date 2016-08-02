@@ -20,14 +20,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<script type="text/css">
-		.bute{
-			background
-		}
-	</script>
+	<script type="text/javascript">function loads() { var status = "${addResStatus}";if(status!="")alert(status);}</script>
   </head>
   
-  <body style="background-color: black;">
+  <body onload="loads()" >
 	  	<div id="f">
 	        <form method="post" name="vaaddreq"action="addapply!addAnoAct" enctype="multipart/form-data">
 	            <div class="left">
