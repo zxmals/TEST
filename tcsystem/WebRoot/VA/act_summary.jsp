@@ -10,28 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <head>
         <title>act_manage_summary</title>
         <link rel="stylesheet" type="text/css" href="../css/zxma.css">
-        <script type="text/javascript">
-            function change_s(id) {
-                var span = document.getElementById(id);
-                span.style.border = "2px inset";
-            }
-            function recoberstyle(id,href) {
-                var span = document.getElementById(id);
-                span.style.border = "2px outset";
-                var ifr = document.getElementById("of");
-                ifr.src = href;
-            }
-            function closeframemoused() {
-                var img = document.getElementById("imges");
-                img.style.border = "2px inset";
-            }
-            function closeframemouseu() {
-                var img = document.getElementById("imges");
-                img.style.border = "2px outset";
-                var ifr = document.getElementById("of");
-                ifr.src = "";
-            }
-        </script>
+        <script type="text/javascript" src="../js/act_summary.js"></script>
     </head>
     <body>
         <div style="width: auto">
