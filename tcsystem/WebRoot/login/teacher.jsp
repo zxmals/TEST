@@ -26,6 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet">    
+     <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
      <script type="text/javascript">
     		function checkID() {
 				var resAdmin = "${teacher.researchLabAdmin}";
@@ -60,20 +61,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li></a>
-                                </li>
                                 <li><a class="J_menuItem" href="searchjiben.jsp">个人资料</a>
                                 </li>
                                 <li><a class="J_menuItem" href="xiugaimima.jsp">修改密码</a>
-                                </li>
-                                <li></a>
                                 </li>
                                 <li class="divider"></li>
                                 <li><a href="logout!out">安全退出</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="logo-element">bamanker
+                        <div class="logo-element">bamanker</div>
                     </li>
                     <li>
                         <a href="#">
@@ -109,7 +106,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <a class="J_menuItem" href="doPerformance_tf.jsp">教学绩效管理</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="graph_echarts.html">公益绩效管理</a>
+                                <a class="J_menuItem" href="">公益绩效管理  <span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+		                            <li>
+		                                <a  class="J_menuItem"  href="VA/add_applay_act.jsp">申请新增公益活动</a>
+		                            </li>   
+		                            <li>
+		                                <a class="J_menuItem" href="VA/act_summary.jsp">公益活动管理</a>
+		                            </li>                           
+                        		</ul>
                             </li>
                         </ul>
                     </li>
@@ -267,8 +272,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!--右侧边栏结束-->
         
     </div>
+    
+    
     <script src="js/jquery.min.js?v=2.1.4"></script>
     <script src="js/bootstrap.min.js?v=3.3.5"></script>
+    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+      <script src="js/content.min.js?v=1.0.0"></script>
+      <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="js/plugins/layer/layer.min.js"></script>

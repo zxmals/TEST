@@ -28,6 +28,9 @@
         <property name="baseNum" type="java.lang.Double">
             <column name="BaseNum" precision="53" scale="0" />
         </property>
+        <property name="actapplyfile" type="java.lang.String">
+        	<column name="actapplyfile"  ></column>
+        </property>
         <property name="spareTire" type="java.lang.String">
             <column name="SpareTire" length="200" />
         </property>
