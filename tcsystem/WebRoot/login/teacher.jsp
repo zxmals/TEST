@@ -112,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                                <a  class="J_menuItem"  href="VA/add_applay_act.jsp">申请新增公益活动</a>
 		                            </li>   
 		                            <li>
-		                                <a class="J_menuItem" href="VA/test.jsp">公益活动管理</a>
+		                                <a class="J_menuItem" href="VA/act_summary.jsp">公益活动管理</a>
 		                            </li>                           
                         		</ul>
                             </li>

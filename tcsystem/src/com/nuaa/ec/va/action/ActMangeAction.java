@@ -1,7 +1,6 @@
 package com.nuaa.ec.va.action;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
@@ -12,7 +11,7 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.utils.PrimaryKMaker;
 
-public class ApplyForaddActAction {
+public class ActMangeAction {
 
 	private VacollectiveAct vaact;
 	private Teacher teacher;
@@ -28,9 +27,19 @@ public class ApplyForaddActAction {
 		return "success";
 	}
 
+	/***
+	 * Action
+	 * 添加一个活动申请/add a apply for act(activity)
+	 * @return
+	 */
 	public String addAnoAct() {
+		/*文件保存路径 /File save-path*/
 		String destPath = "F:/Tomcat/Tomcat-6.0.45/work";
+		/*文件全/complete name of the File*/
 		String filepath = destPath + actFileFileName;
+		/*
+		 * set-attribute to vaact/ 为对象vaact补充属性值
+		 */
 		vaact.setActapplyfile(filepath);
 		vaact.setTeacher(teacherdao.findById(teacher.getTeacherId()));
 		vaact.setActId(pkm.mkpk("ActID", "VACollectiveAct", "vaact"));
@@ -38,6 +47,7 @@ public class ApplyForaddActAction {
 		vaact.setBaseNum(null);
 		vaact.setAspareTire("0");
 		vaact.setSpareTire("1");
+		/*存文件以及保存对象到数据库/execute save File and save object to database */
 		try {
 			// System.out.println("Src File name: " + actFile);
 			// System.out.println("Dst File name: " + actFileFileName);
@@ -48,9 +58,11 @@ public class ApplyForaddActAction {
 			this.setAddResStatus("已申请，请等待审核！");
 		} catch (Exception e) {
 			e.printStackTrace();
+			/*保存失败 事物回滚/save object fail ,rollback transaction*/
 			new BaseHibernateDAO().getSession().beginTransaction().rollback();
 			this.setAddResStatus("申请失败，请稍后重试！");
 		} finally {
+			/*close session, release space/关闭session，以免内存溢出*/
 			new BaseHibernateDAO().closeSession();
 		}
 		return "success";

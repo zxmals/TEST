@@ -16,7 +16,7 @@
     	</action>
     </package>
     <package name="va" extends="struts-default" namespace="/">
-    	<action name="addapply" class="com.nuaa.ec.va.action.ApplyForaddActAction">
+    	<action name="addapply" class="com.nuaa.ec.va.action.ActMangeAction">
     		<result>/VA/add_applay_act.jsp</result>
     	</action>
     </package>
