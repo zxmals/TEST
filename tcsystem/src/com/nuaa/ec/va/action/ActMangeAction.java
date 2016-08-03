@@ -7,8 +7,10 @@ import org.apache.commons.io.FileUtils;
 import com.nuaa.ec.dao.BaseHibernateDAO;
 import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.dao.VacollectiveActDAO;
+import com.nuaa.ec.dao.VacollectiveActivitiesPublishDAO;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.VacollectiveAct;
+import com.nuaa.ec.model.VacollectiveActivitiesPublish;
 import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class ActMangeAction {
@@ -18,11 +20,14 @@ public class ActMangeAction {
 	private File actFile;
 	private String actFileContentType;
 	private String actFileFileName;
+	private String AddResStatus;
+	private String foredate;
+	private String afterdate;
+	private VacollectiveActivitiesPublish vapm;
 	private VacollectiveActDAO vadao = new VacollectiveActDAO();
 	private PrimaryKMaker pkm = new PrimaryKMaker();
-	private TeacherDAO teacherdao = new TeacherDAO();
-	private String AddResStatus;
-
+	private TeacherDAO teacherdao = new TeacherDAO();	
+	private VacollectiveActivitiesPublishDAO vapubdao = new VacollectiveActivitiesPublishDAO();
 	public String execute() {
 		return "success";
 	}
@@ -68,6 +73,11 @@ public class ActMangeAction {
 		return "success";
 	}
 
+	public String getPubAct(){
+		
+		return "";
+	}
+	
 	public VacollectiveAct getVaact() {
 		return vaact;
 	}
@@ -114,6 +124,30 @@ public class ActMangeAction {
 
 	public void setAddResStatus(String addResStatus) {
 		AddResStatus = addResStatus;
+	}
+
+	public String getForedate() {
+		return foredate;
+	}
+
+	public void setForedate(String foredate) {
+		this.foredate = foredate;
+	}
+
+	public String getAfterdate() {
+		return afterdate;
+	}
+
+	public void setAfterdate(String afterdate) {
+		this.afterdate = afterdate;
+	}
+
+	public VacollectiveActivitiesPublish getVapm() {
+		return vapm;
+	}
+
+	public void setVapm(VacollectiveActivitiesPublish vapm) {
+		this.vapm = vapm;
 	}
 
 }

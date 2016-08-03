@@ -5,11 +5,12 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Title</title>
+<title>add_act</title>
 <link rel="shortcut icon" href="favicon.ico">
 <link href="../css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
 <link href="../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -25,6 +26,14 @@
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/eye-base.js"></script>
 <script type="text/javascript">
+	function downsubm() {
+		var btn = document.getElementById("subm");
+		btn.style.border = "2px inset";
+	}
+	function upsubm() {
+		var btn = document.getElementById("subm");
+		btn.style.border = "0.5px outset";
+	}
 	function downsearch() {
 		var btn = document.getElementById("datep");
 		btn.style.border = "2px inset";
@@ -46,8 +55,8 @@
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="" method="post">
-				从:<input type="text" id="date1" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" />到:<input type="text" id="date2" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" />
+			<form action="add_join_act!" method="post" name="pickdate">
+				从:<input type="text" id="date1" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${foredate }"  />到:<input type="text" id="date2" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${afterdate }"  />
 				&nbsp;&nbsp;<input type="button" id="datep" value="查寻" title="点击查询" onmousedown="downsearch()" onmouseup="upsearch()">
 			</form>
 		</div>
@@ -67,10 +76,10 @@
 									<thead>
 										<tr>
 											<td class="sorting_asc" style="display: none">ID</td>
-											<td class="sorting_asc">系名</td>
-											<td class="sorting_asc">系管理员编号</td>
-											<td class="sorting_asc">系管理员</td>
-											<td class="sorting_asc">操作</td>
+											<td class="sorting_asc">活动名称</td>
+											<td class="sorting_asc">参与人员</td>
+											<td class="sorting_asc">活动日期</td>
+											<td class="sorting_asc">添加</td>
 										</tr>
 									</thead>
 									<tbody>
@@ -80,19 +89,18 @@
 												<td>${depart.departmentName }</td>
 												<td>${depart.departAdminID }</td>
 												<td>${depart.departAdmin }</td>
-												<td><a class="btn btn-primary btn-sm" data-toggle="modal" onclick="confirmdel('${depart.departmentID }')">删除</a> 
-												<a class="btn btn-primary btn-sm" data-toggle="modal" onclick="assignmentC('${depart.departmentID }','${depart.departmentName }','${depart.departAdminID }','${depart.departAdmin }')" data-target="#update">修改</a></td>
+												<td><input type="radio" name="act" value="09130023513245"></td>
 											</tr>
 										</c:forEach>
 									</tbody>
-								</table>
+								</table>								
 							</form>
+							<input type="submit" value="选定提交" id="subm" onmousedown="downsubm()" onmouseup="upsubm()">
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<script src="../js/jquery.min.js?v=2.1.4"></script>
 	<script src="../js/bootstrap.min.js?v=3.3.5"></script>
