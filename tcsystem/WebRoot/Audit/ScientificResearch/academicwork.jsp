@@ -122,7 +122,7 @@ if(oint!=null)
 				if(SREDTdao.get(o).getTA()!=null)
 					for(int i=0;i<SREDTdao.get(o).getTA().size();i++){ %>	
 			<tr>
-				<td><%=SREDTdao.get(o).getTA().get(i).getAcaworkID() %></td>a
+				<td><%=SREDTdao.get(o).getTA().get(i).getAcaworkID() %></td>
 				<td><%=SREDTdao.get(o).getTA().get(i).getWorkName() %></td>
 				<td><%=SREDTdao.get(o).getTA().get(i).getFirstAuthor() %></td>
 				<td><%=SREDTdao.get(o).getTA().get(i).getPublishDate() %></td>
