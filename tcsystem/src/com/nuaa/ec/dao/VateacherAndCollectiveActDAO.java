@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +54,28 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public int psave(VateacherAndCollectiveAct vatda){
+		Session session = getSession();
+		VateacherAndCollectiveActDAO vtdao = new VateacherAndCollectiveActDAO();
+		VateacherAndCollectiveAct vat = (VateacherAndCollectiveAct)vtdao.findByProperty("TeacherID", vatda.getTeacherid()).get(0);
+		if(vatda.getVapid().equals(vat.getVapid())){
+			return -1;
+		}
+		int r = 0;
+		try {
+			Query q = session.createSQLQuery("insert into VATeacherAndCollectiveAct values('"+vatda.getVapid()+"','"+vatda.getTeacherid()+"',"+vatda.getScore()+",'"+vatda.getSpareTire()+"','"+vatda.getAspareTire()+"')");
+			r = q.executeUpdate();
+			session.beginTransaction().commit();			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			session.beginTransaction().rollback();
+		}finally{
+			session.close();
+		}
+		return r;
+	}
+	
 	public VateacherAndCollectiveAct findById(
 			com.nuaa.ec.model.VateacherAndCollectiveActId id) {
 		log.debug("getting VateacherAndCollectiveAct instance with id: " + id);

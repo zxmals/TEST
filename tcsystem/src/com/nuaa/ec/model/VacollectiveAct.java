@@ -36,8 +36,16 @@ public class VacollectiveAct  implements java.io.Serializable {
     public VacollectiveAct(String actId) {
         this.actId = actId;
     }
+
     
-    /** full constructor */
+    
+    public VacollectiveAct(String actName, String attendee) {
+		super();
+		this.actName = actName;
+		this.attendee = attendee;
+	}
+
+	/** full constructor */
     public VacollectiveAct(String actId, Teacher teacher, String actName, String attendee, Double score, String actType, Double baseNum, String actapplyfile,String spareTire, String aspareTire, Set vacollectiveActivitiesPublishs) {
         this.actId = actId;
         this.teacher = teacher;

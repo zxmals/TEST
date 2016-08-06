@@ -17,7 +17,7 @@
 		</interceptors>
 		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
 		<global-results>
-			<result name="error">/error/500.jsp</result>
+			<result name="relogin">login.jsp</result>
 		</global-results>
 		<action name="login" class="com.nuaa.ec.action.TeacherManageAction">
 			<result name="general-t">/login/teacher.jsp</result>
@@ -36,7 +36,7 @@
 		</interceptors>
 		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
 		<global-results>
-			<result name="error">/error/500.jsp</result>
+			<result name="relogin">login.jsp</result>
 		</global-results>
 		<action name="*_act" class="com.nuaa.ec.va.action.ActMangeAction">
 			<result>/VA/{1}_act.jsp</result>

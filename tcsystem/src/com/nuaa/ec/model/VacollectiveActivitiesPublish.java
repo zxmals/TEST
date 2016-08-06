@@ -33,6 +33,16 @@ public class VacollectiveActivitiesPublish implements java.io.Serializable {
 		this.teacherId = teacherId;
 	}
 
+	
+	
+	public VacollectiveActivitiesPublish(String actPubId,
+			VacollectiveAct vacollectiveAct, String actDate,String NULL) {
+		super();
+		this.actPubId = actPubId;
+		this.vacollectiveAct = vacollectiveAct;
+		this.actDate = actDate;
+	}
+
 	/** full constructor */
 	public VacollectiveActivitiesPublish(String actPubId,
 			VacollectiveAct vacollectiveAct, String teacherId, String actDate,

@@ -1,12 +1,16 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +46,53 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 			throw re;
 		}
 	}
-
+/**
+ * 根据用户划定的时间范围，获取对应时间范围内举办的活动
+ * according to the time-limted get the Acts inner time-limted
+ * @param foredate 前定时间
+ * @param afterdate 后界时间
+ * @return
+ */
+	public List<VacollectiveActivitiesPublish> getJoinPublishAct(String foredate,String afterdate){
+		Session session = getSession();
+		Transaction tx = session.beginTransaction();
+		String hql = "from VacollectiveActivitiesPublish v where v.actDate>:foredate and v.actDate<:lastdate";
+		VacollectiveActivitiesPublish vap = null;
+		List<VacollectiveActivitiesPublish> vapli = new ArrayList<VacollectiveActivitiesPublish>();
+		try {
+			Query query = session.createQuery(hql);
+			query.setParameter("foredate", foredate);
+			query.setParameter("lastdate", afterdate);
+			List res = query.list();
+			for(int i=0;i<res.size();i++){
+				vap = new VacollectiveActivitiesPublish(
+						((VacollectiveActivitiesPublish)res.get(i)).getActPubId(),
+						new VacollectiveAct(
+								((VacollectiveActivitiesPublish)res.get(i)).getVacollectiveAct().getActName(),
+								((VacollectiveActivitiesPublish)res.get(i)).getVacollectiveAct().getAttendee()), 
+							((VacollectiveActivitiesPublish)res.get(i)).getActDate(), 
+							null);
+				vapli.add(vap);
+			}
+			tx.commit();
+			session.close();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		if(vapli.size()!=0)
+			return vapli;
+		else
+			return null;
+	} 
+//	public static void main(String[] args){
+//		List<VacollectiveActivitiesPublish> vap = new VacollectiveActivitiesPublishDAO().getJoinPublishAct();
+//		System.out.println("_____________________________________________________");
+//		for(int i=0;i<vap.size();i++){
+//			System.out.println(vap.get(i).getVacollectiveAct().getActName());
+//		}
+//	}
 	public void delete(VacollectiveActivitiesPublish persistentInstance) {
 		log.debug("deleting VacollectiveActivitiesPublish instance");
 		try {

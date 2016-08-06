@@ -5,7 +5,7 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -21,7 +21,7 @@
 	rel="stylesheet">
 <link href="../css/animate.min.css" rel="stylesheet">
 <link href="../css/style.min.css?v=4.0.0" rel="stylesheet">
-<base target="_blank">
+<base target="_self">
 <script type="text/javascript" src="../js/eye-all.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/eye-base.js"></script>
@@ -33,6 +33,11 @@
 	function upsubm() {
 		var btn = document.getElementById("subm");
 		btn.style.border = "0.5px outset";
+	/*	var x = document.getElementsByTagName("1a").value;
+		alert(x);
+		if(=="")
+			return;*/
+		document.f.submit();
 	}
 	function downsearch() {
 		var btn = document.getElementById("datep");
@@ -47,16 +52,23 @@
 			alert("请正确的选择日期！");
 			return;
 		}
-		alert(foredate + "||||" + afterdate);
+		document.pickdate.submit();
 	}
+	
+	function addAtcResult() {
+		var mess = "${addactstatus}";
+		if(mess!="")
+			alert(mess);
+	}
+	
 </script>
 </head>
-<body>
+<body onload="addAtcResult()">
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="add_join_act" method="post" name="pickdate">
-				从:<input type="text" id="date1" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${foredate }"  />到:<input type="text" id="date2" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${afterdate }"  />
+			<form action="add_join_act!getPubAct" method="post" name="pickdate">
+				从:<input type="text" id="date1" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${foredate }" name="foredate" />到:<input type="text" id="date2" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="button" id="datep" value="查寻" title="点击查询" onmousedown="downsearch()" onmouseup="upsearch()">
 			</form>
 		</div>
@@ -67,11 +79,11 @@
 				<div class="col-sm-12">
 					<div class="ibox float-e-margins">
 						<h5>
-							系 <small></small>
+							<small></small>
 						</h5>
 						<div class="ibox-content"></div>
 						<div class="example">
-							<form method="post" name="f">
+							<form method="post" name="f" action="add_join_act!addJoinedAct">
 								<table id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 									<thead>
 										<tr>
@@ -83,13 +95,13 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="depart" items="${Department }">
+										<c:forEach var="vap" items="${sreqvapm }">
 											<tr>
-												<td style="display: none">${depart.departmentID }</td>
-												<td>${depart.departmentName }</td>
-												<td>${depart.departAdminID }</td>
-												<td>${depart.departAdmin }</td>
-												<td><input type="radio" name="act" value="09130023513245"></td>
+												<td style="display: none">${vap.actPubId }</td>
+												<td>${vap.vacollectiveAct.actName }</td>
+												<td>${vap.vacollectiveAct.attendee }</td>
+												<td>${vap.actDate }</td>
+												<td><input type="radio" name="vapm.actPubId" id="1a" value="${vap.actPubId }"></td>
 											</tr>
 										</c:forEach>
 									</tbody>
