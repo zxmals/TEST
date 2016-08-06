@@ -20,7 +20,10 @@ public class TeacherManageAction implements SessionAware {
 	public String execute() {
 		return "success";
 	}
-
+/**
+ * teacher log-in method/教师登陆方法
+ * @return
+ */
 	public String login() {
 		TeacherLoginInfo teacherlg = null;
 		// Teacher teacher = null;
