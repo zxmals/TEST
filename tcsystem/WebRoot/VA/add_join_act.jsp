@@ -55,7 +55,7 @@
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="add_join_act!" method="post" name="pickdate">
+			<form action="add_join_act" method="post" name="pickdate">
 				从:<input type="text" id="date1" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${foredate }"  />到:<input type="text" id="date2" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${afterdate }"  />
 				&nbsp;&nbsp;<input type="button" id="datep" value="查寻" title="点击查询" onmousedown="downsearch()" onmouseup="upsearch()">
 			</form>

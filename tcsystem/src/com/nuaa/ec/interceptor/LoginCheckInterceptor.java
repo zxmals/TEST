@@ -14,10 +14,10 @@ public class LoginCheckInterceptor implements Interceptor{
 		Map<String, Object>session = ai.getInvocationContext().getSession();
 		Teacher teacher = (Teacher)session.get("teacher");
 		String str  = "error";
-		System.out.println("actio方法之前---------------------------------------");
+//		System.out.println("actio方法之前---------------------------------------");
 		if("login".equals(actionName)||teacher!=null)
 			str = ai.invoke();
-		System.out.println("action方法之后---------------------------------------");
+//		System.out.println("action方法之后---------------------------------------");
 		return str;
 	}
 
