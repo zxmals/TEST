@@ -102,6 +102,7 @@ public class ActMangeAction implements SessionAware{
 		VacollectiveActivitiesPublish vap = vapubdao.findById(vapm.getActPubId());
 		this.setTeacher((Teacher)session.get("teacher"));
 		VateacherAndCollectiveActId vapid = new VateacherAndCollectiveActId(vap, teacher);
+		this.vateacherandact = new VateacherAndCollectiveAct();
 		vateacherandact.setId(vapid);
 		vateacherandact.setScore(vap.getVacollectiveAct().getScore());
 		vateacherandact.setSpareTire("1");
