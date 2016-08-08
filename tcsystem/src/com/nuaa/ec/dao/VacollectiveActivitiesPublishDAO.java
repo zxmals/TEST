@@ -56,7 +56,7 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 	public List<VacollectiveActivitiesPublish> getJoinPublishAct(String foredate,String afterdate){
 		Session session = getSession();
 		Transaction tx = session.beginTransaction();
-		String hql = "from VacollectiveActivitiesPublish v where v.actDate>:foredate and v.actDate<:lastdate";
+		String hql = "from VacollectiveActivitiesPublish v where v.actDate>:foredate and v.actDate<:lastdate and v.spareTire='1' and v.aspareTire='1'";
 		VacollectiveActivitiesPublish vap = null;
 		List<VacollectiveActivitiesPublish> vapli = new ArrayList<VacollectiveActivitiesPublish>();
 		try {
