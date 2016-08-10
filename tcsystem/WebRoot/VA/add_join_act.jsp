@@ -33,10 +33,8 @@
 	function upsubm() {
 		var btn = document.getElementById("subm");
 		btn.style.border = "0.5px outset";
-	/*	var x = document.getElementsByTagName("1a").value;
-		alert(x);
-		if(=="")
-			return;*/
+	    var x = document.getElementsByName("vapm.actPubId");   //数组
+			return;
 		document.f.submit();
 	}
 	function downsearch() {
