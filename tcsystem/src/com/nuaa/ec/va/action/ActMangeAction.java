@@ -1,6 +1,7 @@
 package com.nuaa.ec.va.action;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -143,6 +144,29 @@ public class ActMangeAction implements SessionAware{
 		return resu;
 	}
 	
+	
+	public String deleteMyAct(){
+		String resu = "success";
+		try {
+			vapm = vapubdao.findById(ServletActionContext.getRequest().getParameter("pubactid"));
+			vateacherandactdao.pretendDelete(new VateacherAndCollectiveActId(vapm, (Teacher)session.get("teacher")));
+			new BaseHibernateDAO().getSession().beginTransaction().commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			resu = "error";
+			try {
+				ServletActionContext.getResponse().getWriter().write("fail");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}finally{
+			new BaseHibernateDAO().closeSession();
+		}
+		return resu;
+	}
 	public VacollectiveAct getVaact() {
 		return vaact;
 	}

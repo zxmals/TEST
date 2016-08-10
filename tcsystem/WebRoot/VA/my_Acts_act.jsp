@@ -116,10 +116,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script>
 		$('.delact').click(function(){
 			var x = confirm("确定删除？");
+			var row = $(this).parent().parent();
+			var pubid = row[0].cells[0].innerHTML;
 			if(x){
-				$.post("",{},function(){
-					
-				});
+
+				$.ajax({
+					url:'<%=basePath %>my_Act_act!deleteMyAct',
+					data:"pubactid="+pubid,
+					type:"post",
+					error:function(){
+						alert("dfasf");
+						}					
+					})
 			}
 		});
 		$(document).ready(function() {

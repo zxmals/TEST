@@ -43,6 +43,27 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public boolean pretendDelete(VateacherAndCollectiveActId persistentInstance){
+		log.debug("deleting VateacherAndCollectiveAct instance");
+		boolean flag = true;
+		int updatestatus = 0;
+		try {
+			String hql = "update VateacherAndCollectiveAct  set spareTire=:deleteValue where id=:vatapid";
+			Query query = getSession().createQuery(hql);
+			query.setParameter("deleteValue", "0");
+			query.setParameter("vatapid", persistentInstance);
+			updatestatus = query.executeUpdate();
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			flag = false;
+			throw re;
+		}
+		if(updatestatus==0)
+				flag = false;
+		return flag;
+	}
+	
 	public void delete(VateacherAndCollectiveAct persistentInstance) {
 		log.debug("deleting VateacherAndCollectiveAct instance");
 		try {
