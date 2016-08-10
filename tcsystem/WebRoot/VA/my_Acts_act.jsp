@@ -77,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<thead>
 										<tr>
 											<td class="sorting_asc" style="display: none">ID</td>
-											<td class="sorting_asc">活动名称</td>
+											<td>活动名称</td>
 											<td class="sorting_asc">参与人员</td>
 											<td class="sorting_asc">活动日期</td>
 											<td class="sorting_asc">活动状态</td>
