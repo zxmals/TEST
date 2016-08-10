@@ -145,8 +145,7 @@ public class ActMangeAction implements SessionAware{
 	}
 	
 	
-	public String deleteMyAct(){
-		String resu = "success";
+	public void deleteMyAct(){
 		try {
 			vapm = vapubdao.findById(ServletActionContext.getRequest().getParameter("pubactid"));
 			vateacherandactdao.pretendDelete(new VateacherAndCollectiveActId(vapm, (Teacher)session.get("teacher")));
@@ -155,7 +154,6 @@ public class ActMangeAction implements SessionAware{
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			resu = "error";
 			try {
 				ServletActionContext.getResponse().getWriter().write("fail");
 			} catch (IOException e1) {
@@ -165,8 +163,8 @@ public class ActMangeAction implements SessionAware{
 		}finally{
 			new BaseHibernateDAO().closeSession();
 		}
-		return resu;
 	}
+	
 	public VacollectiveAct getVaact() {
 		return vaact;
 	}

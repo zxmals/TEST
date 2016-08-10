@@ -119,14 +119,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var row = $(this).parent().parent();
 			var pubid = row[0].cells[0].innerHTML;
 			if(x){
-
 				$.ajax({
 					url:'<%=basePath %>my_Act_act!deleteMyAct',
 					data:"pubactid="+pubid,
 					type:"post",
 					error:function(){
-						alert("dfasf");
-						}					
+						alert("请求错误!");
+						},
+					success:function(data){
+						if(data=="succ"){
+							row.remove();
+							alert("删除成功!");
+						}
+						if(data=="fail")
+							alert("删除失败!");
+					}			
 					})
 			}
 		});
