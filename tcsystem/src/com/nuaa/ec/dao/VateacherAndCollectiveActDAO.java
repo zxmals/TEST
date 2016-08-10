@@ -122,6 +122,20 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public List findAllByTimeLimted(String foredate,String afterdate){
+		log.debug("finding all VateacherAndCollectiveAct instances By-Time-Limted");
+		try {
+			String queryString = "from VateacherAndCollectiveAct  as v where v.id.vacollectiveActivitiesPublish.actDate>:foredate and  v.id.vacollectiveActivitiesPublish.actDate<:afterdate and v.spareTire=:exist";
+			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter("foredate", foredate);
+			queryObject.setParameter("afterdate", afterdate);
+			queryObject.setParameter("exist", "1");
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all By-Time-Limted failed", re);
+			throw re;
+		}
+	}
 	public VateacherAndCollectiveAct merge(
 			VateacherAndCollectiveAct detachedInstance) {
 		log.debug("merging VateacherAndCollectiveAct instance");

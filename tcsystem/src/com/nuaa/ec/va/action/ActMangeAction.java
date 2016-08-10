@@ -1,6 +1,7 @@
 package com.nuaa.ec.va.action;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -123,6 +124,23 @@ public class ActMangeAction implements SessionAware{
 			new BaseHibernateDAO().closeSession();
 		}		
 		return "success";
+	}
+	/***\
+	 * 
+	 * 获得 教师个人所参与的活动的情况
+	 * @return
+	 */
+	public String getMyAct(){
+		String resu = "success";
+		try {
+			List<VateacherAndCollectiveAct> liteachandpub = vateacherandactdao.findAllByTimeLimted(foredate, afterdate);
+			ServletActionContext.getRequest().setAttribute("myact", liteachandpub);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			resu = "error";
+		}
+		return resu;
 	}
 	
 	public VacollectiveAct getVaact() {
