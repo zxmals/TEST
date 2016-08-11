@@ -69,7 +69,7 @@
 				<div class="col-sm-12">
 					<div class="ibox float-e-margins">
 						<h5>
-							选择活动<small></small>
+							未参与的规定性活动<small></small>
 						</h5>
 						<div class="ibox-content"></div>
 						<div class="example">
@@ -80,7 +80,7 @@
 											<td class="sorting_asc">活动名称</td>
 											<td class="sorting_asc">参与人员</td>
 											<td class="sorting_asc">活动日期</td>
-											<td class="sorting_asc">添加</td>
+											<td class="sorting_asc">选择</td>
 										</tr>
 									</thead>
 									<tbody>
