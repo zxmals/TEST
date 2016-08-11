@@ -144,7 +144,11 @@ public class ActMangeAction implements SessionAware{
 		return resu;
 	}
 	
-	
+	/***
+	 * execute delete-an personal-act :transport-ajax//执行删除一个活动，连接传输:ajax,
+	 * no return ? return at line 156 or 161 or at the jsp-ajax-error:function
+	 * 传参方式 用response.getwirter().write(""); 出错时再页面会有对应的处理函数
+	 */
 	public void deleteMyAct(){
 		try {
 			vapm = vapubdao.findById(ServletActionContext.getRequest().getParameter("pubactid"));
@@ -164,6 +168,11 @@ public class ActMangeAction implements SessionAware{
 			new BaseHibernateDAO().closeSession();
 		}
 	}
+	
+	public String getUnjoinedRuledAct(){
+		
+		return "success";
+	}	
 	
 	public VacollectiveAct getVaact() {
 		return vaact;
