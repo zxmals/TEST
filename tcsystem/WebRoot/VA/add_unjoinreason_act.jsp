@@ -33,10 +33,8 @@
 		var btn = document.getElementById("subm");
 		btn.style.border = "0.5px outset";
 	    var x = document.getElementsByName("vapm.actPubId");   //数组
-	   for(var i=0;i<x.length;i++){
-	    	if(x[i].checked)
-	    		document.f.submit();
-	    }		
+			return;
+		document.f.submit();
 	}
 	function downsearch() {
 		var btn = document.getElementById("datep");
@@ -106,7 +104,7 @@
 									</tbody>
 								</table>								
 							</form>
-							<input type="submit" value="选定提交" id="subm" onmousedown="downsubm()" onmouseup="upsubm()">
+							<input type="submit" value="下一步" id="subm" onmousedown="downsubm()" onmouseup="upsubm()">
 						</div>
 					</div>
 				</div>
