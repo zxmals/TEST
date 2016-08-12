@@ -177,6 +177,7 @@ public class ActMangeAction implements SessionAware{
 	}
 	/***
 	 * user sql-select
+	 * get unjoined - ruled Act with reason etc . . . 
 	 * @return
 	 */
 	public String getUnjoinedRuledAct(){
