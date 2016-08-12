@@ -68,9 +68,9 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="ibox float-e-margins">
-						<h5>
-							未参与的规定性活动<small></small>
-						</h5>
+						<h4>
+							我的未参与的规定性公益活动<small></small>
+						</h4>
 						<div class="ibox-content"></div>
 						<div class="example">
 								<table id="tb" class="table table-striped table-bordered table-hover dataTables-example">
@@ -80,17 +80,39 @@
 											<td class="sorting_asc">活动名称</td>
 											<td class="sorting_asc">参与人员</td>
 											<td class="sorting_asc">活动日期</td>
-											<td class="sorting_asc">选择</td>
+											<td class="sorting_asc">未参与原因</td>
+											<td style="display: none"  />
+											<td class="sorting_asc">是否请假</td>
+											<td class="sorting_asc">最终得分</td>
+											<td style="display: none"  />
+											<td class="sorting_asc">状态</td>
+											<td class="sorting_asc">操作</td>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="vap" items="${sreqvapm }">
+										<c:forEach var="vaunj" items="${vaunjoinedli }">
 											<tr>
-												<td style="display: none">${vap.actPubId }</td>
-												<td>${vap.vacollectiveAct.actName }</td>
-												<td>${vap.vacollectiveAct.attendee }</td>
-												<td>${vap.actDate }</td>
-												<td><input type="radio" name="vapm.actPubId" id="1a" value="${vap.actPubId }"></td>
+												<td style="display: none">${vaunj.actId }</td>
+												<td>${vaunj.actName }</td>
+												<td>${vaunj.actAttendee }</td>
+												<td>${vaunj.actDate }</td>
+												<td class="overflows">${vaunj.unjoinreason }</td>
+												<td style="display: none">${vaunj.unjoinreason }</td>
+												<c:if test="${vaunj.leavereqobtain==1 }"><td abbr="${vaunj.leavereqobtain }">已请假</td></c:if>
+												<c:if test="${vaunj.leavereqobtain==0 }"><td abbr="${vaunj.leavereqobtain }">未请假</td></c:if>
+												<c:if test="${vaunj.leavereqobtain==null }"><td abbr="2">待完善</td></c:if>
+												<td>${vaunj.resultscore }</td>
+												<td style="display: none">${vaunj.unjoinId }</td>
+												<c:if test="${vaunj.asparetire==1 }"><td>已审核</td></c:if>
+												<c:if test="${vaunj.asparetire==0 }"><td>未审核</td></c:if>
+												<c:if test="${vaunj.asparetire==2 }"><td>审核未通过</td></c:if>
+												<c:if test="${vaunj.asparetire==null }"><td>待完善</td></c:if>
+												<td>
+													<button  class="check"   data-toggle="modal"  >查看</button>
+													<button  class="complete"		data-toggle="modal" >完善</button>
+													<button  class="update"		data-toggle="modal" >修改</button>
+													<button class="delreason"		data-toggle="modal" >删除</button>
+												</td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -104,31 +126,31 @@
 	</div>
 	
 	
-	<div id="addreason" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+	<div id="complete" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="row">
-                            <h3 class="m-t-none m-b">补充原因</h3>
+                            <h3 class="m-t-none m-b"   style="margin-left: 37%">补充未参与活动的说明</h3><hr>
                             <form role="form" id="onlyForm" name="upd"action="Departmentset!doupdate">
                             
                                 <div class="form-group"  style="display: none">
                                 	<label>ID:</label>                                	
-									<input id="DepartmentID" type="text"  class="form-control" name="DepartmentID"     >
+									<input id="com_actID" type="text"  class="form-control" name="com_actID"     >
                                 </div>
-                                <div class="form-group">                                
+                                <div class="form-group">
                                     <label>活动名称:</label>
-                                    <input id="DepartmentName" type="text"  class="form-control" name="DepartmentName" value=""  readonly="readonly">
+                                    <input id="com_actName" type="text"  class="form-control" name="com_actName" value=""  readonly="readonly">
                                 </div>
                                 <div class="form-group">                                
                                     <label>未参与原因:</label>
-                                    <textarea rows="5" cols="10"  class="form-control"></textarea>
+                                    <textarea   id="com_unjoinreason"   name="com_unjoinreason"   rows="5" cols="10"  class="form-control"   value=""  ></textarea>
                                 </div>
                                  <div class="form-group">
 									<label>是否请假:</label>
 									<div style="position:relative;">
-											<select   class="form-control"   style="width:218px;” name="departs.departAdminID" id="upublicselectID">
-												<option selected="selected"></option>
+											<select   class="form-control"   style="width:218px;” name="com_leavereqper" id="com_leavereqper">
+												<option  value="2"  selected="selected"></option>
 												<option value="1">已请假</option>
 												<option value="0">未请假</option>																						
 											</select>
@@ -158,22 +180,36 @@
 	<script src="../js/plugins/iCheck/icheck.min.js"></script>
 	<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 	<script>
-		$('#subm').mouseup(function(){
-			var btn = document.getElementById("subm");
-			btn.style.border = "0.5px outset";
-		    var x = document.getElementsByName("vapm.actPubId");   //数组
-		   var j = 0;
-		   $(this).attr("data-target","#addreason");
-			for(var i=0;i<x.length;i++){
-	    		if(x[i].checked){
-	    			$(this).attr("data-target","#addreason");
-	    			j++;
-	    		}
-	    	}
-	    	if(j==0)
-	    		alert("您未选择任何活动!");	
-		});
+	$('.check').click();
+	$('.complete').click(function(){		
+		$('#com_actID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML.trim());
+		$('#com_actName').attr("value",$(this).parent().parent()[0].cells[1].innerHTML.trim());
+		var textarea = $('#com_unjoinreason');
+		textarea[0].value = $(this).parent().parent()[0].cells[5].innerHTML.trim();
+		var selectedval = $(this).parent().parent()[0].cells[6].abbr;
+		var select = $('#com_leavereqper');
+		for(var i=0;i<select[0].options.length;i++){
+			if(select[0].options[i].value==selectedval)
+				select[0].options[i].selected = true;
+			else
+				select[0].options[i].selected = false;
+		}
+		
+		$(this).attr("data-target","#complete");
+	});
+	$('.update').click();
+	$('.delreason').click();
 		$(document).ready(function() {
+			var tds = $('.overflows');
+			for(var i=0;i<tds.length;i++){
+				if(tds[i].innerHTML.trim()==""||tds[i].innerHTML.trim()==null)
+					tds[i].innerHTML = '还没有补充任何原因. . . . . . ';		
+				else{
+					tds[i].title = tds[i].innerHTML;
+					tds[i].innerHTML = tds[i].innerHTML.substring(0,15)+'. . . . . . ';
+				}
+					
+			}
 			$(".dataTables-example").dataTable();
 			var oTable = $("#editable").dataTable();
 			oTable.$("td").editable("../example_ajax.php", {

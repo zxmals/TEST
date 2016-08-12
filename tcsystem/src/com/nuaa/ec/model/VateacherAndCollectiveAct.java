@@ -13,7 +13,7 @@ public class VateacherAndCollectiveAct implements java.io.Serializable {
 	private String spareTire;
 	private String aspareTire;
 	private String vapid;
-	private String teacherid;	
+	private String TeacherID;	
 
 	// Constructors
 
@@ -28,13 +28,13 @@ public class VateacherAndCollectiveAct implements java.io.Serializable {
 	
 	/** private construtr */
 	public VateacherAndCollectiveAct(Double score, String spareTire,
-			String aspareTire, String vapid, String teacherid) {
+			String aspareTire, String vapid, String teacherID) {
 		super();
 		this.score = score;
 		this.spareTire = spareTire;
 		this.aspareTire = aspareTire;
 		this.vapid = vapid;
-		this.teacherid = teacherid;
+		this.TeacherID = teacherID;
 	}
 
 	/** full constructor */
@@ -88,12 +88,12 @@ public class VateacherAndCollectiveAct implements java.io.Serializable {
 		this.vapid = vapid;
 	}
 
-	public String getTeacherid() {
-		return teacherid;
+	public String getTeacherID() {
+		return TeacherID;
 	}
 
-	public void setTeacherid(String teacherid) {
-		this.teacherid = teacherid;
+	public void setTeacherID(String teacherID) {
+		TeacherID = teacherID;
 	}
 
 }

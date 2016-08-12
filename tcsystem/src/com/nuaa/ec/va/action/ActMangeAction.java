@@ -16,6 +16,7 @@ import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.dao.VacollectiveActDAO;
 import com.nuaa.ec.dao.VacollectiveActivitiesPublishDAO;
 import com.nuaa.ec.dao.VateacherAndCollectiveActDAO;
+import com.nuaa.ec.dao.VaunJoinRecordDAO;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
@@ -42,6 +43,7 @@ public class ActMangeAction implements SessionAware{
 	private PrimaryKMaker pkm = new PrimaryKMaker();
 	private TeacherDAO teacherdao = new TeacherDAO();	
 	private VacollectiveActivitiesPublishDAO vapubdao = new VacollectiveActivitiesPublishDAO();
+	private VaunJoinRecordDAO vaunjoindao = new VaunJoinRecordDAO();
 	public String execute() {
 		return "success";
 	}
@@ -173,9 +175,17 @@ public class ActMangeAction implements SessionAware{
 			new BaseHibernateDAO().closeSession();
 		}
 	}
-	
+	/***
+	 * user sql-select
+	 * @return
+	 */
 	public String getUnjoinedRuledAct(){
-		
+		try {
+			ServletActionContext.getRequest().setAttribute("vaunjoinedli", vaunjoindao.findByTimeLimted(foredate, afterdate,((Teacher)session.get("teacher")).getTeacherId()));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return "success";
 	}	
 	

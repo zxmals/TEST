@@ -2,11 +2,19 @@ package com.nuaa.ec.dao;
 
 import com.nuaa.ec.model.VaunJoinRecord;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Example;
+import org.hibernate.internal.SessionFactoryImpl;
+import org.hibernate.service.jdbc.connections.spi.ConnectionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,6 +90,46 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public List<VaunJoinRecord> findByTimeLimted(String foredate ,String afterdate,String teacherId){
+		List<VaunJoinRecord> vaunli = new ArrayList<VaunJoinRecord>();
+		VaunJoinRecord vaun = null;
+		String sql = "SELECT VACollectiveAct.ActID,VACollectiveAct.ActName,VACollectiveActivitiesPublish.ActDate, VACollectiveAct.Attendee,VAUnJoinRecord.unjoinreason,VAUnJoinRecord.leavereqobtain, VAUnJoinRecord.resultscore,VAUnJoinRecord.Asparetire,VAUnJoinRecord.unjoinID  FROM (VACollectiveAct INNER JOIN VACollectiveActivitiesPublish  ON VACollectiveAct.ActType = '1'/*制定活动类型为规定性集体活动*/   /*活动一经发布，并且所有人都参与了，即使活动本身被取消，绩效还算，仍然可以通过添加该活动的参与记录获得相应的绩效分*/   AND VACollectiveAct.ActID = VACollectiveActivitiesPublish.ActID  AND VACollectiveActivitiesPublish.SpareTire = '1'   AND VACollectiveActivitiesPublish.ActDate BETWEEN  ?  AND  ?  AND VACollectiveActivitiesPublish.ActPubID IN( 	SELECT VACollectiveActivitiesPublish.ActPubID   	FROM VACollectiveActivitiesPublish   	WHERE ActPubID NOT IN(  		SELECT VACollectiveActivitiesPublish.ActPubID		FROM VATeacherAndCollectiveAct,VACollectiveActivitiesPublish		WHERE VATeacherAndCollectiveAct.TeacherID = ?	 AND VACollectiveActivitiesPublish.ActPubID = VATeacherAndCollectiveAct.ActPubID) ))LEFT JOIN VAUnJoinRecord   ON VACollectiveAct.ActID = VAUnJoinRecord.ActID  AND VAUnJoinRecord.Sparetire = '1'";
+		PreparedStatement ps = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		try {
+			conn = getConn();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, foredate);
+			ps.setString(2, afterdate);
+			ps.setString(3, teacherId);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				vaun = new VaunJoinRecord(
+						rs.getString("unjoinID"), 
+						teacherId, 
+						rs.getString("ActID"), 
+						rs.getString("ActName"), 
+						rs.getString("ActDate"), 
+						rs.getString("Attendee"), 
+						rs.getString("unjoinreason"), 
+						rs.getString("leavereqobtain"), 
+						rs.getDouble("resultscore"), 
+						rs.getString("Asparetire"));
+				vaunli.add(vaun);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally{
+			closeSqlAttr(ps, rs);
+		}
+		if(vaunli.size()!=0)
+			return vaunli;
+		else 
+			return null;
+	}
+	
 	public List findByProperty(String propertyName, Object value) {
 		log.debug("finding VaunJoinRecord instance with property: "
 				+ propertyName + ", value: " + value);
