@@ -13,6 +13,6 @@
   </filter-mapping>
   <error-page>
     <error-code>404</error-code>
-    <location>/error/404.jsp</location>
+    <location>/error/404 NOT FOUND.html</location>
   </error-page>
 </web-app>

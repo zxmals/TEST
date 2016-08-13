@@ -1,0 +1,121 @@
+#f {
+    margin-left: 100px;
+    margin-top: 60px;
+     background-color: #98c0e9;
+    width: 50%;
+    border: 1px solid #cdff46;
+}
+.betu {
+    width: 100%;
+}
+.left {
+    text-align: left;
+}
+.left hr {
+    border: 1.5px solid #cdff46;
+}
+.betu label {
+    margin-left: 30%;
+}
+.betu input{
+    margin-left: 1%;
+}
+.button{
+    width: 100%;
+    text-align: center;
+}
+.button button{
+    background-color: beige;
+    width: 60px;
+    height: 30px;
+    border: hidden;
+    font-family: 宋体;
+    font-size: 14px;
+}
+/*
+* for add_aaaply_act.jsp
+*/
+.actmana {
+    margin-left: 0.5%;
+    padding-left: 10px;
+    padding-top: 30px;
+    width: 20%;
+    height: 900px;
+    background-color: #dde2e9;
+    float: left;
+}
+.actmana span {
+    text-align: center;
+    padding-top: 13px;
+    display: block;
+    width: 95%;
+    height: 45px;
+    background-color: gainsboro;
+    border: 2px outset;
+}
+.actmana span a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: ΢���ź�;
+    color: black;
+}
+.framework {
+    float: left;
+    width: 75%;
+    height: 900px;
+}
+.framework iframe {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #dde2e9;
+}
+.framework #ifk {
+    width: 40px;
+    height: 30px;
+    margin-left: 97%;
+}
+/*
+*for add_join_act.jsp
+*/
+.datepick {
+    height: 30px;
+    background-color: #98c0e9;
+}
+.datepick span {
+    padding-top: 6px;
+    padding-left: 20px;
+    color: #2b6f5f;
+    height: 100%;
+    width: 120px;
+    display: block;
+    background-color: #5df7d7;
+    float: left;
+    font-weight: 600;
+}
+.datepick div {
+    padding-top: 2px;
+    margin-left: 20%;
+    float: left;
+}
+.datepick #datep {
+    color: #2b6f5f;
+    background-color: #dde2e9;
+    border: 1px solid #dde2e9;
+    width: 70px;
+    height: 20px;
+}
+.chooseact {
+    width: 100%;
+    height: 630px;
+}
+#subm {
+	border: 1px solid #5df7d7;
+	width: 70px;
+	height: 35px;
+	color: #2b6f5f;
+	font-weight: 600;
+	margin-left: 45%;
+	background-color: #5df7d7 ;
+}
+.delact {}
