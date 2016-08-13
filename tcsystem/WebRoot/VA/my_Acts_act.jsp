@@ -81,6 +81,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<td class="sorting_asc">参与人员</td>
 											<td class="sorting_asc">活动日期</td>
 											<td class="sorting_asc">活动状态</td>
+											<td class="sorting_asc">活动类型</td>
 											<td class="sorting_asc">删除</td>
 										</tr>
 									</thead>
@@ -94,6 +95,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<c:if test="${act.aspareTire==0 }"><td>未审核</td></c:if>
 												<c:if test="${act.aspareTire==1 }"><td>已审核</td></c:if>
 												<c:if test="${act.aspareTire==2 }"><td>审核未通过</td></c:if>
+												<c:if test="${act.id.vacollectiveActivitiesPublish.vacollectiveAct.actType==1 }"><td>规定性活动</td></c:if>
+												<c:if test="${act.id.vacollectiveActivitiesPublish.vacollectiveAct.actType==2 }"><td>选择性活动</td></c:if>
+												<c:if test="${act.id.vacollectiveActivitiesPublish.vacollectiveAct.actType==3 }"><td>其他活动</td></c:if>
 												<td><input type="button"  value="删除"   class="delact"></td>
 											</tr>
 										</c:forEach>

@@ -138,10 +138,9 @@ public class ActMangeAction implements SessionAware{
 		try {
 			List<VateacherAndCollectiveAct> liteachandpub = vateacherandactdao.findAllByTimeLimted(foredate, afterdate);
 			if(liteachandpub!=null)
-				for(int i=0;i<liteachandpub.size();i++){
+				for(int i=0;i<liteachandpub.size();i++)
 					if(!liteachandpub.get(i).getId().getTeacher().getTeacherId().equals(((Teacher)session.get("teacher")).getTeacherId()))
 							liteachandpub.remove(i);
-				}
 			ServletActionContext.getRequest().setAttribute("myact", liteachandpub);
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -90,6 +90,7 @@
 											<td class="sorting_asc">活动名称</td>
 											<td class="sorting_asc">参与人员</td>
 											<td class="sorting_asc">活动日期</td>
+											<td class="sorting_asc">活动类型</td>
 											<td class="sorting_asc">添加</td>
 										</tr>
 									</thead>
@@ -100,6 +101,9 @@
 												<td>${vap.vacollectiveAct.actName }</td>
 												<td>${vap.vacollectiveAct.attendee }</td>
 												<td>${vap.actDate }</td>
+												<c:if test="${vap.actType==1 }"><td>规定性活动</td></c:if>
+												<c:if test="${vap.actType==2 }"><td>选择性活动</td></c:if>
+												<c:if test="${vap.actType==3 }"><td>其他活动</td></c:if>
 												<td><input type="radio" name="vapm.actPubId" id="1a" value="${vap.actPubId }"></td>
 											</tr>
 										</c:forEach>

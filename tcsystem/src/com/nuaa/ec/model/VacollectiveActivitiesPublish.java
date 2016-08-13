@@ -17,6 +17,7 @@ public class VacollectiveActivitiesPublish implements java.io.Serializable {
 	private String actDate;
 	private String spareTire;
 	private String aspareTire;
+	private String actType;
 	private Set vateacherAndCollectiveActs = new HashSet(0);
 
 	// Constructors
@@ -36,11 +37,12 @@ public class VacollectiveActivitiesPublish implements java.io.Serializable {
 	
 	
 	public VacollectiveActivitiesPublish(String actPubId,
-			VacollectiveAct vacollectiveAct, String actDate,String NULL) {
+			VacollectiveAct vacollectiveAct, String actDate,String actType) {
 		super();
 		this.actPubId = actPubId;
 		this.vacollectiveAct = vacollectiveAct;
 		this.actDate = actDate;
+		this.actType = actType;
 	}
 
 	/** full constructor */
@@ -114,4 +116,13 @@ public class VacollectiveActivitiesPublish implements java.io.Serializable {
 		this.vateacherAndCollectiveActs = vateacherAndCollectiveActs;
 	}
 
+	public String getActType() {
+		return actType;
+	}
+
+	public void setActType(String actType) {
+		this.actType = actType;
+	}
+
+	
 }

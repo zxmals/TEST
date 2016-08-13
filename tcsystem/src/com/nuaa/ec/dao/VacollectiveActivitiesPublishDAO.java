@@ -71,7 +71,7 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 								((VacollectiveActivitiesPublish)res.get(i)).getVacollectiveAct().getActName(),
 								((VacollectiveActivitiesPublish)res.get(i)).getVacollectiveAct().getAttendee()), 
 							((VacollectiveActivitiesPublish)res.get(i)).getActDate(), 
-							null);
+							((VacollectiveActivitiesPublish)res.get(i)).getVacollectiveAct().getActType());
 				vapli.add(vap);
 			}
 			tx.commit();
