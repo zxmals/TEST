@@ -57,7 +57,7 @@
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="add_unjoinreason_act!getUnjoinedRuledAct" method="post" name="pickdate">
+			<form action="add_unjoinreasonAct!getUnjoinedRuledAct" method="post" name="pickdate">
 				从:<input type="text" id="date1" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${foredate }" name="foredate" />到:<input type="text" id="date2" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="button" id="datep" value="查寻" title="点击查询" onmousedown="downsearch()" onmouseup="upsearch()">
 			</form>
@@ -76,7 +76,7 @@
 								<table id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 									<thead>
 										<tr>
-											<td class="sorting_asc" style="display: none">ID</td>
+											<td class="sorting_asc" style="display: none">actID</td>											
 											<td class="sorting_asc">活动名称</td>
 											<td class="sorting_asc">参与人员</td>
 											<td class="sorting_asc">活动日期</td>
@@ -109,15 +109,12 @@
 												<c:if test="${vaunj.asparetire==null }"><td>待完善</td></c:if>
 												<td>
 													<button  class="check"   data-toggle="modal"  >查看</button>
-													<button  class="complete"		data-toggle="modal" >完善</button>
-													<button  class="update"		data-toggle="modal" >修改</button>
-													<button class="delreason"		data-toggle="modal" >删除</button>
+													<button  class="complete"		data-toggle="modal" >完善&修改</button>
 												</td>
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>								
-							<input type="submit"      data-toggle="modal"   value="下一步"   id="subm" onmousedown="downsubm()" >
 						</div>
 					</div>
 				</div>
@@ -132,11 +129,15 @@
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b"   style="margin-left: 37%">补充未参与活动的说明</h3><hr>
-                            <form role="form" id="onlyForm" name="upd"action="Departmentset!doupdate">
+                            <form role="form" id="onlyForm"  method="post"   name="upd"action="add_unjoinreasonAct!addOrUpdateUNjoinreason">
                             
                                 <div class="form-group"  style="display: none">
-                                	<label>ID:</label>                                	
-									<input id="com_actID" type="text"  class="form-control" name="com_actID"     >
+                                	<label>actID:</label>                                	
+									<input id="com_actID" type="text"  class="form-control" name="unjoinact.actId"     >
+                                </div>
+                                <div class="form-group"  style="display: none">
+                                	<label>reasonID:</label>                                	
+									<input id="com_reaID" type="text"  class="form-control" name="unjoinact.unjoinId"     >
                                 </div>
                                 <div class="form-group">
                                     <label>活动名称:</label>
@@ -144,12 +145,12 @@
                                 </div>
                                 <div class="form-group">                                
                                     <label>未参与原因:</label>
-                                    <textarea   id="com_unjoinreason"   name="com_unjoinreason"   rows="5" cols="10"  class="form-control"   value=""  ></textarea>
+                                    <textarea   id="com_unjoinreason"   name="unjoinact.unjoinreason"   rows="5" cols="10"  class="form-control"   value=""  ></textarea>
                                 </div>
                                  <div class="form-group">
 									<label>是否请假:</label>
 									<div style="position:relative;">
-											<select   class="form-control"   style="width:218px;” name="com_leavereqper" id="com_leavereqper">
+											<select   class="form-control"   style="width:218px;" name="unjoinact.leavereqobtain" id="com_leavereqper">
 												<option  value="2"  selected="selected"></option>
 												<option value="1">已请假</option>
 												<option value="0">未请假</option>																						
@@ -168,9 +169,30 @@
                 </div>
             </div>
         </div>
+    </div>			
+	
+	<div id="checkreason" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                            <h3 class="m-t-none m-b"   style="margin-left: 37%">查看明细</h3><hr>
+                                <div class="form-group">
+                                    <label>活动名称:</label>
+                                    <input id="check_actName" type="text"  class="form-control" name="com_actName" value=""  readonly="readonly">
+                                </div>
+                                <div class="form-group">                              
+                                    <label>未参与原因:</label>
+                                    <textarea   id="check_unjoinreason"   name="com_unjoinreason"  readonly="readonly"  rows="5" cols="10"  class="form-control"   value=""  ></textarea>
+                                </div>                                 						                       
+                                <div>                                    
+                                    <button type="button" style="margin-left: 46%"  class="btn btn-outline btn-primary m-t-n-xs" data-dismiss="modal">关闭</button>
+                               </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-	
-	
 	<script src="../js/jquery.min.js?v=2.1.4"></script>
 	<script src="../js/bootstrap.min.js?v=3.3.5"></script>
 	<script src="../js/plugins/jeditable/jquery.jeditable.js"></script>
@@ -180,9 +202,15 @@
 	<script src="../js/plugins/iCheck/icheck.min.js"></script>
 	<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 	<script>
-	$('.check').click();
-	$('.complete').click(function(){		
+	$('.check').click(function(){
+		$('#check_actName').attr("value",$(this).parent().parent()[0].cells[1].innerHTML.trim());
+		var textarea = $('#check_unjoinreason');
+		textarea[0].value = $(this).parent().parent()[0].cells[5].innerHTML.trim();
+		$(this).attr("data-target","#checkreason");
+	});
+	$('.complete').click(function(){
 		$('#com_actID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML.trim());
+		$('#com_reaID').attr("value",$(this).parent().parent()[0].cells[8].innerHTML.trim());
 		$('#com_actName').attr("value",$(this).parent().parent()[0].cells[1].innerHTML.trim());
 		var textarea = $('#com_unjoinreason');
 		textarea[0].value = $(this).parent().parent()[0].cells[5].innerHTML.trim();
@@ -194,11 +222,8 @@
 			else
 				select[0].options[i].selected = false;
 		}
-		
 		$(this).attr("data-target","#complete");
 	});
-	$('.update').click();
-	$('.delreason').click();
 		$(document).ready(function() {
 			var tds = $('.overflows');
 			for(var i=0;i<tds.length;i++){
@@ -206,7 +231,7 @@
 					tds[i].innerHTML = '还没有补充任何原因. . . . . . ';		
 				else{
 					tds[i].title = tds[i].innerHTML;
-					tds[i].innerHTML = tds[i].innerHTML.substring(0,15)+'. . . . . . ';
+					tds[i].innerHTML = tds[i].innerHTML.substring(0,9)+'. . . . . . ';
 				}
 					
 			}

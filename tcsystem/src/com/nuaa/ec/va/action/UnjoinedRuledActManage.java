@@ -1,19 +1,25 @@
 package com.nuaa.ec.va.action;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.nuaa.ec.dao.BaseHibernateDAO;
 import com.nuaa.ec.dao.VaunJoinRecordDAO;
 import com.nuaa.ec.model.Teacher;
+import com.nuaa.ec.model.VaunJoinRecord;
+import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class UnjoinedRuledActManage implements SessionAware {
 
 	private String foredate;
 	private String afterdate;
+	private VaunJoinRecord unjoinact;
 	private Map<String, Object> session;
 	private VaunJoinRecordDAO vaunjoindao = new VaunJoinRecordDAO();
+	private PrimaryKMaker pk = new PrimaryKMaker();
 
 	// default method
 	public String execute() {
@@ -35,6 +41,36 @@ public class UnjoinedRuledActManage implements SessionAware {
 		return "success";
 	}
 
+	public String addOrUpdateUNjoinreason(){
+		try {
+			List<VaunJoinRecord> unjoinli = vaunjoindao.findByActId(unjoinact.getActId());
+			if(unjoinli.size()!=0){
+				unjoinact.setAsparetire("0");
+				unjoinact.setSparetire("1");
+				unjoinact.setTeacherId(((Teacher)session.get("teacher")).getTeacherId());
+				unjoinact.setResultscore(0.0);
+				vaunjoindao.merge(unjoinact);
+			}else{
+				unjoinact.setAsparetire("0");
+				unjoinact.setSparetire("1");
+				unjoinact.setTeacherId(((Teacher)session.get("teacher")).getTeacherId());
+				unjoinact.setUnjoinId(pk.mkpk("unjoinID", "VAUnjoinRecord", "UNJ"));
+				unjoinact.setResultscore(0.0);
+				vaunjoindao.save(unjoinact);
+			}
+//			new BaseHibernateDAO().getSession().beginTransaction().commit();
+			vaunjoindao.getSession().beginTransaction().commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+//			new BaseHibernateDAO().getSession().beginTransaction().rollback();
+			vaunjoindao.getSession().beginTransaction().rollback();
+		}finally{
+			vaunjoindao.closeSession();
+		}
+		return "success";
+	}
+	
 	public String getForedate() {
 		return foredate;
 	}
@@ -59,4 +95,11 @@ public class UnjoinedRuledActManage implements SessionAware {
 		this.session = session;
 	}
 
+	public VaunJoinRecord getUnjoinact() {
+		return unjoinact;
+	}
+
+	public void setUnjoinact(VaunJoinRecord unjoinact) {
+		this.unjoinact = unjoinact;
+	}	
 }
