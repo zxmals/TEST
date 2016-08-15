@@ -45,15 +45,15 @@
 		document.pickdate.submit();
 	}
 	
-	function addAtcResult() {
-		var mess = "${addactstatus}";
+	function addReasonResult() {
+		var mess = "${submitstatus}";
 		if(mess!="")
 			alert(mess);
 	}
 	
 </script>
 </head>
-<body onload="addAtcResult()">
+<body onload="addReasonResult()">
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>

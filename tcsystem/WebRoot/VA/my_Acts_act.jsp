@@ -138,7 +138,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						if(data=="fail")
 							alert("删除失败!");
 					}			
-					})
+					});
 			}
 		});
 		$(document).ready(function() {

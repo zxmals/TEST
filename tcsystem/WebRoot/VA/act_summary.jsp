@@ -18,7 +18,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div id="inact">
                     <span id="span1" onmousedown="change_s('span1')" onmouseup="recoberstyle('span1','../VA/my_Acts_act.jsp')" title="记得在第三个按钮上多停留一会儿哦 . . . " ><a  target="ifm" href="../VA/my_Acts_act.jsp" >我的公益活动</a></span> <br>
                     <span id="span2" onmousedown="change_s('span2')" onmouseup="recoberstyle('span2','../VA/add_join_act.jsp')" title="记得在第三个按钮上多停留一会儿哦 . . . "><a target="ifm" href="../VA/add_join_act.jsp">添加我所参与过的公益活动</a></span><br>
-                    <span id="span3" onmousedown="change_s('span3')" onmouseup="recoberstyle('span3','../VA/add_unjoinreasonAct.jsp')" title="未补充将对此次规定性公益活动的绩效分-累计对应的负分"><a target="ifm" href="../VA/add_unjoinreasonAct.jsp">未参与的规定性公益活动</a></span>
+                    <span id="span3" onmousedown="change_s('span3')" onmouseup="recoberstyle('span3','../VA/add_unjoinreasonAct.jsp')" title="未补充将对此次规定性公益活动的绩效分-累计对应的负分"><a target="ifm" href="../VA/add_unjoinreasonAct.jsp">未参与的规定性公益活动</a></span><br>
+                    <span id="span4" onmousedown="change_s('span4')" onmouseup="recoberstyle('span4','apply_actpublish!getReadyAct')" title="申请发布一项活动"><a target="ifm" href="apply_actpublish!getReadyAct">发布活动</a></span><br>
+                    <span id="span5" onmousedown="change_s('span5')" onmouseup="recoberstyle('span5','add_applay_act')" title="申请新增一项公益活动"><a target="ifm" href="add_applay_act">申请新增公益活动</a></span>
                 </div>
             </div>
             <div class="framework">

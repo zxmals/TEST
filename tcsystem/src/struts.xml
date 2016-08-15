@@ -44,5 +44,8 @@
 		<action name="*unjoinreasonAct"  class="com.nuaa.ec.va.action.UnjoinedRuledActManage">
 			<result>/VA/{1}unjoinreasonAct.jsp</result>
 		</action>
+		<action name="*_actpublish"  class="com.nuaa.ec.va.action.ActPublishManage">
+			<result>/VA/{1}_actpublish.jsp</result>			
+		</action>
 	</package>
 </struts>

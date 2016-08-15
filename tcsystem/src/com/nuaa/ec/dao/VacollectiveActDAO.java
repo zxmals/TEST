@@ -88,7 +88,7 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
             + ", value: " + value);
       try {
          String queryString = "from VacollectiveAct as model where model." 
-         						+ propertyName + "= ?";
+         						+ propertyName + "= ?   and model.spareTire = '1' ";
          Query queryObject = getSession().createQuery(queryString);
 		 queryObject.setParameter(0, value);
 		 return queryObject.list();

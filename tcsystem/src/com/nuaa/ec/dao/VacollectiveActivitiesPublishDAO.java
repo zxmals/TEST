@@ -138,7 +138,7 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 				+ propertyName + ", value: " + value);
 		try {
 			String queryString = "from VacollectiveActivitiesPublish as model where model."
-					+ propertyName + "= ?";
+					+ propertyName + "= ?  and model.spareTire = '1'";
 			Query queryObject = getSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
