@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
+                            <span><img alt="image" class="img-circle" src=""  /></span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold">${teacher.teacherName }</strong></span>
@@ -106,15 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <a class="J_menuItem" href="doPerformance_tf.jsp">教学绩效管理</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="">公益绩效管理  <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-		                            <li>
-		                                <a  class="J_menuItem"  href="VA/add_applay_act.jsp">申请新增公益活动</a>
-		                            </li>   
-		                            <li>
-		                                <a class="J_menuItem" href="VA/act_summary.jsp">公益活动管理</a>
-		                            </li>                           
-                        		</ul>
+                                <a class="J_menuItem" href="VA/act_summary.jsp">公益绩效管理 </a>
                             </li>
                         </ul>
                     </li>

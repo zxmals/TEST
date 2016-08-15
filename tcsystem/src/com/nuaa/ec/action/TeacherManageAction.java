@@ -20,8 +20,12 @@ public class TeacherManageAction implements SessionAware {
 	public String execute() {
 		return "success";
 	}
-
+/**
+ * teacher log-in method/教师登陆方法
+ * @return
+ */
 	public String login() {
+		
 		TeacherLoginInfo teacherlg = null;
 		// Teacher teacher = null;
 		String loginresult = "500";
@@ -30,7 +34,7 @@ public class TeacherManageAction implements SessionAware {
 		 * or not admin
 		 */
 		teacherlg = teacherlgdao.findById(teacherid);
-		if (teacherlg != null) {
+		if (teacherlg != null&&"1".equals(teacherlg.getSpareTire())) {
 			/*
 			 * 不是第一次登录。验证密码/ not fisrt login --check pwd
 			 */
@@ -63,7 +67,7 @@ public class TeacherManageAction implements SessionAware {
 			 */
 			teacher = teacherdao.findById(teacherid);
 			/* 查找教师/find teacher */
-			if (teacher != null) {
+			if (teacher != null&&"1".equals(teacher.getSpareTire())) {
 				/* 密码验证/check pwd */
 				if (password.equals(teacher.getTeacherId())) {
 					System.out.println("first login,welcome!");

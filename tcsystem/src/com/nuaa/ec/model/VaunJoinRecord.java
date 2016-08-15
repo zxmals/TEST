@@ -8,9 +8,16 @@ public class VaunJoinRecord implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4985914710399952724L;
 	private String unjoinId;
 	private String teacherId;
 	private String actId;
+	private String actName;
+	private String actDate;
+	private String actAttendee;
 	private String unjoinreason;
 	private String leavereqobtain;
 	private Double resultscore;
@@ -30,6 +37,23 @@ public class VaunJoinRecord implements java.io.Serializable {
 		this.teacherId = teacherId;
 		this.actId = actId;
 		this.leavereqobtain = leavereqobtain;
+	}
+
+	public VaunJoinRecord(String unjoinId, String teacherId, String actId,
+			String actName, String actDate, String actAttendee,
+			String unjoinreason, String leavereqobtain, Double resultscore,
+			String asparetire) {
+		super();
+		this.unjoinId = unjoinId;
+		this.teacherId = teacherId;
+		this.actId = actId;
+		this.actName = actName;
+		this.actDate = actDate;
+		this.actAttendee = actAttendee;
+		this.unjoinreason = unjoinreason;
+		this.leavereqobtain = leavereqobtain;
+		this.resultscore = resultscore;
+		this.asparetire = asparetire;
 	}
 
 	/** full constructor */
@@ -110,6 +134,30 @@ public class VaunJoinRecord implements java.io.Serializable {
 
 	public void setAsparetire(String asparetire) {
 		this.asparetire = asparetire;
+	}
+
+	public String getActName() {
+		return actName;
+	}
+
+	public void setActName(String actName) {
+		this.actName = actName;
+	}
+
+	public String getActDate() {
+		return actDate;
+	}
+
+	public void setActDate(String actDate) {
+		this.actDate = actDate;
+	}
+
+	public String getActAttendee() {
+		return actAttendee;
+	}
+
+	public void setActAttendee(String actAttendee) {
+		this.actAttendee = actAttendee;
 	}
 
 }
