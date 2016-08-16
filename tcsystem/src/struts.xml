@@ -48,4 +48,17 @@
 			<result>/VA/{1}_actpublish.jsp</result>			
 		</action>
 	</package>
+	<package name="SystemSet"   extends="struts-default" namespace="/">
+			<interceptors>
+			<interceptor name="logincheckeInterceptor" class="com.nuaa.ec.interceptor.LoginCheckInterceptor"></interceptor>
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="logincheckeInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
+		<global-results>
+			<result name="relogin">login.jsp</result>
+		</global-results>
+	</package>
 </struts>

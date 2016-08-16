@@ -217,7 +217,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <a href="#"><i class="fa fa-table"></i> <span class="nav-label">系统设置</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="baseSet!getBaseSetInfo">基础设置 <span class="fa arrow"></span></a>
+                                <a href="#">基础设置 <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li><a class="J_menuItem" href="sysSetting/Departmentset!getDepartinfo">系设置</a></li>
                                     <li><a class="J_menuItem" href="sysSetting/ResearchLabset!getResearchLabInfo">研究所设置</a></li>
