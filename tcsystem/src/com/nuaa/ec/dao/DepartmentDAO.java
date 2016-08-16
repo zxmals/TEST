@@ -123,7 +123,7 @@ public class DepartmentDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all Department instances");
 		try {
-			String queryString = "from Department";
+			String queryString = "from Department where spareTire='1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

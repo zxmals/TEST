@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" import="com.nuaa.ec.science.model.Department"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
@@ -163,12 +163,12 @@ ${basePath } --%>
                             <tbody>                               
 								<c:forEach  var="depart"  items="${Department }">
 									<tr>
-										<td>${depart.departmentID }</td>
+										<td>${depart.departmentId }</td>
 										<td>${depart.departmentName }</td>
-										<td>${depart.departAdminID }</td>
+										<td>${depart.departAdminId }</td>
 										<td>${depart.departAdmin }</td>
-										<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${depart.departmentID }')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignmentC('${depart.departmentID }','${depart.departmentName }','${depart.departAdminID }','${depart.departAdmin }')"  data-target="#update" >修改</a>
+										<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${depart.departmentId }')"  >删除</a>					
+										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignmentC('${depart.departmentId }','${depart.departmentName }','${depart.departAdminId }','${depart.departAdmin }')"  data-target="#update" >修改</a>
 									</td>	
 									</tr>
 								</c:forEach>

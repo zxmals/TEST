@@ -49,7 +49,7 @@
 		</action>
 	</package>
 	<package name="SystemSet"   extends="struts-default" namespace="/">
-			<interceptors>
+		<interceptors>
 			<interceptor name="logincheckeInterceptor" class="com.nuaa.ec.interceptor.LoginCheckInterceptor"></interceptor>
 			<interceptor-stack name="myDefault">
 				<interceptor-ref name="logincheckeInterceptor"></interceptor-ref>
@@ -60,5 +60,8 @@
 		<global-results>
 			<result name="relogin">login.jsp</result>
 		</global-results>
+		<action name="*set" class="com.nuaa.ec.action.BaseSetAction">
+			<result>/sysSetting/BaseSet/{1}Setting.jsp</result>
+		</action>
 	</package>
 </struts>

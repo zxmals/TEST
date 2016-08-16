@@ -1,5 +1,7 @@
 package com.nuaa.ec.action;
 
+import org.apache.struts2.ServletActionContext;
+
 import com.nuaa.ec.dao.DepartmentDAO;
 import com.nuaa.ec.dao.NationalityDAO;
 import com.nuaa.ec.dao.ResearchLabDAO;
@@ -21,7 +23,15 @@ public class BaseSetAction {
 		return "success";
 	}
 
-	
+	public String getDepartinfo(){
+		try {
+			ServletActionContext.getRequest().setAttribute("Department", departdao.findAll());
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "success";
+	}
 	
 	public Department getDepart() {
 		return depart;
