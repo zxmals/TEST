@@ -1,6 +1,9 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
@@ -137,13 +140,32 @@ public class TeacherDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all Teacher instances");
 		try {
-			String queryString = "from Teacher";
+			String queryString = "from Teacher as t where t.spareTire = '1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
 		}
+	}
+	
+	public Map<String, Object> findAllT(){
+		Map<String, Object> teacherm = new HashMap<String, Object>();
+		List<Teacher> teacherli = new ArrayList<Teacher>();
+		log.debug("finding all Teacher exchange to map--translate instances ");
+		try {
+			String queryString = "from Teacher as t where t.spareTire = '1'";
+	         Query queryObject = getSession().createQuery(queryString);
+	         teacherli = queryObject.list();
+	         if(teacherli!=null)
+		         for(int i=0;i<teacherli.size();i++){
+		        	 teacherm.put(teacherli.get(i).getTeacherId(), teacherli.get(i).getTeacherName());
+		         }
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+		return teacherm;
 	}
 	
     public Teacher merge(Teacher detachedInstance) {

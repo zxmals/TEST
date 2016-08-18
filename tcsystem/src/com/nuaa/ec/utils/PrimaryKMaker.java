@@ -56,7 +56,7 @@ public class PrimaryKMaker {
 	public static void main(String[] args){
 		String colname = "ActID";
 		String table = "VACollectiveAct";
-		String foreword = "vact";
+		String foreword = "vaact";
 		System.out.println(new PrimaryKMaker().mkpk(colname, table, foreword));
 	}
 }

@@ -1,8 +1,12 @@
+<%@page import="com.nuaa.ec.model.Department"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="com.nuaa.ec.model.Teacher" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+Map<String,Object> mp = (Map)session.getAttribute("teachertranslate");
+List<Department> depart = (List)request.getAttribute("Department");
 %>
 <%@taglib uri="/struts-tags" prefix="s" %>
 <!DOCTYPE html>
@@ -27,90 +31,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     <link href="../css/animate.min.css" rel="stylesheet">
     <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
-    <script type="text/javascript">    	
-			    function assignmentC(departID, depart, departadminID,departAdmin) {
-					document.getElementById("DepartmentID").value = departID;
-					document.getElementById("DepartmentName").value = depart;
-					document.getElementById("upublicinputID").value = departadminID;
-					document.getElementById("udepartAdmin").value = departAdmin;
-			
-					var obj = document.getElementById('upublicselectID');
-					for(var i=0;i<obj.options.length; i++) {
-						obj.options[i].style="display: block"; 
-						if(obj.options[i].value.substring(9,16) !=departID&&obj.options[i].text!=""){
-							//alert("obj.options["+i+"].value.substring(9,16):"+obj.options[i].value.substring(9,16)+"departID:"+departID);
-							obj.options[i].style="display: none"; 							
-						}
-					}
-					
-				}
-
-					function confirmdel(id) {
-						if (confirm("确定要删除吗？"))
-							window.location.replace("Departmentset!dodel?ID="+ id);
-						else
-							window.location.replace("#");
-					}
-
-					function DoCheck() {
-						var res = '${resu}';
-						//alert(addres);
-						switch (res) {
-						case '0':
-							alert("operate fail !!!");
-							break;
-						case '1':
-							alert("add success!");
-							break;
-						case '2':
-							alert("update success!");
-							break;
-						case '3':
-							alert("delete success !!!");
-							break;
-						case '4':
-							alert("非法操作 . 一个教师不能同时存在于两个系");
-							break;
-						default:
-							break;
-						}
-					}
-
-					function selectTOinput(a, b, c) {
-						var str = document.getElementById(a).value;
-						document.getElementById(b).value = str.substring(0, 9);
-						document.getElementById(c).value = str.substring(16,str.length);
-						document.getElementById(c).style.webkitTextFillColor = "";
-						document.getElementById(c).style.fontWeight = "";
-
-					}
-					function inputTOselect(a, b, c) {
-						var str = document.getElementById(b).value.replace(/[ ]/g, ""); // pick out " "
-						//alert("*"+str+"*");
-						var obj = document.getElementById(a);
-						var x = 0;
-						for (var i = 0; i < obj.options.length; i++) {
-							x++;
-							if(obj.options[i].style.display!="none")
-								if (obj.options[i].value.substring(0, 9) == str) {
-									//alert("$"+obj.options[i].value.substring(0, 9)+"$");
-									obj.options[i].selected = true;
-									x--;
-									break;
-								}
-						}
-						if (x != obj.options.length) {
-							obj = document.getElementById(a).value;
-							document.getElementById(c).value = obj.substring(16,obj.length);
-							document.getElementById(c).style.webkitTextFillColor = "";
-							document.getElementById(c).style.fontWeight = "";
-						} else {
-							document.getElementById(c).value = "没有找到该教师！";
-							document.getElementById(c).style.webkitTextFillColor = "red";
-							document.getElementById(c).style.fontWeight = "600";
-						}
-					}
-				</script>
 </head>
 
 <body class="gray-bg"  onload="DoCheck()">
@@ -149,7 +69,6 @@ ${basePath } --%>
                             
                         </div>
                         <div class="example">
-                        <form method="post" name="f">
                        <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example" >
                             <thead>
                                 <tr>
@@ -161,84 +80,83 @@ ${basePath } --%>
 								</tr>
                             </thead>
                             <tbody>                               
-								<c:forEach  var="depart"  items="${Department }">
+								<%if(depart!=null)
+									for(int i=0;i<depart.size();i++){%>
 									<tr>
-										<td>${depart.departmentId }</td>
-										<td>${depart.departmentName }</td>
-										<td>${depart.departAdminId }</td>
-										<td>${depart.departAdmin }</td>
-										<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${depart.departmentId }')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignmentC('${depart.departmentId }','${depart.departmentName }','${depart.departAdminId }','${depart.departAdmin }')"  data-target="#update" >修改</a>
-									</td>	
+										<td><%=depart.get(i).getDepartmentId() %></td>
+										<td><%=depart.get(i).getDepartmentName() %></td>
+										<td><%=depart.get(i).getDepartAdminId() %></td>
+										<td><%=mp.get(depart.get(i).getDepartAdminId()) %></td>
+										<td><button  data-toggle="modal" data-target="#update">修改</button> <button>删除</button></td>
 									</tr>
-								</c:forEach>
+									<%} %>
                             </tbody>                           
                         </table>
-                        </form>
                    </div>
                 </div>
             </div>
         </div>
     </div>   
+   
+   
    <div id="update" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="row">
-                            <h3 class="m-t-none m-b">修改</h3>
-                            <form role="form" id="onlyForm" name="upd"action="Departmentset!doupdate">
-                            
-                                <div class="form-group">
-                                	<label>ID:</label>                                	
-									<input id="DepartmentID" type="text"  class="form-control" name="DepartmentID" value=""  readonly="readonly">
+                            <h3 class="m-t-none m-b">修改xi</h3>
+                            <form role="form" action="Departmentset!adddepart" method="post">
+                            	<div class="form-group" style="display: none">                                
+                                    <label>系ID:</label>
+                                    <input id="departmentId" type="text"  class="form-control" name="depart.departmentId">
+                                </div>                           
+                                <div class="form-group">                                
+                                    <label>系名称:</label>
+                                    <input id="departmentName" type="text"  class="form-control" name="depart.departmentName">
                                 </div>
                                 <div class="form-group">                                
-                                    <label>系名:</label>
-                                    <input id="DepartmentName" type="text"  class="form-control" name="DepartmentName" value="">
-                                </div>
-                                 <div class="form-group">
-									<label>系管理员编号:</label>
-									<div style="position:relative;">
+                                    <label>系管理:</label>
+                                    <div style="position:relative;">
 										<span style="margin-left:200px;width:18px;overflow:hidden;">
-											<select onchange="selectTOinput('upublicselectID','upublicinputID','udepartAdmin')" style="width:218px;height:30px;margin-left:-200px" name="departs.departAdminID" id="upublicselectID">
+											<select size="1" style="width:570px;height: 34px;margin-left:-200px" name="departs.departAdminID" id="inputin">
 												<option selected="selected"></option>
-												<c:forEach var="tli" items="${teacherli }">																			
-														<option value="${tli.teacherID }${tli.departmentID }${tli.teacherName }">${tli.teacherID }</option>
-												</c:forEach>																										
+												<option></option>
+												<option>asdasdasd</option>
+												<option>aaaaaaaaaa</option>
+												<option>bbbbbbbbbb</option>
+												<option>ccccccccc</option>
+												<option>dddddddddddd</option>
 											</select>
 										</span> 
-										<input  onchange="inputTOselect('upublicselectID','upublicinputID','udepartAdmin')" id="upublicinputID" style="width:200px;height: 30px;position:absolute;left:0px;">
-										<span color="red"><输入或选择后请按“TAB”键></span>
+										<input id="selectin" style="width:570px;height: 34px;position:absolute;left:0px;">
 									</div>
-								</div>
-								<div class="form-group">
-									<label>系管理员:</label> 
-									<input id="udepartAdmin" type="text" class="form-control" name="departs.departAdmin" value="" readonly="readonly">
-								</div>                                 
-                                <div>                                    
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
-                                     <i class="fa fa-check"></i>
-                                    <strong>提交</strong>
-                                    </button	>
-                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                               </div>
-                            </form>
+                                </div>															
+								<div>
+										<button type="button"
+											class="btn btn-outline btn-primary pull-right m-t-n-xs"
+											data-dismiss="modal">关闭</button>
+										<button class="btn  btn-primary pull-left m-t-n-xs " type="submit">
+											<i class="fa fa-check"></i> <strong>提交</strong>
+										</button>
+									</div>
+							</form>
                     </div>
                 </div>
             </div>
         </div>
     </div>              
     
+    
     <div id="add" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="row">
-                            <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" name="adds"action="Departmentset!doadd">                            
+                            <h3 class="m-t-none m-b">添加xi</h3>
+                            <form role="form" action="Departmentset!adddepart" method="post">                            
                                 <div class="form-group">                                
                                     <label>系名称:</label>
-                                    <input id="DepartmentName" type="text"  class="form-control" name="DepartmentName" value="">
+                                    <input id="DepartmentName" type="text"  class="form-control" name="depart.departmentName">
                                 </div>															
 								<div>
 										<button type="button"
@@ -264,6 +182,16 @@ ${basePath } --%>
     <script src="../js/plugins/iCheck/icheck.min.js"></script>
     <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
+    	$('#selectin').click(function() {
+    		if($('#inputin').attr("size")==1){
+    			$('#inputin').css("height","150px");
+    			$('#inputin option').css("height","25px");
+    			$('#inputin').attr("size",$('#inputin')[0].length);
+    		}else{
+    			$('#inputin').attr("size","1");
+    			$('#inputin').css("height","30px");
+    		}
+		});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
     </script>
