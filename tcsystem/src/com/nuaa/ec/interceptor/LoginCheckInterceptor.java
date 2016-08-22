@@ -20,7 +20,7 @@ public class LoginCheckInterceptor implements Interceptor{
 		Map<String, Object>session = ai.getInvocationContext().getSession();
 		Teacher teacher = (Teacher)session.get("teacher");
 		String str  = "relogin";		
-//		System.out.println("actio方法之前---------------------------------------");
+//		System.out.println("action方法之前---------------------------------------");
 		if("login".equals(actionName)||teacher!=null)
 			str = ai.invoke();
 		else{

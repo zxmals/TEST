@@ -3,6 +3,7 @@
   <welcome-file-list>
     <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
+  
   <filter>
     <filter-name>struts2</filter-name>
     <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
@@ -10,6 +11,15 @@
   <filter-mapping>
     <filter-name>struts2</filter-name>
     <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!--  store_base-info  -->
+  <filter>
+  	<filter-name>store</filter-name>
+  	<filter-class>com.nuaa.ec.utils.Storebaseinfo</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>store</filter-name>
+  	<url-pattern>/*</url-pattern>
   </filter-mapping>
   <error-page>
     <error-code>404</error-code>

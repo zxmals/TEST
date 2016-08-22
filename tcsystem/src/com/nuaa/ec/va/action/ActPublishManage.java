@@ -2,6 +2,7 @@ package com.nuaa.ec.va.action;
 
 import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.nuaa.ec.dao.VacollectiveActDAO;
@@ -51,10 +52,12 @@ public class ActPublishManage implements SessionAware{
 			foreact.setTeacherId(((Teacher)session.get("teacher")).getTeacherId());
 			vapdao.save(foreact);
 			vapdao.getSession().beginTransaction().commit();
+			ServletActionContext.getRequest().setAttribute("applystatus", "申请成功,等待审核");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			vapdao.getSession().beginTransaction().rollback();;
+			vapdao.getSession().beginTransaction().rollback();
+			ServletActionContext.getRequest().setAttribute("applystatus", "申请失败,请联系管理员");
 		}
 		return "success";
 	}

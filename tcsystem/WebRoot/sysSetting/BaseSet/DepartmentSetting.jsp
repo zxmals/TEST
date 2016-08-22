@@ -1,8 +1,14 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" import="com.nuaa.ec.science.model.Department"%>
+<%@page import="com.nuaa.ec.utils.StoreData"%>
+<%@page import="com.nuaa.ec.model.Department"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="com.nuaa.ec.model.Teacher" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+Map<String,Object> mp = StoreData.getTeachertranslate();
+request.setAttribute("teachertranslate", mp);
+List<Department> depart = (List)request.getAttribute("Department");
 %>
 <%@taglib uri="/struts-tags" prefix="s" %>
 <!DOCTYPE html>
@@ -16,101 +22,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     <title>departSet</title>
     
-    <link rel="shortcut icon" href="favicon.ico"> <link href="../css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
-    <link href="../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     
     <!-- Sweet Alert -->
-    <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
     <!-- Data Tables -->
-    <link href="../css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
 
-    <link href="../css/animate.min.css" rel="stylesheet">
-    <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
-    <script type="text/javascript">    	
-			    function assignmentC(departID, depart, departadminID,departAdmin) {
-					document.getElementById("DepartmentID").value = departID;
-					document.getElementById("DepartmentName").value = depart;
-					document.getElementById("upublicinputID").value = departadminID;
-					document.getElementById("udepartAdmin").value = departAdmin;
-			
-					var obj = document.getElementById('upublicselectID');
-					for(var i=0;i<obj.options.length; i++) {
-						obj.options[i].style="display: block"; 
-						if(obj.options[i].value.substring(9,16) !=departID&&obj.options[i].text!=""){
-							//alert("obj.options["+i+"].value.substring(9,16):"+obj.options[i].value.substring(9,16)+"departID:"+departID);
-							obj.options[i].style="display: none"; 							
-						}
-					}
-					
-				}
-
-					function confirmdel(id) {
-						if (confirm("确定要删除吗？"))
-							window.location.replace("Departmentset!dodel?ID="+ id);
-						else
-							window.location.replace("#");
-					}
-
-					function DoCheck() {
-						var res = '${resu}';
-						//alert(addres);
-						switch (res) {
-						case '0':
-							alert("operate fail !!!");
-							break;
-						case '1':
-							alert("add success!");
-							break;
-						case '2':
-							alert("update success!");
-							break;
-						case '3':
-							alert("delete success !!!");
-							break;
-						case '4':
-							alert("非法操作 . 一个教师不能同时存在于两个系");
-							break;
-						default:
-							break;
-						}
-					}
-
-					function selectTOinput(a, b, c) {
-						var str = document.getElementById(a).value;
-						document.getElementById(b).value = str.substring(0, 9);
-						document.getElementById(c).value = str.substring(16,str.length);
-						document.getElementById(c).style.webkitTextFillColor = "";
-						document.getElementById(c).style.fontWeight = "";
-
-					}
-					function inputTOselect(a, b, c) {
-						var str = document.getElementById(b).value.replace(/[ ]/g, ""); // pick out " "
-						//alert("*"+str+"*");
-						var obj = document.getElementById(a);
-						var x = 0;
-						for (var i = 0; i < obj.options.length; i++) {
-							x++;
-							if(obj.options[i].style.display!="none")
-								if (obj.options[i].value.substring(0, 9) == str) {
-									//alert("$"+obj.options[i].value.substring(0, 9)+"$");
-									obj.options[i].selected = true;
-									x--;
-									break;
-								}
-						}
-						if (x != obj.options.length) {
-							obj = document.getElementById(a).value;
-							document.getElementById(c).value = obj.substring(16,obj.length);
-							document.getElementById(c).style.webkitTextFillColor = "";
-							document.getElementById(c).style.fontWeight = "";
-						} else {
-							document.getElementById(c).value = "没有找到该教师！";
-							document.getElementById(c).style.webkitTextFillColor = "red";
-							document.getElementById(c).style.fontWeight = "600";
-						}
-					}
-				</script>
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
+    <link href="css/zxma.css" rel="stylesheet">
 </head>
 
 <body class="gray-bg"  onload="DoCheck()">
@@ -143,13 +66,12 @@ ${basePath } --%>
                     <div class="ibox-content">
                     
                     <div class="">
-                         <button class="btn  btn-primary" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
+                         <button class="btn  btn-primary initaddD" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
                          <strong>添加</strong>
                          </button>
                             
                         </div>
                         <div class="example">
-                        <form method="post" name="f">
                        <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example" >
                             <thead>
                                 <tr>
@@ -161,113 +83,231 @@ ${basePath } --%>
 								</tr>
                             </thead>
                             <tbody>                               
-								<c:forEach  var="depart"  items="${Department }">
+								<%if(depart!=null)
+									for(int i=0;i<depart.size();i++){%>
 									<tr>
-										<td>${depart.departmentID }</td>
-										<td>${depart.departmentName }</td>
-										<td>${depart.departAdminID }</td>
-										<td>${depart.departAdmin }</td>
-										<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${depart.departmentID }')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignmentC('${depart.departmentID }','${depart.departmentName }','${depart.departAdminID }','${depart.departAdmin }')"  data-target="#update" >修改</a>
-									</td>	
+										<td><%=depart.get(i).getDepartmentId() %></td>
+										<td><%=depart.get(i).getDepartmentName() %></td>
+										<td><%=depart.get(i).getDepartAdminId() %></td>
+										<td><%=mp.get(depart.get(i).getDepartAdminId()) %></td>
+										<td><button class="getdata" data-toggle="modal" data-target="#update">修改</button> <button class="del_depart">删除</button></td>
 									</tr>
-								</c:forEach>
+									<%} %>
                             </tbody>                           
                         </table>
-                        </form>
                    </div>
                 </div>
             </div>
         </div>
     </div>   
-   <div id="update" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row">
-                            <h3 class="m-t-none m-b">修改</h3>
-                            <form role="form" id="onlyForm" name="upd"action="Departmentset!doupdate">
-                            
-                                <div class="form-group">
-                                	<label>ID:</label>                                	
-									<input id="DepartmentID" type="text"  class="form-control" name="DepartmentID" value=""  readonly="readonly">
-                                </div>
-                                <div class="form-group">                                
-                                    <label>系名:</label>
-                                    <input id="DepartmentName" type="text"  class="form-control" name="DepartmentName" value="">
-                                </div>
-                                 <div class="form-group">
-									<label>系管理员编号:</label>
-									<div style="position:relative;">
-										<span style="margin-left:200px;width:18px;overflow:hidden;">
-											<select onchange="selectTOinput('upublicselectID','upublicinputID','udepartAdmin')" style="width:218px;height:30px;margin-left:-200px" name="departs.departAdminID" id="upublicselectID">
-												<option selected="selected"></option>
-												<c:forEach var="tli" items="${teacherli }">																			
-														<option value="${tli.teacherID }${tli.departmentID }${tli.teacherName }">${tli.teacherID }</option>
-												</c:forEach>																										
-											</select>
-										</span> 
-										<input  onchange="inputTOselect('upublicselectID','upublicinputID','udepartAdmin')" id="upublicinputID" style="width:200px;height: 30px;position:absolute;left:0px;">
-										<span color="red"><输入或选择后请按“TAB”键></span>
-									</div>
-								</div>
-								<div class="form-group">
-									<label>系管理员:</label> 
-									<input id="udepartAdmin" type="text" class="form-control" name="departs.departAdmin" value="" readonly="readonly">
-								</div>                                 
-                                <div>                                    
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
-                                     <i class="fa fa-check"></i>
-                                    <strong>提交</strong>
-                                    </button	>
-                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                               </div>
-                            </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>              
-    
+   
+   
+
     <div id="add" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="row">
-                            <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" name="adds"action="Departmentset!doadd">                            
+                            <h3 class="m-t-none m-b">添加xi</h3>
+                            <form role="form" name="add_Dep"  action="Departmentset!adddepart" method="post">                            
                                 <div class="form-group">                                
                                     <label>系名称:</label>
-                                    <input id="DepartmentName" type="text"  class="form-control" name="DepartmentName" value="">
+                                    <input id="add_departname" type="text"  class="form-control keyUp" name="depart.departmentName">
                                 </div>															
+							</form>
 								<div>
 										<button type="button"
 											class="btn btn-outline btn-primary pull-right m-t-n-xs"
 											data-dismiss="modal">关闭</button>
-										<button class="btn  btn-primary pull-left m-t-n-xs " type="submit">
+										<button class="btn  btn-primary pull-left m-t-n-xs " id="adddepart" type="submit">
 											<i class="fa fa-check"></i> <strong>提交</strong>
 										</button>
 									</div>
-							</form>
                     </div>
                 </div>
             </div>
         </div>
     </div>              
     
-    <script src="../js/jquery.min.js?v=2.1.4"></script>
-    <script src="../js/bootstrap.min.js?v=3.3.5"></script>
-    <script src="../js/plugins/jeditable/jquery.jeditable.js"></script>
-    <script src="../js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="../js/plugins/dataTables/dataTables.bootstrap.js"></script>
-    <script src="../js/content.min.js?v=1.0.0"></script>
-    <script src="../js/plugins/iCheck/icheck.min.js"></script>
-    <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+       <div id="update" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                            <h3 class="m-t-none m-b">修改xi</h3>
+                            	<div class="form-group" style="display: none">                                
+                                    <label>系ID:</label>
+                                    <input id="departmentId" type="text"  class="form-control" name="depart.departmentId">
+                                </div>                           
+                                <div class="form-group">                                
+                                    <label>系名称:</label>
+                                    <input id="departmentName" type="text"  class="form-control keyUp" name="depart.departmentName">
+                                </div>
+                                <div class="form-group">                                
+                                    <label>系管理:</label>
+									<input id="departAdmin" type="text"  autocomplete="off"   class="form-control keyUp" placeholder="输入教师工号或姓名查询">
+									<div style="width:568px;overflow-y: auto;display: none" class="selecthead">
+										<c:forEach items="${teachertranslate}" var="teacher">
+											<div class="selectsele">${teacher.key}-${teacher.value}</div>
+										</c:forEach>
+									</div>
+								</div>
+                                </div>															
+								<div>
+										<button type="button"
+											class="btn btn-outline btn-primary pull-right m-t-n-xs"
+											data-dismiss="modal">关闭</button>
+										<button class="btn  btn-primary pull-left m-t-n-xs " id="subadd" type="submit">
+											<i class="fa fa-check"></i> <strong>提交</strong>
+										</button>
+									</div><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>              
+    
+    
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.5"></script>
+    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="js/content.min.js?v=1.0.0"></script>
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
+
+    $('.del_depart').click(function() {
+		var x = confirm("确定删除?");
+		var diedelement = $(this);
+		if(x){
+			$.post("<%=basePath %>Departmentset!deleteDepart",
+					{"depart.departmentId":$(this).parent().parent()[0].cells[0].innerHTML},
+					function(data,status){
+						if(status=="success"){
+							if(data=="succ"){
+								diedelement.parent().parent().remove();
+								alert("删除成功");
+							}else{
+								alert("删除失败");
+							}
+						}else{
+							alert("请求失败");
+						}
+			});
+		}
+	});
+    
+	$('.getdata').click(function() {
+		$('#departmentId')[0].value = $(this).parent().parent()[0].cells[0].innerHTML;
+		$('#departmentName')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
+		$('#departAdmin')[0].value = $(this).parent().parent()[0].cells[2].innerHTML+"-"+$(this).parent().parent()[0].cells[3].innerHTML;
+		$('#departmentName').css("background-color","white");
+		$('#departAdmin').css("background-color","white");
+		$('.selecthead').css("display","none");
+	});
+	$('#subadd').click(function() {
+		var flag = true;
+		if($('#departmentName').val().trim()==""){
+			$('#departmentName')[0].value="";
+			$('#departmentName').css("background-color","green");
+			if($('#departmentName').attr("placeholder")==undefined){
+				$('#departmentName').attr("placeholder","请填写系名");
+			}
+			flag = false;
+		}
+		if($('#departAdmin').val().trim()==""){
+			$('#departAdmin')[0].value="";
+			$('#departAdmin').css("background-color","green");
+			flag = false;
+		}
+		if(!flag){
+			return;
+		}
+		//保存修改，并验证教师合法性（属于当前所在系）
+		$.post("<%=basePath %>Departmentset!updateDepart",
+			{"depart.departmentId":$('#departmentId').val(),
+			 "depart.departmentName":$('#departmentName').val(),
+			 "depart.departAdmin":$('#departAdmin').val()},
+				function(data,status) {
+					if(status=="success"){
+						if(data=="succ"){
+							alert("修改成功");
+							window.location.replace("<%=basePath %>Departmentset!getDepartinfo");
+						}else{
+							alert("该教师不属于该系，或者该教师信息有误");
+						}
+					}else{
+						alert("请求失败");
+					}
+				});
+	});
+	$('#departAdmin').keyup(function() {
+		var vals = $('.selectsele');
+		var targets = $(this).val();
+		if($('.selecthead').css('display')=="none"){
+    		for(var i=0;i<vals.length;i++){
+    			vals[i].style.display = "";
+    		}
+			$('.selecthead').css("height","150px");
+			$('.selecthead').slideDown();
+		}
+		for(var i=0;i<vals.length;i++){
+			if(vals[i].innerHTML.indexOf(targets)>=0){
+				vals[i].style.display = "";
+			}else{
+				vals[i].style.display = "none";
+			}
+		}
+	});
+	$('#departAdmin').click(function(){
+		var selects = $('.selectsele');
+		if($('.selecthead').css('display')=="none"){
+    		for(var i=0;i<selects.length;i++){
+    			selects[i].style.display = "";
+    		}
+			$('.selecthead').css("height","150px");
+			$('.selecthead').slideDown();
+		}else{
+			$('.selecthead').slideUp();
+		}
+	});
+	$('.selectsele').click(function(){
+		$('#departAdmin')[0].value = $(this)[0].innerHTML;
+		$('#departAdmin').css("background-color","white");
+	});
+	$(document).ready(function(){
+		var selects = $('.selectsele');
+		for(var i=0;i<selects.length;i++){
+			if((i+1)%2==0){
+				selects[i].style.backgroundColor = "#E5E6E7";
+			}
+		}
+	});
+	$('#adddepart').click(function() {
+		if($('#add_departname').val().trim()==""){
+			$('#add_departname')[0].value = "";
+			$('#add_departname').css("background-color","green");
+			if($('#add_departname').attr("placeholder")==undefined){
+				$('#add_departname').attr("placeholder","请填写系名");
+			}
+			return;
+		}
+		document.add_Dep.submit();
+	});
+	$('.initaddD').click(function() {
+		$('#add_departname').css("background-color","white");
+		$('#add_departname')[0].value="";
+	});
+	$('.keyUp').keyup(function() {
+		$(this).css("background-color","white");
+	});
+    
+    
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
     </script>
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>
      
 </body>

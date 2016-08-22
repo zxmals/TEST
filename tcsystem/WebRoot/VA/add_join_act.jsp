@@ -77,9 +77,9 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="ibox float-e-margins">
-						<h5>
-							<small></small>
-						</h5>
+						<h4>
+							添加我所参与过的公益活动<small></small>
+						</h4>
 						<div class="ibox-content"></div>
 						<div class="example">
 							<form method="post" name="f" action="add_join_act!addJoinedAct">

@@ -25,6 +25,9 @@
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/eye-base.js"></script>
 <script type="text/javascript">
+	var applystatus = "${applystatus }";
+	if(applystatus!=""&applystatus!=null)
+		alert(applystatus);
 	function downsubm() {
 		var btn = document.getElementById("subm");
 		btn.style.border = "2px inset";
@@ -54,15 +57,9 @@
 		document.pickdate.submit();
 	}
 	
-	function addAtcResult() {
-		var mess = "${addactstatus}";
-		if(mess!="")
-			alert(mess);
-	}
-	
 </script>
 </head>
-<body onload="addAtcResult()">
+<body>
 	<div class="datepick" >
 		<span  style="width: 18%">选择要发布的活动</span>
 	</div>
@@ -71,9 +68,9 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="ibox float-e-margins">
-						<h5>
-							<small></small>
-						</h5>
+						<h4>
+							申请发布活动<small></small>
+						</h4>
 						<div class="ibox-content"></div>
 						<div class="example">
 							<form method="post" name="f" action="add_join_act!addJoinedAct">
