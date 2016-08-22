@@ -8,10 +8,13 @@ import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 
 /**
@@ -32,8 +35,99 @@ public class TeacherDAO extends BaseHibernateDAO  {
 	public static final String TEACHERPRIMARYID = "teacherprimaryid";
 	public static final String TEACHER_POST = "teacherPost";
 
+	public void updateDepartStatus(String teacherId,String departId){
+		String replace = "update Teacher set departAdmin = '0' where departAdmin= '1' and departmentId = ?";
+		String update = "update Teacher set departAdmin = '1' where teacherId=?";
+		Transaction tx = null;
+		Session session = null;
+		try {
+			session = getSession();
+			Query reset = session.createQuery(replace);
+			reset.setParameter(0, departId);
+			tx = session.beginTransaction();
+			reset.executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}try {
+			session = getSession();
+			Query setnew = session.createQuery(update);
+			setnew.setParameter(0, teacherId);
+			tx = session.beginTransaction();
+			setnew.executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+	} 
+	
+	public void updateResearchStatus(String teacherId,String researchId){
+		String replace = "update Teacher set researchLabAdmin = '0' where researchLabAdmin= '1' and researchLabId = ?";
+		String update = "update Teacher set researchLabAdmin = '1' where teacherId=?";
+		Transaction tx = null;
+		Session session = null;
+		try {
+			session = getSession();
+			Query reset = session.createQuery(replace);
+			reset.setParameter(0, researchId);
+			tx = session.beginTransaction();
+			reset.executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}try {
+			session = getSession();
+			Query setnew = session.createQuery(update);
+			setnew.setParameter(0, teacherId);
+			tx = session.beginTransaction();
+			setnew.executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+	}
 
-
+	public int chekTeacherInDepart(String departId,String teacherId){
+		int num = 0;
+		try {
+	         String queryString = "from Teacher as model where model.department.departmentId = ? and model.teacherId = ?";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, departId);
+	         queryObject.setParameter(1, teacherId);
+	         num = queryObject.list().size(); 
+	      } catch (RuntimeException re) {
+	         log.error("find by property name failed", re);
+	         throw re;
+	      }
+		return num;
+	}
+	
+	public int chekTeacherInResearchLab(String researchId,String teacherId){
+		int num = 0;
+		try {
+	         String queryString = "from Teacher as model where model.researchLab.researchLabId = ? and model.teacherId = ?";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, researchId);
+	         queryObject.setParameter(1, teacherId);
+	         num = queryObject.list().size(); 
+	      } catch (RuntimeException re) {
+	         log.error("find by property name failed", re);
+	         throw re;
+	      }
+		return num;
+	}
     
     public void save(Teacher transientInstance) {
         log.debug("saving Teacher instance");

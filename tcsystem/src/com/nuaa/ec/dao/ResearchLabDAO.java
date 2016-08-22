@@ -123,7 +123,7 @@ public class ResearchLabDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all ResearchLab instances");
 		try {
-			String queryString = "from ResearchLab";
+			String queryString = "from ResearchLab where spareTire='1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

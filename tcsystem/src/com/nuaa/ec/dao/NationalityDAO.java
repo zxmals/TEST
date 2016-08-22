@@ -109,7 +109,7 @@ public class NationalityDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all Nationality instances");
 		try {
-			String queryString = "from Nationality";
+			String queryString = "from Nationality where spareTire = '1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

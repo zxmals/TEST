@@ -219,9 +219,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <li>
                                 <a href="#">基础设置 <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="sysSetting/Departmentset!getDepartinfo">系设置</a></li>
-                                    <li><a class="J_menuItem" href="sysSetting/ResearchLabset!getResearchLabInfo">研究所设置</a></li>
-                                    <li><a class="J_menuItem" href="sysSetting/Nationalityset!getNationalinfo">国籍设置</a></li>
+                                    <li><a class="J_menuItem" href="Departmentset!getDepartinfo">系设置</a></li>
+                                    <li><a class="J_menuItem" href="ResearchLabset!getResearchLabinfo">研究所设置</a></li>
+                                    <li><a class="J_menuItem" href="Nationalityset!getNationalityinfo">国籍设置</a></li>
                                 </ul>
                              </li>
                             </li>

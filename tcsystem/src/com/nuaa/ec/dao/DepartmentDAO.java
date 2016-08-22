@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +27,6 @@ public class DepartmentDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String DEPART_ADMIN_ID = "departAdminId";
 	public static final String DEPART_ADMIN = "departAdmin";
-
-
 
     
     public void save(Department transientInstance) {
@@ -120,6 +119,28 @@ public class DepartmentDAO extends BaseHibernateDAO  {
 	}
 	
 
+	public void update(Department depart){
+		Transaction tx = null;
+		try {
+			String hql = "update Department set departmentName = :departname ,spareTire=:sparetire,departAdminId=:departadminId,departAdmin=:departadmin where departmentId = :departId";
+			Query query  = getSession().createQuery(hql);
+			query.setParameter("departname", depart.getDepartmentName());
+			query.setParameter("sparetire", depart.getSpareTire());
+			query.setParameter("departadminId", depart.getDepartAdminId());
+			query.setParameter("departadmin", depart.getDepartAdmin());
+			query.setParameter("departId", depart.getDepartmentId());
+			query.executeUpdate();
+			tx = getSession().beginTransaction();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			e.printStackTrace();
+		}finally{
+			closeSession();
+		}
+	}
+	
 	public List findAll() {
 		log.debug("finding all Department instances");
 		try {
