@@ -61,8 +61,13 @@
 		<global-results>
 			<result name="relogin">login.jsp</result>
 		</global-results>
+		<!-- 基础设置//Base Set -->
 		<action name="*set" class="com.nuaa.ec.action.BaseSetAction">
 			<result>/sysSetting/BaseSet/{1}Setting.jsp</result>
+		</action>
+		<!-- 期刊论文设置//PeriodicalPaper Set -->
+		<action name="P*set" class="com.nuaa.ec.science.action.PeriodicalSetAction">
+			<result>/sysSetting/PeriodicalPaperSet/P{1}Set.jsp</result>
 		</action>
 	</package>
 </struts>
