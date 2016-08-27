@@ -231,9 +231,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <li>
                                     	<a href="#">期刊论文设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="PeriodicalTypeset!viewPeriodicalType">期刊类别设置</a></li>
-												<li><a class="J_menuItem"  href="PeriodicalFormset!viewPeriodicalForm">期刊表设置</a></li>
-												<li><a class="J_menuItem"  href="PeriodicalScoreset!viewPeriodicalScore">期刊评分表设置</a></li>
+		                                      	 <li><a class="J_menuItem"  href="PeriodicalTypeset!getPeriodicalTypeINF">期刊类别设置</a></li>
+												<li><a class="J_menuItem"  href="Periodicalset!getPeriodicalINF">期刊表设置</a></li>
+												<li><a class="J_menuItem"  href="PeriodicalScoreset!getPeriodicalScoreINF">期刊评分表设置</a></li>
 	                                      </ul>
                                     </li>
                                      <li>
