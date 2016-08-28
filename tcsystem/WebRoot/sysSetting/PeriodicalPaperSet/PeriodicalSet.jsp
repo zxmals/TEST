@@ -88,19 +88,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <div class="ibox-content">
                     
                     <div class="">
-                         <button class="btn  btn-primary" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
+                         <button class="btn  btn-primary openaddperio" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
                          <strong>添加</strong>
                          </button>
                             
                         </div>
                         <div class="example">
-                        <form method="post" name="f">
                        <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                                 <tr>
 									<td>期刊ID</td>
 									<td>期刊名称</td>
 									<td>期刊类别</td>
+									<td style="display: none">期刊id</td>
 									<td>操作</td>
 								</tr>
                             </thead>
@@ -110,14 +110,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<td>${Periodical.periodicalId }</td>
 										<td>${Periodical.periodicalName }</td>
 										<td>${Periodical.periodicalType.ptypeName }</td>
+										<td style="display: none">${Periodical.periodicalType.ptypeId }</td>
 										<td><a   class="btn btn-primary btn-sm"  data-toggle="modal" >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#update" >修改</a>
+										<a   class="btn btn-primary btn-sm openupdatemodal"  data-toggle="modal" data-target="#update" >修改</a>
 									</td>
 									</tr>
 								</c:forEach>
                             </tbody>                           
                         </table>
-                        </form>
                    </div>
                 </div>
             </div>
@@ -129,38 +129,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">修改</h3>
-                            <form role="form" id="onlyForm" name="upd"action="PeriodicalFormset!doupdatePeriodical">
-                            
                                 <div class="form-group">
                                 	<label>ID:</label>                                	
 									<input id="upPeriodicalID" type="text"  class="form-control" name="upPeriodicalID" value=""  readonly="readonly">
                                 </div>
                                 <div class="form-group">                                
                                     <label>期刊名称:</label>
-                                    <input id="upPeriodical" type="text"  class="form-control" name="upPeriodical" value="">
+                                    <input id="upPeriodical" type="text"  class="form-control nullcheck" name="upPeriodical" value="">
                                 </div>                         
                                 <div class="form-group">                                
                                     <label>期刊类别:</label>                                    
-	                                    <select id="upPTypeIDSelector"  name="upPTypeIDSelector"  style='width:  200px'>
-		                                   <%-- <%
-		                                    if(perioTypelist!=null)
-		                                    	for(int i=0;i<perioTypelist.size();i++){ %>
-		                                    <option value="<%=perioTypelist.get(i).getPTypeId() %>">
-		                                    <%=perioTypelist.get(i).getPTypeName() %></option>
-		                                    <%} %> --%>
+	                                    <select id="upPTypeIDSelector"  class="form-control"   name="upPTypeIDSelector" >
 		                                    <c:forEach  var="PT"  items="${PeriodicalType }">
-		                                    	<option value="${PT.PTypeId }">${PT.PTypeName }</option>
+		                                    	<option value="${PT.ptypeId }">${PT.ptypeName }</option>
 		                                    </c:forEach>
 	                                    </select>
                                 </div>                                                           
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button  class="btn  btn-primary pull-left m-t-n-xs " id="exeupdateperio"  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
-                                    </button	>
+                                    </button>
                                </div>
-                            </form>
                     </div>
                 </div>
             </div>
@@ -173,28 +164,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" name="adds"action="PeriodicalFormset!doaddPeriodical">
+                            <form role="form" id="onlyForm" name="adds"action="ATPeriodicalFormset!addPeriodical">
                             <div class="form-group">                                
                                     <label>期刊名称:</label>
-                                    <input id="PeriodicalName" type="text"  class="form-control" name="PeriodicalName" value="" >                                  
+                                    <input id="PeriodicalName" type="text"  class="form-control nullcheck" name="periodi.periodicalName" value="" >                                  
                                 </div>                                                           
-                                <div>                            
                                 <div class="form-group">                                
-                                    <label>期刊类别:</label>                                    
-                                    <select id="PTypeIDSelector"  name="PTypeIDSelector" style="width: 200px">
-                                   <c:forEach  var="PT"  items="${PeriodicalType }">
-		                                    	<option value="${PT.PTypeId }">${PT.PTypeName }</option>
+                                    <label>期刊类别:</label>                                
+                                    <select id="PTypeIDSelector"   class="form-control"  name="periodi.periodicalType.ptypeId">
+                                   			<c:forEach  var="PT"  items="${PeriodicalType }">
+		                                    	<option value="${PT.ptypeId }">${PT.ptypeName }</option>
 		                                    </c:forEach>
                                     </select>
                                 </div>                                                           
+                            </form>
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button  class="btn  btn-primary pull-left m-t-n-xs" id="exeaddperio" type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
-                                    </button	>
+                                    </button>
                                </div>
-                            </form>
                     </div>
                 </div>
             </div>
@@ -210,6 +200,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/plugins/iCheck/icheck.min.js"></script>
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
+    function nullcheck() {
+		var perios = $('.nullcheck');
+		for(var i=0;i<perios.length;i++){
+			if(perios[i].value.trim()==""){
+				perios[i].value = "";
+				perios[i].style.backgroundColor = "green";
+				perios[i].placeholder = "请填充空白";
+			}
+		}
+	}
+    function initoper() {
+    	var perios = $('.nullcheck');
+		for(var i=0;i<perios.length;i++){
+			perios[i].value = "";
+			perios[i].style.backgroundColor = "white";
+			perios[i].placeholder = "";
+		}
+	}
+    $('#exeupdateperio').click(function() {
+    	nullcheck();
+	});
+    $('#exeaddperio').click(function() {
+    	nullcheck();
+	});
+    $('.openaddperio').click(function() {
+    	initoper();
+	});
+    $('.openupdatemodal').click(function() {
+    	initoper();
+    	$('#upPeriodicalID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
+    	$('#upPeriodical')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
+    	var selectedv = $(this).parent().parent()[0].cells[3].innerHTML;
+    	var options = $('#upPTypeIDSelector option');
+    	for(var i=0;i<options.length;i++){
+    		if(options[i].value==selectedv){
+    			options[i].selected = true;
+    		}else{
+    			options[i].selected = false;
+    		}
+    	}
+	});
+    $('.nullcheck').keyup(function() {
+    	$(this)[0].style.backgroundColor = "white";
+	});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
     </script>

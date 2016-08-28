@@ -101,6 +101,7 @@ public class PeriodicalSetAction implements RequestAware{
 	public String getPeriodicalINF(){
 		try {
 			request.put("Periodical", periodicaldao.findAll());
+			getPeriodicalTypeINF();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
