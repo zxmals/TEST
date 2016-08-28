@@ -73,7 +73,7 @@
 						</h4>
 						<div class="ibox-content"></div>
 						<div class="example">
-							<form method="post" name="f" action="add_join_act!addJoinedAct">
+							<form method="post" name="f" action="GTadd_join_act!addJoinedAct">
 								<table id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 									<thead>
 										<tr>
@@ -111,7 +111,7 @@
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b"   style="margin-left: 37%">确定活动举办日期</h3><hr>
-                            		<form action="apply_actpublish!addPublishApply"  method="post"   id="apply_act">
+                            		<form action="GTapply_actpublish!addPublishApply"  method="post"   id="apply_act">
                             			<div class="form-group"   style="display: none">
 		                                    <label>活动ID:</label>
 		                                    <input id="apply_actID" type="text"   class="form-control" name="foreact.vacollectiveAct.actId"    value=""  readonly="readonly">

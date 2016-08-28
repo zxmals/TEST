@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="my_Acts_act!getMyAct" method="post" name="pickdate">
+			<form action="GTmy_Acts_act!getMyAct" method="post" name="pickdate">
 				从:<input type="text" id="date1" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${foredate }" name="foredate" />到:<input type="text" id="date2" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="button" id="datep" value="查寻" title="点击查询" onmousedown="downsearch()" onmouseup="upsearch()">
 			</form>
@@ -124,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var pubid = row[0].cells[0].innerHTML;
 			if(x){
 				$.ajax({
-					url:'<%=basePath %>my_Act_act!deleteMyAct',
+					url:'<%=basePath %>GTmy_Act_act!deleteMyAct',
 					data:"pubactid="+pubid,
 					type:"post",
 					error:function(){

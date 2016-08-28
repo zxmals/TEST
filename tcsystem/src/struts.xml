@@ -38,13 +38,13 @@
 		<global-results>
 			<result name="relogin">login.jsp</result>
 		</global-results>
-		<action name="*_act" class="com.nuaa.ec.va.action.ActMangeAction">
+		<action name="GT*_act" class="com.nuaa.ec.va.action.ActMangeAction">
 			<result>/VA/{1}_act.jsp</result>
 		</action>
-		<action name="*unjoinreasonAct"  class="com.nuaa.ec.va.action.UnjoinedRuledActManage">
+		<action name="GT*unjoinreasonAct"  class="com.nuaa.ec.va.action.UnjoinedRuledActManage">
 			<result>/VA/{1}unjoinreasonAct.jsp</result>
 		</action>
-		<action name="*_actpublish"  class="com.nuaa.ec.va.action.ActPublishManage">
+		<action name="GT*_actpublish"  class="com.nuaa.ec.va.action.ActPublishManage">
 			<result>/VA/{1}_actpublish.jsp</result>			
 		</action>
 	</package>
@@ -62,12 +62,12 @@
 			<result name="relogin">login.jsp</result>
 		</global-results>
 		<!-- 基础设置//Base Set -->
-		<action name="*set" class="com.nuaa.ec.action.BaseSetAction">
+		<action name="AT*Baseset" class="com.nuaa.ec.action.BaseSetAction">
 			<result>/sysSetting/BaseSet/{1}Setting.jsp</result>
 		</action>
 		<!-- 期刊论文设置//PeriodicalPaper Set -->
-		<action name="P*set" class="com.nuaa.ec.science.action.PeriodicalSetAction">
-			<result>/sysSetting/PeriodicalPaperSet/P{1}Set.jsp</result>
+		<action name="ATPeriodical*set" class="com.nuaa.ec.science.action.PeriodicalSetAction">
+			<result>/sysSetting/PeriodicalPaperSet/Periodical{1}Set.jsp</result>
 		</action>
 	</package>
 </struts>

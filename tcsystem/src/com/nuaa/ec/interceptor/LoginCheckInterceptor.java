@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
@@ -19,10 +20,12 @@ public class LoginCheckInterceptor implements Interceptor{
 		String actionName = ai.getProxy().getActionName();
 		Map<String, Object>session = ai.getInvocationContext().getSession();
 		Teacher teacher = (Teacher)session.get("teacher");
-		String str  = "relogin";		
+		String teacherLevel = (String)session.get("teacherLevel");
+		String str  = "relogin";	
 //		System.out.println("action方法之前---------------------------------------");
-		if("login".equals(actionName)||teacher!=null)
+		if("login".equals(actionName)||(teacher!=null&&actionName.substring(0, 2).equals(teacherLevel))){
 			str = ai.invoke();
+		}
 		else{
 			HttpServletRequest req = ServletActionContext.getRequest();
 			HttpSession sessions = req.getSession();

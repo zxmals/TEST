@@ -109,7 +109,7 @@ ${basePath } --%>
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加xi</h3>
-                            <form role="form" name="add_Dep"  action="Departmentset!adddepart" method="post">                            
+                            <form role="form" name="add_Dep"  action="ATDepartmentBaseset!adddepart" method="post">                            
                                 <div class="form-group">                                
                                     <label>系名称:</label>
                                     <input id="add_departname" type="text"  class="form-control keyUp" name="depart.departmentName">
@@ -182,7 +182,7 @@ ${basePath } --%>
 		var x = confirm("确定删除?");
 		var diedelement = $(this);
 		if(x){
-			$.post("<%=basePath %>Departmentset!deleteDepart",
+			$.post("<%=basePath %>ATDepartmentBaseset!deleteDepart",
 					{"depart.departmentId":$(this).parent().parent()[0].cells[0].innerHTML},
 					function(data,status){
 						if(status=="success"){
@@ -226,7 +226,7 @@ ${basePath } --%>
 			return;
 		}
 		//保存修改，并验证教师合法性（属于当前所在系）
-		$.post("<%=basePath %>Departmentset!updateDepart",
+		$.post("<%=basePath %>ATDepartmentBaseset!updateDepart",
 			{"depart.departmentId":$('#departmentId').val(),
 			 "depart.departmentName":$('#departmentName').val(),
 			 "depart.departAdmin":$('#departAdmin').val()},
@@ -234,7 +234,7 @@ ${basePath } --%>
 					if(status=="success"){
 						if(data=="succ"){
 							alert("修改成功");
-							window.location.replace("<%=basePath %>Departmentset!getDepartinfo");
+							window.location.replace("<%=basePath %>ATDepartmentBaseset!getDepartinfo");
 						}else{
 							alert("该教师不属于该系，或者该教师信息有误");
 						}

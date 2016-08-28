@@ -83,7 +83,7 @@ public class PeriodicalDAO extends BaseHibernateDAO  {
             + ", value: " + value);
       try {
          String queryString = "from Periodical as model where model." 
-         						+ propertyName + "= ?";
+         						+ propertyName + "= ? and spareTire = '1'";
          Query queryObject = getSession().createQuery(queryString);
 		 queryObject.setParameter(0, value);
 		 return queryObject.list();
@@ -109,7 +109,7 @@ public class PeriodicalDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all Periodical instances");
 		try {
-			String queryString = "from Periodical";
+			String queryString = "from Periodical where spareTire = '1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

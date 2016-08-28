@@ -1,11 +1,10 @@
-<%@page import="com.nuaa.ec.science.model.PeriodicalType"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-  <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
-<%@taglib uri="/struts-tags" prefix="s" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -13,7 +12,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
 
     <title>periodicalTypeSet</title>
     
@@ -29,27 +27,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <script type="text/javascript">
-    	function assignment(upPid,upP) {    		 
-    		    document.getElementById("PTypeID").value =  upPid;
-    		    document.getElementById("PTypeName").value = upP;
-		}
-    	function confirmdel(id) {
-			if(confirm("确定要删除吗？"))
-				window.location.replace("PeriodicalTypeset!dodel?ID="+id);
-			else
-				window.location.replace("#");
-		}
     	function DoCheck() {
-    		var res = '${resu}';
+    		var res = '${operstatus}';
     		//alert(addres);
 			switch (res){
-				case '0':alert("operate fail !!!");
+				case '-1':alert("操作失败  fail !!!");
 				break;
-				case '1':alert("add success!");
-				break;
-				case '2':alert("update success!");
-				break;
-				case '3':alert("delete success !!!");
+				case '1':alert("添加成功!");
 				break;
 				default: break;
 			}
@@ -64,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>系 <small></small></h5>
+                        <h5>期刊论文 <small></small></h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -86,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <div class="ibox-content">
                     
                     <div class="">
-                         <button class="btn  btn-primary" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
+                         <button class="btn  btn-primary initmodal" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
                          <strong>添加</strong>
                          </button>
                             
@@ -104,10 +88,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <tbody>
 								<c:forEach var="Ptype"  items="${PeriodicalType }">
 								<tr>
-									<td>${Ptype.PTypeId }</td>
-									<td>${Ptype.PTypeName }</td>
-									<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${Ptype.PTypeId }')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignment('${Ptype.PTypeId }','${Ptype.PTypeName }')"  data-target="#update" >修改</a>
+									<td>${Ptype.ptypeId }</td>
+									<td>${Ptype.ptypeName }</td>
+									<td><a   class="btn btn-primary btn-sm delpty"  data-toggle="modal" >删除</a>					
+										<a   class="btn btn-primary btn-sm updata initmodal"  data-toggle="modal" data-target="#update" >修改</a>
 									</td>
 								</tr>
 								</c:forEach>
@@ -125,24 +109,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">修改</h3>
-                            <form role="form" id="onlyForm" name="upd"action="PeriodicalTypeset!doupdate">
-                            
                                 <div class="form-group">
                                 	<label>ID:</label>                                	
 									<input id="PTypeID" type="text"  class="form-control" name="PTypeID" value=""  readonly="readonly">
                                 </div>
                                 <div class="form-group">                                
                                     <label>期刊类别:</label>
-                                    <input id="PTypeName" type="text"  class="form-control" name="PTypeName" value="">
+                                    <input id="PTypeName" type="text"  class="form-control ptyp" name="PTypeName" value="">
                                 </div>                                                           
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button id="updatebtn"  class="btn nullcheck btn-primary pull-left m-t-n-xs "  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
                                </div>
-                            </form>
                     </div>
                 </div>
             </div>
@@ -155,19 +136,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" name="adds"action="PeriodicalTypeset!doadd">                            
+                            <form role="form" id="onlyForm" method="post"  name="adds"action="ATPeriodicalTypeset!addPtype">                            
                                 <div class="form-group">                                
                                     <label>期刊类别:</label>
-                                    <input id="PTypeName" type="text"  class="form-control" name="PTypeName" value="">
+                                    <input id="adPTypeName" type="text"  class="form-control ptyp" name="ptype.ptypeName" value="">
                                 </div>                                                           
+                            </form>
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button id="addpty" class="btn nullcheck btn-primary pull-left m-t-n-xs "  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
                                </div>
-                            </form>
                     </div>
                 </div>
             </div>
@@ -183,6 +164,78 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/plugins/iCheck/icheck.min.js"></script>
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
+    $('.delpty').click(function() {
+		var x = confirm("确认删除 ? ");
+		var row = $(this).parent().parent();
+		if(x){
+			$.post("ATPeriodicalTypeset!deletePtype",
+				{"ptype.ptypeId":row[0].cells[0].innerHTML},
+				function(data,status){
+					if(status=="success"){
+						if(data=="succ"){
+							alert("删除成功");
+							row.remove();
+						}else{
+							alert("删除失败");
+						}
+					}else{
+						alert("请求失败");
+					}
+			});
+		}
+	});
+    
+    $('#addpty').click(function() {
+		nullcheck();
+		if($('#adPTypeName')[0].value.trim()!=""){
+			document.adds.submit();
+		}
+	});
+    
+    $('#updatebtn').click(function() {
+    	nullcheck();
+		if($('#PTypeName')[0].value.trim()!=""&$('#PTypeID')[0].value.trim()!=""){
+			$.post("ATPeriodicalTypeset!updatePtype",
+					{"ptype.ptypeId":$('#PTypeID')[0].value,
+					 "ptype.ptypeName":$('#PTypeName')[0].value},
+				function(data,status){
+					if(status=="success"){
+						if(data.trim()=="succ"){
+							alert("修改成功");
+							window.location.replace("<%=basePath %>ATPeriodicalTypeset!getPeriodicalTypeINF");
+						}else{
+							alert("修改错误");
+						}
+					}else{
+						alert("请求失败");
+					}
+			});
+		}
+	});
+    $('.updata').click(function() {
+		$('#PTypeID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
+		$('#PTypeName')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
+	});
+    function nullcheck() {
+    	var ps = $('.ptyp');
+		for(var i=0;i<ps.length;i++){
+			if(ps[i].value.trim() == ""){
+				ps[i].style.backgroundColor = "green";
+				ps[i].value = "";
+				ps[i].placeholder = "请填充空白";
+			}
+		}
+	}
+    $('.initmodal').click(function() {
+    	var ps = $('.ptyp');
+		for(var i=0;i<ps.length;i++){
+			ps[i].style.backgroundColor = "white";
+			ps[i].placeholder = "";
+		}
+	});
+    $('.ptyp').keyup(function() {
+		$(this).css("background-color","white");
+	});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
     </script>

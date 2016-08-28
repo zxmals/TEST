@@ -49,11 +49,15 @@ public class TeacherManageAction implements SessionAware {
 				 * 验证身份/check user level
 				 */
 				/* 普通教师登录/general teacher login */
-				if ("1".equals(teacherlg.getLevel()))
+				if ("1".equals(teacherlg.getLevel())){
 					loginresult = "general-t";
+					session.put("teacherLevel", "GT");
+				}
 				else /* 管理员教师登录/admin-teacher login */
-				if ("2".equals(teacherlg.getLevel()))
+				if ("2".equals(teacherlg.getLevel())){
 					loginresult = "admin-t";
+					session.put("teacherLevel", "AT");
+				}
 				System.out.println("log in");
 			} else {
 				/* 登录密码错误/error pwd */
@@ -81,6 +85,7 @@ public class TeacherManageAction implements SessionAware {
 									new java.util.Date().getTime()));
 					teacherlgdao.save(teacherlg);
 					session.put("teacher", teacher);
+					session.put("teacherLevel", "GT");
 					loginresult = "general-t";
 				} else {
 					System.out

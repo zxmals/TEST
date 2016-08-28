@@ -219,9 +219,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <li>
                                 <a href="#">基础设置 <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="Departmentset!getDepartinfo">系设置</a></li>
-                                    <li><a class="J_menuItem" href="ResearchLabset!getResearchLabinfo">研究所设置</a></li>
-                                    <li><a class="J_menuItem" href="Nationalityset!getNationalityinfo">国籍设置</a></li>
+                                    <li><a class="J_menuItem" href="ATDepartmentBaseset!getDepartinfo">系设置</a></li>
+                                    <li><a class="J_menuItem" href="ATResearchLabBaseset!getResearchLabinfo">研究所设置</a></li>
+                                    <li><a class="J_menuItem" href="ATNationalityBaseset!getNationalityinfo">国籍设置</a></li>
                                 </ul>
                              </li>
                             </li>
@@ -231,9 +231,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <li>
                                     	<a href="#">期刊论文设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="PeriodicalTypeset!getPeriodicalTypeINF">期刊类别设置</a></li>
-												<li><a class="J_menuItem"  href="Periodicalset!getPeriodicalINF">期刊表设置</a></li>
-												<li><a class="J_menuItem"  href="PeriodicalScoreset!getPeriodicalScoreINF">期刊评分表设置</a></li>
+		                                      	 <li><a class="J_menuItem"  href="ATPeriodicalTypeset!getPeriodicalTypeINF">期刊类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATPeriodicalset!getPeriodicalINF">期刊表设置</a></li>
+												<li><a class="J_menuItem"  href="ATPeriodicalScoreset!getPeriodicalScoreINF">期刊评分表设置</a></li>
 	                                      </ul>
                                     </li>
                                      <li>

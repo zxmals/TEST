@@ -1,4 +1,3 @@
-<%@page import="com.nuaa.ec.science.model.PeriodicalType"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%
 String path = request.getContextPath();
@@ -26,12 +25,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <script type="text/javascript">
-    	function assignment(upPID,upP) {
-    		    document.getElementById("upPeriodicalID").value = upPID;
-    		    document.getElementById("upPeriodical").value = upP;
-    		    setSelected(document.getElementById("td"+upPID).value);
-		}
-    	
     	function setSelected(ID) {
     		var select = document.getElementById("upPTypeIDSelector");  
     		for(var i=0; i<select.options.length; i++){
@@ -73,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>系 <small></small></h5>
+                        <h5>期刊论文<small></small></h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -112,29 +105,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</tr>
                             </thead>
                             <tbody>
-                                 <%--
-                                 <%
-                                 if(periolist!=null&&perioTypelist!=null)
-                                 	for(int i=0;i<periolist.size();i++){ %>
-								<tr>
-									<td><%=periolist.get(i).getPeriodicalID() %></td>
-									<td><%=periolist.get(i).getPeriodicalName() %></td>
-									<td><%=perio.getPTypeName(periolist.get(i).getPTypeId(), perioTypelist) %></td>
-									<input id="td<%=i %>" type="text"  value = "<%=periolist.get(i).getPTypeId() %>" style="display: none">						
-									<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('<%=periolist.get(i).getPeriodicalID() %>')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignment('<%=i %>','<%=periolist.get(i).getPeriodicalID() %>','<%=periolist.get(i).getPeriodicalName() %>')"  data-target="#update" >修改</a>
-									</td>
-								</tr>
-								<%} %>
-								 --%>
 								<c:forEach var="Periodical"  items="${Periodical }">
 									<tr>
-										<td>${Periodical.periodicalID }</td>
+										<td>${Periodical.periodicalId }</td>
 										<td>${Periodical.periodicalName }</td>
-										<td>${Periodical.PType }</td>
-										<input id="td${Periodical.periodicalID }" type="text"  value = "${Periodical.PTypeId }" style="display: none">
-										<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${Periodical.periodicalID }')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignment('${Periodical.periodicalID }','${Periodical.periodicalName }')"  data-target="#update" >修改</a>
+										<td>${Periodical.periodicalType.ptypeName }</td>
+										<td><a   class="btn btn-primary btn-sm"  data-toggle="modal" >删除</a>					
+										<a   class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#update" >修改</a>
 									</td>
 									</tr>
 								</c:forEach>

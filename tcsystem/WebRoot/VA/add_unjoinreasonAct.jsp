@@ -57,7 +57,7 @@
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="add_unjoinreasonAct!getUnjoinedRuledAct" method="post" name="pickdate">
+			<form action="GTadd_unjoinreasonAct!getUnjoinedRuledAct" method="post" name="pickdate">
 				从:<input type="text" id="date1" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${foredate }" name="foredate" />到:<input type="text" id="date2" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="button" id="datep" value="查寻" title="点击查询" onmousedown="downsearch()" onmouseup="upsearch()">
 			</form>
@@ -129,7 +129,7 @@
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b"   style="margin-left: 37%">补充未参与活动的说明</h3><hr>
-                            <form role="form" id="onlyForm"  method="post"   name="upd"action="add_unjoinreasonAct!addOrUpdateUNjoinreason">
+                            <form role="form" id="onlyForm"  method="post"   name="upd"action="GTadd_unjoinreasonAct!addOrUpdateUNjoinreason">
                             
                                 <div class="form-group"  style="display: none">
                                 	<label>actID:</label>                                	

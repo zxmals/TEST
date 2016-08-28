@@ -125,7 +125,7 @@ List<Nationality> nationli = (List)request.getAttribute("Nationality");
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" method="post" name="addnation"action="Nationalityset!addNationality">                            
+                            <form role="form" id="onlyForm" method="post" name="addnation"action="ATNationalityBaseset!addNationality">                            
                                 <div class="form-group">                                
                                     <label>国籍:</label>
                                     <input id="add_nationality" type="text"  class="form-control keyUp initar" name="nation.countryName" value="">
@@ -157,7 +157,7 @@ List<Nationality> nationli = (List)request.getAttribute("Nationality");
 		var x = confirm("确定删除？");
 		var now = $(this);
 		if(x){
-			$.post("<%=basePath %>Nationalityset!deletenation",
+			$.post("<%=basePath %>ATNationalityBaseset!deletenation",
 					{"nation.countryId":$(this).parent().parent()[0].cells[0].innerHTML,
 					 "nation.countryName":$(this).parent().parent()[0].cells[1].innerHTML},
 					function(data,status){
@@ -179,14 +179,14 @@ List<Nationality> nationli = (List)request.getAttribute("Nationality");
 			$('#upnationality')[0].value = "";
 			return;
 		}
-		$.post("<%=basePath %>Nationalityset!updateNationality",
+		$.post("<%=basePath %>ATNationalityBaseset!updateNationality",
 				{"nation.countryId":$('#upnationalID').val(),
 				 "nation.countryName":$('#upnationality').val()},
 				function(data,status){
 					if(status=="success"){
 						if(data=="succ"){
 							alert("修改成功");
-							window.location.replace("<%=basePath %>Nationalityset!getNationalityinfo");
+							window.location.replace("<%=basePath %>ATNationalityBaseset!getNationalityinfo");
 						}
 					}else{
 						alert("请求失败");

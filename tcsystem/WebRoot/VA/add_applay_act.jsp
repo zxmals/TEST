@@ -25,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body onload="loads()" >
 	  	<div id="f">
-	        <form method="post" name="vaaddreq"action="add_applay_act!addAnoAct" enctype="multipart/form-data">
+	        <form method="post" name="vaaddreq"action="GTadd_applay_act!addAnoAct" enctype="multipart/form-data">
 	            <div class="left">
 	                <label>申请其他公益活动</label>
 	                <hr>

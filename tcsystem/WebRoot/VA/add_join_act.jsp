@@ -66,7 +66,7 @@
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="add_join_act!getPubAct" method="post" name="pickdate">
+			<form action="GTadd_join_act!getPubAct" method="post" name="pickdate">
 				从:<input type="text" id="date1" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${foredate }" name="foredate" />到:<input type="text" id="date2" style="width: 116px;" onClick="eye.datePicker.show(this);" readonly="readonly" value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="button" id="datep" value="查寻" title="点击查询" onmousedown="downsearch()" onmouseup="upsearch()">
 			</form>
@@ -82,7 +82,7 @@
 						</h4>
 						<div class="ibox-content"></div>
 						<div class="example">
-							<form method="post" name="f" action="add_join_act!addJoinedAct">
+							<form method="post" name="f" action="GTadd_join_act!addJoinedAct">
 								<table id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 									<thead>
 										<tr>

@@ -141,7 +141,7 @@ List<ResearchLab> reseach = (List)request.getAttribute("ResearchLab");
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加</h3>
-                            <form method="post" role="form" id="onlyForm" name="addrech"action="ResearchLabset!addResearchLab">                            
+                            <form method="post" role="form" id="onlyForm" name="addrech"action="ATResearchLabBaseset!addResearchLab">                            
                                 <div class="form-group">                                
                                     <label>研究所:</label>
                                     <input id="addResearchLab" type="text"  class="form-control keyUp" name="research.researchLabName" value="">
@@ -174,7 +174,7 @@ List<ResearchLab> reseach = (List)request.getAttribute("ResearchLab");
 		var x = confirm("确定删除?");
 		var diedelement = $(this);
 		if(x){
-			$.post("<%=basePath %>ResearchLabset!deleteResearch",
+			$.post("<%=basePath %>ATResearchLabBaseset!deleteResearch",
 					{"research.researchLabId":$(this).parent().parent()[0].cells[0].innerHTML},
 					function(data,status){
 						if(status=="success"){
@@ -233,7 +233,7 @@ List<ResearchLab> reseach = (List)request.getAttribute("ResearchLab");
 			return;
 		}
 		//保存修改，并验证教师合法性（属于当前所在所）
-		$.post("<%=basePath %>ResearchLabset!updateResearchLab",
+		$.post("<%=basePath %>ATResearchLabBaseset!updateResearchLab",
 				{"research.researchLabId":$('#ResearchLabID').val(),
 				 "research.researchLabName":$('#ResearchLab').val(),
 				 "research.researchLabAdmin":$('#researchAdmin').val()},
@@ -241,7 +241,7 @@ List<ResearchLab> reseach = (List)request.getAttribute("ResearchLab");
 					if(status=="success"){
 						if(data=="succ"){
 							alert("修改成功");
-							window.location.replace("<%=basePath %>ResearchLabset!getResearchLabinfo");
+							window.location.replace("<%=basePath %>ATResearchLabBaseset!getResearchLabinfo");
 						}else{
 							alert("该教师不属于该所，或该教师信息错误");
 						}
