@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>期刊ID</td>
 									<td>期刊名称</td>
 									<td>期刊类别</td>
-									<td style="display: none">期刊id</td>
+									<td style="display: none">期刊类别id</td>
 									<td>操作</td>
 								</tr>
                             </thead>
@@ -107,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<td>${Periodical.periodicalName }</td>
 										<td>${Periodical.periodicalType.ptypeName }</td>
 										<td style="display: none">${Periodical.periodicalType.ptypeId }</td>
-										<td><a   class="btn btn-primary btn-sm"  data-toggle="modal" >删除</a>					
+										<td><a   class="btn btn-primary btn-sm delperiodical"  data-toggle="modal" >删除</a>					
 										<a   class="btn btn-primary btn-sm openupdatemodal"  data-toggle="modal" data-target="#update" >修改</a>
 									</td>
 									</tr>
@@ -206,6 +206,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		}
 	}
+	
     function initoper() {
     	var perios = $('.nullcheck');
 		for(var i=0;i<perios.length;i++){
@@ -214,8 +215,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			perios[i].placeholder = "";
 		}
 	}
+	
     $('#exeupdateperio').click(function() {
     	nullcheck();
+    	if($('#upPeriodical').val().trim()!=""){
+    		$.post("<%=basePath %>ATPeriodicalset!updatePeriodical",
+    		{"periodi.periodicalId":$('#upPeriodicalID').val(),
+    		 "periodi.periodicalName":$('#upPeriodical').val(),
+    		 "periodi.periodicalType.ptypeId":$('#upPTypeIDSelector').val()},
+    		function(data,status){
+				   if(status=="success"){
+				       if(data.trim()=="succ"){
+				       		alert("更新成功");
+				       		window.location.replace("<%=basePath %>ATPeriodicalset!getPeriodicalINF");
+				       }else{
+				       		alert("操作失败");
+				       }
+				   }else{
+				   		alert("请求失败");
+				   }
+    		});
+    	}
 	});
     $('#exeaddperio').click(function() {
     	nullcheck();
@@ -225,6 +245,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
     $('.openaddperio').click(function() {
     	initoper();
+	});
+	$('.delperiodical').click(function() {
+		var x = confirm("确定删除 ? ");
+		var row = $(this).parent().parent();
+		if(x){
+			$.post("<%=basePath %>ATPeriodicalset!deletePeriodical",
+			{"periodi.periodicalId":row[0].cells[0].innerHTML,
+			"periodi.periodicalName":row[0].cells[1].innerHTML,
+    		 "periodi.periodicalType.ptypeId":row[0].cells[3].innerHTML},
+			function(data,status){
+					if(status=="success"){
+				       if(data.trim()=="succ"){
+				       		alert("删除成功");
+				       		row.remove();
+				       }else{
+				       		alert("操作失败");
+				       }
+				   }else{
+				   		alert("请求失败");
+				   }
+			});
+		}
 	});
     $('.openupdatemodal').click(function() {
     	initoper();

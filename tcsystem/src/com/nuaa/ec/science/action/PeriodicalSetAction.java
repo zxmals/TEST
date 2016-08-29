@@ -115,6 +115,10 @@ public class PeriodicalSetAction implements RequestAware{
 		}
 		return "success";
 	}
+	/***
+	 * 增加一个期刊  // add a periodical
+	 * @return
+	 */
 	public String addPeriodical(){
 		Transaction tx = null;
 		try {
@@ -132,6 +136,38 @@ public class PeriodicalSetAction implements RequestAware{
 			e.printStackTrace();
 		}
 		return "success";
+	}
+	
+	public void updatePeriodical(){
+		periodi.setSpareTire("1");
+		periodi.setPeriodicalType(ptypedao.findById(periodi.getPeriodicalType().getPtypeId()));
+		Transaction tx = null;
+		try {
+			periodicaldao.merge(periodi);
+			tx = periodicaldao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			e.printStackTrace();
+		}
+	}
+	
+	public void deletePeriodical(){
+		periodi.setSpareTire("0");
+		periodi.setPeriodicalType(ptypedao.findById(periodi.getPeriodicalType().getPtypeId()));
+		Transaction tx = null;
+		try {
+			periodicaldao.merge(periodi);
+			tx = periodicaldao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			e.printStackTrace();
+		}
 	}
 	//TODO: Getter and setter
 	public PeriodicalType getPtype() {
