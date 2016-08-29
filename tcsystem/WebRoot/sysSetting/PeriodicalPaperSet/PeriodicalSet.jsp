@@ -42,16 +42,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				window.location.replace("#");
 		}
     	function DoCheck() {
-    		var res = '${resu}';
+    		var res = '${operstatus}';
     		//alert(addres);
 			switch (res){
-				case '0':alert("operate fail !!!");
+				case '-1':alert("操作失败 fail !!!");
 				break;
-				case '1':alert("add success!");
-				break;
-				case '2':alert("update success!");
-				break;
-				case '3':alert("delete success !!!");
+				case '1':alert("添加成功!");
 				break;
 				default: break;
 			}
@@ -164,7 +160,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" name="adds"action="ATPeriodicalFormset!addPeriodical">
+                            <form role="form" id="onlyForm" name="adds"   method="post"   action="ATPeriodicalset!addPeriodical">
                             <div class="form-group">                                
                                     <label>期刊名称:</label>
                                     <input id="PeriodicalName" type="text"  class="form-control nullcheck" name="periodi.periodicalName" value="" >                                  
@@ -223,6 +219,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
     $('#exeaddperio').click(function() {
     	nullcheck();
+    	if($('#PeriodicalName').val().trim()!=""){
+    		document.adds.submit();
+    	}
 	});
     $('.openaddperio').click(function() {
     	initoper();

@@ -3,6 +3,8 @@ package com.nuaa.ec.science.action;
 
 import java.util.Map;
 
+import javax.persistence.Entity;
+
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
@@ -13,6 +15,7 @@ import com.nuaa.ec.dao.PeriodicalTypeDAO;
 import com.nuaa.ec.model.Periodical;
 import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.PeriodicalType;
+import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class PeriodicalSetAction implements RequestAware{
@@ -98,12 +101,34 @@ public class PeriodicalSetAction implements RequestAware{
 		}
 	}
 	// TODO: 期刊设置 //PeriodicalType - set
+	/***
+	 * get the information of periodical //获取期刊表的信息
+	 * @return
+	 */
 	public String getPeriodicalINF(){
 		try {
 			request.put("Periodical", periodicaldao.findAll());
 			getPeriodicalTypeINF();
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "success";
+	}
+	public String addPeriodical(){
+		Transaction tx = null;
+		try {
+			periodi.setSpareTire("1");
+			periodi.setPeriodicalId(pkmk.mkpk(EntityUtil.getPkColumnName(Periodical.class), EntityUtil.getTableName(Periodical.class), "P"));
+			periodi.setPeriodicalType(ptypedao.findById(periodi.getPeriodicalType().getPtypeId()));
+			periodicaldao.save(periodi);
+			tx = periodicaldao.getSession().beginTransaction();
+			tx.commit();
+			getPeriodicalINF();
+			this.setOperstatus(1);
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
 			e.printStackTrace();
 		}
 		return "success";
