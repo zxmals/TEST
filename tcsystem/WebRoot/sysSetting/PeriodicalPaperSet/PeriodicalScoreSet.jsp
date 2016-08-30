@@ -1,5 +1,3 @@
-<%@page import="com.nuaa.ec.science.model.PeriodicalPapersScore"%>
-<%@page import="com.nuaa.ec.science.model.PeriodicalType"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%
   String path = request.getContextPath();
@@ -118,12 +116,11 @@
                             <tbody>
                                  <c:forEach  var="Pscore"  items="${PeriodicalScore }">
                                  		<tr>
-                                 			<td>${Pscore.scoreID }</td>
-                                 			<td>${Pscore.PType }</td>
+                                 			<td>${Pscore.scoreId }</td>
+                                 			<td>${Pscore.periodicalType.ptypeName }</td>
                                  			<td>${Pscore.score }</td>
-                                 			<input id="td${Pscore.scoreID }" type="text"  value = "${Pscore.PTypeId }" style="display: none">
-                                 			<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${Pscore.scoreID }')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignmentC('${Pscore.scoreID }','${Pscore.score }')"  data-target="#update" >修改</a>
+                                 			<td><a class="btn btn-primary btn-sm"  data-toggle="modal">删除</a>					
+												<a class="btn btn-primary btn-sm"  data-toggle="modal"data-target="#update" >修改</a>
 									</td>
                                  		</tr>
                                  </c:forEach>
@@ -155,7 +152,7 @@
 		                                    </c:forEach>
 	                                    </select>
                                 </div>
-                                <div class="form-group">                                
+                                <div class="form-group">
                                     <label>分数:</label>
                                     <input id="upPeriodicalScore" type="text"  class="form-control" name="upPeriodicalScore" value="">
                                 </div>                                                         
@@ -192,14 +189,14 @@
                                     <label>分数:</label>
                                     <input id="PeriodicalPaperScore" type="text"  class="form-control" name="PeriodicalPaperScore" value="" >                                  
                                 </div>                                      
+                            </form>
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
                                     <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
                                      <i class="fa fa-check"></i>
-                                    <strong>提交</strong>
-                                    </button	>
+                                    	<strong>提交</strong>
+                                    </button>
                                </div>
-                            </form>
                     </div>
                 </div>
             </div>

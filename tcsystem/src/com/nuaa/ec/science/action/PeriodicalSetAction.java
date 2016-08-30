@@ -3,8 +3,6 @@ package com.nuaa.ec.science.action;
 
 import java.util.Map;
 
-import javax.persistence.Entity;
-
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
@@ -100,7 +98,7 @@ public class PeriodicalSetAction implements RequestAware{
 			e.printStackTrace();
 		}
 	}
-	// TODO: 期刊设置 //PeriodicalType - set
+	// TODO: 期刊设置 //Periodical - set
 	/***
 	 * get the information of periodical //获取期刊表的信息
 	 * @return
@@ -137,7 +135,9 @@ public class PeriodicalSetAction implements RequestAware{
 		}
 		return "success";
 	}
-	
+	/***
+	 * 更新一个期刊//update a periodical 
+	 */
 	public void updatePeriodical(){
 		periodi.setSpareTire("1");
 		periodi.setPeriodicalType(ptypedao.findById(periodi.getPeriodicalType().getPtypeId()));
@@ -153,7 +153,9 @@ public class PeriodicalSetAction implements RequestAware{
 			e.printStackTrace();
 		}
 	}
-	
+	/***
+	 * 删除一个期刊 // delete a periodical 
+	 */
 	public void deletePeriodical(){
 		periodi.setSpareTire("0");
 		periodi.setPeriodicalType(ptypedao.findById(periodi.getPeriodicalType().getPtypeId()));
@@ -168,6 +170,16 @@ public class PeriodicalSetAction implements RequestAware{
 			tx.rollback();
 			e.printStackTrace();
 		}
+	}
+	// TODO: 期刊论文评分设置 //PeriodicalScore - set
+	public String getPeriodicalScoreINF(){
+		try {
+			request.put("PeriodicalScore", ppaperscoredao.findAll());
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "success";
 	}
 	//TODO: Getter and setter
 	public PeriodicalType getPtype() {

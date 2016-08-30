@@ -109,7 +109,7 @@ public class PeriodicalPapersScoreDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all PeriodicalPapersScore instances");
 		try {
-			String queryString = "from PeriodicalPapersScore";
+			String queryString = "from PeriodicalPapersScore where spareTire = '1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
