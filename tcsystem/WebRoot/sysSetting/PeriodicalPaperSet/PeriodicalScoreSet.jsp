@@ -146,9 +146,9 @@
                                 </div>                                                  
                                 <div class="form-group">                                
                                     <label>期刊类别:</label>                                    
-	                                    <select id="upPTypeIDSelector"  name="upPTypeIDSelector"  style='width:  200px'>
+	                                    <select id="upPTypeIDSelector"  name="upPTypeIDSelector"  class="form-control">
 		                                    <c:forEach  var="PT"  items="${PeriodicalType }">
-		                                    	<option value="${PT.PTypeId }">${PT.PTypeName }</option>
+		                                    	<option value="${PT.ptypeId }">${PT.ptypeName }</option>
 		                                    </c:forEach>
 	                                    </select>
                                 </div>
@@ -179,11 +179,11 @@
                             <form role="form" id="onlyForm" name="adds"action="PeriodicalScoreset!doaddPeriodicalScore">                            	                                                                     
                                 <div class="form-group">                                
                                     <label>期刊类别:</label>                                    
-                                    <select id="PTypeIDSelector"  name="PTypeIDSelector" style="width: 200px">
-                                    	<c:forEach  var="PT"  items="${PeriodicalType }">
-		                                    	<option value="${PT.PTypeId }">${PT.PTypeName }</option>
+	                                    <select id="upPTypeIDSelector"  name="upPTypeIDSelector"  class="form-control">
+		                                    <c:forEach  var="PT"  items="${PeriodicalType }">
+		                                    	<option value="${PT.ptypeId }">${PT.ptypeName }</option>
 		                                    </c:forEach>
-                                    </select>
+	                                    </select>
                                 </div>
                                 <div class="form-group">                                
                                     <label>分数:</label>

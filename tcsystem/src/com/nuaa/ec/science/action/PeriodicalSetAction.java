@@ -175,6 +175,7 @@ public class PeriodicalSetAction implements RequestAware{
 	public String getPeriodicalScoreINF(){
 		try {
 			request.put("PeriodicalScore", ppaperscoredao.findAll());
+			getPeriodicalTypeINF();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
