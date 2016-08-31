@@ -16,7 +16,7 @@ public class PeriodicalPapersScore  implements java.io.Serializable {
      private String scoreId;
      private SubModular subModular;
      private PeriodicalType periodicalType;
-     private Long score;
+     private float score;
      private String spareTire;
      private Set teacherAndperiodicals = new HashSet(0);
 
@@ -69,11 +69,11 @@ public class PeriodicalPapersScore  implements java.io.Serializable {
         this.periodicalType = periodicalType;
     }
 
-    public Long getScore() {
+    public float getScore() {
         return this.score;
     }
     
-    public void setScore(Long score) {
+    public void setScore(Float score) {
         this.score = score;
     }
 

@@ -16,8 +16,8 @@
         <many-to-one name="periodicalType" class="com.nuaa.ec.model.PeriodicalType" fetch="select">
             <column name="PTypeId" length="20" />
         </many-to-one>
-        <property name="score" type="java.lang.Long">
-            <column name="Score" precision="18" scale="0" />
+        <property name="score" type="java.lang.Float">
+            <column name="Score"  />
         </property>
         <property name="spareTire" type="java.lang.String">
             <column name="SpareTire" length="100" />

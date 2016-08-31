@@ -13,6 +13,7 @@ import com.nuaa.ec.dao.PeriodicalTypeDAO;
 import com.nuaa.ec.model.Periodical;
 import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.PeriodicalType;
+import com.nuaa.ec.model.SubModular;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
 
@@ -21,7 +22,6 @@ public class PeriodicalSetAction implements RequestAware{
 	private PeriodicalPapersScore ppaperscore;
 	private Periodical periodi;
 	private int operstatus;
-	
 	private Map<String, Object>request;
 	
 	private PeriodicalDAO periodicaldao = new PeriodicalDAO();
@@ -61,6 +61,7 @@ public class PeriodicalSetAction implements RequestAware{
 			// TODO: handle exception
 			tx.rollback();
 			e.printStackTrace();
+			this.setOperstatus(-1);
 		}
 		return "success";
 	}
@@ -132,6 +133,7 @@ public class PeriodicalSetAction implements RequestAware{
 			// TODO: handle exception
 			tx.rollback();
 			e.printStackTrace();
+			this.setOperstatus(-1);
 		}
 		return "success";
 	}
@@ -182,6 +184,43 @@ public class PeriodicalSetAction implements RequestAware{
 		}
 		return "success";
 	}
+	
+	public String addPeriodicalScore(){
+		Transaction tx = null;
+		try {
+			ppaperscore.setSpareTire("1");
+			ppaperscore.setPeriodicalType(ptypedao.findById(ppaperscore.getPeriodicalType().getPtypeId()));
+			ppaperscore.setScoreId(pkmk.mkpk(EntityUtil.getPkColumnName(PeriodicalPapersScore.class), EntityUtil.getTableName(PeriodicalPapersScore.class), "PPS"));
+			ppaperscore.setSubModular(null);
+			ppaperscoredao.save(ppaperscore);
+			tx = ppaperscoredao.getSession().beginTransaction();
+			tx.commit();
+			getPeriodicalScoreINF();
+			this.setOperstatus(1);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+			this.setOperstatus(-1);
+		}
+		return "success";
+	}
+	
+	public void updatePeriodicalScore(){
+		Transaction tx = null;
+		try {
+			ppaperscore.setSpareTire("1");
+			ppaperscore.setPeriodicalType(ptypedao.findById(ppaperscore.getPeriodicalType().getPtypeId()));
+			ppaperscoredao.merge(ppaperscore);
+			tx = ppaperscoredao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}
+	}
 	//TODO: Getter and setter
 	public PeriodicalType getPtype() {
 		return ptype;
@@ -222,5 +261,5 @@ public class PeriodicalSetAction implements RequestAware{
 	public void setOperstatus(int operstatus) {
 		this.operstatus = operstatus;
 	}
-
+	
 }
