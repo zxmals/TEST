@@ -83,7 +83,7 @@
                                 <tr>
 									<td>期刊论文评分编号</td>
 									<td>期刊类型</td>
-									<td style="display: none">期刊类型</td>
+									<td style="display: none">期刊类型Id</td>
 									<td>分数</td>
 									<td>操作</td>
 								</tr>
@@ -267,10 +267,23 @@
 	
 	$('.delppa').click(function() {
 		var x = confirm("确定删除");
+		var row = $(this).parent().parent();
 		if(x){
 			$.post("ATPeriodicalScoreset!deletePeriodicalScore",
-			{"ppaperscore.scoreId":},
-			function(){
+				{"ppaperscore.periodicalType.ptypeId":row[0].cells[2].innerHTML,
+				 "ppaperscore.score":row[0].cells[3].innerHTML,
+				 "ppaperscore.scoreId":row[0].cells[0].innerHTML},
+			function(data,status){
+				if(status=="success"){
+					if(data.trim()=="succ"){
+						alert("删除成功");
+						row.remove();
+					}else{
+						alert("操作失败");
+					}
+				}else{
+					alert("请求失败");
+				}
 			});
 		}
 	});

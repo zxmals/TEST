@@ -13,7 +13,6 @@ import com.nuaa.ec.dao.PeriodicalTypeDAO;
 import com.nuaa.ec.model.Periodical;
 import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.PeriodicalType;
-import com.nuaa.ec.model.SubModular;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
 
@@ -184,7 +183,10 @@ public class PeriodicalSetAction implements RequestAware{
 		}
 		return "success";
 	}
-	
+	/***
+	 * 添加一项新的 期刊评分项 / add a new periodical - paper - evaluate --score
+	 * @return
+	 */
 	public String addPeriodicalScore(){
 		Transaction tx = null;
 		try {
@@ -205,11 +207,31 @@ public class PeriodicalSetAction implements RequestAware{
 		}
 		return "success";
 	}
-	
+	/***
+	 * 更新一项期刊评分/ update a periodical - paper - evaluate --score
+	 */
 	public void updatePeriodicalScore(){
 		Transaction tx = null;
 		try {
 			ppaperscore.setSpareTire("1");
+			ppaperscore.setPeriodicalType(ptypedao.findById(ppaperscore.getPeriodicalType().getPtypeId()));
+			ppaperscoredao.merge(ppaperscore);
+			tx = ppaperscoredao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}
+	}
+	/***
+	 * 删除一个 期刊评分 项/delete a periodical-paper evaluate --score
+	 */
+	public void deletePeriodicalScore(){
+		Transaction tx = null;
+		try {
+			ppaperscore.setSpareTire("0");
 			ppaperscore.setPeriodicalType(ptypedao.findById(ppaperscore.getPeriodicalType().getPtypeId()));
 			ppaperscoredao.merge(ppaperscore);
 			tx = ppaperscoredao.getSession().beginTransaction();
