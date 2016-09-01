@@ -36,14 +36,10 @@ public class AcademicWorkSetAction implements RequestAware{
 	/***
 	 * 获取字数信息 // get wordNumber info
 	 * @return
+	 * @throws Exception 
 	 */
-	public String getWordNumberINF(){
-		try {
-			request.put("wordnum", worddao.findAll());
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+	public String getWordNumberINF() throws Exception{
+		request.put("wordnum", worddao.findAll());
 		return "success";
 	} 
 	//TODO : Getter and Setter

@@ -38,17 +38,12 @@ public class BaseSetAction implements SessionAware{
 		return "success";
 	}
 /**************************系设置*******departSet*****************************/
-	public String getDepartinfo(){
-		try {
-			ServletActionContext.getRequest().setAttribute("Department", departdao.findAll());
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+	public String getDepartinfo() throws Exception{
+		ServletActionContext.getRequest().setAttribute("Department", departdao.findAll());
 		return "success";
 	}
 	
-	public String adddepart(){
+	public String adddepart() throws Exception{
 		depart.setDepartmentId(pk.mkpk("DepartmentID", "Department", "D"));
 		depart.setSpareTire("1");
 		Transaction tx = null;
@@ -58,22 +53,22 @@ public class BaseSetAction implements SessionAware{
 			tx.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			tx.rollback();
+			throw e;
 		}finally{
 			departdao.closeSession();
 			try {
 				ServletActionContext.getRequest().setAttribute("Department", departdao.findAll());
 			} catch (Exception e2) {
 				// TODO: handle exception
-				e2.printStackTrace();
+				 throw e2;
 			}
 			getDepartinfo();
 		}
 		return "success";
 	}
 	
-	public void updateDepart(){
+	public void updateDepart() throws Exception{
 		Transaction tx = null;
 		depart.setDepartAdminId(depart.getDepartAdmin().substring(0, 9));
 		depart.setSpareTire("1");
@@ -86,8 +81,8 @@ public class BaseSetAction implements SessionAware{
 				ServletActionContext.getResponse().getWriter().write("succ");
 			} catch (Exception e) {
 				// TODO: handle exception
-				e.printStackTrace();
 				tx.rollback();
+				throw e;
 			}finally{
 				departdao.closeSession();
 			}
@@ -96,12 +91,12 @@ public class BaseSetAction implements SessionAware{
 				ServletActionContext.getResponse().getWriter().write("notin");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				 throw e;
 			}
 		}
 	}
 	
-	public void deleteDepart(){
+	public void deleteDepart() throws Exception{
 		this.setDepart(departdao.findById(depart.getDepartmentId()));
 		depart.setSpareTire("0");
 		Transaction tx = null;
@@ -112,30 +107,25 @@ public class BaseSetAction implements SessionAware{
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			tx.rollback();
 			try {
 				ServletActionContext.getResponse().getWriter().write("del_fail");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				 throw e;
 			}
+			throw e;
 		}finally{
 			departdao.closeSession();
 		}
 	}
 /**************************研究所置*******ResearchLabSet*****************************/
-	public String getResearchLabinfo(){
-		try {
-			ServletActionContext.getRequest().setAttribute("ResearchLab", researchdao.findAll());
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+	public String getResearchLabinfo() throws Exception{
+		ServletActionContext.getRequest().setAttribute("ResearchLab", researchdao.findAll());
 		return "success";
 	}
 	
-	public String addResearchLab(){
+	public String addResearchLab() throws Exception{
 		research.setResearchLabId(pk.mkpk("ResearchLabID", "ResearchLab", "R"));
 		research.setSpareTire("1");
 		Transaction tx = null;
@@ -145,8 +135,8 @@ public class BaseSetAction implements SessionAware{
 			tx.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			tx.rollback();
+			throw e;
 		}finally{
 			researchdao.closeSession();
 			getResearchLabinfo();
@@ -154,7 +144,7 @@ public class BaseSetAction implements SessionAware{
 		return "success";
 	}
 	
-	public void updateResearchLab(){
+	public void updateResearchLab() throws Exception{
 		Transaction tx = null;
 		research.setResearchLabAdminId(research.getResearchLabAdmin().substring(0, 9));
 		research.setSpareTire("1");
@@ -167,8 +157,8 @@ public class BaseSetAction implements SessionAware{
 				ServletActionContext.getResponse().getWriter().write("succ");
 			} catch (Exception e) {
 				// TODO: handle exception
-				e.printStackTrace();
 				tx.rollback();
+				throw e;
 			}finally{
 				researchdao.closeSession();
 			}
@@ -177,12 +167,12 @@ public class BaseSetAction implements SessionAware{
 				ServletActionContext.getResponse().getWriter().write("notin");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				 throw e;
 			}
 		}
 	}
 	
-	public void deleteResearch(){
+	public void deleteResearch() throws Exception{
 		this.setResearch(researchdao.findById(research.getResearchLabId()));
 		research.setSpareTire("0");
 		Transaction tx = null;
@@ -193,30 +183,25 @@ public class BaseSetAction implements SessionAware{
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			tx.rollback();
 			try {
 				ServletActionContext.getResponse().getWriter().write("del_fail");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				throw e;
 			}
+			 throw e;
 		}finally{
 			researchdao.closeSession();
 		}
 	}
 	/**************************国籍所置*******NationalitySet*****************************/
-	public String getNationalityinfo(){
-		try {
-			ServletActionContext.getRequest().setAttribute("Nationality", nationdao.findAll());
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+	public String getNationalityinfo() throws Exception{
+		ServletActionContext.getRequest().setAttribute("Nationality", nationdao.findAll());
 		return "success";
 	}
 	
-	public String addNationality(){
+	public String addNationality() throws Exception{
 		nation.setCountryId(pk.mkpk("CountryID", "Nationality", "N"));
 		nation.setSpareTire("1");
 		Transaction tx = null;
@@ -227,7 +212,7 @@ public class BaseSetAction implements SessionAware{
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
-			e.printStackTrace();
+			throw e;
 		}finally{
 			nationdao.closeSession();
 			getNationalityinfo();
@@ -235,7 +220,7 @@ public class BaseSetAction implements SessionAware{
 		return "success";
 	}
 	
-	public void updateNationality(){
+	public void updateNationality() throws Exception{
 		Transaction tx = null;
 		nation.setSpareTire("1");
 		HttpServletResponse resp = (HttpServletResponse) ActionContext.getContext().get(org.apache.struts2.StrutsStatics.HTTP_RESPONSE);
@@ -247,19 +232,19 @@ public class BaseSetAction implements SessionAware{
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
-			e.printStackTrace();
 			try {
 				resp.getWriter().write("fail");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				throw e;
 			}
+			throw e;
 		}finally{
 			nationdao.closeSession();
 		}
 	}
 	
-	public void deletenation(){
+	public void deletenation() throws Exception{
 		Transaction tx = null;
 		nation.setSpareTire("0");
 		HttpServletResponse resp = (HttpServletResponse)ActionContext.getContext().get(org.apache.struts2.StrutsStatics.HTTP_RESPONSE);
@@ -270,8 +255,8 @@ public class BaseSetAction implements SessionAware{
 			resp.getWriter().write("succ");
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			tx.rollback();
+			throw e;
 		}finally{
 			nationdao.closeSession();
 		}

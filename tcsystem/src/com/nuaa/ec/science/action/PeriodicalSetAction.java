@@ -32,13 +32,8 @@ public class PeriodicalSetAction implements RequestAware{
 	 *  获取所有可用期刊类型信息//get all of periodicaltype - inf
 	 * @return
 	 */
-	public String getPeriodicalTypeINF(){
-		try {
-			request.put("PeriodicalType", ptypedao.findAll());
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+	public String getPeriodicalTypeINF() throws Exception{
+		request.put("PeriodicalType", ptypedao.findAll());
 		return "success";
 	} 
 
@@ -46,7 +41,7 @@ public class PeriodicalSetAction implements RequestAware{
 	 * add periodicalType //添加一条期刊类型
 	 * @return
 	 */
-	public String addPtype (){
+	public String addPtype () throws Exception{
 		ptype.setPtypeId(pkmk.mkpk("PTypeId", "PeriodicalType", "PT"));
 		ptype.setSpareTire("1");
 		Transaction tx = null;
@@ -59,15 +54,15 @@ public class PeriodicalSetAction implements RequestAware{
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
-			e.printStackTrace();
 			this.setOperstatus(-1);
+			throw e;
 		}
 		return "success";
 	}
 	/***
 	 * update - periodicalType //更新期刊类型
 	 */
-	public void updatePtype(){
+	public void updatePtype() throws Exception{
 		ptype.setSpareTire("1");
 		Transaction tx = null;
 		try {
@@ -78,13 +73,13 @@ public class PeriodicalSetAction implements RequestAware{
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
-			e.printStackTrace();
+			 throw e;
 		}
 	}
 	/***
 	 *  delete the periodical-type //删除一条期刊类型
 	 */
-	public void deletePtype(){
+	public void deletePtype() throws Exception{
 		ptype.setSpareTire("0");
 		Transaction tx = null;
 		try {
@@ -95,7 +90,7 @@ public class PeriodicalSetAction implements RequestAware{
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
-			e.printStackTrace();
+			 throw e;
 		}
 	}
 	// TODO: 期刊设置 //Periodical - set
@@ -103,21 +98,16 @@ public class PeriodicalSetAction implements RequestAware{
 	 * get the information of periodical //获取期刊表的信息
 	 * @return
 	 */
-	public String getPeriodicalINF(){
-		try {
-			request.put("Periodical", periodicaldao.findAll());
-			getPeriodicalTypeINF();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+	public String getPeriodicalINF() throws Exception{
+		request.put("Periodical", periodicaldao.findAll());
+		getPeriodicalTypeINF();
 		return "success";
 	}
 	/***
 	 * 增加一个期刊  // add a periodical
 	 * @return
 	 */
-	public String addPeriodical(){
+	public String addPeriodical() throws Exception{
 		Transaction tx = null;
 		try {
 			periodi.setSpareTire("1");
@@ -131,15 +121,15 @@ public class PeriodicalSetAction implements RequestAware{
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
-			e.printStackTrace();
 			this.setOperstatus(-1);
+			 throw e;
 		}
 		return "success";
 	}
 	/***
 	 * 更新一个期刊//update a periodical 
 	 */
-	public void updatePeriodical(){
+	public void updatePeriodical() throws Exception{
 		periodi.setSpareTire("1");
 		periodi.setPeriodicalType(ptypedao.findById(periodi.getPeriodicalType().getPtypeId()));
 		Transaction tx = null;
@@ -151,13 +141,13 @@ public class PeriodicalSetAction implements RequestAware{
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
-			e.printStackTrace();
+			 throw e;
 		}
 	}
 	/***
 	 * 删除一个期刊 // delete a periodical 
 	 */
-	public void deletePeriodical(){
+	public void deletePeriodical() throws Exception{
 		periodi.setSpareTire("0");
 		periodi.setPeriodicalType(ptypedao.findById(periodi.getPeriodicalType().getPtypeId()));
 		Transaction tx = null;
@@ -169,25 +159,20 @@ public class PeriodicalSetAction implements RequestAware{
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
-			e.printStackTrace();
+			 throw e;
 		}
 	}
 	// TODO: 期刊论文评分设置 //PeriodicalScore - set
-	public String getPeriodicalScoreINF(){
-		try {
-			request.put("PeriodicalScore", ppaperscoredao.findAll());
-			getPeriodicalTypeINF();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+	public String getPeriodicalScoreINF() throws Exception{
+		request.put("PeriodicalScore", ppaperscoredao.findAll());
+		getPeriodicalTypeINF();
 		return "success";
 	}
 	/***
 	 * 添加一项新的 期刊评分项 / add a new periodical - paper - evaluate --score
 	 * @return
 	 */
-	public String addPeriodicalScore(){
+	public String addPeriodicalScore() throws Exception{
 		Transaction tx = null;
 		try {
 			ppaperscore.setSpareTire("1");
@@ -201,16 +186,16 @@ public class PeriodicalSetAction implements RequestAware{
 			this.setOperstatus(1);
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			tx.rollback();
 			this.setOperstatus(-1);
+			throw e;
 		}
 		return "success";
 	}
 	/***
 	 * 更新一项期刊评分/ update a periodical - paper - evaluate --score
 	 */
-	public void updatePeriodicalScore(){
+	public void updatePeriodicalScore() throws Exception{
 		Transaction tx = null;
 		try {
 			ppaperscore.setSpareTire("1");
@@ -221,14 +206,14 @@ public class PeriodicalSetAction implements RequestAware{
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			tx.rollback();
+			 throw e;
 		}
 	}
 	/***
 	 * 删除一个 期刊评分 项/delete a periodical-paper evaluate --score
 	 */
-	public void deletePeriodicalScore(){
+	public void deletePeriodicalScore() throws Exception{
 		Transaction tx = null;
 		try {
 			ppaperscore.setSpareTire("0");
@@ -239,8 +224,8 @@ public class PeriodicalSetAction implements RequestAware{
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			tx.rollback();
+			throw e;
 		}
 	}
 	//TODO: Getter and setter

@@ -1,7 +1,9 @@
 package com.nuaa.ec.action;
 
 import java.util.Map;
+
 import org.apache.struts2.interceptor.SessionAware;
+
 import com.nuaa.ec.dao.BaseHibernateDAO;
 import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.dao.TeacherLoginInfoDAO;
@@ -24,7 +26,7 @@ public class TeacherManageAction implements SessionAware {
  * teacher log-in method/教师登陆方法
  * @return
  */
-	public String login() {
+	public String login() throws Exception{
 		
 		TeacherLoginInfo teacherlg = null;
 		// Teacher teacher = null;
