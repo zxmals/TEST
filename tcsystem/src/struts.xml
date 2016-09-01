@@ -69,5 +69,9 @@
 		<action name="ATPeriodical*set" class="com.nuaa.ec.science.action.PeriodicalSetAction">
 			<result>/sysSetting/PeriodicalPaperSet/Periodical{1}Set.jsp</result>
 		</action>
+		<!-- 学术著作设置//AcademicWork Set -->
+		<action name="ATAcademic*set"  class="com.nuaa.ec.science.action.AcademicWorkSetAction">
+			<result>/sysSetting/AcademicWorkSet/Academic{1}Set.jsp</result>
+		</action>
 	</package>
 </struts>

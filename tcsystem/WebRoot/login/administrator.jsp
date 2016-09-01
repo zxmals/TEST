@@ -239,7 +239,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                      <li>
                                      	<a href="#">学术著作设置<span class="fa arrow"></span></a>
 	                                      <ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="AcademicWorkWordNumberset!viewWordNumber">字数类别设置</a></li>
+		                                      	 <li><a class="J_menuItem"  href="ATAcademicWorkWordNumberset!getWordNumberINF">字数类别设置</a></li>
 												<li><a class="J_menuItem"  href="AcademicWorkPublishClubTypeset!viewPublishClubType">出版社类别设置</a></li>
 												<li><a class="J_menuItem"  href="AcademicWorkPublishClubset!viewPublishClub">出版社设置</a></li>
 												<li><a class="J_menuItem"  href="AcademicWorkScoreset!viewAcadWorkScore">学术著作评分设置</a></li>

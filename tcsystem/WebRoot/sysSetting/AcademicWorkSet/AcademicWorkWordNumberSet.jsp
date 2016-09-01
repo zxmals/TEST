@@ -1,4 +1,3 @@
-<%@page import="com.nuaa.ec.science.model.PeriodicalType"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%
 String path = request.getContextPath();
@@ -29,27 +28,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <script type="text/javascript">
-    	function assignment(upPid,upP) {    		 
-    		    document.getElementById("wordID").value =  upPid;
-    		    document.getElementById("wordNumber").value = upP;
-		}
-    	function confirmdel(id) {
-			if(confirm("确定要删除吗？"))
-				window.location.replace("AcademicWorkWordNumberset!dodel?word.wordID="+id);
-			else
-				window.location.replace("#");
-		}
     	function DoCheck() {
     		var res = '${resu}';
     		//alert(addres);
 			switch (res){
-				case '0':alert("operate fail !!!");
+				case '-1':alert("operate fail !!!");
 				break;
 				case '1':alert("add success!");
-				break;
-				case '2':alert("update success!");
-				break;
-				case '3':alert("delete success !!!");
 				break;
 				default: break;
 			}
@@ -64,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>系 <small></small></h5>
+                        <h5>学术著作 <small></small></h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -86,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <div class="ibox-content">
                     
                     <div class="">
-                         <button class="btn  btn-primary" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
+                         <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
                          <strong>添加</strong>
                          </button>
                             
@@ -104,10 +89,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <tbody>
 								<c:forEach var="word"  items="${wordnum }">
 								<tr>
-									<td>${word.wordID }</td>
+									<td>${word.wordId }</td>
 									<td>${word.wordNumber }</td>
-									<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${word.wordID }')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignment('${word.wordID }','${word.wordNumber }')"  data-target="#update" >修改</a>
+									<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"  >删除</a>					
+											<a  class="btn btn-primary btn-sm openupdatem"  data-toggle="modal"  data-target="#update" >修改</a>
 									</td>
 								</tr>
 								</c:forEach>
@@ -125,24 +110,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">修改</h3>
-                            <form role="form" id="onlyForm" name="upd"action="AcademicWorkWordNumberset!doupdate">
-                            
-                                <div class="form-group">
+                                <div class="form-group"  style="display: none">
                                 	<label>ID:</label>                                	
 									<input id="wordID" type="text"  class="form-control" name="word.wordID" value=""  readonly="readonly">
                                 </div>
-                                <div class="form-group">                                
-                                    <label>字数:</label>
-                                    <input id="wordNumber" type="text"  class="form-control" name="word.wordNumber" value="">
+                                <div class="form-group">
+                                    <label>字数限制:</label>
+                                    <input id="wordNumber" type="text"  class="form-control nullcheck" name="word.wordNumber" value="">
                                 </div>                                                           
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button  class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
                                </div>
-                            </form>
                     </div>
                 </div>
             </div>
@@ -158,16 +140,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <form role="form" id="onlyForm" name="adds"action="AcademicWorkWordNumberset!doadd">                            
                                 <div class="form-group">                                
                                     <label>字数:</label>
-                                    <input id="wordnumber" type="text"  class="form-control" name="word.wordNumber" value="">
+                                    <input id="wordnumber" type="text"  class="form-control nullcheck" name="word.wordNumber" value="">
                                 </div>                                                           
+                            </form>
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button  class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
                                </div>
-                            </form>
                     </div>
                 </div>
             </div>
@@ -182,6 +164,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/content.min.js?v=1.0.0"></script>
     <script src="js/plugins/iCheck/icheck.min.js"></script>
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script  src="js/PublicCheck/PUB_SET.js"></script>
+    
     <script>
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            

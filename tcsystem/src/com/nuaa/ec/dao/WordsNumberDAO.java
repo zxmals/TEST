@@ -109,7 +109,7 @@ public class WordsNumberDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all WordsNumber instances");
 		try {
-			String queryString = "from WordsNumber";
+			String queryString = "from WordsNumber where spareTire='1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
