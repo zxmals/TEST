@@ -25,22 +25,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <script type="text/javascript">
-    	function setSelected(ID) {
-    		var select = document.getElementById("upPTypeIDSelector");  
-    		for(var i=0; i<select.options.length; i++){
-    		    if(select.options[i].value == ID){  
-    		        select.options[i].selected = true;  
-    		        break;  
-    		    }  
-    		}  
-		}
-    	
-    	function confirmdel(id) {
-			if(confirm("确定要删除吗？"))
-				window.location.replace("PeriodicalFormset!dodelPeriodical?ID="+id);
-			else
-				window.location.replace("#");
-		}
     	function DoCheck() {
     		var res = '${operstatus}';
     		//alert(addres);

@@ -2,7 +2,9 @@ package com.nuaa.ec.science.action;
 
 import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
+import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.AcademicWorkScoreDAO;
 import com.nuaa.ec.dao.PublishClubDAO;
@@ -12,21 +14,26 @@ import com.nuaa.ec.model.AcademicWorkScore;
 import com.nuaa.ec.model.PublishClub;
 import com.nuaa.ec.model.PublishClubType;
 import com.nuaa.ec.model.WordsNumber;
+import com.nuaa.ec.utils.EntityUtil;
+import com.nuaa.ec.utils.PrimaryKMaker;
 
 
 public class AcademicWorkSetAction implements RequestAware{
 
 	private Map<String, Object> request;
 	
+	private Integer operstatus;
 	private WordsNumber wordnum;
-	private PublishClub publishcb;
 	private PublishClubType publishcbtype;
+	private PublishClub publishcb;
 	private AcademicWorkScore academicscode;
 	
 	private WordsNumberDAO worddao = new WordsNumberDAO();
-	private PublishClubDAO publishcbdao = new PublishClubDAO();
 	private PublishClubTypeDAO publishcbtypedao = new PublishClubTypeDAO();
+	private PublishClubDAO publishcbdao = new PublishClubDAO();
 	private AcademicWorkScoreDAO academicscoredao = new AcademicWorkScoreDAO();
+	//utils
+	private PrimaryKMaker pkmk = new PrimaryKMaker(); 
 	
 	//default method
 	public String execute(){
@@ -42,6 +49,69 @@ public class AcademicWorkSetAction implements RequestAware{
 		request.put("wordnum", worddao.findAll());
 		return "success";
 	} 
+	/**
+	 * 添加一个字数信息 // add word Number -set information
+	 * @return
+	 * @throws Exception
+	 */
+	public String addwordNum() throws Exception{
+		Transaction tx = null;
+		try {
+			wordnum.setSpareTire("1");
+			wordnum.setWordId(pkmk.mkpk(EntityUtil.getPkColumnName(WordsNumber.class), EntityUtil.getTableName(WordsNumber.class), "NUM"));
+			worddao.save(wordnum);
+			tx = worddao.getSession().beginTransaction();
+			tx.commit();
+			getWordNumberINF();
+			this.setOperstatus(1);
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+		return "success";
+	}
+	/***
+	 * 更新一个字数 范围信息
+	 * @throws Exception
+	 */
+	public void updateWordNum() throws Exception{
+		Transaction tx = null;
+		try {
+			wordnum.setSpareTire("1");
+			worddao.merge(wordnum);
+			tx = worddao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	/***
+	 * 删除一个字数 范围信息
+	 * @throws Exception
+	 */
+	public void deleteWordNum() throws Exception{
+		Transaction tx = null;
+		try {
+			wordnum.setSpareTire("0");
+			worddao.merge(wordnum);
+			tx = worddao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	//TODO:出版社类型设置 // get all of publish club -type info
+	public String getPublishClubTypeINF() throws Exception{
+		request.put("publishclubtype", publishcbtypedao.findAll());
+		return "success";
+	}
 	//TODO : Getter and Setter
 	public Map<String, Object> getRequest() {
 		return request;
@@ -83,4 +153,11 @@ public class AcademicWorkSetAction implements RequestAware{
 		this.academicscode = academicscode;
 	}
 	
+	public Integer getOperstatus() {
+		return operstatus;
+	}
+	
+	public void setOperstatus(Integer operstatus) {
+		this.operstatus = operstatus;
+	}
 }

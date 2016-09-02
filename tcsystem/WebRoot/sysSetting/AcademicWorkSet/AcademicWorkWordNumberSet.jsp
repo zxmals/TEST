@@ -29,12 +29,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <script type="text/javascript">
     	function DoCheck() {
-    		var res = '${resu}';
+    		var res = '${operstatus}';
     		//alert(addres);
 			switch (res){
-				case '-1':alert("operate fail !!!");
+				case '-1':alert("操作失败 fail !!!");
 				break;
-				case '1':alert("add success!");
+				case '1':alert("添加成功!");
 				break;
 				default: break;
 			}
@@ -90,9 +90,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<c:forEach var="word"  items="${wordnum }">
 								<tr>
 									<td>${word.wordId }</td>
-									<td>${word.wordNumber }</td>
-									<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"  >删除</a>					
-											<a  class="btn btn-primary btn-sm openupdatem"  data-toggle="modal"  data-target="#update" >修改</a>
+									<td>${word.wordNumber }&nbsp;(单位:万)</td>
+									<td><a   class="btn btn-primary btn-sm delwords"  data-toggle="modal"  >删除</a>					
+											<a  class="btn btn-primary btn-sm openupdatem carrydata"  data-toggle="modal"  data-target="#update" >修改</a>
 									</td>
 								</tr>
 								</c:forEach>
@@ -112,15 +112,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <h3 class="m-t-none m-b">修改</h3>
                                 <div class="form-group"  style="display: none">
                                 	<label>ID:</label>                                	
-									<input id="wordID" type="text"  class="form-control" name="word.wordID" value=""  readonly="readonly">
+									<input id="upwordID" type="text"  class="form-control" name="word.wordID" value=""  readonly="readonly">
                                 </div>
                                 <div class="form-group">
-                                    <label>字数限制:</label>
-                                    <input id="wordNumber" type="text"  class="form-control nullcheck" name="word.wordNumber" value="">
+                                    <label>字数:</label>&nbsp;<label>单位/万</label>
+                                    <input id="upwordNumber" type="text"  class="form-control nullcheck" name="word.wordNumber" value="">
                                 </div>                                                           
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
+                                    <button id="updatewords"  class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
@@ -137,15 +137,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" name="adds"action="AcademicWorkWordNumberset!doadd">                            
+                            <form role="form" id="onlyForm" name="adds"action="ATAcademicWorkWordNumberset!addwordNum" method="post">                            
                                 <div class="form-group">                                
-                                    <label>字数:</label>
-                                    <input id="wordnumber" type="text"  class="form-control nullcheck" name="word.wordNumber" value="">
+                                    <label>字数:</label>&nbsp;<label>单位/万</label>
+                                    <input id="wordnumber" type="text"  class="form-control nullcheck" name="wordnum.wordNumber" value="">
                                 </div>                                                           
                             </form>
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
+                                    <button id="addwords" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
@@ -167,6 +167,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script  src="js/PublicCheck/PUB_SET.js"></script>
     
     <script>
+    $('#addwords').click(function() {
+		if($('#wordnumber').val().trim()!=""){
+			document.adds.submit();
+		}
+	});
+    $('#updatewords').click(function() {
+    	if($('#upwordNumber').val().trim()!=""){
+    		$.post("ATAcademicWorkWordNumberset!updateWordNum",
+    				{"wordnum.wordId":$('#upwordID').val().trim(),
+    				 "wordnum.wordNumber":$('#upwordNumber').val().trim()},
+    				function(data,status){
+    					if(status=="success"){
+    						if(data=="succ"){
+    							alert("修改成功");
+    							window.location.replace("ATAcademicWorkWordNumberset!getWordNumberINF");
+    						}else{
+    							alert("修改失败");
+    						}
+    					}else{
+    						alert("请求失败");
+    					}
+    				});
+    	}
+	});
+    $('.delwords').click(function() {
+		var x = confirm("确定删除 ? ");
+		var row = $(this).parent().parent();
+		if(x){
+			$.post("ATAcademicWorkWordNumberset!deleteWordNum",
+    				{"wordnum.wordId":row[0].cells[0].innerHTML,
+    				 "wordnum.wordNumber":row[0].cells[1].innerHTML.substring(0,row[0].cells[1].innerHTML.length-12)},
+    				function(data,status){
+    					if(status=="success"){
+    						if(data=="succ"){
+    							alert("删除成功");
+    							row.remove();
+    						}else{
+    							alert("删除失败");
+    						}
+    					}else{
+    						alert("请求失败");
+    					}
+    				});
+		}
+	});
+    $('.openupdatem').click(function() {
+		$('#upwordID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
+		$('#upwordNumber')[0].value = $(this).parent().parent()[0].cells[1].innerHTML.substring(0,$(this).parent().parent()[0].cells[1].innerHTML.length-12);
+	});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
     </script>

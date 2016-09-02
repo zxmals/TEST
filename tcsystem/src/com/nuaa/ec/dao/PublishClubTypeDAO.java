@@ -109,7 +109,7 @@ public class PublishClubTypeDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all PublishClubType instances");
 		try {
-			String queryString = "from PublishClubType";
+			String queryString = "from PublishClubType where spareTire = '1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

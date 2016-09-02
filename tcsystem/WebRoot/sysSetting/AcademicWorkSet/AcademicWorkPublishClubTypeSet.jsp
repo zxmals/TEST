@@ -1,4 +1,3 @@
-<%@page import="com.nuaa.ec.science.model.PeriodicalType"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%
 String path = request.getContextPath();
@@ -29,27 +28,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <script type="text/javascript">
-    	function assignment(upPid,upP) {    		 
-    		    document.getElementById("publishTypeID").value =  upPid;
-    		    document.getElementById("publishType").value = upP;
-		}
-    	function confirmdel(id) {
-			if(confirm("确定要删除吗？"))
-				window.location.replace("AcademicWorkPublishClubTypeset!dodelpublishType?publishctype.PCulbTypeID="+id);
-			else
-				window.location.replace("#");
-		}
     	function DoCheck() {
-    		var res = '${resu}';
+    		var res = '${operstatus}';
     		//alert(addres);
-			switch (res){
-				case '0':alert("operate fail !!!");
+			switch (operstatus){
+				case '0':alert("操作失败 fail !!!");
 				break;
-				case '1':alert("add success!");
-				break;
-				case '2':alert("update success!");
-				break;
-				case '3':alert("delete success !!!");
+				case '1':alert("添加成功!");
 				break;
 				default: break;
 			}
@@ -104,10 +89,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <tbody>
 								<c:forEach var="publishtype"  items="${publishclubtype }">
 								<tr>
-									<td>${publishtype.PCulbTypeID }</td>
+									<td>${publishtype.pculbTypeId }</td>
 									<td>${publishtype.publishType }</td>
-									<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${publishtype.PCulbTypeID }')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignment('${publishtype.PCulbTypeID }','${publishtype.publishType }')"  data-target="#update" >修改</a>
+									<td><a   class="btn btn-primary btn-sm"  data-toggle="modal" >删除</a>					
+										<a   class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#update" >修改</a>
 									</td>
 								</tr>
 								</c:forEach>
