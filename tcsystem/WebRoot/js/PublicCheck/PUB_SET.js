@@ -1,13 +1,14 @@
 /***
  * style --control // 样式控制
  * class~explain
- * class-list: .nullcheck  .openaddm .openupdatem
- * .nullcheck : what you need to submit
- * .openaddm: which can open add-modal-dialog
- * .openupdatem:which can open update - modal - dialog 
+ * class-list: .nullcheck  .openaddm .openupdatem .subcheck
+ * .nullcheck : what you need to submit //需要被提交的 input之类的
+ * .openaddm: which can open add-modal-dialog //触发添加模态框的 按钮或其他标签的class
+ * .openupdatem:which can open update - modal - dialog //触发更新模态框的 按钮或其他标签的class
+ * .subcheck : which button can submit //提交的标签或按钮的 class
  */
 //check dialog isNull and execute    
-function nullcheck() {
+	function nullcheck() {
 		var readys = $('.nullcheck');
 		for(var i=0;i<readys.length;i++){
 			if(readys[i].value.trim()==""){
