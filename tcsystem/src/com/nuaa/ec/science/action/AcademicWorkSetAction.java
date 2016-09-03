@@ -178,6 +178,62 @@ public class AcademicWorkSetAction implements RequestAware{
 			throw e;
 		}
 	}
+	//TODO:publishcb SET // 出版社设置
+	public String getPublishClubINF() throws Exception{
+		request.put("publishclubLi", publishcbdao.findAll());
+		getPublishClubTypeINF();
+		return "success";
+	}
+	
+	public String addpublishClub() throws Exception{
+		Transaction tx = null;
+		try {
+			publishcb.setPublishClubId(pkmk.mkpk(EntityUtil.getPkColumnName(PublishClub.class), EntityUtil.getTableName(PublishClub.class), "PUB"));
+			publishcb.setSpareTire("1");
+			publishcb.setPublishClubType(publishcbtypedao.findById(publishcb.getPublishClubType().getPculbTypeId()));
+			publishcbdao.save(publishcb);
+			tx = publishcbdao.getSession().beginTransaction();
+			tx.commit();
+			getPublishClubINF();
+			this.setOperstatus(1);
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			this.setOperstatus(-1);
+			throw e;
+		}
+		return "success";
+	}
+	public void updatepublishClub() throws Exception{
+		Transaction tx = null;
+		try {
+			publishcb.setSpareTire("1");
+			publishcb.setPublishClubType(publishcbtypedao.findById(publishcb.getPublishClubType().getPculbTypeId()));
+			publishcbdao.merge(publishcb);
+			tx = publishcbdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	public void deletepublishClub() throws Exception{
+		Transaction tx = null;
+		try {
+			publishcb.setSpareTire("0");
+			publishcb.setPublishClubType(publishcbtypedao.findById(publishcb.getPublishClubType().getPculbTypeId()));
+			publishcbdao.merge(publishcb);
+			tx = publishcbdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
 	//TODO : Getter and Setter
 	public Map<String, Object> getRequest() {
 		return request;
