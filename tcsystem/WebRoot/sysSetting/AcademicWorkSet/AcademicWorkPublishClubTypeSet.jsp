@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <script type="text/javascript">
     	function DoCheck() {
-    		var res = '${operstatus}';
+    		var operstatus = '${operstatus}';
     		//alert(addres);
 			switch (operstatus){
 				case '-1':alert("操作失败 fail !!!");
@@ -91,8 +91,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<tr>
 									<td>${publishtype.pculbTypeId }</td>
 									<td>${publishtype.publishType }</td>
-									<td><a class="btn btn-primary btn-sm"  data-toggle="modal" >删除</a>					
-										<a class="btn btn-primary btn-sm openupdatem"  data-toggle="modal" data-target="#update">修改</a>
+									<td><a class="btn btn-primary btn-sm delinf"  data-toggle="modal" >删除</a>					
+										<a class="btn btn-primary btn-sm openupdatem carrydata"  data-toggle="modal" data-target="#update">修改</a>
 									</td>
 								</tr>
 								</c:forEach>
@@ -110,17 +110,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">修改</h3>
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                 	<label>ID:</label>                                	
-									<input id="publishTypeID" type="text"  class="form-control" name="publishctype.PCulbTypeID" value=""  readonly="readonly">
+									<input id="udpublishTypeID" type="text"  class="form-control" name="publishctype.PCulbTypeID" value=""  readonly="readonly">
                                 </div>
                                 <div class="form-group">
                                     <label>出版社类别:</label>
-                                    <input id="publishType" type="text"  class="form-control nullcheck" name="publishctype.publishType" value="">
+                                    <input id="udpublishType" type="text"  class="form-control nullcheck" name="publishctype.publishType" value="">
                                 </div>                                                           
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn subcheck btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button id="subudinf" class="btn subcheck btn-primary pull-left m-t-n-xs "  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
@@ -137,15 +137,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" name="adds"action="AcademicWorkPublishClubTypeset!doaddpublishType">                            
+                            <form role="form" id="onlyForm" method="post" name="adds"action="ATAcademicWorkPublishClubTypeset!addpublishType">                            
                                 <div class="form-group">                                
                                     <label>出版社类别:</label>
-                                    <input id="publishType" type="text"  class="form-control nullcheck" name="publishctype.publishType" value="">
+                                    <input id="adpublishType" type="text"  class="form-control nullcheck" name="publishcbtype.publishType" value="">
                                 </div>                                                           
                             </form>
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn subcheck btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button id="subaddinf" class="btn subcheck btn-primary pull-left m-t-n-xs "  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
@@ -166,7 +166,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script  src="js/PublicCheck/PUB_SET.js"></script>
     <script>
-    
+    $('#subaddinf').click(function() {
+		if($('#adpublishType').val().trim()!=""){
+			document.adds.submit();
+		}
+	});
+    $('#subudinf').click(function() {
+		if($('#udpublishType').val().trim()!=""){
+			$.post("ATAcademicWorkPublishClubTypeset!updatePublishType",
+					{"publishcbtype.pculbTypeId":$('#udpublishTypeID').val().trim(),
+					 "publishcbtype.publishType":$('#udpublishType').val().trim()},
+					function(data,status){
+						if(status=="success"){
+							if(data.trim()=="succ"){
+								alert("修改成功");
+								window.location.replace("ATAcademicWorkPublishClubTypeset!getPublishClubTypeINF");
+							}else{
+								alert("操作失败");
+							}
+						}else{
+							alert("请求失败");
+						}
+					});
+		}
+	});
+    $('.delinf').click(function() {
+		var x = confirm("确定删除 ?");
+		var row = $(this).parent().parent();
+		if(x){
+			$.post("ATAcademicWorkPublishClubTypeset!deletePublishType",
+					{"publishcbtype.pculbTypeId":row[0].cells[0].innerHTML,
+					 "publishcbtype.publishType":row[0].cells[1].innerHTML},
+					function(data,status){
+						if(status=="success"){
+							if(data.trim()=="succ"){
+								alert("删除成功");
+								row.remove();
+							}else{
+								alert("操作失败");
+							}
+						}else{
+							alert("请求失败");
+						}
+					});
+		}
+	});
+    $('.carrydata').click(function() {
+		$('#udpublishTypeID')[0].value = $(this).parent().parent()[0].cells[0].innerHTML;
+		$('#udpublishType')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
+	});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
     </script>

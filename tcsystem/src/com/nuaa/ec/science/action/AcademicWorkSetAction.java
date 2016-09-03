@@ -67,6 +67,7 @@ public class AcademicWorkSetAction implements RequestAware{
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
+			this.setOperstatus(-1);
 			throw e;
 		}
 		return "success";
@@ -107,10 +108,75 @@ public class AcademicWorkSetAction implements RequestAware{
 			throw e;
 		}
 	}
-	//TODO:出版社类型设置 // get all of publish club -type info
+	
+	//TODO:出版社类型设置 /PublishClubType -Set
+	/***
+	 *  get all of publish club -type info
+	 * @return
+	 * @throws Exception
+	 */
 	public String getPublishClubTypeINF() throws Exception{
 		request.put("publishclubtype", publishcbtypedao.findAll());
 		return "success";
+	}
+	/***
+	 * add a publishType
+	 * @return
+	 * @throws Exception
+	 */
+	public String addpublishType() throws Exception{
+		Transaction tx = null;
+		try {
+			publishcbtype.setPculbTypeId(pkmk.mkpk(EntityUtil.getPkColumnName(PublishClubType.class), EntityUtil.getTableName(PublishClubType.class), "PUBT"));
+			publishcbtype.setSpareTire("1");
+			publishcbtypedao.save(publishcbtype);
+			tx = publishcbtypedao.getSession().beginTransaction();
+			tx.commit();
+			getPublishClubTypeINF();
+			this.setOperstatus(1);
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			this.setOperstatus(-1);
+			throw e;
+		}
+		return "success";
+	}
+	/***
+	 * update the pubslish-club-type inf
+	 * @throws Exception
+	 */
+	public void updatePublishType() throws Exception{
+		Transaction tx = null;
+		try {
+			publishcbtype.setSpareTire("1");
+			publishcbtypedao.merge(publishcbtype);
+			tx = publishcbtypedao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	/**
+	 * delete the publish-club-type inf
+	 * @throws Exception
+	 */
+	public void deletePublishType() throws Exception{
+		Transaction tx = null;
+		try {
+			publishcbtype.setSpareTire("0");
+			publishcbtypedao.merge(publishcbtype);
+			tx = publishcbtypedao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
 	}
 	//TODO : Getter and Setter
 	public Map<String, Object> getRequest() {
