@@ -4250,14 +4250,21 @@ body.modal-open {
 	padding: 100px 20px 20px
 }
 
-.logo-name {
+.logo-nameU {
 	color: #e6e6e6;
-	font-size: 180px;
+	font-size: 40px;
 	font-weight: 800;
 	letter-spacing: -10px;
-	margin-bottom: 0
+	margin-right: 510px;
+	margin-top: 100px;
 }
-
+.logo-nameD {
+	color: #e6e6e6;
+	font-size: 36px;
+	font-weight: 800;
+	letter-spacing: -10px;
+	margin-right: 510px;
+}
 .middle-box h1 {
 	font-size: 170px
 }
