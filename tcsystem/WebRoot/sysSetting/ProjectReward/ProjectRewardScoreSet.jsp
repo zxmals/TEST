@@ -258,7 +258,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
     $('.openupdatem').click(function() {
 		$('#upinfID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
-		$('#upinf')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
+		$('#upinf')[0].value = $(this).parent().parent()[0].cells[5].innerHTML;
 	});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
