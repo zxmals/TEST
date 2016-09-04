@@ -109,7 +109,7 @@ public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all AcademicWorkScore instances");
 		try {
-			String queryString = "from AcademicWorkScore";
+			String queryString = "from AcademicWorkScore where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

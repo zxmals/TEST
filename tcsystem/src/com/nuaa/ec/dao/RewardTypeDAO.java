@@ -109,7 +109,7 @@ public class RewardTypeDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all RewardType instances");
 		try {
-			String queryString = "from RewardType";
+			String queryString = "from RewardType where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

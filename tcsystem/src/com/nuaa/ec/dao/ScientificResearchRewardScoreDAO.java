@@ -109,7 +109,7 @@ public class ScientificResearchRewardScoreDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all ScientificResearchRewardScore instances");
 		try {
-			String queryString = "from ScientificResearchRewardScore";
+			String queryString = "from ScientificResearchRewardScore where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

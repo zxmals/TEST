@@ -1,4 +1,3 @@
-<%@page import="com.nuaa.ec.science.model.PeriodicalType"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%
 String path = request.getContextPath();
@@ -29,38 +28,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <script type="text/javascript">
-    function assignmentC(upPID,upP) {
-	    document.getElementById("acadWorkscoreID").value = upPID;
-	    document.getElementById("acadWorkscore").value = upP;
-	    setSelected(document.getElementById("td"+upPID).value);
-	}
-	
-	function setSelected(ID) {
-		var select = document.getElementById("WordnumSelector");  
-		for(var i=0; i<select.options.length; i++){
-		    if(select.options[i].value == ID){  
-		        select.options[i].selected = true;  
-		        break;  
-		    }  
-		}  
-	}
-    	function confirmdel(id) {
-			if(confirm("确定要删除吗？"))
-				window.location.replace("AcademicWorkScoreset!dodelacadworkScore?acadworkScore.acaWorkScoreID="+id);
-			else
-				window.location.replace("#");
-		}
     	function DoCheck() {
-    		var res = '${resu}';
+    		var operstatus = '${operstatus}';
     		//alert(addres);
-			switch (res){
-				case '0':alert("operate fail !!!");
+			switch (operstatus){
+				case '-1':alert("操作失败 fail !!!");
 				break;
-				case '1':alert("add success!");
-				break;
-				case '2':alert("update success!");
-				break;
-				case '3':alert("delete success !!!");
+				case '1':alert("添加成功 !");
 				break;
 				default: break;
 			}
@@ -75,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>学术著作 <small></small></h5>
+                        <h5>学术著作  --评分设置<small></small></h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -97,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <div class="ibox-content">
                     
                     <div class="">
-                         <button class="btn  btn-primary" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
+                         <button class="btn openaddm btn-primary" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
                          <strong>添加</strong>
                          </button>
                             
@@ -109,6 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <tr>
 									<td>学术著作评分编号</td>
 									<td>字数</td>
+									<td style="display: none">字数Id</td>
 									<td>基准分数</td>
 									<td>操作</td>
 								</tr>
@@ -116,12 +91,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <tbody>
 								<c:forEach var="acawscore"  items="${acadworkScoreLi }">
 								<tr>
-									<td>${acawscore.acaWorkScoreID }</td>
-									<td>${acawscore.wordNumber }</td>
+									<td>${acawscore.acaWorkScoreId }</td>
+									<td>${acawscore.wordsNumber.wordNumber }</td>
+									<td style="display: none">${acawscore.wordsNumber.wordId }</td>
 									<td>${acawscore.score }</td>
-									<input id="td${acawscore.acaWorkScoreID }" type="text"  value = "${acawscore.wordID }" style="display: none">
-									<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${acawscore.acaWorkScoreID }')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignmentC('${acawscore.acaWorkScoreID }','${acawscore.score }')"  data-target="#update" >修改</a>
+									<td><a   class="btn btn-primary btn-sm delinf"  data-toggle="modal" >删除</a>					
+										<a   class="btn btn-primary btn-sm openupdatem"  data-toggle="modal" data-target="#update" >修改</a>
 									</td>
 								</tr>
 								</c:forEach>
@@ -139,34 +114,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">修改</h3>
-                            <form role="form" id="onlyForm" name="upd"action="AcademicWorkScoreset!doupdateAcadWorkScore">
-                            
                                 <div class="form-group">
                                 	<label>ID:</label>                                	
-									<input id="acadWorkscoreID" type="text"  class="form-control" name="acadworkScore.acaWorkScoreID" value=""  readonly="readonly">
+									<input id="udacadWorkscoreID" type="text"  class="form-control" name="acadworkScore.acaWorkScoreID" value=""  readonly="readonly">
                                 </div>
                                 <div class="form-group">                                
-                                    <label>基础分数:</label>
-                                   <input id="acadWorkscore" type="text"  class="form-control" name="acadworkScore.score" value="">
-                                </div>                                                                      
-                                <div>   
-                                <div class="form-group">                                
                                     <label>字数:</label>
-                                    <select id="WordnumSelector"  name="acadworkScore.wordID" style="width: 200px"  class="form-control" >
+                                    <select id="udWordnumSelector"  name="acadworkScore.wordsNumber.wordId"  class="form-control nullcheck" >
+                                    	<option></option>
                                     	<c:forEach  var="word"  items="${wordnum }">
-		                                    	<option value="${word.wordID }">${word.wordNumber }</option>
-		                                    </c:forEach>
+		                                   	<option value="${word.wordId }">${word.wordNumber }</option>
+		                                 </c:forEach>
                                     </select>
-                                </div>                                                        
+                                </div>
+                                <div class="form-group">         
+                                    <label>基础分数:</label>
+                                   <input id="udacadWorkscore" type="text"  class="form-control nullcheck" name="acadworkScore.score" value="">
+                                </div>                                                         
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button id="subupdate" class="btn subcheck btn-primary pull-left m-t-n-xs "  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
                                </div>
-                            </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -178,27 +149,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" name="adds"action="AcademicWorkScoreset!doaddAcadWorkScore">                            
+                            <form role="form" id="onlyForm" method="post" name="adds"action="ATAcademicWorkScoreset!addAcadWorkScore">                            
                                 <div class="form-group">                                
                                     <label>字数:</label>
-                                    <select id="WordnumSelector"  name="acadworkScore.wordID" style="width: 200px"  class="form-control" >
+                                    <select id="adWordnumSelector"  name="academicscode.wordsNumber.wordId"  class="form-control nullcheck" >
+                                    	<option selected="selected"></option>
                                     	<c:forEach  var="word"  items="${wordnum }">
-		                                    	<option value="${word.wordID }">${word.wordNumber }</option>
+		                                    	<option value="${word.wordId }">${word.wordNumber }</option>
 		                                    </c:forEach>
                                     </select>
                                 </div>   
                                 <div class="form-group">                                
                                     <label>基础分数:</label>
-                                   <input id="acadWorkscore" type="text"  class="form-control" name="acadworkScore.score" value="">
+                                   <input id="adacadWorkscore" type="text"  class="form-control nullcheck" name="academicscode.score" value="">
                                 </div>                                                                      
+                            </form>
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button id="addacascore" class="btn subcheck btn-primary pull-left m-t-n-xs "  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
                                </div>
-                            </form>
                     </div>
                 </div>
             </div>
@@ -213,7 +185,67 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/content.min.js?v=1.0.0"></script>
     <script src="js/plugins/iCheck/icheck.min.js"></script>
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script  src="js/PublicCheck/PUB_SET.js"></script>
     <script>
+    $('#addacascore').click(function() {
+		if($('#adacadWorkscore').val().trim()!=""&$('#adWordnumSelector').val().trim()!=""){
+			document.adds.submit();
+		}
+	});
+    $('#subupdate').click(function() {
+		if($('#udWordnumSelector').val().trim()!=""&$('#udacadWorkscore').val().trim()!=""){
+			$.post("ATAcademicWorkScoreset!updateAcadWorkScore",
+					{"academicscode.acaWorkScoreId":$('#udacadWorkscoreID').val().trim(),
+					 "academicscode.score":$('#udacadWorkscore').val().trim(),
+					 "academicscode.wordsNumber.wordId":$('#udWordnumSelector option:selected').val().trim()},
+					function(data,status){
+						 if(status=="success"){
+							 if(data=="succ"){
+								 alert("更新成功");
+								 window.location.replace("ATAcademicWorkScoreset!getAcadWorkScoreINF");
+							 }else{
+								 alert("操作失败");
+							 }
+						 }else{
+							 alert("请求失败");
+						 }
+					});
+		}
+	});
+    $('.delinf').click(function() {
+		var x = confirm("确定删除 ?");
+		var row = $(this).parent().parent();
+		if(x){
+			$.post("ATAcademicWorkScoreset!deleteAcadWorkScore",
+					{"academicscode.acaWorkScoreId":row[0].cells[0].innerHTML,
+					 "academicscode.score":row[0].cells[3].innerHTML,
+					 "academicscode.wordsNumber.wordId":row[0].cells[2].innerHTML},
+					function(data,status){
+						 if(status=="success"){
+							 if(data=="succ"){
+								 alert("删除成功");
+								 row.remove();
+							 }else{
+								 alert("操作失败");
+							 }
+						 }else{
+							 alert("请求失败");
+						 }
+					});
+		}
+	});
+    $('.openupdatem').click(function() {
+		$('#udacadWorkscoreID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
+		$('#udacadWorkscore')[0].value = $(this).parent().parent()[0].cells[3].innerHTML;
+		var options = $('#udWordnumSelector option');
+		for(var i=0;i<options.length;i++){
+			if(options[i].value==$(this).parent().parent()[0].cells[2].innerHTML){
+				options[i].selected = true;
+			}else{
+				options[i].selected = false;
+			}
+		}
+	});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
     </script>

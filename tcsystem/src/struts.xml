@@ -73,5 +73,9 @@
 		<action name="ATAcademic*set"  class="com.nuaa.ec.science.action.AcademicWorkSetAction">
 			<result>/sysSetting/AcademicWorkSet/Academic{1}Set.jsp</result>
 		</action>
+		<!-- 科研项目奖励设置//ScientificResearch-Reward Set -->
+		<action name="ATProjectReward*set" class="com.nuaa.ec.science.action.ScientificProjectRewardSetAction">
+			<result>/sysSetting/ProjectReward/ProjectReward{1}Set.jsp</result>
+		</action>
 	</package>
 </struts>

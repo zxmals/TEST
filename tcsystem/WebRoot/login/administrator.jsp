@@ -242,7 +242,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                                      	 <li><a class="J_menuItem"  href="ATAcademicWorkWordNumberset!getWordNumberINF">字数类别设置</a></li>
 												<li><a class="J_menuItem"  href="ATAcademicWorkPublishClubTypeset!getPublishClubTypeINF">出版社类别设置</a></li>
 												<li><a class="J_menuItem"  href="ATAcademicWorkPublishClubset!getPublishClubINF">出版社设置</a></li>
-												<li><a class="J_menuItem"  href="AcademicWorkScoreset!viewAcadWorkScore">学术著作评分设置</a></li>
+												<li><a class="J_menuItem"  href="ATAcademicWorkScoreset!getAcadWorkScoreINF">学术著作评分设置</a></li>
 	                                      </ul>
                                      </li>
                                     <li>
@@ -255,9 +255,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <li>
                                     	<a href="#">科研项目奖励设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="ProjectRewardTypeset!viewProjectRewardType">科研奖励类别设置</a></li>
-												<li><a class="J_menuItem"  href="ProjectRewardLevelset!viewProjectRewardLevel">科研奖励级别设置</a></li>
-												<li><a class="J_menuItem"  href="ProjectRewardScoreset!viewProjectRewardScore">科研奖励评分设置</a></li>												
+		                                      	 <li><a class="J_menuItem"  href="ATProjectRewardTypeset!getProjectRewardTypeINF">科研奖励类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATProjectRewardLevelset!getProjectRewardLevelINF">科研奖励级别设置</a></li>
+												<li><a class="J_menuItem"  href="ATProjectRewardScoreset!getProjectRewardScoreINF">科研奖励评分设置</a></li>												
 	                                      </ul>
                                     </li>
                                     <li>

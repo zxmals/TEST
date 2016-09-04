@@ -179,12 +179,21 @@ public class AcademicWorkSetAction implements RequestAware{
 		}
 	}
 	//TODO:publishcb SET // 出版社设置
+	/***
+	 * 获取出版社信息
+	 * @return
+	 * @throws Exception
+	 */
 	public String getPublishClubINF() throws Exception{
 		request.put("publishclubLi", publishcbdao.findAll());
 		getPublishClubTypeINF();
 		return "success";
 	}
-	
+	/***
+	 * 增加 一个出版社
+	 * @return
+	 * @throws Exception
+	 */
 	public String addpublishClub() throws Exception{
 		Transaction tx = null;
 		try {
@@ -204,6 +213,10 @@ public class AcademicWorkSetAction implements RequestAware{
 		}
 		return "success";
 	}
+	/***
+	 * 更新出版社
+	 * @throws Exception
+	 */
 	public void updatepublishClub() throws Exception{
 		Transaction tx = null;
 		try {
@@ -219,6 +232,10 @@ public class AcademicWorkSetAction implements RequestAware{
 			throw e;
 		}
 	}
+	/***
+	 * 删除一个出版社
+	 * @throws Exception
+	 */
 	public void deletepublishClub() throws Exception{
 		Transaction tx = null;
 		try {
@@ -226,6 +243,61 @@ public class AcademicWorkSetAction implements RequestAware{
 			publishcb.setPublishClubType(publishcbtypedao.findById(publishcb.getPublishClubType().getPculbTypeId()));
 			publishcbdao.merge(publishcb);
 			tx = publishcbdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	//TODO : 期刊论文评分设置 // academic-work --score -Set
+	public String getAcadWorkScoreINF() throws Exception{
+		request.put("acadworkScoreLi", academicscoredao.findAll());
+		getWordNumberINF();
+		return "success";
+	}
+	public String addAcadWorkScore() throws Exception{
+		Transaction tx = null;
+		try {
+			academicscode.setSpareTire("1");
+			academicscode.setAcaWorkScoreId(pkmk.mkpk(EntityUtil.getPkColumnName(AcademicWorkScore.class), EntityUtil.getTableName(AcademicWorkScore.class), "ACASCO"));
+			academicscode.setWordsNumber(worddao.findById(academicscode.getWordsNumber().getWordId()));
+			academicscoredao.save(academicscode);
+			tx = academicscoredao.getSession().beginTransaction();
+			tx.commit();
+			this.setOperstatus(1);
+			getAcadWorkScoreINF();
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			this.setOperstatus(-1);
+			throw e;
+		}
+		return "success";
+	}
+	public void updateAcadWorkScore() throws Exception{
+		Transaction tx = null;
+		try {
+			academicscode.setSpareTire("1");
+			academicscode.setWordsNumber(worddao.findById(academicscode.getWordsNumber().getWordId()));
+			academicscoredao.merge(academicscode);
+			tx = academicscoredao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	public void deleteAcadWorkScore() throws Exception{
+		Transaction tx = null;
+		try {
+			academicscode.setSpareTire("0");
+			academicscode.setWordsNumber(worddao.findById(academicscode.getWordsNumber().getWordId()));
+			academicscoredao.merge(academicscode);
+			tx = academicscoredao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
