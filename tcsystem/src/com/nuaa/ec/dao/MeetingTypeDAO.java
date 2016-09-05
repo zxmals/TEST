@@ -109,7 +109,7 @@ public class MeetingTypeDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all MeetingType instances");
 		try {
-			String queryString = "from MeetingType";
+			String queryString = "from MeetingType where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

@@ -109,7 +109,7 @@ public class PaperRetrievalConditionDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all PaperRetrievalCondition instances");
 		try {
-			String queryString = "from PaperRetrievalCondition";
+			String queryString = "from PaperRetrievalCondition where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
