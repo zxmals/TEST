@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<jsp:directive.page import="com.nuaa.ec.science.action.MidifyPwdAction"/>
-<jsp:directive.page import="com.nuaa.ec.science.action.LoginAction"/>
+<jsp:directive.page import="com.nuaa.ec.science.baseSet.action.MidifyPwdAction"/>
+<jsp:directive.page import="com.nuaa.ec.science.baseSet.action.LoginAction"/>
 <jsp:directive.page import="com.nuaa.ec.science.Permodel.TeacherLoginStatus"/>
 <jsp:directive.page import="javax.servlet.http.HttpSession"/>
 <jsp:directive.page import="java.text.DateFormat"/>

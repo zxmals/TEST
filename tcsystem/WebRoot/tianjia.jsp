@@ -5,7 +5,7 @@
 <jsp:directive.page import="com.nuaa.ec.science.dao.PublishClubDAO"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.SelfUndertakeTaskDAO"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.WordsNumberDAO"/>
-<jsp:directive.page import="com.nuaa.ec.science.action.AddAWorkAction"/>
+<jsp:directive.page import="com.nuaa.ec.science.baseSet.action.AddAWorkAction"/>
 <jsp:directive.page import="javax.servlet.http.HttpSession"/>
 <%@taglib uri="/struts-tags" prefix="s" %>
 <%

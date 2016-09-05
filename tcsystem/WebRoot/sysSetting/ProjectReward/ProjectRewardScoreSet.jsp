@@ -124,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </div>
                                 <div class="form-group">                                
                                     <label>奖励类别:</label>                                   
-	                                    <select id="upSelectorone"  class="form-control"   name="upPTypeIDSelector" >
+	                                    <select id="upSelectorone"  class="form-control nullcheck"   name="upPTypeIDSelector" >
 	                                    	<option selected="selected"></option>
 		                                    <c:forEach var="ebj"  items="${rewardtypli }">
 		                                    	<option value="${ebj.rewardTypeId }">${ebj.rewardTypeName }</option>
@@ -133,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </div>                            
                                 <div class="form-group">                             
                                     <label>奖励级别:</label>
-                                    	<select id="upSelectortwo"  class="form-control"   name="upPTypeIDSelector" >
+                                    	<select id="upSelectortwo"  class="form-control nullcheck"   name="upPTypeIDSelector" >
                                     		<option selected="selected"></option>
 		                                    <c:forEach var="ebj"  items="${rewardlevli }">
 		                                    	<option value="${ebj.rewardLevelId }">${ebj.rewardLevelName }</option>
@@ -166,7 +166,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <form role="form" id="onlyForm" name="adds"action="ATProjectRewardTypeset!addProjectRewardType" method="post">
                             	<div class="form-group">                                
                                     <label>奖励类别:</label>                                   
-	                                    <select id="upSelectorone"  class="form-control"   name="upPTypeIDSelector" >
+	                                    <select id="upSelectorone"  class="form-control nullcheck"   name="upPTypeIDSelector" >
 	                                    	<option selected="selected"></option>
 		                                    <c:forEach var="ebj"  items="${rewardtypli }">
 		                                    	<option value="${ebj.rewardTypeId }">${ebj.rewardTypeName }</option>
@@ -175,7 +175,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </div>                            
                                 <div class="form-group">                             
                                     <label>奖励级别:</label>
-                                    	<select id="upSelectortwo"  class="form-control"   name="upPTypeIDSelector" >
+                                    	<select id="upSelectortwo"  class="form-control nullcheck"   name="upPTypeIDSelector" >
                                     		<option selected="selected"></option>
 		                                    <c:forEach var="ebj"  items="${rewardlevli }">
 		                                    	<option value="${ebj.rewardLevelId }">${ebj.rewardLevelName }</option>
@@ -214,46 +214,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     $('#subadds').click(function() {
 		if($('#addinf').val().trim()!=""){
 			document.adds.submit();
-		}
-	});
-    $('#subupdate').click(function() {
-		if($('#upinf').val().trim()!=""){
-			$.post("ATProjectRewardTypeset!updateProjectRewardType",
-					{"rewardty.rewardTypeId":$('#upinfID').val().trim(),
-					 "rewardty.rewardTypeName":$('#upinf').val().trim()},
-					function(data,status){
-						if(status=="success"){
-							if(data.trim()=="succ"){
-								alert("更新成功");
-								window.location.replace("ATProjectRewardTypeset!getProjectRewardTypeINF");
-							}else{
-								alert("操作失败");
-							}
-						}else{
-							alert("请求失败");
-						}
-					});
-		}
-	});
-    $('.delinf').click(function() {
-		var x = confirm("确定删除 ？");
-		var row = $(this).parent().parent();
-		if(x){
-			$.post("ATProjectRewardTypeset!deleteProjectRewardType",
-					{"rewardty.rewardTypeId":row[0].cells[0].innerHTML,
-					 "rewardty.rewardTypeName":row[0].cells[5].innerHTML},
-					function(data,status){
-						if(status=="success"){
-							if(data.trim()=="succ"){
-								alert("删除成功");
-								row.remove();
-							}else{
-								alert("操作失败");
-							}
-						}else{
-							alert("请求失败");
-						}
-					});
 		}
 	});
     $('.openupdatem').click(function() {

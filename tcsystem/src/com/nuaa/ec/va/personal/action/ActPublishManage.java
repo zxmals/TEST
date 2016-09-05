@@ -1,4 +1,4 @@
-package com.nuaa.ec.va.action;
+package com.nuaa.ec.va.personal.action;
 
 import java.util.Map;
 

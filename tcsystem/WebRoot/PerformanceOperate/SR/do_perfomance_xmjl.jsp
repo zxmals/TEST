@@ -4,7 +4,7 @@
 <jsp:directive.page import="com.nuaa.ec.science.Permodel.TeacherLoginStatus"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.RewardTypeDAO"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.RewardLevelDAO"/>
-<jsp:directive.page import="com.nuaa.ec.science.action.AddSRRewardAction"/>
+<jsp:directive.page import="com.nuaa.ec.science.baseSet.action.AddSRRewardAction"/>
 <jsp:directive.page import="javax.servlet.http.HttpSession"/>
 <jsp:directive.page import="com.nuaa.ec.science.Permodel.ViewXMJL"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.PersonInfoDAO"/>

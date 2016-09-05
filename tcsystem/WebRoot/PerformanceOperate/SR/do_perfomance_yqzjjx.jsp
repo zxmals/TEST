@@ -5,7 +5,7 @@
 <jsp:directive.page import="com.nuaa.ec.science.dao.ExpertTypeDAO"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.SelfUndertakeTaskDAO"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.NationalityDAO"/>
-<jsp:directive.page import="com.nuaa.ec.science.action.AddIESpeechAction"/>
+<jsp:directive.page import="com.nuaa.ec.science.baseSet.action.AddIESpeechAction"/>
 <jsp:directive.page import="com.nuaa.ec.science.Permodel.ViewYQZJJX"/>
 <jsp:directive.page import="javax.servlet.http.HttpSession"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.PersonInfoDAO"/>

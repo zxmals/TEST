@@ -2,7 +2,7 @@
 <jsp:directive.page import="com.nuaa.ec.science.dao.TeacherANDSelectedTalentProjectDAO"/>
 <jsp:directive.page import="com.nuaa.ec.science.Permodel.TeacherLoginStatus"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.TalentProjectDAO"/>
-<jsp:directive.page import="com.nuaa.ec.science.action.AddSTProjectAction"/>
+<jsp:directive.page import="com.nuaa.ec.science.baseSet.action.AddSTProjectAction"/>
 <jsp:directive.page import="javax.servlet.http.HttpSession"/>
 <jsp:directive.page import="com.nuaa.ec.science.Permodel.ViewRXRCGC"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.PersonInfoDAO"/>
