@@ -263,10 +263,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <li>
                                     	<a href="#">参加学术会议设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="JoinAcademicMeetingTypeset!viewMeetingType">学术会议类别设置</a></li>
-												<li><a class="J_menuItem"  href="JoinAcademicMeetingPaperRetrievalset!viewPaperRetrieval">论文检索类别设置</a></li>
-												<li><a class="J_menuItem"  href="JoinAcademicMeetingPlaceset!viewMeetingPlace">学术会议地点设置</a></li>
-												<li><a class="J_menuItem"  href="JoinAcademicMeetingScoreset!viewMeetingScore">学术会议评分设置</a></li>
+		                                      	 <li><a class="J_menuItem"  href="ATJoinAcademicMeetingTypeset!getAcademicMeetingTypeINF">学术会议类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATJoinAcademicMeetingPaperRetrievalset!getPaperRetrievalConditionINF">论文检索类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATJoinAcademicMeetingPlaceset!getAcademicMeetingPlaceINF">学术会议地点设置</a></li>
+												<li><a class="J_menuItem"  href="ATJoinAcademicMeetingScoreset!getJoinAcademicMeetingScoreINF">学术会议评分设置</a></li>
 	                                      </ul>
                                     </li>
                                     <li>
