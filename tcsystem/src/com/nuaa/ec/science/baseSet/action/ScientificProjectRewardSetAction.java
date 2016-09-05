@@ -173,11 +173,81 @@ public class ScientificProjectRewardSetAction implements RequestAware{
 		}
 	}
 	//TODO:Reward-evaluate -score  Set --奖励评分设置
+	/***
+	 * get all of the ScientificProjectRewardScore
+	 * @return
+	 * @throws Exception
+	 */
 	public String  getProjectRewardScoreINF() throws Exception{
 		request.put("projectrewardscoreli", rewardscoredao.findAll());
 		getProjectRewardLevelINF();
 		getProjectRewardTypeINF();
 		return "success";
+	}
+	/***
+	 * add a new ScientificProjectRewardScore
+	 * @return
+	 * @throws Exception
+	 */
+	public String addProjectRewardScore() throws Exception{
+		Transaction tx = null;
+		try {
+			rewardscore.setSpareTire("1");
+			rewardscore.setRewardLevel(rewardlevdao.findById(rewardscore.getRewardLevel().getRewardLevelId()));
+			rewardscore.setRewardType(rewardtypdao.findById(rewardscore.getRewardType().getRewardTypeId()));
+			rewardscore.setSrrscoreId(pkmk.mkpk(EntityUtil.getPkColumnName(ScientificResearchRewardScore.class), EntityUtil.getTableName(ScientificResearchRewardScore.class), "SRRS"));
+			rewardscoredao.save(rewardscore);
+			tx = rewardscoredao.getSession().beginTransaction();
+			tx.commit();
+			this.setOperstatus(1);
+			getProjectRewardScoreINF();
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			this.setOperstatus(-1);
+			throw e;
+		}
+		return "success";
+	}
+	/***
+	 * update the ScientificProjectRewardScore
+	 * @throws Exception
+	 */
+	public void updateProjectRewardScore() throws Exception{
+		Transaction tx = null;
+		try {
+			rewardscore.setSpareTire("1");
+			rewardscore.setRewardLevel(rewardlevdao.findById(rewardscore.getRewardLevel().getRewardLevelId()));
+			rewardscore.setRewardType(rewardtypdao.findById(rewardscore.getRewardType().getRewardTypeId()));
+			rewardscoredao.merge(rewardscore);
+			tx = rewardscoredao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	/***
+	 * delete the ScientificProjectRewardScore
+	 * @throws Exception
+	 */
+	public void deleteProjectRewardScore() throws Exception{
+		Transaction tx = null;
+		try {
+			rewardscore.setSpareTire("0");
+			rewardscore.setRewardLevel(rewardlevdao.findById(rewardscore.getRewardLevel().getRewardLevelId()));
+			rewardscore.setRewardType(rewardtypdao.findById(rewardscore.getRewardType().getRewardTypeId()));
+			rewardscoredao.merge(rewardscore);
+			tx = rewardscoredao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
 	}
 	//TODO: Getter and Setter
 	public Map<String, Object> getRequest() {

@@ -124,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </div>
                                 <div class="form-group">                                
                                     <label>奖励类别:</label>                                   
-	                                    <select id="upSelectorone"  class="form-control nullcheck"   name="upPTypeIDSelector" >
+	                                    <select id="upSelectortype"  class="form-control nullcheck"   name="upPTypeIDSelector" >
 	                                    	<option selected="selected"></option>
 		                                    <c:forEach var="ebj"  items="${rewardtypli }">
 		                                    	<option value="${ebj.rewardTypeId }">${ebj.rewardTypeName }</option>
@@ -133,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </div>                            
                                 <div class="form-group">                             
                                     <label>奖励级别:</label>
-                                    	<select id="upSelectortwo"  class="form-control nullcheck"   name="upPTypeIDSelector" >
+                                    	<select id="upSelectorlevel"  class="form-control nullcheck"   name="upPTypeIDSelector" >
                                     		<option selected="selected"></option>
 		                                    <c:forEach var="ebj"  items="${rewardlevli }">
 		                                    	<option value="${ebj.rewardLevelId }">${ebj.rewardLevelName }</option>
@@ -142,7 +142,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </div>
                                 <div class="form-group">
                                     <label>基础评分:</label>
-                                    <input id="upinf" type="text"  class="form-control nullcheck" name="" value="">
+                                    <input id="upinfscore" type="text"  class="form-control nullcheck" name="" value="">
                                 </div>                                                
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
@@ -163,10 +163,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" name="adds"action="ATProjectRewardTypeset!addProjectRewardType" method="post">
+                            <form role="form" id="onlyForm" name="adds"action="ATProjectRewardScoreset!addProjectRewardScore" method="post">
                             	<div class="form-group">                                
                                     <label>奖励类别:</label>                                   
-	                                    <select id="upSelectorone"  class="form-control nullcheck"   name="upPTypeIDSelector" >
+	                                    <select id="addinftype"  class="form-control nullcheck"   name="rewardscore.rewardType.rewardTypeId" >
 	                                    	<option selected="selected"></option>
 		                                    <c:forEach var="ebj"  items="${rewardtypli }">
 		                                    	<option value="${ebj.rewardTypeId }">${ebj.rewardTypeName }</option>
@@ -175,7 +175,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </div>                            
                                 <div class="form-group">                             
                                     <label>奖励级别:</label>
-                                    	<select id="upSelectortwo"  class="form-control nullcheck"   name="upPTypeIDSelector" >
+                                    	<select id="addinflevel"  class="form-control nullcheck"   name="rewardscore.rewardLevel.rewardLevelId" >
                                     		<option selected="selected"></option>
 		                                    <c:forEach var="ebj"  items="${rewardlevli }">
 		                                    	<option value="${ebj.rewardLevelId }">${ebj.rewardLevelName }</option>
@@ -184,7 +184,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </div>
                                 <div class="form-group">
                                     <label>基础评分:</label>
-                                    <input id="upinf" type="text"  class="form-control nullcheck" name="" value="">
+                                    <input id="addinfscore" type="text"  class="form-control nullcheck" name="rewardscore.score" value="">
                                 </div>                                                           
                             </form>
                                 <div>
@@ -212,13 +212,81 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <script>
     $('#subadds').click(function() {
-		if($('#addinf').val().trim()!=""){
-			document.adds.submit();
+		if($('#addinflevel').val().trim()!=""&$('#addinfscore').val().trim()!=""&$('#addinftype').val().trim()!=""){
+			if(!isNaN($('#addinfscore').val().trim())&$('#addinfscore').val().trim()>0){
+				document.adds.submit();
+			}
+			else
+				alert("非法输入");
+		}
+	});
+    $('#subupdate').click(function() {
+    	if($('#upSelectorlevel').val().trim()!=""&$('#upinfscore').val().trim()!=""&$('#upSelectortype').val().trim()!=""){
+			if(!isNaN($('#upinfscore').val().trim())&$('#upinfscore').val().trim()>0){
+				$.post("ATProjectRewardScoreset!updateProjectRewardScore",
+						{"rewardscore.srrscoreId":$('#upinfID').val().trim(),
+						 "rewardscore.rewardType.rewardTypeId":$('#upSelectortype').val().trim(),
+						 "rewardscore.rewardLevel.rewardLevelId":$('#upSelectorlevel').val().trim(),
+						 "rewardscore.score":$('#upinfscore').val().trim()},
+						function(data,status){
+							if(status=="success"){
+								if(data=="succ"){
+									alert("更新成功");
+									window.location.replace("ATProjectRewardScoreset!getProjectRewardScoreINF");
+								}else{
+									alert("操作失败哦");
+								}
+							}else{
+								alert("请求失败");
+							}
+						});
+			}
+			else
+				alert("非法输入");
+		}
+	});
+    $('.delinf').click(function() {
+		var x = confirm("确定删除 ？");
+		var row = $(this).parent().parent();
+		if(x){
+			$.post("ATProjectRewardScoreset!updateProjectRewardScore",
+					{"rewardscore.srrscoreId":row[0].cells[0].innerHTML,
+					 "rewardscore.rewardType.rewardTypeId":row[0].cells[2].innerHTML,
+					 "rewardscore.rewardLevel.rewardLevelId":row[0].cells[4].innerHTML,
+					 "rewardscore.score":row[0].cells[5].innerHTML},
+					function(data,status){
+						if(status=="success"){
+							if(data=="succ"){
+								alert("删除成功");
+								row.remove();
+							}else{
+								alert("操作失败哦");
+							}
+						}else{
+							alert("请求失败");
+						}
+					});
 		}
 	});
     $('.openupdatem').click(function() {
 		$('#upinfID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
-		$('#upinf')[0].value = $(this).parent().parent()[0].cells[5].innerHTML;
+		$('#upinfscore')[0].value = $(this).parent().parent()[0].cells[5].innerHTML;
+		var loptions = $('#upSelectorlevel option');
+		for(var i=0;i<loptions.length;i++){
+			if(loptions[i].value==$(this).parent().parent()[0].cells[4].innerHTML){
+				loptions[i].selected = true;
+			}else{
+				loptions[i].selected = false;
+			}
+		}
+		var toptions = $('#upSelectortype option');
+		for(var i=0;i<toptions.length;i++){
+			if(toptions[i].value==$(this).parent().parent()[0].cells[2].innerHTML){
+				toptions[i].selected = true;
+			}else{
+				toptions[i].selected = false;
+			}
+		}
 	});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
