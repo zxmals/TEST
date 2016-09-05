@@ -38,13 +38,13 @@
 		<global-results>
 			<result name="relogin">login.jsp</result>
 		</global-results>
-		<action name="GT*_act" class="com.nuaa.ec.va.action.ActMangeAction">
+		<action name="GT*_act" class="com.nuaa.ec.va.personal.action.ActMangeAction">
 			<result>/VA/{1}_act.jsp</result>
 		</action>
-		<action name="GT*unjoinreasonAct"  class="com.nuaa.ec.va.action.UnjoinedRuledActManage">
+		<action name="GT*unjoinreasonAct"  class="com.nuaa.ec.va.personal.action.UnjoinedRuledActManage">
 			<result>/VA/{1}unjoinreasonAct.jsp</result>
 		</action>
-		<action name="GT*_actpublish"  class="com.nuaa.ec.va.action.ActPublishManage">
+		<action name="GT*_actpublish"  class="com.nuaa.ec.va.personal.action.ActPublishManage">
 			<result>/VA/{1}_actpublish.jsp</result>			
 		</action>
 	</package>
@@ -66,15 +66,15 @@
 			<result>/sysSetting/BaseSet/{1}Setting.jsp</result>
 		</action>
 		<!-- 期刊论文设置//PeriodicalPaper Set -->
-		<action name="ATPeriodical*set" class="com.nuaa.ec.science.action.PeriodicalSetAction">
+		<action name="ATPeriodical*set" class="com.nuaa.ec.science.baseSet.action.PeriodicalSetAction">
 			<result>/sysSetting/PeriodicalPaperSet/Periodical{1}Set.jsp</result>
 		</action>
 		<!-- 学术著作设置//AcademicWork Set -->
-		<action name="ATAcademic*set"  class="com.nuaa.ec.science.action.AcademicWorkSetAction">
+		<action name="ATAcademic*set"  class="com.nuaa.ec.science.baseSet.action.AcademicWorkSetAction">
 			<result>/sysSetting/AcademicWorkSet/Academic{1}Set.jsp</result>
 		</action>
 		<!-- 科研项目奖励设置//ScientificResearch-Reward Set -->
-		<action name="ATProjectReward*set" class="com.nuaa.ec.science.action.ScientificProjectRewardSetAction">
+		<action name="ATProjectReward*set" class="com.nuaa.ec.science.baseSet.action.ScientificProjectRewardSetAction">
 			<result>/sysSetting/ProjectReward/ProjectReward{1}Set.jsp</result>
 		</action>
 	</package>
