@@ -85,5 +85,9 @@
 		<action name="ATInviteExpertSpeech*set"  class="com.nuaa.ec.science.baseSet.action.InviteExpertSpeechSetAction">
 			<result>/sysSetting/InviteExpertSpeechSet/InviteExpertSpeech{1}Set.jsp</result>
 		</action>
+		<!-- 主承办学术会议设置// MainUndertakeAcademicMeeting Set -->
+		<action name="ATMainUndertakeAcademicMeeting*set"  class="com.nuaa.ec.science.baseSet.action.MainUndertakeAcademicMeetingSetAction">
+			<result>/sysSetting/MainUndertakeAcademicMeetingSet/MainUndertakeAcademicMeeting{1}Set.jsp</result>
+		</action>
 	</package>
 </struts>

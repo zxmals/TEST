@@ -280,9 +280,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <li>
                                     	<a href="#">主承办学术会议设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="MainUndertakeAcademicMeetingTypeset!viewMeetingType">主承办学术会议类别设置</a></li>
-												<li><a class="J_menuItem"  href="MainUndertakeAcademicMeetingPlaceset!viewMeetingPlace">主承办学术会议地点设置</a></li>
-												<li><a class="J_menuItem"  href="MainUndertakeAcademicMeetingScoreset!viewMeetingScore">学术会议评分设置</a></li>
+		                                      	 <li><a class="J_menuItem"  href="ATMainUndertakeAcademicMeetingTypeset!getMeetingTypeINF">学术会议类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATMainUndertakeAcademicMeetingPlaceset!getMeetingPlaceINF">学术会议地点设置</a></li>
+												<li><a class="J_menuItem"  href="ATMainUndertakeAcademicMeetingScoreset!getMeetingScoreINF">学术会议评分设置</a></li>
 	                                      </ul>
                                     </li>
                                     <li>
