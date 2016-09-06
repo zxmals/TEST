@@ -109,7 +109,7 @@ public class InvitedExpertsSpeechScoreDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all InvitedExpertsSpeechScore instances");
 		try {
-			String queryString = "from InvitedExpertsSpeechScore";
+			String queryString = "from InvitedExpertsSpeechScore where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

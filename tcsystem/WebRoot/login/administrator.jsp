@@ -272,9 +272,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <li>
                                     	<a href="#">邀请专家讲学设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="InviteExpertSpeechExpertTypeset!viewExpertType">专家类别设置</a></li>
-												<li><a class="J_menuItem"  href="sysSetting/Nationalityset">国籍设置</a></li>
-												<li><a class="J_menuItem"  href="InviteExpertSpeechScoreset!viewInviteExpertSpeechScore">邀请专家讲学评分设置</a></li>
+		                                      	 <li><a class="J_menuItem"  href="ATInviteExpertSpeechExpertTypeset!getExpertTypeINF">专家类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATNationalityBaseset!getNationalityinfo">国籍设置</a></li>
+												<li><a class="J_menuItem"  href="ATInviteExpertSpeechScoreset!getInviteExpertSpeechScoreINF">邀请专家讲学评分设置</a></li>
 	                                      </ul>
                                     </li>
                                     <li>

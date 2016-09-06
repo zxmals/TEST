@@ -109,7 +109,7 @@ public class ExpertTypeDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all ExpertType instances");
 		try {
-			String queryString = "from ExpertType";
+			String queryString = "from ExpertType where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
