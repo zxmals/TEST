@@ -87,7 +87,7 @@
 		</action>
 		<!-- 主承办学术会议设置// MainUndertakeAcademicMeeting Set -->
 		<action name="ATMainUndertakeAcademicMeeting*set"  class="com.nuaa.ec.science.baseSet.action.MainUndertakeAcademicMeetingSetAction">
-			<result>/sysSetting/MainUndertakeAcademicMeetingSet/MainUndertakeAcademicMeeting{1}Set.jsp</result>
+			<result>/sysSetting/MianUndertakeAcademicMeetingSet/MainUndertakeAcademicMeeting{1}Set.jsp</result>
 		</action>
 	</package>
 </struts>
