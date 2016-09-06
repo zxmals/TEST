@@ -286,10 +286,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                                      </ul>
                                     </li>
                                     <li>
-                                    	<a href="#">入选人才项目设置<span class="fa arrow"></span></a>
+                                    	<a href="#">入选人才项目工程设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="ATSelectedTalentProjectFormset!getSelectedTalentProjectINF">人才工程条目设置</a></li>
-												<li><a class="J_menuItem"  href="ATSelectedTalentProjctScoreset!getSelectedTalentProjectScoreINF">入选人才工程评分设置</a></li>												
+		                                      	 <li><a class="J_menuItem"  href="ATSelectedTalentProjectFormset!getSelectedTalentProjectINF">人才工程设置</a></li>
+												<li><a class="J_menuItem"  href="ATSelectedTalentProjectScoreset!getSelectedTalentProjectScoreINF">人才工程评分设置</a></li>												
 	                                      </ul>
                                     </li>
                                     <li><a class="J_menuItem" href="selfUndertakeTaskset!viewselfUndertakeTask">本人承担任务设置</a></li>

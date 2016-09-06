@@ -137,7 +137,7 @@ public class TalentProjectDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all TalentProject instances");
 		try {
-			String queryString = "from TalentProject";
+			String queryString = "from TalentProject where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

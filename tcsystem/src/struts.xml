@@ -89,5 +89,9 @@
 		<action name="ATMainUndertakeAcademicMeeting*set"  class="com.nuaa.ec.science.baseSet.action.MainUndertakeAcademicMeetingSetAction">
 			<result>/sysSetting/MianUndertakeAcademicMeetingSet/MainUndertakeAcademicMeeting{1}Set.jsp</result>
 		</action>
+		<!-- 入选人才工程设置// SelectedTalentProject Set -->
+		<action name="ATSelectedTalentProject*set"  class="com.nuaa.ec.science.baseSet.action.SelectedTalentProjectSetAction">
+			<result>/sysSetting/SelectedTalentProjectSet/SelectedTalentProject{1}Set.jsp</result>
+		</action>
 	</package>
 </struts>
