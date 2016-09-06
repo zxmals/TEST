@@ -30,7 +30,7 @@ public class JoinAcademicMeetingSetAction implements RequestAware {
 	private MeetingPlaceDAO meetingplacedao = new MeetingPlaceDAO();
 	private MeetingTypeDAO meetingtpdao = new MeetingTypeDAO();
 	private PaperRetrievalConditionDAO paprerevaldao  = new PaperRetrievalConditionDAO();
-	private JoinAcademicMeetingScoreDAO joinmeetingdao = new  JoinAcademicMeetingScoreDAO();
+	private JoinAcademicMeetingScoreDAO joinmeetingscoredao = new  JoinAcademicMeetingScoreDAO();
 	
 	private PrimaryKMaker pkmk = new  PrimaryKMaker();
 	//default method
@@ -191,6 +191,67 @@ public class JoinAcademicMeetingSetAction implements RequestAware {
 		}
 	}
 	//TODO:  参与会议评分设置 //join- meeting -score - Set
+	public String getJoinAcademicMeetingScoreINF() throws Exception{
+		request.put("joinmeetingscoreli", joinmeetingscoredao.findAll());
+		getAcademicMeetingTypeINF();
+		getPaperRetrievalConditionINF();
+		return "success";
+	}
+	
+	public String addJoinAcademicMeetingScore() throws Exception {
+		Transaction tx = null;
+		try {
+			joinmeetingscore.setSpareTire("1");
+			joinmeetingscore.setJoinAmscoreId(pkmk.mkpk(EntityUtil.getPkColumnName(JoinAcademicMeetingScore.class), EntityUtil.getTableName(JoinAcademicMeetingScore.class), "JACAMS"));
+			joinmeetingscore.setMeetingType(meetingtpdao.findById(joinmeetingscore.getMeetingType().getMeetingTypeId()));
+			joinmeetingscore.setPaperRetrievalCondition(paprerevaldao.findById(joinmeetingscore.getPaperRetrievalCondition().getPrconditionId()));
+			joinmeetingscoredao.save(joinmeetingscore);
+			tx = joinmeetingscoredao.getSession().beginTransaction();
+			tx.commit();
+			this.setOperstatus(1);
+			getJoinAcademicMeetingScoreINF();
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			this.setOperstatus(-1);
+			throw e;
+		}
+		return "success";
+	}
+	
+	public void updateJoinAcademicMeetingScore() throws Exception{
+		Transaction tx = null;
+		try {
+			joinmeetingscore.setSpareTire("1");
+			joinmeetingscore.setMeetingType(meetingtpdao.findById(joinmeetingscore.getMeetingType().getMeetingTypeId()));
+			joinmeetingscore.setPaperRetrievalCondition(paprerevaldao.findById(joinmeetingscore.getPaperRetrievalCondition().getPrconditionId()));
+			joinmeetingscoredao.merge(joinmeetingscore);
+			tx = joinmeetingscoredao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	
+	public void deleteJoinAcademicMeetingScore() throws Exception{
+		Transaction tx = null;
+		try {
+			joinmeetingscore.setSpareTire("0");
+			joinmeetingscore.setMeetingType(meetingtpdao.findById(joinmeetingscore.getMeetingType().getMeetingTypeId()));
+			joinmeetingscore.setPaperRetrievalCondition(paprerevaldao.findById(joinmeetingscore.getPaperRetrievalCondition().getPrconditionId()));
+			joinmeetingscoredao.merge(joinmeetingscore);
+			tx = joinmeetingscoredao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
 	//Getter and Setter
 	public Map<String, Object> getRequest() {
 		return request;

@@ -47,3 +47,13 @@
 	$('.subcheck').click(function() {
 		nullcheck();
 	});
+	// for those select need to set which option attr to be selected
+	function set_selected_option(options,values) {
+		for(var i=0;i<options.length;i++){
+			if(options[i].value == values){
+				options[i].selected = true;
+			}else{
+				options[i].selected = false;
+			}
+		}
+	}

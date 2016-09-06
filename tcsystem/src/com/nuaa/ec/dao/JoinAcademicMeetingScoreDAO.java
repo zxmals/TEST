@@ -109,7 +109,7 @@ public class JoinAcademicMeetingScoreDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all JoinAcademicMeetingScore instances");
 		try {
-			String queryString = "from JoinAcademicMeetingScore";
+			String queryString = "from JoinAcademicMeetingScore where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
