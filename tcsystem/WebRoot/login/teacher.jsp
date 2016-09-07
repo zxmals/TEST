@@ -100,7 +100,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="doPerformance_sr.jsp">科研绩效管理</a>
+                                <a href="#">
+                                	<i class="fa fa fa-bar-chart-o"></i>
+                                	<span class="nav-label">科研绩效管理</span>
+                                	<span class="fa arrow"></span>
+                                </a>
+                                <ul class="nav nav-second-level firstslide">
+		                            <li>
+		                                <a class="J_menuItem" href="doPerformance_tf.jsp">期刊论文</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="doPerformance_tf.jsp">学术著作</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="VA/act_summary.jsp">科研项目奖励</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="doPerformance_tf.jsp">参加学术会议</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="doPerformance_tf.jsp">邀请专家讲学</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="VA/act_summary.jsp">主承办学术会议</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="doPerformance_tf.jsp">入选人才工程</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="doPerformance_tf.jsp">科研项目</a>
+		                            </li>
+		                        </ul>
                             </li>
                             <li>
                                 <a class="J_menuItem" href="doPerformance_tf.jsp">教学绩效管理</a>
@@ -279,6 +309,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/hplus.min.js?v=4.0.0"></script>
     <script type="text/javascript" src="js/contabs.min.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function() {
+			$('.firstslide li').css("margin-left","12%");
+		});
+    </script>
 </body>
 
 </html>
