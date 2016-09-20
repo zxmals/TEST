@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.PeriodicalPapers" table="PeriodicalPapers" schema="dbo" catalog="ScientificResearch">
         <id name="periodicalPid" type="java.lang.Integer">
             <column name="PeriodicalPid" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="periodical" class="com.nuaa.ec.model.Periodical" fetch="select">
             <column name="PeriodicalID" length="20" />
@@ -29,7 +29,7 @@
             <column name="Year" length="20" />
         </property>
         <property name="file" type="java.lang.String">
-            <column name="File" length="40" />
+            <column name="[File]" length="40" />
         </property>
         <property name="phase" type="java.lang.String">
             <column name="Phase" length="30" />

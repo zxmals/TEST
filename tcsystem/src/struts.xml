@@ -94,4 +94,22 @@
 			<result>/sysSetting/SelectedTalentProjectSet/SelectedTalentProject{1}Set.jsp</result>
 		</action>
 	</package>
+	<!-- 科研绩效 设置  //ScientificResearchPerformanceSet-->
+	<package name="ScientificResearchPerformanceSet"   extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="logincheckeInterceptor" class="com.nuaa.ec.interceptor.LoginCheckInterceptor"></interceptor>
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="logincheckeInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
+		<global-results>
+			<result name="relogin">login.jsp</result>
+		</global-results>
+		<!-- 期刊论文绩效设置//PeriodicalPaperSet -->
+		<action name="GTperiodicalpaper-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.periodicalpaperAction">
+			<result>/ScientificResearchPerformance/periodicalpaper-{1}.jsp</result>
+		</action>
+	</package>
 </struts>

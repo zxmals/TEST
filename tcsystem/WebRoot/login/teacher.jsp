@@ -72,26 +72,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </div>
                         <div class="logo-element">bamanker</div>
                     </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-home"></i>
-                            <span class="nav-label">任务管理</span>
+<!--                     <li> -->
+<!--                         <a href="#"> -->
+<!--                             <i class="fa fa-home"></i> -->
+<!--                             <span class="nav-label">任务管理</span> -->
 
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="J_menuItem" href="index_v1.html" data-index="0">待完成任务</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="index_v2.html">已完成任务</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="index_v3.html">发出任务</a>
-                            </li>
-                        </ul>
+<!--                             <span class="fa arrow"></span> -->
+<!--                         </a> -->
+<!--                         <ul class="nav nav-second-level"> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v1.html" data-index="0">待完成任务</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v2.html">已完成任务</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v3.html">发出任务</a> -->
+<!--                             </li> -->
+<!--                         </ul> -->
 
-                    </li>
+<!--                     </li> -->
                     <li>
                         <a href="#">
                             <i class="fa fa fa-bar-chart-o"></i>
@@ -107,7 +107,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </a>
                                 <ul class="nav nav-second-level firstslide">
 		                            <li>
-		                                <a class="J_menuItem" href="doPerformance_tf.jsp">期刊论文</a>
+		                                <a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">期刊论文</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0">论文管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="doPerformance_tf.jsp">个人参与管理</a>
+				                            </li>
+				                        </ul>
 		                            </li>
 		                            <li>
 		                                <a class="J_menuItem" href="doPerformance_tf.jsp">学术著作</a>

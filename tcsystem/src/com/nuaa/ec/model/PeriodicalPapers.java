@@ -1,5 +1,7 @@
 package com.nuaa.ec.model;
 
+import org.junit.Test;
+
 
 
 /**
@@ -25,8 +27,9 @@ public class PeriodicalPapers  implements java.io.Serializable {
      private String chargePersonId;
      private String chargePerson;
      private String checkout;
-
-
+     
+     private String periodicalName; 
+     private String periodicalId;
     // Constructors
 
     /** default constructor */
@@ -56,7 +59,27 @@ public class PeriodicalPapers  implements java.io.Serializable {
         this.checkout = checkout;
     }
 
-   
+    public PeriodicalPapers(String ppid, String firstAuthor,
+			String secondAuthor, String thesisTitle, String year, String file,
+			String phase, String describe, String spareTire,
+			String chargePersonId, String chargePerson, String checkout,
+			String periodicalId,String periodicalName) {
+		super();
+		this.ppid = ppid;
+		this.firstAuthor = firstAuthor;
+		this.secondAuthor = secondAuthor;
+		this.thesisTitle = thesisTitle;
+		this.year = year;
+		this.file = file;
+		this.phase = phase;
+		this.describe = describe;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.chargePerson = chargePerson;
+		this.checkout = checkout;
+		this.periodicalId = periodicalId;
+		this.periodicalName = periodicalName;
+	}
     // Property accessors
 
     public Integer getPeriodicalPid() {
@@ -95,7 +118,15 @@ public class PeriodicalPapers  implements java.io.Serializable {
         return this.secondAuthor;
     }
     
-    public void setSecondAuthor(String secondAuthor) {
+    public String getPeriodicalId() {
+		return periodicalId;
+	}
+
+	public void setPeriodicalId(String periodicalId) {
+		this.periodicalId = periodicalId;
+	}
+
+	public void setSecondAuthor(String secondAuthor) {
         this.secondAuthor = secondAuthor;
     }
 
@@ -139,7 +170,7 @@ public class PeriodicalPapers  implements java.io.Serializable {
         this.describe = describe;
     }
 
-    public String getSpareTire() {
+    public String getSpareTire() {  
         return this.spareTire;
     }
     
@@ -170,13 +201,12 @@ public class PeriodicalPapers  implements java.io.Serializable {
     public void setCheckout(String checkout) {
         this.checkout = checkout;
     }
-   
 
+	public String getPeriodicalName() {
+		return periodicalName;
+	}
 
-
-
-
-
-
-
+	public void setPeriodicalName(String periodicalName) {
+		this.periodicalName = periodicalName;
+	}
 }
