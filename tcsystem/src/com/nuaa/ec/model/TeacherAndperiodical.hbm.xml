@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.TeacherAndperiodical" table="TeacherANDPeriodical" schema="dbo" catalog="ScientificResearch">
         <id name="teacherAndPid" type="java.lang.Integer">
             <column name="TeacherAndPid" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="periodicalPapersScore" class="com.nuaa.ec.model.PeriodicalPapersScore" fetch="select">
             <column name="ScoreID" length="20" />

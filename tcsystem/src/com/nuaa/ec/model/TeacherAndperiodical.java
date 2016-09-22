@@ -45,7 +45,15 @@ public class TeacherAndperiodical  implements java.io.Serializable {
         this.checkOut = checkOut;
     }
 
-   
+    public TeacherAndperiodical( PeriodicalPapersScore periodicalPapersScore, Teacher teacher, Periodical periodical, Double finalScore, String spareTire, String ppid, String checkOut) {
+        this.periodicalPapersScore = periodicalPapersScore;
+        this.teacher = teacher;
+        this.periodical = periodical;
+        this.finalScore = finalScore;
+        this.spareTire = spareTire;
+        this.ppid = ppid;
+        this.checkOut = checkOut;
+    }
     // Property accessors
 
     public Integer getTeacherAndPid() {

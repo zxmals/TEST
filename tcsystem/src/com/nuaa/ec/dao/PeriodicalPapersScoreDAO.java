@@ -83,7 +83,7 @@ public class PeriodicalPapersScoreDAO extends BaseHibernateDAO  {
             + ", value: " + value);
       try {
          String queryString = "from PeriodicalPapersScore as model where model." 
-         						+ propertyName + "= ? where  spareTire='1' ";
+         						+ propertyName + "= ?  and  spareTire='1' ";
          Query queryObject = getSession().createQuery(queryString);
 		 queryObject.setParameter(0, value);
 		 return queryObject.list();

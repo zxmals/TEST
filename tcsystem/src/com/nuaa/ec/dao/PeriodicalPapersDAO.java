@@ -207,7 +207,8 @@ public class PeriodicalPapersDAO extends BaseHibernateDAO  {
 						rs.getString("ChargePerson"), 
 						rs.getString("checkout"), 
 						rs.getString("PeriodicalID"),
-						rs.getString("PeriodicalName"));
+						rs.getString("PeriodicalName"),
+						rs.getInt("PeriodicalPid"));
 				pepali.add(periopaper);
 			}while(rs.getRow()<currentrow+limit&&rs.next());
 		} catch (Exception e) {

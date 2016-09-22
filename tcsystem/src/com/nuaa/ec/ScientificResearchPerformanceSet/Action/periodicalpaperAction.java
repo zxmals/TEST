@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
@@ -14,11 +13,14 @@ import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.PeriodicalDAO;
 import com.nuaa.ec.dao.PeriodicalPapersDAO;
+import com.nuaa.ec.dao.PeriodicalPapersScoreDAO;
+import com.nuaa.ec.dao.TeacherAndperiodicalDAO;
 import com.nuaa.ec.model.PeriodicalPapers;
+import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.Teacher;
+import com.nuaa.ec.model.TeacherAndperiodical;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
-import com.nuaa.ec.utils.StoreData;
 
 public class periodicalpaperAction implements RequestAware,SessionAware {
 	private Map<String, Object> request;
@@ -31,18 +33,26 @@ public class periodicalpaperAction implements RequestAware,SessionAware {
 
 	private PeriodicalPapersDAO periopaperdao = new PeriodicalPapersDAO();
 	private PeriodicalDAO periodao = new PeriodicalDAO();
+	private TeacherAndperiodicalDAO tpdao = new TeacherAndperiodicalDAO();
+	private PeriodicalPapersScoreDAO ppscoredao = new PeriodicalPapersScoreDAO();
 	private PrimaryKMaker pkmk = new PrimaryKMaker();
 	// default method
 	public String execute() {
 		return "success";
 	}
 
+	//获取信息
 	public String getPeriodicalPaperINF()throws Exception{
 		request.put("periodicalpaperli", periopaperdao.findAll(generateQueryCondition(), 0, 100));
 		session.put("periodicalli", periodao.findTranslate());
 		return "success";
 	}
-
+	
+	/***
+	 * 添加一个期刊论文实体 
+	 * @return
+	 * @throws Exception
+	 */
 	public String addPeriodicalPaper() throws Exception{
 		Transaction tx = null;
 		try {
@@ -53,19 +63,66 @@ public class periodicalpaperAction implements RequestAware,SessionAware {
 			periopaper.setPeriodical(periodao.findById(periopaper.getPeriodical().getPeriodicalId()));
 			periopaper.setFirstAuthor("first".equals(ServletActionContext.getRequest().getParameter("author"))?((Teacher)session.get("teacher")).getTeacherId():"");
 			periopaper.setSecondAuthor("second".equals(ServletActionContext.getRequest().getParameter("author"))?((Teacher)session.get("teacher")).getTeacherId():"");
-			periopaper.setCheckout("0");
+			periopaper.setCheckout("0");	
 			periopaperdao.save(periopaper);
+			PeriodicalPapersScore ppsco = (PeriodicalPapersScore) (ppscoredao.findByProperty("periodicalType", periopaper.getPeriodical().getPeriodicalType())).get(0);
+			TeacherAndperiodical tp = new TeacherAndperiodical(ppsco, (Teacher)session.get("teacher"), periopaper.getPeriodical(), (double)ppsco.getScore(), "1", periopaper.getPpid(), "0");
+			tpdao.save(tp);
 			tx = periopaperdao.getSession().beginTransaction();
 			tx.commit();
 			getPeriodicalPaperINF();
+			this.setOperstatus(1);
 		} catch (Exception e) {
 			// TODO: handle exception
+			this.setOperstatus(-1);
 			tx.rollback();
 			throw e;
 		}
 		return "success";
 	}
-	//Utils meth0d
+	/***
+	 * update the p-paer
+	 * @throws Exception
+	 */
+	public void updatesppaer() throws Exception{
+		Transaction tx = null;
+		try {
+			periopaper.setSpareTire("1");
+			periopaper.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
+			periopaper.setChargePerson(((Teacher)session.get("teacher")).getTeacherName());
+			periopaper.setPeriodical(periodao.findById(periopaper.getPeriodical().getPeriodicalId()));
+			periopaperdao.merge(periopaper);
+			tx = periopaperdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	/***
+	 * delete p-paper
+	 * @throws Exception
+	 */
+	public void deleteppaer() throws Exception {
+		Transaction tx = null;
+		try {
+			periopaper.setSpareTire("0");
+			periopaper.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
+			periopaper.setChargePerson(((Teacher)session.get("teacher")).getTeacherName());
+			periopaper.setPeriodical(periodao.findById(periopaper.getPeriodical().getPeriodicalId()));
+			periopaperdao.merge(periopaper);
+			tx = periopaperdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	//TODO Utils meth0d
 	public String generateQueryCondition(){
 		StringBuffer condition = new StringBuffer();
 		condition.append("AND");

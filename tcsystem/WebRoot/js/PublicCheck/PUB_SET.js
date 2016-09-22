@@ -1,7 +1,7 @@
 /***
  * style --control // 样式控制
  * class~explain
- * class-list: .nullcheck  .openaddm .openupdatem .subcheck
+ * class-list: .nullcheck  .openaddm .openupdatem .subcheck .carrydata
  * .nullcheck : what you need to submit //需要被提交的 input之类的
  * .openaddm: which can open add-modal-dialog //触发添加模态框的 按钮或其他标签的class
  * .openupdatem:which can open update - modal - dialog //触发更新模态框的 按钮或其他标签的class
@@ -60,6 +60,22 @@
 	//for add 
 	function checkadds() {
 		var readys = $('.addcheck');
+		var cout = 0;
+		for(var i=0;i<readys.length;i++){
+			if(readys[i].value.trim()==""){
+				cout++;
+				break;
+			}
+		}
+		if(cout>0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	//for update 
+	function checkupdates() {
+		var readys = $('.upcheck');
 		var cout = 0;
 		for(var i=0;i<readys.length;i++){
 			if(readys[i].value.trim()==""){

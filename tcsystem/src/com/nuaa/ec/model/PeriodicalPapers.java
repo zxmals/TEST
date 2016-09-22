@@ -63,7 +63,7 @@ public class PeriodicalPapers  implements java.io.Serializable {
 			String secondAuthor, String thesisTitle, String year, String file,
 			String phase, String describe, String spareTire,
 			String chargePersonId, String chargePerson, String checkout,
-			String periodicalId,String periodicalName) {
+			String periodicalId,String periodicalName,Integer periodicalPid) {
 		super();
 		this.ppid = ppid;
 		this.firstAuthor = firstAuthor;
@@ -79,6 +79,7 @@ public class PeriodicalPapers  implements java.io.Serializable {
 		this.checkout = checkout;
 		this.periodicalId = periodicalId;
 		this.periodicalName = periodicalName;
+		this.periodicalPid = periodicalPid;
 	}
     // Property accessors
 

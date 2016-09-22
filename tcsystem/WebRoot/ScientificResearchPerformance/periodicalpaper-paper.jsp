@@ -103,11 +103,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										<td>年</td>
 										<td>卷</td>
 										<td>期</td>
-										<td>论文概述</td>
+										<td class="addws">论文概述</td>
 										<td>登记负责人ID</td>
 										<td>登记负责人</td>
 										<td>状态</td>
 										<td>操作</td>
+										<td style="display: none">第一作者</td>
+										<td style="display: none">第二作者</td>
+										<td style="display: none">期刊论文Idano</td>
 									</tr>
 	                            </thead>
 	                            <tbody>
@@ -121,7 +124,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										<td>${ebj.year }</td>
 										<td>${ebj.file }</td>
 										<td>${ebj.phase }</td>
-										<td>${ebj.describe }</td>
+										<td class="describe" title="${ebj.describe }"></td>
 										<td>${ebj.chargePersonId }</td>
 										<td>${teachermp[ebj.chargePersonId] }</td>
 										<td>
@@ -130,15 +133,19 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										</td>
 										<td>
 											<c:if test="${ebj.chargePersonId==teacher.teacherId}">
-												<a  class="btn btn-primary btn-sm openupdatem carrydata" >编辑</a>
+												<a  class="btn btn-primary btn-sm carrydata" data-toggle="modal" data-target="#update">编辑</a>
 											</c:if>
 											<c:if test="${ebj.chargePersonId==teacher.teacherId}">
-												<a  class="btn btn-primary btn-sm openupdatem carrydata" >查看项目成员</a>
+												<a  class="btn btn-primary btn-sm carrydata" >查看项目成员</a>
 											</c:if>
 											<c:if test="${ebj.chargePersonId!=teacher.teacherId}">
-												<a  class="btn btn-primary btn-sm openupdatem carrydata">加入</a>
+												<c:if test="${ebj.checkout==0 }"><a  class="btn btn-primary btn-sm carrydata">加入</a></c:if>
+												<c:if test="${ebj.checkout==1 }"><a  class="btn btn-primary btn-sm" style="background-color: #999999">加入</a></c:if>
 											</c:if>
 										</td>
+										<td style="display: none">${ebj.firstAuthor }</td>
+										<td style="display: none">${ebj.secondAuthor }</td>
+										<td style="display: none">${ebj.periodicalPid }</td>
 									</tr>
 									</c:forEach>
 	                            </tbody>                           
@@ -155,19 +162,73 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                <div class="modal-body">
 	                    <div class="row">
 	                            <h3 class="m-t-none m-b">修改</h3>
-	                                <div class="form-group"  style="display: none">
-	                                	<label>ID:</label>                                	
-										<input id="upinfID" type="text"  class="form-control" name="" value=""  readonly="readonly">
+	                            	<div class="form-group" style="display: none">                                
+	                                    <label>论文标题ID:</label>
+	                                    <input id="upppId" type="text"  class="form-control nullcheck upcheck" name=periopaper.  value="">
 	                                </div>
-	                                <div class="form-group">
-	                                    <label>奖励级别:</label>
-	                                    <input id="upinf" type="text"  class="form-control nullcheck" name="" value="">
-	                                </div>                                                           
+	                                <div class="form-group">                                
+	                                    <label>论文标题:</label>
+	                                    <input id="upppt" type="text"  class="form-control nullcheck upcheck" name=periopaper.thesisTitle  value="">
+	                                </div>
+<!-- 	                                <div class="form-group">                             -->
+<!-- 	                                    <label>登记人身份:</label> -->
+<!-- 	                                    <select id="upppI" class="form-control nullcheck upcheck" name="author"> -->
+<!-- 	                                    	<option></option> -->
+<!-- 	                                    	<option value="first">第一作者</option> -->
+<!-- 	                                    	<option value="second">第二作者</option> -->
+<!-- 	                                    </select> -->
+<!-- 	                                </div>  -->
+	                                <div class="form-group">                            
+	                                    <label>期刊:</label>
+	                                    <select id="upp" class="form-control nullcheck upcheck" name=periopaper.periodical.periodicalId >
+	                                    	<option></option>
+	                                    	<c:forEach items="${periodicalli }" var="obj">
+	                                    		<option value="${obj.key }">${obj.value }</option>
+	                                    	</c:forEach>
+	                                    </select>
+	                                </div>  
+	                                <div class="form-group">                                
+	                                    <label>年:</label>
+	                                    <input id="upppy" type="text"  class="form-control nullcheck upcheck" onClick="WdatePicker()" name=periopaper.year value="" readonly="readonly">
+	                                </div>
+	                                <div class="form-group">                                
+	                                    <label>卷:</label>
+	                                    <input id="upppf" type="text"  class="form-control nullcheck upcheck" name=periopaper.file value="">
+	                                </div>
+	                                <div class="form-group">                                
+	                                    <label>期:</label>
+	                                    <input type="text" id="uppph" class="form-control nullcheck upcheck" name=periopaper.phase value="">
+	                                </div>
+	                                <div class="form-group">                                
+	                                    <label>论文概述:</label>
+	                                    <textarea  type="text" id="upppde" class="form-control nullcheck upcheck" name=periopaper.describe  value=""></textarea>
+	                                </div>
+	                                <div class="form-group">                                
+	                                    <label>项目人数:</label>
+	                                    <select id="upppcheck" class="form-control nullcheck upcheck" name="checkout">
+	                                    	<option></option>
+	                                    	<option value="1">人数已满</option>
+	                                    	<option value="0">人数未满</option>
+	                                    </select>
+	                                </div>  
+	                                <div class="form-group" style="display: none">                                
+	                                    <label>第一作者:</label>
+	                                    <textarea  type="text" id="upppfirst" class="form-control nullcheck " name=periopaper.describe  value=""></textarea>
+	                                </div>
+	                                <div class="form-group" style="display: none">                                
+	                                    <label>第二作者:</label>
+	                                    <textarea  type="text" id="upppsecond" class="form-control nullcheck " name=periopaper.describe  value=""></textarea>
+	                                </div>
+	                                <div class="form-group" style="display: none">                                
+	                                    <label>期刊论文Idano:</label>
+	                                    <textarea  type="text" id="upppptid" class="form-control nullcheck upcheck" name=periopaper.describe  value=""></textarea>
+	                                </div>                                                       
 	                                <div>
 	                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
+	                                    <button type="button"  id="subdel"  class="btn btn-primary meddle m-t-n-xs" style="margin-left: 28%">删除</button>
 	                                    <button id="subupdate"  class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
 	                                     <i class="fa fa-check"></i>
-	                                    <strong>提交</strong>
+	                                    <strong>保存</strong>
 	                                    </button	>
 	                               </div>
 	                    </div>
@@ -190,7 +251,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                </div>
 	                                <div class="form-group">                            
 	                                    <label>登记人身份:</label>
-	                                    <select class="form-control nullcheck addcheck" name="author">
+	                                    <select class="form-control nullcheck addcheck" name="author" >
 	                                    	<option></option>
 	                                    	<option value="first">第一作者</option>
 	                                    	<option value="second">第二作者</option>
@@ -207,24 +268,24 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                </div>  
 	                                <div class="form-group">                                
 	                                    <label>年:</label>
-	                                    <input  type="text"  class="form-control nullcheck addcheck" onClick="WdatePicker()" name=periopaper.year value="" readonly="readonly">
+	                                    <input  type="text" name=periopaper.year class="form-control nullcheck addcheck" onClick="WdatePicker()" readonly="readonly">
 	                                </div>
 	                                <div class="form-group">                                
 	                                    <label>卷:</label>
-	                                    <input  type="text"  class="form-control nullcheck addcheck" name=periopaper.file value="">
+	                                    <input  type="text" name=periopaper.file class="form-control nullcheck addcheck"  value="">
 	                                </div>
 	                                <div class="form-group">                                
 	                                    <label>期:</label>
-	                                    <input type="text"  class="form-control nullcheck addcheck" name=periopaper.phase value="">
+	                                    <input type="text" name=periopaper.phase class="form-control nullcheck addcheck" value="">
 	                                </div>
 	                                <div class="form-group">                                
 	                                    <label>论文概述:</label>
-	                                    <textarea  type="text"  class="form-control nullcheck addcheck" name=periopaper.describe  value=""></textarea>
+	                                    <textarea  type="text" name=periopaper.describe  class="form-control nullcheck addcheck" value=""></textarea>
 	                                </div>                                               
 	                            </form>
 	                                <div>
 	                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-	                                    <button id="subadds" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
+	                                    <button id="subadds" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="button">
 	                                     <i class="fa fa-check"></i>
 	                                    <strong>提交</strong>
 	                                    </button	>
@@ -258,7 +319,21 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     //事件监听处理
     $('#tb').click(function(e) {
 		if(e.target.className.indexOf("carrydata")>=0){
-			alert($(e.target).parent().parent()[0].cells[2].innerHTML);
+			initoper();
+			var row  = $(e.target).parent().parent();
+			$('#upppId')[0].value = row[0].cells[1].innerHTML;
+			$('#upppt')[0].value = row[0].cells[2].innerHTML;
+			//select upppI
+			set_selected_option($('#upp option'),row[0].cells[3].innerHTML);
+			$('#upppy')[0].value = row[0].cells[5].innerHTML;
+			$('#upppf')[0].value = row[0].cells[6].innerHTML;
+			$('#uppph')[0].value = row[0].cells[7].innerHTML;
+			$('#upppde')[0].value = row[0].cells[8].title;
+			$('#upppfirst')[0].value = row[0].cells[13].innerHTML;
+			$('#upppsecond')[0].value = row[0].cells[14].innerHTML;
+			$('#upppptid')[0].value = row[0].cells[15].innerHTML;
+			var status = row[0].cells[11].innerHTML.trim()=="待完善"?"0":"1";
+			set_selected_option($('#upppcheck option'),status);
 		}
 	});
     $('.openupdatem').on("click",function() {
@@ -296,12 +371,13 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     					if(status=="success"){
     						for(var i=0;i<obj.length;i++){
     							var status = "待完善";
-    							var choice = '<a onclick=ts("'+obj[i].ppid+'") class="btn btn-primary btn-sm openupdatem carrydata">加入</a>';
+    							var choice = '<a class="btn btn-primary btn-sm carrydata">加入</a>';
     							if(obj[i].checkout!='0'){
     								status = "已完善";
+    								choice = '<a class="btn btn-primary btn-sm" style="background-color: #999999">加入</a>';
     							}
     							if(obj[i].chargePersonId==teacherIds){
-    								choice = '<a  class="btn btn-primary btn-sm openupdatem carrydata" >编辑</a> <a  class="btn btn-primary btn-sm openupdatem carrydata" >查看项目成员</a>';
+    								choice = '<a  class="btn btn-primary btn-sm carrydata" data-toggle="modal" data-target="#update" >编辑</a> <a  class="btn btn-primary btn-sm carrydata" >查看项目成员</a>';
     							}
     							var	rnode = t.row.add(["",
     							           obj[i].ppid,
@@ -311,21 +387,92 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     							           obj[i].year,
     							           obj[i].file,
     							           obj[i].phase,
-    							           obj[i].describe,
+    							           obj[i].describe.substring(0,5)+" . . . . .",
     							           obj[i].chargePersonId,
     							           obj[i].chargePerson,
     							           status,
-    							           choice
+    							           choice,
+    							           obj[i].firstAuthor,
+    							           obj[i].secondAuthor,
+    							           obj[i].periodicalPid
     							           ]).draw().node();
     							var w = $( rnode );
     							w[0].cells[3].style.display = "none";
-    							w[0].cells[1].id = obj[i].ppid;
+    							w[0].cells[13].style.display = "none";
+    							w[0].cells[14].style.display = "none";
+    							w[0].cells[15].style.display = "none";
+    							w[0].cells[8].title = obj[i].describe;
     						}
     					}else{
     						alert("请求失败");
     					}
     				});
     	});
+     //省略处理论文概述
+     var tdes = $('.describe');
+     for(var i=0;i<tdes.length;i++){
+    	 tdes[i].innerHTML = tdes[i].title.substring(0,5)+" . . . . . .";
+     }
+	});
+  //更新
+  $('#subupdate').click(function() {
+		if(checkupdates()){
+			$.post("GTperiodicalpaper-paperset!updatesppaer",
+					{"periopaper.ppid":$('#upppId').val().trim(),
+					 "periopaper.thesisTitle":$('#upppt').val().trim(),
+					 "periopaper.periodical.periodicalId":$('#upp').val().trim(),
+					 "periopaper.year":$('#upppy').val().trim(),
+					 "periopaper.file":$('#upppf').val().trim(),
+					 "periopaper.phase":$('#uppph').val().trim(),
+					 "periopaper.describe":$('#upppde').val().trim(),
+					 "periopaper.checkout":$('#upppcheck').val().trim(),
+					 "periopaper.periodicalPid":$('#upppptid').val().trim(),
+					 "periopaper.firstAuthor":$('#upppfirst').val().trim(),
+					 "periopaper.secondAuthor":$('#upppsecond').val().trim()},
+					function(data,status){
+						if(status=="success"){
+							if(data=="succ"){
+								alert("更新成功");
+								window.location.replace("GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0");
+							}else{
+								alert("更新失败");
+							}
+						}else{
+							alert("请求失败！");
+						}
+					});
+		}else{
+			alert("是不是还有没填的？");
+		}
+	});
+   //删除
+   $('#subdel').click(function() {
+		if(confirm("确定删除 ?")){
+			$.post("GTperiodicalpaper-paperset!deleteppaer",
+					{"periopaper.ppid":$('#upppId').val().trim(),
+					 "periopaper.thesisTitle":$('#upppt').val().trim(),
+					 "periopaper.periodical.periodicalId":$('#upp').val().trim(),
+					 "periopaper.year":$('#upppy').val().trim(),
+					 "periopaper.file":$('#upppf').val().trim(),
+					 "periopaper.phase":$('#uppph').val().trim(),
+					 "periopaper.describe":$('#upppde').val().trim(),
+					 "periopaper.checkout":$('#upppcheck').val().trim(),
+					 "periopaper.periodicalPid":$('#upppptid').val().trim(),
+					 "periopaper.firstAuthor":$('#upppfirst').val().trim(),
+					 "periopaper.secondAuthor":$('#upppsecond').val().trim()},
+					function(data,status){
+						if(status=="success"){
+							if(data=="succ"){
+								alert("删除成功");
+								window.location.replace("GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0");
+							}else{
+								alert("更新失败");
+							}
+						}else{
+							alert("请求失败！");
+						}
+					});
+		}
 	});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
