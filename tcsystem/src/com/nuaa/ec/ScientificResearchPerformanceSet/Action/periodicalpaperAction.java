@@ -122,6 +122,39 @@ public class periodicalpaperAction implements RequestAware,SessionAware {
 			throw e;
 		}
 	}
+	/***
+	 * join periodicalPaper
+	 * @throws Exception
+	 */
+	public void joinPeriodicalPaper() throws Exception{
+		Transaction tx = null;
+		try {
+			this.setPeriopaper((PeriodicalPapers)periopaperdao.findByPpid(periopaper.getPpid()).get(0));
+			PeriodicalPapersScore ppsco = (PeriodicalPapersScore) (ppscoredao.findByProperty("periodicalType", periopaper.getPeriodical().getPeriodicalType())).get(0);
+			TeacherAndperiodical tp = new TeacherAndperiodical(ppsco, (Teacher)session.get("teacher"), periopaper.getPeriodical(), (double)ppsco.getScore(), "1", periopaper.getPpid(), "0");
+			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+			String aus = ServletActionContext.getRequest().getParameter("author");
+			if("s".equals(aus)){
+				periopaper.setSecondAuthor(((Teacher)session.get("teacher")).getTeacherId());
+			}
+			if("f".equals(aus)){
+				periopaper.setFirstAuthor(((Teacher)session.get("teacher")).getTeacherId());
+			}
+			if(!tpdao.checkexist(((Teacher)session.get("teacher")).getTeacherId(), periopaper.getPpid())){
+				tpdao.save(tp);
+				periopaperdao.merge(periopaper);
+				ServletActionContext.getResponse().getWriter().write("加入成功");
+			}else{
+				ServletActionContext.getResponse().getWriter().write("不能重复加入");
+			}
+			tx = tpdao.getSession().beginTransaction();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
 	//TODO Utils meth0d
 	public String generateQueryCondition(){
 		StringBuffer condition = new StringBuffer();

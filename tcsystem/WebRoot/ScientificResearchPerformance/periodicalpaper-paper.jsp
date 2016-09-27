@@ -139,7 +139,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 												<a  class="btn btn-primary btn-sm carrydata" >查看项目成员</a>
 											</c:if>
 											<c:if test="${ebj.chargePersonId!=teacher.teacherId}">
-												<c:if test="${ebj.checkout==0 }"><a  class="btn btn-primary btn-sm carrydata">加入</a></c:if>
+												<c:if test="${ebj.checkout==0 }"><a  class="btn btn-primary btn-sm join">加入</a></c:if>
 												<c:if test="${ebj.checkout==1 }"><a  class="btn btn-primary btn-sm" style="background-color: #999999">加入</a></c:if>
 											</c:if>
 										</td>
@@ -294,7 +294,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                </div>
 	            </div>
 	        </div>
-	    </div>              
+	    </div> 
     </div>
     </div>
     <script src="js/jquery.min.js?v=2.1.4"></script>
@@ -335,6 +335,33 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 			var status = row[0].cells[11].innerHTML.trim()=="待完善"?"0":"1";
 			set_selected_option($('#upppcheck option'),status);
 		}
+		if(e.target.className.indexOf("join")>=0){
+			if(confirm("确定加入该项目 ？")){
+				var row = $(e.target).parent().parent();
+				if(!(row[0].cells[13].innerHTML.trim()!=""&row[0].cells[14].innerHTML.trim()!="")){
+					var authors = row[0].cells[13].innerHTML.trim()==""?"默认:第一作者":"默认:第二作者";
+					var ahs = row[0].cells[13].innerHTML.trim()==""?"f":"s";
+					alert(authors);
+					$.post("GTperiodicalpaper-paperset!joinPeriodicalPaper",
+							{"periopaper.ppid":row[0].cells[1].innerHTML,
+							 "author":ahs},
+							function(data,status){
+								if(status=="success"){
+									if(data.trim()==""){
+										alert("加入失败！！");
+									}else{
+										alert(data);
+									}
+								}else{
+									alert("请求失败！！！");
+								}
+							}
+					);
+				}else{
+					alert("该项目已满");
+				}
+			}
+		}
 	});
     $('.openupdatem').on("click",function() {
 		$('#upinfID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
@@ -371,7 +398,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     					if(status=="success"){
     						for(var i=0;i<obj.length;i++){
     							var status = "待完善";
-    							var choice = '<a class="btn btn-primary btn-sm carrydata">加入</a>';
+    							var choice = '<a class="btn btn-primary btn-sm join">加入</a>';
     							if(obj[i].checkout!='0'){
     								status = "已完善";
     								choice = '<a class="btn btn-primary btn-sm" style="background-color: #999999">加入</a>';

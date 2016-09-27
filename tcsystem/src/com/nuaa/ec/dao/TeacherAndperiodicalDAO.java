@@ -40,6 +40,23 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO  {
         }
     }
     
+    public boolean checkexist(String teacherId,String ppId){
+    	try {
+            String queryString = "from TeacherAndperiodical as model where model.teacher.teacherId = ? and model.ppid = ? and model.spareTire = '1'";
+            Query queryObject = getSession().createQuery(queryString);
+            queryObject.setParameter(0, teacherId);
+            queryObject.setParameter(1, ppId);
+            if(queryObject.list().size()>0){
+            	return true;
+            }else{
+            	return false;
+            }
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
+    
 	public void delete(TeacherAndperiodical persistentInstance) {
         log.debug("deleting TeacherAndperiodical instance");
         try {
