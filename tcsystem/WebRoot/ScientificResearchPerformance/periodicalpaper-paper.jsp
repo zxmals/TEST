@@ -29,6 +29,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<link rel="stylesheet" type="text/css" href="css/zxma.css">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
+    <link rel="stylesheet" href="css/mermberTab.css" >
     <script type="text/javascript">
     	var teacherIds = "${teacher.teacherId}"; 
     	function DoCheck() {
@@ -136,7 +137,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 												<a  class="btn btn-primary btn-sm carrydata" data-toggle="modal" data-target="#update">编辑</a>
 											</c:if>
 											<c:if test="${ebj.chargePersonId==teacher.teacherId}">
-												<a  class="btn btn-primary btn-sm carrydata" >查看项目成员</a>
+												<a  class="btn btn-primary btn-sm searchmember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 											</c:if>
 											<c:if test="${ebj.chargePersonId!=teacher.teacherId}">
 												<c:if test="${ebj.checkout==0 }"><a  class="btn btn-primary btn-sm join">加入</a></c:if>
@@ -295,6 +296,32 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            </div>
 	        </div>
 	    </div> 
+	    
+	    <div id="checkmember" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-body">
+	                    <div class="row">
+	                            <h3 class="m-t-none m-b" style="margin-left: 41%">查看项目成员</h3>
+	                            <hr >
+	                                <div class="membertab form-control">
+							            <table id="membtab">
+							                <thead>
+							                    <th>ID</th>
+							                    <th>姓名</th>
+							                    <th>备注</th>
+							                </thead>
+							            </table>
+        							</div>
+	                                <div>
+	                                    <button type="button"   class="btn btn-outline btn-primary m-t-n-xs" style="margin-top: 10px;margin-left: 43%" data-dismiss="modal">关闭</button>
+	                               </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    
     </div>
     </div>
     <script src="js/jquery.min.js?v=2.1.4"></script>
@@ -362,6 +389,32 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				}
 			}
 		}
+		if(e.target.className.indexOf("searchmember")>=0){
+			var tabs = $('#membtab');
+			tabs.append("<tr>"
+					+"<td>1</td>"
+					+"<td>1</td>"
+					+"<td>1</td>"
+					+"</tr>"
+					+"<tr>"
+					+"<td>1</td>"
+					+"<td>1</td>"
+					+"<td>1</td>"
+					+"</tr>"
+					+"<tr>"
+					+"<td>1</td>"
+					+"<td>1</td>"
+					+"<td>1</td>"
+					+"</tr>");
+			var trs = tabs.find("tr");
+			for(var i=1;i<trs.length;i++){
+                if(i%2==0){
+                    trs[i].style.backgroundColor = "#e7cdfa";
+                }else{
+                    trs[i].style.backgroundColor = "#B5A0C9";
+                }
+            }
+		}
 	});
     $('.openupdatem').on("click",function() {
 		$('#upinfID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
@@ -404,7 +457,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     								choice = '<a class="btn btn-primary btn-sm" style="background-color: #999999">加入</a>';
     							}
     							if(obj[i].chargePersonId==teacherIds){
-    								choice = '<a  class="btn btn-primary btn-sm carrydata" data-toggle="modal" data-target="#update" >编辑</a> <a  class="btn btn-primary btn-sm carrydata" >查看项目成员</a>';
+    								choice = '<a  class="btn btn-primary btn-sm carrydata" data-toggle="modal" data-target="#update" >编辑</a> <a  class="btn btn-primary btn-sm searchmember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>';
     							}
     							var	rnode = t.row.add(["",
     							           obj[i].ppid,
