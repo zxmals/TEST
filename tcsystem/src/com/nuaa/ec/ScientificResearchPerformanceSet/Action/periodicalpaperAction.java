@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
@@ -152,6 +153,19 @@ public class periodicalpaperAction implements RequestAware,SessionAware {
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
+			throw e;
+		}
+	}
+	
+	public void getMember() throws Exception{
+		try {
+			JsonConfig config = new JsonConfig();
+//			config.setExcludes(new String[]{"teacher","periodicalPapersScore","periodical"});
+			JSONArray jary = JSONArray.fromObject(tpdao.findMember(periopaper.getPpid()));
+			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+			ServletActionContext.getResponse().getWriter().write(jary.toString());
+		} catch (Exception e) {
+			// TODO: handle exception
 			throw e;
 		}
 	}

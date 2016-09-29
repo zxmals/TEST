@@ -1,6 +1,12 @@
 package com.nuaa.ec.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -96,15 +102,45 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO  {
         }
     }    
     
+    public List findMember(String ppId) throws Exception{
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	List<Object> li = new ArrayList<Object>();
+    	Map<String, Object> mp = null;
+    	try {
+			con = getConn();
+			ps = con.prepareStatement("select Teacher.TeacherID ,Teacher.TeacherName from Teacher inner join TeacherANDPeriodical on Teacher.TeacherID = TeacherANDPeriodical.TeacherID and TeacherANDPeriodical.PPID = ? and TeacherANDPeriodical.SpareTire = '1'");
+			ps.setString(1, ppId);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				mp = new HashMap<String, Object>();
+				mp.put("teacherId", rs.getString(1));
+				mp.put("teacherName", rs.getString(2));
+				li.add(mp);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw e;
+		}finally{
+			closeSqlAttr(ps, rs);
+		}
+    	if(li.size()>0){
+    		return li;
+    	}else{
+    		return null;
+    	}
+    }
+    
     public List findByProperty(String propertyName, Object value) {
       log.debug("finding TeacherAndperiodical instance with property: " + propertyName
             + ", value: " + value);
       try {
          String queryString = "from TeacherAndperiodical as model where model." 
-         						+ propertyName + "= ?";
+         						+ propertyName + "= ? and model.spareTire = '1' ";
          Query queryObject = getSession().createQuery(queryString);
 		 queryObject.setParameter(0, value);
-		 return queryObject.list();
+		 return queryObject.list().size()>0?queryObject.list():null;
       } catch (RuntimeException re) {
          log.error("find by property name failed", re);
          throw re;

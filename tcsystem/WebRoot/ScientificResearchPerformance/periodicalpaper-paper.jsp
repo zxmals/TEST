@@ -389,31 +389,41 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				}
 			}
 		}
+		//查看项目成员
 		if(e.target.className.indexOf("searchmember")>=0){
-			var tabs = $('#membtab');
-			tabs.append("<tr>"
-					+"<td>1</td>"
-					+"<td>1</td>"
-					+"<td>1</td>"
-					+"</tr>"
-					+"<tr>"
-					+"<td>1</td>"
-					+"<td>1</td>"
-					+"<td>1</td>"
-					+"</tr>"
-					+"<tr>"
-					+"<td>1</td>"
-					+"<td>1</td>"
-					+"<td>1</td>"
-					+"</tr>");
-			var trs = tabs.find("tr");
-			for(var i=1;i<trs.length;i++){
-                if(i%2==0){
-                    trs[i].style.backgroundColor = "#e7cdfa";
-                }else{
-                    trs[i].style.backgroundColor = "#B5A0C9";
-                }
-            }
+			var row = $(e.target).parent().parent();
+			$.post("GTperiodicalpaper-paperset!getMember",
+					{"periopaper.ppid":row[0].cells[1].innerHTML},
+					function(data,status){
+						var tabs = $('#membtab');
+						var trs = tabs.find("tr");
+						for(var i=1;i<trs.length;i++){
+							trs[i].remove();
+						}
+						var obj = JSON.parse(data);
+						if(status=="success"){
+							for(var i=0;i<obj.length;i++){
+								tabs.append("<tr>"
+										+"<td>"+obj[i].teacherId+"</td>"
+										+"<td>"+obj[i].teacherName+"</td>"
+										+"<td> </td>"
+										+"</tr>");
+							}
+							trs = tabs.find("tr");
+							for(var i=1;i<trs.length;i++){
+				                if(i%2==0){
+				                    trs[i].style.backgroundColor = "#e7cdfa";
+				                    trs[i].style.color = "#928FA3";
+				                }else{
+				                    trs[i].style.backgroundColor = "#B5A0C9";
+				                    trs[i].style.color = "#F4F4F6";
+				                }
+				            }
+						}else{
+							alert("请求失败");
+						}
+					}
+			);
 		}
 	});
     $('.openupdatem').on("click",function() {
