@@ -112,4 +112,5 @@
 			<result>/ScientificResearchPerformance/periodicalpaper-{1}.jsp</result>
 		</action>
 	</package>
+	<!-- 测试git -->
 </struts>
