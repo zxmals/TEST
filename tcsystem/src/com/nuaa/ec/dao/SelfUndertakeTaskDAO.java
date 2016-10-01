@@ -109,7 +109,7 @@ public class SelfUndertakeTaskDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all SelfUndertakeTask instances");
 		try {
-			String queryString = "from SelfUndertakeTask";
+			String queryString = "from SelfUndertakeTask where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

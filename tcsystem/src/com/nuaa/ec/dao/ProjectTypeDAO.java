@@ -109,7 +109,7 @@ public class ProjectTypeDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all ProjectType instances");
 		try {
-			String queryString = "from ProjectType";
+			String queryString = "from ProjectType where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

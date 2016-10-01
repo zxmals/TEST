@@ -248,8 +248,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <li>
                                     	<a href="#">科研项目设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="ScientificResearchProjectTypeset!viewScienResearchProjectType">科研项目类别设置</a></li>
-												<li><a class="J_menuItem"  href="ScientificResearchProjectScoreset!viewScienResearchProjectScore">科研项目评分设置</a></li>																							
+		                                      	 <li><a class="J_menuItem"  href="ATScientificResearchProjectTypeset!viewScienResearchProjectType">科研项目类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATScientificResearchProjectScoreset!viewScienResearchProjectScore">科研项目评分设置</a></li>																							
 	                                      </ul>
                                     </li>
                                     <li>
@@ -292,7 +292,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<li><a class="J_menuItem"  href="ATSelectedTalentProjectScoreset!getSelectedTalentProjectScoreINF">人才工程评分设置</a></li>												
 	                                      </ul>
                                     </li>
-                                    <li><a class="J_menuItem" href="selfUndertakeTaskset!viewselfUndertakeTask">本人承担任务设置</a></li>
+                                    <li><a class="J_menuItem" href="ATSelfUndertakeTaskSet!viewAllTaskUndertaked">本人承担任务设置</a></li>
                                 </ul>
                             </li>
                              <li>
