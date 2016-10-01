@@ -41,7 +41,7 @@ public class periodicalpaperAction implements RequestAware,SessionAware {
 	public String execute() {
 		return "success";
 	}
-
+//TODO: 期刊论设置
 	//获取信息
 	public String getPeriodicalPaperINF()throws Exception{
 		request.put("periodicalpaperli", periopaperdao.findAll(generateQueryCondition(), 0, 100));
@@ -159,7 +159,7 @@ public class periodicalpaperAction implements RequestAware,SessionAware {
 	
 	public void getMember() throws Exception{
 		try {
-			JsonConfig config = new JsonConfig();
+//			JsonConfig config = new JsonConfig();
 //			config.setExcludes(new String[]{"teacher","periodicalPapersScore","periodical"});
 			JSONArray jary = JSONArray.fromObject(tpdao.findMember(periopaper.getPpid()));
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
@@ -169,7 +169,11 @@ public class periodicalpaperAction implements RequestAware,SessionAware {
 			throw e;
 		}
 	}
-	//TODO Utils meth0d
+	//TODO: 个人参与设置
+	public String getPersonalJoinC()throws Exception{
+		return "success";
+	}
+	//TODO: Utils meth0d
 	public String generateQueryCondition(){
 		StringBuffer condition = new StringBuffer();
 		condition.append("AND");
@@ -204,7 +208,7 @@ public class periodicalpaperAction implements RequestAware,SessionAware {
 			throw e;
 		}
 	}
-	//Getter & Setter
+	//TODO :Getter & Setter
 	public Integer getOperstatus() {
 		return operstatus;
 	}

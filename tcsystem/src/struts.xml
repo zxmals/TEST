@@ -2,7 +2,7 @@
 <!DOCTYPE struts PUBLIC
 "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
 "http://struts.apache.org/dtds/struts-2.3.dtd">
-
+<!-- 注：普通教师操作Action 用GT开头，管理员教师操作Action用AT开头 ，所有新创建的包都需要加登陆过滤器-->
 <struts>
 	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
 	<constant name="struts.devMode" value="false" />
