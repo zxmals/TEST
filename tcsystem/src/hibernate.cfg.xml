@@ -13,8 +13,8 @@
 			jdbc:sqlserver://localhost:1433;
 			DatabaseName=ScientificResearch
 		</property>
-		<property name="connection.username">sa</property>
-		<property name="connection.password">zx1994ma1221</property>
+		<property name="connection.username">linhd</property>
+		<property name="connection.password">2538</property>
 		<property name="connection.driver_class">
 			com.microsoft.sqlserver.jdbc.SQLServerDriver
 		</property>
