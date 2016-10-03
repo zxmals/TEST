@@ -93,6 +93,14 @@
 		<action name="ATSelectedTalentProject*set"  class="com.nuaa.ec.science.baseSet.action.SelectedTalentProjectSetAction">
 			<result>/sysSetting/SelectedTalentProjectSet/SelectedTalentProject{1}Set.jsp</result>
 		</action>
+		<!-- 科研项目设置//ScientificResearchProject  *Type*Score*  Set -->
+		<action name="ATScientificResearchProject*set" class="com.nuaa.ec.science.baseSet.action.ProjectTypeSetAction">
+			<result>/sysSetting/ScientificResearchProjectSet/ScientificResearchProject{1}Set.jsp</result>
+		</action>
+		<!-- 本人担任任务设置 -->
+		<action name="ATSelfUndertakeTaskSet" class="com.nuaa.ec.science.baseSet.action.SelfUndertakeTaskAction">
+			<result>/sysSetting/SelfUndertakeTaskSet/SelfUndertakeTaskSet.jsp</result>
+		</action>
 	</package>
 	<!-- 科研绩效 设置  //ScientificResearchPerformanceSet-->
 	<package name="ScientificResearchPerformanceSet"   extends="struts-default" namespace="/">
@@ -110,14 +118,6 @@
 		<!-- 期刊论文绩效设置//PeriodicalPaperSet -->
 		<action name="GTperiodicalpaper-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.periodicalpaperAction">
 			<result>/ScientificResearchPerformance/periodicalpaper-{1}.jsp</result>
-		</action>
-		<!-- 科研项目设置//ScientificResearchProject  *Type*Score*  Set -->
-		<action name="ATScientificResearchProject*set" class="com.nuaa.ec.science.baseSet.action.ProjectTypeSetAction">
-			<result>/sysSetting/ScientificResearchProjectSet/ScientificResearchProject{1}Set.jsp</result>
-		</action>
-		<!-- 本人担任任务设置 -->
-		<action name="ATSelfUndertakeTaskSet" class="com.nuaa.ec.science.baseSet.action.SelfUndertakeTaskAction">
-			<result>/sysSetting/SelfUndertakeTaskSet/SelfUndertakeTaskSet.jsp</result>
 		</action>
 	</package>
 </struts>
