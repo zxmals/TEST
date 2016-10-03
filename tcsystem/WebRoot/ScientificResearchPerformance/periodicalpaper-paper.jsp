@@ -64,21 +64,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                    <div class="ibox-title">
 	                        <h5>期刊论文管理<small></small></h5>
 	                        <div class="ibox-tools">
-	                            <a class="collapse-link">
-	                                <i class="fa fa-chevron-up"></i>
-	                            </a>
-	                            <a class="dropdown-toggle" data-toggle="dropdown" href="table_data_tables.html#">
-	                                <i class="fa fa-wrench"></i>
-	                            </a>
-	                            <ul class="dropdown-menu dropdown-user">
-	                                <li><a href="table_data_tables.html#">选项1</a>
-	                                </li>
-	                                <li><a href="table_data_tables.html#">选项2</a>
-	                                </li>
-	                            </ul>
-	                            <a class="close-link">
-	                                <i class="fa fa-times"></i>
-	                            </a>
 	                        </div>
 	                    </div>
 	                    <div class="ibox-content">
@@ -130,7 +115,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										<td>${teachermp[ebj.chargePersonId] }</td>
 										<td>
 											<c:if test="${ebj.checkout==0 }">待完善</c:if>
-											<c:if test="${ebj.checkout==1 }">已完善</c:if>
+											<c:if test="${ebj.checkout==1 }">已完善,待审核</c:if>
+											<c:if test="${ebj.checkout==2 }">已审核</c:if>
+											<c:if test="${ebj.checkout==2 }">审核未通过</c:if>
 										</td>
 										<td>
 											<c:if test="${ebj.chargePersonId==teacher.teacherId}">

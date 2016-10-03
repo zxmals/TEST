@@ -43,6 +43,7 @@ public class TeacherAndperiodical  implements java.io.Serializable {
         this.spareTire = spareTire;
         this.ppid = ppid;
         this.checkOut = checkOut;
+        
     }
 
     public TeacherAndperiodical( PeriodicalPapersScore periodicalPapersScore, Teacher teacher, Periodical periodical, Double finalScore, String spareTire, String ppid, String checkOut) {
@@ -119,13 +120,4 @@ public class TeacherAndperiodical  implements java.io.Serializable {
     public void setCheckOut(String checkOut) {
         this.checkOut = checkOut;
     }
-   
-
-
-
-
-
-
-
-
 }

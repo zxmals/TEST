@@ -2,15 +2,17 @@ package com.nuaa.ec.ScientificResearchPerformanceSet.Action;
 
 import java.util.Map;
 
+import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JsonConfig;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Transaction;
+
+
 
 import com.nuaa.ec.dao.PeriodicalDAO;
 import com.nuaa.ec.dao.PeriodicalPapersDAO;
@@ -169,9 +171,63 @@ public class periodicalpaperAction implements RequestAware,SessionAware {
 			throw e;
 		}
 	}
-	//TODO: 个人参与设置
+	//TODO: 个人参与设置  && 分页
 	public String getPersonalJoinC()throws Exception{
+		int pagenum = 1;
+		int limitrow = 5;
+		String limit = (String)ServletActionContext.getRequest().getParameter("limit");
+		String pagenumber = (String)ServletActionContext.getRequest().getParameter("pagenum");
+		if(pagenumber!=null){
+			pagenum = !"".equals(pagenumber.trim())?Integer.parseInt(pagenumber):1;
+		}
+		if(limit!=null){
+			limitrow = !"".equals(limit.trim())?Integer.parseInt(limit):5;
+		}
+		request.put("personjoinp",tpdao.findTeacherandPaper((Teacher)session.get("teacher"),generateQueryCondition(),(pagenum-1)*limitrow,limitrow));
+		int li = tpdao.getrows((Teacher)session.get("teacher"),generateQueryCondition());
+		int sumpage = 1;
+		if(li%limitrow==0){
+			sumpage = li/limitrow;
+		}else{
+			sumpage = li/limitrow+1;
+		}
+		request.put("sumrow",li);
+		request.put("sumpage",sumpage);
+		if(pagenum<sumpage){
+			request.put("nextpage", 1+pagenum);
+		}else{
+			request.put("nextpage",pagenum);
+		}
+		if(pagenum>1){
+			request.put("prepage", pagenum-1);
+		}else{
+			request.put("prepage",1);
+		}
+		request.put("pagenum", pagenum);
 		return "success";
+	}
+	
+	public void quitProject() throws Exception{
+		Transaction tx = null;
+		try {
+			this.setPeriopaper((PeriodicalPapers)periopaperdao.findByPpid(periopaper.getPpid()).get(0));
+			String author = ServletActionContext.getRequest().getParameter("author");
+			if(author!=null){
+				periopaper.setFirstAuthor("1".equals(author.trim())?"":periopaper.getFirstAuthor());
+				periopaper.setSecondAuthor("2".equals(author.trim())?"":periopaper.getSecondAuthor());
+			}
+			periopaperdao.merge(periopaper);
+			TeacherAndperiodical instan =  (TeacherAndperiodical)tpdao.findBymergeId((Teacher)session.get("teacher"), periopaper.getPpid()).get(0);
+			instan.setSpareTire("0");
+			tpdao.merge(instan);
+			tx = tpdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
 	}
 	//TODO: Utils meth0d
 	public String generateQueryCondition(){

@@ -89,3 +89,35 @@
 			return true;
 		}
 	}
+	function getParamArray() {
+        var url = location.search;
+        url = url.substring(1,url.length);
+        var array = url.split("&");
+        var aarray = new Array();
+        for(var i=0;i<array.length;i++){
+            aarray[i] = array[i].split("=");
+        }
+        return aarray;
+//        for(var i=0;i<array.length;i++){
+//            for(var j=0;j<2;j++){
+//                if(aarray[i][j]=="userid")
+//                    userid = aarray[i][++j];
+//                if(aarray[i][j]=="username")
+//                    username = aarray[i][++j];
+//                if(aarray[i][j]=="num")
+//                    num = aarray[i][++j];
+//            }
+//        }
+    }
+	function getParameters(name) {
+		var arrays = getParamArray();
+		var value = "5";
+		for(var i=0;i<arrays.length;i++){
+			for(var j=0;j<2;j++){
+				if(arrays[i][j]==name){
+					value = arrays[i][++j];
+				}
+			}
+		}
+		return value;
+	}

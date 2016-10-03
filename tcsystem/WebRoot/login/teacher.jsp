@@ -117,7 +117,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                                <a class="J_menuItem" href="GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0">论文管理</a>
 				                            </li>
 				                            <li>
-				                                <a class="J_menuItem" href="GTperiodicalpaper-personset!getPersonalJoinC?currentrow=0">个人参与管理</a>
+				                                <a class="J_menuItem" href="GTperiodicalpaper-personset!getPersonalJoinC?pagenum=1&">个人参与管理</a>
 				                            </li>
 				                        </ul>
 		                            </li>
