@@ -171,7 +171,7 @@ public class AcademicWorkDAO extends BaseHibernateDAO  {
 	public List findAll(int currentrow,int limit,String condition) {
 		log.debug("finding all AcademicWork instances");
 		try {
-			String queryString = "from AcademicWork aw where aw.spareTire = '1' "+condition;
+			String queryString = "from AcademicWork aw where aw.spareTire = '1' "+condition+" order by aw.publishDate desc";
 	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
 	         queryObject.setMaxResults(limit);
 			 return queryObject.list();

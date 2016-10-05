@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AcademicWork --Work-Set</title>
+    <title>PeriodicalPaper --paper-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -318,6 +318,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
     <script src="js/content.min.js?v=1.0.0"></script>
     <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <!-- sweet-alert -->
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script  src="js/PublicCheck/PUB_SET.js"></script>
     <script  src="My97DatePicker/WdatePicker.js"></script>
@@ -494,30 +495,49 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
   //更新
   $('#subupdate').click(function() {
 		if(checkupdates()){
-			$.post("GTperiodicalpaper-paperset!updatesppaer",
-					{"periopaper.ppid":$('#upppId').val().trim(),
-					 "periopaper.thesisTitle":$('#upppt').val().trim(),
-					 "periopaper.periodical.periodicalId":$('#upp').val().trim(),
-					 "periopaper.year":$('#upppy').val().trim(),
-					 "periopaper.file":$('#upppf').val().trim(),
-					 "periopaper.phase":$('#uppph').val().trim(),
-					 "periopaper.describe":$('#upppde').val().trim(),
-					 "periopaper.checkout":$('#upppcheck').val().trim(),
-					 "periopaper.periodicalPid":$('#upppptid').val().trim(),
-					 "periopaper.firstAuthor":$('#upppfirst').val().trim(),
-					 "periopaper.secondAuthor":$('#upppsecond').val().trim()},
-					function(data,status){
-						if(status=="success"){
-							if(data=="succ"){
-								alert("更新成功");
-								window.location.replace("GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0");
-							}else{
-								alert("更新失败");
-							}
-						}else{
-							alert("请求失败！");
-						}
-					});
+			swal({   
+	    		title: "确定提交?",   
+	    		text: "",   
+	    		type: "warning",   
+	    		showCancelButton: true,   
+	    		confirmButtonColor: "#DD6B55",   
+	    		confirmButtonText: "确定",
+	    		cancelButtonText: "取消",   
+	    		closeOnConfirm: false,   
+	    		closeOnCancel: false }, 
+	    			function(isConfirm){   
+	    				if (isConfirm) {
+	    					$.post("GTperiodicalpaper-paperset!updatesppaer",
+	    							{"periopaper.ppid":$('#upppId').val().trim(),
+	    							 "periopaper.thesisTitle":$('#upppt').val().trim(),
+	    							 "periopaper.periodical.periodicalId":$('#upp').val().trim(),
+	    							 "periopaper.year":$('#upppy').val().trim(),
+	    							 "periopaper.file":$('#upppf').val().trim(),
+	    							 "periopaper.phase":$('#uppph').val().trim(),
+	    							 "periopaper.describe":$('#upppde').val().trim(),
+	    							 "periopaper.checkout":$('#upppcheck').val().trim(),
+	    							 "periopaper.periodicalPid":$('#upppptid').val().trim(),
+	    							 "periopaper.firstAuthor":$('#upppfirst').val().trim(),
+	    							 "periopaper.secondAuthor":$('#upppsecond').val().trim()},
+	    							function(data,status){
+	    								if(status=="success"){
+	    									if(data=="succ"){
+	    										swal("更新成功","","success");
+	    										setTimeout(function() {
+	    											window.location.replace("GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0");
+												}, 2000);
+	    									}else{
+	    										swal("更新失败");
+	    									}
+	    								}else{
+	    									swal("请求失败！");
+	    								}
+	    							});
+	    				}else{
+	    					swal("已取消");
+	    				}
+	    			}
+	    	);
 		}else{
 			alert("是不是还有没填的？");
 		}

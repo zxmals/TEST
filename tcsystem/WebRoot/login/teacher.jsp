@@ -164,8 +164,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             </li>
                         </ul>
                     </li>
-                    <li id="resAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">所长审核</span></a> </li>
-                       <li id="departAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">系主任审核</span></a> </li>
+                    <li id="resAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">所审核</span></a> </li>
+                       <li id="departAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">系审核</span></a> </li>
+                       <li id="vaadmin"  style="display: none">
+		                            	<a href="#">
+		                                	<i class="fa fa-edit"></i>
+		                                	<span class="nav-label">公益审核</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="#">1111</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="#">22222</a>
+				                            </li>
+				                        </ul>
+		                            </li>
                 </ul>
             </div>
         </nav>
@@ -336,6 +351,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript">
     	$(document).ready(function() {
 			$('.firstslide li').css("margin-left","12%");
+			if("${teacher.vaadmin}"=="1"){
+				$('#vaadmin').css("display","");
+			}
 		});
     	$('.J_menuItem').click(function() {
     		$('.minimalize-styl-2').click();

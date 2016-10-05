@@ -135,6 +135,9 @@
     function checkISBN(isbnv) {
     	var isbn = isbnv.replace(new RegExp("-","gm"),"");
     	//ISBN-10
+    	if(!(isbn.length==10|isbn.length==13)){
+    		return false;
+    	}
 		if(isbn.length==10){
 			var tmp = 10;
 			var sum = 0;

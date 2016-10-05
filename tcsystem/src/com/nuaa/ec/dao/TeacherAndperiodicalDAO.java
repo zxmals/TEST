@@ -221,7 +221,7 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
     //获取教师以及对应的期刊论文的信息
 	public List findTeacherandPaper(Teacher teacher,String condition,int currentrow,int limitrows){
 		try {
-			String queryString = "select new com.nuaa.ec.model.PeriodicalPapersPerson(p.ppid,p.thesisTitle,p.chargePersonId,p.firstAuthor,p.secondAuthor,t.periodicalPapersScore.score,t.checkOut) from TeacherAndperiodical t,PeriodicalPapers p where t.ppid = p.ppid and t.spareTire = '1' and t.teacher=?"+condition+" order by p.year desc";
+			String queryString = "select new com.nuaa.ec.model.PeriodicalPapersPerson(p.ppid,p.thesisTitle,p.chargePersonId,p.firstAuthor,p.secondAuthor,t.periodicalPapersScore.score,t.checkOut) from TeacherAndperiodical t,PeriodicalPapers p where t.ppid = p.ppid and t.spareTire = '1' and p.spareTire='1' and t.teacher=?"+condition+" order by p.year desc";
 	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
 	         queryObject.setMaxResults(limitrows);
 	         queryObject.setParameter(0, teacher);

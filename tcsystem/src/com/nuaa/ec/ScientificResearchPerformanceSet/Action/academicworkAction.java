@@ -14,7 +14,6 @@ import com.nuaa.ec.dao.WordsNumberDAO;
 import com.nuaa.ec.model.AcademicWork;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndacademicWork;
-import com.nuaa.ec.model.WordsNumber;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
 
@@ -94,6 +93,39 @@ public class academicworkAction implements RequestAware, SessionAware {
 		} catch (Exception e) {
 			// TODO: handle exception
 			this.setOperstatus(-1);
+			tx.rollback();
+			throw e;
+		}
+	}
+	//更新academicwork
+	public void updateAcademicWork() throws Exception {
+		Transaction tx = null;
+		try {
+			academicwk.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
+			academicwk.setPublishClub(publishdao.findById(academicwk.getPublishClub().getPublishClubId()));
+			academicwk.setSpareTire("1");
+			academicwk.setWordsNumber(wordnumdao.findById(academicwk.getWordsNumber().getWordId()));
+			academicwkdao.merge(academicwk);
+			tx = academicwkdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	
+	public void deleteAcademicWork() throws Exception{
+		Transaction tx = null;
+		try {
+			this.setAcademicwk(academicwkdao.findById(academicwk.getAcaworkId()));
+			academicwk.setSpareTire("0");
+			tx = academicwkdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
 			tx.rollback();
 			throw e;
 		}
