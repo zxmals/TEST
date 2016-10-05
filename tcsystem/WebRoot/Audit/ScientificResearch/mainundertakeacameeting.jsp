@@ -107,14 +107,14 @@
 	<form name="Audit" action="" method="post">
 		<table
 			class="table table-striped table-bordered table-hover dataTables-example"
-			style="border-collapse:collapse;">
+			style="border-collapse:collapse; font-size: 13px;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
 				<td>主承办学术会议编号</td>		<td>主承办学术会议名称</td>
 				<td>负责人</td>				 	<td>会议类型</td>
 				<td>会议地点</td> 				<td>与会教师编号</td>
 				<td>与会教师姓名</td>			<td>本人承担任务</td>
-				<td>最终分数</td>
+				<td>最终分数</td>				<td>时间</td>
 				<c:if test="${sessionScope.checkOutStatus_TAUA=='0' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
 						onchange="allAlowOrNot()" /></td>
@@ -147,6 +147,8 @@
 					<td>${TAUAcademicMetting.selfUndertakeTask.undertakeTaskName }</td>
 					<!-- 最终分数 -->
 					<td>${TAUAcademicMetting.finalScore }</td>
+					<!-- 时间 -->
+					<td>${TAUAcademicMetting.mainUndertakeAcademicMeeting.meetingdate }</td>
 					<c:if test="${sessionScope.checkOutStatus_TAUA=='0' }">
 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
 							value="${TAUAcademicMetting.teacherAmuamid }" /></td>
@@ -170,7 +172,7 @@
 			<c:if
 				test="${pageIndex>1}">
 				<a
-					href="TeacherAndPeriodicalAudit!getTAPeriodicalListAfterDivided?pageIndex=${pageIndex-1 }">上一页</a>
+					href="TeacherAndmainUndertakeAcademicMeetingAudit!getTAUAdemicMettingListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -178,13 +180,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_TAUA }">
 				<span> <a
-					href="TeacherAndPeriodicalAudit!getTAPeriodicalListAfterDivided?pageIndex=${index }">${index }</a>
+					href="TeacherAndmainUndertakeAcademicMeetingAudit!getTAUAdemicMettingListAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_TAUA }">
 				<a
-					href="TeacherAndPeriodicalAudit!getTAPeriodicalListAfterDivided?pageIndex=${pageIndex+1 }">下一页</a>
+					href="TeacherAndmainUndertakeAcademicMeetingAudit!getTAUAdemicMettingListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAUA }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAUA }</font>条记录
@@ -242,7 +244,7 @@
 				return;
 			}
 			if(window.confirm("您确认要提交审核吗？")){
-				$.post("TeacherAndPeriodicalAudit!doCheckOutTask",{
+				$.post("TeacherAndmainUndertakeAcademicMeetingAudit!doCheckOutTask",{
 					checkOutIDs:IDs
 				},function(data,status){
 					if(status=="success"){

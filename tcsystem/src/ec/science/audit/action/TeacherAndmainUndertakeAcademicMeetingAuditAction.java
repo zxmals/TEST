@@ -1,17 +1,68 @@
 package ec.science.audit.action;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.TeacherAndmainUndertakeAcademicMeetingDAO;
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
+import com.nuaa.ec.model.TeacherAndperiodical;
 import com.opensymphony.xwork2.ActionContext;
 
 public class TeacherAndmainUndertakeAcademicMeetingAuditAction implements
 		RequestAware {
+	public void doCheckOutTask() {
+		this.getResearchLabList();
+		String[] ids = this.checkOutIDs.split(",");
+		List<TeacherAndmainUndertakeAcademicMeeting> checkoutList = new ArrayList<TeacherAndmainUndertakeAcademicMeeting>();
+		TeacherAndmainUndertakeAcademicMeeting TAUAcademicMeeting = null;
+		for (int i = 0; i < ids.length; i++) {
+			TAUAcademicMeeting = this.TAUAacdemicMeetingDAO.findById(Integer
+					.parseInt(ids[i]));
+			// 修改checkout 标志
+			TAUAcademicMeeting.setCheckOut("1");
+			checkoutList.add(TAUAcademicMeeting);
+		}
+		// 将待审核的项目传向后台
+		try {
+			if (TAUAacdemicMeetingDAO.updateCheckoutStatus(checkoutList)) {
+				// 前端显示乱码解决
+				ServletActionContext.getResponse().getWriter().write("succ");
+			} else {
+				ServletActionContext.getResponse().getWriter().write("error");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// this.getResearchLabList();
+	}
+	public String getTAUAdemicMettingListAfterDivide(){
+		Transaction tx=null;
+		try{
+			this.request.put("TAUAcademicMeetingList", this.TAUAacdemicMeetingDAO.getTAUAcademicAfterDivided(pageIndex, (Integer) session
+					.get("pageSize_TAUA"), (String) session
+					.get("foredate_TAUA"), (String) session
+					.get("afterdate_TAUA"), (ResearchLab) session
+					.get("selectedResearchLab_TAUA"), (String) session
+					.get("checkOutStatus_TAUA")));
+			tx=this.TAUAacdemicMeetingDAO.getSession().beginTransaction();
+			tx.commit();
+			this.setOperstatus(1);
+		}catch(Exception ex){
+			tx.rollback();
+			this.setOperstatus(-1);
+			ex.printStackTrace();
+		}
+		this.getResearchLabList();
+		return "success";
+	}
 	public String getTAUAcademicMeetingList() {
 		Transaction tx = null;
 		if ((ResearchLab) session.get("selectedResearchLab_TAUA") == null) {
