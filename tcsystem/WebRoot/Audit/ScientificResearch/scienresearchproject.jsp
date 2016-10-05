@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<%@page import="com.nuaa.ec.utils.StoreData"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -10,12 +11,7 @@
 	String basePath = request.getScheme() + "://"
 	+ request.getServerName() + ":" + request.getServerPort()
 	+ path + "/";
-	List<String> AuditResult = new ArrayList<String>();
-	String oint = (String) request.getParameter("oint");
-	int uu = 4;
-	int o = 100000;
-	if (oint != null)
-		o = Integer.parseInt(oint);
+	request.setAttribute("researchLabList", StoreData.getResearchLabList());
 %>
 <jsp:directive.page import="javax.servlet.http.HttpSession" />
 <%@taglib uri="/struts-tags" prefix="s"%>

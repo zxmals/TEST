@@ -18,9 +18,13 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class TeacherAndScientificResearchRewardAuditAction implements RequestAware {
 	public String getTARRewardWithDividedPage() {
-		Transaction tx = null;
-		System.out.println("pageSize:"+(Integer) session.get("pageSize_TARR"));
-		System.out.println("pageIndex:"+pageIndex_TARR);
+		Transaction tx = this.TARRewardDAO.getSession().beginTransaction();
+		if ((ResearchLab) session.get("selectedReserchLab_TARR") == null) {
+			session.put("selectedReserchLab_TARR", new ResearchLab());
+		}
+		if ((Integer) session.get("pageSize_TARR") == null) {
+			session.put("pageSize_TARR", 1);
+		}
 		try {
 			this.request.put("TAR_RewardList", this.TARRewardDAO
 					.getTASRProjectListsAfterDivided(pageIndex_TARR,
@@ -29,15 +33,14 @@ public class TeacherAndScientificResearchRewardAuditAction implements RequestAwa
 							(String) session.get("afterdate_TARR"),
 							(ResearchLab)session.get("selectedReserchLab_TARR"),
 							(String) session.get("checkoutStatus_TARR")));
-			tx = this.TARRewardDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
-			tx.rollback();
 			this.setOperstatus(-1);
 			ex.printStackTrace();
+			tx.rollback();
 		}
-		this.getResearchLabList();
+//		this.getResearchLabList();
 		return "success";
 	}
 
@@ -62,11 +65,11 @@ public class TeacherAndScientificResearchRewardAuditAction implements RequestAwa
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.getResearchLabList();
+//		this.getResearchLabList();
 	}
 
 	public String getRewardInfo() {
-		Transaction tx = null;
+		Transaction tx = this.TARRewardDAO.getSession().beginTransaction();
 		if ((ResearchLab) session.get("selectedReserchLab_TARR") == null) {
 			session.put("selectedReserchLab_TARR", new ResearchLab());
 		}
@@ -81,15 +84,14 @@ public class TeacherAndScientificResearchRewardAuditAction implements RequestAwa
 							.get("afterdate_TARR"), (ResearchLab) session
 							.get("selectedReserchLab_TARR"), (String) session
 							.get("checkoutStatus_TARR")));
-			tx = this.TARRewardDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
-			tx.rollback();
 			this.setOperstatus(-1);
 			ex.printStackTrace();
+			tx.rollback();
 		}
-		this.getResearchLabList();
+//		this.getResearchLabList();
 		return "success";
 	}
 

@@ -12,6 +12,7 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 	request.setAttribute("teacherMap",StoreData.getTeachertranslate());
+	request.setAttribute("researchLabList", StoreData.getResearchLabList());
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -82,7 +83,7 @@
 		<hr>
 		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
 			<select name="researchLab_TAUA.researchLabId" id="reserchLabSelection">
-				<c:forEach var="researchLab" items="${researchLabList_TAUA }">
+				<c:forEach var="researchLab" items="${researchLabList }">
 					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
 				</c:forEach>
 		</select>

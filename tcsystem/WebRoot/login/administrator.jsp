@@ -200,8 +200,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 	<li><a class="J_menuItem" href="TeacherAndSelectedTalentProjectAudit!getTASTalentProjectInfo">入选人才项目审核</a></li>
                                 	<li><a class="J_menuItem" href="TeacherAndPeriodicalAudit!getTAPeriodicalList">期刊论文审核</a></li>
                                 	<li><a class="J_menuItem" href="TeacherAndmainUndertakeAcademicMeetingAudit!getTAUAcademicMeetingList">承担学术会议审核</a></li>
-                                	<li><a class="J_menuItem" href="TeahingAuditpreview!getExportData">参加学术会议审核</a></li>
-                                	<li><a class="J_menuItem" href="TeahingAuditpreview!getExportData">邀请专家讲座审核</a></li>
+                                	<li><a class="J_menuItem" href="TeacherAndjoinAcademicMeetingAudit!getTAAMeetingList">参加学术会议审核</a></li>
+                                	<li><a class="J_menuItem" href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList">邀请专家讲座审核</a></li>
                                 	<li><a class="J_menuItem" href="TeahingAuditpreview!getExportData">学术著作审核</a></li>
 								</ul>
 							</li>

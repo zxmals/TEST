@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.TeacherDAO;
 
 public class Storebaseinfo implements Filter {
@@ -20,13 +21,13 @@ public class Storebaseinfo implements Filter {
 
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
 		chain.doFilter(arg0, arg1);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void init(FilterConfig arg0) throws ServletException {
-		// TODO Auto-generated method stub
 		StoreData.setTeachertranslate(new TeacherDAO().findAllT());
+		StoreData.setResearchLabList(new ResearchLabDAO().findAll());
 	}
 
 }
