@@ -119,5 +119,9 @@
 		<action name="GTperiodicalpaper-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.periodicalpaperAction">
 			<result>/ScientificResearchPerformance/periodicalpaper-{1}.jsp</result>
 		</action>
+		<!-- 学术著作绩效管理//AcademicWorkSet -->
+		<action name="GTacademicwork-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.academicworkAction">
+			<result>/ScientificResearchPerformance/academicwork-{1}.jsp</result>
+		</action>
 	</package>
 </struts>

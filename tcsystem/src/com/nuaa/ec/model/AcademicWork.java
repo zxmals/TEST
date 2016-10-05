@@ -22,7 +22,7 @@ public class AcademicWork  implements java.io.Serializable {
      private String wordNumber;
      private String otherAuthorJoin;
      private String spareTire;
-     private String wordId;
+//     private String wordId;
      private String chargePersonId;
      private String chargePerson;
      private String checkout;
@@ -42,47 +42,48 @@ public class AcademicWork  implements java.io.Serializable {
     }
     
     /** full constructor */
-    public AcademicWork(String acaworkId, PublishClub publishClub, String firstAuthor, String workName, String publishDate, String isbn, String wordNumber, String otherAuthorJoin, String spareTire, String wordId, String chargePersonId, String chargePerson, String checkout, Set teacherAndacademicWorks) {
-        this.acaworkId = acaworkId;
-        this.publishClub = publishClub;
-        this.firstAuthor = firstAuthor;
-        this.workName = workName;
-        this.publishDate = publishDate;
-        this.isbn = isbn;
-        this.wordNumber = wordNumber;
-        this.otherAuthorJoin = otherAuthorJoin;
-        this.spareTire = spareTire;
-        this.wordId = wordId;
-        this.chargePersonId = chargePersonId;
-        this.chargePerson = chargePerson;
-        this.checkout = checkout;
-        this.teacherAndacademicWorks = teacherAndacademicWorks;
+//    public AcademicWork(String acaworkId, PublishClub publishClub, String firstAuthor, String workName, String publishDate, String isbn, String wordNumber, String otherAuthorJoin, String spareTire, String wordId, String chargePersonId, String chargePerson, String checkout, Set teacherAndacademicWorks) {
+//        this.acaworkId = acaworkId;
+//        this.publishClub = publishClub;
+//        this.firstAuthor = firstAuthor;
+//        this.workName = workName;
+//        this.publishDate = publishDate;
+//        this.isbn = isbn;
+//        this.wordNumber = wordNumber;
+//        this.otherAuthorJoin = otherAuthorJoin;
+//        this.spareTire = spareTire;
+//        this.wordId = wordId;
+//        this.chargePersonId = chargePersonId;
+//        this.chargePerson = chargePerson;
+//        this.checkout = checkout;
+//        this.teacherAndacademicWorks = teacherAndacademicWorks;
+//    }
+    
+    public AcademicWork(String acaworkId, PublishClub publishClub,
+    		String firstAuthor, String workName, String publishDate,
+    		String isbn, String wordNumber, String otherAuthorJoin,
+    		String spareTire, String chargePersonId, String chargePerson,
+    		String checkout, Set teacherAndacademicWorks,
+    		WordsNumber wordsNumber) {
+    	this.acaworkId = acaworkId;
+    	this.publishClub = publishClub;
+    	this.firstAuthor = firstAuthor;
+    	this.workName = workName;
+    	this.publishDate = publishDate;
+    	this.isbn = isbn;
+    	this.wordNumber = wordNumber;
+    	this.otherAuthorJoin = otherAuthorJoin;
+    	this.spareTire = spareTire;
+    	this.chargePersonId = chargePersonId;
+    	this.chargePerson = chargePerson;
+    	this.checkout = checkout;
+    	this.teacherAndacademicWorks = teacherAndacademicWorks;
+    	this.wordsNumber = wordsNumber;
     }
 
    
     // Property accessors
 
-    public AcademicWork(String acaworkId, PublishClub publishClub,
-			String firstAuthor, String workName, String publishDate,
-			String isbn, String wordNumber, String otherAuthorJoin,
-			String spareTire, String chargePersonId, String chargePerson,
-			String checkout, Set teacherAndacademicWorks,
-			WordsNumber wordsNumber) {
-		this.acaworkId = acaworkId;
-		this.publishClub = publishClub;
-		this.firstAuthor = firstAuthor;
-		this.workName = workName;
-		this.publishDate = publishDate;
-		this.isbn = isbn;
-		this.wordNumber = wordNumber;
-		this.otherAuthorJoin = otherAuthorJoin;
-		this.spareTire = spareTire;
-		this.chargePersonId = chargePersonId;
-		this.chargePerson = chargePerson;
-		this.checkout = checkout;
-		this.teacherAndacademicWorks = teacherAndacademicWorks;
-		this.wordsNumber = wordsNumber;
-	}
 
 	public String getAcaworkId() {
         return this.acaworkId;
@@ -154,14 +155,6 @@ public class AcademicWork  implements java.io.Serializable {
     
     public void setSpareTire(String spareTire) {
         this.spareTire = spareTire;
-    }
-
-    public String getWordId() {
-        return this.wordId;
-    }
-    
-    public void setWordId(String wordId) {
-        this.wordId = wordId;
     }
 
     public String getChargePersonId() {
