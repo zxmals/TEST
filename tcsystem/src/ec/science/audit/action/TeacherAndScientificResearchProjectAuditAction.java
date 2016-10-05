@@ -50,13 +50,13 @@ public class TeacherAndScientificResearchProjectAuditAction implements RequestAw
 	 */
 	public String getRecordsInWithConditions() {
 		// storageDate();
+		Transaction tx = TARProjectDAO.getSession().beginTransaction();
 		if ((ResearchLab) session.get("selectedResearchLab") == null) {
 			session.put("selectedResearchLab", new ResearchLab());
 		}
 		if ((Integer) session.get("pageSize") == null) {
 			session.put("pageSize", 1);
 		}
-		Transaction tx = null;
 		try {
 			this.request.put("TA_SRProjectList", this.TARProjectDAO
 					.getTASRProjectListsWithCondition(pageIndex,
@@ -65,20 +65,19 @@ public class TeacherAndScientificResearchProjectAuditAction implements RequestAw
 							(String) session.get("afterdate"),
 							(ResearchLab) session.get("selectedResearchLab"),
 							(String) session.get("checkoutStatus")));
-			tx = TARProjectDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
-			tx.rollback();
 			this.setOperstatus(-1);
 			ex.printStackTrace();
+			tx.rollback();
 		}
-		getResearchLabList();
+//		getResearchLabList();
 		return "success";
 	}
 
 	public String getSRPToBeAudited() {
-		Transaction tx = null;
+		Transaction tx = TARProjectDAO.getSession().beginTransaction();
 		if ((ResearchLab) session.get("selectedResearchLab") == null) {
 			session.put("selectedResearchLab", new ResearchLab());
 		}
@@ -92,33 +91,31 @@ public class TeacherAndScientificResearchProjectAuditAction implements RequestAw
 					(String) session.get("afterdate"),
 					(ResearchLab) session.get("selectedResearchLab"),
 					(String) session.get("checkoutStatus")));
-			tx = TARProjectDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
-			tx.rollback();
 			this.setOperstatus(-1);
 			ex.printStackTrace();
+			tx.rollback();
 		}
-		getResearchLabList();
+//		getResearchLabList();
 		return "success";
 	}
 
 	public void getResearchLabList() {
-		Transaction tx = null;
+		Transaction tx = this.researchDAO.getSession().beginTransaction();
 		if (researchLab == null) {
 			researchLab = new ResearchLab();
 		}
 		session.put("selectResearchLab", researchLab);
 		try {
 			this.request.put("researchLabList", researchDAO.findAll());
-			tx = this.researchDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
-			tx.rollback();
 			this.setOperstatus(-1);
 			ex.printStackTrace();
+			tx.rollback();
 		}
 	}
 

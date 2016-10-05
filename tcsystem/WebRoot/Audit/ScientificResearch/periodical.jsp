@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<%@page import="com.nuaa.ec.utils.StoreData"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -11,6 +12,7 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	request.setAttribute("researchLabList", StoreData.getResearchLabList());
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -81,7 +83,7 @@
 		<hr>
 		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
 			<select name="researchLab_TAPA.researchLabId" id="reserchLabSelection">
-				<c:forEach var="researchLab" items="${researchLabList_TAPA }">
+				<c:forEach var="researchLab" items="${researchLabList }">
 					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
 				</c:forEach>
 		</select>

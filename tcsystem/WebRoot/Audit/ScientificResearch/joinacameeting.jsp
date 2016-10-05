@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<%@page import="com.nuaa.ec.utils.StoreData"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -11,6 +12,7 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	request.setAttribute("researchLabList", StoreData.getResearchLabList());
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -62,30 +64,30 @@
 
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
-	<form action="TeacherAndPeriodicalAudit!getTAPeriodicalList"
+	<form action="TeacherAndjoinAcademicMeetingAudit!getTAAMeetingList"
 		method="post" name="pickdate">
 		<div class="datepick" style="font-size:12px;">
 			<span>选择日期范围</span>
 			<div>
 
 				从:<input type="text" id="date1" class="Wdate"
-					onClick="WdatePicker()" value="${sessionScope.foredate_TAPA }"
-					name="foredate_TAPA" id="foredate" />到:<input type="text" id="date2"
+					onClick="WdatePicker()" value="${sessionScope.foredate_TAAM }"
+					name="foredate_TAAM" id="foredate" />到:<input type="text" id="date2"
 					onClick="WdatePicker()" class="Wdate"
-					value="${sessionScope.afterdate_TAPA }" name="afterdate_TAPA"
+					value="${sessionScope.afterdate_TAAM }" name="afterdate_TAAM"
 					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep"
 					value="查询" title="点击查询">
 			</div>
 		</div>
-		<h3 style="padding:0px;margin-left: 10px;">承担学术会议审核</h3>
+		<h3 style="padding:0px;margin-left: 10px;">参加学术会议审核</h3>
 		<hr>
 		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="researchLab_TAPA.researchLabId" id="reserchLabSelection">
-				<c:forEach var="researchLab" items="${researchLabList_TAPA }">
+			<select name="researchLab_TAAM.researchLabId" id="reserchLabSelection">
+				<c:forEach var="researchLab" items="${researchLabList }">
 					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
 				</c:forEach>
 		</select>
-		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select name="pageSize_TAPA"
+		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select name="pageSize_TAAM"
 			id="pageSizeSelection">
 				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
 				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
@@ -93,7 +95,7 @@
 				<option value="20">&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;</option>
 				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
 		</select> 条记录
-		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select name="checkOutStatus_TAPA"
+		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select name="checkOutStatus_TAAM"
 			id="checkoutStatus">
 				<option value="0">未审核</option>
 				<option value="1">审核通过</option>
@@ -106,61 +108,64 @@
 	<form name="Audit" action="" method="post">
 		<table
 			class="table table-striped table-bordered table-hover dataTables-example"
-			style="border-collapse:collapse;">
+			style="border-collapse:collapse; font-size: 13px;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
-				<td>参加学术会议名称</td>	<td>参加学术会议编号</td>
-				<td>会议类型</td>			<td>会议地点</td>
-				<td>会议论文编号</td>		<td>论文标题</td>
-				<td>作者</td>				<td>作者身份</td>
-				<td>检索情况</td>			<td>教师编号</td>
-				<td>教师姓名</td>			<td>最终分数</td>
-				<c:if test="${sessionScope.checkOutStatus_TAPA=='0' }">
+				<td>参加学术会议编号</td>		<td>参加学术会议名称</td>		
+				<td>会议类型</td>				<td>会议地点</td>
+				<td>会议时间</td>				<td>会议论文编号</td>
+				<td>论文标题</td>				<td>作者</td>
+				<td>作者身份</td>				<td>教师编号</td>
+				<td>教师姓名</td>				<td>检索情况</td>			
+				<td>最终分数</td>
+				<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
 						onchange="allAlowOrNot()" /></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAPA=='1' }">
+				<c:if test="${sessionScope.checkOutStatus_TAAM=='1' }">
 					<td><font color="blue">通过</td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAPA=='2' }">
+				<c:if test="${sessionScope.checkOutStatus_TAAM=='2' }">
 					<td><font color="red">未通过</td>
 				</c:if>
 
 			</tr>
-			<c:forEach var="TAPUnionPPModel" items="${TAPUnionPPModelList }">
+			<c:forEach var="TAAMeeting" items="${TAAMeetingList }">
 				<tr>
-					<!-- 参加学术会议名称 -->
-					<td>${TAPUnionPPModel.periodicalPapers.periodicalPid }</td>
 					<!-- 参加学术会议编号 -->
-					<td>${TAPUnionPPModel.periodicalPapers.thesisTitle }</td>
+					<td>${TAAMeeting.joinAcademicMeeting.joinAcaMid }</td>
+					<!-- 参加学术会议名称 -->
+					<td>${TAAMeeting.joinAcademicMeeting.acaMeetName }</td>
 					<!-- 会议类型 -->
-					<td>${TAPUnionPPModel.TAPeriodical.periodical.periodicalName }</td>
+					<td>${TAAMeeting.joinAcademicMeeting.meetingType.meetingTypeName }</td>
 					<!-- 会议地点 -->
-					<td>${TAPUnionPPModel.periodicalPapers.firstAuthor }</td>
+					<td>${TAAMeeting.joinAcademicMeeting.meetingPlace.meetingPlace }</td>
 					<!-- 会议论文编号 -->
-					<td>${TAPUnionPPModel.periodicalPapers.secondAuthor }</td>
+					<td>${TAAMeeting.meetingPaper.meetingPaperId }</td>
+					<!--会议时间-->
+					<td>${TAAMeeting.joinAcademicMeeting.meetingdate }</td>
 					<!-- 论文标题 -->
-					<td>${TAPUnionPPModel.periodicalPapers.year }</td>
+					<td>${TAAMeeting.meetingPaper.paperTitle }</td>
 					<!-- 作者 -->
-					<td>${TAPUnionPPModel.periodicalPapers.file }</td>
+					<td>${TAAMeeting.meetingPaper.authorName }</td>
 					<!-- 作者身份 -->
-					<td>${TAPUnionPPModel.periodicalPapers.phase }</td>
+					<td>${TAAMeeting.meetingPaper.authorIdentity }</td>
 					<!-- 检索情况 -->
-					<td>${TAPUnionPPModel.TAPeriodical.teacher.teacherId }</td>
+					<td>${TAAMeeting.meetingPaper.paperRetrievalCondition.prcondition }</td>
 					<!-- 教师编号 -->
-					<td>${TAPUnionPPModel.TAPeriodical.teacher.teacherName }</td>
+					<td>${TAAMeeting.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
-					<td>${TAPUnionPPModel.periodicalPapers.describe }</td>
+					<td>${TAAMeeting.teacher.teacherName }</td>
 					<!-- 最终分数 -->
-					<td>${TAPUnionPPModel.TAPeriodical.finalScore }</td>
-					<c:if test="${sessionScope.checkOutStatus_TAPA=='0' }">
+					<td>${TAAMeeting.finalScore }</td>
+					<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }">
 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TAPUnionPPModel.TAPeriodical.teacherAndPid }" /></td>
+							value="${TAAMeeting.teacherAjacaMid}" /></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAPA=='1' }">
+					<c:if test="${sessionScope.checkOutStatus_TAAM=='1' }">
 						<td><font color="green"size:"3">√</td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAPA=='2' }">
+					<c:if test="${sessionScope.checkOutStatus_TAAM=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
 				</tr>
@@ -170,33 +175,33 @@
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;">
-			当前是第<font style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAPA }</font>页
+			当前是第<font style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAAM }</font>页
 		</span>
 		 <span> 
 			<c:if
 				test="${pageIndex>1}">
 				<a
-					href="TeacherAndPeriodicalAudit!getTAPeriodicalListAfterDivided?pageIndex=${pageIndex-1 }">上一页</a>
+					href="TeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index"
 			step="1">
-			<c:if test="${index<=pageCount_TAPA }">
+			<c:if test="${index<=pageCount_TAAM }">
 				<span> <a
-					href="TeacherAndPeriodicalAudit!getTAPeriodicalListAfterDivided?pageIndex=${index }">${index }</a>
+					href="TeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
-		<span> <c:if test="${pageIndex<pageCount_TAPA }">
+		<span> <c:if test="${pageIndex<pageCount_TAAM }">
 				<a
-					href="TeacherAndPeriodicalAudit!getTAPeriodicalListAfterDivided?pageIndex=${pageIndex+1 }">下一页</a>
+					href="TeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
-		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAPA }</font>页
-		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAPA }</font>条记录
+		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAAM }</font>页
+		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAAM }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_TAPA=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_TAAM=='0'}">
 		<input type="button" value="提交" class="button_set"
 		style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
@@ -227,9 +232,9 @@
 	<script src="My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAPA}']").attr("selected",true);
-			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab_TAPA.researchLabId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAPA}']").attr("selected",true);
+			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAAM}']").attr("selected",true);
+			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab_TAAM.researchLabId}']").attr("selected",true);
+			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAAM}']").attr("selected",true);
 		});
 	</script>
 </body>
@@ -248,13 +253,13 @@
 				return;
 			}
 			if(window.confirm("您确认要提交审核吗？")){
-				$.post("TeacherAndPeriodicalAudit!doCheckOutTask",{
+				$.post("TeacherAndjoinAcademicMeetingAudit!doCheckOut",{
 					checkOutIDs:IDs
 				},function(data,status){
 					if(status=="success"){
 						if(data=="succ"){
 							window.alert("审核成功！");
-							window.location.replace("<%=basePath%>TeacherAndPeriodicalAudit!getTAPeriodicalList");
+							window.location.replace("<%=basePath%>TeacherAndjoinAcademicMeetingAudit!getTAAMeetingList");
 						} else {
 							window.alert("审核失败！");
 						}

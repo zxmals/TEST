@@ -146,6 +146,14 @@
 		<action name="TeacherAndmainUndertakeAcademicMeetingAudit" class="ec.science.audit.action.TeacherAndmainUndertakeAcademicMeetingAuditAction">
 			<result>/Audit/ScientificResearch/mainundertakeacameeting.jsp</result>
 		</action>
+		<!-- 参加学术会议审核 -->
+		<action name="TeacherAndjoinAcademicMeetingAudit" class="ec.science.audit.action.TeacherAndjoinAcademicMeetingAuditAction">
+			<result>/Audit/ScientificResearch/joinacameeting.jsp</result>
+		</action>
+		<!-- 邀请专家讲座审核 -->
+		<action name="TeacherAndinvitedExpertsSpeechAudit" class="ec.science.audit.action.TeacherAndinvitedExpertsSpeechAuditAction">
+			<result>/Audit/ScientificResearch/inviteexpertspeech.jsp</result>
+		</action>
 	</package>
 </struts>
 
