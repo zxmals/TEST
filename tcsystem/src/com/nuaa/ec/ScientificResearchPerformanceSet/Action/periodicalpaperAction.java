@@ -2,7 +2,6 @@ package com.nuaa.ec.ScientificResearchPerformanceSet.Action;
 
 import java.util.Map;
 
-import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
@@ -43,7 +42,7 @@ public class periodicalpaperAction implements RequestAware,SessionAware {
 	public String execute() {
 		return "success";
 	}
-//TODO: 期刊论设置
+	//TODO: 期刊论设置
 	//获取信息
 	public String getPeriodicalPaperINF()throws Exception{
 		request.put("periodicalpaperli", periopaperdao.findAll(generateQueryCondition(), 0, 100));

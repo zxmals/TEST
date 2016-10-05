@@ -26,6 +26,14 @@
 				readys[i].placeholder = "";
 				readys[i].value = "";
 		}
+		var checkeds = $('.checkattr');
+		if(checkeds.length>0){
+			for(var i=0;i<checkeds.length;i++){
+				checkeds[i].checked = false;
+			}
+			$('#isbn10').css("display","none");
+			$('#isbn13').css("display","none");
+		}
 	}
 	//change -background-color to white/ when user click on this
 	$('.nullcheck').click(function() {
@@ -89,6 +97,7 @@
 			return true;
 		}
 	}
+	//解析链接 返回二维数组
 	function getParamArray() {
         var url = location.search;
         url = url.substring(1,url.length);
@@ -109,6 +118,7 @@
 //            }
 //        }
     }
+	//通过参数名name获取链接中对应的参数值
 	function getParameters(name) {
 		var arrays = getParamArray();
 		var value = "5";
@@ -120,4 +130,53 @@
 			}
 		}
 		return value;
+	}
+	//ISBN 合法性验证
+    function checkISBN(isbnv) {
+    	var isbn = isbnv.replace(new RegExp("-","gm"),"");
+    	//ISBN-10
+		if(isbn.length==10){
+			var tmp = 10;
+			var sum = 0;
+			for(var i=0;i<9;i++){
+				sum += isbn.charAt(i)*(tmp--);
+			}
+			var N = 11-sum%11;
+			if(N==10){
+				if(!(isbn.charAt(i)=='X'|isbn.charAt(i)=='x')){
+					return false;
+				}else return true;
+			}else{
+				if(N==11){
+					if(isbn.charAt(i)!='0'){
+						return false;
+					}else return true;
+				}else{
+					if(isbn.charAt(i)!=N){
+						return false;
+					}else return true;
+				}
+			}
+		}
+    	//ISBN-13
+		if(isbn.length==13){
+			var sum = 0;
+			for(var i=0;i<12;i++){
+				if((i+1)%2==0){
+					sum += parseInt(isbn.charAt(i))*3;
+				}else{
+					sum += parseInt(isbn.charAt(i));
+				}
+			}
+			var N = 10 - sum%10;
+			if(N==0){
+				if(isbn.charAt(i)!='0'){
+					return false;
+				}else return true;
+			}else{
+				if(isbn.charAt(i)!=N){
+					return false;
+				}else return true;
+			}
+		}
 	}

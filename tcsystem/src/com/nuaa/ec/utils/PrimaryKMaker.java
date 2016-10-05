@@ -19,8 +19,8 @@ public class PrimaryKMaker {
 				lpk = (String)query.list().get(0);
 			transaction.commit();
 		}catch(Exception e){
-			e.printStackTrace();
 			transaction.rollback();
+			e.printStackTrace();
 		}finally{
 			if(session!=null)
 				try {

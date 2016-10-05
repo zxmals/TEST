@@ -28,6 +28,7 @@ public class AcademicWork  implements java.io.Serializable {
      private String checkout;
      private Set teacherAndacademicWorks = new HashSet(0);
 
+     private WordsNumber wordsNumber;
 
     // Constructors
 
@@ -61,7 +62,29 @@ public class AcademicWork  implements java.io.Serializable {
    
     // Property accessors
 
-    public String getAcaworkId() {
+    public AcademicWork(String acaworkId, PublishClub publishClub,
+			String firstAuthor, String workName, String publishDate,
+			String isbn, String wordNumber, String otherAuthorJoin,
+			String spareTire, String chargePersonId, String chargePerson,
+			String checkout, Set teacherAndacademicWorks,
+			WordsNumber wordsNumber) {
+		this.acaworkId = acaworkId;
+		this.publishClub = publishClub;
+		this.firstAuthor = firstAuthor;
+		this.workName = workName;
+		this.publishDate = publishDate;
+		this.isbn = isbn;
+		this.wordNumber = wordNumber;
+		this.otherAuthorJoin = otherAuthorJoin;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.chargePerson = chargePerson;
+		this.checkout = checkout;
+		this.teacherAndacademicWorks = teacherAndacademicWorks;
+		this.wordsNumber = wordsNumber;
+	}
+
+	public String getAcaworkId() {
         return this.acaworkId;
     }
     
@@ -172,6 +195,14 @@ public class AcademicWork  implements java.io.Serializable {
     public void setTeacherAndacademicWorks(Set teacherAndacademicWorks) {
         this.teacherAndacademicWorks = teacherAndacademicWorks;
     }
+
+	public WordsNumber getWordsNumber() {
+		return wordsNumber;
+	}
+
+	public void setWordsNumber(WordsNumber wordsNumber) {
+		this.wordsNumber = wordsNumber;
+	}
    
 
 

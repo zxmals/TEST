@@ -29,7 +29,7 @@ public class AcademicWorkDAO extends BaseHibernateDAO  {
 	public static final String WORD_NUMBER = "wordNumber";
 	public static final String OTHER_AUTHOR_JOIN = "otherAuthorJoin";
 	public static final String SPARE_TIRE = "spareTire";
-	public static final String WORD_ID = "wordId";
+//	public static final String WORD_ID = "wordId";
 	public static final String CHARGE_PERSON_ID = "chargePersonId";
 	public static final String CHARGE_PERSON = "chargePerson";
 	public static final String CHECKOUT = "checkout";
@@ -144,11 +144,11 @@ public class AcademicWorkDAO extends BaseHibernateDAO  {
 		);
 	}
 	
-	public List findByWordId(Object wordId
-	) {
-		return findByProperty(WORD_ID, wordId
-		);
-	}
+//	public List findByWordId(Object wordId
+//	) {
+//		return findByProperty(WORD_ID, wordId
+//		);
+//	}
 	
 	public List findByChargePersonId(Object chargePersonId
 	) {
@@ -168,13 +168,24 @@ public class AcademicWorkDAO extends BaseHibernateDAO  {
 		);
 	}
 	
-
-	public List findAll() {
+	public List findAll(int currentrow,int limit,String condition) {
 		log.debug("finding all AcademicWork instances");
 		try {
-			String queryString = "from AcademicWork";
-	         Query queryObject = getSession().createQuery(queryString);
+			String queryString = "from AcademicWork aw where aw.spareTire = '1' "+condition;
+	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
+	         queryObject.setMaxResults(limit);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition) {
+		try {
+			String queryString = "from AcademicWork aw where aw.spareTire = '1' "+condition+" order by aw.publishDate desc";
+	         Query queryObject = getSession().createQuery(queryString);
+			 return queryObject.list().size();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
