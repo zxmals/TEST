@@ -337,6 +337,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	$(document).ready(function() {
 			$('.firstslide li').css("margin-left","12%");
 		});
+    	$('.J_menuItem').click(function() {
+    		$('.minimalize-styl-2').click();
+		});
     </script>
 </body>
 

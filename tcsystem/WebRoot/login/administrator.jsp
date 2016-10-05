@@ -362,7 +362,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div id="page-wrapper" class="gray-bg dashbard-1">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    <div class="navbar-header">
+	                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#">
+	                    	<i class="fa fa-bars"></i> 
+	                    </a>
                         <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
                             <div class="form-group">
                                 <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">
@@ -544,6 +547,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/hplus.min.js?v=4.0.0"></script>
     <script type="text/javascript" src="js/contabs.min.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript">
+    	$('.J_menuItem').click(function() {
+    		$('.minimalize-styl-2').click();
+		});
+    </script>
 </body>
 
 </html>
