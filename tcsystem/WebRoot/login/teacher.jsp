@@ -117,12 +117,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                                <a class="J_menuItem" href="GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0">论文管理</a>
 				                            </li>
 				                            <li>
-				                                <a class="J_menuItem" href="doPerformance_tf.jsp">个人参与管理</a>
+				                                <a class="J_menuItem" href="GTperiodicalpaper-personset!getPersonalJoinC?pagenum=1&">个人参与管理</a>
 				                            </li>
 				                        </ul>
 		                            </li>
 		                            <li>
-		                                <a class="J_menuItem" href="doPerformance_tf.jsp">学术著作</a>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">学术著作</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTacademicwork-workset!getWorkall">著作管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTacademicwork-personset">个人参与管理</a>
+				                            </li>
+				                        </ul>
 		                            </li>
 		                            <li>
 		                                <a class="J_menuItem" href="VA/act_summary.jsp">科研项目奖励</a>

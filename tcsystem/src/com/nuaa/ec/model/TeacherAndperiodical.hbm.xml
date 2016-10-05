@@ -29,7 +29,7 @@
             <column name="PPID" length="20" not-null="true" />
         </property>
         <property name="checkOut" type="java.lang.String">
-            <column name="CheckOut" length="3" />
+            <column name="CheckOut" length="10" />
         </property>
     </class>
 </hibernate-mapping>

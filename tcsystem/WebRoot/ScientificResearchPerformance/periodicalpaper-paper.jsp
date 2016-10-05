@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>PeriodicalPaper --Set</title>
+    <title>AcademicWork --Work-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -64,28 +64,13 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                    <div class="ibox-title">
 	                        <h5>期刊论文管理<small></small></h5>
 	                        <div class="ibox-tools">
-	                            <a class="collapse-link">
-	                                <i class="fa fa-chevron-up"></i>
-	                            </a>
-	                            <a class="dropdown-toggle" data-toggle="dropdown" href="table_data_tables.html#">
-	                                <i class="fa fa-wrench"></i>
-	                            </a>
-	                            <ul class="dropdown-menu dropdown-user">
-	                                <li><a href="table_data_tables.html#">选项1</a>
-	                                </li>
-	                                <li><a href="table_data_tables.html#">选项2</a>
-	                                </li>
-	                            </ul>
-	                            <a class="close-link">
-	                                <i class="fa fa-times"></i>
-	                            </a>
 	                        </div>
 	                    </div>
 	                    <div class="ibox-content">
 	                    
 	                    <div class="">
 	                         <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
-	                         <strong>添加</strong>
+	                         <strong>新增期刊论文</strong>
 	                         </button>
 	                         <button class="btn  btn-primary addrows" style="margin-left: 90%;" type="submit">
 	                         <strong>数据 +100</strong>
@@ -130,7 +115,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										<td>${teachermp[ebj.chargePersonId] }</td>
 										<td>
 											<c:if test="${ebj.checkout==0 }">待完善</c:if>
-											<c:if test="${ebj.checkout==1 }">已完善</c:if>
+											<c:if test="${ebj.checkout==1 }">已完善,待审核</c:if>
+											<c:if test="${ebj.checkout==2 }">已审核</c:if>
+											<c:if test="${ebj.checkout==3 }">审核未通过</c:if>
 										</td>
 										<td>
 											<c:if test="${ebj.chargePersonId==teacher.teacherId}">

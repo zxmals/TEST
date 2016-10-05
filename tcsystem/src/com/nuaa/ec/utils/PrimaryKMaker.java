@@ -19,8 +19,8 @@ public class PrimaryKMaker {
 				lpk = (String)query.list().get(0);
 			transaction.commit();
 		}catch(Exception e){
-			e.printStackTrace();
 			transaction.rollback();
+			e.printStackTrace();
 		}finally{
 			if(session!=null)
 				try {
@@ -45,10 +45,8 @@ public class PrimaryKMaker {
 		if(lastpk==null)
 			return foreword+"000000001";		
 		String pk = 1+Integer.parseInt(lastpk.substring(foreword.length(), lastpk.length()))+"";
-		int j = pk.length();
-		for(int i=0;i<9-j;i++){
-			pk = "0"+pk;
-		}
+		pk = "000000000"+pk;
+		pk = pk.substring(pk.length()-9);
 //		System.out.println(foreword+pk);
 		return foreword+pk;
 	}
