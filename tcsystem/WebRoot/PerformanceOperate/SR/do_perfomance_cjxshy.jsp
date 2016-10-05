@@ -5,7 +5,7 @@
 <jsp:directive.page import="com.nuaa.ec.science.dao.MeetingTypeDAO"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.PaperRetrievalConditionDAO"/>
 <jsp:directive.page import="javax.servlet.http.HttpSession"/>
-<jsp:directive.page import="com.nuaa.ec.science.action.AddJAMeetingAction"/>
+<jsp:directive.page import="com.nuaa.ec.science.baseSet.action.AddJAMeetingAction"/>
 <jsp:directive.page import="com.nuaa.ec.science.Permodel.ViewCJXSHY"/>
 <jsp:directive.page import="com.nuaa.ec.science.dao.PersonInfoDAO"/>
 

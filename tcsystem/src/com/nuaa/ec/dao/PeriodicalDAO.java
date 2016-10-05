@@ -1,6 +1,11 @@
 package com.nuaa.ec.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
@@ -93,6 +98,27 @@ public class PeriodicalDAO extends BaseHibernateDAO  {
       }
 	}
 
+    public Map<String, Object> findTranslate() throws Exception{
+    	Map<String, Object>mp = new HashMap<String, Object>();
+    	Connection con = null;
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+    	try {
+			con = getConn();
+			ps = con.prepareStatement("select PeriodicalID,PeriodicalName from Periodical where SpareTire='1' ");
+			rs = ps.executeQuery();
+			while(rs.next()){
+				mp.put(rs.getString(1), rs.getString(2));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw e;
+		}finally{
+			closeSqlAttr(ps, rs);
+		}
+    	return mp;
+    }
+    
 	public List findByPeriodicalName(Object periodicalName
 	) {
 		return findByProperty(PERIODICAL_NAME, periodicalName

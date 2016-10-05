@@ -29,13 +29,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <body class="gray-bg" onload="checkmess()">
 
-    <div class="middle-box text-center loginscreen  animated fadeInDown">
-        <div>
-            <div>
+            <div style="text-align: center;margin-top:30px;">
 
-                <h2 class="logo-name">66</h2>
+                <h4 class="logo-nameU" style="margin-left: 500px;">南    &nbsp; 京    &nbsp;航    &nbsp;空   &nbsp; 航 &nbsp;   天 &nbsp;   大 &nbsp;   学</h4>
+                <h4 class="logo-nameD" style="margin-left: 500px">经  &nbsp;&nbsp;济 &nbsp; &nbsp;与 &nbsp;&nbsp; 管  &nbsp;&nbsp;理 &nbsp;&nbsp; 学&nbsp;&nbsp;  院</h4>
 
             </div>
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
             <h3>测试一</h3>
             <h4></h4>
 

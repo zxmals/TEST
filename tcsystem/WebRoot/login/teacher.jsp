@@ -72,26 +72,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </div>
                         <div class="logo-element">bamanker</div>
                     </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-home"></i>
-                            <span class="nav-label">任务管理</span>
+<!--                     <li> -->
+<!--                         <a href="#"> -->
+<!--                             <i class="fa fa-home"></i> -->
+<!--                             <span class="nav-label">任务管理</span> -->
 
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="J_menuItem" href="index_v1.html" data-index="0">待完成任务</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="index_v2.html">已完成任务</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="index_v3.html">发出任务</a>
-                            </li>
-                        </ul>
+<!--                             <span class="fa arrow"></span> -->
+<!--                         </a> -->
+<!--                         <ul class="nav nav-second-level"> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v1.html" data-index="0">待完成任务</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v2.html">已完成任务</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v3.html">发出任务</a> -->
+<!--                             </li> -->
+<!--                         </ul> -->
 
-                    </li>
+<!--                     </li> -->
                     <li>
                         <a href="#">
                             <i class="fa fa fa-bar-chart-o"></i>
@@ -100,7 +100,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="doPerformance_sr.jsp">科研绩效管理</a>
+                                <a href="#">
+                                	<i class="fa fa fa-bar-chart-o"></i>
+                                	<span class="nav-label">科研绩效管理</span>
+                                	<span class="fa arrow"></span>
+                                </a>
+                                <ul class="nav nav-second-level firstslide">
+		                            <li>
+		                                <a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">期刊论文</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0">论文管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTperiodicalpaper-personset!getPersonalJoinC?pagenum=1&">个人参与管理</a>
+				                            </li>
+				                        </ul>
+		                            </li>
+		                            <li>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">学术著作</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTacademicwork-workset!getWorkall">著作管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTacademicwork-personset">个人参与管理</a>
+				                            </li>
+				                        </ul>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="VA/act_summary.jsp">科研项目奖励</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="doPerformance_tf.jsp">参加学术会议</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="doPerformance_tf.jsp">邀请专家讲学</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="VA/act_summary.jsp">主承办学术会议</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="doPerformance_tf.jsp">入选人才工程</a>
+		                            </li>
+		                            <li>
+		                                <a class="J_menuItem" href="doPerformance_tf.jsp">科研项目</a>
+		                            </li>
+		                        </ul>
                             </li>
                             <li>
                                 <a class="J_menuItem" href="doPerformance_tf.jsp">教学绩效管理</a>
@@ -279,6 +333,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/hplus.min.js?v=4.0.0"></script>
     <script type="text/javascript" src="js/contabs.min.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function() {
+			$('.firstslide li').css("margin-left","12%");
+		});
+    	$('.J_menuItem').click(function() {
+    		$('.minimalize-styl-2').click();
+		});
+    </script>
 </body>
 
 </html>

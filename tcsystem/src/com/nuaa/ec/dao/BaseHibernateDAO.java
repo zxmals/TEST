@@ -52,14 +52,13 @@ public class BaseHibernateDAO implements IBaseHibernateDAO {
 			}
 	}
 
-	public Connection getConn() {
+	public Connection getConn() throws SQLException {
 		// TODO Auto-generated method stub
 		try {
 			return ((SessionFactoryImpl)getSessionFactory()).getConnectionProvider().getConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+			throw e;
 		}
 	}
 	

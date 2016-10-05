@@ -195,14 +195,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             </li>
 							<li><a href="#">科研审核 <span class="fa arrow"></span></a>
 								<ul class="nav nav-third-level">									
-									<li><a class="J_menuItem" href="ScientificAuditbrowse!getExportData">审核</a></li>
+									<li><a class="J_menuItem" href="ScientificResearchProjectAudit!getSRPToBeAudited">科研项目审核</a></li>
+									<li><a class="J_menuItem" href="ScientificResearchRewardAudit!getRewardInfo">科研项目奖励审核</a></li>
+                                	<li><a class="J_menuItem" href="TeacherAndSelectedTalentProjectAudit!getTASTalentProjectInfo">入选人才项目审核</a></li>
+                                	<li><a class="J_menuItem" href="TeacherAndPeriodicalAudit!getTAPeriodicalList">期刊论文审核</a></li>
+                                	<li><a class="J_menuItem" href="TeacherAndmainUndertakeAcademicMeetingAudit!getTAUAcademicMeetingList">承担学术会议审核</a></li>
+                                	<li><a class="J_menuItem" href="TeahingAuditpreview!getExportData">参加学术会议审核</a></li>
+                                	<li><a class="J_menuItem" href="TeahingAuditpreview!getExportData">邀请专家讲座审核</a></li>
+                                	<li><a class="J_menuItem" href="TeahingAuditpreview!getExportData">学术著作审核</a></li>
 								</ul>
 							</li>
 							<li>
                                 <a href="#">教学审核 <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">                                                                    
-									<li><a class="J_menuItem" href="TeahingAuditpreview!getExportData">审核</a>
-                                    </li>
+									<li><a class="J_menuItem" href="TeahingAuditpreview!getExportData">审核</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -241,58 +247,58 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                                      <ul class="nav nav-third-level">
 		                                      	 <li><a class="J_menuItem"  href="ATAcademicWorkWordNumberset!getWordNumberINF">字数类别设置</a></li>
 												<li><a class="J_menuItem"  href="ATAcademicWorkPublishClubTypeset!getPublishClubTypeINF">出版社类别设置</a></li>
-												<li><a class="J_menuItem"  href="AcademicWorkPublishClubset!viewPublishClub">出版社设置</a></li>
-												<li><a class="J_menuItem"  href="AcademicWorkScoreset!viewAcadWorkScore">学术著作评分设置</a></li>
+												<li><a class="J_menuItem"  href="ATAcademicWorkPublishClubset!getPublishClubINF">出版社设置</a></li>
+												<li><a class="J_menuItem"  href="ATAcademicWorkScoreset!getAcadWorkScoreINF">学术著作评分设置</a></li>
 	                                      </ul>
                                      </li>
                                     <li>
                                     	<a href="#">科研项目设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="ScientificResearchProjectTypeset!viewScienResearchProjectType">科研项目类别设置</a></li>
-												<li><a class="J_menuItem"  href="ScientificResearchProjectScoreset!viewScienResearchProjectScore">科研项目评分设置</a></li>																							
+		                                      	 <li><a class="J_menuItem"  href="ATScientificResearchProjectTypeset!viewScienResearchProjectType">科研项目类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATScientificResearchProjectScoreset!viewScienResearchProjectScore">科研项目评分设置</a></li>																							
 	                                      </ul>
                                     </li>
                                     <li>
                                     	<a href="#">科研项目奖励设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="ProjectRewardTypeset!viewProjectRewardType">科研奖励类别设置</a></li>
-												<li><a class="J_menuItem"  href="ProjectRewardLevelset!viewProjectRewardLevel">科研奖励级别设置</a></li>
-												<li><a class="J_menuItem"  href="ProjectRewardScoreset!viewProjectRewardScore">科研奖励评分设置</a></li>												
+		                                      	 <li><a class="J_menuItem"  href="ATProjectRewardTypeset!getProjectRewardTypeINF">科研奖励类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATProjectRewardLevelset!getProjectRewardLevelINF">科研奖励级别设置</a></li>
+												<li><a class="J_menuItem"  href="ATProjectRewardScoreset!getProjectRewardScoreINF">科研奖励评分设置</a></li>												
 	                                      </ul>
                                     </li>
                                     <li>
                                     	<a href="#">参加学术会议设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="JoinAcademicMeetingTypeset!viewMeetingType">学术会议类别设置</a></li>
-												<li><a class="J_menuItem"  href="JoinAcademicMeetingPaperRetrievalset!viewPaperRetrieval">论文检索类别设置</a></li>
-												<li><a class="J_menuItem"  href="JoinAcademicMeetingPlaceset!viewMeetingPlace">学术会议地点设置</a></li>
-												<li><a class="J_menuItem"  href="JoinAcademicMeetingScoreset!viewMeetingScore">学术会议评分设置</a></li>
+		                                      	 <li><a class="J_menuItem"  href="ATJoinAcademicMeetingTypeset!getAcademicMeetingTypeINF">学术会议类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATJoinAcademicMeetingPaperRetrievalset!getPaperRetrievalConditionINF">论文检索类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATJoinAcademicMeetingPlaceset!getAcademicMeetingPlaceINF">学术会议地点设置</a></li>
+												<li><a class="J_menuItem"  href="ATJoinAcademicMeetingScoreset!getJoinAcademicMeetingScoreINF">学术会议评分设置</a></li>
 	                                      </ul>
                                     </li>
                                     <li>
                                     	<a href="#">邀请专家讲学设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="InviteExpertSpeechExpertTypeset!viewExpertType">专家类别设置</a></li>
-												<li><a class="J_menuItem"  href="sysSetting/Nationalityset">国籍设置</a></li>
-												<li><a class="J_menuItem"  href="InviteExpertSpeechScoreset!viewInviteExpertSpeechScore">邀请专家讲学评分设置</a></li>
+		                                      	 <li><a class="J_menuItem"  href="ATInviteExpertSpeechExpertTypeset!getExpertTypeINF">专家类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATNationalityBaseset!getNationalityinfo">国籍设置</a></li>
+												<li><a class="J_menuItem"  href="ATInviteExpertSpeechScoreset!getInviteExpertSpeechScoreINF">邀请专家讲学评分设置</a></li>
 	                                      </ul>
                                     </li>
                                     <li>
                                     	<a href="#">主承办学术会议设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="MainUndertakeAcademicMeetingTypeset!viewMeetingType">主承办学术会议类别设置</a></li>
-												<li><a class="J_menuItem"  href="MainUndertakeAcademicMeetingPlaceset!viewMeetingPlace">主承办学术会议地点设置</a></li>
-												<li><a class="J_menuItem"  href="MainUndertakeAcademicMeetingScoreset!viewMeetingScore">学术会议评分设置</a></li>
+		                                      	 <li><a class="J_menuItem"  href="ATMainUndertakeAcademicMeetingTypeset!getMeetingTypeINF">学术会议类别设置</a></li>
+												<li><a class="J_menuItem"  href="ATMainUndertakeAcademicMeetingPlaceset!getMeetingPlaceINF">学术会议地点设置</a></li>
+												<li><a class="J_menuItem"  href="ATMainUndertakeAcademicMeetingScoreset!getMeetingScoreINF">学术会议评分设置</a></li>
 	                                      </ul>
                                     </li>
                                     <li>
-                                    	<a href="#">入选人才项目设置<span class="fa arrow"></span></a>
+                                    	<a href="#">入选人才项目工程设置<span class="fa arrow"></span></a>
                                     	<ul class="nav nav-third-level">
-		                                      	 <li><a class="J_menuItem"  href="SelectedTalentProjectFormset!viewSelectedTalentProject">人才工程条目设置</a></li>
-												<li><a class="J_menuItem"  href="SelectedTalentProjectScoreset!viewSelectedTalentProjectScore">入选人才工程评分设置</a></li>												
+		                                      	 <li><a class="J_menuItem"  href="ATSelectedTalentProjectFormset!getSelectedTalentProjectINF">人才工程设置</a></li>
+												<li><a class="J_menuItem"  href="ATSelectedTalentProjectScoreset!getSelectedTalentProjectScoreINF">人才工程评分设置</a></li>												
 	                                      </ul>
                                     </li>
-                                    <li><a class="J_menuItem" href="selfUndertakeTaskset!viewselfUndertakeTask">本人承担任务设置</a></li>
+                                    <li><a class="J_menuItem" href="ATSelfUndertakeTaskSet!viewAllTaskUndertaked">本人承担任务设置</a></li>
                                 </ul>
                             </li>
                              <li>
@@ -356,7 +362,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div id="page-wrapper" class="gray-bg dashbard-1">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    <div class="navbar-header">
+	                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#">
+	                    	<i class="fa fa-bars"></i> 
+	                    </a>
                         <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
                             <div class="form-group">
                                 <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">
@@ -538,6 +547,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/hplus.min.js?v=4.0.0"></script>
     <script type="text/javascript" src="js/contabs.min.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript">
+    	$('.J_menuItem').click(function() {
+    		$('.minimalize-styl-2').click();
+		});
+    </script>
 </body>
 
 </html>

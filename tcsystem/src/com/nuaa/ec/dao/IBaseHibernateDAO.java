@@ -3,6 +3,7 @@ package com.nuaa.ec.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.hibernate.Session;
 import org.hibernate.service.jdbc.connections.spi.ConnectionProvider;
@@ -39,6 +40,7 @@ public interface IBaseHibernateDAO {
 	/**
 	 * gain the connection to use sql-select
 	 * @return
+	 * @throws SQLException 
 	 */
-	public Connection getConn();
+	public Connection getConn() throws SQLException;
 }

@@ -1,14 +1,20 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndselectedTalentProject;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for TeacherAndselectedTalentProject entities.
@@ -25,8 +31,121 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 	public static final String FINAL_SCORE = "finalScore";
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
-
-
+	private Map<String,Object> session=ActionContext.getContext().getSession();
+	public boolean updateCheckoutStatus(List<TeacherAndselectedTalentProject> TASTalentProList){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<TASTalentProList.size();i++){
+				session.update(TASTalentProList.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List findAllWithCondition(int pageIndex, int pageSize,
+			String foredate, String afterdate, ResearchLab researchLab,
+			String checkOut) {
+		log.debug("finding all TeacherAndselectedTalentProject instances");
+		StringBuffer hql = null;
+		List<TeacherAndselectedTalentProject> list = new ArrayList<TeacherAndselectedTalentProject>();
+		if (researchLab.getResearchLabId() == null
+				|| researchLab.getResearchLabId().length() == 0) {
+			/*
+			 * 如果第一次进入界面 没有选择研究所 session里面没有对应的数据， 所以不显示数据
+			 */
+			session.put("recordNumber_TAST", 0);
+			session.put("pageCount_TAST", 0);
+			return list;
+		} else {
+			hql = new StringBuffer(
+					"from TeacherAndselectedTalentProject TAST where TAST.spareTire=1"
+							+ " and TAST.talentProject.spareTire='1'"
+							+ " and TAST.teacher.spareTire='1'"
+							+ " and TAST.checkOut='"
+							+ checkOut
+							+ "' and TAST.teacher.researchLab.researchLabId='"
+							+ researchLab.getResearchLabId() + "'");
+		}
+		try {
+			String append = " and TAST.tpselectedYear between ? and ? ";
+			String rank="  order by TAST.talentProject.talentProjectId asc,TAST.teacher.teacherId asc";
+			/*
+			 * 不一定有日期，所以要判断
+			 */
+			if (foredate != null && afterdate != null && foredate.length() != 0
+					&& afterdate.length() != 0) {
+				// 判断日期范围限制
+				hql.append(append).append(rank);
+				list = this.getSession().createQuery(hql.toString())
+						.setString(0, foredate).setString(1, afterdate).list();
+			} else {
+				list = this.getSession().createQuery(hql.toString()).list();
+			}
+			/*
+			 * 总体查询完毕，把总记录数和总页数放入session用于前台展现。
+			 */
+			session.put("recordNumber_TAST", list.size());
+			session.put("pageCount_TAST",
+					list.size() % pageSize == 0 ? (list.size() / pageSize)
+							: (list.size() / pageSize + 1));
+			/*
+			 * 调用分页函数，缓解前台压力， 在后台完成分页，在前台展示相应数据。
+			 */
+			list = this.getTASTalentProListsAfterDivided(pageIndex, pageSize,
+					foredate, afterdate, researchLab, checkOut);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndselectedTalentProject> getTASTalentProListsAfterDivided(
+			int pageIndex, int pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut) {
+		StringBuffer hql = null;
+		if (researchLab.getResearchLabId() == null
+				|| researchLab.getResearchLabId().length() == 0) {
+			hql = new StringBuffer(
+					"from TeacherAndselectedTalentProject TAST where TAST.spareTire=1"
+							+ " and TAST.talentProject.spareTire='1'"
+							+ " and TAST.teacher.spareTire='1'"
+							+ " and TAST.checkOut='"
+							+ checkOut + "'");
+		} else {
+			hql = new StringBuffer(
+					"from TeacherAndselectedTalentProject TAST where TAST.spareTire='1'"
+							+ " and TAST.talentProject.spareTire='1'"
+							+ " and TAST.teacher.spareTire='1'"
+							+ " and TAST.checkOut='"+ checkOut
+							+ "' and TAST.teacher.researchLab.researchLabId=\'"
+							+ researchLab.getResearchLabId() + "\'");
+		}
+		List<TeacherAndselectedTalentProject> list = new ArrayList<TeacherAndselectedTalentProject>();
+		String append = " and TAST.tpselectedYear between ? and ? ";
+		String rank="  order by TAST.talentProject.talentProjectId asc,TAST.teacher.teacherId asc";
+		if (foredate != null && afterdate != null && foredate.length() != 0
+				&& afterdate.length() != 0) {
+			// 判断日期范围限制
+			hql.append(append).append(rank);
+			list = this.getSession().createQuery(hql.toString())
+					.setString(0, foredate).setString(1, afterdate)
+					.setFirstResult((pageIndex - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+		} else {
+			list = this.getSession().createQuery(hql.toString())
+					.setFirstResult((pageIndex - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+		}
+		return list;
+	}
 
     
     public void save(TeacherAndselectedTalentProject transientInstance) {
@@ -119,17 +238,7 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 	}
 	
 
-	public List findAll() {
-		log.debug("finding all TeacherAndselectedTalentProject instances");
-		try {
-			String queryString = "from TeacherAndselectedTalentProject";
-	         Query queryObject = getSession().createQuery(queryString);
-			 return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
+	
 	
     public TeacherAndselectedTalentProject merge(TeacherAndselectedTalentProject detachedInstance) {
         log.debug("merging TeacherAndselectedTalentProject instance");

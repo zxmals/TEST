@@ -158,7 +158,7 @@ public class ScientificResearchProjectDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all ScientificResearchProject instances");
 		try {
-			String queryString = "from ScientificResearchProject";
+			String queryString = "from ScientificResearchProject  where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

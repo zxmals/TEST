@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.TeacherAndperiodical" table="TeacherANDPeriodical" schema="dbo" catalog="ScientificResearch">
         <id name="teacherAndPid" type="java.lang.Integer">
             <column name="TeacherAndPid" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="periodicalPapersScore" class="com.nuaa.ec.model.PeriodicalPapersScore" fetch="select">
             <column name="ScoreID" length="20" />
@@ -29,7 +29,7 @@
             <column name="PPID" length="20" not-null="true" />
         </property>
         <property name="checkOut" type="java.lang.String">
-            <column name="CheckOut" length="3" />
+            <column name="CheckOut" length="10" />
         </property>
     </class>
 </hibernate-mapping>

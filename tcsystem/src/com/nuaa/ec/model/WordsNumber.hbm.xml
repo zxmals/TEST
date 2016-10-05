@@ -22,5 +22,11 @@
             </key>
             <one-to-many class="com.nuaa.ec.model.AcademicWorkScore" />
         </set>
+        <set name="academicWork" inverse="true">
+            <key>
+                <column name="wordID" length="20" />
+            </key>
+            <one-to-many class="com.nuaa.ec.model.AcademicWork" />
+        </set>
     </class>
 </hibernate-mapping>

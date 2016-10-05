@@ -1,4 +1,3 @@
-<%@page import="com.nuaa.ec.science.model.PeriodicalType"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%
 String path = request.getContextPath();
@@ -29,39 +28,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <script type="text/javascript">
-    function assignmentC(upPID,upP) {
-	    document.getElementById("publishClubID").value = upPID;
-	    document.getElementById("publishClub").value = upP;
-	    setSelected(document.getElementById("td"+upPID).value);
-	}
-	
-	function setSelected(ID) {
-		var select = document.getElementById("PCTypeIDSelector");  
-		for(var i=0; i<select.options.length; i++){
-		    if(select.options[i].value == ID){  
-		        select.options[i].selected = true;  
-		        break;  
-		    }  
-		}  
-	}
-    	function confirmdel(id) {
-			if(confirm("确定要删除吗？"))
-				window.location.replace("AcademicWorkPublishClubset!dodelpublishClub?publishclub.publishClubID="+id);
-			else
-				window.location.replace("#");
-		}
     	function DoCheck() {
-    		var res = '${resu}';
+    		var operstatus = '${operstatus}';
     		//alert(addres);
-			switch (res){
-				case '0':alert("operate fail !!!");
+			switch (operstatus){
+				case '-1':alert("操作失败 fail !!!");
 				break;
-				case '1':alert("add success!");
-				break;
-				case '2':alert("update success!");
-				break;
-				case '3':alert("delete success !!!");
-				break;
+				case '1':alert("添加成功!");
 				default: break;
 			}
 		}
@@ -75,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>学术著作 <small></small></h5>
+                        <h5>学术著作  --出版社设置<small></small></h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -97,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <div class="ibox-content">
                     
                     <div class="">
-                         <button class="btn  btn-primary" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
+                         <button class="btn openaddm btn-primary" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
                          <strong>添加</strong>
                          </button>
                             
@@ -110,18 +83,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>出版社ID</td>
 									<td>出版社</td>
 									<td>出版社类别</td>
+									<td style="display: none">出版社类别Id</td>
 									<td>操作</td>
 								</tr>
                             </thead>
                             <tbody>
 								<c:forEach var="publishclub"  items="${publishclubLi }">
 								<tr>
-									<td>${publishclub.publishClubID }</td>
+									<td>${publishclub.publishClubId }</td>
 									<td>${publishclub.publishClubName }</td>
-									<td>${publishclub.pclubType }</td>
-									<input id="td${publishclub.publishClubID }" type="text"  value = "${publishclub.PCulbTypeID }" style="display: none">
-									<td><a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="confirmdel('${publishclub.publishClubID }')"  >删除</a>					
-										<a   class="btn btn-primary btn-sm"  data-toggle="modal"    onclick="assignmentC('${publishclub.publishClubID }','${publishclub.publishClubName }')"  data-target="#update" >修改</a>
+									<td>${publishclub.publishClubType.publishType }</td>
+									<td style="display: none">${publishclub.publishClubType.pculbTypeId }</td>
+									<td><a   class="btn btn-primary btn-sm delpubinf"  data-toggle="modal" >删除</a>					
+										<a   class="btn openupdatem btn-primary btn-sm"  data-toggle="modal" data-target="#update" >修改</a>
 									</td>
 								</tr>
 								</c:forEach>
@@ -139,32 +113,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">修改</h3>
-                            <form role="form" id="onlyForm" name="upd"action="AcademicWorkPublishClubset!doupdatepublishClub">
-                            
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                 	<label>ID:</label>                                	
-									<input id="publishClubID" type="text"  class="form-control" name="publishclub.publishClubID" value=""  readonly="readonly">
+									<input id="udpublishClubID" type="text"  class="form-control" name="publishclub.publishClubID" value=""  readonly="readonly">
                                 </div>
                                 <div class="form-group">
                                     <label>出版社名称:</label>
-                                    <input id="publishClub" type="text"  class="form-control" name="publishclub.publishClubName" value="">
+                                    <input id="udpublishClub" type="text"  class="form-control nullcheck" name="publishclub.publishClubName" value="">
                                 </div>      
                                 <div class="form-group">                                
                                     <label>出版社类别:</label>
-                                    <select id="PCTypeIDSelector"  name="publishclub.pCulbTypeID" style="width: 200px"  class="form-control" >
+                                    <select id="udPCTypeIDSelector"  name="publishclub.pCulbTypeID"  class="form-control nullcheck" >
                                     	<c:forEach  var="PCT"  items="${publishclubtype }">
-		                                    	<option value="${PCT.PCulbTypeID }">${PCT.publishType }</option>
+		                                    	<option value="${PCT.pculbTypeId }">${PCT.publishType }</option>
 		                                    </c:forEach>
                                     </select>
                                 </div>                                                        
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button id="subupdate"  class="btn subcheck btn-primary pull-left m-t-n-xs "  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
-                                    </button	>
+                                    </button>
                                </div>
-                            </form>
                     </div>
                 </div>
             </div>
@@ -177,27 +148,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="modal-body">
                     <div class="row">
                             <h3 class="m-t-none m-b">添加</h3>
-                            <form role="form" id="onlyForm" name="adds"action="AcademicWorkPublishClubset!doaddpublishClub">                            
+                            <form role="form" id="onlyForm" name="adds" method="post" action="ATAcademicWorkPublishClubset!addpublishClub">                            
                                 <div class="form-group">                                
                                     <label>出版社类别:</label>
-                                    <select id="PCTypeIDSelector"  name="publishclub.pCulbTypeID" style="width: 200px"  class="form-control" >
+                                    <select id="adPCTypeIDSelector"  name="publishcb.publishClubType.pculbTypeId"  class="form-control nullcheck" >
                                     	<c:forEach  var="PCT"  items="${publishclubtype }">
-		                                    	<option value="${PCT.PCulbTypeID }">${PCT.publishType }</option>
+		                                    	<option value="${PCT.pculbTypeId }">${PCT.publishType }</option>
 		                                    </c:forEach>
                                     </select>
                                 </div>   
                                 <div class="form-group">                                
                                     <label>出版社:</label>
-                                   <input id="publishclub" type="text"  class="form-control" name="publishclub.publishClubName" value="">
+                                   <input id="adpublishclub" type="text"  class="form-control nullcheck" name="publishcb.publishClubName" value="">
                                 </div>                                                                      
+                            </form>
                                 <div>
                                     <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-                                    <button  class="btn  btn-primary pull-left m-t-n-xs "  type="submit">
+                                    <button id="addpubcb" class="btn subcheck btn-primary pull-left m-t-n-xs "  type="submit">
                                      <i class="fa fa-check"></i>
                                     <strong>提交</strong>
                                     </button	>
                                </div>
-                            </form>
                     </div>
                 </div>
             </div>
@@ -212,7 +183,63 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/content.min.js?v=1.0.0"></script>
     <script src="js/plugins/iCheck/icheck.min.js"></script>
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script  src="js/PublicCheck/PUB_SET.js"></script>
     <script>
+    $('#addpubcb').click(function() {
+		if($('#adPCTypeIDSelector option:selected').val().trim()!=""&$('#adpublishclub').val().trim()!=""){
+			document.adds.submit();
+		}
+	});
+    $('#subupdate').click(function() {
+		if($('#udPCTypeIDSelector option:selected').val().trim()!=""&$('#udpublishClub').val().trim()!=""){
+			$.post("ATAcademicWorkPublishClubset!updatepublishClub",
+					{"publishcb.publishClubName":$('#udpublishClub').val().trim(),
+					 "publishcb.publishClubType.pculbTypeId":$('#udPCTypeIDSelector').val().trim(),
+					 "publishcb.publishClubId":$('#udpublishClubID').val().trim()},
+					function(data,status){
+						 if(status=="success"){
+							 if(data=="succ"){
+								 alert("更新成功");
+								 window.location.replace("ATAcademicWorkPublishClubset!getPublishClubINF");
+							 }
+						 }else{
+							 alert("请求失败");
+						 }
+					});
+		}
+	});
+    $('.openupdatem').click(function() {
+    	$('#udpublishClub')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
+    	$('#udpublishClubID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
+    	var options = $('#udPCTypeIDSelector option');
+    	for(var i=0;i<options.length;i++){
+    		if(options[i].value==$(this).parent().parent()[0].cells[3].innerHTML){
+    			options[i].selected = true;
+    		}else{
+    			options[i].selected = false;
+    		}
+    	}
+	});
+    $('.delpubinf').click(function() {
+		var x = confirm("确定删除 ?");
+		var row = $(this).parent().parent();
+		if(x){
+			$.post("ATAcademicWorkPublishClubset!deletepublishClub",
+					{"publishcb.publishClubName":row[0].cells[1].innerHTML,
+					 "publishcb.publishClubType.pculbTypeId":row[0].cells[3].innerHTML,
+					 "publishcb.publishClubId":row[0].cells[0].innerHTML},
+					function(data,status){
+						 if(status=="success"){
+							 if(data=="succ"){
+								 alert("删除成功");
+								 row.remove();
+							 }
+						 }else{
+							 alert("请求失败");
+						 }
+					});
+		}
+	});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
     </script>

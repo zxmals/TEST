@@ -109,7 +109,7 @@ public class SelectedTalentProjectScoreDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all SelectedTalentProjectScore instances");
 		try {
-			String queryString = "from SelectedTalentProjectScore";
+			String queryString = "from SelectedTalentProjectScore where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

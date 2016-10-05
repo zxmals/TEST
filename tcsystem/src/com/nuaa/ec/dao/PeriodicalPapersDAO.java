@@ -1,14 +1,21 @@
 package com.nuaa.ec.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.criterion.Example;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.Periodical;
 import com.nuaa.ec.model.PeriodicalPapers;
+import com.nuaa.ec.utils.EntityUtil;
 
 /**
  	* A data access object (DAO) providing persistence and search support for PeriodicalPapers entities.
@@ -173,12 +180,53 @@ public class PeriodicalPapersDAO extends BaseHibernateDAO  {
 		return findByProperty(CHECKOUT, checkout
 		);
 	}
-	
-
+	//分页 --查询
+	public List findAll(String condition,int currentrow,int limit) throws Exception{
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<PeriodicalPapers> pepali = new ArrayList<PeriodicalPapers>();
+		PeriodicalPapers periopaper = null;
+		try {
+			con = getConn();
+			ps = con.prepareStatement("select * from PeriodicalPapers,Periodical  where PeriodicalPapers.SpareTire = '1' and PeriodicalPapers.PeriodicalID=Periodical.PeriodicalID "+condition+" order by PeriodicalPapers.Year desc ",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			rs = ps.executeQuery();
+			rs.absolute(currentrow+1);
+			do{
+				periopaper = new PeriodicalPapers(
+						rs.getString("PPID"), 
+						rs.getString("FirstAuthor"), 
+						rs.getString("SecondAuthor"), 
+						rs.getString("ThesisTitle"), 
+						rs.getString("Year"), 
+						rs.getString("File"), 
+						rs.getString("Phase"), 
+						rs.getString("Describe"), 
+						rs.getString("SpareTire"), 
+						rs.getString("ChargePersonID"), 
+						rs.getString("ChargePerson"), 
+						rs.getString("checkout"), 
+						rs.getString("PeriodicalID"),
+						rs.getString("PeriodicalName"),
+						rs.getInt("PeriodicalPid"));
+				pepali.add(periopaper);
+			}while(rs.getRow()<currentrow+limit&&rs.next());
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw e;
+		}finally{
+			closeSqlAttr(ps, rs);
+		}
+		if(pepali.size()>0){
+			return pepali;
+		}else{
+			return null;
+		}
+	} 
 	public List findAll() {
 		log.debug("finding all PeriodicalPapers instances");
 		try {
-			String queryString = "from PeriodicalPapers";
+			String queryString = "from PeriodicalPapers pp where spareTire = '1' order by pp.year desc";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

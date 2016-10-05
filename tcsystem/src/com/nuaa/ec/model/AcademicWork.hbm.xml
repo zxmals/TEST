@@ -13,6 +13,9 @@
         <many-to-one name="publishClub" class="com.nuaa.ec.model.PublishClub" fetch="select">
             <column name="PublishClubID" length="20" />
         </many-to-one>
+        <many-to-one name="wordsNumber" class="com.nuaa.ec.model.WordsNumber" fetch="select">
+            <column name="wordID" length="20" />
+        </many-to-one>
         <property name="firstAuthor" type="java.lang.String">
             <column name="FirstAuthor" length="40" />
         </property>
@@ -34,9 +37,9 @@
         <property name="spareTire" type="java.lang.String">
             <column name="SpareTire" length="100" />
         </property>
-        <property name="wordId" type="java.lang.String">
-            <column name="wordID" length="25" />
-        </property>
+<!--         <property name="wordId" type="java.lang.String"> -->
+<!--             <column name="wordID" length="25" /> -->
+<!--         </property> -->
         <property name="chargePersonId" type="java.lang.String">
             <column name="ChargePersonID" length="20" />
         </property>

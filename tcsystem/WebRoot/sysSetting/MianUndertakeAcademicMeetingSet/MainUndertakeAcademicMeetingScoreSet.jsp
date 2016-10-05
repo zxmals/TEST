@@ -1,169 +1,284 @@
-<%@page import="com.nuaa.ec.science.model.MainUndertakeAcademicMeetingPlace"%>
-<%@page import="com.nuaa.ec.science.model.MainUndertakeAcademicMeetingType"%>
-<%@page import="com.nuaa.ec.science.model.MainUndertakeAcademicMeetingScore"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
-    <%
-    	String path = request.getContextPath();
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-    %>
-
 <%
-	List<MainUndertakeAcademicMeetingScore> MeetingScorelist = (List)session.getAttribute("MainUndertakeAcademicMeetingScore");
-	List<MainUndertakeAcademicMeetingType> meetingtypelist = (List)session.getAttribute("MainUndertakeAcademicMeetingType");
-	List<MainUndertakeAcademicMeetingPlace> MUAMeetingPlacelist = (List)session.getAttribute("MainUndertakeAcademicMeetingPlace");
-	String add = (String)request.getAttribute("add"); 
-	String uudate = (String)request.getAttribute("i");
-	String subModular = (String)request.getAttribute("SubModular");
-	int uodate = 0;
-	if(uudate!=null)
-		uodate = Integer.parseInt(uudate);
-	String update = (String)request.getAttribute("update");
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-    <%@taglib uri="/struts-tags" prefix="s" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>Insert title here</title>
+  <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
+<%@taglib uri="/struts-tags" prefix="s" %>
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <base target="_self"> 
+    </head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <title>MainUndertakeAcademicMeetingSet--Score --Set</title>
+    
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <!-- Data Tables -->
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
+    <script type="text/javascript">
+    	function DoCheck() {
+    		var res = '${operstatus}';
+    		//alert(addres);
+			switch (res){
+				case '-1':alert("操作失败 fail !!!");
+				break;
+				case '1':alert("添加成功!");
+				break;
+				default: break;
+			}
+		}
+    </script>
 </head>
-<body>
-	<center>
-		<h1>MianUndertakeAcademicMeetingScoreset</h1>
-		
-			<input type="button" value="添加" onclick="window.location.href='MainUndertakeAcademicMeetingScoreset!addMainAcaMscore'"/>
-			<table border="1px" cellspacing="0px" style="border-collapse:collapse">
-				<tr>
-					<td>&nbsp;主承办学术会议评分编号&nbsp;</td>
-					<td>&nbsp;主承办学术会议地点&nbsp;</td>
-					<td>&nbsp;主承办学术会议类型&nbsp;</td>
-					<td>&nbsp;子模块&nbsp;</td>
-					<td>&nbsp;基准分数&nbsp;</td>
-					<td>&nbsp;操作&nbsp;</td>
-				</tr>
-				<%
-			if(MeetingScorelist!=null)
-				if(MeetingScorelist.size()!=0){
-					for(int i=0;i<MeetingScorelist.size();i++){
-					%>
-					<tr>
-						<td><%=MeetingScorelist.get(i).getAcaMeetScoreID()%></td>
-						<td><%=MeetingScorelist.get(i).getAcaMeetPlace()%></td>
-						<td><%=MeetingScorelist.get(i).getAcaMeetType() %></td>
-						<td><%=MeetingScorelist.get(i).getSubModular() %></td>
-						<td><%=MeetingScorelist.get(i).getScore() %></td>
-						<td> 
-							<input type="submit" value="修改" onclick="window.location.href='MainUndertakeAcademicMeetingScoreset!updateMainAcaMScore?i=<%=i %>&MainAcaMScoreId=<%=MeetingScorelist.get(i).getAcaMeetScoreID() %>'"/>&nbsp;
-							<input type="submit" value="删除" onclick=""/>
-						</td>
-					</tr>
-					<%}} %>
-			</table>
-			
-			<%
-			if(update!=null)	
-				if(update.equals("1")) {%>
-			<form name="f" action="" method="post">
-				<table border="1px" cellspacing="0px" style="border-collapse:collapse;margin-top: 120px">
-				<tr>
-					<td>子模块编号:</td>
-					<td><input type="text"  value="<%=MeetingScorelist.get(uodate).getSubModularID() %>"  name="SubModularID"  readonly="readonly"/></td>
-				</tr>
-				<tr>
-					<td>&nbsp;主承办学术会议类型:&nbsp;</td>
-					<td>
-						<select name="MeetingTypeId">
-							<%for(int i=0;i<meetingtypelist.size();i++){ %>
-								<option value="<%=meetingtypelist.get(i).getAcaMeetTypeID()%>" 
-								<%if(meetingtypelist.get(i).getAcaMeetTypeID().equals(MeetingScorelist.get(uodate).getAcaMeetTypeID())){ %>selected="selected" <%} %>>
-								<%=meetingtypelist.get(i).getAcaMeetType() %>
-								</option>
-							<%} %>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>&nbsp;主承办学术会议地点:&nbsp;</td>
-					<td>
-						<select name="MeetingPlaceId">
-							<%for(int i=0;i<MUAMeetingPlacelist.size();i++){ %>
-								<option value="<%=MUAMeetingPlacelist.get(i).getAcaMeetPlaceID()%>"
-								<%if(MUAMeetingPlacelist.get(i).getAcaMeetPlaceID().equals(MeetingScorelist.get(uodate).getAcaMeetPlaceID())){ %>selected="selected" <%} %>>
-								<%=MUAMeetingPlacelist.get(i).getAcaMeetPlace()%>
-								</option>
-							<%} %>
-						</select>
-					</td>		
-				</tr>
-				<tr>
-					<td>&nbsp;主承办学术会议评分编号:&nbsp;</td>
-					<td>
-						<input type="text" name="MainAcaMScoreId" value="<%=MeetingScorelist.get(uodate).getAcaMeetScoreID()%>"/>
-					</td>
-				</tr>
-				<tr>
-					<td>&nbsp;基准分数:&nbsp;</td>
-					<td><input type="text" name="MainAcaMScore" value="<%=MeetingScorelist.get(uodate).getScore()%>"/></td>
-				</tr>
-				<tr>
-					<td>&nbsp;&nbsp;&nbsp;操作</td>
-					<td>&nbsp;&nbsp;&nbsp;
-					<input type="submit" value="提交" onclick="javascript:document.f.action='MainUndertakeAcademicMeetingScoreset!doupdateMianAcaMScore';document.f.submit();"/></td> 
-				</tr>
-			</table>
-			</form>
-			<%} %>
-			<%
-			if(add!=null)	
-				if(add.equals("1")) {%>
-			<form name="f" action="" method="post">
-				<table border="1px" cellspacing="0px" style="border-collapse:collapse;margin-top: 120px">
-				<tr>
-					<td>&nbsp;子模块:</td>
-					<td><input type="text"  value="<%=subModular %>" name="SubModularID"  readonly="readonly"/></td>
-				</tr>
-				<tr>
-					<td>&nbsp;主承办学术会议类型:&nbsp;</td>
-					<td>
-						<select name="MeetingTypeId">
-							<%for(int i=0;i<meetingtypelist.size();i++){ %>
-								<option value="<%=meetingtypelist.get(i).getAcaMeetTypeID()%>" >
-								<%=meetingtypelist.get(i).getAcaMeetType() %>
-								</option>
-							<%} %>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>&nbsp;主承办学术会议地点:&nbsp;</td>
-					<td>
-						<select name="MeetingPlaceId">
-							<%for(int i=0;i<MUAMeetingPlacelist.size();i++){ %>
-								<option value="<%=MUAMeetingPlacelist.get(i).getAcaMeetPlaceID()%>">
-								<%=MUAMeetingPlacelist.get(i).getAcaMeetPlace()%>
-								</option>
-							<%} %>
-						</select>
-					</td>		
-				</tr>
-				<tr>
-					<td>&nbsp;主承办学术会议评分编号:&nbsp;</td>
-					<td>
-						<input type="text" name="MainAcaMScoreId" />
-					</td>
-				</tr>
-				<tr>
-					<td>&nbsp;基准分数:&nbsp;</td>
-					<td><input type="text" name="MainAcaMScore" /></td>
-				</tr>
-				<tr>
-					<td>&nbsp;&nbsp;&nbsp;操作</td>
-					<td>&nbsp;&nbsp;&nbsp;
-					<input type="submit" value="提交" onclick="javascript:document.f.action='MainUndertakeAcademicMeetingScoreset!doaddMainAcaMScore';document.f.submit();"/></td> 
-				</tr>
-			</table>
-			</form>
-			<%} %>
-	</center>
-	<input type="submit" value="back" onclick="window.location.href='back'"/>
+
+<body class="gray-bg"  onload="DoCheck()">
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>主承办学术会议设置 --评分设置<small></small></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="table_data_tables.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="table_data_tables.html#">选项1</a>
+                                </li>
+                                <li><a href="table_data_tables.html#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                    
+                    <div class="">
+                         <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
+                         <strong>添加</strong>
+                         </button>
+                            
+                        </div>
+                        <div class="example">
+                        <form method="post" name="f">
+                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                                <tr>
+                                	<td>承办会议评分Id</td>
+                                	<td style="display: none">会议类型Id</td>
+									<td>会议类型</td>
+									<td style="display: none">会议地点Id</td>
+									<td>会议地点</td>
+									<td>基础分数</td>
+									<td>操作</td>
+								</tr>
+                            </thead>
+                            <tbody>
+								<c:forEach var="ebj"  items="${mainmeetscoreli }">
+								<tr>
+									<td>${ebj.acaMeetScoreId }</td>
+									<td  style="display: none">${ebj.mainUndertakeAcademicMeetingType.acaMeetTypeId }</td>
+									<td>${ebj.mainUndertakeAcademicMeetingType.acaMeetType }</td>
+									<td  style="display: none">${ebj.mainUndertakeAcademicMeetingPlace.acaMeetPlaceId }</td>
+									<td>${ebj.mainUndertakeAcademicMeetingPlace.acaMeetPlace }</td>
+									<td>${ebj.score }</td>
+									<td><a   class="btn btn-primary btn-sm delwords delinf"  data-toggle="modal"  >删除</a>					
+											<a  class="btn btn-primary btn-sm openupdatem carrydata"  data-toggle="modal"  data-target="#update" >修改</a>
+									</td>
+								</tr>
+								</c:forEach>
+                            </tbody>                           
+                        </table>
+                        </form>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+   <div id="update" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                            <h3 class="m-t-none m-b">修改</h3>
+                                <div class="form-group"  style="display: none">
+                                	<label>ID:</label>                                	
+									<input id="upinfID" type="text"  class="form-control" name="" value=""  readonly="readonly">
+                                </div>
+                                <div class="form-group">                                
+                                    <label>会议地点:</label>
+                                    <select id="upselectplace"  name=""  class="form-control nullcheck">
+                                    	<option selected="selected"></option>
+                                    	<c:forEach items="${mainmeetplaceli }"  var="obj">
+                                    		<option value="${obj.acaMeetPlaceId }">${obj.acaMeetPlace }</option> 
+                                    	</c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">                                
+                                    <label>会议类型:</label>
+                                    <select id="upselecttype"  name=""  class="form-control nullcheck">
+                                    	<option selected="selected"></option>
+                                    	<c:forEach items="${mainmeetTypeli }"  var="obj">
+                                    		<option value="${obj.acaMeetTypeId }">${obj.acaMeetType }</option> 
+                                    	</c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">                                
+                                    <label>设定评分:</label>
+                                    <input id="upinfscore" type="text"  class="form-control nullcheck" name=mainmeetingplace.acaMeetPlace   value="">
+                                </div>                                                           
+                                <div>
+                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
+                                    <button id="subupdate"  class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
+                                     <i class="fa fa-check"></i>
+                                    <strong>提交</strong>
+                                    </button	>
+                               </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>              
+    
+    <div id="add" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                            <h3 class="m-t-none m-b">添加</h3>
+                            <form role="form" id="onlyForm" name="adds" action="ATMainUndertakeAcademicMeetingScoreset!addMeetingScore" method="post">                            
+                                <div class="form-group">                                
+                                    <label>会议地点:</label>
+                                    <select id="adselectplace"  name="mainmeetingplace.acaMeetPlaceId"  class="form-control nullcheck">
+                                    	<option selected="selected"></option>
+                                    	<c:forEach items="${mainmeetplaceli }"  var="obj">
+                                    		<option value="${obj.acaMeetPlaceId }">${obj.acaMeetPlace }</option> 
+                                    	</c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">                                
+                                    <label>会议类型:</label>
+                                    <select id="adselecttype"  name="mainmeetingtype.acaMeetTypeId"  class="form-control nullcheck">
+                                    	<option selected="selected"></option>
+                                    	<c:forEach items="${mainmeetTypeli }"  var="obj">
+                                    		<option value="${obj.acaMeetTypeId }">${obj.acaMeetType }</option> 
+                                    	</c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">                    
+                                    <label>设定评分:</label>
+                                    <input id="adinfscore" type="text"  class="form-control nullcheck" name=mainmeetingscore.score   value="">
+                                </div>                                                    
+                            </form>
+                                <div>
+                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
+                                    <button id="subadds" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
+                                     <i class="fa fa-check"></i>
+                                    <strong>提交</strong>
+                                    </button	>
+                               </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>              
+    
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.5"></script>
+    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="js/content.min.js?v=1.0.0"></script>
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script  src="js/PublicCheck/PUB_SET.js"></script>
+    
+    <script>
+    $('#subadds').click(function() {
+		if($('#adinfscore').val().trim()!=""&$('#adselecttype').val().trim()!=""&$('#adselectplace').val().trim()!=""){
+			if(!isNaN($('#adinfscore').val().trim())&$('#adinfscore').val().trim()>0){
+				document.adds.submit();
+			}else{
+				alert("非法输入");
+			}
+		}
+	});
+    $('#subupdate').click(function() {
+		if($('#upinfscore').val().trim()!=""&$('#upselecttype').val().trim()!=""&$('#upselectplace').val().trim()!=""){
+			if(!isNaN($('#upinfscore').val().trim())&$('#upinfscore').val().trim()>0){
+					$.post("ATMainUndertakeAcademicMeetingScoreset!updateMeetingScore",
+							{"mainmeetingscore.acaMeetScoreId":$('#upinfID').val().trim(),
+							 "mainmeetingplace.acaMeetPlaceId":$('#upselectplace').val().trim(),
+							 "mainmeetingtype.acaMeetTypeId":$('#upselecttype').val().trim(),
+							 "mainmeetingscore.score":$('#upinfscore').val().trim()},
+							function(data,status){
+								if(status=="success"){
+									if(data.trim()=="succ"){
+										alert("更新成功");
+										window.location.replace("ATMainUndertakeAcademicMeetingScoreset!getMeetingScoreINF");
+									}else{
+										alert("操作失败");
+									}
+								}else{
+									alert("请求失败");
+								}
+							});
+				}else{
+					alert("非法输入");
+				}
+		}
+	});
+	$('.delinf').click(function() {
+		var x = confirm("确定删除 ？");
+		var row = $(this).parent().parent();
+		if(x){
+			$.post("ATMainUndertakeAcademicMeetingScoreset!deleteMeetingScore",
+					{"mainmeetingscore.acaMeetScoreId":row[0].cells[0].innerHTML,
+					 "mainmeetingplace.acaMeetPlaceId":row[0].cells[3].innerHTML,
+					 "mainmeetingtype.acaMeetTypeId":row[0].cells[1].innerHTML,
+					 "mainmeetingscore.score":row[0].cells[5].innerHTML},
+					function(data,status){
+						if(status=="success"){
+							if(data.trim()=="succ"){
+								alert("删除成功");
+								row.remove();
+							}else{
+								alert("操作失败");
+							}
+						}else{
+							alert("请求失败");
+						}
+					});
+		} 
+	});
+    $('.openupdatem').click(function() {
+		$('#upinfID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
+		set_selected_option($('#upselectplace option'),$(this).parent().parent()[0].cells[3].innerHTML);
+		set_selected_option($('#upselecttype option'),$(this).parent().parent()[0].cells[1].innerHTML);
+		$('#upinfscore')[0].value = $(this).parent().parent()[0].cells[5].innerHTML;
+	});
+        $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
+    </script>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>
+     
 </body>
 </html>
