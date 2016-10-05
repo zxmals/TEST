@@ -7,10 +7,6 @@ package com.nuaa.ec.model;
  */
 
 public class TeacherAndscientificResearchReward  implements java.io.Serializable {
-
-
-    // Fields    
-
      private Integer teacherAsrrid;
      private ScientificResearchRewardScore scientificResearchRewardScore;
      private ScientificResearchReward scientificResearchReward;

@@ -120,4 +120,40 @@
 			<result>/sysSetting/SelfUndertakeTaskSet/SelfUndertakeTaskSet.jsp</result>
 		</action>
 	</package>
+	<!-- 科研审核 -->
+	<package name="Audit" extends="struts-default" namespace="/">
+		<!-- 科研项目审核 -->
+		<action name="ScientificResearchProjectAudit" class="ec.science.audit.action.TeacherAndScientificResearchProjectAuditAction">
+			<result>/Audit/ScientificResearch/scienresearchproject.jsp</result>
+		</action>
+		<!-- 科研项目奖励审核 -->
+		<action name="ScientificResearchRewardAudit" class="ec.science.audit.action.TeacherAndScientificResearchRewardAuditAction">
+			<result>/Audit/ScientificResearch/projectreward.jsp</result>
+		</action>
+		<!-- 入选人才工程审核 -->
+		<action name="TeacherAndSelectedTalentProjectAudit" class="ec.science.audit.action.TeacherAndSelectedTalentProjectAuditAction">
+			<result>/Audit/ScientificResearch/selectedtalentproject.jsp</result>
+		</action>
+		<!-- 期刊论文审核 -->
+		<action name="TeacherAndPeriodicalAudit" class="ec.science.audit.action.TeacherAndPeriodicalAuditAction">
+			<result>/Audit/ScientificResearch/periodical.jsp</result>
+		</action>
+		<!-- 承担学术会议审核 -->
+		<action name="TeacherAndmainUndertakeAcademicMeetingAudit" class="ec.science.audit.action.TeacherAndmainUndertakeAcademicMeetingAuditAction">
+			<result>/Audit/ScientificResearch/mainundertakeacameeting.jsp</result>
+		</action>
+	</package>
 </struts>
+
+
+
+
+
+
+
+
+
+
+
+
+
