@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
 import com.nuaa.ec.model.TeacherAndperiodical;
+import com.nuaa.ec.model.TeacherAndscientificResearchReward;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -36,7 +39,27 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
-
+	/**
+	 * function:更新审核状态
+	 * @param TARRewardList
+	 * @return boolean
+	 */
+	public boolean updateCheckoutStatus(List<TeacherAndmainUndertakeAcademicMeeting> TAUAcademicMeetingListToBeAudited){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<TAUAcademicMeetingListToBeAudited.size();i++){
+				session.update(TAUAcademicMeetingListToBeAudited.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List findAllWithCondition(int pageIndex, int pageSize,
 			String foredate, String afterdate, ResearchLab researchLab,
@@ -105,6 +128,8 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 			int pageIndex, int pageSize, String foredate, String afterdate,
 			ResearchLab researchLab, String checkOut) {
 		System.out.println("pageIndex:" + pageIndex);
+		System.out.println("foredate:"+foredate);
+		System.out.println("afterdate:"+afterdate);
 		StringBuffer hql = null;
 		if (researchLab.getResearchLabId() == null
 				|| researchLab.getResearchLabId().length() == 0) {

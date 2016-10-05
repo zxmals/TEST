@@ -66,10 +66,19 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 		StringBuffer hql=null;
 		if(researchLab.getResearchLabId()==null || researchLab.getResearchLabId().length()==0){
 			hql=new StringBuffer(
-					"from TeacherAndscientificResearchProject TARP where spareTire=1 and checkOut='"+checkOut+"'");
+					"from TeacherAndscientificResearchProject TARP where TARP.spareTire='1'"
+							+ " and TARP.scientificResearchProject.spareTire='1'"
+							+ " and TARP.teacher.spareTire='1'"
+							+ " and TARP.selfUndertakeTask.spareTire='1'"
+							+ " and TARP.checkOut='"+checkOut+"'");
 		}else{
 			hql = new StringBuffer(
-					"from TeacherAndscientificResearchProject TARP where spareTire=1 and checkOut='"+checkOut+"' and TARP.teacher.researchLab.researchLabId=\'"+researchLab.getResearchLabId()+"\'");
+					"from TeacherAndscientificResearchProject TARP where spareTire='1' "
+							+ " and TARP.scientificResearchProject.spareTire='1'"
+							+ " and TARP.teacher.spareTire='1'"
+							+ " and TARP.selfUndertakeTask.spareTire='1'"
+							+ " and TARP.checkOut='"+checkOut+"'"
+							+ " and TARP.teacher.researchLab.researchLabId=\'"+researchLab.getResearchLabId()+"\'");
 		}
 		List<TeacherAndscientificResearchProject> list = new ArrayList<TeacherAndscientificResearchProject>();
 		String append = " and TARP.scientificResearchProject.admitedProjectYear between ? and ? ";
@@ -107,7 +116,12 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 			return list;
 		}else{
 			hql = new StringBuffer(
-					"from TeacherAndscientificResearchProject TARP where spareTire=1 and TARP.checkOut='"+checkOut+"' and TARP.teacher.researchLab.researchLabId='"+researchLab.getResearchLabId()+"'");
+					"from TeacherAndscientificResearchProject TARP where spareTire='1'"
+							+ " and TARP.scientificResearchProject.spareTire='1'"
+							+ " and TARP.teacher.spareTire='1'"
+							+ " and TARP.selfUndertakeTask.spareTire='1'"
+							+ " and TARP.checkOut='"+checkOut+"'"
+							+ " and TARP.teacher.researchLab.researchLabId='"+researchLab.getResearchLabId()+"'");
 		}
 		try {
 //			hql = new StringBuffer(

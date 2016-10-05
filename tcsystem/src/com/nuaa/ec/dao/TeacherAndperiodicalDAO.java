@@ -77,10 +77,13 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 		} else {
 			hql = new StringBuffer(
 					"select new com.nuaa.ec.model.PeriodicalPaperInfoUnionModel(TAPA,PP) from TeacherAndperiodical TAPA "
-					+ " , PeriodicalPapers PP where TAPA.spareTire=1 and TAPA.periodical.spareTire=1 and TAPA.ppid=PP.ppid and TAPA.checkOut='"
-							+ checkOut
-							+ "' and TAPA.teacher.researchLab.researchLabId='"
-							+ researchLab.getResearchLabId() + "'");
+							+ " , PeriodicalPapers PP where TAPA.spareTire='1'"
+							+ " and TAPA.periodical.spareTire='1'"
+							+ " and TAPA.teacher.spareTire='1'"
+							+ " and PP.spareTire='1'"
+							+ " and TAPA.ppid=PP.ppid"
+							+ " and TAPA.checkOut='"+ checkOut+"'"
+							+ " and TAPA.teacher.researchLab.researchLabId='"+ researchLab.getResearchLabId() + "'");
 		}
 		try {
 			String append = " and PP.year between ? and ? ";
@@ -127,15 +130,22 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 				|| researchLab.getResearchLabId().length() == 0) {
 			hql = new StringBuffer(
 					"select new com.nuaa.ec.model.PeriodicalPaperInfoUnionModel(TAPA,PP) from TeacherAndperiodical TAPA "
-					+ " ,PeriodicalPapers PP where TAPA.spareTire=1 and TAPA.periodical.spareTire=1 and TAPA.ppid=PP.ppid and TAPA.checkOut='"
-							+ checkOut + "'");
+					+ " ,PeriodicalPapers PP where TAPA.spareTire='1'"
+					+ " and TAPA.periodical.spareTire='1'"
+					+ " and TAPA.teacher.spareTire='1'"
+					+ " and PP.spareTire='1'"
+					+ " and TAPA.ppid=PP.ppid"
+					+ " and TAPA.checkOut='"+ checkOut + "'");
 		} else {
 			hql = new StringBuffer(
 					"select new com.nuaa.ec.model.PeriodicalPaperInfoUnionModel(TAPA,PP) from TeacherAndperiodical TAPA "
-					+ " ,PeriodicalPapers PP where TAPA.spareTire=1 and TAPA.periodical.spareTire=1 and TAPA.ppid=PP.ppid and TAPA.checkOut='"
-							+ checkOut
-							+ "' and TAPA.teacher.researchLab.researchLabId=\'"
-							+ researchLab.getResearchLabId() + "\'");
+						+ " ,PeriodicalPapers PP where TAPA.spareTire=1"
+						+ " and TAPA.periodical.spareTire='1'"
+						+ " and TAPA.teacher.spareTire='1'"
+						+ " and PP.spareTire='1'"
+						+ " and TAPA.ppid=PP.ppid"
+						+ " and TAPA.checkOut='"+ checkOut+"'"
+						+ " and TAPA.teacher.researchLab.researchLabId=\'"+ researchLab.getResearchLabId() + "\'");
 		}
 		List<TeacherAndperiodical> list = new ArrayList<TeacherAndperiodical>();
 		String append = " and PP.year between ? and ? ";

@@ -65,7 +65,10 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 			return list;
 		} else {
 			hql = new StringBuffer(
-					"from TeacherAndselectedTalentProject TAST where spareTire=1 and TAST.checkOut='"
+					"from TeacherAndselectedTalentProject TAST where TAST.spareTire=1"
+							+ " and TAST.talentProject.spareTire='1'"
+							+ " and TAST.teacher.spareTire='1'"
+							+ " and TAST.checkOut='"
 							+ checkOut
 							+ "' and TAST.teacher.researchLab.researchLabId='"
 							+ researchLab.getResearchLabId() + "'");
@@ -111,12 +114,17 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 		if (researchLab.getResearchLabId() == null
 				|| researchLab.getResearchLabId().length() == 0) {
 			hql = new StringBuffer(
-					"from TeacherAndselectedTalentProject TAST where spareTire=1 and checkOut='"
+					"from TeacherAndselectedTalentProject TAST where TAST.spareTire=1"
+							+ " and TAST.talentProject.spareTire='1'"
+							+ " and TAST.teacher.spareTire='1'"
+							+ " and TAST.checkOut='"
 							+ checkOut + "'");
 		} else {
 			hql = new StringBuffer(
-					"from TeacherAndselectedTalentProject TAST where spareTire='1' and checkOut='"
-							+ checkOut
+					"from TeacherAndselectedTalentProject TAST where TAST.spareTire='1'"
+							+ " and TAST.talentProject.spareTire='1'"
+							+ " and TAST.teacher.spareTire='1'"
+							+ " and TAST.checkOut='"+ checkOut
 							+ "' and TAST.teacher.researchLab.researchLabId=\'"
 							+ researchLab.getResearchLabId() + "\'");
 		}

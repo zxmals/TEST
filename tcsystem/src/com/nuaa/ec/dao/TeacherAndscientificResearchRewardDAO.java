@@ -23,7 +23,7 @@ import com.opensymphony.xwork2.ActionContext;
  * save(), update() and delete() operations can directly support Spring
  * container-managed transactions or they can be augmented to handle
  * user-managed Spring transactions. Each of these methods provides additional
- * information for how to configure it for the desired type of transaction
+ * information for how to configure it for the desired type- of transaction
  * control.
  * 
  * @see com.nuaa.ec.model.TeacherAndscientificResearchReward
@@ -73,8 +73,10 @@ public class TeacherAndscientificResearchRewardDAO extends BaseHibernateDAO {
 			return list;
 		} else {
 			hql = new StringBuffer(
-					"from TeacherAndscientificResearchReward TARR where spareTire=1 and TARR.checkOut='"
-							+ checkOut
+					"from TeacherAndscientificResearchReward TARR where TARR.spareTire='1'"
+							+ " and TARR.scientificResearchReward.spareTire='1'"
+							+ " and TARR.teacher.spareTire='1'"
+							+ " and TARR.checkOut='"+ checkOut
 							+ "' and TARR.teacher.researchLab.researchLabId='"
 							+ researchLab.getResearchLabId() + "'");
 		}
@@ -119,12 +121,17 @@ public class TeacherAndscientificResearchRewardDAO extends BaseHibernateDAO {
 		if (researchLab.getResearchLabId() == null
 				|| researchLab.getResearchLabId().length() == 0) {
 			hql = new StringBuffer(
-					"from TeacherAndscientificResearchReward TARR where spareTire='1' and checkOut='"
+					"from TeacherAndscientificResearchReward TARR where TARR.spareTire='1'"
+							+ " and TARR.scientificResearchReward.spareTire='1'"
+							+ " and TARR.teacher.spareTire='1'"
+							+ " and TARR.checkOut='"
 							+ checkOut + "'");
 		} else {
 			hql = new StringBuffer(
-					"from TeacherAndscientificResearchReward TARR where spareTire='1' and checkOut='"
-							+ checkOut
+					"from TeacherAndscientificResearchReward TARR where TARR.spareTire='1'"
+							+ " and TARR.scientificResearchReward.spareTire='1'"
+							+ " and TARR.teacher.spareTire='1'"
+							+ " and TARR.checkOut='"+ checkOut
 							+ "' and TARR.teacher.researchLab.researchLabId=\'"
 							+ researchLab.getResearchLabId() + "\'");
 		}
