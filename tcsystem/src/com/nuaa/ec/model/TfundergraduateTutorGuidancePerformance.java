@@ -21,6 +21,7 @@ public class TfundergraduateTutorGuidancePerformance  implements java.io.Seriali
      private String spareTire;
      private Integer yearceiling;
 
+     private String termId;
 
     // Constructors
 
@@ -47,7 +48,25 @@ public class TfundergraduateTutorGuidancePerformance  implements java.io.Seriali
     }
 
    
-    // Property accessors
+    public TfundergraduateTutorGuidancePerformance(
+			Integer upid,
+			TfundergraduateTutorGuidanceCache tfundergraduateTutorGuidanceCache,
+			Teacher teacher, Integer studentQuantity, Double years,
+			Double finalScore, String checkOut, String spareTire,
+			Integer yearceiling, String termId) {
+		this.upid = upid;
+		this.tfundergraduateTutorGuidanceCache = tfundergraduateTutorGuidanceCache;
+		this.teacher = teacher;
+		this.studentQuantity = studentQuantity;
+		this.years = years;
+		this.finalScore = finalScore;
+		this.checkOut = checkOut;
+		this.spareTire = spareTire;
+		this.yearceiling = yearceiling;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -120,13 +139,15 @@ public class TfundergraduateTutorGuidancePerformance  implements java.io.Seriali
     public void setYearceiling(Integer yearceiling) {
         this.yearceiling = yearceiling;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
-
-
 
 
 }

@@ -21,6 +21,7 @@ public class TfsummerCourseInternationalConstructionPerformance  implements java
      private String spareTire;
      private Double quantityUnit;
 
+     private String termId;
 
     // Constructors
 
@@ -46,8 +47,25 @@ public class TfsummerCourseInternationalConstructionPerformance  implements java
         this.quantityUnit = quantityUnit;
     }
 
-   
-    // Property accessors
+    public TfsummerCourseInternationalConstructionPerformance(
+			Integer upid,
+			TfsummerCourseInternationalConstructionLevel tfsummerCourseInternationalConstructionLevel,
+			Teacher teacher, String projectId, String projectName,
+			Double score, String checkOut, String spareTire,
+			Double quantityUnit, String termId) {
+		this.upid = upid;
+		this.tfsummerCourseInternationalConstructionLevel = tfsummerCourseInternationalConstructionLevel;
+		this.teacher = teacher;
+		this.projectId = projectId;
+		this.projectName = projectName;
+		this.score = score;
+		this.checkOut = checkOut;
+		this.spareTire = spareTire;
+		this.quantityUnit = quantityUnit;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -120,11 +138,15 @@ public class TfsummerCourseInternationalConstructionPerformance  implements java
     public void setQuantityUnit(Double quantityUnit) {
         this.quantityUnit = quantityUnit;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
 
 
 

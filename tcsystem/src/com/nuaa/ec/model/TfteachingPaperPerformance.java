@@ -23,6 +23,7 @@ public class TfteachingPaperPerformance  implements java.io.Serializable {
      private String checkOut;
      private Double projectSumScore;
 
+     private String termId;
 
     // Constructors
 
@@ -51,8 +52,28 @@ public class TfteachingPaperPerformance  implements java.io.Serializable {
         this.projectSumScore = projectSumScore;
     }
 
-   
-    // Property accessors
+    public TfteachingPaperPerformance(
+			Integer upid,
+			SelfUndertakeTask selfUndertakeTask,
+			TfteachingPaperRetrievalCondition tfteachingPaperRetrievalCondition,
+			Teacher teacher, String teachPaperId, String teachPaperName,
+			String otherAuthorJoin, Double singelScore, String spareTire,
+			String checkOut, Double projectSumScore, String termId) {
+		this.upid = upid;
+		this.selfUndertakeTask = selfUndertakeTask;
+		this.tfteachingPaperRetrievalCondition = tfteachingPaperRetrievalCondition;
+		this.teacher = teacher;
+		this.teachPaperId = teachPaperId;
+		this.teachPaperName = teachPaperName;
+		this.otherAuthorJoin = otherAuthorJoin;
+		this.singelScore = singelScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.projectSumScore = projectSumScore;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -141,12 +162,15 @@ public class TfteachingPaperPerformance  implements java.io.Serializable {
     public void setProjectSumScore(Double projectSumScore) {
         this.projectSumScore = projectSumScore;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
-
 
 
 

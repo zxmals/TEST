@@ -23,6 +23,7 @@ public class TfteachingAchievementPerformance  implements java.io.Serializable {
      private String projectId;
      private String projectName;
 
+     private String termId;
 
     // Constructors
 
@@ -50,8 +51,27 @@ public class TfteachingAchievementPerformance  implements java.io.Serializable {
         this.projectName = projectName;
     }
 
-   
-    // Property accessors
+    public TfteachingAchievementPerformance(Integer upid,
+			SelfUndertakeTask selfUndertakeTask,
+			TfteachingAchievementRewardLevel tfteachingAchievementRewardLevel,
+			Teacher teacher, String cooperator, Double singelScore,
+			String spareTire, String checkOut, Double projectSumScore,
+			String projectId, String projectName, String termId) {
+		this.upid = upid;
+		this.selfUndertakeTask = selfUndertakeTask;
+		this.tfteachingAchievementRewardLevel = tfteachingAchievementRewardLevel;
+		this.teacher = teacher;
+		this.cooperator = cooperator;
+		this.singelScore = singelScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.projectSumScore = projectSumScore;
+		this.projectId = projectId;
+		this.projectName = projectName;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -140,13 +160,15 @@ public class TfteachingAchievementPerformance  implements java.io.Serializable {
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
-
-
 
 
 }

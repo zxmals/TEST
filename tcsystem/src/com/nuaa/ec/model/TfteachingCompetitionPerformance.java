@@ -20,6 +20,7 @@ public class TfteachingCompetitionPerformance  implements java.io.Serializable {
      private Double finalScore;
      private String checkOut;
 
+     private String termId;
 
     // Constructors
 
@@ -45,8 +46,22 @@ public class TfteachingCompetitionPerformance  implements java.io.Serializable {
         this.checkOut = checkOut;
     }
 
-   
-    // Property accessors
+    public TfteachingCompetitionPerformance(Integer upid,
+			TfteachingCompetitionRewardLevel tfteachingCompetitionRewardLevel,
+			Teacher teacher, String competitionId, String competitionName,
+			String spareTire, Double finalScore, String checkOut, String termId) {
+		this.upid = upid;
+		this.tfteachingCompetitionRewardLevel = tfteachingCompetitionRewardLevel;
+		this.teacher = teacher;
+		this.competitionId = competitionId;
+		this.competitionName = competitionName;
+		this.spareTire = spareTire;
+		this.finalScore = finalScore;
+		this.checkOut = checkOut;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -111,11 +126,15 @@ public class TfteachingCompetitionPerformance  implements java.io.Serializable {
     public void setCheckOut(String checkOut) {
         this.checkOut = checkOut;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
 
 
 

@@ -20,6 +20,7 @@ public class TfstudentCompetitionGuidancePerformance  implements java.io.Seriali
      private String competitionName;
      private String checkOut;
 
+     private String termId;
 
     // Constructors
 
@@ -44,8 +45,24 @@ public class TfstudentCompetitionGuidancePerformance  implements java.io.Seriali
         this.checkOut = checkOut;
     }
 
-   
-    // Property accessors
+    public TfstudentCompetitionGuidancePerformance(
+			Integer upid,
+			TfstudentCompetitionGuidanceScore tfstudentCompetitionGuidanceScore,
+			Teacher teacher, Double finalScore, String spareTire,
+			String competitionId, String competitionName, String checkOut,
+			String termId) {
+		this.upid = upid;
+		this.tfstudentCompetitionGuidanceScore = tfstudentCompetitionGuidanceScore;
+		this.teacher = teacher;
+		this.finalScore = finalScore;
+		this.spareTire = spareTire;
+		this.competitionId = competitionId;
+		this.competitionName = competitionName;
+		this.checkOut = checkOut;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -110,11 +127,15 @@ public class TfstudentCompetitionGuidancePerformance  implements java.io.Seriali
     public void setCheckOut(String checkOut) {
         this.checkOut = checkOut;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
 
 
 

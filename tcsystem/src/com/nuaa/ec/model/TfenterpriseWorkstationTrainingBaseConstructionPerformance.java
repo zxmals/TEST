@@ -23,6 +23,7 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformance  impleme
      private String checkOut;
      private Double quantityUnit;
 
+     private String termId;
 
     // Constructors
 
@@ -53,7 +54,28 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformance  impleme
    
     // Property accessors
 
-    public Integer getUpid() {
+    public TfenterpriseWorkstationTrainingBaseConstructionPerformance(
+			Integer upid,
+			TfenterpriseWorkstationTrainingbaseConstructionLevel tfenterpriseWorkstationTrainingbaseConstructionLevel,
+			SelfUndertakeTask selfUndertakeTask, Teacher teacher,
+			String projectId, String projectName, Double projectSumScore,
+			Double singleScore, String spareTire, String checkOut,
+			Double quantityUnit, String termId) {
+		this.upid = upid;
+		this.tfenterpriseWorkstationTrainingbaseConstructionLevel = tfenterpriseWorkstationTrainingbaseConstructionLevel;
+		this.selfUndertakeTask = selfUndertakeTask;
+		this.teacher = teacher;
+		this.projectId = projectId;
+		this.projectName = projectName;
+		this.projectSumScore = projectSumScore;
+		this.singleScore = singleScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.quantityUnit = quantityUnit;
+		this.termId = termId;
+	}
+
+	public Integer getUpid() {
         return this.upid;
     }
     
@@ -140,13 +162,13 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformance  impleme
     public void setQuantityUnit(Double quantityUnit) {
         this.quantityUnit = quantityUnit;
     }
-   
 
+	public String getTermId() {
+		return termId;
+	}
 
-
-
-
-
-
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
 
 }
