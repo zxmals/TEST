@@ -116,7 +116,7 @@ public class TfpracticeInnovationGuideLevelDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all TfpracticeInnovationGuideLevel instances");
 		try {
-			String queryString = "from TfpracticeInnovationGuideLevel";
+			String queryString = "from TfpracticeInnovationGuideLevel where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

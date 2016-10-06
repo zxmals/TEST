@@ -337,36 +337,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     	 <ul class="nav nav-third-level">
 		                                 		<li><a class="J_menuItem"  href="">课堂教学<span class="fa arrow"></span></a>
 				                                    	<ul class="nav nav-third-level">
-						                                      	 <li><a class="J_menuItem"  href="TsetClassTeaching_sumtimeratio!putclassteachtimeData">总站堂时系数设置</a></li>
-																<li><a class="J_menuItem"  href="TsetClassTeaching_evaluation!putevaluationresult">综合教学评估设置</a></li>
-																<li><a class="J_menuItem"  href="TsetGuidencequality_degree!putTFDegreeThesisGuidance_RewardLevel">论文指导系数设置</a></li>
-																<li><a class="J_menuItem"  href="TsetTeachingCompetition_competition!putTFTeachingCompetition_RewardLevel">教学竞赛系数设置</a></li>
-																<li><a class="J_menuItem"  href="TsetTeachingAbility_improve!putTFTeachingAbilityImprove__Level">教学能力提升设置</a></li>
-																<li><a class="J_menuItem"  href="TsetFamousTeacherteam_rewardlevel!putTFFamousTeacherTeam_RewadLevel">优秀教师团队称号系数设置</a></li>												
+						                                      	 <li><a class="J_menuItem"  href="ATclassTeachRatioset!totalClassTimeRatio">总站堂时系数设置</a></li>
+																<li><a class="J_menuItem"  href="ATteachEvaluationset!teachEvaluation">综合教学评估设置</a></li>
+																<li><a class="J_menuItem"  href="ATdegreeThesisGuidanceRewardLevelset!degreeThesisGuidanceRewardLevelList">论文指导系数设置</a></li>
+																<li><a class="J_menuItem"  href="ATteachingCompetitionRewardLevelset!teachingCompetitionRewardLevelList">教学竞赛系数设置</a></li>
+																<li><a class="J_menuItem"  href="ATteachingAbilityImproveLevelset!teachingAbilityImproveLevelList">教学能力提升设置</a></li>
+																<li><a class="J_menuItem"  href="ATfamousTeacherTeamRewadLevelset!famousTeacherTeamRewadLevelList">优秀教师团队称号系数设置</a></li>												
 					                                     </ul>
 	                                      		 </li>													
 													<li><a class="J_menuItem"  href="">教学研究<span class="fa arrow"></span></a>
 				                                    	<ul class="nav nav-third-level">
-						                                      	 <li><a class="J_menuItem"  href="TsetTeachingReach_fundlevel!putTFTeaching_rearch_fundlevel">教学研究规模设置</a></li>
-																<li><a class="J_menuItem"  href="TsetTeachingReach_evaluation!putTFTeaching_rearch_evaluation">教学研究结果设置</a></li>
-																<li><a class="J_menuItem"  href="TsetRetrievalCondition_paper!putTFTeachingPaper_RetrievalCondition">论文发表等级设置</a></li>
-																<li><a class="J_menuItem"  href="TsetTeachingachievement_achievement!putTFTeaching_achievement_RewardLevel">教学成就等级设置</a></li>
-																<li><a class="J_menuItem"  href="TsetConstructionTBlevel_text!putTFTextbookConstruction_TBlevel">教材编写等级设置</a></li>
-																<li><a class="J_menuItem"  href="TsetFineCourseConstruction_course!putTFFineCourseConstruction_Level">精品课程等级设置</a></li>
-																<li><a class="J_menuItem"  href="TsetProfessionalProject_declare!putTFProfessionalProjectDeclare_Level">品牌专业等级设置</a></li>
-																<li><a class="J_menuItem"  href="TsetEnterpriseWorkstation_construction!putTFEnterpriseWorkstationTrainingbaseConstruction_Level">企业培养基地设置</a></li>
-																<li><a class="J_menuItem"  href="TsetSummerCourse_construction!putTFSummerCourseInternationalConstruction_Level">暑期课程设置</a></li>												
+						                                      	 <li><a class="J_menuItem"  href="ATteachRearchFundLevelset!entityList">教学研究资金规模设置</a></li>
+																<li><a class="J_menuItem"  href="ATteachRearchEvaluationset!entityList">教学研究成果设置</a></li>
+																<li><a class="J_menuItem"  href="ATteachPaperRetrievalConditionset!entityList">论文发表等级设置</a></li>
+																<li><a class="J_menuItem"  href="ATteachAchievementRewardLevelset!entityList">教学成果等级设置</a></li>
+																<li><a class="J_menuItem"  href="ATtextBookConstructionTbLevelset!entityList">教材编写等级设置</a></li>
+																<li><a class="J_menuItem"  href="ATfineCourseConstructionLevelset!entityList">精品课程等级设置</a></li>
+																<li><a class="J_menuItem"  href="ATprofessionalProjectDeclareLevelset!entityList">品牌专业等级设置</a></li>
+																<li><a class="J_menuItem"  href="ATenterpriseWorkstationTrainingbaseConstructionLevelset!entityList">企业培养基地设置</a></li>
+																<li><a class="J_menuItem"  href="ATsummerCourseInternationalConstructionLevelset!entityList">暑期课程设置</a></li>												
 					                                     </ul>
 	                                      		 </li>													
 													<li><a class="J_menuItem"  href="">创新项目<span class="fa arrow"></span></a>
 				                                    	<ul class="nav nav-third-level">
-						                                      	 <li><a class="J_menuItem"  href="TsetInnovationGuide_level!putTFPracticeInnovationGuide_Level">创新项目等级设置</a></li>
-																<li><a class="J_menuItem"  href="TsetInnovationGuide_evaluation!putTFPracticeInnovationGuide_GraduationThesisGuideEvalution">创新项目成绩设置</a></li>
-																<li><a class="J_menuItem"  href="">人才工程条目设置</a></li>
-																<li><a class="J_menuItem"  href="">人才工程条目设置</a></li>
-																<li><a class="J_menuItem"  href="">人才工程条目设置</a></li>
-																<li><a class="J_menuItem"  href="">人才工程条目设置</a></li>
-																<li><a class="J_menuItem"  href="">人才工程条目设置</a></li>			     	 																	
+						                                      	 <li><a class="J_menuItem"  href="ATpracticeInnovationGuideLevelset!entityList">创新项目等级设置</a></li>
+																<li><a class="J_menuItem"  href="ATpracticeInnovationGuideGraduationThesisGuideEvalutionset!entityList">学生竞赛指导等级设置</a></li>
+																<li><a class="J_menuItem"  href="ATstudentCompetitionGuidanceRewardLevelset!entityList">学生竞赛等级设置</a></li>
+																<li><a class="J_menuItem"  href="ATstudentCompetitionGuidanceScoreset!entityList">竞赛获奖级别设置</a></li>
+																<li><a class="J_menuItem"  href="ATstudentCompetitionGuidanceCompetitionTypeset!entityList">竞赛级别设置</a></li>
+																<li><a class="J_menuItem"  href="ATundergraduateTutorGuidanceCacheset!entityList">本科生导师等级设置</a></li>
+																<li><a class="J_menuItem"  href="AToffCampusPracticeGuidanceLevelset!entityList">校外实践等级设置</a></li>			     	 																	
 					                                     </ul>
 	                                      		 </li>																										
 	                                     </ul>

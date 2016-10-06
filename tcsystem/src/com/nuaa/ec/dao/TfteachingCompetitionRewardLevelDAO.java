@@ -116,7 +116,7 @@ public class TfteachingCompetitionRewardLevelDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all TfteachingCompetitionRewardLevel instances");
 		try {
-			String queryString = "from TfteachingCompetitionRewardLevel";
+			String queryString = "from TfteachingCompetitionRewardLevel where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

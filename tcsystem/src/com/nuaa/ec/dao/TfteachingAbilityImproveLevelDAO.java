@@ -123,7 +123,7 @@ public class TfteachingAbilityImproveLevelDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all TfteachingAbilityImproveLevel instances");
 		try {
-			String queryString = "from TfteachingAbilityImproveLevel";
+			String queryString = "from TfteachingAbilityImproveLevel where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

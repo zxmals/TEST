@@ -116,7 +116,7 @@ public class TffamousTeacherTeamRewadLevelDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all TffamousTeacherTeamRewadLevel instances");
 		try {
-			String queryString = "from TffamousTeacherTeamRewadLevel";
+			String queryString = "from TffamousTeacherTeamRewadLevel where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

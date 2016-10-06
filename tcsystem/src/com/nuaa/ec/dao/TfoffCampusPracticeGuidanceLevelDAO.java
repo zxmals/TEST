@@ -129,7 +129,7 @@ public class TfoffCampusPracticeGuidanceLevelDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all TfoffCampusPracticeGuidanceLevel instances");
 		try {
-			String queryString = "from TfoffCampusPracticeGuidanceLevel";
+			String queryString = "from TfoffCampusPracticeGuidanceLevel where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

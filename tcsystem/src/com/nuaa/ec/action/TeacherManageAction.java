@@ -36,6 +36,7 @@ public class TeacherManageAction implements SessionAware {
 		 * or not admin
 		 */
 		teacherlg = teacherlgdao.findById(teacherid);
+		System.out.println(teacherlg.toString());
 		if (teacherlg != null&&"1".equals(teacherlg.getSpareTire())) {
 			/*
 			 * 不是第一次登录。验证密码/ not first login --check pwd
