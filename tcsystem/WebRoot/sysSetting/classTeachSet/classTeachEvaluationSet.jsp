@@ -253,7 +253,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 	});
     $('.openupdatem').click(function() {
-		$('#upinfID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
+		$('#upinfID')[0].value=$(this).parent().parent()[0].cells[0].innerHTML;
 		$('#upinfscope')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
 		$('#upinfratio')[0].value = $(this).parent().parent()[0].cells[2].innerHTML;
 	});
