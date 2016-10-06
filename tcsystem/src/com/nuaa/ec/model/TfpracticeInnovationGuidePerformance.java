@@ -21,6 +21,7 @@ public class TfpracticeInnovationGuidePerformance  implements java.io.Serializab
      private String checkOut;
      private String spareTire;
 
+     private String termId;
 
     // Constructors
 
@@ -46,8 +47,26 @@ public class TfpracticeInnovationGuidePerformance  implements java.io.Serializab
         this.spareTire = spareTire;
     }
 
-   
-    // Property accessors
+    public TfpracticeInnovationGuidePerformance(
+			Integer upid,
+			TfpracticeInnovationGuideLevel tfpracticeInnovationGuideLevel,
+			Teacher teacher,
+			TfpracticeInnovationGuideGraduationThesisGuideEvalution tfpracticeInnovationGuideGraduationThesisGuideEvalution,
+			String projectId, String projectName, Double finalScore,
+			String checkOut, String spareTire, String termId) {
+		this.upid = upid;
+		this.tfpracticeInnovationGuideLevel = tfpracticeInnovationGuideLevel;
+		this.teacher = teacher;
+		this.tfpracticeInnovationGuideGraduationThesisGuideEvalution = tfpracticeInnovationGuideGraduationThesisGuideEvalution;
+		this.projectId = projectId;
+		this.projectName = projectName;
+		this.finalScore = finalScore;
+		this.checkOut = checkOut;
+		this.spareTire = spareTire;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -120,11 +139,15 @@ public class TfpracticeInnovationGuidePerformance  implements java.io.Serializab
     public void setSpareTire(String spareTire) {
         this.spareTire = spareTire;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
 
 
 

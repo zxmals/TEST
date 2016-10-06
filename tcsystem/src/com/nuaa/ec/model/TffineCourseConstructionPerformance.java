@@ -24,6 +24,7 @@ public class TffineCourseConstructionPerformance  implements java.io.Serializabl
      private Double projectSumScore;
 
 
+     private String termId;
     // Constructors
 
     /** default constructor */
@@ -50,8 +51,29 @@ public class TffineCourseConstructionPerformance  implements java.io.Serializabl
         this.projectSumScore = projectSumScore;
     }
 
+    
    
-    // Property accessors
+    public TffineCourseConstructionPerformance(Integer upid,
+			SelfUndertakeTask selfUndertakeTask,
+			TffineCourseConstructionLevel tffineCourseConstructionLevel,
+			Teacher teacher, String courseId, String courseName,
+			String cooperator, Double singelScore, String checkOut,
+			String spareTire, Double projectSumScore, String termId) {
+		this.upid = upid;
+		this.selfUndertakeTask = selfUndertakeTask;
+		this.tffineCourseConstructionLevel = tffineCourseConstructionLevel;
+		this.teacher = teacher;
+		this.courseId = courseId;
+		this.courseName = courseName;
+		this.cooperator = cooperator;
+		this.singelScore = singelScore;
+		this.checkOut = checkOut;
+		this.spareTire = spareTire;
+		this.projectSumScore = projectSumScore;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -140,13 +162,13 @@ public class TffineCourseConstructionPerformance  implements java.io.Serializabl
     public void setProjectSumScore(Double projectSumScore) {
         this.projectSumScore = projectSumScore;
     }
-   
 
+	public String getTermId() {
+		return termId;
+	}
 
-
-
-
-
-
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
 
 }

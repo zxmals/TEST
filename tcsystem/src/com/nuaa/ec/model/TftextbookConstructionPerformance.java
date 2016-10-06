@@ -23,6 +23,7 @@ public class TftextbookConstructionPerformance  implements java.io.Serializable 
      private String cooperator;
      private Double projectSumScore;
 
+     private String termId;
 
     // Constructors
 
@@ -52,7 +53,28 @@ public class TftextbookConstructionPerformance  implements java.io.Serializable 
     }
 
    
-    // Property accessors
+    
+    public TftextbookConstructionPerformance(Integer upid,
+			SelfUndertakeTask selfUndertakeTask,
+			TftextbookConstructionTblevel tftextbookConstructionTblevel,
+			Teacher teacher, String bookId, String bookName,
+			Double singellScore, String spareTire, String checkOut,
+			String cooperator, Double projectSumScore, String termId) {
+		this.upid = upid;
+		this.selfUndertakeTask = selfUndertakeTask;
+		this.tftextbookConstructionTblevel = tftextbookConstructionTblevel;
+		this.teacher = teacher;
+		this.bookId = bookId;
+		this.bookName = bookName;
+		this.singellScore = singellScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.cooperator = cooperator;
+		this.projectSumScore = projectSumScore;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -141,12 +163,15 @@ public class TftextbookConstructionPerformance  implements java.io.Serializable 
     public void setProjectSumScore(Double projectSumScore) {
         this.projectSumScore = projectSumScore;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
-
 
 
 

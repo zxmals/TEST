@@ -21,6 +21,7 @@ public class TfteachingRearchPerformance  implements java.io.Serializable {
      private Double finalScore;
      private String checkOut;
 
+     private String termId;
 
     // Constructors
 
@@ -47,10 +48,26 @@ public class TfteachingRearchPerformance  implements java.io.Serializable {
         this.checkOut = checkOut;
     }
 
-   
     // Property accessors
 
-    public Integer getUpid() {
+    public TfteachingRearchPerformance(Integer upid,
+			TfteachingRearchEvaluation tfteachingRearchEvaluation,
+			TfteachingRearchFundlevel tfteachingRearchFundlevel,
+			Teacher teacher, String projectId, String project,
+			String spareTire, Double finalScore, String checkOut, String termId) {
+		this.upid = upid;
+		this.tfteachingRearchEvaluation = tfteachingRearchEvaluation;
+		this.tfteachingRearchFundlevel = tfteachingRearchFundlevel;
+		this.teacher = teacher;
+		this.projectId = projectId;
+		this.project = project;
+		this.spareTire = spareTire;
+		this.finalScore = finalScore;
+		this.checkOut = checkOut;
+		this.termId = termId;
+	}
+
+	public Integer getUpid() {
         return this.upid;
     }
     
@@ -121,13 +138,15 @@ public class TfteachingRearchPerformance  implements java.io.Serializable {
     public void setCheckOut(String checkOut) {
         this.checkOut = checkOut;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
-
-
 
 
 }

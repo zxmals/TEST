@@ -23,6 +23,7 @@ public class TfoffCampusPracticeGuidancePerformance  implements java.io.Serializ
      private Double sumhours;
      private String offguidanceId;
 
+     private String termId;
 
     // Constructors
 
@@ -50,8 +51,27 @@ public class TfoffCampusPracticeGuidancePerformance  implements java.io.Serializ
         this.offguidanceId = offguidanceId;
     }
 
-   
-    // Property accessors
+    public TfoffCampusPracticeGuidancePerformance(Integer upid,
+			String teacherId, String projectName, String projectId,
+			Double finalScore, String checkOut, String spareTire,
+			Integer yearCeiling, Double quantityUnit, Double sumhours,
+			String offguidanceId, String termId) {
+		super();
+		this.upid = upid;
+		this.teacherId = teacherId;
+		this.projectName = projectName;
+		this.projectId = projectId;
+		this.finalScore = finalScore;
+		this.checkOut = checkOut;
+		this.spareTire = spareTire;
+		this.yearCeiling = yearCeiling;
+		this.quantityUnit = quantityUnit;
+		this.sumhours = sumhours;
+		this.offguidanceId = offguidanceId;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -140,13 +160,14 @@ public class TfoffCampusPracticeGuidancePerformance  implements java.io.Serializ
     public void setOffguidanceId(String offguidanceId) {
         this.offguidanceId = offguidanceId;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
-
-
-
 
 }

@@ -40,5 +40,8 @@
         <property name="offguidanceId" type="java.lang.String">
             <column name="offguidanceID" length="20" />
         </property>
+                <property name="termId" type="java.lang.String">
+            <column name="termID" length="20" />
+        </property>
     </class>
 </hibernate-mapping>

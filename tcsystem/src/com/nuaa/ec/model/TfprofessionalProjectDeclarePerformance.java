@@ -22,6 +22,7 @@ public class TfprofessionalProjectDeclarePerformance  implements java.io.Seriali
      private String spareTire;
      private String checkOut;
 
+     private String termId;
 
     // Constructors
 
@@ -48,8 +49,27 @@ public class TfprofessionalProjectDeclarePerformance  implements java.io.Seriali
         this.checkOut = checkOut;
     }
 
-   
-    // Property accessors
+    public TfprofessionalProjectDeclarePerformance(
+			Integer upid,
+			TfprofessionalProjectDeclareLevel tfprofessionalProjectDeclareLevel,
+			SelfUndertakeTask selfUndertakeTask, Teacher teacher,
+			String projectId, String projectName, Double projectSumScore,
+			Double singleScore, String spareTire, String checkOut, String termId) {
+		super();
+		this.upid = upid;
+		this.tfprofessionalProjectDeclareLevel = tfprofessionalProjectDeclareLevel;
+		this.selfUndertakeTask = selfUndertakeTask;
+		this.teacher = teacher;
+		this.projectId = projectId;
+		this.projectName = projectName;
+		this.projectSumScore = projectSumScore;
+		this.singleScore = singleScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -130,11 +150,15 @@ public class TfprofessionalProjectDeclarePerformance  implements java.io.Seriali
     public void setCheckOut(String checkOut) {
         this.checkOut = checkOut;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
 
 
 
