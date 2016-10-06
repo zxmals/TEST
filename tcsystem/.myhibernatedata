@@ -1,6 +1,6 @@
 #MyEclipse Hibernate Properties
-#Mon Aug 01 09:32:47 CST 2016
-genBasicCompId=false
+#Thu Oct 06 14:10:12 CST 2016
+genBasicCompId=true
 sessionFactoryName=com.nuaa.ec.dao.SessionFactory
 profile=
 daoSFId=
@@ -18,4 +18,3 @@ genAnnotations=false
 reSettingsFile=
 configFile=/tcsystem/src/hibernate.cfg.xml
 createConfigFile=true
-baseDaoClass=com.nuaa.ec.dao.BaseHibernateDAO

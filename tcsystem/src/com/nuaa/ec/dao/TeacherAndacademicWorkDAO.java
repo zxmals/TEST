@@ -8,6 +8,8 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.AcademicWork;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndacademicWork;
 
 /**
@@ -111,7 +113,23 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 		);
 	}
 	
-
+	public boolean checkexist(Teacher teacher,AcademicWork aw){
+		try {
+			String queryString = "from TeacherAndacademicWork t where t.spareTire='1' and t.teacher=? and t.academicWork=?";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, teacher);
+	         queryObject.setParameter(1, aw);
+	         if(queryObject.list().size()>0){
+	        	 return false;
+	         }else{
+	        	 return true;
+	         }
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public List findAll() {
 		log.debug("finding all TeacherAndacademicWork instances");
 		try {

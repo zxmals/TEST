@@ -1,35 +1,32 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.Tfterm;
+
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
-import org.hibernate.criterion.Example;
+
+import static org.hibernate.criterion.Example.create;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nuaa.ec.model.AcademicWorkScore;
-
 /**
- 	* A data access object (DAO) providing persistence and search support for AcademicWorkScore entities.
+ 	* A data access object (DAO) providing persistence and search support for Tfterm entities.
  			* Transaction control of the save(), update() and delete() operations 
 		can directly support Spring container-managed transactions or they can be augmented	to handle user-managed Spring transactions. 
 		Each of these methods provides additional information for how to configure it for the desired type of transaction control. 	
-	 * @see com.nuaa.ec.model.AcademicWorkScore
+	 * @see com.nuaa.ec.model.Tfterm
   * @author MyEclipse Persistence Tools 
  */
-public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
-	     private static final Logger log = LoggerFactory.getLogger(AcademicWorkScoreDAO.class);
-		//property constants
-	public static final String SCORE = "score";
-	public static final String SPARE_TIRE = "spareTire";
-
-
+public class TftermDAO extends BaseHibernateDAO  {
+	     private static final Logger log = LoggerFactory.getLogger(TftermDAO.class);
+	
 
     
-    public void save(AcademicWorkScore transientInstance) {
-        log.debug("saving AcademicWorkScore instance");
+    public void save(Tfterm transientInstance) {
+        log.debug("saving Tfterm instance");
         try {
             getSession().save(transientInstance);
             log.debug("save successful");
@@ -39,8 +36,8 @@ public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
         }
     }
     
-	public void delete(AcademicWorkScore persistentInstance) {
-        log.debug("deleting AcademicWorkScore instance");
+	public void delete(Tfterm persistentInstance) {
+        log.debug("deleting Tfterm instance");
         try {
             getSession().delete(persistentInstance);
             log.debug("delete successful");
@@ -50,11 +47,11 @@ public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
         }
     }
     
-    public AcademicWorkScore findById( java.lang.String id) {
-        log.debug("getting AcademicWorkScore instance with id: " + id);
+    public Tfterm findById( java.lang.String id) {
+        log.debug("getting Tfterm instance with id: " + id);
         try {
-            AcademicWorkScore instance = (AcademicWorkScore) getSession()
-                    .get("com.nuaa.ec.model.AcademicWorkScore", id);
+            Tfterm instance = (Tfterm) getSession()
+                    .get("com.nuaa.ec.model.Tfterm", id);
             return instance;
         } catch (RuntimeException re) {
             log.error("get failed", re);
@@ -63,12 +60,12 @@ public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
     }
     
     
-    public List findByExample(AcademicWorkScore instance) {
-        log.debug("finding AcademicWorkScore instance by example");
+    public List<Tfterm> findByExample(Tfterm instance) {
+        log.debug("finding Tfterm instance by example");
         try {
-            List results = getSession()
-                    .createCriteria("com.nuaa.ec.model.AcademicWorkScore")
-                    .add(Example.create(instance))
+            List<Tfterm> results = (List<Tfterm>) getSession()
+                    .createCriteria("com.nuaa.ec.model.Tfterm")
+                    .add( create(instance) )
             .list();
             log.debug("find by example successful, result size: " + results.size());
             return results;
@@ -79,11 +76,11 @@ public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
     }    
     
     public List findByProperty(String propertyName, Object value) {
-      log.debug("finding AcademicWorkScore instance with property: " + propertyName
+      log.debug("finding Tfterm instance with property: " + propertyName
             + ", value: " + value);
       try {
-         String queryString = "from AcademicWorkScore as model where model." 
-         						+ propertyName + "= ? and model.spareTire = '1' ";
+         String queryString = "from Tfterm as model where model." 
+         						+ propertyName + "= ?";
          Query queryObject = getSession().createQuery(queryString);
 		 queryObject.setParameter(0, value);
 		 return queryObject.list();
@@ -93,23 +90,11 @@ public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
       }
 	}
 
-	public List findByScore(Object score
-	) {
-		return findByProperty(SCORE, score
-		);
-	}
-	
-	public List findBySpareTire(Object spareTire
-	) {
-		return findByProperty(SPARE_TIRE, spareTire
-		);
-	}
-	
 
 	public List findAll() {
-		log.debug("finding all AcademicWorkScore instances");
+		log.debug("finding all Tfterm instances");
 		try {
-			String queryString = "from AcademicWorkScore where spareTire='1' ";
+			String queryString = "from Tfterm";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
@@ -118,10 +103,10 @@ public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
 		}
 	}
 	
-    public AcademicWorkScore merge(AcademicWorkScore detachedInstance) {
-        log.debug("merging AcademicWorkScore instance");
+    public Tfterm merge(Tfterm detachedInstance) {
+        log.debug("merging Tfterm instance");
         try {
-            AcademicWorkScore result = (AcademicWorkScore) getSession()
+            Tfterm result = (Tfterm) getSession()
                     .merge(detachedInstance);
             log.debug("merge successful");
             return result;
@@ -131,8 +116,8 @@ public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
         }
     }
 
-    public void attachDirty(AcademicWorkScore instance) {
-        log.debug("attaching dirty AcademicWorkScore instance");
+    public void attachDirty(Tfterm instance) {
+        log.debug("attaching dirty Tfterm instance");
         try {
             getSession().saveOrUpdate(instance);
             log.debug("attach successful");
@@ -142,8 +127,8 @@ public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
         }
     }
     
-    public void attachClean(AcademicWorkScore instance) {
-        log.debug("attaching clean AcademicWorkScore instance");
+    public void attachClean(Tfterm instance) {
+        log.debug("attaching clean Tfterm instance");
         try {
                       	getSession().buildLockRequest(LockOptions.NONE).lock(instance);
           	            log.debug("attach successful");
