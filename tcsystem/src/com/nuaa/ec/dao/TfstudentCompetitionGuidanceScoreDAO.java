@@ -109,7 +109,7 @@ public class TfstudentCompetitionGuidanceScoreDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all TfstudentCompetitionGuidanceScore instances");
 		try {
-			String queryString = "from TfstudentCompetitionGuidanceScore";
+			String queryString = "from TfstudentCompetitionGuidanceScore where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

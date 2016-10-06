@@ -116,7 +116,7 @@ public class TfpracticeInnovationGuideGraduationThesisGuideEvalutionDAO extends 
 	public List findAll() {
 		log.debug("finding all TfpracticeInnovationGuideGraduationThesisGuideEvalution instances");
 		try {
-			String queryString = "from TfpracticeInnovationGuideGraduationThesisGuideEvalution";
+			String queryString = "from TfpracticeInnovationGuideGraduationThesisGuideEvalution where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
