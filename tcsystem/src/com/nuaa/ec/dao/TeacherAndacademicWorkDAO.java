@@ -1,16 +1,22 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.AcademicWork;
 import com.nuaa.ec.model.Teacher;
+import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndacademicWork;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for TeacherAndacademicWork entities.
@@ -26,8 +32,134 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 	public static final String FINAL_SCORE = "finalScore";
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
+	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
+	public boolean updateCheckoutStatus(List<TeacherAndacademicWork> TAAcademicWorkListToBeAudited){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<TAAcademicWorkListToBeAudited.size();i++){
+				session.update(TAAcademicWorkListToBeAudited.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List findAllWithCondition(int pageIndex, int pageSize,
+			String foredate, String afterdate, ResearchLab researchLab,
+			String checkOut) {
+		StringBuffer hql = null;
+		List<TeacherAndacademicWork> list = new ArrayList<TeacherAndacademicWork>();
+		if (researchLab.getResearchLabId() == null
+				|| researchLab.getResearchLabId().length() == 0) {
+			/*
+			 * 如果第一次进入界面 没有选择研究所 session里面没有对应的数据， 所以不显示数据
+			 */
+			session.put("recordNumber_TAAW", 0);
+			session.put("pageCount_TAAW", 0);
+			return list;
+		} else {
+			hql = new StringBuffer(
+					"from TeacherAndacademicWork TAAW where "
+							+ " TAAW.spareTire='1'"
+							+ " and TAAW.academicWork.spareTire='1'"
+							+ " and TAAW.academicWork.publishClub.spareTire='1'"
+							+ " and TAAW.selfUndertakeTask.spareTire='1'"
+							+ " and TAAW.teacher.spareTire='1' "
+							+ " and TAAW.checkOut='"
+							+ checkOut
+							+ "' and TAAW.teacher.researchLab.researchLabId='"
+							+ researchLab.getResearchLabId() + "'");
+		}
+		try {
+			String append = " and TAAW.academicWork.publishDate between ? and ? ";
+			String rank = "  order by TAAW.academicWork.acaworkId asc";
+			/*
+			 * 不一定有日期，所以要判断
+			 */
+			if (foredate != null && afterdate != null && foredate.length() != 0
+					&& afterdate.length() != 0) {
+				// 判断日期范围限制
+				hql.append(append).append(rank);
+				list = this.getSession().createQuery(hql.append(rank).toString())
+						.setString(0, foredate).setString(1, afterdate).list();
+			} else {
+				list = this.getSession().createQuery(hql.append(rank).toString()).list();
+			}
+			/*
+			 * 总体查询完毕，把总记录数和总页数放入session用于前台展现。
+			 */
+			session.put("recordNumber_TAAW", list.size());
+			session.put("pageCount_TAAW",
+					list.size() % pageSize == 0 ? (list.size() / pageSize)
+							: (list.size() / pageSize + 1));
+			/*
+			 * 调用分页函数，缓解前台压力， 在后台完成分页，在前台展示相应数据。
+			 */
+			list = this.getTAAcademicWorkListAfterDivided(pageIndex, pageSize,
+					foredate, afterdate, researchLab, checkOut);
+		} catch (Exception ex) {
+			log.error("find all failed", ex);
+			System.out.println(ex.getMessage());
+		}
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndacademicWork> getTAAcademicWorkListAfterDivided(
+			int pageIndex, int pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut) {
+		List<TeacherAndacademicWork> list=null;
+		StringBuffer hql = null;
+		if (researchLab.getResearchLabId() == null
+				|| researchLab.getResearchLabId().length() == 0) {
+			hql = new StringBuffer(
+					"from TeacherAndacademicWork TAAW where "
+							+ " TAAW.spareTire=1"
+							+ " and TAAW.academicWork.spareTire='1'"
+							+ " and TAAW.academicWork.publishClub.spareTire='1'"
+							+ " and TAAW.selfUndertakeTask.spareTire='1'"
+							+ " and TAAW.teacher.spareTire='1' "
+							+ " and TAAW.checkOut='"
+							+ checkOut+"'");
+		} else {
+			hql = new StringBuffer(
+					"from TeacherAndacademicWork TAAW  where"
+							+ " TAAW.spareTire=1"
+							+ " and TAAW.academicWork.spareTire='1'"
+							+ " and TAAW.academicWork.publishClub.spareTire='1'"
+							+ " and TAAW.selfUndertakeTask.spareTire='1'"
+							+ " and TAAW.teacher.spareTire='1' "
+							+ " and TAAW.checkOut='"
+							+ checkOut
+							+ "' and TAAW.teacher.researchLab.researchLabId=\'"
+							+ researchLab.getResearchLabId() + "\'");
+		}
+		list = new ArrayList<TeacherAndacademicWork>();
+		String append = " and TAAW.academicWork.publishDate between ? and ? ";
+		String rank = "  order by TAAW.academicWork.acaworkId asc";
+		if (foredate != null && afterdate != null && foredate.length() != 0
+				&& afterdate.length() != 0) {
+			// 判断日期范围限制
+			hql.append(append).append(rank);
+			list = this.getSession().createQuery(hql.append(rank).toString())
+					.setString(0, foredate).setString(1, afterdate)
+					.setFirstResult((pageIndex - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+		} else {
+			list = this.getSession().createQuery(hql.append(rank).toString())
+					.setFirstResult((pageIndex - 1) * pageSize)
+					.setMaxResults(pageSize).list();
 
-
+		}
+		return list;
+	}
 
     
     public void save(TeacherAndacademicWork transientInstance) {

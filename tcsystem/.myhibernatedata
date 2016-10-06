@@ -1,6 +1,11 @@
 #MyEclipse Hibernate Properties
+<<<<<<< HEAD
 #Thu Oct 06 14:10:12 CST 2016
 genBasicCompId=true
+=======
+#Thu Oct 06 00:50:00 CST 2016
+genBasicCompId=false
+>>>>>>> gaoylin
 sessionFactoryName=com.nuaa.ec.dao.SessionFactory
 profile=
 daoSFId=

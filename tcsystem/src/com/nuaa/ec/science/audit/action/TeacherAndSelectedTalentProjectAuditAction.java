@@ -1,4 +1,4 @@
-package ec.science.audit.action;
+package com.nuaa.ec.science.audit.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,10 +37,16 @@ public class TeacherAndSelectedTalentProjectAuditAction implements RequestAware 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.getResearchLabList();
+//		this.getResearchLabList();
 	}
 	public String getTASTalentProListAfterDivide() {
-		Transaction tx = null;
+		Transaction tx = this.TASTProjectDAO.getSession().beginTransaction();
+		if ((ResearchLab) session.get("selectedResearchLab_TAST") == null) {
+			session.put("selectedResearchLab_TAST", new ResearchLab());
+		}
+		if ((Integer) session.get("pageSize_TAST") == null) {
+			session.put("pageSize_TAST", 1);
+		}
 		try {
 			this.request.put("TAS_talentProList", this.TASTProjectDAO
 					.getTASTalentProListsAfterDivided(pageIndex,
@@ -50,20 +56,19 @@ public class TeacherAndSelectedTalentProjectAuditAction implements RequestAware 
 							(ResearchLab) session
 									.get("selectedResearchLab_TAST"),
 							(String) session.get("checkOutStatus_TAST")));
-			tx = this.TASTProjectDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
-			tx.rollback();
 			this.setOperstatus(-1);
 			ex.printStackTrace();
+			tx.rollback();
 		}
-		this.getResearchLabList();
+//		this.getResearchLabList();
 		return "success";
 	}
 
 	public String getTASTalentProjectInfo() {
-		Transaction tx = null;
+		Transaction tx = this.TASTProjectDAO.getSession().beginTransaction();
 		if ((ResearchLab) session.get("selectedResearchLab_TAST") == null) {
 			session.put("selectedResearchLab_TAST", new ResearchLab());
 		}
@@ -78,15 +83,14 @@ public class TeacherAndSelectedTalentProjectAuditAction implements RequestAware 
 							.get("afterdate_TAST"), (ResearchLab) session
 							.get("selectedResearchLab_TAST"), (String) session
 							.get("checkOutStatus_TAST")));
-			tx = this.TASTProjectDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
-			tx.rollback();
 			this.setOperstatus(-1);
 			ex.printStackTrace();
+			tx.rollback();
 		}
-		this.getResearchLabList();
+//		this.getResearchLabList();
 		return "success";
 	}
 

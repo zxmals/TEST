@@ -1,4 +1,4 @@
-package ec.science.audit.action;
+package com.nuaa.ec.science.audit.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,13 +13,12 @@ import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.TeacherAndmainUndertakeAcademicMeetingDAO;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
-import com.nuaa.ec.model.TeacherAndperiodical;
 import com.opensymphony.xwork2.ActionContext;
 
 public class TeacherAndmainUndertakeAcademicMeetingAuditAction implements
 		RequestAware {
 	public void doCheckOutTask() {
-		this.getResearchLabList();
+//		this.getResearchLabList();
 		String[] ids = this.checkOutIDs.split(",");
 		List<TeacherAndmainUndertakeAcademicMeeting> checkoutList = new ArrayList<TeacherAndmainUndertakeAcademicMeeting>();
 		TeacherAndmainUndertakeAcademicMeeting TAUAcademicMeeting = null;
@@ -44,7 +43,13 @@ public class TeacherAndmainUndertakeAcademicMeetingAuditAction implements
 		// this.getResearchLabList();
 	}
 	public String getTAUAdemicMettingListAfterDivide(){
-		Transaction tx=null;
+		Transaction tx=this.TAUAacdemicMeetingDAO.getSession().beginTransaction();
+		if ((ResearchLab) session.get("selectedResearchLab_TAUA") == null) {
+			session.put("selectedResearchLab_TAUA", new ResearchLab());
+		}
+		if ((Integer) session.get("pageSize_TAUA") == null) {
+			session.put("pageSize_TAUA", 1);
+		}
 		try{
 			this.request.put("TAUAcademicMeetingList", this.TAUAacdemicMeetingDAO.getTAUAcademicAfterDivided(pageIndex, (Integer) session
 					.get("pageSize_TAUA"), (String) session
@@ -52,19 +57,18 @@ public class TeacherAndmainUndertakeAcademicMeetingAuditAction implements
 					.get("afterdate_TAUA"), (ResearchLab) session
 					.get("selectedResearchLab_TAUA"), (String) session
 					.get("checkOutStatus_TAUA")));
-			tx=this.TAUAacdemicMeetingDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		}catch(Exception ex){
-			tx.rollback();
 			this.setOperstatus(-1);
 			ex.printStackTrace();
+			tx.rollback();
 		}
-		this.getResearchLabList();
+//		this.getResearchLabList();
 		return "success";
 	}
 	public String getTAUAcademicMeetingList() {
-		Transaction tx = null;
+		Transaction tx = this.TAUAacdemicMeetingDAO.getSession().beginTransaction();
 		if ((ResearchLab) session.get("selectedResearchLab_TAUA") == null) {
 			session.put("selectedResearchLab_TAUA", new ResearchLab());
 		}
@@ -79,15 +83,14 @@ public class TeacherAndmainUndertakeAcademicMeetingAuditAction implements
 							.get("afterdate_TAUA"), (ResearchLab) session
 							.get("selectedResearchLab_TAUA"), (String) session
 							.get("checkOutStatus_TAUA")));
-			tx = this.TAUAacdemicMeetingDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
-			tx.rollback();
 			this.setOperstatus(-1);
 			ex.printStackTrace();
+			tx.rollback();
 		}
-		this.getResearchLabList();
+//		this.getResearchLabList();
 		return "success";
 	}
 	public void getResearchLabList() {

@@ -63,7 +63,8 @@ public class TftermDAO extends BaseHibernateDAO  {
     public List<Tfterm> findByExample(Tfterm instance) {
         log.debug("finding Tfterm instance by example");
         try {
-            List<Tfterm> results = (List<Tfterm>) getSession()
+            @SuppressWarnings("unchecked")
+			List<Tfterm> results = (List<Tfterm>) getSession()
                     .createCriteria("com.nuaa.ec.model.Tfterm")
                     .add( create(instance) )
             .list();

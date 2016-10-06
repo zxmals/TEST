@@ -1,4 +1,4 @@
-package ec.science.audit.action;
+package com.nuaa.ec.science.audit.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +17,6 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class TeacherAndPeriodicalAuditAction implements RequestAware {
 	public void doCheckOutTask() {
-		this.getResearchLabList();
 		String[] ids = this.checkOutIDs.split(",");
 		List<TeacherAndperiodical> checkoutList = new ArrayList<TeacherAndperiodical>();
 		TeacherAndperiodical TAPeriodical = null;
@@ -43,7 +42,13 @@ public class TeacherAndPeriodicalAuditAction implements RequestAware {
 	}
 
 	public String getTAPeriodicalListAfterDivided() {
-		Transaction tx = null;
+		Transaction tx =  this.TAPeriodialDAO.getSession().beginTransaction();
+		if ((ResearchLab) session.get("selectedResearchLab_TAPA") == null) {
+			session.put("selectedResearchLab_TAPA", new ResearchLab());
+		}
+		if ((Integer) session.get("pageSize_TAPA") == null) {
+			session.put("pageSize_TAPA", 1);
+		}
 		try {
 			this.request.put("TAPUnionPPModelList", this.TAPeriodialDAO
 					.getTAPeriodicalListsAfterDivided(pageIndex,
@@ -53,20 +58,19 @@ public class TeacherAndPeriodicalAuditAction implements RequestAware {
 							(ResearchLab) session
 									.get("selectedResearchLab_TAPA"),
 							(String) session.get("checkOutStatus_TAPA")));
-			tx = this.TAPeriodialDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
-			tx.rollback();
 			this.setOperstatus(-1);
 			ex.printStackTrace();
+			tx.rollback();
 		}
-		this.getResearchLabList();
+//		this.getResearchLabList();
 		return "success";
 	}
 
 	public String getTAPeriodicalList() {
-		Transaction tx = null;
+		Transaction tx = this.TAPeriodialDAO.getSession().beginTransaction();
 		if ((ResearchLab) session.get("selectedResearchLab_TAPA") == null) {
 			session.put("selectedResearchLab_TAPA", new ResearchLab());
 		}
@@ -81,15 +85,14 @@ public class TeacherAndPeriodicalAuditAction implements RequestAware {
 							.get("afterdate_TAPA"), (ResearchLab) session
 							.get("selectedResearchLab_TAPA"), (String) session
 							.get("checkOutStatus_TAPA")));
-			tx = this.TAPeriodialDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
 			this.setOperstatus(-1);
-			tx.rollback();
 			ex.printStackTrace();
+			tx.rollback();
 		}
-		this.getResearchLabList();
+//		this.getResearchLabList();
 		return "success";
 	}
 

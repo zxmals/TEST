@@ -13,10 +13,12 @@ import com.nuaa.ec.dao.DepartmentDAO;
 import com.nuaa.ec.dao.NationalityDAO;
 import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.TeacherDAO;
+import com.nuaa.ec.dao.VaCommonwealDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Nationality;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
+import com.nuaa.ec.model.VaCommonweal;
 import com.nuaa.ec.utils.PrimaryKMaker;
 import com.nuaa.ec.utils.StoreData;
 import com.opensymphony.xwork2.ActionContext;
@@ -26,12 +28,15 @@ public class BaseSetAction implements SessionAware{
 	private Department depart;
 	private ResearchLab research;
 	private Nationality nation;
+	private VaCommonweal va;
 	private Map<String, Object>session;
 	private DepartmentDAO departdao = new DepartmentDAO();
 	private ResearchLabDAO researchdao = new ResearchLabDAO();
 	private NationalityDAO nationdao = new NationalityDAO();
+	private VaCommonwealDAO vaCommonwealDAO = new VaCommonwealDAO();
 	private TeacherDAO teacherdao = new TeacherDAO();
 	private PrimaryKMaker pk = new PrimaryKMaker();
+	
 
 	// default method
 	public String execute() {
@@ -261,6 +266,67 @@ public class BaseSetAction implements SessionAware{
 			nationdao.closeSession();
 		}
 	}
+	/**************************公益管理员设置*******VacommonwealSet*****************************/
+	public String getVaCommonwealinfo() throws Exception{
+		ServletActionContext.getRequest().setAttribute("VaCommonweal", teacherdao.findAll());
+		return "success";
+	}
+	
+	
+	public void updateVaCommonweal() throws Exception{
+		Transaction tx = null;
+		va.setVaAdminID(va.getVaAdmin().substring(0, 9));
+		va.setSpareTire("1");
+		if(va.getVaAdminID()=="1"){
+			try {
+				vaCommonwealDAO.update(va);
+				teacherdao.updateVaStatus(va.getVaAdminID());
+				tx = vaCommonwealDAO.getSession().beginTransaction();
+				tx.commit();
+				ServletActionContext.getResponse().getWriter().write("succ");
+			} catch (Exception e) {
+				// TODO: handle exception
+				tx.rollback();
+				throw e;
+			}finally{
+				vaCommonwealDAO.closeSession();
+				getVaCommonwealinfo();
+			}
+		}else{
+			try {
+				ServletActionContext.getResponse().getWriter().write("notin");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				 throw e;
+			}
+		}
+	}
+	
+	public void deleteVaCommonweal() throws Exception{
+		va.setSpareTire("0");
+		Transaction tx = null;
+		try {
+			vaCommonwealDAO.merge(va);
+			tx = vaCommonwealDAO.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			try {
+				ServletActionContext.getResponse().getWriter().write("del_fail");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				 throw e;
+			}
+			throw e;
+		}finally{
+			vaCommonwealDAO.closeSession();
+		}
+	}
+
+	
+
 	/**************************Getter&Setter*****************************/
 	public Department getDepart() {
 		return depart;
@@ -280,6 +346,14 @@ public class BaseSetAction implements SessionAware{
 
 	public Nationality getNation() {
 		return nation;
+	}
+	
+	public VaCommonweal getVa() {
+		return va;
+	}
+	
+	public void setVa(VaCommonweal va) {
+		this.va = va;
 	}
 
 	public void setNation(Nationality nation) {

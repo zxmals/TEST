@@ -130,7 +130,7 @@ public class TfsummerCourseInternationalConstructionLevelDAO extends BaseHiberna
 	public List findAll() {
 		log.debug("finding all TfsummerCourseInternationalConstructionLevel instances");
 		try {
-			String queryString = "from TfsummerCourseInternationalConstructionLevel";
+			String queryString = "from TfsummerCourseInternationalConstructionLevel where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
