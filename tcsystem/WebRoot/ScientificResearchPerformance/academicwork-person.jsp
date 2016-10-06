@@ -62,7 +62,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>个人参刊论文管理<small></small></h5>
+	                        <h5>个人参与学术著作管理<small></small></h5>
 	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
@@ -108,6 +108,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 											<c:if test="${ebj.checkOut==1 }"><td>已审核</td></c:if>
 											<c:if test="${ebj.checkOut==2 }"><td>审核未通过</td></c:if>
 											<c:if test="${ebj.checkOut==0 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
+											<c:if test="${ebj.checkOut==1 }"><td>&nbsp;&nbsp;&nbsp;√</td></c:if>
 											<c:if test="${ebj.checkOut==2 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
 										</tr>
 									</c:forEach>
