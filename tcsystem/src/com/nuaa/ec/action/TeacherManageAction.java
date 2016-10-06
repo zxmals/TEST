@@ -51,7 +51,7 @@ public class TeacherManageAction implements SessionAware {
 				 * 验证身份/check user level
 				 */
 				/* 普通教师登录/general teacher login */
-				if ("1".equals(teacherlg.getLevel())){
+				if ("1".equals(teacherlg.getLevel())||"3".equals(teacherlg.getLevel())){
 					loginresult = "general-t";
 					session.put("teacherLevel", "GT");
 				}
