@@ -208,16 +208,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<li>
                                 <a href="#">教学审核 <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">                                                                    
-									<li><a class="J_menuItem" href="">教学能力与实效 <span class="fa arrow"></span></a>
+<!-- 									<li><a class="J_menuItem" href="">教学能力与实效 <span class="fa arrow"></span></a> -->
+									<li><a href="#">教学能力与实效 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level"">
-											<li><a class="J_menuItem" href="TfclassTeachPefromanceAudit">课堂教学绩效审核</a></li>
+											<li><a class="J_menuItem" href="TfclassTeachPeformanceAudit">课堂教学绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">学位论文指导质量绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学竞赛绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学能力提升绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学名师和教学团队绩效审核</a></li>
 										</ul>
 									</li>
-									<li><a class="J_menuItem" href="">综合改革与教学研究 <span class="fa arrow"></span></a>
+									<li><a href="">综合改革与教学研究 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level">
 											<li><a class="J_menuItem" href="#">教学研究绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学论文绩效审核</a></li>
@@ -229,7 +230,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="#">暑期课程与国际课程建设绩效审核</a></li>
 										</ul>
 									</li>
-									<li><a class="J_menuItem" href="">学生指导工作 <span class="fa arrow"></span></a>
+									<li><a href="">学生指导工作 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level">
 											<li><a class="J_menuItem" href="#">实践创新指导绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">学生竞赛指导绩效审核</a></li>

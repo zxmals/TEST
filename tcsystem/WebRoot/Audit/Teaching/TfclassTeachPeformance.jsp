@@ -14,6 +14,7 @@
 			+ path + "/";
 	request.setAttribute("researchLabList",
 			StoreData.getResearchLabList());
+	request.setAttribute("tftermList", StoreData.getTftermList());
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -81,11 +82,9 @@
 		<span>
 			学期：
 			<select>
-				<option>2014-2015</option>
-				<option>2014-2015</option>
-				<option>2014-2015</option>
-				<option>2014-2015</option>
-				<option>2014-2015</option>
+				<c:forEach var="tfterm" items="${tftermList }">
+					<option>${tfterm.term }</option>
+				</c:forEach>
 			</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
 		<span>每页显示： <select
