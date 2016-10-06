@@ -133,27 +133,27 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 													<c:if test="${ebj.checkout==0 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
-														<a  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 													
 													<c:if test="${ebj.checkout==1 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
-														<a  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 													
 													<c:if test="${ebj.checkout==3 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
-														<a  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 													<c:if test="${ebj.checkout==2 }">
-														<a  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 												</c:if>
 												<c:if test="${sessionScope.teacher.teacherId!=ebj.chargePersonId }">
 													<c:if test="${ebj.checkout==0 }">
-														<a  class="btn btn-primary btn-sm">加入</a>
+														<a  class="btn btn-primary btn-sm joinProj" data-toggle="modal">加入</a>
 													</c:if>
 												</c:if>
 											</td>
@@ -300,6 +300,36 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	        </div>
 	    </div>
 	    
+	    <div id="joinaca" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-body">
+	                    <div class="row">
+	                    			<div class="form-group" style="display: none">                                
+	                                    <label>著作ID:</label>
+	                                    <input id="joinacaId" type="text"  class="form-control nullcheck">
+	                                </div>
+	                    			<div class="form-group">                            
+	                                    <label>参与身份:</label>
+	                                    <select id="joinIdentity" class="form-control nullcheck">
+	                                    	<option></option>
+	                                    	<c:forEach items="${selfdown }" var="obj">
+	                                    		<option value="${obj.undertakeTaskId }">${obj.undertakeTaskName }</option>
+	                                    	</c:forEach>
+	                                    </select>
+	                                </div> 
+	                            	<div>
+	                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
+	                                    <button id="subjoin" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="button">
+		                                     <i class="fa fa-check"></i>
+		                                     <strong>提交</strong>
+	                                    </button>
+	                               </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
     <script src="js/jquery.min.js?v=2.1.4"></script>
     <script src="js/bootstrap.min.js?v=3.3.5"></script>
     <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
@@ -426,7 +456,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    		confirmButtonText: "确定",
     	    		cancelButtonText: "取消",   
     	    		closeOnConfirm: false,   
-    	    		closeOnCancel: false }, 
+    	    		closeOnCancel: true }, 
     	    			function(isConfirm){   
     	    				if (isConfirm) {
     	    					$.post("GTacademicwork-workset!updateAcademicWork?pagenum=1",
@@ -454,8 +484,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    	    						}
     	    	    					}
     	    	    			);
-    	    				}else{
-    	    					swal("已取消");
     	    				}
     	    			}
     	    	);
@@ -476,7 +504,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		confirmButtonText: "删除",
     		cancelButtonText: "取消",   
     		closeOnConfirm: false,   
-    		closeOnCancel: false }, 
+    		closeOnCancel: true }, 
     			function(isConfirm){   
     				if (isConfirm) {
     					$.post("GTacademicwork-workset!deleteAcademicWork?pagenum=1",
@@ -496,11 +524,89 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     								}
     							}
     					);
-    				}else{
-    					swal("已取消");
     				}
     			}
     	);
+	});
+    $('.getMember').click(function() {
+		var row = $(this).parent().parent();
+		$.post("GTacademicwork-workset!getMember",
+				{"academicwk.acaworkId":row[0].cells[0].innerHTML},
+				function(data,status){
+					var tabs = $('#membtab');
+					var trs = tabs.find("tr");
+					for(var i=1;i<trs.length;i++){
+						trs[i].remove();
+					}
+					var obj = JSON.parse(data);
+					if(status=="success"){
+						for(var i=0;i<obj.length;i++){
+							tabs.append("<tr>"
+									+"<td>"+obj[i].teacherId+"</td>"
+									+"<td>"+obj[i].teacherName+"</td>"
+									+"<td> </td>"
+									+"</tr>");
+						}
+						trs = tabs.find("tr");
+						for(var i=1;i<trs.length;i++){
+			                if(i%2==0){
+			                    trs[i].style.backgroundColor = "#e7cdfa";
+			                    trs[i].style.color = "#928FA3";
+			                }else{
+			                    trs[i].style.backgroundColor = "#B5A0C9";
+			                    trs[i].style.color = "#F4F4F6";
+			                }
+			            }
+					}else{
+						swal("请求失败");
+					}
+				}
+		);
+	});
+    $('.joinProj').click(function(e) {
+    	var btn = $(this);
+	    if(btn.attr("isConfirm")!="1"){
+		    btn.removeAttr("data-target");
+	    }else{
+	    	btn.removeAttr("isConfirm");
+	    }
+		swal({
+			title: "确定加入?",   
+    		text: "",   
+    		type: "warning",   
+    		showCancelButton: true,   
+    		confirmButtonColor: "#DD6B55",   
+    		confirmButtonText: "确定",
+    		cancelButtonText: "取消",   
+    		closeOnConfirm: true,   
+    		closeOnCancel: true },
+    		function(isConfirm){
+    			if(isConfirm){
+    				btn.attr("isConfirm","1");
+					btn.attr("data-target","#joinaca");
+					$('#joinacaId').prop("value",btn.parent().parent()[0].cells[0].innerHTML.trim());
+					btn.click();
+    			}
+    		});
+	});
+    $('#subjoin').click(function() {
+    	if($('#joinacaId').val().trim()!=""&&$('#joinIdentity').val().trim()!=""){
+    		$.post("GTacademicwork-workset!joinwork",
+    				{"academicwk.acaworkId":$('#joinacaId').val().trim(),
+        			 "selftask.undertakeTaskId":$('#joinIdentity').val().trim()},
+    				function(data,status){
+        				 if(status=="success"){
+        					 if(data=="succ"){
+        						 swal("加入成功","","success");
+        					 }else{
+        						 swal(data,"","warning");
+        					 }
+        				 }else{
+        					 swal("请求失败","","error");
+        				 }
+    				}
+    		);
+    	}
 	});
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
