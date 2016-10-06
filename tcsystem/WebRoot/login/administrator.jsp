@@ -258,6 +258,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <li><a class="J_menuItem" href="ATDepartmentBaseset!getDepartinfo">系设置</a></li>
                                     <li><a class="J_menuItem" href="ATResearchLabBaseset!getResearchLabinfo">研究所设置</a></li>
                                     <li><a class="J_menuItem" href="ATNationalityBaseset!getNationalityinfo">国籍设置</a></li>
+                                    <li><a class="J_menuItem" href="ATVaCommonwealBaseset!getVaCommonwealinfo">公益管理员设置</a></li>
                                 </ul>
                              </li>
                             </li>

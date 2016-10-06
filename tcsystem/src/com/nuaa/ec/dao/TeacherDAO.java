@@ -34,6 +34,7 @@ public class TeacherDAO extends BaseHibernateDAO  {
 	public static final String RESEARCH_LAB_ADMIN = "researchLabAdmin";
 	public static final String TEACHERPRIMARYID = "teacherprimaryid";
 	public static final String TEACHER_POST = "teacherPost";
+	public static final String VA_ADMIN = "vaadmin";
 
 	public void updateDepartStatus(String teacherId,String departId){
 		String replace = "update Teacher set departAdmin = '0' where departAdmin= '1' and departmentId = ?";
@@ -76,6 +77,38 @@ public class TeacherDAO extends BaseHibernateDAO  {
 			session = getSession();
 			Query reset = session.createQuery(replace);
 			reset.setParameter(0, researchId);
+			tx = session.beginTransaction();
+			reset.executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}try {
+			session = getSession();
+			Query setnew = session.createQuery(update);
+			setnew.setParameter(0, teacherId);
+			tx = session.beginTransaction();
+			setnew.executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}finally{
+			session.close();
+		}
+	}
+	
+	public void updateVaStatus(String teacherId){
+		String replace = "update Teacher set VaAdmin = '0' where VAdmin= '1' and teacherId = ?";
+		String update = "update Teacher set researchLabAdmin = '1' where teacherId=?";
+		Transaction tx = null;
+		Session session = null;
+		try {
+			session = getSession();
+			Query reset = session.createQuery(replace);
+			reset.setParameter(0, teacherId);
 			tx = session.beginTransaction();
 			reset.executeUpdate();
 			tx.commit();

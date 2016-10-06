@@ -32,13 +32,13 @@ public class TeacherManageAction implements SessionAware {
 		// Teacher teacher = null;
 		String loginresult = "500";
 		/*
-		 * 验证登录者是否为管理员或已经不是第一次登录 check user be or not fisrt log in check user be
+		 * 验证登录者是否为管理员或已经不是第一次登录 check user be or not first log in check user be
 		 * or not admin
 		 */
 		teacherlg = teacherlgdao.findById(teacherid);
 		if (teacherlg != null&&"1".equals(teacherlg.getSpareTire())) {
 			/*
-			 * 不是第一次登录。验证密码/ not fisrt login --check pwd
+			 * 不是第一次登录。验证密码/ not first login --check pwd
 			 */
 			if (password.equals(teacherlg.getPassword())) {
 				teacherlg.setLastLoginDate(new java.sql.Timestamp(
@@ -51,7 +51,7 @@ public class TeacherManageAction implements SessionAware {
 				 * 验证身份/check user level
 				 */
 				/* 普通教师登录/general teacher login */
-				if ("1".equals(teacherlg.getLevel())){
+				if ("1".equals(teacherlg.getLevel())||"3".equals(teacherlg.getLevel())){
 					loginresult = "general-t";
 					session.put("teacherLevel", "GT");
 				}
