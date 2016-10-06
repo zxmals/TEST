@@ -154,6 +154,16 @@
 		<action name="TeacherAndinvitedExpertsSpeechAudit" class="ec.science.audit.action.TeacherAndinvitedExpertsSpeechAuditAction">
 			<result>/Audit/ScientificResearch/inviteexpertspeech.jsp</result>
 		</action>
+		<!-- 学术著作审核 -->
+		<action name="TeacherAndacademicWorkAudit" class="ec.science.audit.action.TeacherAndacademicWorkAuditAction">
+			<result>/Audit/ScientificResearch/academicwork.jsp</result>
+		</action>
+	</package>
+	<!-- 教学审核 -->
+	<package name="TeachingAudti" extends="struts-default" namespace="/">
+		<action name="Tf*Audit" class="ec.teaching.audit.action.Tf{1}AuditAction">
+			<result>/Audit/Teaching/Tf{1}.jsp</result>
+		</action>
 	</package>
 </struts>
 
