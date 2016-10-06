@@ -22,7 +22,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 <meta name="description" content="">
 <meta name="author" content="">
 <title>管理员界面</title>
@@ -33,10 +33,10 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
 
-	<!-- Sweet Alert -->
+<!-- Sweet Alert -->
 <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
-	<!-- Data Tables -->
+<!-- Data Tables -->
 <link href="css/plugins/dataTables/dataTables.bootstrap.css"
 	rel="stylesheet">
 <link href="css/animate.min.css" rel="stylesheet">
@@ -44,13 +44,13 @@
 <base target="_blank">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
-	<!-- Custom styles for this template -->
+<!-- Custom styles for this template -->
 <link href="css/dashboard.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/zxma.css">
 <link rel="stylesheet" type="text/css"
 	href="css/Audit_CSS/scientific.css">
-	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 <script src="js/ie-emulation-modes-warning.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -66,32 +66,30 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TeacherAndacademicWorkAudit!getTAAcademicWork"
+		action="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList"
 		method="post" name="pickdate">
-		<div class="datepick" style="font-size:12px;">
-			<span>选择日期范围</span>
-			<div>
-
-				从:<input type="text" id="date1" class="Wdate"
-					onClick="WdatePicker()" value="${sessionScope.foredate_TAAW }"
-					name="foredate_TAAW" id="foredate" />到:<input type="text"
-					id="date2" onClick="WdatePicker()" class="Wdate"
-					value="${sessionScope.afterdate_TAAW }" name="afterdate_TAAW"
-					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep"
-					value="查询" title="点击查询">
-			</div>
-		</div>
-		<h3 style="padding:0px;margin-left: 10px;">学术著作审核</h3>
+		<h3 style="padding:0px;margin-left: 10px;">课堂教学绩效审核</h3>
 		<hr>
 		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="researchLab_TAAW.researchLabId"
+			<select name="researchlab_TAES.researchLabId"
 			id="reserchLabSelection">
 				<c:forEach var="researchLab" items="${researchLabList }">
 					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
 				</c:forEach>
 		</select>
-		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select
-			name="pageSize_TAAW" id="pageSizeSelection">
+		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
+		<span>
+			学期：
+			<select>
+				<option>2014-2015</option>
+				<option>2014-2015</option>
+				<option>2014-2015</option>
+				<option>2014-2015</option>
+				<option>2014-2015</option>
+			</select>
+		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
+		<span>每页显示： <select
+			name="pageSize_TAES" id="pageSizeSelection">
 				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
 				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
 				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
@@ -99,7 +97,7 @@
 				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
-			name="checkOutStatus_TAAW" id="checkoutStatus">
+			name="checkOutStatus_TAES" id="checkoutStatus">
 				<option value="0">未审核</option>
 				<option value="1">审核通过</option>
 				<option value="2">未通过审核</option>
@@ -111,62 +109,50 @@
 	<form name="Audit" action="" method="post">
 		<table
 			class="table table-striped table-bordered table-hover dataTables-example"
-			style="border-collapse:collapse; font-size: 13px;">
+			style="border-collapse:collapse;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
-				<td>学术著作编号</td>		<td>学术著作名称</td>
-				<td>第一作者</td>			<td>出版日期</td>
-				<td>ISBN</td>				<td>字数</td>
-				<td>是否其他作者参与</td>	<td>出版社名称</td>
-				<td>教师编号</td>			<td>教师姓名</td>
-				<td>本人承担任务</td>		<td>最终分数</td>
-				<c:if test="${sessionScope.checkOutStatus_TAAW=='0' }">
+				<td>课堂教学绩效编号</td>
+				<td>总课时</td>
+				<td>综合教学评估结果</td>
+				<td>教师编号</td>
+				<td>教师姓名</td>
+				<td>最终分数</td>
+				<c:if test="${sessionScope.checkOutStatus_TAES=='0' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
 						onchange="allAlowOrNot()" /></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAAW=='1' }">
+				<c:if test="${sessionScope.checkOutStatus_TAES=='1' }">
 					<td><font color="blue">通过</td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAAW=='2' }">
+				<c:if test="${sessionScope.checkOutStatus_TAES=='2' }">
 					<td><font color="red">未通过</td>
 				</c:if>
 
 			</tr>
-			<c:forEach var="TAAcademicWork"
-				items="${TAAcademicWorkList }">
+			<c:forEach var="TA_InviteExpertSpeech"
+				items="${TA_InviteExpertSpeechList }">
 				<tr>
-					<!-- 学术著作编号 -->
-					<td>${TAAcademicWork.academicWork.acaworkId }</td>
-					<!-- 学术著作名称-->
-					<td>${TAAcademicWork.academicWork.workName }</td>
-					<!-- 第一作者 -->
-					<td>${TAAcademicWork.academicWork.firstAuthor }</td>
-					<!-- 出版日期-->
-					<td>${TAAcademicWork.academicWork.publishDate }</td>
-					<!-- ISBN -->
-					<td>${TAAcademicWork.academicWork.isbn }</td>
-					<!-- 字数 -->
-					<td>${TAAcademicWork.academicWork.wordNumber }</td>
-					<!-- 是否其他作者参与 -->
-					<td>${TAAcademicWork.academicWork.otherAuthorJoin }</td>
-					<!-- 出版社名称 -->
-					<td>${TAAcademicWork.academicWork.publishClub.publishClubName }</td>
+					<!-- 课堂教学绩效编号 -->
+					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.iespeechId }</td>
+					<!-- 总课时-->
+					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.lectureName }</td>
+					<!-- 综合教学评估结果 -->
+					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.expertsName }</td>
 					<!-- 教师编号 -->
-					<td>${TAAcademicWork.teacher.teacherId }</td>
+					<td>${TA_InviteExpertSpeech.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
-					<td>${TAAcademicWork.teacher.teacherName }</td>
-					<!-- 本人承担任务 -->
-					<td>${TAAcademicWork.selfUndertakeTask.undertakeTaskName }</td>
+					<td>${TA_InviteExpertSpeech.teacher.teacherName }</td>
 					<!-- 最终分数 -->
-					<td>${TAAcademicWork.finalScore }</td>
-					<c:if test="${sessionScope.checkOutStatus_TAAW=='0' }">
+					<td>${TA_InviteExpertSpeech.finalScore }</td>
+					<c:if test="${sessionScope.checkOutStatus_TAES=='0' }">
 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TAAcademicWork.teacherAndAcawid}" /></td>
+							value="${TA_InviteExpertSpeech.teacherAinvEsid}" /></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAAW=='1' }">
+					<c:if test="${sessionScope.checkOutStatus_TAES=='1' }">
 						<td><font color="green"size:"3">√</td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAAW=='2' }">
+					<c:if test="${sessionScope.checkOutStatus_TAES=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
 				</tr>
@@ -176,30 +162,30 @@
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;"> 当前是第<font
-			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAAW }</font>页
+			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAES }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TeacherAndacademicWorkAudit!getTAAcademicWorkAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
+					href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index"
 			step="1">
-			<c:if test="${index<=pageCount_TAAW }">
+			<c:if test="${index<=pageCount_TAES }">
 				<span> <a
-					href="TeacherAndacademicWorkAudit!getTAAcademicWorkAfterDivide?pageIndex=${index }">${index }</a>
+					href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
-		<span> <c:if test="${pageIndex<pageCount_TAAW }">
+		<span> <c:if test="${pageIndex<pageCount_TAES }">
 				<a
-					href="TeacherAndacademicWorkAudit!getTAAcademicWorkAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
+					href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
-		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAAW }</font>页
-		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAAW }</font>条记录
+		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAES }</font>页
+		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAES }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_TAAW=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_TAES=='0'}">
 		<input type="button" value="提交" class="button_set"
 			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
@@ -229,9 +215,9 @@
 	<script src="My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAAW}']").attr("selected",true);
-			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab_TAAW.researchLabId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAAW}']").attr("selected",true);
+			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAES}']").attr("selected",true);
+			$("#reserchLabSelection option[value='${sessionScope.selectedResearchlab_TAES.researchLabId}']").attr("selected",true);
+			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAES}']").attr("selected",true);
 		});
 	</script>
 </body>
@@ -250,13 +236,14 @@
 				return;
 			}
 			if(window.confirm("您确认要提交审核吗？")){
-				$.post("TeacherAndacademicWorkAudit!doCheckOutTask",{
+				$.post("TeacherAndinvitedExpertsSpeechAudit!doCheckOutTask",{
 					checkOutIDs:IDs
 				},function(data,status){
 					if(status=="success"){
 						if(data=="succ"){
 							window.alert("审核成功！");
-							window.location.replace("<%=basePath%>TeacherAndacademicWorkAudit!getTAAcademicWork");
+							window.location.replace("<%=basePath%>
+	TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList");
 													} else {
 														window.alert("审核失败！");
 													}
