@@ -7,7 +7,7 @@ public class PeriodicalPapersPerson {
 	private String chargePersonId;
 	private String firstAuthor;
 	private String secondAuthor;
-	private float score;
+	private Double score;
 	private String checkOut;
 
 	public PeriodicalPapersPerson() {
@@ -16,7 +16,7 @@ public class PeriodicalPapersPerson {
 
 	public PeriodicalPapersPerson(String ppid, String thesisTitle,
 			String chargePersonId, String firstAuthor, String secondAuthor,
-			float score, String checkOut) {
+			Double score, String checkOut) {
 		this.ppid = ppid;
 		this.thesisTitle = thesisTitle;
 		this.chargePersonId = chargePersonId;
@@ -66,11 +66,11 @@ public class PeriodicalPapersPerson {
 		this.secondAuthor = secondAuthor;
 	}
 
-	public float getScore() {
+	public Double getScore() {
 		return score;
 	}
 
-	public void setScore(float score) {
+	public void setScore(Double score) {
 		this.score = score;
 	}
 

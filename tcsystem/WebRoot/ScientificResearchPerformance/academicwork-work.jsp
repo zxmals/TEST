@@ -319,7 +319,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                    </select>
 	                                </div> 
 	                            	<div>
-	                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
+	                                    <button type="button" id="closebtn"  class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
 	                                    <button id="subjoin" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="button">
 		                                     <i class="fa fa-check"></i>
 		                                     <strong>提交</strong>
@@ -601,6 +601,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
         					 }else{
         						 swal(data,"","warning");
         					 }
+        					 $('#closebtn').click();
         				 }else{
         					 swal("请求失败","","error");
         				 }

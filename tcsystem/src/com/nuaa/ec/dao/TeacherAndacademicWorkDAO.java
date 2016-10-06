@@ -162,6 +162,7 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 	}
 
     
+	
     public void save(TeacherAndacademicWork transientInstance) {
         log.debug("saving TeacherAndacademicWork instance");
         try {
@@ -212,6 +213,33 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
         }
     }    
     
+    public List findSingleteacherPerformance(String condition, Teacher teacher,int currentrow,int limitrows) {
+        try {
+           String queryString = "from TeacherAndacademicWork as t where t.teacher= ? "
+           		+ "and t.spareTire='1' and t.academicWork.spareTire = '1' "+condition+" order by t.academicWork.publishDate,t.academicWork.acaworkId desc";
+           Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
+           queryObject.setMaxResults(limitrows);
+  		 queryObject.setParameter(0, teacher);
+  		 return queryObject.list();
+        } catch (RuntimeException re) {
+           log.error("find by property name failed", re);
+           throw re;
+        }
+  	}
+    
+    public int getRows(String condition, Teacher teacher) {
+    	try {
+            String queryString = "from TeacherAndacademicWork as t where t.teacher= ? "
+            		+ "and t.spareTire='1' and t.academicWork.spareTire = '1' "+condition;
+            Query queryObject = getSession().createQuery(queryString);
+   		 queryObject.setParameter(0, teacher);
+   		 return queryObject.list().size();
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
+    
     public List findByProperty(String propertyName, Object value) {
       log.debug("finding TeacherAndacademicWork instance with property: " + propertyName
             + ", value: " + value);
@@ -227,6 +255,19 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
       }
 	}
 
+    public void quitAcademicWork(Teacher teacher,AcademicWork aw){
+    	try {
+            String queryString = "update TeacherAndacademicWork set spareTire='0' where teacher = :teacher and academicWork = :aw ";
+            Query queryObject = getSession().createQuery(queryString);
+   		 queryObject.setParameter("teacher", teacher);
+   		queryObject.setParameter("aw", aw);
+   		 queryObject.executeUpdate();
+         } catch (RuntimeException re) {
+            log.error("update dbo:quit academicwork", re);
+            throw re;
+         }
+    }
+    
 	public List findByFinalScore(Object finalScore
 	) {
 		return findByProperty(FINAL_SCORE, finalScore

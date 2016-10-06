@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>PeriodicalPaper --Personal-Set</title>
+    <title>AcademicWork --Personal-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -50,7 +50,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="GTperiodicalpaper-personset!getPersonalJoinC?pagenum=1" method="post" name="pickdate" id="pickdates">
+			<form action="GTacademicwork-personset!getPersonJoin?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
@@ -85,8 +85,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-										<td>期刊论文Id</td>
-										<td>期刊论文标题</td>
+										<td>学术著作Id</td>
+										<td>著作名称</td>
 										<td>登记负责人ID</td>
 										<td>登记负责人</td>
 										<td>本人参与身份</td>
@@ -96,20 +96,18 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj" items="${personjoinp }">
+									<c:forEach var="ebj" items="${teacheranwork }">
 										<tr>
-											<td>${ebj.ppid }</td>
-											<td>${ebj.thesisTitle }</td>
-											<td>${ebj.chargePersonId }</td>
-											<td>${teachermp[ebj.chargePersonId] }</td>
-											<c:if test="${ebj.firstAuthor==teacher.teacherId }"><td>第一作者</td></c:if>
-											<c:if test="${ebj.secondAuthor==teacher.teacherId }"><td>第二作者</td></c:if>
-											<td>${ebj.score }</td>
+											<td>${ebj.academicWork.acaworkId }</td>
+											<td>${ebj.academicWork.workName }</td>
+											<td>${ebj.academicWork.chargePersonId }</td>
+											<td>${teachermp[ebj.academicWork.chargePersonId] }</td>
+											<td title="${ebj.selfUndertakeTask.undertakeTaskId }">${ebj.selfUndertakeTask.undertakeTaskName }</td>
+											<td>${ebj.finalScore }</td>
 											<c:if test="${ebj.checkOut==0 }"><td>待审核</td></c:if>
 											<c:if test="${ebj.checkOut==1 }"><td>已审核</td></c:if>
 											<c:if test="${ebj.checkOut==2 }"><td>审核未通过</td></c:if>
 											<c:if test="${ebj.checkOut==0 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
-											<c:if test="${ebj.checkOut==1 }"><td><a  class="btn btn-primary btn-sm" style="background-color:#999999">退出</a></td></c:if>
 											<c:if test="${ebj.checkOut==2 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
 										</tr>
 									</c:forEach>
@@ -119,10 +117,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTperiodicalpaper-personset!getPersonalJoinC?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTperiodicalpaper-personset!getPersonalJoinC?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTperiodicalpaper-personset!getPersonalJoinC?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTperiodicalpaper-personset!getPersonalJoinC?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="GTacademicwork-personset!getPersonJoin?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTacademicwork-personset!getPersonJoin?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTacademicwork-personset!getPersonJoin?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTacademicwork-personset!getPersonJoin?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -158,29 +156,40 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	//变更每页显示记录数
     $('#changelength').change(function() {
     	comphref($(this).val().trim());
-		window.location.replace("GTperiodicalpaper-personset!getPersonalJoinC?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
+		window.location.replace("GTacademicwork-personset!getPersonJoin?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
 	});
 	//退出
 	$('.quitpaper').click(function() {
-		if(confirm("确定退出该项目？")){
-			var row = $(this).parent().parent();
-			$.post("GTperiodicalpaper-personset!quitProject",
-					{"periopaper.ppid":row[0].cells[0].innerHTML.trim(),
-					 "author":row[0].cells[4].innerHTML.trim()=="第一作者"?"1":"2"},
-					function(data,status){
-						 if(status=="success"){
-							 if(data=="succ"){
-								 alert("退出成功");
-								 row.remove();
-							 }else{
-								 alert("退出错误");
-							 }
-						 }else{
-							 alert("请求失败");
-						 }
-					}
+		var row = $(this).parent().parent();
+		swal({   title: "确定退出?",   
+				 text: "即将推出 . . . ",   
+				 type: "warning",   
+				 showCancelButton: true,   
+				 confirmButtonColor: "#DD6B55",   
+				 confirmButtonText: "退出",   
+				 cancelButtonText: "取消",   
+				 closeOnConfirm: false,   
+				 closeOnCancel: true }, 
+				 function(isConfirm){   
+					 if (isConfirm) {     
+						 $.post("GTacademicwork-personset!quitProject",
+									{"academicwk.acaworkId":row[0].cells[0].innerHTML.trim()},
+									function(data,status){
+										 if(status=="success"){
+											 if(data=="succ"){
+												 swal("退出成功","","success");
+												 row.remove();
+											 }else{
+												 swal("退出错误","","warning");
+											 }
+										 }else{
+											 swal("请求失败","","warning");
+										 }
+									}
+							);   
+						 }    
+					 } 
 			);
-		}
 	});
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>

@@ -132,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                                <a class="J_menuItem" href="GTacademicwork-workset!getWorkall">著作管理</a>
 				                            </li>
 				                            <li>
-				                                <a class="J_menuItem" href="GTacademicwork-personset">个人参与管理</a>
+				                                <a class="J_menuItem" href="GTacademicwork-personset!getPersonJoin">个人参与管理</a>
 				                            </li>
 				                        </ul>
 		                            </li>
