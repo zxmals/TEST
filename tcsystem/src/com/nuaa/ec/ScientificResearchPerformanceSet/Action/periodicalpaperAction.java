@@ -202,17 +202,9 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 
 	public void getMember() throws Exception {
 		try {
-<<<<<<< HEAD
 //			JsonConfig config = new JsonConfig();
 //			config.setExcludes(new String[]{"teacher","periodicalPapersScore","periodical"});
 			JSONArray jary = JSONArray.fromObject(tpdao.findMember(periopaper.getPpid()));
-=======
-			JsonConfig config = new JsonConfig();
-			// config.setExcludes(new
-			// String[]{"teacher","periodicalPapersScore","periodical"});
-			JSONArray jary = JSONArray.fromObject(tpdao.findMember(periopaper
-					.getPpid()));
->>>>>>> linxq
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 			ServletActionContext.getResponse().getWriter()
 					.write(jary.toString());
@@ -221,7 +213,6 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 			throw e;
 		}
 	}
-<<<<<<< HEAD
 	//TODO: 个人参与设置  && 分页
 	public String getPersonalJoinC()throws Exception{
 		int pagenum = 1;
@@ -280,13 +271,9 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 			throw e;
 		}
 	}
-	//TODO: Utils meth0d
-	public String generateQueryCondition(){
-=======
 
 	// TODO Utils meth0d
 	public String generateQueryCondition() {
->>>>>>> linxq
 		StringBuffer condition = new StringBuffer();
 		condition.append("AND");
 		if (foredate != null) {
@@ -323,12 +310,8 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 			throw e;
 		}
 	}
-<<<<<<< HEAD
-	//TODO :Getter & Setter
-=======
 
 	// Getter & Setter
->>>>>>> linxq
 	public Integer getOperstatus() {
 		return operstatus;
 	}
