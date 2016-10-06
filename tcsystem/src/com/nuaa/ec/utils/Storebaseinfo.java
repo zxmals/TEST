@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 
 import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.TeacherDAO;
+import com.nuaa.ec.dao.TftermDAO;
 
 public class Storebaseinfo implements Filter {
 
@@ -28,6 +29,7 @@ public class Storebaseinfo implements Filter {
 	public void init(FilterConfig arg0) throws ServletException {
 		StoreData.setTeachertranslate(new TeacherDAO().findAllT());
 		StoreData.setResearchLabList(new ResearchLabDAO().findAll());
+		StoreData.setTftermList(new TftermDAO().findAll());
 	}
 
 }
