@@ -327,19 +327,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	comphref($(this).val().trim());
 		window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
 	});
-    $('.isbncontrol').click(function() {
-		var vals = $(this).val().trim();
-		if(vals=="10"){
-			$('#isbn10').css("display","");
-			$('#isbn13')[0].firstElementChild.value = "";
-			$('#isbn13').css("display","none");
-		}
-		if(vals=="13"){
-			$('#isbn10').css("display","none");
-			$('#isbn10')[0].firstElementChild.value = "";
-			$('#isbn13').css("display","");
-		}
-	});
     $('.openaddm').click(function() {
     	$('#addmodaldialogTitle').css("display","");
     	$('#updatemodaldialogTitle').css("display","none");
@@ -350,31 +337,47 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	$('#crystatus').css("display","none");
     	$('#subdel').css("display","none");
 	});
+    //adds 
     $('#subadds').click(function() {
 		if(checkadds()){
-				$.post("GTscienceresearch-rewardset!addScienReward?gainscienceReward=1",
-						{"academicwk.workName":$('#workname').val().trim(),
-						 "academicwk.firstAuthor":firstauthor,
-						 "academicwk.publishClub.publishClubId":$('#publishclub').val().trim(),
-						 "academicwk.wordsNumber.wordId":$('#wordnum').val().trim(),
-						 "academicwk.publishDate":$('#publishdate').val().trim(),
-						 "academicwk.otherAuthorJoin":author,
-						 "academicwk.isbn":isbn},
-						function(data,status){
-							 if(status=="success"){
-								 if(data=="succ"){
-									 swal("添加成功","","success");
-    								 setTimeout(function() {
-    									 window.location.replace("GTscienceresearch-rewardset!getWorkall?pagenum=1");
-									}, 2000);
-								 }else{
-									 swal("新增失败");
-								 }
-							 }else{
-								 swal("请求失败");
-							 }
-						}
-				);
+			swal({   
+	    		title: "确定提交?",   
+	    		text: "",   
+	    		type: "warning",   
+	    		showCancelButton: true,   
+	    		confirmButtonColor: "#DD6B55",   
+	    		confirmButtonText: "确定",
+	    		cancelButtonText: "取消",   
+	    		closeOnConfirm: false,   
+	    		closeOnCancel: true }, 
+	    			function(isConfirm){   
+	    				if (isConfirm) {
+	    					$.post("GTscienceresearch-rewardset!addScienReward?gainscienceReward=1",
+	    							{"scienceReward.srrewardName":$('#rewardname').val().trim(),
+	    							 "scienceReward.rewardDate":$('#rewardDate').val().trim(),
+	    							 "scienceReward.awardDepartment":$('#awardDepart').val().trim(),
+	    							 "scienceReward.rewardTotalPeople":$('#rewardpeoplenum').val().trim(),
+	    							 "rewardlevel.rewardLevelId":$('#rewardlevel').val().trim(),
+	    							 "rewardtype.rewardTypeId":$('#rewardtype').val().trim()},
+	    							function(data,status){
+	    								 if(status=="success"){
+	    									 if(data=="succ"){
+	    										 swal("添加成功","","success");
+	    	    								 setTimeout(function() {
+	    	    									 window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1");
+	    										}, 2000);
+	    									 }else{
+	    										 swal("新增失败");
+	    									 }
+	    								 }else{
+	    									 swal("请求失败");
+	    								 }
+	    							}
+	    					);
+	    					
+	    				}
+	    		});
+				
 		}else{
 				swal("是否还有没填的?","请完善所有信息后提交","warning");
 		}
