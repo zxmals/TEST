@@ -44,14 +44,16 @@ function getCheckOutResult(){
       $('input:checkbox[name=chooseWhichToAudit]:checked').each(function(i){
     	  arr=arr+$(this).val()+",";
       });
-	  return arr; 
+      alert(arr.substring(0,arr.length-1));
+	  return arr.substring(0,arr.length-1); 
 }
 function getCheckOutNotAudit(){
 	var arr="";
 	$('input:checkbox[name=notAudit]:checked').each(function(i){
 		arr=arr+$(this).val()+",";
 	});
-	return arr;
+	alert(arr.substring(0,arr.length-1));
+	return arr.substring(0,arr.length-1); 
 }
 function submitAudit(postUrl,refreshUrl){
 	var IDs=getCheckOutResult();
