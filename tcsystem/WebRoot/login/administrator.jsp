@@ -260,6 +260,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <li><a class="J_menuItem" href="ATResearchLabBaseset!getResearchLabinfo">研究所设置</a></li>
                                     <li><a class="J_menuItem" href="ATNationalityBaseset!getNationalityinfo">国籍设置</a></li>
                                     <li><a class="J_menuItem" href="ATVaCommonwealBaseset!getVaCommonwealinfo">公益管理员设置</a></li>
+                                    <li><a class="J_menuItem" href="ATtermset!entityList">学期设置</a></li>
                                 </ul>
                              </li>
                             </li>
@@ -376,9 +377,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <li>
                                 <a href="#">用户管理 <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li><a class="J_menuItem" href="add_Teacher!getsinfo">增加用户</a>
+                                    <li><a class="J_menuItem" href="ATteacherManagementset!elementList">增加用户</a>
                                     </li>
-                                    <li><a class="J_menuItem" href="update_Teacher!viewTeacher">修改用户</a>
+                                    <li><a class="J_menuItem" href="ATteacherManagementset!teacherList">修改用户</a>
                                     </li>
                                 </ul>
                              </li>                                                    

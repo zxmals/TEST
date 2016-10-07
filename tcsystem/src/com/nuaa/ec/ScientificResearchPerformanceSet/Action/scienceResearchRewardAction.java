@@ -5,7 +5,10 @@ import java.util.Map;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
+<<<<<<< HEAD
 import org.hibernate.Transaction;
+=======
+>>>>>>> linxq
 
 import com.nuaa.ec.dao.RewardLevelDAO;
 import com.nuaa.ec.dao.RewardTypeDAO;
@@ -14,7 +17,10 @@ import com.nuaa.ec.dao.TeacherAndscientificResearchRewardDAO;
 import com.nuaa.ec.model.RewardLevel;
 import com.nuaa.ec.model.RewardType;
 import com.nuaa.ec.model.ScientificResearchReward;
+<<<<<<< HEAD
 import com.nuaa.ec.model.Teacher;
+=======
+>>>>>>> linxq
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
@@ -107,6 +113,7 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 	}
 	
 	//Geter & Setter
+
 	public Map<String, Object> getRequest() {
 		return request;
 	}
@@ -147,6 +154,16 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 		this.operstatus = operstatus;
 	}
 
+<<<<<<< HEAD
+=======
+	public ScientificResearchReward getSciencereward() {
+		return scienceReward;
+	}
+
+	public void setSciencereward(ScientificResearchReward sciencereward) {
+		this.scienceReward = sciencereward;
+	}
+
 	public TeacherAndscientificResearchReward getTeacherandsr() {
 		return teacherandsr;
 	}
@@ -178,5 +195,6 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 	public void setScienceReward(ScientificResearchReward scienceReward) {
 		this.scienceReward = scienceReward;
 	}
+
 	
 }

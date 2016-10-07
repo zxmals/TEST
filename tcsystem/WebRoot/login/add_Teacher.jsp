@@ -1,23 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<jsp:directive.page
-	import="com.nuaa.ec.science.baseSet.action.MidifyPwdAction" />
-<jsp:directive.page
-	import="com.nuaa.ec.science.baseSet.action.LoginAction" />
-<jsp:directive.page
-	import="com.nuaa.ec.science.Permodel.TeacherLoginStatus" />
-<jsp:directive.page import="javax.servlet.http.HttpSession" />
-<jsp:directive.page import="java.text.DateFormat" />
-<jsp:directive.page import="java.util.Date" />
-<%@page import="com.nuaa.ec.science.model.ResearchLab"%>
-<%@page import="com.nuaa.ec.science.model.Department"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="/struts-tags" prefix="s"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	TeacherLoginStatus a = (TeacherLoginStatus) session
-			.getAttribute("teacherloginStatus");
 %>
 <head>
 <base target="_self">
@@ -25,7 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>NUAA-CEM绩效管理系统 - 添加教师</title>
+<title>用户管理 - 添加教师</title>
 
 
 <link rel="shortcut icon" href="favicon.ico">
@@ -69,6 +57,8 @@
 
 		<div class="row">
 			<div class="col-sm-4">
+
+
 				<div class="ibox float-e-margins">
 					<div class="ibox-title">
 						<h5>修改教师信息</h5>
@@ -95,7 +85,7 @@
 			</div>
 		</div>
 
-		<div id="modal-form" class="modal fade" aria-hidden="true">
+		<div id="modal-form" class="modal fade">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-body">
@@ -104,26 +94,30 @@
 							<h3 class="m-t-none m-b">添加教师</h3>
 
 
-							<form role="form" action="doadd!add">
+							<form role="form" action="ATteacherManagementset!addTeacher">
 
 								<div class="form-group">
 									<label>教师工号：</label> <input type="text" class="form-control"
-										name="TeacherID">
+										name="teacher.teacherId">
 								</div>
 								<div class="form-group">
 									<label>教师姓名：</label> <input type="text" class="form-control"
-										name="TeacherName">
+										name="teacher.teacherName">
 								</div>
 								<div class="form-group">
 									<label>所属研究所：</label> <select class="form-control m-b"
-										name="ResearchLab">
-										<option>HELL GIRL</option>
+										name="researchLab.researchLabName">
+										<c:forEach var="ebj" items="${researchLabList}">
+											<option>${ebj.researchLabName}</option>
+										</c:forEach>
 									</select>
 								</div>
 								<div class="form-group">
 									<label>所属系：</label> <select class="form-control m-b"
-										name="Department">
-										<option>HELL GIRL</option>
+										name="department.departmentName">
+										<c:forEach var="ebj" items="${departmentList}">
+											<option>${ebj.departmentName}</option>
+										</c:forEach>
 									</select>
 								</div>
 								<div class="form-group">
@@ -137,8 +131,8 @@
 									<button type="button"
 										class="btn btn-outline btn-primary pull-right m-t-n-xs"
 										data-dismiss="modal">关闭</button>
-									<button class="btn  btn-primary pull-left m-t-n-xs "
-										type="submit">
+									<button id="addTeacher"
+										class="btn  btn-primary pull-left m-t-n-xs " type="submit">
 										<i class="fa fa-check"></i> <strong>提交</strong>
 									</button>
 								</div>
@@ -150,6 +144,7 @@
 				</div>
 			</div>
 		</div>
+
 		<script src="js/jquery.min.js?v=2.1.4"></script>
 		<script src="js/bootstrap.min.js?v=3.3.5"></script>
 		<script src="js/content.min.js?v=1.0.0"></script>
