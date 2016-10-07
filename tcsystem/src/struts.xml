@@ -332,8 +332,8 @@
 	</package>
 	<!-- 教学审核 -->
 	<package name="TeachingAudti" extends="struts-default" namespace="/">
-		<action name="Tf*Audit" class="ec.teaching.audit.action.Tf{1}AuditAction">
-			<result>/Audit/Teaching/Tf{1}.jsp</result>
+		<action name="Tf*PerformanceAudit" class="com.nuaa.ec.teaching.audit.action.Tf{1}PerformanceAuditAction">
+			<result>/Audit/Teaching/Tf{1}Performance.jsp</result>
 		</action>
 	</package>
 </struts>
