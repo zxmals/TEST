@@ -50,7 +50,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="GTscienceresearch-rewardset!getscienceReward?pagenum=1" method="post" name="pickdate" id="pickdates">
+			<form action="GTscienceresearch-rewardset!gainscienceReward?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
@@ -156,10 +156,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!getscienceReward?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!getscienceReward?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!getscienceReward?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!getscienceReward?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -173,70 +173,46 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="modal-content">
 	                <div class="modal-body">
 	                    <div class="row">
-	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增学术著作</h3>
-	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改学术著作</h3>
+	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增科研奖励</h3>
+	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改科研奖励</h3>
 	                            <hr >
 	                            	<div class="form-group" style="display: none">                                
-	                                    <label>著作ID:</label>
-	                                    <input id="workId" type="text" class="form-control nullcheck upcheck">
+	                                    <label>科研奖励ID:</label>
+	                                    <input id="scienrewardId" type="text" class="form-control nullcheck">
 	                                </div>
 	                                <div class="form-group">                                
-	                                    <label>著作名称:</label>
-	                                    <input id="workname" type="text"  class="form-control nullcheck addcheck" >
+	                                    <label>奖励名称:</label>
+	                                    <input id="rewardname" type="text"  class="form-control nullcheck addcheck" >
 	                                </div>
 	                                <div class="form-group">                            
-	                                    <label>登记人身份:</label>
-	                                    <select class="form-control nullcheck addcheck" Id="isFauthor" >
+	                                    <label>奖励级别:</label>
+	                                    <select id="rewardlevel" class="form-control nullcheck addcheck" >
 	                                    	<option></option>
-	                                    	<option value="first">第一作者</option>
-	                                    	<option value="other">其他作者</option>
-	                                    </select>
-	                                </div> 
-	                                <div class="form-group">                            
-	                                    <label>出版社:</label>
-	                                    <select id="publishclub" class="form-control nullcheck addcheck" >
-	                                    	<option></option>
-	                                    	<c:forEach items="${publishclubli }" var="obj">
-	                                    		<option value="${obj.publishClubId }">${obj.publishClubName }</option>
+	                                    	<c:forEach items="${rewardlevel }" var="obj">
+	                                    		<option value="${obj.rewardLevelId }">${obj.rewardLevelName }</option>
 	                                    	</c:forEach>
 	                                    </select>
 	                                </div>  
 	                                <div class="form-group">                            
-	                                    <label>字数:</label>
-	                                    <select id="wordnum" class="form-control nullcheck addcheck"  >
+	                                    <label>奖励类型:</label>
+	                                    <select id="rewardtype" class="form-control nullcheck addcheck"  >
 	                                    	<option></option>
-	                                    	<c:forEach items="${wordnum }" var="obj">
-	                                    		<option value="${obj.wordId }">${obj.wordNumber }</option>
+	                                    	<c:forEach items="${rewardtype }" var="obj">
+	                                    		<option value="${obj.rewardTypeId }">${obj.rewardTypeName }</option>
 	                                    	</c:forEach>
 	                                    </select>
 	                                </div>  
 	                                <div class="form-group">                                
-	                                    <label>出版日期:</label>
-	                                    <input id="publishdate" type="text"  class="form-control nullcheck addcheck" onClick="WdatePicker()" readonly="readonly">
+	                                    <label>获奖日期:</label>
+	                                    <input id="rewardDate" type="text"  class="form-control nullcheck addcheck" onClick="WdatePicker()" readonly="readonly">
 	                                </div>
-	                                <div class="form-group">                            
-	                                    <label>是否有其他作者参与:</label>
-	                                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                    	是:<input type="radio"  value="1" class="author checkattr"  name="otherAuthorJoin"> 
-	                                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                    	否:<input type="radio" value="0" class="author checkattr" name="otherAuthorJoin">
+	                                <div class="form-group">                                
+	                                    <label>授奖部门:</label>
+	                                    <input id="awardDepart" type="text"  class="form-control nullcheck addcheck" >
 	                                </div>
-	                                <div class="form-group" id="hideisbn">
-	                                    <label>著作ISBN：</label>
-	                                    ISBN-10:<input type="radio"  class="isbncontrol checkattr" value="10"  name="ISBN"> &nbsp;&nbsp;ISBN-13:<input type="radio" class="isbncontrol checkattr"  value="13" name="ISBN">
-	                                </div>
-	                                <div class="form-group" style="display: none" id="isbn13">
-	                                    <input type="text" class="form-control ISBN" data-mask="999-9-999-99999-9" placeholder="">
-	                                    <span class="help-block">999-9-999-99999-9</span>
-	                                </div>
-	                                <div class="form-group" style="display: none" id="isbn10">
-	                                    <input type="text" class="form-control ISBN" data-mask="9-999-99999-9" placeholder="">
-	                                    <span class="help-block">9-999-99999-9</span>
-	                                </div>
-	                                <!-- 更新时所用的ISBN -->
-	                                <div class="form-group" style="display: none" id="cryisbn">
-	                                	<label>著作ISBN：</label>
-	                                    <input type="text" class="form-control nullcheck" id="upIsbn">
+	                                <div class="form-group">                                
+	                                    <label>获奖人数:</label>
+	                                    <input id="rewardpeoplenum" type="text"  class="form-control nullcheck addcheck" >
 	                                </div>
 	                                <div class="form-group" style="display: none" id="crystatus">
 	                                	<label>项目人数：</label>
@@ -349,7 +325,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	//变更每页显示记录数
     $('#changelength').change(function() {
     	comphref($(this).val().trim());
-		window.location.replace("GTacademicwork-workset!getWorkall?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
+		window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
 	});
     $('.isbncontrol').click(function() {
 		var vals = $(this).val().trim();
@@ -375,12 +351,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	$('#subdel').css("display","none");
 	});
     $('#subadds').click(function() {
-    	var firstauthor = $('#isFauthor').val().trim()!="first"?"":"${sessionScope.teacher.teacherId }";
-    	var isbn = $('.ISBN').get(0).value.trim()==""?$('.ISBN').get(1).value.trim():$('.ISBN').get(0).value.trim();
-    	var author = $('.author').get(0).checked==false?($('.author').get(1).checked==true?$('.author').get(1).value.trim():""):$('.author').get(0).value.trim();
-		if(checkadds()&&author!=""&&isbn!=""){
-			if(checkISBN(isbn)){
-				$.post("GTacademicwork-workset!addAcademicWork?pagenum=1",
+		if(checkadds()){
+				$.post("GTscienceresearch-rewardset!addScienReward?gainscienceReward=1",
 						{"academicwk.workName":$('#workname').val().trim(),
 						 "academicwk.firstAuthor":firstauthor,
 						 "academicwk.publishClub.publishClubId":$('#publishclub').val().trim(),
@@ -393,7 +365,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 								 if(data=="succ"){
 									 swal("添加成功","","success");
     								 setTimeout(function() {
-    									 window.location.replace("GTacademicwork-workset!getWorkall?pagenum=1");
+    									 window.location.replace("GTscienceresearch-rewardset!getWorkall?pagenum=1");
 									}, 2000);
 								 }else{
 									 swal("新增失败");
@@ -403,9 +375,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 							 }
 						}
 				);
-	    	}else{
-	    		swal("ISBN ["+isbn+"] 错误","请完善所有信息后提交","warning");
-	    	}
 		}else{
 				swal("是否还有没填的?","请完善所有信息后提交","warning");
 		}

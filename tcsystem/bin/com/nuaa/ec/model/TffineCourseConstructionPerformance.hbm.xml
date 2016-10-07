@@ -10,24 +10,15 @@
             <column name="upid" />
             <generator class="assigned" />
         </id>
+        <many-to-one name="tffineCourseConstructionProject" class="com.nuaa.ec.model.TffineCourseConstructionProject" fetch="select">
+            <column name="courseID" length="20" />
+        </many-to-one>
         <many-to-one name="selfUndertakeTask" class="com.nuaa.ec.model.SelfUndertakeTask" fetch="select">
             <column name="UndertaketaskID" length="20" />
-        </many-to-one>
-        <many-to-one name="tffineCourseConstructionLevel" class="com.nuaa.ec.model.TffineCourseConstructionLevel" fetch="select">
-            <column name="courseLevelID" length="20" />
         </many-to-one>
         <many-to-one name="teacher" class="com.nuaa.ec.model.Teacher" fetch="select">
             <column name="TeacherID" length="20" />
         </many-to-one>
-        <property name="courseId" type="java.lang.String">
-            <column name="courseID" length="20" />
-        </property>
-        <property name="courseName" type="java.lang.String">
-            <column name="courseName" length="250" />
-        </property>
-        <property name="cooperator" type="java.lang.String">
-            <column name="cooperator" length="50" />
-        </property>
         <property name="singelScore" type="java.lang.Double">
             <column name="SingelScore" precision="53" scale="0" />
         </property>
@@ -36,12 +27,6 @@
         </property>
         <property name="spareTire" type="java.lang.String">
             <column name="SpareTire" length="50" />
-        </property>
-        <property name="projectSumScore" type="java.lang.Double">
-            <column name="ProjectSumScore" precision="53" scale="0" />
-        </property>
-                <property name="termId" type="java.lang.String">
-            <column name="termID" length="20" />
         </property>
     </class>
 </hibernate-mapping>

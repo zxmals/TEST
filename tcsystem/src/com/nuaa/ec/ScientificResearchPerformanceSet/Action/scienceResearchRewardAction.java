@@ -41,7 +41,7 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 	}
 
 	//TODO: 科研奖励设置
-	public String getscienceReward() throws Exception{
+	public String gainscienceReward() throws Exception{
 		int pagenum = 1;
 		int limitrow = 5;
 		String limit = (String)ServletActionContext.getRequest().getParameter("limit");
@@ -52,11 +52,10 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 		if(limit!=null){
 			limitrow = !"".equals(limit.trim())?Integer.parseInt(limit):5;
 		}
-		request.put("sciencerewards", sciencerewarddao.findAllpaging((pagenum-1)*limitrow,limitrow,EntityUtil.generateQueryCondition(foredate, afterdate, "aw.publishDate")));
-//		request.put("publishclubli", publishdao.findAll());
-//		request.put("wordnum", wordnumdao.findAll());
-//		request.put("selfdown", selftaskdao.findAll());
-		int li = sciencerewarddao.getRows(EntityUtil.generateQueryCondition(foredate, afterdate, "aw.publishDate"));
+		request.put("sciencerewards", sciencerewarddao.findAllpaging((pagenum-1)*limitrow,limitrow,EntityUtil.generateQueryCondition(foredate, afterdate, "rewardDate")));
+		request.put("rewardtype", rewardtypedao.findAll());
+		request.put("rewardlevel", rewardleveldao.findAll());
+		int li = sciencerewarddao.getRows(EntityUtil.generateQueryCondition(foredate, afterdate, "rewardDate"));
 		int sumpage = 1;
 		if(li%limitrow==0){
 			sumpage = li/limitrow;

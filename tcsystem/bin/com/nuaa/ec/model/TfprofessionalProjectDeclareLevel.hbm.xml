@@ -22,11 +22,11 @@
         <property name="reformResearchId" type="java.lang.String">
             <column name="Reform_research_ID" length="20" />
         </property>
-        <set name="tfprofessionalProjectDeclarePerformances" inverse="true">
+        <set name="tfprofessionalProjectDeclareProjects" inverse="true">
             <key>
                 <column name="projectLevelId" length="20" />
             </key>
-            <one-to-many class="com.nuaa.ec.model.TfprofessionalProjectDeclarePerformance" />
+            <one-to-many class="com.nuaa.ec.model.TfprofessionalProjectDeclareProject" />
         </set>
     </class>
 </hibernate-mapping>
