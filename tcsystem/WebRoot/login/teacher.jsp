@@ -144,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                                </a>
 		                                <ul class="nav nav-second-level firstslide">
 				                            <li>
-				                                <a class="J_menuItem" href="GTscienceresearch-rewardset">科研奖励管理</a>
+				                                <a class="J_menuItem" href="GTscienceresearch-rewardset!getscienceReward">科研奖励管理</a>
 				                            </li>
 				                            <li>
 				                                <a class="J_menuItem" href="GTscienceresearch-personset">个人参与管理</a>

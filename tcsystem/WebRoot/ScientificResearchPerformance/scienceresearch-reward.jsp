@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AcademicWork --work-Set</title>
+    <title>ScienceReward --reward-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -36,9 +36,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		var res = '${operstatus}';
     		//alert(addres);
 			switch (res){
-				case '-1':alert("操作失败 fail !!!");
+				case '-1':swal("操作失败 fail !!!");
 				break;
-				case '1':alert("添加成功!");
+				case '1':swal("添加成功!");
 				break;
 				default: break;
 			}
@@ -50,7 +50,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="GTacademicwork-workset!getWorkall?pagenum=1" method="post" name="pickdate" id="pickdates">
+			<form action="GTscienceresearch-rewardset!getscienceReward?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
@@ -62,13 +62,13 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>学术著作管理<small></small></h5>
+	                        <h5>科研奖励管理<small></small></h5>
 	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
 	                    <div class="ibox-content" style="height:540px;">
 	                    	 <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#utdialog">
-	                        	 <strong>新增学术著作</strong>
+	                        	 <strong>新增科研奖励</strong>
 	                         </button><br><br>
 	                    <div>
 	                    	<a>每页   
@@ -88,16 +88,13 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-										<td>学术著作Id</td>
-										<td>著作名称</td>
-										<td>第一作者</td>
-										<td style="display: none">出版社Id</td>
-										<td>出版社</td>
-										<td style="display: none">字数Id</td>
-										<td>字数</td>
-										<td>出版日期</td>
-										<td width="128">ISBN</td>
-										<td title="是否有其他作者参与" width="45">合作</td>
+										<td>科研奖励Id</td>
+										<td>奖励名称</td>
+										<td>奖励类型</td>
+										<td>奖励级别</td>
+										<td>获奖日期</td>
+										<td>授奖部门</td>
+										<td>获奖人数</td>
 										<td>登记负责人Id</td>
 										<td>登记负责人</td>
 										<td>状态</td>
@@ -105,21 +102,15 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj" items="${academicwk }">
+									<c:forEach var="ebj" items="${sciencerewards }">
 										<tr>
-											<td>${ebj.acaworkId }</td>
-											<td>${ebj.workName }</td>
-											<td title="${ebj.firstAuthor }">${teachermp[ebj.firstAuthor] }</td>
-											<td style="display: none">${ebj.publishClub.publishClubId }</td>
-											<td>${ebj.publishClub.publishClubName }</td>
-											<td style="display: none">${ebj.wordsNumber.wordId }</td>
-											<td>${ebj.wordsNumber.wordNumber }</td>
-											<td>${ebj.publishDate }</td>
-											<td>${ebj.isbn }</td>
-											<td title="${ebj.otherAuthorJoin }">
-												<c:if test="${ebj.otherAuthorJoin==1 }">是</c:if>
-												<c:if test="${ebj.otherAuthorJoin==0 }">否</c:if>
-											</td>
+											<td>${ebj.srrewardId }</td>
+											<td>${ebj.srrewardName }</td>
+											<td title="${ebj.rewardType.rewardTypeId }">${ebj.rewardType.rewardTypeName }</td>
+											<td title="${ebj.rewardLevel.rewardLevelId }">${ebj.rewardLevel.rewardLevelName }</td>
+											<td>${ebj.rewardDate }</td>
+											<td>${ebj.awardDepartment }</td>
+											<td>${ebj.rewardTotalPeople }</td>
 											<td>${ebj.chargePersonId }</td>
 											<td>${teachermp[ebj.chargePersonId] }</td>
 											<td title="${ebj.checkout }">
@@ -165,10 +156,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTacademicwork-workset!getWorkall?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTacademicwork-workset!getWorkall?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTacademicwork-workset!getWorkall?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTacademicwork-workset!getWorkall?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="GTscienceresearch-rewardset!getscienceReward?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTscienceresearch-rewardset!getscienceReward?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTscienceresearch-rewardset!getscienceReward?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTscienceresearch-rewardset!getscienceReward?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
