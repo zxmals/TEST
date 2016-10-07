@@ -10,6 +10,9 @@
             <column name="TeacherID" length="20" />
             <generator class="assigned" />
         </id>
+<!--          <property name="teacherprimaryid" type="java.lang.Integer"> -->
+<!--             <column name="teacherprimaryid" /> -->
+<!--         </property> -->
         <many-to-one name="researchLab" class="com.nuaa.ec.model.ResearchLab" fetch="select">
             <column name="ResearchLabID" length="20" />
         </many-to-one>
@@ -30,9 +33,6 @@
         </property>
         <property name="vaadmin" type="java.lang.String">
             <column name="vaadmin" length="20" />
-        </property>
-        <property name="teacherprimaryid" type="java.lang.Integer">
-            <column name="teacherprimaryid" not-null="true" />
         </property>
         <property name="teacherPost" type="java.lang.String">
             <column name="TeacherPost" length="270" />

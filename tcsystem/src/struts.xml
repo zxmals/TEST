@@ -353,6 +353,31 @@
 	<package name="TeachingAudti" extends="struts-default" namespace="/">
 		<action name="Tf*PerformanceAudit" class="com.nuaa.ec.teaching.audit.action.Tf{1}PerformanceAuditAction">
 			<result>/Audit/Teaching/Tf{1}Performance.jsp</result>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+		</action>
+	</package>
+	
+	<!-- 用户管理 -->
+	<package name="UserManagement" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="logincheckeInterceptor"
+				class="com.nuaa.ec.interceptor.LoginCheckInterceptor"></interceptor>
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="logincheckeInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
+		<global-results>
+			<result name="relogin">login.jsp</result>
+		</global-results>
+		<action name="Tf*Audit" class="ec.teaching.audit.action.Tf{1}AuditAction">
+			<result>/Audit/Teaching/Tf{1}.jsp</result>
+>>>>>>> linxq
+>>>>>>> 3635c8c727054ded00a4a950e38b96c74fb327e4
 		</action>
 	</package>
 	

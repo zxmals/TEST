@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="ibox float-e-margins">
 					<div class="ibox-title">
 						<h5>
-							课堂教学--总堂时系数设置<small></small>
+							用户管理--添加教师<small></small>
 						</h5>
 						<div class="ibox-tools">
 							<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -83,18 +83,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									class="table table-striped table-bordered table-hover dataTables-example">
 									<thead>
 										<tr>
-											<td>教学总堂时Id</td>
-											<td>学时范围</td>
+											<td>资金规模Id</td>
+											<td>资金规模</td>
 											<td>系数</td>
 											<td>操作</td>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="ebj" items="${classTeachTimeList }">
+										<c:forEach var="ebj" items="${researchLabList }">
 											<tr>
-												<td>${ebj.sumtimeId }</td>
-												<td>${ebj.sumtimeScope}</td>
-												<td>${ebj.ratio }</td>
+												<td>${ebj.researchLabId }</td>
+												<td>${ebj.researchLabName}</td>
+												<td>${ebj.researchLabAdmin }</td>
 												<td><a class="btn btn-primary btn-sm delwords delinf"
 													data-toggle="modal">删除</a> <a
 													class="btn btn-primary btn-sm openupdatem carrydata"
@@ -121,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									class="form-control" name="" value="" readonly="readonly">
 							</div>
 							<div class="form-group">
-								<label>时间范围:</label> <input id="upinfscope" type="text"
+								<label>教学研究资金规模:</label> <input id="upinfscope" type="text"
 									class="form-control nullcheck" name="" value="">
 							</div>
 							<div class="form-group">
@@ -152,16 +152,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="row">
 							<h3 class="m-t-none m-b">添加</h3>
 							<form role="form" id="onlyForm" name="adds"
-								action="ATclassTeachRatioset!addtotalClassTime" method="post">
+								action="ATteachRearchFundLevelset!addEntity" method="post">
 								<div class="form-group">
-									<label>学时范围:</label> <input id="addinf1" type="text"
-										class="form-control nullcheck" name="classTeachTime.ratio"
+									<label>资金规模:</label> <input id="addinf1" type="text"
+										class="form-control nullcheck" name="entity.fundLevel"
 										value="">
 								</div>
 								<div class="form-group">
 									<label>系数:</label> <input id="addinf2" type="text"
 										class="form-control nullcheck"
-										name="classTeachTime.sumtimeScope" value="">
+										name="entity.score" value="">
 								</div>
 							</form>
 							<div>
@@ -192,21 +192,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<script>
     $('#subadds').click(function() {
-		if(($('#addinf1').val().trim()!="") && ($('#addinf2').val().trim()!="")){
+		if($('#addinf1').val().trim()!="" & $('#addinf2').val().trim()!=""){
 			document.adds.submit();
 		}
 	});
     $('#subupdate').click(function() {
-		if($('#upinfscope').val().trim()!=""){
-			$.post("ATclassTeachRatioset!updatetotalClassTime",
-					{"classTeachTime.sumtimeId":$('#upinfID').val().trim(),
-					 "classTeachTime.sumtimeScope":$('#upinfscope').val().trim(),
-					 "classTeachTime.ratio":$('#upinfratio').val().trim()},
+		if($('#upinfscope').val().trim()!=""){//$('#upinfscope').val().trim()!=""
+			$.post("ATteachRearchFundLevelset!updateEntity",
+					{"entity.fundLevelId":$('#upinfID').val().trim(),
+					 "entity.fundLevel":$('#upinfscope').val().trim(),
+					 "entity.score":$('#upinfratio').val().trim()},
 					function(data,status){
 						if(status=="success"){
 							if(data.trim()=="succ"){
 								swal("Good job!","更新成功","success");
-								window.location.replace("ATclassTeachRatioset!totalClassTimeRatio");
+								window.location.replace("ATteachRearchFundLevelset!entityList");
 							}else{
 								swal("Oops...","更新失败","error");
 							}
@@ -231,10 +231,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			},
 			function(isConfirm){
 			  if (isConfirm) {
-					$.post("ATclassTeachRatioset!deletetotalClassTime",
-							{"classTeachTime.sumtimeId":row[0].cells[0].innerHTML,
-							 "classTeachTime.sumtimeScope":row[0].cells[1].innerHTML,
-							 "classTeachTime.ratio":row[0].cells[2].innerHTML},
+				  $.post("ATteachRearchFundLevelset!deleteEntity",
+							{"entity.fundLevelId":row[0].cells[0].innerHTML,
+							 "entity.fundLevel":row[0].cells[1].innerHTML,
+							 "entity.score":row[0].cells[2].innerHTML},
 							function(data,status){
 								if(status=="success"){
 									if(data.trim()=="succ"){
@@ -253,9 +253,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 	});
     $('.openupdatem').click(function() {
-    	$('#upinfID')[0].value = $(this).parent().parent()[0].cells[0].innerHTML;
-		$('#upinfscope')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
-		$('#upinfratio')[0].value = $(this).parent().parent()[0].cells[2].innerHTML;
+		$('#upinfID')[0].value=$(this).parent().parent()[0].cells[0].innerHTML;
+		$('#upinfscope')[0].value=$(this).parent().parent()[0].cells[1].innerHTML;
+		$('#upinfratio')[0].value=$(this).parent().parent()[0].cells[2].innerHTML;
+		//$('#upPeriodical')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
 	});
         $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
