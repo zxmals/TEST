@@ -17,13 +17,23 @@ import com.opensymphony.xwork2.ActionContext;
 public class TfclassTeachPerformanceAuditAction implements RequestAware {
 	public void doCheckOutTask() {
 		String[] ids = this.checkOutIDs.split(",");
+		String[] idsNot=this.checkOutIDsNot.split(",");
 		List<TfclassTeachPefromance> checkoutList = new ArrayList<TfclassTeachPefromance>();
 		TfclassTeachPefromance TfClassTeachPefromance = null;
 		for (int i = 0; i < ids.length; i++) {
 			TfClassTeachPefromance = this.TFClassTeachPefroDAO.findById(ids[i]);
 			// 修改checkout 标志
-			TfClassTeachPefromance.setCheckOut("1");
-			checkoutList.add(TfClassTeachPefromance);
+			if(TfClassTeachPefromance!=null){
+				TfClassTeachPefromance.setCheckOut("1");
+				checkoutList.add(TfClassTeachPefromance);
+			}
+		}
+		for(int i=0;i<idsNot.length;i++){
+			TfClassTeachPefromance=this.TFClassTeachPefroDAO.findById(idsNot[i]);
+			if(TfClassTeachPefromance!=null){
+				TfClassTeachPefromance.setCheckOut("2");
+				checkoutList.add(TfClassTeachPefromance);
+			}
 		}
 		// 将待审核的项目传向后台
 		try {
@@ -104,7 +114,7 @@ public class TfclassTeachPerformanceAuditAction implements RequestAware {
 	private TfclassTeachPefromanceDAO TFClassTeachPefroDAO = new TfclassTeachPefromanceDAO();
 	private String checkOutStatus_CT;
 	private String checkOutIDs;
-
+	public String checkOutIDsNot;
 	public int getPageIndex() {
 		return pageIndex;
 	}
@@ -168,6 +178,12 @@ public class TfclassTeachPerformanceAuditAction implements RequestAware {
 	public void setDepartment_CT(Department department_CT) {
 		this.department_CT = department_CT;
 		session.put("department_CT", department_CT);
+	}
+	public String getCheckOutIDsNot() {
+		return checkOutIDsNot;
+	}
+	public void setCheckOutIDsNot(String checkOutIDsNot) {
+		this.checkOutIDsNot = checkOutIDsNot;
 	}
 
 

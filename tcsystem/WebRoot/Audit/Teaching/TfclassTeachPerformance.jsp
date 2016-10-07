@@ -117,8 +117,8 @@
 				<td>教师姓名</td>
 				<td>最终分数</td>
 				<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
-					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
-						onchange="allAlowOrNot()" /></td>
+					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
+					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkOutStatus_CT=='1' }">
 					<td><font color="blue">通过</td>
@@ -144,8 +144,10 @@
 					<!-- 最终分数 -->
 					<td>${TFClassTeachPefro.finalScore }</td>
 					<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
-						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TFClassTeachPefro.classPefromanceId}" /></td>
+						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
+							value="${TFClassTeachPefro.classPefromanceId}"   class="check1"/></td>
+						<td class="c2">不通过<input value="${TFClassTeachPefro.classPefromanceId}" type="checkbox"
+						 name="notAudit" class="check2"/></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_CT=='1' }">
 						<td><font color="green"size:"3">√</td>
@@ -211,6 +213,7 @@
 	<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 	<script src="js/PublicCheck/PUB_SET.js"></script>
 	<script src="My97DatePicker/WdatePicker.js"></script>
+	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
 			$("#pageSizeSelection option[value='${sessionScope.pageSize_CT}']").attr("selected",true);
@@ -218,55 +221,10 @@
 			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_CT}']").attr("selected",true);
 			$("#termSelection option[value='${sessionScope.termId_CT}']").attr("selected",true);
 		});
+		$("#doCheckout").click(function(){
+			submitAudit("TfclassTeachPerformanceAudit!doCheckOutTask",
+					"TfclassTeachPerformanceAudit!getTF_classTeachPerformanceList");
+		});
 	</script>
 </body>
-<script type="text/javascript">
-		function getCheckOutResult(){
-			var arr = "";
-		      $('input:checkbox[name=chooseWhichToAudit]:checked').each(function(i){
-		    	  arr=arr+$(this).val()+",";
-		      });
-			  return arr; 
-		}
-		$("#doCheckout").click(function(){
-			var IDs=getCheckOutResult();
-			if(IDs.length==0){
-				/* window.alert("请选择要通过审核的项目！"); */
-				swal("请选择要通过审核的项目！", "", "warning");
-				return;
-			}
-			swal({ 
-				title: "确定要审核吗？", 
-				text: "",
-				type: "warning", 
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "确定审核",
-				closeOnConfirm: false },
-				function(isConfirm){
-					if(isConfirm){
-						$.post("TfclassTeachPerformanceAudit!doCheckOutTask",{checkOutIDs:IDs},function(data,status){
-							if(status=="success"){
-								if(data=="succ"){
-									swal("审核成功！", "", "success");
-									setTimeout(function(){
-										window.location.replace("<%=basePath%>TfclassTeachPerformanceAudit!getTF_classTeachPerformanceList");
-									},2000);
-								}else{
-									swal("审核失败！", "", "error");
-								}
-							}
-							else{
-								return;
-							}
-						});
-					}else{
-						return;
-					}
-			});
-						
-		});
-
-
-</script>
 </html>

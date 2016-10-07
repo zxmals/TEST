@@ -1,19 +1,56 @@
 package com.nuaa.ec.teaching.audit.action;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.TfdegreeThesisGuidancePerformanceDAO;
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.TfdegreeThesisGuidancePerformance;
 import com.opensymphony.xwork2.ActionContext;
 
 public class TfdegreeThesisGuidancePerformanceAuditAction implements
 		RequestAware {
+	public void doCheckOutTask() {
+		String[] ids = this.checkOutIDs.split(",");
+		String[] idsNot=this.checkOutIDsNot.split(",");
+		List<TfdegreeThesisGuidancePerformance> checkoutList = new ArrayList<TfdegreeThesisGuidancePerformance>();
+		TfdegreeThesisGuidancePerformance TfDegreeThesisGuidancePerf = null;
+		for (int i = 0; i < ids.length; i++) {
+			TfDegreeThesisGuidancePerf = this.TfdegreeThesisGuidancePerfDAO.findById(ids[i]);
+			// 修改checkout 标志
+			if(TfDegreeThesisGuidancePerf!=null){
+				TfDegreeThesisGuidancePerf.setCheckOut("1");
+				checkoutList.add(TfDegreeThesisGuidancePerf);
+			}
+		}
+		for(int i=0;i<idsNot.length;i++){
+			TfDegreeThesisGuidancePerf=this.TfdegreeThesisGuidancePerfDAO.findById(idsNot[i]);
+			if(TfDegreeThesisGuidancePerf!=null){
+				TfDegreeThesisGuidancePerf.setCheckOut("2");
+				checkoutList.add(TfDegreeThesisGuidancePerf);
+			}
+		}
+		// 将待审核的项目传向后台
+		try {
+			if (TfdegreeThesisGuidancePerfDAO.updateCheckoutStatus(checkoutList)) {
+				// 前端显示乱码解决
+				ServletActionContext.getResponse().getWriter().write("succ");
+			} else {
+				ServletActionContext.getResponse().getWriter().write("error");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// this.getResearchLabList();
+	}
 	public String getTfDegreeThesisGuidancePerformListAfterDivide() {
-		Transaction tx = this.TfdegreeThesisGuidancePerfDAO.getSession()
-				.beginTransaction();
+		Transaction tx = null;
 		if ((Department) session.get("department_DTG") == null) {
 			session.put("department_DTG", new Department());
 		}
@@ -29,6 +66,8 @@ public class TfdegreeThesisGuidancePerformanceAuditAction implements
 							(Department) session.get("department_DTG"),
 							(String) session.get("checkOutStatus_DTG"),
 							true));
+			tx = this.TfdegreeThesisGuidancePerfDAO.getSession()
+					.beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
@@ -81,7 +120,7 @@ public class TfdegreeThesisGuidancePerformanceAuditAction implements
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
 	private TfdegreeThesisGuidancePerformanceDAO TfdegreeThesisGuidancePerfDAO = new TfdegreeThesisGuidancePerformanceDAO();
-
+	private String checkOutIDsNot;
 	public int getPageIndex() {
 		return pageIndex;
 	}
@@ -140,9 +179,17 @@ public class TfdegreeThesisGuidancePerformanceAuditAction implements
 
 	public void setCheckOutIDs(String checkOutIDs) {
 		this.checkOutIDs = checkOutIDs;
+		System.out.println("---------"+checkOutIDs);
 	}
 
 	public void setRequest(Map<String, Object> request) {
 		this.request = request;
+	}
+	public String getCheckOutIDsNot() {
+		return checkOutIDsNot;
+	}
+	public void setCheckOutIDsNot(String checkOutIDsNot) {
+		this.checkOutIDsNot = checkOutIDsNot;
+		System.out.println("*********************"+checkOutIDsNot);
 	}
 }
