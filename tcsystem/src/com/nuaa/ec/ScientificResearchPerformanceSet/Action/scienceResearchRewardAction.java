@@ -5,6 +5,7 @@ import java.util.Map;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.RewardLevelDAO;
 import com.nuaa.ec.dao.RewardTypeDAO;
@@ -13,6 +14,7 @@ import com.nuaa.ec.dao.TeacherAndscientificResearchRewardDAO;
 import com.nuaa.ec.model.RewardLevel;
 import com.nuaa.ec.model.RewardType;
 import com.nuaa.ec.model.ScientificResearchReward;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
@@ -78,6 +80,33 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 		return "success";
 	}
 	
+	public void addScienReward() throws Exception{
+		Transaction tx = null;
+		try {
+			scienceReward.setSrrewardId(pkmk.mkpk(EntityUtil.getPkColumnName(ScientificResearchReward.class), EntityUtil.getTableName(ScientificResearchReward.class), "SRP"));
+			scienceReward.setSpareTire("1");
+			scienceReward.setCheckout("0");
+			scienceReward.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
+			scienceReward.setRewardLevel(rewardleveldao.findById(rewardlevel.getRewardLevelId()));
+			scienceReward.setRewardType(rewardtypedao.findById(rewardtype.getRewardTypeId()));
+			sciencerewarddao.save(scienceReward);
+			tx = sciencerewarddao.getSession().beginTransaction();
+			tx.commit();
+			this.setOperstatus(1);
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			this.setOperstatus(-1);
+			tx.rollback();
+			throw e;
+		}finally{
+			if(sciencerewarddao.getSession()!=null){
+				sciencerewarddao.closeSession();
+			}
+		}
+	}
+	
+	//Geter & Setter
 	public Map<String, Object> getRequest() {
 		return request;
 	}
@@ -118,14 +147,6 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 		this.operstatus = operstatus;
 	}
 
-	public ScientificResearchReward getSciencereward() {
-		return scienceReward;
-	}
-
-	public void setSciencereward(ScientificResearchReward sciencereward) {
-		this.scienceReward = sciencereward;
-	}
-
 	public TeacherAndscientificResearchReward getTeacherandsr() {
 		return teacherandsr;
 	}
@@ -148,6 +169,14 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 
 	public void setRewardtype(RewardType rewardtype) {
 		this.rewardtype = rewardtype;
+	}
+
+	public ScientificResearchReward getScienceReward() {
+		return scienceReward;
+	}
+
+	public void setScienceReward(ScientificResearchReward scienceReward) {
+		this.scienceReward = scienceReward;
 	}
 	
 }
