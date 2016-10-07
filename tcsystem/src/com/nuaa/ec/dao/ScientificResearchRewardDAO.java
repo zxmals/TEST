@@ -151,9 +151,32 @@ public class ScientificResearchRewardDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all ScientificResearchReward instances");
 		try {
-			String queryString = "from ScientificResearchReward";
+			String queryString = "from ScientificResearchReward where spareTire='1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findAllpaging(int currentrow,int limitrow,String condition) {
+		try {
+			String queryString = "from ScientificResearchReward where spareTire='1' "+condition+"  order by rewardDate,srrewardId desc";
+	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
+	         queryObject.setMaxResults(limitrow);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from ScientificResearchReward where spareTire='1' "+condition;
+	         Query queryObject = getSession().createQuery(queryString);
+			 return queryObject.list().size();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
