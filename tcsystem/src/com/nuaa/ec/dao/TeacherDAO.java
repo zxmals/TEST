@@ -184,18 +184,32 @@ public class TeacherDAO extends BaseHibernateDAO  {
         }
     }
     
-    public Teacher findById( java.lang.String id) {
-        log.debug("getting Teacher instance with id: " + id);
-        try {
-            Teacher instance = (Teacher) getSession()
-                    .get("com.nuaa.ec.model.Teacher", id);
-            return instance;
-        } catch (RuntimeException re) {
-            log.error("get failed", re);
-            throw re;
-        }
-    }
+//    public Teacher findById( java.lang.String id) {
+//        log.debug("getting Teacher instance with id: " + id);
+//        try {
+//            Teacher instance = (Teacher) getSession()
+//                    .get("com.nuaa.ec.model.Teacher", id);
+//            return instance;
+//        } catch (RuntimeException re) {
+//            log.error("get failed", re);
+//            throw re;
+//        }
+//    }
     
+    public Teacher findById( java.lang.String value) {
+    	try {
+            String queryString = "from Teacher as model where model.teacherId= ? and spareTire='1' ";
+            Query queryObject = getSession().createQuery(queryString);
+   		 queryObject.setParameter(0, value);
+   		 if(queryObject.list().size()>0){
+   			 return (Teacher) queryObject.list().get(0);
+   		 }
+   		 else return null;
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
     
     public List findByExample(Teacher instance) {
         log.debug("finding Teacher instance by example");

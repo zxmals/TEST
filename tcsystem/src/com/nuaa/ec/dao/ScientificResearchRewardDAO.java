@@ -162,7 +162,7 @@ public class ScientificResearchRewardDAO extends BaseHibernateDAO  {
 	
 	public List findAllpaging(int currentrow,int limitrow,String condition) {
 		try {
-			String queryString = "from ScientificResearchReward where spareTire='1' "+condition+"  order by rewardDate desc";
+			String queryString = "from ScientificResearchReward where spareTire='1' "+condition+"  order by rewardDate,srrewardId desc";
 	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
 	         queryObject.setMaxResults(limitrow);
 			 return queryObject.list();
