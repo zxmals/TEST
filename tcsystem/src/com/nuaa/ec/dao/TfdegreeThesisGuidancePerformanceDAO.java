@@ -67,23 +67,23 @@ public class TfdegreeThesisGuidancePerformanceDAO extends BaseHibernateDAO  {
 		} else {
 			// 查出符合条件的全部的记录
 			hqlBuffer = new StringBuffer(
-					"select CT from TfclassTeachPefromance CT,Tfterm TERM where CT.spareTire='1'"
-							+ " and CT.checkOut='" + checkOut + "'"
+					"select DTG from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
+							+ " and DTG.checkOut='" + checkOut + "'"
 							+ " and TERM.spareTire='1'"
-							+ " and CT.tfclassTeachEvaluation.spareTire='1'"
-							+ " and CT.teacher.spareTire='1'"
-							+ " and CT.teacher.department.spareTire='1'"
-							+ " and CT.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-							+ " and CT.termId=TERM.termId" + " and TERM.termId='"
-							+ termId+"'");
+							+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
+							+ " and DTG.teacher.spareTire='1'"
+							+ " and DTG.teacher.department.spareTire='1'"
+							+ " and DTG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+							+ " and DTG.termId=TERM.termId" + ""
+							+ " and TERM.termId='"+ termId+"'");
 			// 判断是否为分页操作
 			if (!isDivided) {
 				//如果不是分页操作，取出所有符合条件的记录
 				TFdegreeThesisGuidancePefroList = this.getSession()
 						.createQuery(hqlBuffer.toString()).list();
 				int recordNumber=TFdegreeThesisGuidancePefroList.size();
-				session.put("pageCount_CT", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
-				session.put("recordNumber_CT", TFdegreeThesisGuidancePefroList.size());
+				session.put("pageCount_DTG", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+				session.put("recordNumber_DTG", TFdegreeThesisGuidancePefroList.size());
 			} 
 			//无论是不是分页查询，都在后台进行分页操作。
 			TFdegreeThesisGuidancePefroList = this.getSession()

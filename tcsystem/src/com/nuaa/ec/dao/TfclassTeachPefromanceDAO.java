@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.Department;
-import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.model.TfclassTeachPefromance;
 import com.opensymphony.xwork2.ActionContext;
 

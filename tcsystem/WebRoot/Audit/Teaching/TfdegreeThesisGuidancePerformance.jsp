@@ -66,12 +66,12 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TfclassTeachPeformanceAudit!getTF_classTeachPerformanceList"
+		action="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformList"
 		method="post" name="pickdate">
 		<h3 style="padding:0px;margin-left: 10px;">学位论文指导质量绩效审核</h3>
 		<hr>
 		<span style="margin-left:10px;">所在系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="department_CT.departmentId"
+			<select name="department_DTG.departmentId"
 			id="departmentSelection">
 				<c:forEach var="department" items="${departmentList }">
 					<option value="${department.departmentId }">${department.departmentName }</option>
@@ -80,14 +80,14 @@
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
 		<span>
 			学期：
-			<select id="termSelection" name="termId_CT">
+			<select id="termSelection" name="termId_DTG">
 				<c:forEach var="tfterm" items="${tftermList }">
 					<option value="${tfterm.termId }">${tfterm.term }</option>
 				</c:forEach>
 			</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
 		<span>每页显示： <select
-			name="pageSize_CT" id="pageSizeSelection">
+			name="pageSize_DTG" id="pageSizeSelection">
 				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
 				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
 				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
@@ -95,7 +95,7 @@
 				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
-			name="checkOutStatus_CT" id="checkoutStatus">
+			name="checkOutStatus_DTG" id="checkoutStatus">
 				<option value="0">未审核</option>
 				<option value="1">审核通过</option>
 				<option value="2">未通过审核</option>
@@ -116,41 +116,43 @@
 				<td>教师编号</td>
 				<td>教师姓名</td>
 				<td>最终分数</td>
-				<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
+				<c:if test="${sessionScope.checkOutStatus_DTG=='0' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
 						onchange="allAlowOrNot()" /></td>
+					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_CT=='1' }">
+				<c:if test="${sessionScope.checkOutStatus_DTG=='1' }">
 					<td><font color="blue">通过</td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_CT=='2' }">
+				<c:if test="${sessionScope.checkOutStatus_DTG=='2' }">
 					<td><font color="red">未通过</td>
 				</c:if>
 
 			</tr>
-			<c:forEach var="TFClassTeachPefro"
-				items="${TFClassTeachPefroList }">
+			<c:forEach var="TfDegreeThesisGuidancePer"
+				items="${TfDegreeThesisGuidancePerfList }">
 				<tr>
 					<!-- 学位论文编号 -->
-					<td>${TFClassTeachPefro.classPefromanceId }</td>
+					<td>${TfDegreeThesisGuidancePer.degreeThesisId }</td>
 					<!-- 学位论文标题-->
-					<td>${TFClassTeachPefro.sumtime }</td>
+					<td>${TfDegreeThesisGuidancePer.degreeThesisnName }</td>
 					<!-- 获奖级别 -->
-					<td>${TFClassTeachPefro.tfclassTeachEvaluation.evaluResult }</td>
+					<td>${TfDegreeThesisGuidancePer.tfdegreeThesisGuidanceRewardLevel.rewardLevel }</td>
 					<!-- 教师编号 -->
-					<td>${TFClassTeachPefro.teacher.teacherId }</td>
+					<td>${TfDegreeThesisGuidancePer.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
-					<td>${TFClassTeachPefro.teacher.teacherName }</td>
+					<td>${TfDegreeThesisGuidancePer.teacher.teacherName }</td>
 					<!-- 最终分数 -->
-					<td>${TFClassTeachPefro.finalScore }</td>
-					<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
+					<td>${TfDegreeThesisGuidancePer.finalScore }</td>
+					<c:if test="${sessionScope.checkOutStatus_DTG=='0' }">
 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TFClassTeachPefro.classPefromanceId}" /></td>
+							value="${TFClassTeachPefro.degreeThesisId}" /></td>
+						<td>不通过<input type="checkbox"/></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_CT=='1' }">
+					<c:if test="${sessionScope.checkOutStatus_DTG=='1' }">
 						<td><font color="green"size:"3">√</td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_CT=='2' }">
+					<c:if test="${sessionScope.checkOutStatus_DTG=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
 				</tr>
@@ -160,30 +162,30 @@
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;"> 当前是第<font
-			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_CT }</font>页
+			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_DTG }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TfclassTeachPeformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
+					href="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index"
 			step="1">
-			<c:if test="${index<=pageCount_CT }">
+			<c:if test="${index<=pageCount_DTG }">
 				<span> <a
-					href="TfclassTeachPeformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${index }">${index }</a>
+					href="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformListAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
-		<span> <c:if test="${pageIndex<pageCount_CT }">
+		<span> <c:if test="${pageIndex<pageCount_DTG }">
 				<a
-					href="TfclassTeachPeformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
+					href="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
-		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_CT }</font>页
-		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_CT }</font>条记录
+		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_DTG }</font>页
+		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_DTG }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_CT=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_DTG=='0'}">
 		<input type="button" value="提交" class="button_set"
 			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
@@ -213,10 +215,10 @@
 	<script src="My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pageSizeSelection option[value='${sessionScope.pageSize_CT}']").attr("selected",true);
-			$("#departmentSelection option[value='${sessionScope.department_CT.departmentId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_CT}']").attr("selected",true);
-			$("#termSelection option[value='${sessionScope.termId_CT}']").attr("selected",true);
+			$("#pageSizeSelection option[value='${sessionScope.pageSize_DTG}']").attr("selected",true);
+			$("#departmentSelection option[value='${sessionScope.department_DTG.departmentId}']").attr("selected",true);
+			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_DTG}']").attr("selected",true);
+			$("#termSelection option[value='${sessionScope.termId_DTG}']").attr("selected",true);
 		});
 	</script>
 </body>
