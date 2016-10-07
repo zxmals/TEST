@@ -154,12 +154,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<form role="form" id="onlyForm" name="adds"
 								action="ATclassTeachRatioset!addtotalClassTime" method="post">
 								<div class="form-group">
-									<label>系数:</label> <input id="addinf1" type="text"
+									<label>学时范围:</label> <input id="addinf1" type="text"
 										class="form-control nullcheck" name="classTeachTime.ratio"
 										value="">
 								</div>
 								<div class="form-group">
-									<label>时间范围:</label> <input id="addinf2" type="text"
+									<label>系数:</label> <input id="addinf2" type="text"
 										class="form-control nullcheck"
 										name="classTeachTime.sumtimeScope" value="">
 								</div>

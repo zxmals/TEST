@@ -183,6 +183,56 @@ public class academicworkAction implements RequestAware, SessionAware {
 			teacherandawdao.closeSession();;
 		}
 	}
+	//TODO:个人参与学术著作设置
+	public String getPersonJoin() throws Exception{
+		int pagenum = 1;
+		int limitrow = 5;
+		String limit = (String)ServletActionContext.getRequest().getParameter("limit");
+		String pagenumber = (String)ServletActionContext.getRequest().getParameter("pagenum");
+		if(pagenumber!=null){
+			pagenum = !"".equals(pagenumber.trim())?Integer.parseInt(pagenumber):1;
+		}
+		if(limit!=null){
+			limitrow = !"".equals(limit.trim())?Integer.parseInt(limit):5;
+		}
+		request.put("teacheranwork", teacherandawdao.findSingleteacherPerformance(EntityUtil.generateQueryCondition(foredate, afterdate, "t.academicWork.publishDate"),(Teacher)session.get("teacher"),(pagenum-1)*limitrow,limitrow));
+		int li = teacherandawdao.getRows(EntityUtil.generateQueryCondition(foredate, afterdate, "t.academicWork.publishDate"),(Teacher)session.get("teacher"));
+		int sumpage = 1;
+		if(li%limitrow==0){
+			sumpage = li/limitrow;
+		}else{
+			sumpage = li/limitrow+1;
+		}
+		request.put("sumrow",li);
+		request.put("sumpage",sumpage);
+		if(pagenum<sumpage){
+			request.put("nextpage", 1+pagenum);
+		}else{
+			request.put("nextpage",pagenum);
+		}
+		if(pagenum>1){
+			request.put("prepage", pagenum-1);
+		}else{
+			request.put("prepage",1);
+		}
+		request.put("pagenum", pagenum);
+		return "success";
+	}
+	
+	public void quitProject() throws Exception{
+		Transaction tx = teacherandawdao.getSession().beginTransaction();
+		try {
+			teacherandawdao.quitAcademicWork((Teacher)session.get("teacher"), academicwkdao.findById(academicwk.getAcaworkId()));
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}finally{
+			teacherandawdao.closeSession();
+		}
+	}
 	// TODO:Getter&Setter
 	public Map<String, Object> getSession() {
 		return session;

@@ -65,6 +65,21 @@ public class TeacherLoginInfoDAO extends BaseHibernateDAO {
 		}
 	}
 
+//	public TeacherLoginInfo findById(java.lang.String value) {
+//		
+//		try {
+//			String queryString = "from TeacherLoginInfo as model where model.teacherId= ? and spareTire='1' ";
+//			Query queryObject = getSession().createQuery(queryString);
+//			queryObject.setParameter(0, value);
+//			if(queryObject.list().size()>0){
+//				return (TeacherLoginInfo)queryObject.list().get(0);
+//			}else
+//			return null;
+//		} catch (RuntimeException re) {
+//			log.error("find by property name failed", re);
+//			throw re;
+//		}
+//	}
 	public List findByExample(TeacherLoginInfo instance) {
 		log.debug("finding TeacherLoginInfo instance by example");
 		try {

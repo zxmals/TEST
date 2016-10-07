@@ -22,6 +22,7 @@ public class TfjoinStudentActivityPerformance  implements java.io.Serializable {
      private String checkOut;
      private Integer yearceiling;
 
+     private String termId;
 
     // Constructors
 
@@ -49,7 +50,26 @@ public class TfjoinStudentActivityPerformance  implements java.io.Serializable {
     }
 
    
-    // Property accessors
+    
+    public TfjoinStudentActivityPerformance(Integer upid,
+			TfjoinStudentActivityTime tfjoinStudentActivityTime,
+			Teacher teacher, String activityId, String activityName,
+			Double sumhours, Double finalScore, String spareTire,
+			String checkOut, Integer yearceiling, String termId) {
+		this.upid = upid;
+		this.tfjoinStudentActivityTime = tfjoinStudentActivityTime;
+		this.teacher = teacher;
+		this.activityId = activityId;
+		this.activityName = activityName;
+		this.sumhours = sumhours;
+		this.finalScore = finalScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.yearceiling = yearceiling;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getUpid() {
         return this.upid;
@@ -130,13 +150,13 @@ public class TfjoinStudentActivityPerformance  implements java.io.Serializable {
     public void setYearceiling(Integer yearceiling) {
         this.yearceiling = yearceiling;
     }
-   
 
+	public String getTermId() {
+		return termId;
+	}
 
-
-
-
-
-
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
 
 }

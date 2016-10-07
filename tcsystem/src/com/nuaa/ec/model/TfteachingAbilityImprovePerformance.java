@@ -22,6 +22,7 @@ public class TfteachingAbilityImprovePerformance  implements java.io.Serializabl
      private Integer yearceiling;
      private Double sumhours;
 
+     private String termId;
 
     // Constructors
 
@@ -49,8 +50,25 @@ public class TfteachingAbilityImprovePerformance  implements java.io.Serializabl
         this.sumhours = sumhours;
     }
 
-   
-    // Property accessors
+    public TfteachingAbilityImprovePerformance(Integer puid,
+			TfteachingAbilityImproveLevel tfteachingAbilityImproveLevel,
+			Teacher teacher, String eventId, String eventName,
+			Double finalScore, String spareTire, String checkOut,
+			Integer yearceiling, Double sumhours, String termId) {
+		this.puid = puid;
+		this.tfteachingAbilityImproveLevel = tfteachingAbilityImproveLevel;
+		this.teacher = teacher;
+		this.eventId = eventId;
+		this.eventName = eventName;
+		this.finalScore = finalScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.yearceiling = yearceiling;
+		this.sumhours = sumhours;
+		this.termId = termId;
+	}
+
+	// Property accessors
 
     public Integer getPuid() {
         return this.puid;
@@ -131,11 +149,15 @@ public class TfteachingAbilityImprovePerformance  implements java.io.Serializabl
     public void setSumhours(Double sumhours) {
         this.sumhours = sumhours;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
-
-
-
-
 
 
 

@@ -1,142 +1,106 @@
 package com.nuaa.ec.model;
 
-
-
 /**
- * TfprofessionalProjectDeclarePerformance entity. @author MyEclipse Persistence Tools
+ * TfprofessionalProjectDeclarePerformance entity. @author MyEclipse Persistence
+ * Tools
  */
 
-public class TfprofessionalProjectDeclarePerformance  implements java.io.Serializable {
+public class TfprofessionalProjectDeclarePerformance implements
+		java.io.Serializable {
 
+	// Fields
 
-    // Fields    
+	private Integer upid;
+	private TfprofessionalProjectDeclareProject tfprofessionalProjectDeclareProject;
+	private SelfUndertakeTask selfUndertakeTask;
+	private Teacher teacher;
+	private Double singleScore;
+	private String spareTire;
+	private String checkOut;
 
-     private Integer upid;
-     private TfprofessionalProjectDeclareLevel tfprofessionalProjectDeclareLevel;
-     private SelfUndertakeTask selfUndertakeTask;
-     private Teacher teacher;
-     private String projectId;
-     private String projectName;
-     private Double projectSumScore;
-     private Double singleScore;
-     private String spareTire;
-     private String checkOut;
+	// Constructors
 
-
-    // Constructors
-
-    /** default constructor */
-    public TfprofessionalProjectDeclarePerformance() {
-    }
+	/** default constructor */
+	public TfprofessionalProjectDeclarePerformance() {
+	}
 
 	/** minimal constructor */
-    public TfprofessionalProjectDeclarePerformance(Integer upid) {
-        this.upid = upid;
-    }
-    
-    /** full constructor */
-    public TfprofessionalProjectDeclarePerformance(Integer upid, TfprofessionalProjectDeclareLevel tfprofessionalProjectDeclareLevel, SelfUndertakeTask selfUndertakeTask, Teacher teacher, String projectId, String projectName, Double projectSumScore, Double singleScore, String spareTire, String checkOut) {
-        this.upid = upid;
-        this.tfprofessionalProjectDeclareLevel = tfprofessionalProjectDeclareLevel;
-        this.selfUndertakeTask = selfUndertakeTask;
-        this.teacher = teacher;
-        this.projectId = projectId;
-        this.projectName = projectName;
-        this.projectSumScore = projectSumScore;
-        this.singleScore = singleScore;
-        this.spareTire = spareTire;
-        this.checkOut = checkOut;
-    }
+	public TfprofessionalProjectDeclarePerformance(Integer upid) {
+		this.upid = upid;
+	}
 
-   
-    // Property accessors
+	/** full constructor */
+	public TfprofessionalProjectDeclarePerformance(
+			Integer upid,
+			TfprofessionalProjectDeclareProject tfprofessionalProjectDeclareProject,
+			SelfUndertakeTask selfUndertakeTask, Teacher teacher,
+			Double singleScore, String spareTire, String checkOut) {
+		this.upid = upid;
+		this.tfprofessionalProjectDeclareProject = tfprofessionalProjectDeclareProject;
+		this.selfUndertakeTask = selfUndertakeTask;
+		this.teacher = teacher;
+		this.singleScore = singleScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+	}
 
-    public Integer getUpid() {
-        return this.upid;
-    }
-    
-    public void setUpid(Integer upid) {
-        this.upid = upid;
-    }
+	// Property accessors
 
-    public TfprofessionalProjectDeclareLevel getTfprofessionalProjectDeclareLevel() {
-        return this.tfprofessionalProjectDeclareLevel;
-    }
-    
-    public void setTfprofessionalProjectDeclareLevel(TfprofessionalProjectDeclareLevel tfprofessionalProjectDeclareLevel) {
-        this.tfprofessionalProjectDeclareLevel = tfprofessionalProjectDeclareLevel;
-    }
+	public Integer getUpid() {
+		return this.upid;
+	}
 
-    public SelfUndertakeTask getSelfUndertakeTask() {
-        return this.selfUndertakeTask;
-    }
-    
-    public void setSelfUndertakeTask(SelfUndertakeTask selfUndertakeTask) {
-        this.selfUndertakeTask = selfUndertakeTask;
-    }
+	public void setUpid(Integer upid) {
+		this.upid = upid;
+	}
 
-    public Teacher getTeacher() {
-        return this.teacher;
-    }
-    
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
+	public TfprofessionalProjectDeclareProject getTfprofessionalProjectDeclareProject() {
+		return this.tfprofessionalProjectDeclareProject;
+	}
 
-    public String getProjectId() {
-        return this.projectId;
-    }
-    
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
+	public void setTfprofessionalProjectDeclareProject(
+			TfprofessionalProjectDeclareProject tfprofessionalProjectDeclareProject) {
+		this.tfprofessionalProjectDeclareProject = tfprofessionalProjectDeclareProject;
+	}
 
-    public String getProjectName() {
-        return this.projectName;
-    }
-    
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
+	public SelfUndertakeTask getSelfUndertakeTask() {
+		return this.selfUndertakeTask;
+	}
 
-    public Double getProjectSumScore() {
-        return this.projectSumScore;
-    }
-    
-    public void setProjectSumScore(Double projectSumScore) {
-        this.projectSumScore = projectSumScore;
-    }
+	public void setSelfUndertakeTask(SelfUndertakeTask selfUndertakeTask) {
+		this.selfUndertakeTask = selfUndertakeTask;
+	}
 
-    public Double getSingleScore() {
-        return this.singleScore;
-    }
-    
-    public void setSingleScore(Double singleScore) {
-        this.singleScore = singleScore;
-    }
+	public Teacher getTeacher() {
+		return this.teacher;
+	}
 
-    public String getSpareTire() {
-        return this.spareTire;
-    }
-    
-    public void setSpareTire(String spareTire) {
-        this.spareTire = spareTire;
-    }
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
 
-    public String getCheckOut() {
-        return this.checkOut;
-    }
-    
-    public void setCheckOut(String checkOut) {
-        this.checkOut = checkOut;
-    }
-   
+	public Double getSingleScore() {
+		return this.singleScore;
+	}
 
+	public void setSingleScore(Double singleScore) {
+		this.singleScore = singleScore;
+	}
 
+	public String getSpareTire() {
+		return this.spareTire;
+	}
 
+	public void setSpareTire(String spareTire) {
+		this.spareTire = spareTire;
+	}
 
+	public String getCheckOut() {
+		return this.checkOut;
+	}
 
-
-
+	public void setCheckOut(String checkOut) {
+		this.checkOut = checkOut;
+	}
 
 }

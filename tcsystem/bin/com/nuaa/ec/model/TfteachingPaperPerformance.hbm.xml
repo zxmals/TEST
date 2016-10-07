@@ -13,21 +13,12 @@
         <many-to-one name="selfUndertakeTask" class="com.nuaa.ec.model.SelfUndertakeTask" fetch="select">
             <column name="UndertkaeTaskID" length="20" />
         </many-to-one>
-        <many-to-one name="tfteachingPaperRetrievalCondition" class="com.nuaa.ec.model.TfteachingPaperRetrievalCondition" fetch="select">
-            <column name="ThesisRetrievalID" length="20" />
+        <many-to-one name="tfteachingPaperProject" class="com.nuaa.ec.model.TfteachingPaperProject" fetch="select">
+            <column name="TeachPaperID" length="20" not-null="true" />
         </many-to-one>
         <many-to-one name="teacher" class="com.nuaa.ec.model.Teacher" fetch="select">
             <column name="TeacherID" length="20" />
         </many-to-one>
-        <property name="teachPaperId" type="java.lang.String">
-            <column name="TeachPaperID" length="20" not-null="true" />
-        </property>
-        <property name="teachPaperName" type="java.lang.String">
-            <column name="TeachPaperName" length="250" />
-        </property>
-        <property name="otherAuthorJoin" type="java.lang.String">
-            <column name="OtherAuthorJoin" length="10" />
-        </property>
         <property name="singelScore" type="java.lang.Double">
             <column name="SingelScore" precision="53" scale="0" />
         </property>
@@ -36,9 +27,6 @@
         </property>
         <property name="checkOut" type="java.lang.String">
             <column name="CheckOut" length="10" />
-        </property>
-        <property name="projectSumScore" type="java.lang.Double">
-            <column name="ProjectSumScore" precision="53" scale="0" />
         </property>
     </class>
 </hibernate-mapping>

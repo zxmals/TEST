@@ -10,21 +10,12 @@
             <column name="upid" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="tfteachingRearchEvaluation" class="com.nuaa.ec.model.TfteachingRearchEvaluation" fetch="select">
-            <column name="evaluationID" length="20" />
-        </many-to-one>
-        <many-to-one name="tfteachingRearchFundlevel" class="com.nuaa.ec.model.TfteachingRearchFundlevel" fetch="select">
-            <column name="FundLevelID" length="20" />
+        <many-to-one name="tfteachingRearchProject" class="com.nuaa.ec.model.TfteachingRearchProject" fetch="select">
+            <column name="ProjectID" length="20" />
         </many-to-one>
         <many-to-one name="teacher" class="com.nuaa.ec.model.Teacher" fetch="select">
             <column name="TeacherID" length="20" not-null="true" />
         </many-to-one>
-        <property name="projectId" type="java.lang.String">
-            <column name="ProjectID" length="20" />
-        </property>
-        <property name="project" type="java.lang.String">
-            <column name="Project" length="250" />
-        </property>
         <property name="spareTire" type="java.lang.String">
             <column name="SpareTire" length="50" />
         </property>

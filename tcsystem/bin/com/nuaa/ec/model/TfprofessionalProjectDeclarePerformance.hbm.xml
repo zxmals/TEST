@@ -10,8 +10,8 @@
             <column name="upid" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="tfprofessionalProjectDeclareLevel" class="com.nuaa.ec.model.TfprofessionalProjectDeclareLevel" fetch="select">
-            <column name="projectLevelId" length="20" />
+        <many-to-one name="tfprofessionalProjectDeclareProject" class="com.nuaa.ec.model.TfprofessionalProjectDeclareProject" fetch="select">
+            <column name="ProjectId" length="20" />
         </many-to-one>
         <many-to-one name="selfUndertakeTask" class="com.nuaa.ec.model.SelfUndertakeTask" fetch="select">
             <column name="UndertakeTaskID" length="20" />
@@ -19,15 +19,6 @@
         <many-to-one name="teacher" class="com.nuaa.ec.model.Teacher" fetch="select">
             <column name="TeacherID" length="20" />
         </many-to-one>
-        <property name="projectId" type="java.lang.String">
-            <column name="ProjectId" length="20" />
-        </property>
-        <property name="projectName" type="java.lang.String">
-            <column name="ProjectName" length="250" />
-        </property>
-        <property name="projectSumScore" type="java.lang.Double">
-            <column name="ProjectSumScore" precision="53" scale="0" />
-        </property>
         <property name="singleScore" type="java.lang.Double">
             <column name="singleScore" precision="53" scale="0" />
         </property>

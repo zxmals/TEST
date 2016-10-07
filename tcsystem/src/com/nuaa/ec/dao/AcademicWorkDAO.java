@@ -196,7 +196,7 @@ public class AcademicWorkDAO extends BaseHibernateDAO  {
 	
 	public int getRows(String condition) {
 		try {
-			String queryString = "from AcademicWork aw where aw.spareTire = '1' "+condition+" order by aw.publishDate desc";
+			String queryString = "from AcademicWork aw where aw.spareTire = '1' "+condition+" order by aw.publishDate,aw.acaworkId desc";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list().size();
 		} catch (RuntimeException re) {

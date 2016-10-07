@@ -18,7 +18,7 @@ public class TfdegreeThesisGuidancePerformance  implements java.io.Serializable 
      private Double finalScore;
      private String spareTire;
      private String checkOut;
-
+     private String termId;
 
     // Constructors
 
@@ -43,9 +43,25 @@ public class TfdegreeThesisGuidancePerformance  implements java.io.Serializable 
     }
 
    
+    
     // Property accessors
 
-    public String getDegreeThesisId() {
+    public TfdegreeThesisGuidancePerformance(
+			String degreeThesisId,
+			TfdegreeThesisGuidanceRewardLevel tfdegreeThesisGuidanceRewardLevel,
+			Teacher teacher, String degreeThesisnName, Double finalScore,
+			String spareTire, String checkOut, String termId) {
+		this.degreeThesisId = degreeThesisId;
+		this.tfdegreeThesisGuidanceRewardLevel = tfdegreeThesisGuidanceRewardLevel;
+		this.teacher = teacher;
+		this.degreeThesisnName = degreeThesisnName;
+		this.finalScore = finalScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.termId = termId;
+	}
+
+	public String getDegreeThesisId() {
         return this.degreeThesisId;
     }
     
@@ -100,13 +116,13 @@ public class TfdegreeThesisGuidancePerformance  implements java.io.Serializable 
     public void setCheckOut(String checkOut) {
         this.checkOut = checkOut;
     }
-   
 
+	public String getTermId() {
+		return termId;
+	}
 
-
-
-
-
-
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
 
 }

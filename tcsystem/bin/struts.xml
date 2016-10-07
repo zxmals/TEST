@@ -26,6 +26,11 @@
 			<result name="admin-t">/login/administrator.jsp</result>
 			<result name="500">/error/500.html</result>
 		</action>
+		<!--用户管理-->
+		<action name="ATteacherManagementset" class="com.nuaa.ec.action.TeacherManagementAction">
+			<result>/login/add_Teacher.jsp</result>
+			<result name="teacherlist">/login/update_Teacher.jsp</result>
+		</action>
 	</package>
 	<!-- 公益活动 -->
 	<package name="va" extends="struts-default" namespace="/">
@@ -139,6 +144,14 @@
 			<result>/ScientificResearchPerformance/periodicalpaper-{1}.jsp
 			</result>
 		</action>
+		<!-- 学术著作绩效管理//AcademicWork -->
+		<action name="GTacademicwork-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.academicworkAction">
+			<result>/ScientificResearchPerformance/academicwork-{1}.jsp</result>
+		</action>
+		<!-- 科研项目奖励绩效管理//ScientificResearchReward -->
+		<action name="GTscienceresearch-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scienceResearchRewardAction">
+			<result>/ScientificResearchPerformance/scienceresearch-{1}.jsp</result>
+		</action>
 	</package>
 	
 <!-- 教学设置 -->
@@ -192,7 +205,7 @@
 			class="com.nuaa.ec.teach.baseSet.action.FamousTeacherTeamRewadLevelSetAction">
 			<result>/sysSetting/classTeachSet/famousTeacherTeamRewadLevelset.jsp</result>
 		</action>
-		
+	
 <!--教学研究-->
 		<!--教学研究资金规模-->
 		<action name="ATteachRearchFundLevelset"
@@ -290,10 +303,20 @@
 			class="com.nuaa.ec.teach.baseSet.action.OffCampusPracticeGuidanceLevelSetAction">
 			<result>/sysSetting/classTeachSet/offCampusPracticeGuidanceLevelset.jsp</result>
 		</action>
+<<<<<<< HEAD
+		
+		<!--学期设置-->
+	    <action name="ATtermset"
+			class="com.nuaa.ec.teach.baseSet.action.TermSetAction">
+			<result>/sysSetting/classTeachSet/termset.jsp</result>
+		</action>
+		
 		<!-- 学术著作绩效管理//AcademicWorkSet -->
 		<action name="GTacademicwork-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.academicworkAction">
 			<result>/ScientificResearchPerformance/academicwork-{1}.jsp</result>
 		</action>
+=======
+>>>>>>> f74e16f4ad1b9f5eb1178cfc6d1a7d62b39976c7
 	</package>
 	<!-- 科研审核 -->
 	<package name="Audit" extends="struts-default" namespace="/">
@@ -332,6 +355,25 @@
 	</package>
 	<!-- 教学审核 -->
 	<package name="TeachingAudti" extends="struts-default" namespace="/">
+		<action name="Tf*PerformanceAudit" class="com.nuaa.ec.teaching.audit.action.Tf{1}PerformanceAuditAction">
+			<result>/Audit/Teaching/Tf{1}Performance.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 用户管理 -->
+	<package name="UserManagement" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="logincheckeInterceptor"
+				class="com.nuaa.ec.interceptor.LoginCheckInterceptor"></interceptor>
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="logincheckeInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
+		<global-results>
+			<result name="relogin">login.jsp</result>
+		</global-results>
 		<action name="Tf*Audit" class="ec.teaching.audit.action.Tf{1}AuditAction">
 			<result>/Audit/Teaching/Tf{1}.jsp</result>
 		</action>

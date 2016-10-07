@@ -23,11 +23,11 @@
         <property name="spareTire" type="java.lang.String">
             <column name="SpareTire" length="50" />
         </property>
-        <set name="tfenterpriseWorkstationTrainingBaseConstructionPerformances" inverse="true">
+        <set name="tfenterpriseWorkstationTrainingBaseConstructionProjects" inverse="true">
             <key>
                 <column name="trainingConstruLevelId" length="20" />
             </key>
-            <one-to-many class="com.nuaa.ec.model.TfenterpriseWorkstationTrainingBaseConstructionPerformance" />
+            <one-to-many class="com.nuaa.ec.model.TfenterpriseWorkstationTrainingBaseConstructionProject" />
         </set>
     </class>
 </hibernate-mapping>

@@ -37,5 +37,8 @@
         <property name="sumhours" type="java.lang.Double">
             <column name="sumhours" precision="53" scale="0" />
         </property>
+                <property name="termId" type="java.lang.String">
+            <column name="termID" length="20" />
+        </property>
     </class>
 </hibernate-mapping>
