@@ -3,112 +3,105 @@ package com.nuaa.ec.model;
 import java.util.HashSet;
 import java.util.Set;
 
-
 /**
  * TfteachingPaperRetrievalCondition entity. @author MyEclipse Persistence Tools
  */
 
-public class TfteachingPaperRetrievalCondition  implements java.io.Serializable {
+public class TfteachingPaperRetrievalCondition implements java.io.Serializable {
 
+	// Fields
 
-    // Fields    
+	private String thesisRetrivalId;
+	private TfteachingReformResearchSubModular tfteachingReformResearchSubModular;
+	private String author;
+	private String thesisRetrieval;
+	private Double score;
+	private String spareTire;
+	private Set tfteachingPaperProjects = new HashSet(0);
 
-     private String thesisRetrivalId;
-     private TfteachingReformResearchSubModular tfteachingReformResearchSubModular;
-     private String author;
-     private String thesisRetrieval;
-     private Double score;
-     private String spareTire;
-     private Set tfteachingPaperPerformances = new HashSet(0);
+	// Constructors
 
-
-    // Constructors
-
-    /** default constructor */
-    public TfteachingPaperRetrievalCondition() {
-    }
+	/** default constructor */
+	public TfteachingPaperRetrievalCondition() {
+	}
 
 	/** minimal constructor */
-    public TfteachingPaperRetrievalCondition(String thesisRetrivalId) {
-        this.thesisRetrivalId = thesisRetrivalId;
-    }
-    
-    /** full constructor */
-    public TfteachingPaperRetrievalCondition(String thesisRetrivalId, TfteachingReformResearchSubModular tfteachingReformResearchSubModular, String author, String thesisRetrieval, Double score, String spareTire, Set tfteachingPaperPerformances) {
-        this.thesisRetrivalId = thesisRetrivalId;
-        this.tfteachingReformResearchSubModular = tfteachingReformResearchSubModular;
-        this.author = author;
-        this.thesisRetrieval = thesisRetrieval;
-        this.score = score;
-        this.spareTire = spareTire;
-        this.tfteachingPaperPerformances = tfteachingPaperPerformances;
-    }
+	public TfteachingPaperRetrievalCondition(String thesisRetrivalId) {
+		this.thesisRetrivalId = thesisRetrivalId;
+	}
 
-   
-    // Property accessors
+	/** full constructor */
+	public TfteachingPaperRetrievalCondition(
+			String thesisRetrivalId,
+			TfteachingReformResearchSubModular tfteachingReformResearchSubModular,
+			String author, String thesisRetrieval, Double score,
+			String spareTire, Set tfteachingPaperProjects) {
+		this.thesisRetrivalId = thesisRetrivalId;
+		this.tfteachingReformResearchSubModular = tfteachingReformResearchSubModular;
+		this.author = author;
+		this.thesisRetrieval = thesisRetrieval;
+		this.score = score;
+		this.spareTire = spareTire;
+		this.tfteachingPaperProjects = tfteachingPaperProjects;
+	}
 
-    public String getThesisRetrivalId() {
-        return this.thesisRetrivalId;
-    }
-    
-    public void setThesisRetrivalId(String thesisRetrivalId) {
-        this.thesisRetrivalId = thesisRetrivalId;
-    }
+	// Property accessors
 
-    public TfteachingReformResearchSubModular getTfteachingReformResearchSubModular() {
-        return this.tfteachingReformResearchSubModular;
-    }
-    
-    public void setTfteachingReformResearchSubModular(TfteachingReformResearchSubModular tfteachingReformResearchSubModular) {
-        this.tfteachingReformResearchSubModular = tfteachingReformResearchSubModular;
-    }
+	public String getThesisRetrivalId() {
+		return this.thesisRetrivalId;
+	}
 
-    public String getAuthor() {
-        return this.author;
-    }
-    
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+	public void setThesisRetrivalId(String thesisRetrivalId) {
+		this.thesisRetrivalId = thesisRetrivalId;
+	}
 
-    public String getThesisRetrieval() {
-        return this.thesisRetrieval;
-    }
-    
-    public void setThesisRetrieval(String thesisRetrieval) {
-        this.thesisRetrieval = thesisRetrieval;
-    }
+	public TfteachingReformResearchSubModular getTfteachingReformResearchSubModular() {
+		return this.tfteachingReformResearchSubModular;
+	}
 
-    public Double getScore() {
-        return this.score;
-    }
-    
-    public void setScore(Double score) {
-        this.score = score;
-    }
+	public void setTfteachingReformResearchSubModular(
+			TfteachingReformResearchSubModular tfteachingReformResearchSubModular) {
+		this.tfteachingReformResearchSubModular = tfteachingReformResearchSubModular;
+	}
 
-    public String getSpareTire() {
-        return this.spareTire;
-    }
-    
-    public void setSpareTire(String spareTire) {
-        this.spareTire = spareTire;
-    }
+	public String getAuthor() {
+		return this.author;
+	}
 
-    public Set getTfteachingPaperPerformances() {
-        return this.tfteachingPaperPerformances;
-    }
-    
-    public void setTfteachingPaperPerformances(Set tfteachingPaperPerformances) {
-        this.tfteachingPaperPerformances = tfteachingPaperPerformances;
-    }
-   
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 
+	public String getThesisRetrieval() {
+		return this.thesisRetrieval;
+	}
 
+	public void setThesisRetrieval(String thesisRetrieval) {
+		this.thesisRetrieval = thesisRetrieval;
+	}
 
+	public Double getScore() {
+		return this.score;
+	}
 
+	public void setScore(Double score) {
+		this.score = score;
+	}
 
+	public String getSpareTire() {
+		return this.spareTire;
+	}
 
+	public void setSpareTire(String spareTire) {
+		this.spareTire = spareTire;
+	}
 
+	public Set getTfteachingPaperProjects() {
+		return this.tfteachingPaperProjects;
+	}
+
+	public void setTfteachingPaperProjects(Set tfteachingPaperProjects) {
+		this.tfteachingPaperProjects = tfteachingPaperProjects;
+	}
 
 }

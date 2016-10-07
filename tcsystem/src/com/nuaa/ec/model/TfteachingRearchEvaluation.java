@@ -3,102 +3,95 @@ package com.nuaa.ec.model;
 import java.util.HashSet;
 import java.util.Set;
 
-
 /**
  * TfteachingRearchEvaluation entity. @author MyEclipse Persistence Tools
  */
 
-public class TfteachingRearchEvaluation  implements java.io.Serializable {
+public class TfteachingRearchEvaluation implements java.io.Serializable {
 
+	// Fields
 
-    // Fields    
+	private String evaluationId;
+	private TfteachingReformResearchSubModular tfteachingReformResearchSubModular;
+	private String reaults;
+	private Double ratio;
+	private String spareTire;
+	private Set tfteachingRearchProjects = new HashSet(0);
 
-     private String evaluationId;
-     private TfteachingReformResearchSubModular tfteachingReformResearchSubModular;
-     private String reaults;
-     private Double ratio;
-     private String spareTire;
-     private Set tfteachingRearchPerformances = new HashSet(0);
+	// Constructors
 
-
-    // Constructors
-
-    /** default constructor */
-    public TfteachingRearchEvaluation() {
-    }
+	/** default constructor */
+	public TfteachingRearchEvaluation() {
+	}
 
 	/** minimal constructor */
-    public TfteachingRearchEvaluation(String evaluationId) {
-        this.evaluationId = evaluationId;
-    }
-    
-    /** full constructor */
-    public TfteachingRearchEvaluation(String evaluationId, TfteachingReformResearchSubModular tfteachingReformResearchSubModular, String reaults, Double ratio, String spareTire, Set tfteachingRearchPerformances) {
-        this.evaluationId = evaluationId;
-        this.tfteachingReformResearchSubModular = tfteachingReformResearchSubModular;
-        this.reaults = reaults;
-        this.ratio = ratio;
-        this.spareTire = spareTire;
-        this.tfteachingRearchPerformances = tfteachingRearchPerformances;
-    }
+	public TfteachingRearchEvaluation(String evaluationId) {
+		this.evaluationId = evaluationId;
+	}
 
-   
-    // Property accessors
+	/** full constructor */
+	public TfteachingRearchEvaluation(
+			String evaluationId,
+			TfteachingReformResearchSubModular tfteachingReformResearchSubModular,
+			String reaults, Double ratio, String spareTire,
+			Set tfteachingRearchProjects) {
+		this.evaluationId = evaluationId;
+		this.tfteachingReformResearchSubModular = tfteachingReformResearchSubModular;
+		this.reaults = reaults;
+		this.ratio = ratio;
+		this.spareTire = spareTire;
+		this.tfteachingRearchProjects = tfteachingRearchProjects;
+	}
 
-    public String getEvaluationId() {
-        return this.evaluationId;
-    }
-    
-    public void setEvaluationId(String evaluationId) {
-        this.evaluationId = evaluationId;
-    }
+	// Property accessors
 
-    public TfteachingReformResearchSubModular getTfteachingReformResearchSubModular() {
-        return this.tfteachingReformResearchSubModular;
-    }
-    
-    public void setTfteachingReformResearchSubModular(TfteachingReformResearchSubModular tfteachingReformResearchSubModular) {
-        this.tfteachingReformResearchSubModular = tfteachingReformResearchSubModular;
-    }
+	public String getEvaluationId() {
+		return this.evaluationId;
+	}
 
-    public String getReaults() {
-        return this.reaults;
-    }
-    
-    public void setReaults(String reaults) {
-        this.reaults = reaults;
-    }
+	public void setEvaluationId(String evaluationId) {
+		this.evaluationId = evaluationId;
+	}
 
-    public Double getRatio() {
-        return this.ratio;
-    }
-    
-    public void setRatio(Double ratio) {
-        this.ratio = ratio;
-    }
+	public TfteachingReformResearchSubModular getTfteachingReformResearchSubModular() {
+		return this.tfteachingReformResearchSubModular;
+	}
 
-    public String getSpareTire() {
-        return this.spareTire;
-    }
-    
-    public void setSpareTire(String spareTire) {
-        this.spareTire = spareTire;
-    }
+	public void setTfteachingReformResearchSubModular(
+			TfteachingReformResearchSubModular tfteachingReformResearchSubModular) {
+		this.tfteachingReformResearchSubModular = tfteachingReformResearchSubModular;
+	}
 
-    public Set getTfteachingRearchPerformances() {
-        return this.tfteachingRearchPerformances;
-    }
-    
-    public void setTfteachingRearchPerformances(Set tfteachingRearchPerformances) {
-        this.tfteachingRearchPerformances = tfteachingRearchPerformances;
-    }
-   
+	public String getReaults() {
+		return this.reaults;
+	}
 
+	public void setReaults(String reaults) {
+		this.reaults = reaults;
+	}
 
+	public Double getRatio() {
+		return this.ratio;
+	}
 
+	public void setRatio(Double ratio) {
+		this.ratio = ratio;
+	}
 
+	public String getSpareTire() {
+		return this.spareTire;
+	}
 
+	public void setSpareTire(String spareTire) {
+		this.spareTire = spareTire;
+	}
 
+	public Set getTfteachingRearchProjects() {
+		return this.tfteachingRearchProjects;
+	}
 
+	public void setTfteachingRearchProjects(Set tfteachingRearchProjects) {
+		this.tfteachingRearchProjects = tfteachingRearchProjects;
+	}
 
 }

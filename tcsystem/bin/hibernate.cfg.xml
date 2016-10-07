@@ -192,6 +192,22 @@
 			resource="com/nuaa/ec/model/VacollectiveActivitiesPublish.hbm.xml" />
 		<mapping resource="com/nuaa/ec/model/VaunJoinRecord.hbm.xml" />
 		<mapping resource="com/nuaa/ec/model/Tfterm.hbm.xml" />
+		<mapping
+			resource="com/nuaa/ec/model/TfteachingRearchProject.hbm.xml" />
+		<mapping
+			resource="com/nuaa/ec/model/TffineCourseConstructionProject.hbm.xml" />
+		<mapping
+			resource="com/nuaa/ec/model/TfteachingAchievementProject.hbm.xml" />
+		<mapping
+			resource="com/nuaa/ec/model/TfprofessionalProjectDeclareProject.hbm.xml" />
+		<mapping
+			resource="com/nuaa/ec/model/TfteachingPaperProject.hbm.xml" />
+		<mapping
+			resource="com/nuaa/ec/model/TftextbookConstructionProject.hbm.xml" />
+		<mapping
+			resource="com/nuaa/ec/model/TffamousTeacherTeamProject.hbm.xml" />
+		<mapping
+			resource="com/nuaa/ec/model/TfenterpriseWorkstationTrainingBaseConstructionProject.hbm.xml" />
 	</session-factory>
 
 </hibernate-configuration>
