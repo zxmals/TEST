@@ -12,8 +12,7 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	request.setAttribute("researchLabList",
-			StoreData.getResearchLabList());
+	request.setAttribute("departmentList", StoreData.getDepartmentList());
 	request.setAttribute("tftermList", StoreData.getTftermList());
 %>
 <!DOCTYPE html>
@@ -67,28 +66,28 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList"
+		action="TfclassTeachPeformanceAudit!getTF_classTeachPerformanceList"
 		method="post" name="pickdate">
-		<h3 style="padding:0px;margin-left: 10px;">课堂教学绩效审核</h3>
+		<h3 style="padding:0px;margin-left: 10px;">学位论文指导质量绩效审核</h3>
 		<hr>
-		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="researchlab_TAES.researchLabId"
-			id="reserchLabSelection">
-				<c:forEach var="researchLab" items="${researchLabList }">
-					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
+		<span style="margin-left:10px;">所在系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
+			<select name="department_CT.departmentId"
+			id="departmentSelection">
+				<c:forEach var="department" items="${departmentList }">
+					<option value="${department.departmentId }">${department.departmentName }</option>
 				</c:forEach>
 		</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
 		<span>
 			学期：
-			<select>
+			<select id="termSelection" name="termId_CT">
 				<c:forEach var="tfterm" items="${tftermList }">
-					<option>${tfterm.term }</option>
+					<option value="${tfterm.termId }">${tfterm.term }</option>
 				</c:forEach>
 			</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
 		<span>每页显示： <select
-			name="pageSize_TAES" id="pageSizeSelection">
+			name="pageSize_CT" id="pageSizeSelection">
 				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
 				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
 				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
@@ -96,7 +95,7 @@
 				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
-			name="checkOutStatus_TAES" id="checkoutStatus">
+			name="checkOutStatus_CT" id="checkoutStatus">
 				<option value="0">未审核</option>
 				<option value="1">审核通过</option>
 				<option value="2">未通过审核</option>
@@ -111,47 +110,47 @@
 			style="border-collapse:collapse;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
-				<td>课堂教学绩效编号</td>
-				<td>总课时</td>
-				<td>综合教学评估结果</td>
+				<td>学位论文编号</td>
+				<td>学位论文标题</td>
+				<td>获奖级别</td>
 				<td>教师编号</td>
 				<td>教师姓名</td>
 				<td>最终分数</td>
-				<c:if test="${sessionScope.checkOutStatus_TAES=='0' }">
+				<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
 						onchange="allAlowOrNot()" /></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAES=='1' }">
+				<c:if test="${sessionScope.checkOutStatus_CT=='1' }">
 					<td><font color="blue">通过</td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAES=='2' }">
+				<c:if test="${sessionScope.checkOutStatus_CT=='2' }">
 					<td><font color="red">未通过</td>
 				</c:if>
 
 			</tr>
-			<c:forEach var="TA_InviteExpertSpeech"
-				items="${TA_InviteExpertSpeechList }">
+			<c:forEach var="TFClassTeachPefro"
+				items="${TFClassTeachPefroList }">
 				<tr>
-					<!-- 课堂教学绩效编号 -->
-					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.iespeechId }</td>
-					<!-- 总课时-->
-					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.lectureName }</td>
-					<!-- 综合教学评估结果 -->
-					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.expertsName }</td>
+					<!-- 学位论文编号 -->
+					<td>${TFClassTeachPefro.classPefromanceId }</td>
+					<!-- 学位论文标题-->
+					<td>${TFClassTeachPefro.sumtime }</td>
+					<!-- 获奖级别 -->
+					<td>${TFClassTeachPefro.tfclassTeachEvaluation.evaluResult }</td>
 					<!-- 教师编号 -->
-					<td>${TA_InviteExpertSpeech.teacher.teacherId }</td>
+					<td>${TFClassTeachPefro.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
-					<td>${TA_InviteExpertSpeech.teacher.teacherName }</td>
+					<td>${TFClassTeachPefro.teacher.teacherName }</td>
 					<!-- 最终分数 -->
-					<td>${TA_InviteExpertSpeech.finalScore }</td>
-					<c:if test="${sessionScope.checkOutStatus_TAES=='0' }">
+					<td>${TFClassTeachPefro.finalScore }</td>
+					<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TA_InviteExpertSpeech.teacherAinvEsid}" /></td>
+							value="${TFClassTeachPefro.classPefromanceId}" /></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAES=='1' }">
+					<c:if test="${sessionScope.checkOutStatus_CT=='1' }">
 						<td><font color="green"size:"3">√</td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAES=='2' }">
+					<c:if test="${sessionScope.checkOutStatus_CT=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
 				</tr>
@@ -161,30 +160,30 @@
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;"> 当前是第<font
-			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAES }</font>页
+			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_CT }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
+					href="TfclassTeachPeformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index"
 			step="1">
-			<c:if test="${index<=pageCount_TAES }">
+			<c:if test="${index<=pageCount_CT }">
 				<span> <a
-					href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${index }">${index }</a>
+					href="TfclassTeachPeformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
-		<span> <c:if test="${pageIndex<pageCount_TAES }">
+		<span> <c:if test="${pageIndex<pageCount_CT }">
 				<a
-					href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
+					href="TfclassTeachPeformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
-		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAES }</font>页
-		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAES }</font>条记录
+		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_CT }</font>页
+		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_CT }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_TAES=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_CT=='0'}">
 		<input type="button" value="提交" class="button_set"
 			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
@@ -214,9 +213,10 @@
 	<script src="My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAES}']").attr("selected",true);
-			$("#reserchLabSelection option[value='${sessionScope.selectedResearchlab_TAES.researchLabId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAES}']").attr("selected",true);
+			$("#pageSizeSelection option[value='${sessionScope.pageSize_CT}']").attr("selected",true);
+			$("#departmentSelection option[value='${sessionScope.department_CT.departmentId}']").attr("selected",true);
+			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_CT}']").attr("selected",true);
+			$("#termSelection option[value='${sessionScope.termId_CT}']").attr("selected",true);
 		});
 	</script>
 </body>
@@ -231,26 +231,42 @@
 		$("#doCheckout").click(function(){
 			var IDs=getCheckOutResult();
 			if(IDs.length==0){
-				window.alert("请选择要通过审核的项目！");
+				/* window.alert("请选择要通过审核的项目！"); */
+				swal("请选择要通过审核的项目！", "", "warning");
 				return;
 			}
-			if(window.confirm("您确认要提交审核吗？")){
-				$.post("TeacherAndinvitedExpertsSpeechAudit!doCheckOutTask",{
-					checkOutIDs:IDs
-				},function(data,status){
-					if(status=="success"){
-						if(data=="succ"){
-							window.alert("审核成功！");
-							window.location.replace("<%=basePath%>
-	TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList");
-													} else {
-														window.alert("审核失败！");
-													}
-												}
-											});
-						} else {
-							return;
-						}
-					})
+			swal({ 
+				title: "确定要审核吗？", 
+				text: "",
+				type: "warning", 
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "确定审核",
+				closeOnConfirm: false },
+				function(isConfirm){
+					if(isConfirm){
+						$.post("TfclassTeachPeformanceAudit!doCheckOutTask",{checkOutIDs:IDs},function(data,status){
+							if(status=="success"){
+								if(data=="succ"){
+									swal("审核成功！", "", "success");
+									setTimeout(function(){
+										window.location.replace("<%=basePath%>TfclassTeachPeformanceAudit!getTF_classTeachPerformanceList");
+									},2000);
+								}else{
+									swal("审核失败！", "", "error");
+								}
+							}
+							else{
+								return;
+							}
+						});
+					}else{
+						return;
+					}
+			});
+						
+		});
+
+
 </script>
 </html>
