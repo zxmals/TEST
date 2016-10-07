@@ -114,7 +114,7 @@ public class TfclassTeachPerformanceAuditAction implements RequestAware {
 	private TfclassTeachPefromanceDAO TFClassTeachPefroDAO = new TfclassTeachPefromanceDAO();
 	private String checkOutStatus_CT;
 	private String checkOutIDs;
-	public String checkOutIDsNot;
+	private String checkOutIDsNot;
 	public int getPageIndex() {
 		return pageIndex;
 	}

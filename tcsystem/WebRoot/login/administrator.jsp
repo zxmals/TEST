@@ -226,7 +226,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="#">教材建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">精品课程建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">专业建设项目申报绩效审核</a></li>
-											<li><a class="J_menuItem" href="#">企业工作站和联合培养基地建设绩效审核</a></li>
+											<li><a class="J_menuItem" href="TfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList">企业工作站和联合培养基地建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">暑期课程与国际课程建设绩效审核</a></li>
 										</ul>
 									</li>
