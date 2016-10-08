@@ -211,8 +211,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 									<li><a class="J_menuItem" href="">教学能力与实效 <span class="fa arrow"></span></a> -->
 									<li><a href="#">教学能力与实效 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level"">
-											<li><a class="J_menuItem" href="TfclassTeachPeformanceAudit">课堂教学绩效审核</a></li>
-											<li><a class="J_menuItem" href="#">学位论文指导质量绩效审核</a></li>
+											<li><a class="J_menuItem" href="TfclassTeachPerformanceAudit!getTF_classTeachPerformanceList">课堂教学绩效审核</a></li>
+											<li><a class="J_menuItem" href="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformList">学位论文指导质量绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学竞赛绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学能力提升绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学名师和教学团队绩效审核</a></li>
@@ -226,7 +226,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="#">教材建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">精品课程建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">专业建设项目申报绩效审核</a></li>
-											<li><a class="J_menuItem" href="#">企业工作站和联合培养基地建设绩效审核</a></li>
+											<li><a class="J_menuItem" href="TfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList">企业工作站和联合培养基地建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">暑期课程与国际课程建设绩效审核</a></li>
 										</ul>
 									</li>

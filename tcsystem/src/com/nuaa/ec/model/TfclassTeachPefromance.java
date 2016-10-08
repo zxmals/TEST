@@ -19,7 +19,7 @@ public class TfclassTeachPefromance  implements java.io.Serializable {
      private Double finalScore;
      private String checkOut;
      private String spareTire;
-
+     private String termId;
 
     // Constructors
 
@@ -34,6 +34,16 @@ public class TfclassTeachPefromance  implements java.io.Serializable {
     
     /** full constructor */
     public TfclassTeachPefromance(String classPefromanceId, TfclassTeachEvaluation tfclassTeachEvaluation, TfclassTeachTime tfclassTeachTime, Teacher teacher, String sumtime, Double finalScore, String checkOut, String spareTire) {
+    	this.classPefromanceId = classPefromanceId;
+    	this.tfclassTeachEvaluation = tfclassTeachEvaluation;
+    	this.tfclassTeachTime = tfclassTeachTime;
+    	this.teacher = teacher;
+    	this.sumtime = sumtime;
+    	this.finalScore = finalScore;
+    	this.checkOut = checkOut;
+    	this.spareTire = spareTire;
+    }
+    public TfclassTeachPefromance(String classPefromanceId, TfclassTeachEvaluation tfclassTeachEvaluation, TfclassTeachTime tfclassTeachTime, Teacher teacher, String sumtime, Double finalScore, String checkOut, String spareTire,String termId) {
         this.classPefromanceId = classPefromanceId;
         this.tfclassTeachEvaluation = tfclassTeachEvaluation;
         this.tfclassTeachTime = tfclassTeachTime;
@@ -42,6 +52,7 @@ public class TfclassTeachPefromance  implements java.io.Serializable {
         this.finalScore = finalScore;
         this.checkOut = checkOut;
         this.spareTire = spareTire;
+        this.termId=termId;
     }
 
    
@@ -110,6 +121,14 @@ public class TfclassTeachPefromance  implements java.io.Serializable {
     public void setSpareTire(String spareTire) {
         this.spareTire = spareTire;
     }
+
+	public String getTermId() {
+		return termId;
+	}
+
+	public void setTermId(String termId) {
+		this.termId = termId;
+	}
    
 
 
