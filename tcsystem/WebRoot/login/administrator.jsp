@@ -213,8 +213,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<ul class="nav nav-third-level"">
 											<li><a class="J_menuItem" href="TfclassTeachPerformanceAudit!getTF_classTeachPerformanceList">课堂教学绩效审核</a></li>
 											<li><a class="J_menuItem" href="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformList">学位论文指导质量绩效审核</a></li>
-											<li><a class="J_menuItem" href="#">教学竞赛绩效审核</a></li>
-											<li><a class="J_menuItem" href="#">教学能力提升绩效审核</a></li>
+											<li><a class="J_menuItem" href="TfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList">教学竞赛绩效审核</a></li>
+											<li><a class="J_menuItem" href="TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList">教学能力提升绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学名师和教学团队绩效审核</a></li>
 										</ul>
 									</li>
