@@ -16,6 +16,9 @@
         <property name="projectSumScore" type="java.lang.Double">
             <column name="projectSumScore" precision="53" scale="0" />
         </property>
+        <many-to-one name="tfterm" class="com.nuaa.ec.model.Tfterm" fetch="select">
+            <column name="termID" length="20" />
+        </many-to-one>
         <property name="termId" type="java.lang.String">
             <column name="termID" length="20" />
         </property>
