@@ -266,7 +266,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            </div>
 	        </div>
 	    </div>
-	    
+	    <!-- JOIN  ADD-->
 	    <div id="joinaca" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
 	        <div class="modal-dialog">
 	            <div class="modal-content">
@@ -274,16 +274,11 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                    <div class="row">
 	                    			<div class="form-group" style="display: none">                                
 	                                    <label>著作ID:</label>
-	                                    <input id="joinacaId" type="text"  class="form-control nullcheck">
+	                                    <input id="joinSRRId" type="text"  class="form-control nullcheck">
 	                                </div>
 	                    			<div class="form-group">                            
-	                                    <label>参与身份:</label>
-	                                    <select id="joinIdentity" class="form-control nullcheck">
-	                                    	<option></option>
-	                                    	<c:forEach items="${selfdown }" var="obj">
-	                                    		<option value="${obj.undertakeTaskId }">${obj.undertakeTaskName }</option>
-	                                    	</c:forEach>
-	                                    </select>
+	                                    <label>本人排名:</label>
+	                                    <input id="selfrank" type="text"  class="form-control nullcheck">
 	                                </div> 
 	                            	<div>
 	                                    <button type="button" id="closebtn"  class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
@@ -352,7 +347,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	    		closeOnCancel: true }, 
 	    			function(isConfirm){   
 	    				if (isConfirm) {
-	    					$.post("GTscienceresearch-rewardset!addScienReward?gainscienceReward=1",
+	    					$.post("GTscienceresearch-rewardset!addScienReward",
 	    							{"scienceReward.srrewardName":$('#rewardname').val().trim(),
 	    							 "scienceReward.rewardDate":$('#rewardDate').val().trim(),
 	    							 "scienceReward.awardDepartment":$('#awardDepart').val().trim(),
@@ -367,7 +362,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	    	    									 window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1");
 	    										}, 2000);
 	    									 }else{
-	    										 swal("新增失败");
+	    										 swal(data,"","warning");
 	    									 }
 	    								 }else{
 	    									 swal("请求失败");
@@ -382,34 +377,30 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				swal("是否还有没填的?","请完善所有信息后提交","warning");
 		}
 	});
-    
+    </script>
+    <!-- update  -->
+    <script>
     $('.carrydata').click(function() {
     	var row = $(this).parent().parent(); 
     	$('#addmodaldialogTitle').css("display","none");
     	$('#updatemodaldialogTitle').css("display","");
-    	$('#cryisbn').css("display","");
-    	$('#hideisbn').css("display","none");
     	$('#subadds').css("display","none");
     	$('#subup').css("display","");
     	$('#crystatus').css("display","");
     	$('#subdel').css("display","");
-		$('#workId').prop("value",row[0].cells[0].innerHTML);
-		$('#workname').prop("value",row[0].cells[1].innerHTML);
-		set_selected_option($('#isFauthor option'), row[0].cells[2].title.trim()=="${teacher.teacherId}"?"first":"other");
-		set_selected_option($('#publishclub option'), row[0].cells[3].innerHTML.trim());
-		set_selected_option($('#wordnum option'), row[0].cells[5].innerHTML.trim());
-		$('#publishdate').prop("value",row[0].cells[7].innerHTML.trim());
-		$('#upIsbn').prop("value",row[0].cells[8].innerHTML.trim());
-		$('input[type="radio"][name="otherAuthorJoin"][value="'+row[0].cells[9].title.trim()+'"]').prop("checked",true);
-		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[12].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
-		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[12].title.trim());
+		$('#scienrewardId').prop("value",row[0].cells[0].innerHTML);
+		$('#rewardname').prop("value",row[0].cells[1].innerHTML);
+		set_selected_option($('#rewardlevel option'), row[0].cells[3].title.trim());
+		set_selected_option($('#rewardtype option'), row[0].cells[2].title.trim());
+		$('#rewardDate').prop("value",row[0].cells[4].innerHTML.trim());
+		$('#awardDepart').prop("value",row[0].cells[5].innerHTML.trim());
+		$('#rewardpeoplenum').prop("value",row[0].cells[6].innerHTML.trim());
+		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[9].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
+		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[9].title.trim());
 	});
     $('#subup').click(function() {
-    	var firstauthor = $('#isFauthor').val().trim()!="first"?"":"${sessionScope.teacher.teacherId }";
-    	var isbn = $('#upIsbn').val().trim();
-    	var author = $('.author').get(0).checked==false?($('.author').get(1).checked==true?$('.author').get(1).value.trim():""):$('.author').get(0).value.trim();
-    	if(checkadds()&&isbn!=""){
-    		if(checkISBN(isbn)){
+    	var scienRID = $('#scienrewardId').val().trim();
+    	if(checkadds()&&scienRID!=""){	
     			swal({   
     	    		title: "确定提交?",   
     	    		text: "",   
@@ -422,25 +413,24 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    		closeOnCancel: true }, 
     	    			function(isConfirm){   
     	    				if (isConfirm) {
-    	    					$.post("GTacademicwork-workset!updateAcademicWork?pagenum=1",
-    	    						 	{"academicwk.acaworkId":$('#workId').val().trim(),
-    	    	    					 "academicwk.workName":$('#workname').val().trim(),
-    	    							 "academicwk.firstAuthor":firstauthor,
-    	    							 "academicwk.publishClub.publishClubId":$('#publishclub').val().trim(),
-    	    							 "academicwk.wordsNumber.wordId":$('#wordnum').val().trim(),
-    	    							 "academicwk.publishDate":$('#publishdate').val().trim(),
-    	    							 "academicwk.otherAuthorJoin":author,
-    	    							 "academicwk.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim(),
-    	    							 "academicwk.isbn":isbn},
+    	    					$.post("GTscienceresearch-rewardset!updateScienceRwared",
+    	    							{"scienceReward.srrewardId":$('#scienrewardId').val().trim(),
+    	    							 "scienceReward.srrewardName":$('#rewardname').val().trim(),
+		    							 "scienceReward.rewardDate":$('#rewardDate').val().trim(),
+		    							 "scienceReward.awardDepartment":$('#awardDepart').val().trim(),
+		    							 "scienceReward.rewardTotalPeople":$('#rewardpeoplenum').val().trim(),
+		    							 "scienceReward.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim(),
+		    							 "rewardlevel.rewardLevelId":$('#rewardlevel').val().trim(),
+		    							 "rewardtype.rewardTypeId":$('#rewardtype').val().trim()},
     	    	    					function(data,status){
     	    	    						if(status=="success"){
     	    	    							 if(data=="succ"){
     	    	    								 swal("更新成功","","success");
     	    	    								 setTimeout(function() {
-    	    	    									 window.location.replace("GTacademicwork-workset!getWorkall?pagenum=1");
+    	    	    									 window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1");
     	    										}, 2000);
     	    	    							 }else{
-    	    	    								 swal("操作失败","","error");
+    	    	    								 swal(data,"","error");
     	    	    							 }
     	    	    						}else{
     	    	    							swal("请求失败");
@@ -450,9 +440,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    				}
     	    			}
     	    	);
-    		}else{
-    			swal("ISBN ["+isbn+"] 错误","请完善所有信息后提交","error");
-    		}
     	}else{
 				swal("是否还有没填的?","请完善所有信息后提交","error");
 		}
@@ -470,14 +457,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		closeOnCancel: true }, 
     			function(isConfirm){   
     				if (isConfirm) {
-    					$.post("GTacademicwork-workset!deleteAcademicWork?pagenum=1",
-    							{"academicwk.acaworkId":$('#workId').val().trim()},
+    					$.post("GTscienceresearch-rewardset!deleteScienceReward",
+    							{"scienceReward.srrewardId":$('#scienrewardId').val().trim()},
     							function(data,status){
     								if(status=="success"){
     									if(data=="succ"){
     										swal("删除成功","","success");
     										setTimeout(function() {
-    											window.location.replace("GTacademicwork-workset!getWorkall?pagenum=1");
+    											window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1");
 											}, 2000);
     									}else{
     										swal("操作失败","","error");
@@ -493,8 +480,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	});
     $('.getMember').click(function() {
 		var row = $(this).parent().parent();
-		$.post("GTacademicwork-workset!getMember",
-				{"academicwk.acaworkId":row[0].cells[0].innerHTML},
+		$.post("GTscienceresearch-rewardset!getMember",
+				{"scienceReward.srrewardId":row[0].cells[0].innerHTML},
 				function(data,status){
 					var tabs = $('#membtab');
 					var trs = tabs.find("tr");
@@ -526,6 +513,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				}
 		);
 	});
+    </script>
+    <!-- join operate -->
+    <script>
     $('.joinProj').click(function(e) {
     	var btn = $(this);
 	    if(btn.attr("isConfirm")!="1"){
@@ -547,16 +537,16 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     			if(isConfirm){
     				btn.attr("isConfirm","1");
 					btn.attr("data-target","#joinaca");
-					$('#joinacaId').prop("value",btn.parent().parent()[0].cells[0].innerHTML.trim());
+					$('#joinSRRId').prop("value",btn.parent().parent()[0].cells[0].innerHTML.trim());
 					btn.click();
     			}
     		});
 	});
     $('#subjoin').click(function() {
-    	if($('#joinacaId').val().trim()!=""&&$('#joinIdentity').val().trim()!=""){
-    		$.post("GTacademicwork-workset!joinwork",
-    				{"academicwk.acaworkId":$('#joinacaId').val().trim(),
-        			 "selftask.undertakeTaskId":$('#joinIdentity').val().trim()},
+    	if($('#joinSRRId').val().trim()!=""&&$('#selfrank').val().trim()!=""){
+    		$.post("GTscienceresearch-rewardset!joinScienceReward",
+    				{"scienceReward.srrewardId":$('#joinSRRId').val().trim(),
+        			 "teacherandsr.selfRanking":$('#selfrank').val().trim()},
     				function(data,status){
         				 if(status=="success"){
         					 if(data=="succ"){
