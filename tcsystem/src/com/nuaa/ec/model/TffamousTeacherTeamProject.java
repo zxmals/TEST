@@ -14,7 +14,8 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 	private String teacherTeamPerformanceId;
 	private TffamousTeacherTeamRewadLevel tffamousTeacherTeamRewadLevel;
 	private Double projectSumScore;
-	private String termId;
+//	private String termId;
+	private Tfterm tfterm;
 	private String spareTire;
 	private Set tffamousTeacherTeamPerformances = new HashSet(0);
 
@@ -32,12 +33,12 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 	/** full constructor */
 	public TffamousTeacherTeamProject(String teacherTeamPerformanceId,
 			TffamousTeacherTeamRewadLevel tffamousTeacherTeamRewadLevel,
-			Double projectSumScore, String termId, String spareTire,
+			Double projectSumScore, Tfterm tfterm, String spareTire,
 			Set tffamousTeacherTeamPerformances) {
 		this.teacherTeamPerformanceId = teacherTeamPerformanceId;
 		this.tffamousTeacherTeamRewadLevel = tffamousTeacherTeamRewadLevel;
 		this.projectSumScore = projectSumScore;
-		this.termId = termId;
+		this.tfterm = tfterm;
 		this.spareTire = spareTire;
 		this.tffamousTeacherTeamPerformances = tffamousTeacherTeamPerformances;
 	}
@@ -69,13 +70,6 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 		this.projectSumScore = projectSumScore;
 	}
 
-	public String getTermId() {
-		return this.termId;
-	}
-
-	public void setTermId(String termId) {
-		this.termId = termId;
-	}
 
 	public String getSpareTire() {
 		return this.spareTire;
@@ -92,6 +86,14 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 	public void setTffamousTeacherTeamPerformances(
 			Set tffamousTeacherTeamPerformances) {
 		this.tffamousTeacherTeamPerformances = tffamousTeacherTeamPerformances;
+	}
+
+	public Tfterm getTfterm() {
+		return tfterm;
+	}
+
+	public void setTfterm(Tfterm tfterm) {
+		this.tfterm = tfterm;
 	}
 
 }
