@@ -66,12 +66,12 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList"
+		action="TffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList"
 		method="post" name="pickdate">
-		<h3 style="padding:0px;margin-left: 10px;">教学能力提升绩效审核</h3>
+		<h3 style="padding:0px;margin-left: 10px;">教学名师和教学团队绩效审核</h3>
 		<hr>
 		<span style="margin-left:10px;">所在系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="department_TAI.departmentId"
+			<select name="department_FTT.departmentId"
 			id="departmentSelection">
 				<c:forEach var="department" items="${departmentList }">
 					<option value="${department.departmentId }">${department.departmentName }</option>
@@ -80,14 +80,14 @@
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
 		<span>
 			学期：
-			<select id="termSelection" name="termId_TAI">
+			<select id="termSelection" name="termId_FTT">
 				<c:forEach var="tfterm" items="${tftermList }">
 					<option value="${tfterm.termId }">${tfterm.term }</option>
 				</c:forEach>
 			</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
 		<span>每页显示： <select
-			name="pageSize_TAI" id="pageSizeSelection">
+			name="pageSize_FTT" id="pageSizeSelection">
 				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
 				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
 				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
@@ -95,7 +95,7 @@
 				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
-			name="checkOutStatus_TAI" id="checkoutStatus">
+			name="checkOutStatus_FTT" id="checkoutStatus">
 				<option value="0">未审核</option>
 				<option value="1">审核通过</option>
 				<option value="2">未通过审核</option>
@@ -110,52 +110,52 @@
 			style="border-collapse:collapse;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
-				<td>教学能力提升项目编号</td>
-				<td>教学能力提升项目名称</td>
-				<td>参与总时间 单位/h</td>
-				<td>提升等级</td>				
+				<td>教学名师或教学团队编号</td>
+				<td>获奖级别</td>
+				<td>项目总分</td>
+				<td>本人承担任务</td>
 				<td>教师编号</td>
 				<td>教师姓名</td>
 				<td>最终分数</td>
-				<c:if test="${sessionScope.checkOutStatus_TAI=='0' }">
+				<c:if test="${sessionScope.checkOutStatus_FTT=='0' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAI=='1' }">
+				<c:if test="${sessionScope.checkOutStatus_FTT=='1' }">
 					<td><font color="blue">通过</td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAI=='2' }">
+				<c:if test="${sessionScope.checkOutStatus_FTT=='2' }">
 					<td><font color="red">未通过</td>
 				</c:if>
 
 			</tr>
-			<c:forEach var="TfteachingAbilityImprovePerf"
-				items="${TfteachingAbilityImprovePerfList }">
+			<c:forEach var="TfFamousTeacherTeamPerf"
+				items="${TfFamousTeacherTeamPerfList }">
 				<tr>
-					<!-- 教学能力提升项目编号 -->
-					<td>${TfteachingAbilityImprovePerf.eventId }</td>
-					<!-- 教学能力提升项目名称-->
-					<td>${TfteachingAbilityImprovePerf.eventName }</td>
-					<!-- 参与总时间 单位/h -->
-					<td>${TfteachingAbilityImprovePerf.sumhours }</td>
-					<!-- 提升等级 -->
-					<td>${TfteachingAbilityImprovePerf.tfteachingAbilityImproveLevel.improveLevel }</td>
+					<!-- 教学名师或教学团队编号 -->
+					<td>${TfFamousTeacherTeamPerf.tffamousTeacherTeamProject.teacherTeamPerformanceId }</td>
+					<!-- 获奖级别-->
+					<td>${TfFamousTeacherTeamPerf.tffamousTeacherTeamProject.tffamousTeacherTeamRewadLevel.teachRewardLevelName }</td>
+					<!-- 项目总分 -->
+					<td>${TfFamousTeacherTeamPerf.tffamousTeacherTeamProject.projectSumScore }</td>
+					<!-- 本人承担任务 -->
+					<td>${TfFamousTeacherTeamPerf.selfUndertakeTask.undertakeTaskName }</td>
 					<!-- 教师编号 -->
-					<td>${TfteachingAbilityImprovePerf.teacher.teacherId }</td>
+					<td>${TfFamousTeacherTeamPerf.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
-					<td>${TfteachingAbilityImprovePerf.teacher.teacherName }</td>
+					<td>${TfFamousTeacherTeamPerf.teacher.teacherName }</td>
 					<!-- 最终分数 -->
-					<td>${TfteachingAbilityImprovePerf.finalScore }</td>
-					<c:if test="${sessionScope.checkOutStatus_TAI=='0' }">
+					<td>${TfFamousTeacherTeamPerf.singelScore }</td>
+					<c:if test="${sessionScope.checkOutStatus_FTT=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TfteachingAbilityImprovePerf.puid}"   class="check1"/></td>
-						<td class="c2">不通过<input value="${TfteachingAbilityImprovePerf.puid}" type="checkbox"
+							value="${TfFamousTeacherTeamPerf.upid}"   class="check1"/></td>
+						<td class="c2">不通过<input value="${TfFamousTeacherTeamPerf.upid}" type="checkbox"
 						 name="notAudit" class="check2"/></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAI=='1' }">
+					<c:if test="${sessionScope.checkOutStatus_FTT=='1' }">
 						<td><font color="green"size:"3">√</td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAI=='2' }">
+					<c:if test="${sessionScope.checkOutStatus_FTT=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
 				</tr>
@@ -165,30 +165,30 @@
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;"> 当前是第<font
-			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAI }</font>页
+			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_FTT }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
+					href="TffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index"
 			step="1">
-			<c:if test="${index<=pageCount_TAI }">
+			<c:if test="${index<=pageCount_FTT }">
 				<span> <a
-					href="TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList?isDivided=true&pageIndex=${index }">${index }</a>
+					href="TffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList?isDivided=true&pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
-		<span> <c:if test="${pageIndex<pageCount_TAI }">
+		<span> <c:if test="${pageIndex<pageCount_FTT }">
 				<a
-					href="TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
+					href="TffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
-		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAI }</font>页
-		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAI }</font>条记录
+		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_FTT }</font>页
+		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_FTT }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_TAI=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_FTT=='0'}">
 		<input type="button" value="审核" class="button_set"
 			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
@@ -219,14 +219,14 @@
 	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAI}']").attr("selected",true);
-			$("#departmentSelection option[value='${sessionScope.department_TAI.departmentId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAI}']").attr("selected",true);
-			$("#termSelection option[value='${sessionScope.termId_TAI}']").attr("selected",true);
+			$("#pageSizeSelection option[value='${sessionScope.pageSize_FTT}']").attr("selected",true);
+			$("#departmentSelection option[value='${sessionScope.department_FTT.departmentId}']").attr("selected",true);
+			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_FTT}']").attr("selected",true);
+			$("#termSelection option[value='${sessionScope.termId_FTT}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("TfteachingAbilityImprovePerformanceAudit!doCheckOutTask",
-					"TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList");
+			submitAudit("TffamousTeacherTeamPerformanceAudit!doCheckOutTask",
+					"TffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList");
 		});
 	</script>
 </body>
