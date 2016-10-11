@@ -81,14 +81,17 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 					.get("teacher")).getTeacherId() : "");
 			periopaper.setCheckout("0");
 			periopaperdao.save(periopaper);
-			PeriodicalPapersScore ppsco = (PeriodicalPapersScore) (ppscoredao
-					.findByProperty("periodicalType", periopaper
-							.getPeriodical().getPeriodicalType())).get(0);
-			TeacherAndperiodical tp = new TeacherAndperiodical(ppsco,
-					(Teacher) session.get("teacher"),
-					periopaper.getPeriodical(), (double) ppsco.getScore(), "1",
-					periopaper.getPpid(), "0");
-			tpdao.save(tp);
+			PeriodicalPapersScore ppsco = ppscoredao.findByPeriodicalType(periopaper.getPeriodical().getPeriodicalType());
+			if(ppsco!=null){
+				TeacherAndperiodical tp = new TeacherAndperiodical(ppsco,
+						(Teacher) session.get("teacher"),
+						periopaper.getPeriodical(), (double) ppsco.getScore(), "1",
+						periopaper.getPpid(), "0");
+				tpdao.save(tp);
+			}else{
+				this.setOperstatus(-1);
+				return "";
+			}
 			tx = periopaperdao.getSession().beginTransaction();
 			tx.commit();
 			getPeriodicalPaperINF();
@@ -118,9 +121,17 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 			periopaper.setPeriodical(periodao.findById(periopaper
 					.getPeriodical().getPeriodicalId()));
 			periopaperdao.merge(periopaper);
+			PeriodicalPapersScore ppsco = ppscoredao.findByPeriodicalType(periopaper.getPeriodical().getPeriodicalType());
+			if(ppsco!=null){
+				tpdao.updateRefTeacher(periopaper.getPpid(), ppsco.getScore(), ppsco);
+				ServletActionContext.getResponse().getWriter().write("succ");
+			}else{
+				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+				ServletActionContext.getResponse().getWriter().write("对应期刊没有评分，请联系管理");
+				return;
+			}
 			tx = periopaperdao.getSession().beginTransaction();
 			tx.commit();
-			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
@@ -144,6 +155,7 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 			periopaper.setPeriodical(periodao.findById(periopaper
 					.getPeriodical().getPeriodicalId()));
 			periopaperdao.merge(periopaper);
+			tpdao.deleteRefTeacher(periopaper.getPpid());
 			tx = periopaperdao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");

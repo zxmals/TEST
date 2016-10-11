@@ -16,6 +16,7 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndperiodical;
@@ -250,6 +251,36 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 	         queryObject.setParameter(0, teacher);
 	         queryObject.setParameter(1, ppid);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+    }
+    
+    public void updateRefTeacher(String ppid,double score,PeriodicalPapersScore ppscore){
+    	try {
+			String queryString = "update TeacherAndperiodical set finalScore=?,periodicalPapersScore=?"
+					+ " where ppid=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, score);
+	         queryObject.setParameter(1, ppscore);
+	         queryObject.setParameter(1, ppid);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+    }
+    
+    public void deleteRefTeacher(String ppid){
+    	try {
+			String queryString = "update TeacherAndperiodical set spareTire='0' "
+					+ " where ppid=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, ppid);
+	         queryObject.executeUpdate();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

@@ -527,7 +527,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	    											window.location.replace("GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0");
 												}, 2000);
 	    									}else{
-	    										swal("更新失败");
+	    										swal("更新失败: "+data);
 	    									}
 	    								}else{
 	    									swal("请求失败！");

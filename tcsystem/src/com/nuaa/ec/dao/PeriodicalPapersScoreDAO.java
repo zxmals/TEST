@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.PeriodicalPapersScore;
+import com.nuaa.ec.model.PeriodicalType;
 
 /**
  	* A data access object (DAO) providing persistence and search support for PeriodicalPapersScore entities.
@@ -93,6 +94,20 @@ public class PeriodicalPapersScoreDAO extends BaseHibernateDAO  {
       }
 	}
 
+    public PeriodicalPapersScore findByPeriodicalType(PeriodicalType value) {
+        try {
+           String queryString = "from PeriodicalPapersScore where periodicalType=? and spareTire='1' ";
+           Query queryObject = getSession().createQuery(queryString);
+  		 queryObject.setParameter(0, value);
+  		 if(queryObject.list().size()>0){
+  			return (PeriodicalPapersScore) queryObject.list().get(0);
+  		 }else return null;
+        } catch (RuntimeException re) {
+           log.error("find by property name failed", re);
+           throw re;
+        }
+  	}
+    
 	public List findByScore(Object score
 	) {
 		return findByProperty(SCORE, score
