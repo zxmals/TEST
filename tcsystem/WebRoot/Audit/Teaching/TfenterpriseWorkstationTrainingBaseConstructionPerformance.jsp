@@ -66,7 +66,7 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList"
+		action="ATTfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList"
 		method="post" name="pickdate">
 		<h3 style="padding:0px;margin-left: 10px;">企业工作站和联合培养基地建设绩效审核</h3>
 		<hr>
@@ -174,7 +174,7 @@
 			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_EWTB }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -182,13 +182,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_EWTB }">
 				<span> <a
-					href="TfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList?isDivided=true&pageIndex=${index }">${index }</a>
+					href="ATTfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList?isDivided=true&pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_EWTB }">
 				<a
-					href="TfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_EWTB }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_EWTB }</font>条记录
@@ -231,8 +231,8 @@
 			$("#termSelection option[value='${sessionScope.termId_EWTB}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("TfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!doCheckOutTask",
-					"TfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList");
+			submitAudit("ATTfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!doCheckOutTask",
+					"ATTfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList");
 		});
 	</script>
 </body>

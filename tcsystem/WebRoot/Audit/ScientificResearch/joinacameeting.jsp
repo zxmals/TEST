@@ -64,7 +64,7 @@
 
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
-	<form action="TeacherAndjoinAcademicMeetingAudit!getTAAMeetingList"
+	<form action="ATTeacherAndjoinAcademicMeetingAudit!getTAAMeetingList"
 		method="post" name="pickdate">
 		<div class="datepick" style="font-size:12px;">
 			<span>选择日期范围</span>
@@ -181,7 +181,7 @@
 			<c:if
 				test="${pageIndex>1}">
 				<a
-					href="TeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -189,13 +189,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_TAAM }">
 				<span> <a
-					href="TeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${index }">${index }</a>
+					href="ATTeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_TAAM }">
 				<a
-					href="TeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAAM }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAAM }</font>条记录

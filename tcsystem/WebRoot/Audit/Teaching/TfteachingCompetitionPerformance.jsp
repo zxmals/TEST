@@ -66,7 +66,7 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList"
+		action="ATTfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList"
 		method="post" name="pickdate">
 		<h3 style="padding:0px;margin-left: 10px;">教学竞赛绩效审核</h3>
 		<hr>
@@ -165,7 +165,7 @@
 			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TCP }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList?pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -173,13 +173,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_TCP }">
 				<span> <a
-					href="TfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList?pageIndex=${index }">${index }</a>
+					href="ATTfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_TCP }">
 				<a
-					href="TfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList?pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TCP }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TCP }</font>条记录
@@ -222,8 +222,8 @@
 			$("#termSelection option[value='${sessionScope.termId_TCP}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("TfteachingCompetitionPerformanceAudit!doCheckOutTask",
-					"TfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList");
+			submitAudit("ATTfteachingCompetitionPerformanceAudit!doCheckOutTask",
+					"ATTfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList");
 		});
 	</script>
 </body>

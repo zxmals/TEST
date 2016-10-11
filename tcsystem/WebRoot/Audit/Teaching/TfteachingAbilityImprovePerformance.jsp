@@ -66,7 +66,7 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList"
+		action="ATTfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList"
 		method="post" name="pickdate">
 		<h3 style="padding:0px;margin-left: 10px;">教学能力提升绩效审核</h3>
 		<hr>
@@ -168,7 +168,7 @@
 			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAI }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -176,13 +176,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_TAI }">
 				<span> <a
-					href="TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList?isDivided=true&pageIndex=${index }">${index }</a>
+					href="ATTfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList?isDivided=true&pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_TAI }">
 				<a
-					href="TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAI }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAI }</font>条记录
@@ -225,8 +225,8 @@
 			$("#termSelection option[value='${sessionScope.termId_TAI}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("TfteachingAbilityImprovePerformanceAudit!doCheckOutTask",
-					"TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList");
+			submitAudit("ATTfteachingAbilityImprovePerformanceAudit!doCheckOutTask",
+					"ATTfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList");
 		});
 	</script>
 </body>

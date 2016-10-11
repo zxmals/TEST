@@ -66,7 +66,7 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList"
+		action="ATTffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList"
 		method="post" name="pickdate">
 		<h3 style="padding:0px;margin-left: 10px;">教学名师和教学团队绩效审核</h3>
 		<hr>
@@ -168,7 +168,7 @@
 			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_FTT }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -176,13 +176,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_FTT }">
 				<span> <a
-					href="TffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList?isDivided=true&pageIndex=${index }">${index }</a>
+					href="ATTffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList?isDivided=true&pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_FTT }">
 				<a
-					href="TffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_FTT }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_FTT }</font>条记录

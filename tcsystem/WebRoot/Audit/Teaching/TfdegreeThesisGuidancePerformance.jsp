@@ -66,7 +66,7 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformList"
+		action="ATTfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformList"
 		method="post" name="pickdate">
 		<h3 style="padding:0px;margin-left: 10px;">学位论文指导质量绩效审核</h3>
 		<hr>
@@ -165,7 +165,7 @@
 			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_DTG }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -173,13 +173,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_DTG }">
 				<span> <a
-					href="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformListAfterDivide?pageIndex=${index }">${index }</a>
+					href="ATTfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformListAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_DTG }">
 				<a
-					href="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_DTG }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_DTG }</font>条记录
@@ -222,8 +222,8 @@
 			$("#termSelection option[value='${sessionScope.termId_DTG}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("TfdegreeThesisGuidancePerformanceAudit!doCheckOutTask",
-					"TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformList");
+			submitAudit("ATTfdegreeThesisGuidancePerformanceAudit!doCheckOutTask",
+					"ATTfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformList");
 		});
 	</script>
 </body>

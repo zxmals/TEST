@@ -66,7 +66,7 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList"
+		action="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList"
 		method="post" name="pickdate">
 		<div class="datepick" style="font-size:12px;">
 			<span>选择日期范围</span>
@@ -179,7 +179,7 @@
 			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAES }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -187,13 +187,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_TAES }">
 				<span> <a
-					href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${index }">${index }</a>
+					href="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_TAES }">
 				<a
-					href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAES }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAES }</font>条记录
@@ -250,13 +250,13 @@
 				return;
 			}
 			if(window.confirm("您确认要提交审核吗？")){
-				$.post("TeacherAndinvitedExpertsSpeechAudit!doCheckOutTask",{
+				$.post("ATTeacherAndinvitedExpertsSpeechAudit!doCheckOutTask",{
 					checkOutIDs:IDs
 				},function(data,status){
 					if(status=="success"){
 						if(data=="succ"){
 							window.alert("审核成功！");
-							window.location.replace("<%=basePath%>TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList");
+							window.location.replace("<%=basePath%>ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList");
 													} else {
 														window.alert("审核失败！");
 													}
