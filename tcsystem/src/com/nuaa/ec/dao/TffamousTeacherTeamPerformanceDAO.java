@@ -74,7 +74,7 @@ public class TffamousTeacherTeamPerformanceDAO extends BaseHibernateDAO {
 						"from TffamousTeacherTeamPerformance FTT where FTT.spareTire='1'"
 								+ " and FTT.checkOut='" + checkOut + "'"
 								+ " and FTT.tffamousTeacherTeamProject.spareTire='1'"
-								+ " and FTT.tffamousTeacherTeamProject.selfUndertakeTask.spareTire='1'"
+								+ " and FTT.selfUndertakeTask.spareTire='1'"
 								+ " and FTT.tffamousTeacherTeamProject.tffamousTeacherTeamRewadLevel.spareTire='1'"
 								+ " and FTT.tffamousTeacherTeamProject.tfterm.spareTire='1'"
 								+ " and FTT.tffamousTeacherTeamProject.tfterm.termId='"+termId+"'"

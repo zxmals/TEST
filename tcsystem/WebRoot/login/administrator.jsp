@@ -220,7 +220,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</li>
 									<li><a href="">综合改革与教学研究 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level">
-											<li><a class="J_menuItem" href="#">教学研究绩效审核</a></li>
+											<li><a class="J_menuItem" href="TfteachingRearchPerformanceAudit!getTfteachingRearchPerformanceList">教学研究绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学论文绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学成果奖绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教材建设绩效审核</a></li>

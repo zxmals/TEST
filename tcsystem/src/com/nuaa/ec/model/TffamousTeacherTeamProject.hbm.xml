@@ -19,9 +19,6 @@
         <many-to-one name="tfterm" class="com.nuaa.ec.model.Tfterm" fetch="select">
             <column name="termID" length="20" />
         </many-to-one>
-        <property name="termId" type="java.lang.String">
-            <column name="termID" length="20" />
-        </property>
         <property name="spareTire" type="java.lang.String">
             <column name="SpareTire" length="20" />
         </property>

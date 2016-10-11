@@ -179,7 +179,6 @@ public class TfdegreeThesisGuidancePerformanceAuditAction implements
 
 	public void setCheckOutIDs(String checkOutIDs) {
 		this.checkOutIDs = checkOutIDs;
-		System.out.println("---------"+checkOutIDs);
 	}
 
 	public void setRequest(Map<String, Object> request) {
@@ -190,6 +189,5 @@ public class TfdegreeThesisGuidancePerformanceAuditAction implements
 	}
 	public void setCheckOutIDsNot(String checkOutIDsNot) {
 		this.checkOutIDsNot = checkOutIDsNot;
-		System.out.println("*********************"+checkOutIDsNot);
 	}
 }
