@@ -147,6 +147,9 @@
 		<action name="GTscienceresearch-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scienceResearchRewardAction">
 			<result>/ScientificResearchPerformance/scienceresearch-{1}.jsp</result>
 		</action>
+		<action name="GTjoinacademicmeeting-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.joinacademicmeetingAction">
+			<result>/ScientificResearchPerformance/joinacademicmeeting-{1}.jsp</result>
+		</action>
 	</package>
 	
 <!-- 教学设置 -->
