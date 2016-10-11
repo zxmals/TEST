@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.AcademicWork;
+import com.nuaa.ec.model.AcademicWorkScore;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndacademicWork;
@@ -309,6 +310,37 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 			String queryString = "from TeacherAndacademicWork";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void updateRefTeacher(AcademicWork aw,AcademicWorkScore awscore,double score){
+		try {
+			String queryString = "update TeacherAndacademicWork "
+					+ "set academicWorkScore = ? "
+					+ ", finalScore=? "
+					+ "where academicWork=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, awscore);
+	         queryObject.setParameter(1, score);
+	         queryObject.setParameter(2, aw);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRefTeacher(AcademicWork aw){
+		try {
+			String queryString = "update TeacherAndacademicWork "
+					+ "set spareTire = '0' "
+					+ "where academicWork=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, aw);
+	         queryObject.executeUpdate();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

@@ -90,14 +90,30 @@ public class academicworkAction implements RequestAware, SessionAware {
 		try {
 			academicwk.setAcaworkId(pkmk.mkpk(EntityUtil.getPkColumnName(AcademicWork.class), EntityUtil.getTableName(AcademicWork.class), "Aca"));
 			academicwk.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			academicwk.setCheckout("0");
 			academicwk.setPublishClub(publishdao.findById(academicwk.getPublishClub().getPublishClubId()));
-			academicwk.setSpareTire("1");
 			academicwk.setWordsNumber(wordnumdao.findById(academicwk.getWordsNumber().getWordId()));
-			academicwkdao.save(academicwk);
+			academicwk.setCheckout("1".equals(academicwk.getOtherAuthorJoin().trim())?"0":"1");
+			academicwk.setSpareTire("1");
+			AcademicWorkScore awscore = academicscoredao.findByWordNum(academicwk.getWordsNumber());
+			if(awscore!=null){
+				teacherandaw = new TeacherAndacademicWork();
+				teacherandaw.setAcademicWork(academicwk);
+				teacherandaw.setAcademicWorkScore(awscore);
+				teacherandaw.setCheckOut("0");
+				teacherandaw.setFinalScore((double)awscore.getScore());
+				teacherandaw.setSelfUndertakeTask(selftaskdao.findByUndertakeTaskNameDim());
+				teacherandaw.setSpareTire("1");
+				teacherandaw.setTeacher((Teacher)session.get("teacher"));
+				teacherandawdao.save(teacherandaw);
+				academicwkdao.save(academicwk);
+				ServletActionContext.getResponse().getWriter().write("succ");
+			}else{
+				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+				ServletActionContext.getResponse().getWriter().write("字数信息选择项-对应评分不存在，请联系管理");
+				return;
+			}
 			tx = academicwkdao.getSession().beginTransaction();
 			tx.commit();
-			ServletActionContext.getResponse().getWriter().write("succ");
 			this.setOperstatus(1);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -114,10 +130,18 @@ public class academicworkAction implements RequestAware, SessionAware {
 			academicwk.setPublishClub(publishdao.findById(academicwk.getPublishClub().getPublishClubId()));
 			academicwk.setSpareTire("1");
 			academicwk.setWordsNumber(wordnumdao.findById(academicwk.getWordsNumber().getWordId()));
-			academicwkdao.merge(academicwk);
+			AcademicWorkScore awscore = academicscoredao.findByWordNum(academicwk.getWordsNumber());
+			if(awscore!=null){
+				teacherandawdao.updateRefTeacher(academicwk, awscore, awscore.getScore());
+				academicwkdao.merge(academicwk);
+				ServletActionContext.getResponse().getWriter().write("succ");
+			}else{
+				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+				ServletActionContext.getResponse().getWriter().write("字数信息选择项-对应评分不存在，请联系管理");
+				return;
+			}
 			tx = academicwkdao.getSession().beginTransaction();
 			tx.commit();
-			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
@@ -130,6 +154,7 @@ public class academicworkAction implements RequestAware, SessionAware {
 		try {
 			this.setAcademicwk(academicwkdao.findById(academicwk.getAcaworkId()));
 			academicwk.setSpareTire("0");
+			teacherandawdao.deleteRefTeacher(academicwk);
 			tx = academicwkdao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
@@ -160,7 +185,7 @@ public class academicworkAction implements RequestAware, SessionAware {
 			this.setAcademicwk(academicwkdao.findById(academicwk.getAcaworkId()));
 			teacherandaw.setAcademicWork(academicwk);
 			//AcademicWorkScore 可能为空 //据常理 不应为空
-			AcademicWorkScore awscore = (AcademicWorkScore)(academicscoredao.findByProperty("wordsNumber", academicwk.getWordsNumber()).get(0));
+			AcademicWorkScore awscore = academicscoredao.findByWordNum(academicwk.getWordsNumber());
 			teacherandaw.setAcademicWorkScore(awscore );
 			teacherandaw.setCheckOut("0");
 			teacherandaw.setFinalScore((double)awscore.getScore());

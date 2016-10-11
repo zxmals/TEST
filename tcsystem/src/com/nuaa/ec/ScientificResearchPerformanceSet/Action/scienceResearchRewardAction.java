@@ -14,7 +14,6 @@ import com.nuaa.ec.dao.RewardTypeDAO;
 import com.nuaa.ec.dao.ScientificResearchRewardDAO;
 import com.nuaa.ec.dao.ScientificResearchRewardScoreDAO;
 import com.nuaa.ec.dao.TeacherAndscientificResearchRewardDAO;
-import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.model.RewardLevel;
 import com.nuaa.ec.model.RewardType;
 import com.nuaa.ec.model.ScientificResearchReward;

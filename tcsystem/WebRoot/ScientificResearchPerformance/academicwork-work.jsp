@@ -226,9 +226,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                <div class="form-group">                            
 	                                    <label>是否有其他作者参与:</label>
 	                                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                    	是:<input type="radio"  value="1" class="author checkattr"  name="otherAuthorJoin"> 
+	                                    	是:<input type="radio"  value="1" class="author checkattr otherAuthorJoins"  name="otherAuthorJoin"> 
 	                                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                    	否:<input type="radio" value="0" class="author checkattr" name="otherAuthorJoin">
+	                                    	否:<input type="radio" value="0" class="author checkattr otherAuthorJoins" name="otherAuthorJoin">
 	                                </div>
 	                                <div class="form-group" id="hideisbn">
 	                                    <label>著作ISBN：</label>
@@ -250,9 +250,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                <div class="form-group" style="display: none" id="crystatus">
 	                                	<label>项目人数：</label>
 	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                                                                          已满:<input type="radio"  value="1" class="author checkattr"  name="proJpeople"> 
+	                                                                                          已满:<input type="radio"  value="1" class="author checkattr prostatus"  name="proJpeople"> 
 	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                                                                          未满:<input type="radio" value="0" class="author checkattr" name="proJpeople">
+	                                                                                          未满:<input type="radio" value="0" class="author checkattr prostatus" name="proJpeople">
 	                                </div>
 	                                <div>
 	                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
@@ -264,7 +264,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 		                                     <i class="fa fa-check"></i>
 		                                     <strong>提交</strong>
 	                                    </button	>
-	                                    <button id="subdel" class="btn  btn-primary pull-left m-t-n-xs"  type="button" style="display: none;margin-left: 30%;">
+	                                    <button id="subdel"  class="btn  btn-primary pull-left m-t-n-xs"  type="button" style="display: none;margin-left: 30%;">
 		                                     <strong>删除</strong>
 	                                    </button>
 	                               </div>
@@ -405,7 +405,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     									 window.location.replace("GTacademicwork-workset!getWorkall?pagenum=1");
 									}, 2000);
 								 }else{
-									 swal("新增失败");
+									 swal("新增失败: "+data);
 								 }
 							 }else{
 								 swal("请求失败");
@@ -477,7 +477,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    	    									 window.location.replace("GTacademicwork-workset!getWorkall?pagenum=1");
     	    										}, 2000);
     	    	    							 }else{
-    	    	    								 swal("操作失败","","error");
+    	    	    								 swal("操作失败: "+data,"","error");
     	    	    							 }
     	    	    						}else{
     	    	    							swal("请求失败");
@@ -608,6 +608,18 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     				}
     		);
     	}
+	});
+    
+    $('.otherAuthorJoins').click(function() {
+    	var stus = $('.prostatus');
+		if($(this).val().trim()=="1"){
+// 			proJpeople
+			stus[0].disabled = false;
+			stus[1].disabled = false;
+		}else{
+			$('input[type="radio"][name="proJpeople"][value="0"]').attr("disabled","true");
+			$('input[type="radio"][name="proJpeople"][value="1"]').attr("checked",true);
+		}
 	});
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>

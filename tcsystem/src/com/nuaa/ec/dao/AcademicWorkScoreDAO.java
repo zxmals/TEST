@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.AcademicWorkScore;
+import com.nuaa.ec.model.WordsNumber;
 
 /**
  	* A data access object (DAO) providing persistence and search support for AcademicWorkScore entities.
@@ -77,6 +78,20 @@ public class AcademicWorkScoreDAO extends BaseHibernateDAO  {
             throw re;
         }
     }    
+    
+    public AcademicWorkScore findByWordNum( WordsNumber wn) {
+    	try {
+            String queryString = "from AcademicWorkScore where  wordsNumber=? and spareTire='1' ";
+            Query queryObject = getSession().createQuery(queryString);
+   		 queryObject.setParameter(0, wn);
+   		 if(queryObject.list().size()>0){
+   			 return (AcademicWorkScore) queryObject.list().get(0);
+   		 }else return null;
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
     
     public List findByProperty(String propertyName, Object value) {
       log.debug("finding AcademicWorkScore instance with property: " + propertyName
