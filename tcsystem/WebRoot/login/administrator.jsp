@@ -195,14 +195,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             </li>
 							<li><a href="#">科研审核 <span class="fa arrow"></span></a>
 								<ul class="nav nav-third-level">									
-									<li><a class="J_menuItem" href="ScientificResearchProjectAudit!getSRPToBeAudited">科研项目审核</a></li>
-									<li><a class="J_menuItem" href="ScientificResearchRewardAudit!getRewardInfo">科研项目奖励审核</a></li>
-                                	<li><a class="J_menuItem" href="TeacherAndSelectedTalentProjectAudit!getTASTalentProjectInfo">入选人才项目审核</a></li>
-                                	<li><a class="J_menuItem" href="TeacherAndPeriodicalAudit!getTAPeriodicalList">期刊论文审核</a></li>
-                                	<li><a class="J_menuItem" href="TeacherAndmainUndertakeAcademicMeetingAudit!getTAUAcademicMeetingList">承担学术会议审核</a></li>
-                                	<li><a class="J_menuItem" href="TeacherAndjoinAcademicMeetingAudit!getTAAMeetingList">参加学术会议审核</a></li>
-                                	<li><a class="J_menuItem" href="TeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList">邀请专家讲座审核</a></li>
-                                	<li><a class="J_menuItem" href="TeacherAndacademicWorkAudit!getTAAcademicWork">学术著作审核</a></li>
+									<li><a class="J_menuItem" href="ATScientificResearchProjectAudit!getSRPToBeAudited">科研项目审核</a></li>
+									<li><a class="J_menuItem" href="ATScientificResearchRewardAudit!getRewardInfo">科研项目奖励审核</a></li>
+                                	<li><a class="J_menuItem" href="ATTeacherAndSelectedTalentProjectAudit!getTASTalentProjectInfo">入选人才项目审核</a></li>
+                                	<li><a class="J_menuItem" href="ATTeacherAndPeriodicalAudit!getTAPeriodicalList">期刊论文审核</a></li>
+                                	<li><a class="J_menuItem" href="ATTeacherAndmainUndertakeAcademicMeetingAudit!getTAUAcademicMeetingList">承担学术会议审核</a></li>
+                                	<li><a class="J_menuItem" href="ATTeacherAndjoinAcademicMeetingAudit!getTAAMeetingList">参加学术会议审核</a></li>
+                                	<li><a class="J_menuItem" href="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList">邀请专家讲座审核</a></li>
+                                	<li><a class="J_menuItem" href="ATTeacherAndacademicWorkAudit!getTAAcademicWork">学术著作审核</a></li>
 								</ul>
 							</li>
 							<li>
@@ -211,22 +211,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 									<li><a class="J_menuItem" href="">教学能力与实效 <span class="fa arrow"></span></a> -->
 									<li><a href="#">教学能力与实效 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level"">
-											<li><a class="J_menuItem" href="TfclassTeachPerformanceAudit!getTF_classTeachPerformanceList">课堂教学绩效审核</a></li>
-											<li><a class="J_menuItem" href="TfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformList">学位论文指导质量绩效审核</a></li>
-											<li><a class="J_menuItem" href="TfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList">教学竞赛绩效审核</a></li>
-											<li><a class="J_menuItem" href="TfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList">教学能力提升绩效审核</a></li>
-											<li><a class="J_menuItem" href="TffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList">教学名师和教学团队绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTfclassTeachPerformanceAudit!getTF_classTeachPerformanceList">课堂教学绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTfdegreeThesisGuidancePerformanceAudit!getTfDegreeThesisGuidancePerformList">学位论文指导质量绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTfteachingCompetitionPerformanceAudit!getTFTeachingCompetitionPerfList">教学竞赛绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTfteachingAbilityImprovePerformanceAudit!getTeachingAbilityImprovePerfList">教学能力提升绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTffamousTeacherTeamPerformanceAudit!getTfFamousTeacherTermPerfList">教学名师和教学团队绩效审核</a></li>
 										</ul>
 									</li>
 									<li><a href="">综合改革与教学研究 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level">
-											<li><a class="J_menuItem" href="TfteachingRearchPerformanceAudit!getTfteachingRearchPerformanceList">教学研究绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTfteachingRearchPerformanceAudit!getTfteachingRearchPerformanceList">教学研究绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学论文绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教学成果奖绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">教材建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">精品课程建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">专业建设项目申报绩效审核</a></li>
-											<li><a class="J_menuItem" href="TfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList">企业工作站和联合培养基地建设绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList">企业工作站和联合培养基地建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">暑期课程与国际课程建设绩效审核</a></li>
 										</ul>
 									</li>

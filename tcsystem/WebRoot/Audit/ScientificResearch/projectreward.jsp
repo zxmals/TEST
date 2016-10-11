@@ -64,7 +64,7 @@
 
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
-	<form action="ScientificResearchRewardAudit!getRewardInfo"
+	<form action="ATScientificResearchRewardAudit!getRewardInfo"
 		method="post" name="pickdate">
 		<div class="datepick" style="font-size:12px;">
 			<span>选择日期范围</span>
@@ -171,7 +171,7 @@
 			<c:if
 				test="${pageIndex_TARR>1}">
 				<a
-					href="ScientificResearchRewardAudit!getTARRewardWithDividedPage?pageIndex_TARR=${pageIndex_TARR-1 }">上一页</a>
+					href="ATScientificResearchRewardAudit!getTARRewardWithDividedPage?pageIndex_TARR=${pageIndex_TARR-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -179,13 +179,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_TARR }">
 				<span> <a
-					href="ScientificResearchRewardAudit!getTARRewardWithDividedPage?pageIndex_TARR=${index }">${index }</a>
+					href="ATScientificResearchRewardAudit!getTARRewardWithDividedPage?pageIndex_TARR=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex_TARR<pageCount_TARR }">
 				<a
-					href="ScientificResearchRewardAudit!getTARRewardWithDividedPage?pageIndex_TARR=${pageIndex_TARR+1 }">下一页</a>
+					href="ATScientificResearchRewardAudit!getTARRewardWithDividedPage?pageIndex_TARR=${pageIndex_TARR+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TARR }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TARR }</font>条记录
@@ -243,13 +243,13 @@
 				return;
 			}
 			if(window.confirm("您确认要提交审核吗？")){
-				$.post("ScientificResearchRewardAudit!doCheckOutTask",{
+				$.post("ATScientificResearchRewardAudit!doCheckOutTask",{
 					checkOutIDs:IDs
 				},function(data,status){
 					if(status=="success"){
 						if(data=="succ"){
 							window.alert("审核成功！");
-							window.location.replace("<%=basePath%>ScientificResearchRewardAudit!getRewardInfo");
+							window.location.replace("<%=basePath%>ATScientificResearchRewardAudit!getRewardInfo");
 						} else {
 							window.alert("审核失败！");
 						}

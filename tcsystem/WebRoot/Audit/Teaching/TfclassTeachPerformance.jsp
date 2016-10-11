@@ -66,7 +66,7 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="TfclassTeachPerformanceAudit!getTF_classTeachPerformanceList"
+		action="ATTfclassTeachPerformanceAudit!getTF_classTeachPerformanceList"
 		method="post" name="pickdate">
 		<h3 style="padding:0px;margin-left: 10px;">课堂教学绩效审核</h3>
 		<hr>
@@ -165,7 +165,7 @@
 			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_CT }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="TfclassTeachPerformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTfclassTeachPerformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -173,13 +173,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_CT }">
 				<span> <a
-					href="TfclassTeachPerformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${index }">${index }</a>
+					href="ATTfclassTeachPerformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_CT }">
 				<a
-					href="TfclassTeachPerformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTfclassTeachPerformanceAudit!getTF_classTeachPerformanceListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_CT }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_CT }</font>条记录
