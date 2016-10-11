@@ -618,7 +618,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 			stus[1].disabled = false;
 		}else{
 			$('input[type="radio"][name="proJpeople"][value="0"]').attr("disabled","true");
-			$('input[type="radio"][name="proJpeople"][value="1"]').attr("checked",true);
+			$('input[type="radio"][name="proJpeople"][value="0"]').removeAttr("checked");
+			$('input[type="radio"][name="proJpeople"][value="1"]').prop("checked",true);
 		}
 	});
     </script>
