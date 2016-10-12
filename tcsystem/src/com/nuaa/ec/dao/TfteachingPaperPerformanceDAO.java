@@ -1,11 +1,18 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.TfteachingPaperPerformance;
+import com.nuaa.ec.model.TfteachingRearchPerformance;
+import com.opensymphony.xwork2.ActionContext;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +36,72 @@ public class TfteachingPaperPerformanceDAO extends BaseHibernateDAO {
 	public static final String SINGEL_SCORE = "singelScore";
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
+	private Map<String,Object> session=ActionContext.getContext().getSession();
 
+	private List<TfteachingPaperPerformance> TfteachingPaperPerfList = null;
+	public boolean updateCheckoutStatus(List<TfteachingPaperPerformance> TfteachingPaperPerformanceList){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<TfteachingPaperPerformanceList.size();i++){
+				session.update(TfteachingPaperPerformanceList.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List getTFteachingPaperPefroList(int pageIndex, int pageSize, String termId,
+			Department department, String checkOut, boolean isDivided) {
+		try{
+			StringBuffer hqlBuffer = null;
+			if (department.getDepartmentId() == null
+					|| department.getDepartmentId().length() == 0) {
+				/*
+				 * 第一次进入的时候，不显示记录
+				 */
+				session.put("pageCount_TPP", 0);
+				session.put("recordNumber_TPP", 0);
+				return TfteachingPaperPerfList = new ArrayList<TfteachingPaperPerformance>();
+			} else {
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"from TfteachingPaperPerformance TPP where TPP.spareTire='1'"
+								+ " and TPP.checkOut='" + checkOut + "'"
+								+ " and TPP.tfteachingPaperProject.spareTire='1'"
+								+ " and TPP.tfteachingPaperProject.tfteachingPaperRetrievalCondition.spareTire='1'"
+								+ " and TPP.tfteachingPaperProject.tfterm.spareTire='1'"
+								+ " and TPP.selfUndertakeTask.spareTire='1'"
+								+ " and TPP.tfteachingPaperProject.tfterm.termId='"+termId+"'"
+								+ " and TPP.teacher.spareTire='1'"
+								+ " and TPP.teacher.department.spareTire='1'"
+								+ " and TPP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " order by TPP.tfteachingPaperProject.teachPaperId asc");
+				// 判断是否为分页操作
+				if (!isDivided) {
+					//如果不是分页操作，取出所有符合条件的记录
+					TfteachingPaperPerfList = this.getSession()
+							.createQuery(hqlBuffer.toString()).list();
+					int recordNumber=TfteachingPaperPerfList.size();
+					session.put("pageCount_TPP", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+					session.put("recordNumber_TPP", TfteachingPaperPerfList.size());
+				} 
+				//无论是不是分页查询，都在后台进行分页操作。
+				TfteachingPaperPerfList = this.getSession()
+						.createQuery(hqlBuffer.toString())
+						.setFirstResult((pageIndex - 1) * pageSize)
+						.setMaxResults(pageSize).list();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return TfteachingPaperPerfList;
+	}
 	public void save(TfteachingPaperPerformance transientInstance) {
 		log.debug("saving TfteachingPaperPerformance instance");
 		try {
