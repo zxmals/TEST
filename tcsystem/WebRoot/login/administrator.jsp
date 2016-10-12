@@ -224,8 +224,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="ATTfteachingPaperPerformanceAudit!getTfteachingPaperPerformanceList">教学论文绩效审核</a></li>
 											<li><a class="J_menuItem" href="ATTfteachingAchievementPerformanceAudit!getTfteachingAchievementPerformanceList">教学成果奖绩效审核</a></li>
 											<li><a class="J_menuItem" href="ATTftextbookConstructionPerformanceAudit!getTftextbookConstructionPerformanceList">教材建设绩效审核</a></li>
-											<li><a class="J_menuItem" href="#">精品课程建设绩效审核</a></li>
-											<li><a class="J_menuItem" href="#">专业建设项目申报绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTffineCourseConstructionPerformanceAudit!getTffineCourseConstructionPerformanceList">精品课程建设绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTfprofessionalProjectDeclarePerformanceAudit!getTfprofessionalProjectDeclarePerformanceList">专业建设项目申报绩效审核</a></li>
 											<li><a class="J_menuItem" href="ATTfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList">企业工作站和联合培养基地建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">暑期课程与国际课程建设绩效审核</a></li>
 										</ul>

@@ -1,11 +1,18 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.TffineCourseConstructionPerformance;
 import com.nuaa.ec.model.TfprofessionalProjectDeclarePerformance;
+import com.opensymphony.xwork2.ActionContext;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +37,72 @@ public class TfprofessionalProjectDeclarePerformanceDAO extends
 	public static final String SINGLE_SCORE = "singleScore";
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
+	private Map<String,Object> session=ActionContext.getContext().getSession();
 
+	private List<TfprofessionalProjectDeclarePerformance> tfProfessionalProjectDeclarePerformance = null;
+	public boolean updateCheckoutStatus(List<TfprofessionalProjectDeclarePerformance> tfProfessionalProjectDeclarePerformanceList){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<tfProfessionalProjectDeclarePerformanceList.size();i++){
+				session.update(tfProfessionalProjectDeclarePerformanceList.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List getTfProfessionalProjectDeclarePerfList(int pageIndex, int pageSize, String termId,
+			Department department, String checkOut, boolean isDivided) {
+		try{
+			StringBuffer hqlBuffer = null;
+			if (department.getDepartmentId() == null
+					|| department.getDepartmentId().length() == 0) {
+				/*
+				 * 第一次进入的时候，不显示记录
+				 */
+				session.put("pageCount_PPD", 0);
+				session.put("recordNumber_PPD", 0);
+				return tfProfessionalProjectDeclarePerformance = new ArrayList<TfprofessionalProjectDeclarePerformance>();
+			} else {
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"from TfprofessionalProjectDeclarePerformance PPD where PPD.spareTire='1'"
+								+ " and PPD.checkOut='" + checkOut + "'"
+								+ " and PPD.tfprofessionalProjectDeclareProject.spareTire='1'"
+								+ " and PPD.tfprofessionalProjectDeclareProject.tfprofessionalProjectDeclareLevel.spareTire='1'"
+								+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.spareTire='1'"
+								+ " and PPD.selfUndertakeTask.spareTire='1'"
+								+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.termId='"+termId+"'"
+								+ " and PPD.teacher.spareTire='1'"
+								+ " and PPD.teacher.department.spareTire='1'"
+								+ " and PPD.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " order by PPD.tfprofessionalProjectDeclareProject.projectId asc");
+				// 判断是否为分页操作
+				if (!isDivided) {
+					//如果不是分页操作，取出所有符合条件的记录
+					tfProfessionalProjectDeclarePerformance = this.getSession()
+							.createQuery(hqlBuffer.toString()).list();
+					int recordNumber=tfProfessionalProjectDeclarePerformance.size();
+					session.put("pageCount_PPD", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+					session.put("recordNumber_PPD", tfProfessionalProjectDeclarePerformance.size());
+				} 
+				//无论是不是分页查询，都在后台进行分页操作。
+				tfProfessionalProjectDeclarePerformance = this.getSession()
+						.createQuery(hqlBuffer.toString())
+						.setFirstResult((pageIndex - 1) * pageSize)
+						.setMaxResults(pageSize).list();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return tfProfessionalProjectDeclarePerformance;
+	}
 	public void save(TfprofessionalProjectDeclarePerformance transientInstance) {
 		log.debug("saving TfprofessionalProjectDeclarePerformance instance");
 		try {

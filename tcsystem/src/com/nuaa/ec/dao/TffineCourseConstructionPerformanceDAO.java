@@ -1,11 +1,18 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.TffineCourseConstructionPerformance;
+import com.nuaa.ec.model.TftextbookConstructionPerformance;
+import com.opensymphony.xwork2.ActionContext;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +36,72 @@ public class TffineCourseConstructionPerformanceDAO extends BaseHibernateDAO {
 	public static final String SINGEL_SCORE = "singelScore";
 	public static final String CHECK_OUT = "checkOut";
 	public static final String SPARE_TIRE = "spareTire";
+	private Map<String,Object> session=ActionContext.getContext().getSession();
 
+	private List<TffineCourseConstructionPerformance> tfFineCourseConstructionPerformance = null;
+	public boolean updateCheckoutStatus(List<TffineCourseConstructionPerformance> tfFineCourseConstructionPerformanceList){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<tfFineCourseConstructionPerformanceList.size();i++){
+				session.update(tfFineCourseConstructionPerformanceList.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List getTffineCourseConstructionPerfList(int pageIndex, int pageSize, String termId,
+			Department department, String checkOut, boolean isDivided) {
+		try{
+			StringBuffer hqlBuffer = null;
+			if (department.getDepartmentId() == null
+					|| department.getDepartmentId().length() == 0) {
+				/*
+				 * 第一次进入的时候，不显示记录
+				 */
+				session.put("pageCount_FCC", 0);
+				session.put("recordNumber_FCC", 0);
+				return tfFineCourseConstructionPerformance = new ArrayList<TffineCourseConstructionPerformance>();
+			} else {
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"from TffineCourseConstructionPerformance FCC where FCC.spareTire='1'"
+								+ " and FCC.checkOut='" + checkOut + "'"
+								+ " and FCC.tffineCourseConstructionProject.spareTire='1'"
+								+ " and FCC.tffineCourseConstructionProject.tffineCourseConstructionLevel.spareTire='1'"
+								+ " and FCC.tffineCourseConstructionProject.tfterm.spareTire='1'"
+								+ " and FCC.selfUndertakeTask.spareTire='1'"
+								+ " and FCC.tffineCourseConstructionProject.tfterm.termId='"+termId+"'"
+								+ " and FCC.teacher.spareTire='1'"
+								+ " and FCC.teacher.department.spareTire='1'"
+								+ " and FCC.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " order by FCC.tffineCourseConstructionProject.courseId asc");
+				// 判断是否为分页操作
+				if (!isDivided) {
+					//如果不是分页操作，取出所有符合条件的记录
+					tfFineCourseConstructionPerformance = this.getSession()
+							.createQuery(hqlBuffer.toString()).list();
+					int recordNumber=tfFineCourseConstructionPerformance.size();
+					session.put("pageCount_FCC", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+					session.put("recordNumber_FCC", tfFineCourseConstructionPerformance.size());
+				} 
+				//无论是不是分页查询，都在后台进行分页操作。
+				tfFineCourseConstructionPerformance = this.getSession()
+						.createQuery(hqlBuffer.toString())
+						.setFirstResult((pageIndex - 1) * pageSize)
+						.setMaxResults(pageSize).list();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return tfFineCourseConstructionPerformance;
+	}
 	public void save(TffineCourseConstructionPerformance transientInstance) {
 		log.debug("saving TffineCourseConstructionPerformance instance");
 		try {

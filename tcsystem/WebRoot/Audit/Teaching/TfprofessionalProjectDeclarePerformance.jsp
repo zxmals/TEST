@@ -66,12 +66,12 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="ATTftextbookConstructionPerformanceAudit!getTftextbookConstructionPerformanceList"
+		action="ATTfprofessionalProjectDeclarePerformanceAudit!getTfprofessionalProjectDeclarePerformanceList"
 		method="post" name="pickdate">
-		<h3 style="padding:0px;margin-left: 10px;">教材建设绩效审核</h3>
+		<h3 style="padding:0px;margin-left: 10px;">专业建设项目申报绩效审核</h3>
 		<hr>
 		<span style="margin-left:10px;">所在系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="department_TBC.departmentId"
+			<select name="department_PPD.departmentId"
 			id="departmentSelection">
 				<c:forEach var="department" items="${departmentList }">
 					<option value="${department.departmentId }">${department.departmentName }</option>
@@ -80,20 +80,20 @@
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
 		<span>
 			学期：
-			<select id="termSelection" name="termId_TBC">
+			<select id="termSelection" name="termId_PPD">
 				<c:forEach var="tfterm" items="${tftermList }">
 					<option value="${tfterm.termId }">${tfterm.term }</option>
 				</c:forEach>
 			</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
 		<span>每页显示： <select
-			name="pageSize_TBC" id="pageSizeSelection">
+			name="pageSize_PPD" id="pageSizeSelection">
 				<c:forEach items="${pageSizeList }" var="pageSize">
 					<option value="${pageSize }">&nbsp;&nbsp;&nbsp;${pageSize }&nbsp;&nbsp;&nbsp;</option>
 				</c:forEach>
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
-			name="checkOutStatus_TBC" id="checkoutStatus">
+			name="checkOutStatus_PPD" id="checkoutStatus">
 				<option value="0">未审核</option>
 				<option value="1">审核通过</option>
 				<option value="2">未通过审核</option>
@@ -108,55 +108,55 @@
 			style="border-collapse:collapse;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
-				<td>教材编号</td>
-				<td>教材名称</td>
+				<td>项目编号</td>
+				<td>项目名称</td>
 				<td>获评等级</td>
 				<td>本人承担任务</td>
 				<td>教师编号</td>
 				<td>教师姓名</td>
 				<td>项目总分</td>
 				<td>最终分数</td>
-				<c:if test="${sessionScope.checkOutStatus_TBC=='0' }">
+				<c:if test="${sessionScope.checkOutStatus_PPD=='0' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TBC=='1' }">
+				<c:if test="${sessionScope.checkOutStatus_PPD=='1' }">
 					<td><font color="blue">通过</td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TBC=='2' }">
+				<c:if test="${sessionScope.checkOutStatus_PPD=='2' }">
 					<td><font color="red">未通过</td>
 				</c:if>
 
 			</tr>
-			<c:forEach var="TftextbookConstructionPerformance"
-				items="${TftextbookConstructionPerformanceList }">
+			<c:forEach var="TfprofessionalProjectDeclarePerformance"
+				items="${TfprofessionalProjectDeclarePerformanceList }">
 				<tr>
-					<!-- 教材编号-->
-					<td>${TftextbookConstructionPerformance.tftextbookConstructionProject.bookId }</td>
-					<!-- 教材名称-->
-					<td>${TftextbookConstructionPerformance.tftextbookConstructionProject.bookName }</td>
+					<!-- 项目编号-->
+					<td>${TfprofessionalProjectDeclarePerformance.tfprofessionalProjectDeclareProject.projectId }</td>
+					<!-- 项目名称-->
+					<td>${TfprofessionalProjectDeclarePerformance.tfprofessionalProjectDeclareProject.projectName }</td>
 					<!-- 获评等级 -->
-					<td>${TftextbookConstructionPerformance.tftextbookConstructionProject.tftextbookConstructionTblevel.tblevel }</td>
+					<td>${TfprofessionalProjectDeclarePerformance.tfprofessionalProjectDeclareProject.tfprofessionalProjectDeclareLevel.projectLevel }</td>
 					<!-- 本人承担任务 -->
-					<td>${TftextbookConstructionPerformance.selfUndertakeTask.undertakeTaskName }</td>
+					<td>${TfprofessionalProjectDeclarePerformance.selfUndertakeTask.undertakeTaskName }</td>
 					<!-- 教师编号 -->
-					<td>${TftextbookConstructionPerformance.teacher.teacherId }</td>
+					<td>${TfprofessionalProjectDeclarePerformance.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
-					<td>${TftextbookConstructionPerformance.teacher.teacherName }</td>
+					<td>${TfprofessionalProjectDeclarePerformance.teacher.teacherName }</td>
 					<!-- 项目总分 -->
-					<td>${TftextbookConstructionPerformance.tftextbookConstructionProject.projectSumScore }</td>
+					<td>${TfprofessionalProjectDeclarePerformance.tfprofessionalProjectDeclareProject.projectSumScore }</td>
 					<!-- 最终分数 -->
-					<td>${TftextbookConstructionPerformance.singellScore }</td>
-					<c:if test="${sessionScope.checkOutStatus_TBC=='0' }">
+					<td>${TfprofessionalProjectDeclarePerformance.singleScore }</td>
+					<c:if test="${sessionScope.checkOutStatus_PPD=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TftextbookConstructionPerformance.upid}"   class="check1"/></td>
-						<td class="c2">不通过<input value="${TftextbookConstructionPerformance.upid}" type="checkbox"
+							value="${TfprofessionalProjectDeclarePerformance.upid}"   class="check1"/></td>
+						<td class="c2">不通过<input value="${TfprofessionalProjectDeclarePerformance.upid}" type="checkbox"
 						 name="notAudit" class="check2"/></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TBC=='1' }">
+					<c:if test="${sessionScope.checkOutStatus_PPD=='1' }">
 						<td><font color="green"size:"3">√</td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TBC=='2' }">
+					<c:if test="${sessionScope.checkOutStatus_PPD=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
 				</tr>
@@ -166,30 +166,30 @@
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;"> 当前是第<font
-			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TBC }</font>页
+			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_PPD }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="ATTftextbookConstructionPerformanceAudit!getTftextbookConstructionPerformanceList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTfprofessionalProjectDeclarePerformanceAudit!getTfprofessionalProjectDeclarePerformanceList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index"
 			step="1">
-			<c:if test="${index<=pageCount_TBC }">
+			<c:if test="${index<=pageCount_PPD }">
 				<span> <a
-					href="ATTftextbookConstructionPerformanceAudit!getTftextbookConstructionPerformanceList?isDivided=true&pageIndex=${index }">${index }</a>
+					href="ATTfprofessionalProjectDeclarePerformanceAudit!getTfprofessionalProjectDeclarePerformanceList?isDivided=true&pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
-		<span> <c:if test="${pageIndex<pageCount_TBC }">
+		<span> <c:if test="${pageIndex<pageCount_PPD }">
 				<a
-					href="ATTftextbookConstructionPerformanceAudit!getTftextbookConstructionPerformanceList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTfprofessionalProjectDeclarePerformanceAudit!getTfprofessionalProjectDeclarePerformanceList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
-		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TBC }</font>页
-		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TBC }</font>条记录
+		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_PPD }</font>页
+		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_PPD }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_TBC=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_PPD=='0'}">
 		<input type="button" value="审核" class="button_set"
 			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
@@ -220,14 +220,14 @@
 	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pageSizeSelection option[value='${sessionScope.pageSize_TBC}']").attr("selected",true);
-			$("#departmentSelection option[value='${sessionScope.department_TBC.departmentId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TBC}']").attr("selected",true);
-			$("#termSelection option[value='${sessionScope.termId_TBC}']").attr("selected",true);
+			$("#pageSizeSelection option[value='${sessionScope.pageSize_PPD}']").attr("selected",true);
+			$("#departmentSelection option[value='${sessionScope.department_PPD.departmentId}']").attr("selected",true);
+			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_PPD}']").attr("selected",true);
+			$("#termSelection option[value='${sessionScope.termId_PPD}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("ATTftextbookConstructionPerformanceAudit!doCheckOutTask",
-					"ATTftextbookConstructionPerformanceAudit!getTftextbookConstructionPerformanceList");
+			submitAudit("ATTfprofessionalProjectDeclarePerformanceAudit!doCheckOutTask",
+					"ATTfprofessionalProjectDeclarePerformanceAudit!getTfprofessionalProjectDeclarePerformanceList");
 		});
 	</script>
 </body>
