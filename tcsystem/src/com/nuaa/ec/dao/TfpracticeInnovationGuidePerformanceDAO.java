@@ -1,14 +1,21 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.TfpracticeInnovationGuidePerformance;
+import com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformance;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for TfpracticeInnovationGuidePerformance entities.
@@ -27,7 +34,72 @@ public class TfpracticeInnovationGuidePerformanceDAO extends BaseHibernateDAO  {
 	public static final String CHECK_OUT = "checkOut";
 	public static final String SPARE_TIRE = "spareTire";
 
+	private Map<String,Object> session=ActionContext.getContext().getSession();
 
+	private List<TfpracticeInnovationGuidePerformance> tfPracticeInnovationGuidePerformanceList = null;
+	public boolean updateCheckoutStatus(List<TfpracticeInnovationGuidePerformance> tfPracticeInnovationGuidePerformance){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<tfPracticeInnovationGuidePerformance.size();i++){
+				session.update(tfPracticeInnovationGuidePerformance.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List getTfPracticeInnovationGuidePerformanceListToBeAudited(int pageIndex, int pageSize, String termId,
+			Department department, String checkOut, boolean isDivided) {
+		try{
+			StringBuffer hqlBuffer = null;
+			if (department.getDepartmentId() == null
+					|| department.getDepartmentId().length() == 0) {
+				/*
+				 * 第一次进入的时候，不显示记录
+				 */
+				session.put("pageCount_PIG", 0);
+				session.put("recordNumber_PIG", 0);
+				return tfPracticeInnovationGuidePerformanceList = new ArrayList<TfpracticeInnovationGuidePerformance>();
+			} else {
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"select PIG from TfpracticeInnovationGuidePerformance PIG,Tfterm TERM where TERM.termId=PIG.termId"
+								+ " and PIG.spareTire='1'"
+								+ " and TERM.spareTire='1'"
+								+ " and PIG.checkOut='" + checkOut + "'"
+								+ " and PIG.tfpracticeInnovationGuideLevel.spareTire='1'"
+								+ " and PIG.tfpracticeInnovationGuideGraduationThesisGuideEvalution.spareTire='1'"
+								+ " and PIG.teacher.spareTire='1'"
+								+ " and PIG.teacher.department.spareTire='1'"
+								+ " and PIG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " and PIG.termId='"+termId+"'"
+								+ " order by PIG.projectId asc");
+				// 判断是否为分页操作
+				if (!isDivided) {
+					//如果不是分页操作，取出所有符合条件的记录
+					tfPracticeInnovationGuidePerformanceList = this.getSession()
+							.createQuery(hqlBuffer.toString()).list();
+					int recordNumber=tfPracticeInnovationGuidePerformanceList.size();
+					session.put("pageCount_PIG", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+					session.put("recordNumber_PIG", tfPracticeInnovationGuidePerformanceList.size());
+				} 
+				//无论是不是分页查询，都在后台进行分页操作。
+				tfPracticeInnovationGuidePerformanceList = this.getSession()
+						.createQuery(hqlBuffer.toString())
+						.setFirstResult((pageIndex - 1) * pageSize)
+						.setMaxResults(pageSize).list();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return tfPracticeInnovationGuidePerformanceList;
+	}
 
     
     public void save(TfpracticeInnovationGuidePerformance transientInstance) {

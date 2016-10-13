@@ -227,13 +227,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="ATTffineCourseConstructionPerformanceAudit!getTffineCourseConstructionPerformanceList">精品课程建设绩效审核</a></li>
 											<li><a class="J_menuItem" href="ATTfprofessionalProjectDeclarePerformanceAudit!getTfprofessionalProjectDeclarePerformanceList">专业建设项目申报绩效审核</a></li>
 											<li><a class="J_menuItem" href="ATTfenterpriseWorkstationTrainingBaseConstructionPerformanceAudit!getTfenterpriseWorkstationTrainingBaseConstructionList">企业工作站和联合培养基地建设绩效审核</a></li>
-											<li><a class="J_menuItem" href="#">暑期课程与国际课程建设绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTfsummerCourseInternationalConstructionPerformanceAudit!getTfSummerAndInternationalCourseConstructionPerformanceList">暑期课程与国际课程建设绩效审核</a></li>
 										</ul>
 									</li>
 									<li><a href="">学生指导工作 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level">
-											<li><a class="J_menuItem" href="#">实践创新指导绩效审核</a></li>
-											<li><a class="J_menuItem" href="#">学生竞赛指导绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTfpracticeInnovationGuidePerformanceAudit!getTfPracticeInnovationGuidePerformanceList">实践创新指导绩效审核</a></li>
+											<li><a class="J_menuItem" href="ATTfstudentCompetitionGuidancePerformanceAudit!getTfStudentCompetitionGuidancePerformanceList">学生竞赛指导绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">参与学生活动绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">本科生导师指导绩效审核</a></li>
 											<li><a class="J_menuItem" href="#">校外实践指导绩效审核</a></li>
