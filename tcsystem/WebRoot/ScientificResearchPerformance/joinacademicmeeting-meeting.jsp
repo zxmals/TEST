@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ScienceReward --reward-Set</title>
+    <title>JoinacademicMeeting --academicmeeting-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -50,7 +50,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="GTscienceresearch-rewardset!gainscienceReward?pagenum=1" method="post" name="pickdate" id="pickdates">
+			<form action="GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
@@ -62,7 +62,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>科研奖励管理<small></small></h5>
+	                        <h5>学术会议管理<small></small></h5>
 	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
@@ -88,13 +88,11 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-										<td>科研奖励Id</td>
-										<td>奖励名称</td>
-										<td>奖励类型</td>
-										<td>奖励级别</td>
-										<td>获奖日期</td>
-										<td>授奖部门</td>
-										<td>获奖人数</td>
+										<td>学术会议Id</td>
+										<td>会议名称</td>
+										<td>会议类型</td>
+										<td>会议地点</td>
+										<td>会议日期</td>
 										<td>登记负责人Id</td>
 										<td>登记负责人</td>
 										<td>状态</td>
@@ -102,15 +100,13 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj" items="${sciencerewards }">
+									<c:forEach var="ebj" items="${joinacademic }">
 										<tr>
-											<td>${ebj.srrewardId }</td>
-											<td>${ebj.srrewardName }</td>
-											<td title="${ebj.rewardType.rewardTypeId }">${ebj.rewardType.rewardTypeName }</td>
-											<td title="${ebj.rewardLevel.rewardLevelId }">${ebj.rewardLevel.rewardLevelName }</td>
-											<td>${ebj.rewardDate }</td>
-											<td>${ebj.awardDepartment }</td>
-											<td>${ebj.rewardTotalPeople }</td>
+											<td>${ebj.joinAcaMid }</td>
+											<td>${ebj.acaMeetName }</td>
+											<td title="${ebj.meetingType.meetingTypeId }">${ebj.meetingType.meetingTypeName }</td>
+											<td title="${ebj.meetingPlace.meetingPlaceId }">${ebj.meetingPlace.meetingPlace }</td>
+											<td>${ebj.meetingdate }</td>
 											<td>${ebj.chargePersonId }</td>
 											<td>${teachermp[ebj.chargePersonId] }</td>
 											<td title="${ebj.checkout }">
@@ -156,10 +152,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -173,46 +169,39 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="modal-content">
 	                <div class="modal-body">
 	                    <div class="row">
-	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增科研奖励</h3>
-	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改科研奖励</h3>
+	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增学术会议</h3>
+	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改学术会议</h3>
 	                            <hr >
 	                            	<div class="form-group" style="display: none">                                
-	                                    <label>科研奖励ID:</label>
-	                                    <input id="scienrewardId" type="text" class="form-control nullcheck">
+	                                    <label>学术会议Id:</label>
+	                                    <input id="academicmeetingId" type="text" class="form-control nullcheck">
 	                                </div>
 	                                <div class="form-group">                                
-	                                    <label>奖励名称:</label>
-	                                    <input id="rewardname" type="text"  class="form-control nullcheck addcheck" >
+	                                    <label>会议名称:</label>
+	                                    <input id="academicmeetingname" type="text"  class="form-control nullcheck addcheck" >
 	                                </div>
 	                                <div class="form-group">                            
-	                                    <label>奖励级别:</label>
-	                                    <select id="rewardlevel" class="form-control nullcheck addcheck" >
+	                                    <label>会议地点:</label>
+	                                    <select id="meetingplace" class="form-control nullcheck addcheck" >
 	                                    	<option></option>
-	                                    	<c:forEach items="${rewardlevel }" var="obj">
-	                                    		<option value="${obj.rewardLevelId }">${obj.rewardLevelName }</option>
+	                                    	<c:forEach items="${meetingplace }" var="obj">
+	                                    		<option value="${obj.meetingPlaceId }">${obj.meetingPlace }</option>
 	                                    	</c:forEach>
 	                                    </select>
 	                                </div>  
 	                                <div class="form-group">                            
-	                                    <label>奖励类型:</label>
-	                                    <select id="rewardtype" class="form-control nullcheck addcheck"  >
+	                                    <label>会议类型:</label>
+	                                    <select id="meetingtype" class="form-control nullcheck addcheck"  >
 	                                    	<option></option>
-	                                    	<c:forEach items="${rewardtype }" var="obj">
-	                                    		<option value="${obj.rewardTypeId }">${obj.rewardTypeName }</option>
+	                                    	<c:forEach items="${meetingtype }" var="obj">
+	                                    		<option value="${obj.meetingTypeId }">${obj.meetingTypeName }</option>
 	                                    	</c:forEach>
 	                                    </select>
+	                                    <span id="addhelp" style="color:red">*此项一经保存无法修改，请确保填写无误*</span>
 	                                </div>  
 	                                <div class="form-group">                                
-	                                    <label>获奖日期:</label>
-	                                    <input id="rewardDate" type="text"  class="form-control nullcheck addcheck" onClick="WdatePicker()" readonly="readonly">
-	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>授奖部门:</label>
-	                                    <input id="awardDepart" type="text"  class="form-control nullcheck addcheck" >
-	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>获奖人数:</label>
-	                                    <input id="rewardpeoplenum" type="text"  class="form-control nullcheck addcheck" >
+	                                    <label>会议日期:</label>
+	                                    <input id="meetingDate" type="text"  class="form-control nullcheck addcheck" onClick="WdatePicker()" readonly="readonly">
 	                                </div>
 	                                <div class="form-group" style="display: none" id="crystatus">
 	                                	<label>项目人数：</label>
@@ -266,32 +255,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            </div>
 	        </div>
 	    </div>
-	    <!-- JOIN  ADD-->
-	    <div id="joinaca" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
-	        <div class="modal-dialog">
-	            <div class="modal-content">
-	                <div class="modal-body">
-	                    <div class="row">
-	                    			<div class="form-group" style="display: none">                                
-	                                    <label>著作ID:</label>
-	                                    <input id="joinSRRId" type="text"  class="form-control nullcheck">
-	                                </div>
-	                    			<div class="form-group">                            
-	                                    <label>本人排名:</label>
-	                                    <input id="selfrank" type="text"  class="form-control nullcheck">
-	                                </div> 
-	                            	<div>
-	                                    <button type="button" id="closebtn"  class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-	                                    <button id="subjoin" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="button">
-		                                     <i class="fa fa-check"></i>
-		                                     <strong>提交</strong>
-	                                    </button>
-	                               </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
     <script src="js/jquery.min.js?v=2.1.4"></script>
     <script src="js/bootstrap.min.js?v=3.3.5"></script>
     <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
@@ -320,15 +283,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	//变更每页显示记录数
     $('#changelength').change(function() {
     	comphref($(this).val().trim());
-		window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
+		window.location.replace("GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
 	});
     $('.openaddm').click(function() {
     	$('#addmodaldialogTitle').css("display","");
     	$('#updatemodaldialogTitle').css("display","none");
     	$('#subadds').css("display","");
     	$('#subup').css("display","none");
-    	$('#cryisbn').css("display","none");
-    	$('#hideisbn').css("display","");
+    	$('#addhelp').css("display","");
     	$('#crystatus').css("display","none");
     	$('#subdel').css("display","none");
 	});
@@ -347,19 +309,17 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	    		closeOnCancel: true }, 
 	    			function(isConfirm){   
 	    				if (isConfirm) {
-	    					$.post("GTscienceresearch-rewardset!addScienReward",
-	    							{"scienceReward.srrewardName":$('#rewardname').val().trim(),
-	    							 "scienceReward.rewardDate":$('#rewardDate').val().trim(),
-	    							 "scienceReward.awardDepartment":$('#awardDepart').val().trim(),
-	    							 "scienceReward.rewardTotalPeople":$('#rewardpeoplenum').val().trim(),
-	    							 "rewardlevel.rewardLevelId":$('#rewardlevel').val().trim(),
-	    							 "rewardtype.rewardTypeId":$('#rewardtype').val().trim()},
+	    					$.post("GTjoinacademicmeeting-meetingset!addJoinacademicmeeting",
+	    							{"joinacademic.acaMeetName":$('#academicmeetingname').val().trim(),
+	    							 "joinacademic.meetingdate":$('#meetingDate').val().trim(),
+	    							 "meetplace.meetingPlaceId":$('#meetingplace').val().trim(),
+	    							 "meettype.meetingTypeId":$('#meetingtype').val().trim()},
 	    							function(data,status){
 	    								 if(status=="success"){
 	    									 if(data=="succ"){
 	    										 swal("添加成功","","success");
 	    	    								 setTimeout(function() {
-	    	    									 window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1");
+	    	    									 window.location.replace("GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1");
 	    										}, 2000);
 	    									 }else{
 	    										 swal(data,"","warning");
@@ -381,6 +341,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <!-- update  -->
     <script>
     $('.carrydata').click(function() {
+    	//通用
     	var row = $(this).parent().parent(); 
     	$('#addmodaldialogTitle').css("display","none");
     	$('#updatemodaldialogTitle').css("display","");
@@ -388,19 +349,20 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	$('#subup').css("display","");
     	$('#crystatus').css("display","");
     	$('#subdel').css("display","");
-		$('#scienrewardId').prop("value",row[0].cells[0].innerHTML);
-		$('#rewardname').prop("value",row[0].cells[1].innerHTML);
-		set_selected_option($('#rewardlevel option'), row[0].cells[3].title.trim());
-		set_selected_option($('#rewardtype option'), row[0].cells[2].title.trim());
-		$('#rewardDate').prop("value",row[0].cells[4].innerHTML.trim());
-		$('#awardDepart').prop("value",row[0].cells[5].innerHTML.trim());
-		$('#rewardpeoplenum').prop("value",row[0].cells[6].innerHTML.trim());
-		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[9].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
-		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[9].title.trim());
+    	$('#addhelp').css("display","none");
+    	//个别
+		$('#academicmeetingId').prop("value",row[0].cells[0].innerHTML);
+		$('#academicmeetingname').prop("value",row[0].cells[1].innerHTML);
+		set_selected_option($('#meetingplace option'), row[0].cells[3].title.trim());
+		set_selected_option($('#meetingtype option'), row[0].cells[2].title.trim());
+		$('#meetingtype').prop("disabled",true);
+		$('#meetingDate').prop("value",row[0].cells[4].innerHTML.trim());
+		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[7].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
+		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[7].title.trim());
 	});
     $('#subup').click(function() {
-    	var scienRID = $('#scienrewardId').val().trim();
-    	if(checkadds()&&scienRID!=""){	
+    	var joinacameetingID = $('#academicmeetingId').val().trim();
+    	if(checkadds()&&joinacameetingID!=""){	
     			swal({   
     	    		title: "确定提交?",   
     	    		text: "",   
@@ -413,21 +375,19 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    		closeOnCancel: true }, 
     	    			function(isConfirm){   
     	    				if (isConfirm) {
-    	    					$.post("GTscienceresearch-rewardset!updateScienceRwared",
-    	    							{"scienceReward.srrewardId":$('#scienrewardId').val().trim(),
-    	    							 "scienceReward.srrewardName":$('#rewardname').val().trim(),
-		    							 "scienceReward.rewardDate":$('#rewardDate').val().trim(),
-		    							 "scienceReward.awardDepartment":$('#awardDepart').val().trim(),
-		    							 "scienceReward.rewardTotalPeople":$('#rewardpeoplenum').val().trim(),
-		    							 "scienceReward.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim(),
-		    							 "rewardlevel.rewardLevelId":$('#rewardlevel').val().trim(),
-		    							 "rewardtype.rewardTypeId":$('#rewardtype').val().trim()},
+    	    					$.post("GTjoinacademicmeeting-meetingset!updateJoinacademic",
+    	    							{"joinacademic.joinAcaMid":joinacameetingID,
+	    	    						 "joinacademic.acaMeetName":$('#academicmeetingname').val().trim(),
+		    							 "joinacademic.meetingdate":$('#meetingDate').val().trim(),
+		    							 "meetplace.meetingPlaceId":$('#meetingplace').val().trim(),
+		    							 "meettype.meetingTypeId":$('#meetingtype').val().trim(),
+		    							 "joinacademic.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim()},
     	    	    					function(data,status){
     	    	    						if(status=="success"){
     	    	    							 if(data=="succ"){
     	    	    								 swal("更新成功","","success");
     	    	    								 setTimeout(function() {
-    	    	    									 window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1");
+    	    	    									 window.location.replace("GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1");
     	    										}, 2000);
     	    	    							 }else{
     	    	    								 swal(data,"","error");
@@ -441,7 +401,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    			}
     	    	);
     	}else{
-				swal("是否还有没填的?","请完善所有信息后提交","error");
+				swal("是否还有没填的?","请完善所有信息后提交","warning");
 		}
 	});
     $('#subdel').click(function() {
@@ -457,14 +417,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		closeOnCancel: true }, 
     			function(isConfirm){   
     				if (isConfirm) {
-    					$.post("GTscienceresearch-rewardset!deleteScienceReward",
-    							{"scienceReward.srrewardId":$('#scienrewardId').val().trim()},
+    					$.post("GTjoinacademicmeeting-meetingset!deleteJoinacademic",
+    							{"joinacademic.joinAcaMid":$('#academicmeetingId').val().trim()},
     							function(data,status){
     								if(status=="success"){
     									if(data=="succ"){
     										swal("删除成功","","success");
     										setTimeout(function() {
-    											window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1");
+    											window.location.replace("GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1");
 											}, 2000);
     									}else{
     										swal("操作失败","","error");
@@ -480,8 +440,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	});
     $('.getMember').click(function() {
 		var row = $(this).parent().parent();
-		$.post("GTscienceresearch-rewardset!getMember",
-				{"scienceReward.srrewardId":row[0].cells[0].innerHTML},
+		$.post("GTjoinacademicmeeting-meetingset!getMember",
+				{"joinacademic.joinAcaMid":row[0].cells[0].innerHTML},
 				function(data,status){
 					var tabs = $('#membtab');
 					var trs = tabs.find("tr");
@@ -544,7 +504,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	});
     $('#subjoin').click(function() {
     	if($('#joinSRRId').val().trim()!=""&&$('#selfrank').val().trim()!=""){
-    		$.post("GTscienceresearch-rewardset!joinScienceReward",
+    		$.post("GTjoinacademicmeeting-meetingset!joinScienceReward",
     				{"scienceReward.srrewardId":$('#joinSRRId').val().trim(),
         			 "teacherandsr.selfRanking":$('#selfrank').val().trim()},
     				function(data,status){

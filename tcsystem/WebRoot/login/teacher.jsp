@@ -159,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                                </a>
 		                                <ul class="nav nav-second-level firstslide">
 				                            <li>
-				                                <a class="J_menuItem" href="GTjoinacademicmeeting-meetingset">学术会议管理</a>
+				                                <a class="J_menuItem" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic">学术会议管理</a>
 				                            </li>
 				                            <li>
 				                                <a class="J_menuItem" href="GTjoinacademicmeeting-personset!getPersonJoin">个人参与管理</a>

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.JoinAcademicMeetingScore;
+import com.nuaa.ec.model.MeetingType;
 
 /**
  	* A data access object (DAO) providing persistence and search support for JoinAcademicMeetingScore entities.
@@ -24,7 +25,6 @@ public class JoinAcademicMeetingScoreDAO extends BaseHibernateDAO  {
 		//property constants
 	public static final String SCORE = "score";
 	public static final String SPARE_TIRE = "spareTire";
-
 
 
     
@@ -97,6 +97,10 @@ public class JoinAcademicMeetingScoreDAO extends BaseHibernateDAO  {
 	) {
 		return findByProperty(SCORE, score
 		);
+	}
+	
+	public int findByMeetType(MeetingType mt){
+		return findByProperty("meetingType", mt).size();
 	}
 	
 	public List findBySpareTire(Object spareTire
