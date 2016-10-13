@@ -152,7 +152,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                        </ul>
 		                            </li>
 		                            <li>
-		                                <a class="J_menuItem" href="doPerformance_tf.jsp">参加学术会议</a>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">参加学术会议</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic">学术会议管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTjoinacademicmeeting-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
 		                            </li>
 		                            <li>
 		                                <a class="J_menuItem" href="doPerformance_tf.jsp">邀请专家讲学</a>
