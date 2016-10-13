@@ -1,14 +1,21 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.TfjoinStudentActivityPerformance;
+import com.nuaa.ec.model.TfstudentCompetitionGuidancePerformance;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for TfjoinStudentActivityPerformance entities.
@@ -29,7 +36,71 @@ public class TfjoinStudentActivityPerformanceDAO extends BaseHibernateDAO  {
 	public static final String CHECK_OUT = "checkOut";
 	public static final String YEARCEILING = "yearceiling";
 
+	private Map<String,Object> session=ActionContext.getContext().getSession();
 
+	private List<TfjoinStudentActivityPerformance> tfJoinStudentActivityPerformanceList = null;
+	public boolean updateCheckoutStatus(List<TfjoinStudentActivityPerformance> tfJoinStudentActivityPerfList){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<tfJoinStudentActivityPerfList.size();i++){
+				session.update(tfJoinStudentActivityPerfList.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List getTfJoinStudentActivityPerformanceListToBeAudited(int pageIndex, int pageSize, String termId,
+			Department department, String checkOut, boolean isDivided) {
+		try{
+			StringBuffer hqlBuffer = null;
+			if (department.getDepartmentId() == null
+					|| department.getDepartmentId().length() == 0) {
+				/*
+				 * 第一次进入的时候，不显示记录
+				 */
+				session.put("pageCount_JSA", 0);
+				session.put("recordNumber_JSA", 0);
+				return tfJoinStudentActivityPerformanceList = new ArrayList<TfjoinStudentActivityPerformance>();
+			} else {
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"select JSA from TfjoinStudentActivityPerformance JSA,Tfterm TERM where TERM.termId=JSA.termId"
+								+ " and JSA.spareTire='1'"
+								+ " and TERM.spareTire='1'"
+								+ " and JSA.checkOut='" + checkOut + "'"
+								+ " and JSA.tfjoinStudentActivityTime.spareTire='1'"
+								+ " and JSA.teacher.spareTire='1'"
+								+ " and JSA.teacher.department.spareTire='1'"
+								+ " and JSA.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " and JSA.termId='"+termId+"'"
+								+ " order by JSA.activityId asc");
+				// 判断是否为分页操作
+				if (!isDivided) {
+					//如果不是分页操作，取出所有符合条件的记录
+					tfJoinStudentActivityPerformanceList = this.getSession()
+							.createQuery(hqlBuffer.toString()).list();
+					int recordNumber=tfJoinStudentActivityPerformanceList.size();
+					session.put("pageCount_JSA", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+					session.put("recordNumber_JSA", tfJoinStudentActivityPerformanceList.size());
+				} 
+				//无论是不是分页查询，都在后台进行分页操作。
+				tfJoinStudentActivityPerformanceList = this.getSession()
+						.createQuery(hqlBuffer.toString())
+						.setFirstResult((pageIndex - 1) * pageSize)
+						.setMaxResults(pageSize).list();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return tfJoinStudentActivityPerformanceList;
+	}
 
     
     public void save(TfjoinStudentActivityPerformance transientInstance) {
