@@ -10,15 +10,15 @@
             <column name="upid" />
             <generator class="assigned" />
         </id>
-        <property name="teacherId" type="java.lang.String">
+        <many-to-one name="teacher" class="com.nuaa.ec.model.Teacher" fetch="select">
             <column name="TeacherID" length="20" />
-        </property>
+        </many-to-one>
         <property name="projectName" type="java.lang.String">
             <column name="ProjectName" length="250" />
         </property>
-        <property name="projectId" type="java.lang.String">
-            <column name="projectID" length="20" />
-        </property>
+       <many-to-one name="tfoffCampusPracticeGuidanceLevel" class="com.nuaa.ec.model.TfoffCampusPracticeGuidanceLevel" fetch="select">
+            <column name="projectID"/>
+        </many-to-one>
         <property name="finalScore" type="java.lang.Double">
             <column name="FinalScore" precision="53" scale="0" />
         </property>
