@@ -12,9 +12,11 @@ public class TfoffCampusPracticeGuidancePerformance  implements java.io.Serializ
     // Fields    
 
      private Integer upid;
-     private String teacherId;
+//     private String teacherId;
+     private Teacher teacher;
      private String projectName;
-     private String projectId;
+//     private String projectId;
+     private TfoffCampusPracticeGuidanceLevel tfoffCampusPracticeGuidanceLevel;
      private Double finalScore;
      private String checkOut;
      private String spareTire;
@@ -37,11 +39,12 @@ public class TfoffCampusPracticeGuidancePerformance  implements java.io.Serializ
     }
     
     /** full constructor */
-    public TfoffCampusPracticeGuidancePerformance(Integer upid, String teacherId, String projectName, String projectId, Double finalScore, String checkOut, String spareTire, Integer yearCeiling, Double quantityUnit, Double sumhours, String offguidanceId) {
+    public TfoffCampusPracticeGuidancePerformance(Integer upid, Teacher teacher, String projectName, TfoffCampusPracticeGuidanceLevel tfoffCampusPracticeGuidanceLevel, Double finalScore, String checkOut, String spareTire, Integer yearCeiling, Double quantityUnit, Double sumhours, String offguidanceId) {
         this.upid = upid;
-        this.teacherId = teacherId;
+//        this.teacherId = teacherId;
+        this.teacher=teacher;
         this.projectName = projectName;
-        this.projectId = projectId;
+        this.tfoffCampusPracticeGuidanceLevel=tfoffCampusPracticeGuidanceLevel;
         this.finalScore = finalScore;
         this.checkOut = checkOut;
         this.spareTire = spareTire;
@@ -52,15 +55,17 @@ public class TfoffCampusPracticeGuidancePerformance  implements java.io.Serializ
     }
 
     public TfoffCampusPracticeGuidancePerformance(Integer upid,
-			String teacherId, String projectName, String projectId,
+    		Teacher teacher, String projectName, TfoffCampusPracticeGuidanceLevel tfoffCampusPracticeGuidanceLevel,
 			Double finalScore, String checkOut, String spareTire,
 			Integer yearCeiling, Double quantityUnit, Double sumhours,
 			String offguidanceId, String termId) {
 		super();
 		this.upid = upid;
-		this.teacherId = teacherId;
+//		this.teacherId = teacherId;
+		this.teacher=teacher;
 		this.projectName = projectName;
-		this.projectId = projectId;
+//		this.projectId = projectId;
+		this.tfoffCampusPracticeGuidanceLevel=tfoffCampusPracticeGuidanceLevel;
 		this.finalScore = finalScore;
 		this.checkOut = checkOut;
 		this.spareTire = spareTire;
@@ -81,28 +86,12 @@ public class TfoffCampusPracticeGuidancePerformance  implements java.io.Serializ
         this.upid = upid;
     }
 
-    public String getTeacherId() {
-        return this.teacherId;
-    }
-    
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId;
-    }
-
     public String getProjectName() {
         return this.projectName;
     }
     
     public void setProjectName(String projectName) {
         this.projectName = projectName;
-    }
-
-    public String getProjectId() {
-        return this.projectId;
-    }
-    
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
     }
 
     public Double getFinalScore() {
@@ -167,6 +156,23 @@ public class TfoffCampusPracticeGuidancePerformance  implements java.io.Serializ
 
 	public void setTermId(String termId) {
 		this.termId = termId;
+	}
+
+	public TfoffCampusPracticeGuidanceLevel getTfoffCampusPracticeGuidanceLevel() {
+		return tfoffCampusPracticeGuidanceLevel;
+	}
+
+	public void setTfoffCampusPracticeGuidanceLevel(
+			TfoffCampusPracticeGuidanceLevel tfoffCampusPracticeGuidanceLevel) {
+		this.tfoffCampusPracticeGuidanceLevel = tfoffCampusPracticeGuidanceLevel;
+	}
+
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
 	}
    
 
