@@ -7,7 +7,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 Map<String,Object> mp = StoreData.getTeachertranslate();
-request.setAttribute("teachertranslate", mp);
+request.setAttribute("vaadmin", mp);
 List<Teacher> teacher = (List)request.getAttribute("Teacher");
 %>
 <%@taglib uri="/struts-tags" prefix="s" %>
@@ -44,7 +44,7 @@ ${basePath } --%>
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>系 <small></small></h5>
+                        <h5>公益 <small></small></h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
