@@ -12,7 +12,8 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	request.setAttribute("researchLabList", StoreData.getResearchLabList());
+	request.setAttribute("researchLabList",
+			StoreData.getResearchLabList());
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -64,7 +65,8 @@
 
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
-	<form action="ATTeacherAndSelectedTalentProjectAudit!getTASTalentProjectInfo"
+	<form
+		action="ATTeacherAndSelectedTalentProjectAudit!getTASTalentProjectInfo"
 		method="post" name="pickdate">
 		<div class="datepick" style="font-size:12px;">
 			<span>选择日期范围</span>
@@ -72,8 +74,8 @@
 
 				从:<input type="text" id="date1" class="Wdate"
 					onClick="WdatePicker()" value="${sessionScope.foredate_TAST }"
-					name="foredate_TAST" id="foredate" />到:<input type="text" id="date2"
-					onClick="WdatePicker()" class="Wdate"
+					name="foredate_TAST" id="foredate" />到:<input type="text"
+					id="date2" onClick="WdatePicker()" class="Wdate"
 					value="${sessionScope.afterdate_TAST }" name="afterdate_TAST"
 					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep"
 					value="查询" title="点击查询">
@@ -82,21 +84,20 @@
 		<h3 style="padding:0px;margin-left: 10px;">入选人才项目审核</h3>
 		<hr>
 		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="researchLab_TAST.researchLabId" id="reserchLabSelection">
+			<select name="researchLab_TAST.researchLabId"
+			id="reserchLabSelection">
 				<c:forEach var="researchLab" items="${researchLabList }">
 					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
 				</c:forEach>
 		</select>
-		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select name="pageSize_TAST"
-			id="pageSizeSelection">
-				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
-				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
-				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
-				<option value="20">&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;</option>
-				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
+		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select
+			name="pageSize_TAST" id="pageSizeSelection">
+				<c:forEach items="${pageSizeList }" var="pageSize">
+					<option value="${pageSize }">&nbsp;&nbsp;&nbsp;${pageSize }&nbsp;&nbsp;&nbsp;</option>
+				</c:forEach>
 		</select> 条记录
-		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select name="checkOutStatus_TAST"
-			id="checkoutStatus">
+		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
+			name="checkOutStatus_TAST" id="checkoutStatus">
 				<option value="0">未审核</option>
 				<option value="1">审核通过</option>
 				<option value="2">未通过审核</option>
@@ -111,12 +112,19 @@
 			style="border-collapse:collapse;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
-				<td>人才工程编号</td>			<td>人才工程名称</td>
-				<td>教师编号</td>				<td>教师姓名</td>
-				<td>入选年份</td>				<td>最终分数</td>
+				<td>人才工程编号</td>
+				<td>人才工程名称</td>
+				<td>教师编号</td>
+				<td>教师姓名</td>
+				<td>入选年份</td>
+				<td>最终分数</td>
+				<!-- 				<c:if test="${sessionScope.checkOutStatus_TAST=='0' }"> -->
+				<!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
+				<!-- 						onchange="allAlowOrNot()" /></td> -->
+				<!-- 				</c:if> -->
 				<c:if test="${sessionScope.checkOutStatus_TAST=='0' }">
-					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
-						onchange="allAlowOrNot()" /></td>
+					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
+					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkOutStatus_TAST=='1' }">
 					<td><font color="blue">通过</td>
@@ -141,9 +149,18 @@
 					<!-- 最终分数 -->
 					<td>${TASTalentPro.finalScore }</td>
 					<c:if test="${sessionScope.checkOutStatus_TAST=='0' }">
-						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TASTalentPro.teacherAstpid }" /></td>
+						<td class="c1">通过&nbsp;<input type="checkbox"
+							name="chooseWhichToAudit" value="${TASTalentPro.teacherAstpid }"
+							class="check1" /></td>
+						<td class="c2">不通过<input
+							value="${TASTalentPro.teacherAstpid }" type="checkbox"
+							name="notAudit" class="check2" /></td>
 					</c:if>
+<!-- 					<c:if test="${sessionScope.checkOutStatus_TAST=='0' }"> -->
+<!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
+<!-- 							value="${TASTalentPro.teacherAstpid }" /></td> -->
+<!-- 					</c:if> -->
+
 					<c:if test="${sessionScope.checkOutStatus_TAST=='1' }">
 						<td><font color="green"size:"3">√</td>
 					</c:if>
@@ -156,12 +173,9 @@
 	</form>
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
-		<span style="font-size:12px;color:#727272;">
-			当前是第<font style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAST }</font>页
-		</span>
-		 <span> 
-			<c:if
-				test="${pageIndex>1}">
+		<span style="font-size:12px;color:#727272;"> 当前是第<font
+			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAST }</font>页
+		</span> <span> <c:if test="${pageIndex>1}">
 				<a
 					href="ATTeacherAndSelectedTalentProjectAudit!getTASTalentProListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
@@ -185,7 +199,7 @@
 	</div>
 	<c:if test="${sessionScope.checkOutStatus_TAST=='0'}">
 		<input type="button" value="提交" class="button_set"
-		style="margin-left:10px;" id="doCheckout"></input>
+			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
 	<input type="submit" value="注销" style="display: none;"
 		onclick="window.location.href='<%=basePath%>logout!out'"
@@ -212,44 +226,17 @@
 	<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 	<script src="js/PublicCheck/PUB_SET.js"></script>
 	<script src="My97DatePicker/WdatePicker.js"></script>
+	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
 			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAST}']").attr("selected",true);
 			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab_TAST.researchLabId}']").attr("selected",true);
 			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAST}']").attr("selected",true);
 		});
+		$("#doCheckout").click(function(){
+			submitAudit("ATTeacherAndSelectedTalentProjectAudit!doCheckOutTask",
+					"ATTeacherAndSelectedTalentProjectAudit!getTASTalentProjectInfo");
+		});
 	</script>
 </body>
-<script type="text/javascript">
-		function getCheckOutResult(){
-			var arr = "";
-		      $('input:checkbox[name=chooseWhichToAudit]:checked').each(function(i){
-		    	  arr=arr+$(this).val()+",";
-		      });
-			  return arr; 
-		}
-		$("#doCheckout").click(function(){
-			var IDs=getCheckOutResult();
-			if(IDs.length==0){
-				window.alert("请选择要通过审核的项目！");
-				return;
-			}
-			if(window.confirm("您确认要提交审核吗？")){
-				$.post("ATTeacherAndSelectedTalentProjectAudit!doCheckOutTask",{
-					checkOutIDs:IDs
-				},function(data,status){
-					if(status=="success"){
-						if(data=="succ"){
-							window.alert("审核成功！");
-							window.location.replace("<%=basePath%>ATTeacherAndSelectedTalentProjectAudit!getTASTalentProjectInfo");
-						} else {
-							window.alert("审核失败！");
-						}
-					}
-				});
-			}else{
-				return ;
-			}
-		})
-</script>
 </html>

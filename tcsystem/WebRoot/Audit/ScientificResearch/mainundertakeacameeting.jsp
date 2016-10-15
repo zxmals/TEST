@@ -79,7 +79,7 @@
 					value="查询" title="点击查询">
 			</div>
 		</div>
-		<h3 style="padding:0px;margin-left: 10px;">期刊论文审核</h3>
+		<h3 style="padding:0px;margin-left: 10px;">承担学术会议审核</h3>
 		<hr>
 		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
 			<select name="researchLab_TAUA.researchLabId" id="reserchLabSelection">
@@ -89,11 +89,9 @@
 		</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select name="pageSize_TAUA"
 			id="pageSizeSelection">
-				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
-				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
-				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
-				<option value="20">&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;</option>
-				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
+				<c:forEach items="${pageSizeList }" var="pageSize">
+					<option value="${pageSize }">&nbsp;&nbsp;&nbsp;${pageSize }&nbsp;&nbsp;&nbsp;</option>
+				</c:forEach>
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select name="checkOutStatus_TAUA"
 			id="checkoutStatus">
@@ -116,9 +114,13 @@
 				<td>会议地点</td> 				<td>与会教师编号</td>
 				<td>与会教师姓名</td>			<td>本人承担任务</td>
 				<td>最终分数</td>				<td>时间</td>
+<!-- 				<c:if test="${sessionScope.checkOutStatus_TAUA=='0' }"> -->
+<!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
+<!-- 						onchange="allAlowOrNot()" /></td> -->
+<!-- 				</c:if> -->
 				<c:if test="${sessionScope.checkOutStatus_TAUA=='0' }">
-					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
-						onchange="allAlowOrNot()" /></td>
+					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
+					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkOutStatus_TAUA=='1' }">
 					<td><font color="blue">通过</td>
@@ -150,9 +152,17 @@
 					<td>${TAUAcademicMetting.finalScore }</td>
 					<!-- 时间 -->
 					<td>${TAUAcademicMetting.mainUndertakeAcademicMeeting.meetingdate }</td>
+<!-- 					<c:if test="${sessionScope.checkOutStatus_TAUA=='0' }"> -->
+<!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
+<!-- 							value="${TAUAcademicMetting.teacherAmuamid }" /></td> -->
+<!-- 					</c:if> -->
 					<c:if test="${sessionScope.checkOutStatus_TAUA=='0' }">
-						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TAUAcademicMetting.teacherAmuamid }" /></td>
+						<td class="c1">通过&nbsp;<input type="checkbox"
+							name="chooseWhichToAudit" value="${TAUAcademicMetting.teacherAmuamid }"
+							class="check1" /></td>
+						<td class="c2">不通过<input
+							value="${TAUAcademicMetting.teacherAmuamid }" type="checkbox"
+							name="notAudit" class="check2" /></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_TAUA=='1' }">
 						<td><font color="green"size:"3">√</td>
@@ -222,44 +232,17 @@
 	<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 	<script src="js/PublicCheck/PUB_SET.js"></script>
 	<script src="My97DatePicker/WdatePicker.js"></script>
+	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
 			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAUA}']").attr("selected",true);
 			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab_TAUA.researchLabId}']").attr("selected",true);
 			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAUA}']").attr("selected",true);
 		});
+		$("#doCheckout").click(function(){
+			submitAudit("ATTeacherAndmainUndertakeAcademicMeetingAudit!doCheckOutTask",
+					"ATTeacherAndmainUndertakeAcademicMeetingAudit!getTAUAcademicMeetingList");
+		});
 	</script>
 </body>
-<script type="text/javascript">
-		function getCheckOutResult(){
-			var arr = "";
-		      $('input:checkbox[name=chooseWhichToAudit]:checked').each(function(i){
-		    	  arr=arr+$(this).val()+",";
-		      });
-			  return arr; 
-		}
-		$("#doCheckout").click(function(){
-			var IDs=getCheckOutResult();
-			if(IDs.length==0){
-				window.alert("请选择要通过审核的项目！");
-				return;
-			}
-			if(window.confirm("您确认要提交审核吗？")){
-				$.post("ATTeacherAndmainUndertakeAcademicMeetingAudit!doCheckOutTask",{
-					checkOutIDs:IDs
-				},function(data,status){
-					if(status=="success"){
-						if(data=="succ"){
-							window.alert("审核成功！");
-							window.location.replace("<%=basePath%>ATTeacherAndmainUndertakeAcademicMeetingAudit!getTAUAcademicMeetingList");
-						} else {
-							window.alert("审核失败！");
-						}
-					}
-				});
-			}else{
-				return;
-			}
-		})
-</script>
 </html>

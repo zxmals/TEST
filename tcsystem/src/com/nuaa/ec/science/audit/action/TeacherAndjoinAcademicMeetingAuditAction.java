@@ -15,29 +15,37 @@ import com.nuaa.ec.model.TeacherAndjoinAcademicMeeting;
 import com.opensymphony.xwork2.ActionContext;
 
 public class TeacherAndjoinAcademicMeetingAuditAction implements RequestAware {
-	public void doCheckOut() {
+	public void doCheckOutTask() {
+		List<TeacherAndjoinAcademicMeeting> checkoutList=new ArrayList<TeacherAndjoinAcademicMeeting>();
 		String[] ids = this.checkOutIDs.split(",");
-		List<TeacherAndjoinAcademicMeeting> checkoutList = new ArrayList<TeacherAndjoinAcademicMeeting>();
-		TeacherAndjoinAcademicMeeting TAAMeeting = null;
+		String[] idsNot=this.checkOutIDsNot.split(",");
+		TeacherAndjoinAcademicMeeting teacherAndJoinAcademicMeeting = null;
 		for (int i = 0; i < ids.length; i++) {
-			TAAMeeting = this.TAAMeetingDAO.findById(Integer.parseInt(ids[i]));
-			// 修改checkout 标志
-			TAAMeeting.setCheckOut("1");
-			checkoutList.add(TAAMeeting);
+			if(ids[i]!=null && ids[i].length()!=0 ){
+				teacherAndJoinAcademicMeeting = this.TAAMeetingDAO.findById(Integer.parseInt(ids[i]));
+				// 修改checkout 标志
+				if(teacherAndJoinAcademicMeeting!=null){
+					teacherAndJoinAcademicMeeting.setCheckOut("1");
+					checkoutList.add(teacherAndJoinAcademicMeeting);
+				}
+			}
+		}
+		for(int i=0;i<idsNot.length;i++){
+			if(idsNot[i]!=null && idsNot[i].length()!=0){
+				teacherAndJoinAcademicMeeting=this.TAAMeetingDAO.findById(Integer.parseInt(idsNot[i]));
+				if(teacherAndJoinAcademicMeeting!=null){
+					teacherAndJoinAcademicMeeting.setCheckOut("2");
+					checkoutList.add(teacherAndJoinAcademicMeeting);
+				}
+			}
 		}
 		// 将待审核的项目传向后台
 		try {
 			if (TAAMeetingDAO.updateCheckoutStatus(checkoutList)) {
 				// 前端显示乱码解决
-				ServletActionContext
-						.getResponse()
-						.getWriter()
-						.write("succ");
+				ServletActionContext.getResponse().getWriter().write("succ");
 			} else {
-				ServletActionContext
-						.getResponse()
-						.getWriter()
-						.write("error");
+				ServletActionContext.getResponse().getWriter().write("error");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -113,6 +121,7 @@ public class TeacherAndjoinAcademicMeetingAuditAction implements RequestAware {
 	private ResearchLab researchLab_TAAM;
 	private String checkOutStatus_TAAM;
 	private String checkOutIDs;
+	private String checkOutIDsNot;
 	private TeacherAndjoinAcademicMeetingDAO TAAMeetingDAO = new TeacherAndjoinAcademicMeetingDAO();
 	private Map<String, Object> request;
 	private int operstatus;
@@ -190,5 +199,11 @@ public class TeacherAndjoinAcademicMeetingAuditAction implements RequestAware {
 
 	public void setCheckOutIDs(String checkOutIDs) {
 		this.checkOutIDs = checkOutIDs;
+	}
+	public String getCheckOutIDsNot() {
+		return checkOutIDsNot;
+	}
+	public void setCheckOutIDsNot(String checkOutIDsNot) {
+		this.checkOutIDsNot = checkOutIDsNot;
 	}
 }

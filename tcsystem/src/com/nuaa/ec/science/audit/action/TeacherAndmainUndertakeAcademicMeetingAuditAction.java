@@ -18,16 +18,28 @@ import com.opensymphony.xwork2.ActionContext;
 public class TeacherAndmainUndertakeAcademicMeetingAuditAction implements
 		RequestAware {
 	public void doCheckOutTask() {
-//		this.getResearchLabList();
+		List<TeacherAndmainUndertakeAcademicMeeting> checkoutList=new ArrayList<TeacherAndmainUndertakeAcademicMeeting>();
 		String[] ids = this.checkOutIDs.split(",");
-		List<TeacherAndmainUndertakeAcademicMeeting> checkoutList = new ArrayList<TeacherAndmainUndertakeAcademicMeeting>();
-		TeacherAndmainUndertakeAcademicMeeting TAUAcademicMeeting = null;
+		String[] idsNot=this.checkOutIDsNot.split(",");
+		TeacherAndmainUndertakeAcademicMeeting teacherAndUndertakeAcademicMeeting = null;
 		for (int i = 0; i < ids.length; i++) {
-			TAUAcademicMeeting = this.TAUAacdemicMeetingDAO.findById(Integer
-					.parseInt(ids[i]));
-			// 修改checkout 标志
-			TAUAcademicMeeting.setCheckOut("1");
-			checkoutList.add(TAUAcademicMeeting);
+			if(ids[i]!=null && ids[i].length()!=0 ){
+				teacherAndUndertakeAcademicMeeting = this.TAUAacdemicMeetingDAO.findById(Integer.parseInt(ids[i]));
+				// 修改checkout 标志
+				if(teacherAndUndertakeAcademicMeeting!=null){
+					teacherAndUndertakeAcademicMeeting.setCheckOut("1");
+					checkoutList.add(teacherAndUndertakeAcademicMeeting);
+				}
+			}
+		}
+		for(int i=0;i<idsNot.length;i++){
+			if(idsNot[i]!=null && idsNot[i].length()!=0){
+				teacherAndUndertakeAcademicMeeting=this.TAUAacdemicMeetingDAO.findById(Integer.parseInt(idsNot[i]));
+				if(teacherAndUndertakeAcademicMeeting!=null){
+					teacherAndUndertakeAcademicMeeting.setCheckOut("2");
+					checkoutList.add(teacherAndUndertakeAcademicMeeting);
+				}
+			}
 		}
 		// 将待审核的项目传向后台
 		try {
@@ -40,7 +52,6 @@ public class TeacherAndmainUndertakeAcademicMeetingAuditAction implements
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// this.getResearchLabList();
 	}
 	public String getTAUAdemicMettingListAfterDivide(){
 		Transaction tx=this.TAUAacdemicMeetingDAO.getSession().beginTransaction();
@@ -117,6 +128,7 @@ public class TeacherAndmainUndertakeAcademicMeetingAuditAction implements
 	private String afterdate_TAUA;
 	private String checkOutStatus_TAUA;
 	private String checkOutIDs;
+	private String checkOutIDsNot;
 	private Map<String, Object> request;
 	private ResearchLabDAO researchLabDAO = new ResearchLabDAO();
 	private TeacherAndmainUndertakeAcademicMeetingDAO TAUAacdemicMeetingDAO = new TeacherAndmainUndertakeAcademicMeetingDAO();
@@ -196,5 +208,11 @@ public class TeacherAndmainUndertakeAcademicMeetingAuditAction implements
 
 	public void setCheckOutIDs(String checkOutIDs) {
 		this.checkOutIDs = checkOutIDs;
+	}
+	public String getCheckOutIDsNot() {
+		return checkOutIDsNot;
+	}
+	public void setCheckOutIDsNot(String checkOutIDsNot) {
+		this.checkOutIDsNot = checkOutIDsNot;
 	}
 }
