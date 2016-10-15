@@ -109,7 +109,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 											<c:if test="${ebj.checkOut==1 }"><td>已审核</td></c:if>
 											<c:if test="${ebj.checkOut==2 }"><td>审核未通过</td></c:if>
 											<c:if test="${ebj.checkOut==0 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
-											<c:if test="${ebj.checkOut==1 }"><td><a  class="btn btn-primary btn-sm" style="background-color:#999999">退出</a></td></c:if>
+											<c:if test="${ebj.checkOut==1 }"><td>&nbsp;&nbsp;&nbsp;√</td></c:if>
 											<c:if test="${ebj.checkOut==2 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
 										</tr>
 									</c:forEach>

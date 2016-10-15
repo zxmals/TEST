@@ -1,14 +1,21 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.TfdegreeThesisGuidancePerformance;
 import com.nuaa.ec.model.TfteachingCompetitionPerformance;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for TfteachingCompetitionPerformance entities.
@@ -26,9 +33,66 @@ public class TfteachingCompetitionPerformanceDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String FINAL_SCORE = "finalScore";
 	public static final String CHECK_OUT = "checkOut";
+	private Map<String,Object> session=ActionContext.getContext().getSession();
 
-
-
+	private List<TfteachingCompetitionPerformance> TFteachingCompetitionPefroList = null;
+	public boolean updateCheckoutStatus(List<TfteachingCompetitionPerformance> TfTeachingCompetitionPerfList){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<TfTeachingCompetitionPerfList.size();i++){
+				session.update(TfTeachingCompetitionPerfList.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List getTFTeachingCompetitionPefroList(int pageIndex, int pageSize, String termId,
+			Department department, String checkOut, boolean isDivided) {
+		StringBuffer hqlBuffer = null;
+		if (department.getDepartmentId() == null
+				|| department.getDepartmentId().length() == 0) {
+			/*
+			 * 第一次进入的时候，不显示记录
+			 */
+			session.put("pageCount_TCP", 0);
+			session.put("recordNumber_TCP", 0);
+			return TFteachingCompetitionPefroList = new ArrayList<TfteachingCompetitionPerformance>();
+		} else {
+			// 查出符合条件的全部的记录
+			hqlBuffer = new StringBuffer(
+					"select TCP from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+							+ " and TCP.checkOut='" + checkOut + "'"
+							+ " and TERM.spareTire='1'"
+							+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
+							+ " and TCP.teacher.spareTire='1'"
+							+ " and TCP.teacher.department.spareTire='1'"
+							+ " and TCP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+							+ " and TCP.termId=TERM.termId"
+							+ " and TERM.termId='"+ termId+"'");
+			// 判断是否为分页操作
+			if (!isDivided) {
+				//如果不是分页操作，取出所有符合条件的记录
+				TFteachingCompetitionPefroList = this.getSession()
+						.createQuery(hqlBuffer.toString()).list();
+				int recordNumber=TFteachingCompetitionPefroList.size();
+				session.put("pageCount_TCP", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+				session.put("recordNumber_TCP", TFteachingCompetitionPefroList.size());
+			} 
+			//无论是不是分页查询，都在后台进行分页操作。
+			TFteachingCompetitionPefroList = this.getSession()
+					.createQuery(hqlBuffer.toString())
+					.setFirstResult((pageIndex - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+		}
+		return TFteachingCompetitionPefroList;
+	}
     
     public void save(TfteachingCompetitionPerformance transientInstance) {
         log.debug("saving TfteachingCompetitionPerformance instance");

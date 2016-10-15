@@ -1,14 +1,20 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.TfteachingAbilityImprovePerformance;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for TfteachingAbilityImprovePerformance entities.
@@ -28,7 +34,70 @@ public class TfteachingAbilityImprovePerformanceDAO extends BaseHibernateDAO  {
 	public static final String CHECK_OUT = "checkOut";
 	public static final String YEARCEILING = "yearceiling";
 	public static final String SUMHOURS = "sumhours";
+	private Map<String,Object> session=ActionContext.getContext().getSession();
 
+	private List<TfteachingAbilityImprovePerformance> TFteachingAbilityImproPefroList = null;
+	public boolean updateCheckoutStatus(List<TfteachingAbilityImprovePerformance> TfTeachingAbilityImproPerfList){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<TfTeachingAbilityImproPerfList.size();i++){
+				session.update(TfTeachingAbilityImproPerfList.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List getTFTeachingAbilityImprovePefroList(int pageIndex, int pageSize, String termId,
+			Department department, String checkOut, boolean isDivided) {
+		try{
+			StringBuffer hqlBuffer = null;
+			if (department.getDepartmentId() == null
+					|| department.getDepartmentId().length() == 0) {
+				/*
+				 * 第一次进入的时候，不显示记录
+				 */
+				session.put("pageCount_TAI", 0);
+				session.put("recordNumber_TAI", 0);
+				return TFteachingAbilityImproPefroList = new ArrayList<TfteachingAbilityImprovePerformance>();
+			} else {
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"select TAI from TfteachingAbilityImprovePerformance TAI,Tfterm TERM where TAI.spareTire='1'"
+								+ " and TAI.checkOut='" + checkOut + "'"
+								+ " and TERM.spareTire='1'"
+								+ " and TAI.tfteachingAbilityImproveLevel.spareTire='1'"
+								+ " and TAI.teacher.spareTire='1'"
+								+ " and TAI.teacher.department.spareTire='1'"
+								+ " and TAI.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " and TAI.termId=TERM.termId"
+								+ " and TERM.termId='"+ termId+"'");
+				// 判断是否为分页操作
+				if (!isDivided) {
+					//如果不是分页操作，取出所有符合条件的记录
+					TFteachingAbilityImproPefroList = this.getSession()
+							.createQuery(hqlBuffer.toString()).list();
+					int recordNumber=TFteachingAbilityImproPefroList.size();
+					session.put("pageCount_TAI", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+					session.put("recordNumber_TAI", TFteachingAbilityImproPefroList.size());
+				} 
+				//无论是不是分页查询，都在后台进行分页操作。
+				TFteachingAbilityImproPefroList = this.getSession()
+						.createQuery(hqlBuffer.toString())
+						.setFirstResult((pageIndex - 1) * pageSize)
+						.setMaxResults(pageSize).list();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return TFteachingAbilityImproPefroList;
+	}
 
 
     

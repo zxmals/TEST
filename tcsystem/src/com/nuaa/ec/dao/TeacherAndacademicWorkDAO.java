@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.AcademicWork;
+import com.nuaa.ec.model.AcademicWorkScore;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndacademicWork;
@@ -162,6 +163,7 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 	}
 
     
+	
     public void save(TeacherAndacademicWork transientInstance) {
         log.debug("saving TeacherAndacademicWork instance");
         try {
@@ -212,6 +214,33 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
         }
     }    
     
+    public List findSingleteacherPerformance(String condition, Teacher teacher,int currentrow,int limitrows) {
+        try {
+           String queryString = "from TeacherAndacademicWork as t where t.teacher= ? "
+           		+ "and t.spareTire='1' and t.academicWork.spareTire = '1' "+condition+" order by t.academicWork.publishDate,t.academicWork.acaworkId desc";
+           Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
+           queryObject.setMaxResults(limitrows);
+  		 queryObject.setParameter(0, teacher);
+  		 return queryObject.list();
+        } catch (RuntimeException re) {
+           log.error("find by property name failed", re);
+           throw re;
+        }
+  	}
+    
+    public int getRows(String condition, Teacher teacher) {
+    	try {
+            String queryString = "from TeacherAndacademicWork as t where t.teacher= ? "
+            		+ "and t.spareTire='1' and t.academicWork.spareTire = '1' "+condition;
+            Query queryObject = getSession().createQuery(queryString);
+   		 queryObject.setParameter(0, teacher);
+   		 return queryObject.list().size();
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
+    
     public List findByProperty(String propertyName, Object value) {
       log.debug("finding TeacherAndacademicWork instance with property: " + propertyName
             + ", value: " + value);
@@ -227,6 +256,19 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
       }
 	}
 
+    public void quitAcademicWork(Teacher teacher,AcademicWork aw){
+    	try {
+            String queryString = "update TeacherAndacademicWork set spareTire='0' where teacher = :teacher and academicWork = :aw ";
+            Query queryObject = getSession().createQuery(queryString);
+   		 queryObject.setParameter("teacher", teacher);
+   		queryObject.setParameter("aw", aw);
+   		 queryObject.executeUpdate();
+         } catch (RuntimeException re) {
+            log.error("update dbo:quit academicwork", re);
+            throw re;
+         }
+    }
+    
 	public List findByFinalScore(Object finalScore
 	) {
 		return findByProperty(FINAL_SCORE, finalScore
@@ -268,6 +310,37 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 			String queryString = "from TeacherAndacademicWork";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void updateRefTeacher(AcademicWork aw,AcademicWorkScore awscore,double score){
+		try {
+			String queryString = "update TeacherAndacademicWork "
+					+ "set academicWorkScore = ? "
+					+ ", finalScore=? "
+					+ "where academicWork=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, awscore);
+	         queryObject.setParameter(1, score);
+	         queryObject.setParameter(2, aw);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRefTeacher(AcademicWork aw){
+		try {
+			String queryString = "update TeacherAndacademicWork "
+					+ "set spareTire = '0' "
+					+ "where academicWork=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, aw);
+	         queryObject.executeUpdate();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

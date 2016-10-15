@@ -146,6 +146,35 @@ public class JoinAcademicMeetingDAO extends BaseHibernateDAO  {
 		}
 	}
 	
+	public List findPageing(int currentRow,int limitRow,String condition){
+		try {
+			String queryString = "from JoinAcademicMeeting where spareTire='1' "
+					+ "and meetingPlace.spareTire='1' "
+					+ "and meetingType.spareTire='1' "
+					+condition+" order by meetingdate desc";
+	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow);
+	         queryObject.setMaxResults(limitRow);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from JoinAcademicMeeting where spareTire='1' "
+					+ "and meetingPlace.spareTire='1' "
+					+ "and meetingType.spareTire='1' "
+					+condition;
+	         Query queryObject = getSession().createQuery(queryString);
+			 return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
     public JoinAcademicMeeting merge(JoinAcademicMeeting detachedInstance) {
         log.debug("merging JoinAcademicMeeting instance");
         try {
@@ -159,6 +188,20 @@ public class JoinAcademicMeetingDAO extends BaseHibernateDAO  {
         }
     }
 
+    public void deleteJoinacameeting(String joinacamid){
+    	try {
+			String queryString = "update JoinAcademicMeeting set spareTire='0' "
+					+ "where joinAcaMid=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, joinacamid);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+    }
+    
     public void attachDirty(JoinAcademicMeeting instance) {
         log.debug("attaching dirty JoinAcademicMeeting instance");
         try {

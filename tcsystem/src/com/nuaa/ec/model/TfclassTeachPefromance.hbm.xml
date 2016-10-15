@@ -31,5 +31,8 @@
         <property name="spareTire" type="java.lang.String">
             <column name="SpareTire" length="10" />
         </property>
+        <property name="termId" type="java.lang.String">
+        	<column name="termID"></column>
+        </property>
     </class>
 </hibernate-mapping>

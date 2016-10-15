@@ -1,6 +1,7 @@
 package com.nuaa.ec.utils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -9,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import com.nuaa.ec.dao.DepartmentDAO;
 import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.dao.TftermDAO;
@@ -30,6 +32,7 @@ public class Storebaseinfo implements Filter {
 		StoreData.setTeachertranslate(new TeacherDAO().findAllT());
 		StoreData.setResearchLabList(new ResearchLabDAO().findAll());
 		StoreData.setTftermList(new TftermDAO().findAll());
+		StoreData.setDepartmentList(new DepartmentDAO().findAll());
 	}
 
 }

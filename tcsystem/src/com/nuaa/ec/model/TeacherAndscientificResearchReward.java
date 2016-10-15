@@ -110,7 +110,7 @@ public class TeacherAndscientificResearchReward  implements java.io.Serializable
     }
 
     public String getCheckOut() {
-        return this.checkOut;
+        return this.checkOut.trim();
     }
     
     public void setCheckOut(String checkOut) {

@@ -1,14 +1,21 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.TfpracticeInnovationGuidePerformance;
 import com.nuaa.ec.model.TfstudentCompetitionGuidancePerformance;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for TfstudentCompetitionGuidancePerformance entities.
@@ -27,7 +34,73 @@ public class TfstudentCompetitionGuidancePerformanceDAO extends BaseHibernateDAO
 	public static final String COMPETITION_NAME = "competitionName";
 	public static final String CHECK_OUT = "checkOut";
 
+	private Map<String,Object> session=ActionContext.getContext().getSession();
 
+	private List<TfstudentCompetitionGuidancePerformance> tfStudentCompetitionGuidancePerformanceList = null;
+	public boolean updateCheckoutStatus(List<TfstudentCompetitionGuidancePerformance> tfStudentCompetitionGuidancePerformance){
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<tfStudentCompetitionGuidancePerformance.size();i++){
+				session.update(tfStudentCompetitionGuidancePerformance.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List getTfStudentCompetitionGuidancePerformanceListToBeAudited(int pageIndex, int pageSize, String termId,
+			Department department, String checkOut, boolean isDivided) {
+		try{
+			StringBuffer hqlBuffer = null;
+			if (department.getDepartmentId() == null
+					|| department.getDepartmentId().length() == 0) {
+				/*
+				 * 第一次进入的时候，不显示记录
+				 */
+				session.put("pageCount_SCG", 0);
+				session.put("recordNumber_SCG", 0);
+				return tfStudentCompetitionGuidancePerformanceList = new ArrayList<TfstudentCompetitionGuidancePerformance>();
+			} else {
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"select SCG from TfstudentCompetitionGuidancePerformance SCG,Tfterm TERM where TERM.termId=SCG.termId"
+								+ " and SCG.spareTire='1'"
+								+ " and TERM.spareTire='1'"
+								+ " and SCG.checkOut='" + checkOut + "'"
+								+ " and SCG.tfstudentCompetitionGuidanceScore.spareTire='1'"
+								+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceCompetitionType.spareTire='1'"
+								+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceRewardLevel.spareTire='1'"
+								+ " and SCG.teacher.spareTire='1'"
+								+ " and SCG.teacher.department.spareTire='1'"
+								+ " and SCG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " and SCG.termId='"+termId+"'"
+								+ " order by SCG.competitionId asc");
+				// 判断是否为分页操作
+				if (!isDivided) {
+					//如果不是分页操作，取出所有符合条件的记录
+					tfStudentCompetitionGuidancePerformanceList = this.getSession()
+							.createQuery(hqlBuffer.toString()).list();
+					int recordNumber=tfStudentCompetitionGuidancePerformanceList.size();
+					session.put("pageCount_SCG", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+					session.put("recordNumber_SCG", tfStudentCompetitionGuidancePerformanceList.size());
+				} 
+				//无论是不是分页查询，都在后台进行分页操作。
+				tfStudentCompetitionGuidancePerformanceList = this.getSession()
+						.createQuery(hqlBuffer.toString())
+						.setFirstResult((pageIndex - 1) * pageSize)
+						.setMaxResults(pageSize).list();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return tfStudentCompetitionGuidancePerformanceList;
+	}
 
     
     public void save(TfstudentCompetitionGuidancePerformance transientInstance) {

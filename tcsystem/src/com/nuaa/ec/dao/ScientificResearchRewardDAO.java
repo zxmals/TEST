@@ -9,7 +9,10 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.RewardLevel;
+import com.nuaa.ec.model.RewardType;
 import com.nuaa.ec.model.ScientificResearchReward;
+import com.nuaa.ec.model.ScientificResearchRewardScore;
 
 /**
  	* A data access object (DAO) providing persistence and search support for ScientificResearchReward entities.
@@ -151,9 +154,34 @@ public class ScientificResearchRewardDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all ScientificResearchReward instances");
 		try {
-			String queryString = "from ScientificResearchReward";
+			String queryString = "from ScientificResearchReward where spareTire='1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findAllpaging(int currentrow,int limitrow,String condition) {
+		try {
+			String queryString = "from ScientificResearchReward where spareTire='1'"
+					+ "and rewardLevel.spareTire='1' "
+					+ "and rewardType.spareTire='1'  "+condition+"  order by rewardDate desc";
+	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
+	         queryObject.setMaxResults(limitrow);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from ScientificResearchReward where spareTire='1' "+condition;
+	         Query queryObject = getSession().createQuery(queryString);
+			 return queryObject.list().size();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.JoinAcademicMeetingScore;
+import com.nuaa.ec.model.MeetingType;
+import com.nuaa.ec.model.PaperRetrievalCondition;
 
 /**
  	* A data access object (DAO) providing persistence and search support for JoinAcademicMeetingScore entities.
@@ -24,7 +26,6 @@ public class JoinAcademicMeetingScoreDAO extends BaseHibernateDAO  {
 		//property constants
 	public static final String SCORE = "score";
 	public static final String SPARE_TIRE = "spareTire";
-
 
 
     
@@ -93,10 +94,35 @@ public class JoinAcademicMeetingScoreDAO extends BaseHibernateDAO  {
       }
 	}
 
+    public JoinAcademicMeetingScore findByMeetTypeAndPaperretri(MeetingType mt,PaperRetrievalCondition prc){
+    	try {
+            String queryString = "from JoinAcademicMeetingScore "
+            		+ "where meetingType=? "
+            		+ "and meetingType.spareTire='1' "
+            		+ "and paperRetrievalCondition=? "
+            		+ "and spareTire='1' ";
+            Query queryObject = getSession().createQuery(queryString);
+	   		 queryObject.setParameter(0, mt);
+	   		 queryObject.setParameter(1, prc);
+	   		 if(queryObject.list().size()>0){
+	   			return (JoinAcademicMeetingScore) queryObject.list().get(0);
+	   		 }else{
+	   			 return null;
+	   		 }
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
+    
 	public List findByScore(Object score
 	) {
 		return findByProperty(SCORE, score
 		);
+	}
+	
+	public int findByMeetType(MeetingType mt){
+		return findByProperty("meetingType", mt).size();
 	}
 	
 	public List findBySpareTire(Object spareTire

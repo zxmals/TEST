@@ -21,6 +21,16 @@
   	<filter-name>store</filter-name>
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
+  <servlet>
+    <servlet-name>InitServlet</servlet-name>
+    <servlet-class>com.nuaa.ec.utils.InitServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>InitServlet</servlet-name>
+    <url-pattern>/InitServlet</url-pattern>
+  </servlet-mapping>
   <error-page>
     <error-code>404</error-code>
     <location>/error/404 NOT FOUND.html</location>

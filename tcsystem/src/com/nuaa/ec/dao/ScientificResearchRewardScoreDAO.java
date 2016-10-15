@@ -9,6 +9,8 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.RewardLevel;
+import com.nuaa.ec.model.RewardType;
 import com.nuaa.ec.model.ScientificResearchRewardScore;
 
 /**
@@ -131,6 +133,27 @@ public class ScientificResearchRewardScoreDAO extends BaseHibernateDAO  {
         }
     }
 
+    public ScientificResearchRewardScore findByLT(RewardLevel L,RewardType T){
+		try {
+			String queryString = "from ScientificResearchRewardScore where spareTire='1' "
+					+ "and rewardLevel=? "
+					+ "and rewardLevel.spareTire='1' "
+					+ "and rewardType=? "
+					+ "and rewardType.spareTire='1'";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, L);
+	         queryObject.setParameter(1, T);
+	         if(queryObject.list().size()>0){
+	        	 return (ScientificResearchRewardScore)queryObject.list().get(0);
+	         }else{
+	        	 return null;
+	         }
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+    
     public void attachDirty(ScientificResearchRewardScore instance) {
         log.debug("attaching dirty ScientificResearchRewardScore instance");
         try {

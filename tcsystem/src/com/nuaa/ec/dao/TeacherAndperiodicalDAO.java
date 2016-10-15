@@ -16,6 +16,7 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndperiodical;
@@ -221,7 +222,7 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
     //获取教师以及对应的期刊论文的信息
 	public List findTeacherandPaper(Teacher teacher,String condition,int currentrow,int limitrows){
 		try {
-			String queryString = "select new com.nuaa.ec.model.PeriodicalPapersPerson(p.ppid,p.thesisTitle,p.chargePersonId,p.firstAuthor,p.secondAuthor,t.periodicalPapersScore.score,t.checkOut) from TeacherAndperiodical t,PeriodicalPapers p where t.ppid = p.ppid and t.spareTire = '1' and p.spareTire='1' and t.teacher=?"+condition+" order by p.year desc";
+			String queryString = "select new com.nuaa.ec.model.PeriodicalPapersPerson(p.ppid,p.thesisTitle,p.chargePersonId,p.firstAuthor,p.secondAuthor,t.finalScore,t.checkOut) from TeacherAndperiodical t,PeriodicalPapers p where t.ppid = p.ppid and t.spareTire = '1' and p.spareTire='1' and t.teacher=?"+condition+" order by p.year,t.teacherAndPid desc";
 	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
 	         queryObject.setMaxResults(limitrows);
 	         queryObject.setParameter(0, teacher);
@@ -250,6 +251,36 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 	         queryObject.setParameter(0, teacher);
 	         queryObject.setParameter(1, ppid);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+    }
+    
+    public void updateRefTeacher(String ppid,double score,PeriodicalPapersScore ppscore){
+    	try {
+			String queryString = "update TeacherAndperiodical set finalScore=?,periodicalPapersScore=?"
+					+ " where ppid=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, score);
+	         queryObject.setParameter(1, ppscore);
+	         queryObject.setParameter(1, ppid);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+    }
+    
+    public void deleteRefTeacher(String ppid){
+    	try {
+			String queryString = "update TeacherAndperiodical set spareTire='0' "
+					+ " where ppid=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, ppid);
+	         queryObject.executeUpdate();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

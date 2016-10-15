@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndjoinAcademicMeeting;
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
 import com.opensymphony.xwork2.ActionContext;
@@ -250,6 +251,37 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 			String queryString = "from TeacherAndjoinAcademicMeeting";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void deletRefJoinAcademic(String joinacademicId){
+		try {
+			String queryString = "update TeacherAndjoinAcademicMeeting set spareTire='0' "
+					+ "where joinAcademicMeeting.joinAcaMid=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, joinacademicId);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findJMember(String joinacaMiD){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(tj.teacher.teacherId,tj.teacher.teacherName,'') "
+					+ "from TeacherAndjoinAcademicMeeting tj "
+					+ "where tj.joinAcademicMeeting.joinAcaMid=? "
+					+ "and tj.spareTire='1' "
+					+ "and tj.joinAcademicMeeting.spareTire='1' "
+					+ "and tj.joinAcademicMeetingScore.spareTire='1'";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, joinacaMiD);
+	         return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

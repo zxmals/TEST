@@ -64,7 +64,7 @@
 
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
-	<form action="TeacherAndjoinAcademicMeetingAudit!getTAAMeetingList"
+	<form action="ATTeacherAndjoinAcademicMeetingAudit!getTAAMeetingList"
 		method="post" name="pickdate">
 		<div class="datepick" style="font-size:12px;">
 			<span>选择日期范围</span>
@@ -89,11 +89,9 @@
 		</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select name="pageSize_TAAM"
 			id="pageSizeSelection">
-				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
-				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
-				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
-				<option value="20">&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;</option>
-				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
+				<c:forEach items="${pageSizeList }" var="pageSize">
+					<option value="${pageSize }">&nbsp;&nbsp;&nbsp;${pageSize }&nbsp;&nbsp;&nbsp;</option>
+				</c:forEach>
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select name="checkOutStatus_TAAM"
 			id="checkoutStatus">
@@ -118,9 +116,13 @@
 				<td>作者身份</td>				<td>教师编号</td>
 				<td>教师姓名</td>				<td>检索情况</td>			
 				<td>最终分数</td>
+<!-- 				<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }"> -->
+<!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
+<!-- 						onchange="allAlowOrNot()" /></td> -->
+<!-- 				</c:if> -->
 				<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }">
-					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
-						onchange="allAlowOrNot()" /></td>
+					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
+					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkOutStatus_TAAM=='1' }">
 					<td><font color="blue">通过</td>
@@ -158,9 +160,17 @@
 					<td>${TAAMeeting.teacher.teacherName }</td>
 					<!-- 最终分数 -->
 					<td>${TAAMeeting.finalScore }</td>
+<!-- 					<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }"> -->
+<!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
+<!-- 							value="${TAAMeeting.teacherAjacaMid}" /></td> -->
+<!-- 					</c:if> -->
 					<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }">
-						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TAAMeeting.teacherAjacaMid}" /></td>
+						<td class="c1">通过&nbsp;<input type="checkbox"
+							name="chooseWhichToAudit" value="${TAAMeeting.teacherAjacaMid }"
+							class="check1" /></td>
+						<td class="c2">不通过<input
+							value="${TAAMeeting.teacherAjacaMid }" type="checkbox"
+							name="notAudit" class="check2" /></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_TAAM=='1' }">
 						<td><font color="green"size:"3">√</td>
@@ -181,7 +191,7 @@
 			<c:if
 				test="${pageIndex>1}">
 				<a
-					href="TeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -189,13 +199,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_TAAM }">
 				<span> <a
-					href="TeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${index }">${index }</a>
+					href="ATTeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_TAAM }">
 				<a
-					href="TeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTeacherAndjoinAcademicMeetingAudit!getTAAmeetingListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAAM }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAAM }</font>条记录
@@ -230,44 +240,17 @@
 	<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 	<script src="js/PublicCheck/PUB_SET.js"></script>
 	<script src="My97DatePicker/WdatePicker.js"></script>
+	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
 			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAAM}']").attr("selected",true);
 			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab_TAAM.researchLabId}']").attr("selected",true);
 			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAAM}']").attr("selected",true);
 		});
+		$("#doCheckout").click(function(){
+			submitAudit("ATTeacherAndjoinAcademicMeetingAudit!doCheckOutTask",
+					"ATTeacherAndjoinAcademicMeetingAudit!getTAAMeetingList");
+		});
 	</script>
 </body>
-<script type="text/javascript">
-		function getCheckOutResult(){
-			var arr = "";
-		      $('input:checkbox[name=chooseWhichToAudit]:checked').each(function(i){
-		    	  arr=arr+$(this).val()+",";
-		      });
-			  return arr; 
-		}
-		$("#doCheckout").click(function(){
-			var IDs=getCheckOutResult();
-			if(IDs.length==0){
-				window.alert("请选择要通过审核的项目！");
-				return;
-			}
-			if(window.confirm("您确认要提交审核吗？")){
-				$.post("TeacherAndjoinAcademicMeetingAudit!doCheckOut",{
-					checkOutIDs:IDs
-				},function(data,status){
-					if(status=="success"){
-						if(data=="succ"){
-							window.alert("审核成功！");
-							window.location.replace("<%=basePath%>TeacherAndjoinAcademicMeetingAudit!getTAAMeetingList");
-						} else {
-							window.alert("审核失败！");
-						}
-					}
-				});
-			}else{
-				return;
-			}
-		})
-</script>
 </html>

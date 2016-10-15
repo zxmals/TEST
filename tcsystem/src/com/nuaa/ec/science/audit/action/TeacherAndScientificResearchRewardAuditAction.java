@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.TeacherAndscientificResearchRewardDAO;
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -44,14 +45,28 @@ public class TeacherAndScientificResearchRewardAuditAction implements RequestAwa
 	}
 
 	public void doCheckOutTask() {
+		List<TeacherAndscientificResearchReward> checkoutList=new ArrayList<TeacherAndscientificResearchReward>();
 		String[] ids = this.checkOutIDs.split(",");
-		List<TeacherAndscientificResearchReward> checkoutList = new ArrayList<TeacherAndscientificResearchReward>();
-		TeacherAndscientificResearchReward TARReward = null;
+		String[] idsNot=this.checkOutIDsNot.split(",");
+		TeacherAndscientificResearchReward teacherAndScientificResearchReward = null;
 		for (int i = 0; i < ids.length; i++) {
-			TARReward = this.TARRewardDAO.findById(Integer.parseInt(ids[i]));
-			// 修改checkout 标志
-			TARReward.setCheckOut("1");
-			checkoutList.add(TARReward);
+			if(ids[i]!=null && ids[i].length()!=0 ){
+				teacherAndScientificResearchReward = this.TARRewardDAO.findById(Integer.parseInt(ids[i]));
+				// 修改checkout 标志
+				if(teacherAndScientificResearchReward!=null){
+					teacherAndScientificResearchReward.setCheckOut("1");
+					checkoutList.add(teacherAndScientificResearchReward);
+				}
+			}
+		}
+		for(int i=0;i<idsNot.length;i++){
+			if(idsNot[i]!=null && idsNot[i].length()!=0){
+				teacherAndScientificResearchReward=this.TARRewardDAO.findById(Integer.parseInt(idsNot[i]));
+				if(teacherAndScientificResearchReward!=null){
+					teacherAndScientificResearchReward.setCheckOut("2");
+					checkoutList.add(teacherAndScientificResearchReward);
+				}
+			}
 		}
 		// 将待审核的项目传向后台
 		try {
@@ -64,7 +79,6 @@ public class TeacherAndScientificResearchRewardAuditAction implements RequestAwa
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		this.getResearchLabList();
 	}
 
 	public String getRewardInfo() {
@@ -130,6 +144,7 @@ public class TeacherAndScientificResearchRewardAuditAction implements RequestAwa
 	private String checkout = "0";
 	private Map<String, Object> request = null;
 	private String checkOutIDs;
+	private String checkOutIDsNot;
 
 	public String getCheckOutIDs() {
 		return checkOutIDs;
@@ -220,5 +235,13 @@ public class TeacherAndScientificResearchRewardAuditAction implements RequestAwa
 		 */
 		session.put("selectedReserchLab_TARR", researchLab);
 		this.researchLab = researchLab;
+	}
+
+	public String getCheckOutIDsNot() {
+		return checkOutIDsNot;
+	}
+
+	public void setCheckOutIDsNot(String checkOutIDsNot) {
+		this.checkOutIDsNot = checkOutIDsNot;
 	}
 }

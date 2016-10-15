@@ -17,15 +17,28 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class TeacherAndPeriodicalAuditAction implements RequestAware {
 	public void doCheckOutTask() {
+		List<TeacherAndperiodical> checkoutList=new ArrayList<TeacherAndperiodical>();
 		String[] ids = this.checkOutIDs.split(",");
-		List<TeacherAndperiodical> checkoutList = new ArrayList<TeacherAndperiodical>();
-		TeacherAndperiodical TAPeriodical = null;
+		String[] idsNot=this.checkOutIDsNot.split(",");
+		TeacherAndperiodical teacherAndperiodical = null;
 		for (int i = 0; i < ids.length; i++) {
-			TAPeriodical = this.TAPeriodialDAO.findById(Integer
-					.parseInt(ids[i]));
-			// 修改checkout 标志
-			TAPeriodical.setCheckOut("1");
-			checkoutList.add(TAPeriodical);
+			if(ids[i]!=null && ids[i].length()!=0 ){
+				teacherAndperiodical = this.TAPeriodialDAO.findById(Integer.parseInt(ids[i]));
+				// 修改checkout 标志
+				if(teacherAndperiodical!=null){
+					teacherAndperiodical.setCheckOut("1");
+					checkoutList.add(teacherAndperiodical);
+				}
+			}
+		}
+		for(int i=0;i<idsNot.length;i++){
+			if(idsNot[i]!=null && idsNot[i].length()!=0){
+				teacherAndperiodical=this.TAPeriodialDAO.findById(Integer.parseInt(idsNot[i]));
+				if(teacherAndperiodical!=null){
+					teacherAndperiodical.setCheckOut("2");
+					checkoutList.add(teacherAndperiodical);
+				}
+			}
 		}
 		// 将待审核的项目传向后台
 		try {
@@ -38,7 +51,6 @@ public class TeacherAndPeriodicalAuditAction implements RequestAware {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// this.getResearchLabList();
 	}
 
 	public String getTAPeriodicalListAfterDivided() {
@@ -125,6 +137,7 @@ public class TeacherAndPeriodicalAuditAction implements RequestAware {
 	private ResearchLab researchLab_TAPA;
 	private String checkOutStatus_TAPA;
 	private String checkOutIDs;
+	private String checkOutIDsNot;
 	private ResearchLabDAO researchLabDAO = new ResearchLabDAO();
 	private TeacherAndperiodicalDAO TAPeriodialDAO = new TeacherAndperiodicalDAO();
 	private Map<String, Object> request;
@@ -204,5 +217,13 @@ public class TeacherAndPeriodicalAuditAction implements RequestAware {
 
 	public void setCheckOutIDs(String checkOutIDs) {
 		this.checkOutIDs = checkOutIDs;
+	}
+
+	public String getCheckOutIDsNot() {
+		return checkOutIDsNot;
+	}
+
+	public void setCheckOutIDsNot(String checkOutIDsNot) {
+		this.checkOutIDsNot = checkOutIDsNot;
 	}
 }

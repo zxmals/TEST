@@ -13,6 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.RewardLevel;
+import com.nuaa.ec.model.RewardType;
+import com.nuaa.ec.model.ScientificResearchReward;
+import com.nuaa.ec.model.ScientificResearchRewardScore;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
 import com.opensymphony.xwork2.ActionContext;
@@ -220,6 +225,109 @@ public class TeacherAndscientificResearchRewardDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public List findAllpaging(int currentRow,int limitRow,String condition,Teacher teacher){
+		try {
+			String queryString = "from TeacherAndscientificResearchReward "
+					+ "where spareTire='1' "
+					+ "and teacher.spareTire='1' "
+					+ "and scientificResearchReward.spareTire='1'"
+					+ "and teacher=?"
+					+ " "+condition+" order by rewardDate desc";
+			Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow);
+			queryObject.setMaxResults(limitRow);
+			queryObject.setParameter(0, teacher);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition,Teacher teacher){
+		try {
+			String queryString = "from TeacherAndscientificResearchReward "
+					+ "where spareTire='1' "
+					+ "and teacher.spareTire='1' "
+					+ "and teacher=? "
+					+ "and scientificResearchReward.spareTire='1' "+condition;
+			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter(0, teacher);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public boolean checkexist(Teacher teacher,ScientificResearchReward ssr){
+		try {
+			String queryString = "from TeacherAndscientificResearchReward where scientificResearchReward=? and teacher=? and spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter(0, ssr);
+			queryObject.setParameter(1, teacher);
+			if(queryObject.list().size()>0){
+				return false;
+			}else return true;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	} 
+	
+	public void quitProject(Teacher teacher,ScientificResearchReward ssr){
+		try {
+			String queryString = "update TeacherAndscientificResearchReward set spareTire='0' "
+					+ "where scientificResearchReward=? "
+					+ "and teacher=?"
+					+ "and spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter(0, ssr);
+			queryObject.setParameter(1, teacher);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public void updatescore(ScientificResearchRewardScore ssrco,double score,ScientificResearchReward ssr){
+		try {
+			String queryString = "update TeacherAndscientificResearchReward set scientificResearchRewardScore=?,finalScore=? where scientificResearchReward=? and spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter(0, ssrco);
+			queryObject.setParameter(1, score);
+			queryObject.setParameter(2, ssr);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRefUser(ScientificResearchReward ssr){
+		try {
+			String queryString = "update TeacherAndscientificResearchReward set spareTire='0' where scientificResearchReward=? ";
+			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter(0, ssr);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public List getMember(ScientificResearchReward srr){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,'') from TeacherAndscientificResearchReward as t where t.scientificResearchReward=? and t.teacher.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter(0, srr);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	public List findByRewardDate(Object rewardDate) {
 		return findByProperty(REWARD_DATE, rewardDate);
 	}

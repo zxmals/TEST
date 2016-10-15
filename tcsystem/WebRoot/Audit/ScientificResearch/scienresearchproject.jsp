@@ -65,7 +65,7 @@
 
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
-	<form action="ScientificResearchProjectAudit!getSRPToBeAudited"
+	<form action="ATScientificResearchProjectAudit!getSRPToBeAudited"
 				method="post" name="pickdate">
 	<div class="datepick" style="font-size:12px;">
 		<span>选择日期范围</span>
@@ -127,12 +127,16 @@
 				<td>项目总金/万</td>
 				<td>当年到款/万</td>
 				<td>最终分数</td>
+<!-- 				<c:if test="${sessionScope.checkoutStatus=='0' }"> -->
+<!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
+<!-- 						onchange="allAlowOrNot()" /></td> -->
+<!-- 				</c:if> -->
 				<c:if test="${sessionScope.checkoutStatus=='0' }">
-					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
-						onchange="allAlowOrNot()" /></td>
+					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
+					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkoutStatus=='1' }">
-					<td><font color="green" >通过</td>
+					<td><font color="blue" >通过</td>
 				</c:if>
 				<c:if test="${sessionScope.checkoutStatus=='2' }">
 					<td><font color="red">未通过</td>
@@ -154,8 +158,14 @@
 					<td>${SRProject.yearFunds }</td>
 					<td>${SRProject.finalScore }</td>
 					<c:if test="${sessionScope.checkoutStatus=='0' }">
-						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" value="${SRProject.teacherAscienRpid }"/></td>
+						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
+							value="${SRProject.teacherAscienRpid}"   class="check1"/></td>
+						<td class="c2">不通过<input value="${SRProject.teacherAscienRpid}" type="checkbox"
+						 name="notAudit" class="check2"/></td>
 					</c:if>
+<!-- 					<c:if test="${sessionScope.checkoutStatus=='0' }"> -->
+<!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" value="${SRProject.teacherAscienRpid }"/></td> -->
+<!-- 					</c:if> -->
 					<c:if test="${sessionScope.checkoutStatus=='1' }">
 						<td><font color="green" size:"3">√</td>
 					</c:if>
@@ -173,20 +183,20 @@
 		</span>
 		<span>
 			<c:if test="${pageIndex>1}">
-				<a href="ScientificResearchProjectAudit!getRecordsInWithConditions?pageIndex=${pageIndex-1 }">上一页</a>
+				<a href="ATScientificResearchProjectAudit!getRecordsInWithConditions?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 		
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index" step="1">
 			<c:if test="${index<=pageCount }">
 				<span>
-					<a href="ScientificResearchProjectAudit!getRecordsInWithConditions?pageIndex=${index }">${index }</a>
+					<a href="ATScientificResearchProjectAudit!getRecordsInWithConditions?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		 <span>
 		 	<c:if test="${pageIndex<pageCount }">
-		 		<a href="ScientificResearchProjectAudit!getRecordsInWithConditions?pageIndex=${pageIndex+1 }">下一页</a>
+		 		<a href="ATScientificResearchProjectAudit!getRecordsInWithConditions?pageIndex=${pageIndex+1 }">下一页</a>
 		 	</c:if>
 	 	</span> 
 	 	<span>
@@ -222,55 +232,17 @@
 	<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 	<script src="js/PublicCheck/PUB_SET.js"></script>
 	<script src="My97DatePicker/WdatePicker.js"></script>
+	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
-		function changeListener(){
-// 			window.alert($("#foredate").val());
-// 			window.alert($("#afterdate").val());
-			window.alert($("#reserchLabSelection option:selected").attr("value"));
-			window.open("ScientificResearchProjectAudit!getSRPToBeAudited?pageSize="+
-					$("#pageSizeSelection").val()+"&researchLabId="+$("#reserchLabSelection option:selected").attr("value"),"_self");
-		}
-// 		
 		$().ready(function(){
-// 			var selection=document.getElementById("pageSizeSelection");
-// 			window.alert(typeof ("${pageSize==1}"=="true"));
 			$("#pageSizeSelection option[value='${pageSize}']").attr("selected",true);
 			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab.researchLabId}']").attr("selected",true);
 			$("#checkoutStatus option[value='${sessionScope.checkoutStatus}']").attr("selected",true);
 		});
+		$("#doCheckout").click(function(){
+			submitAudit("ATScientificResearchProjectAudit!doCheckOut",
+					"ATScientificResearchProjectAudit!getSRPToBeAudited");
+		});
 	</script>
 </body>
-		<script type="text/javascript">
-		function getCheckOutResult(){
-			var arr = "";
-		      $('input:checkbox[name=chooseWhichToAudit]:checked').each(function(i){
-		    	  arr=arr+$(this).val()+",";
-		      });
-// 		      window.open("ScientificResearchProjectAudit!doCheckOut?checkOutIDs="+arr.substring(0,arr.length-1),"_self");
-			  return arr; 
-		}
-		$("#doCheckout").click(function(){
-			var IDs=getCheckOutResult();
-			if(IDs.length==0){
-				window.alert("请选择要通过审核的项目！");
-				return;
-			}
-			if(window.confirm("您确认要提交审核吗？")){
-				$.post("ScientificResearchProjectAudit!doCheckOut",{
-					checkOutIDs:IDs
-				},function(data,status){
-					if(status=="success"){
-						if(data=="succ"){
-							window.alert("审核成功！");
-							window.location.replace("<%=basePath %>ScientificResearchProjectAudit!getSRPToBeAudited");
-						} else {
-							window.alert("审核失败！");
-						}
-					}
-				});
-			}else{
-				return ;
-			}
-		})
-		</script>
 </html>

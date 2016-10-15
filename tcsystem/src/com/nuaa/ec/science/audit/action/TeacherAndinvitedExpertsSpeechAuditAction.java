@@ -16,16 +16,28 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class TeacherAndinvitedExpertsSpeechAuditAction implements RequestAware {
 	public void doCheckOutTask() {
-//		this.getResearchLabList();
+		List<TeacherAndinvitedExpertsSpeech> checkoutList=new ArrayList<TeacherAndinvitedExpertsSpeech>();
 		String[] ids = this.checkOutIDs.split(",");
-		List<TeacherAndinvitedExpertsSpeech> checkoutList = new ArrayList<TeacherAndinvitedExpertsSpeech>();
-		TeacherAndinvitedExpertsSpeech TAExpertSpeech = null;
+		String[] idsNot=this.checkOutIDsNot.split(",");
+		TeacherAndinvitedExpertsSpeech teacherAndInvitedExpertsSpeech = null;
 		for (int i = 0; i < ids.length; i++) {
-			TAExpertSpeech = this.TAInviteExpertsSpeechDAO.findById(Integer
-					.parseInt(ids[i]));
-			// 修改checkout 标志
-			TAExpertSpeech.setCheckOut("1");
-			checkoutList.add(TAExpertSpeech);
+			if(ids[i]!=null && ids[i].length()!=0 ){
+				teacherAndInvitedExpertsSpeech = this.TAInviteExpertsSpeechDAO.findById(Integer.parseInt(ids[i]));
+				// 修改checkout 标志
+				if(teacherAndInvitedExpertsSpeech!=null){
+					teacherAndInvitedExpertsSpeech.setCheckOut("1");
+					checkoutList.add(teacherAndInvitedExpertsSpeech);
+				}
+			}
+		}
+		for(int i=0;i<idsNot.length;i++){
+			if(idsNot[i]!=null && idsNot[i].length()!=0){
+				teacherAndInvitedExpertsSpeech=this.TAInviteExpertsSpeechDAO.findById(Integer.parseInt(idsNot[i]));
+				if(teacherAndInvitedExpertsSpeech!=null){
+					teacherAndInvitedExpertsSpeech.setCheckOut("2");
+					checkoutList.add(teacherAndInvitedExpertsSpeech);
+				}
+			}
 		}
 		// 将待审核的项目传向后台
 		try {
@@ -38,7 +50,6 @@ public class TeacherAndinvitedExpertsSpeechAuditAction implements RequestAware {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// this.getResearchLabList();
 	}
 	public String getTAExpertSpeechList() {
 		Transaction tx=this.TAInviteExpertsSpeechDAO.getSession().beginTransaction();
@@ -106,6 +117,7 @@ public class TeacherAndinvitedExpertsSpeechAuditAction implements RequestAware {
 	private TeacherAndinvitedExpertsSpeechDAO TAInviteExpertsSpeechDAO = new TeacherAndinvitedExpertsSpeechDAO();
 	private String checkOutStatus_TAES="0";
 	private String checkOutIDs;
+	private String checkOutIDsNot;
 	private int operstatus;
 	private Map<String, Object> request;
 	private Map<String, Object> session = ActionContext.getContext()
@@ -182,5 +194,11 @@ public class TeacherAndinvitedExpertsSpeechAuditAction implements RequestAware {
 
 	public void setRequest(Map<String, Object> request) {
 		this.request = request;
+	}
+	public String getCheckOutIDsNot() {
+		return checkOutIDsNot;
+	}
+	public void setCheckOutIDsNot(String checkOutIDsNot) {
+		this.checkOutIDsNot = checkOutIDsNot;
 	}
 }

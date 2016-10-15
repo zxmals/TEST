@@ -74,7 +74,7 @@ public class AcademicWorkDAO extends BaseHibernateDAO  {
     public List findMember(String acaworkId) {
     	 
         try {
-           String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,'') from TeacherAndacademicWork as t where t.academicWork.acaworkId=? and t.spareTire='1' ";
+           String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,'') from TeacherAndacademicWork as t where t.academicWork.acaworkId=? and t.spareTire='1' and t.teacher.spareTire='1'";
            Query queryObject = getSession().createQuery(queryString);
   		  queryObject.setParameter(0, acaworkId);
   		 List li = queryObject.list();
@@ -184,7 +184,9 @@ public class AcademicWorkDAO extends BaseHibernateDAO  {
 	public List findAll(int currentrow,int limit,String condition) {
 		log.debug("finding all AcademicWork instances");
 		try {
-			String queryString = "from AcademicWork aw where aw.spareTire = '1' "+condition+" order by aw.publishDate desc";
+			String queryString = "from AcademicWork aw "
+					+ "where aw.spareTire = '1' "
+					+ "and aw.publishClub.spareTire='1'  "+condition+" order by aw.publishDate desc";
 	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
 	         queryObject.setMaxResults(limit);
 			 return queryObject.list();
@@ -196,7 +198,7 @@ public class AcademicWorkDAO extends BaseHibernateDAO  {
 	
 	public int getRows(String condition) {
 		try {
-			String queryString = "from AcademicWork aw where aw.spareTire = '1' "+condition+" order by aw.publishDate desc";
+			String queryString = "from AcademicWork aw where aw.spareTire = '1' "+condition+" order by aw.publishDate,aw.acaworkId desc";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list().size();
 		} catch (RuntimeException re) {

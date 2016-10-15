@@ -17,7 +17,6 @@ import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Nationality;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
-import com.nuaa.ec.model.VaCommonweal;
 import com.nuaa.ec.utils.PrimaryKMaker;
 import com.nuaa.ec.utils.StoreData;
 import com.opensymphony.xwork2.ActionContext;
@@ -27,7 +26,6 @@ public class BaseSetAction implements SessionAware{
 	private Department depart;
 	private ResearchLab research;
 	private Nationality nation;
-	private VaCommonweal va;
 	private Map<String, Object>session;
 	private DepartmentDAO departdao = new DepartmentDAO();
 	private ResearchLabDAO researchdao = new ResearchLabDAO();
@@ -287,13 +285,6 @@ public class BaseSetAction implements SessionAware{
 		return nation;
 	}
 	
-	public VaCommonweal getVa() {
-		return va;
-	}
-	
-	public void setVa(VaCommonweal va) {
-		this.va = va;
-	}
 
 	public void setNation(Nationality nation) {
 		this.nation = nation;
