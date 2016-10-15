@@ -121,27 +121,29 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														&nbsp;&nbsp;
 													</c:if>
 													
 													<c:if test="${ebj.checkout==1 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														&nbsp;&nbsp;
 													</c:if>
 													
 													<c:if test="${ebj.checkout==3 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														&nbsp;&nbsp;
 													</c:if>
 													<c:if test="${ebj.checkout==2 }">
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														&nbsp;&nbsp;
 													</c:if>
 												</c:if>
-												<c:if test="${sessionScope.teacher.teacherId!=ebj.chargePersonId }">
-													<c:if test="${ebj.checkout==0 }">
-														<a  class="btn btn-primary btn-sm joinProj" data-toggle="modal">加入</a>
-													</c:if>
+												<c:if test="${ebj.checkout==0 }">
+													<a  class="btn btn-primary btn-sm openaddm joinProj" data-toggle="modal">加入</a>
 												</c:if>
 											</td>
 										</tr>
@@ -249,6 +251,52 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
         							</div>
 	                                <div>
 	                                    <button type="button"   class="btn btn-outline btn-primary m-t-n-xs" style="margin-top: 10px;margin-left: 43%" data-dismiss="modal">关闭</button>
+	                               </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div id="joinacam" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-body">
+	                    <div class="row">
+	                     	<h3 class="m-t-none m-b" id="addmodaldialogTitle">加入该学术会议</h3><hr>
+	                    			<div class="form-group" style="display: none">                                
+	                                    <label>会议ID:</label>
+	                                    <input id="joinacamId" type="text"  class="form-control nullcheck">
+	                                </div>
+	                    			<div class="form-group">
+	                                	<label>是否提交会议论文：</label>
+	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                                                                                          是:<input type="radio" value="1" class="checkattr choosepaper" name="submMeetPaper"> 
+	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                                                                                          否:<input type="radio" value="0" class="checkattr choosepaper" name="submMeetPaper">
+	                                </div>
+	                                <div class="form-group meetpapers" style="display: none">                                
+	                                    <label>会议论文名称:</label>
+	                                    <input id="joinacampaper" type="text"  class="form-control nullcheck" >
+	                                </div>
+	                                <div class="form-group meetpapers" style="display: none">                                
+	                                    <label>作者身份:</label>
+	                                    <input id="p_authorIdentity" type="text"  class="form-control nullcheck" >
+	                                </div>
+	                                <div class="form-group meetpapers" style="display: none">                            
+	                                    <label>论文检索情况:</label>
+	                                    <select id="joinacamretri" class="form-control nullcheck" >
+	                                    	<option></option>
+	                                    	<c:forEach items="${paperretri }" var="obj">
+	                                    		<option value="${obj.prconditionId }">${obj.prcondition }</option>
+	                                    	</c:forEach>
+	                                    </select>
+	                                </div>
+	                            	<div>
+	                                    <button type="button" id="closebtn"  class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
+	                                    <button id="subjoin" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="button">
+		                                     <i class="fa fa-check"></i>
+		                                     <strong>提交</strong>
+	                                    </button>
 	                               </div>
 	                    </div>
 	                </div>
@@ -482,6 +530,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 		    btn.removeAttr("data-target");
 	    }else{
 	    	btn.removeAttr("isConfirm");
+	    	var divs = $('.meetpapers');
+			for(var i=0;i<divs.length;i++){
+				divs[i].style.display="none";
+			}
 	    }
 		swal({
 			title: "确定加入?",   
@@ -496,17 +548,28 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		function(isConfirm){
     			if(isConfirm){
     				btn.attr("isConfirm","1");
-					btn.attr("data-target","#joinaca");
-					$('#joinSRRId').prop("value",btn.parent().parent()[0].cells[0].innerHTML.trim());
+					btn.attr("data-target","#joinacam");
+					$('#joinacamId').prop("value",btn.parent().parent()[0].cells[0].innerHTML.trim());
 					btn.click();
     			}
     		});
 	});
+    $('.choosepaper').click(function() {
+    	var divs = $('.meetpapers');
+		if($(this).val().trim()=="1"){
+			for(var i=0;i<divs.length;i++){
+				divs[i].style.display="";
+			}
+		}else{
+			for(var i=0;i<divs.length;i++){
+				divs[i].style.display="none";
+			}
+		}
+	});
     $('#subjoin').click(function() {
-    	if($('#joinSRRId').val().trim()!=""&&$('#selfrank').val().trim()!=""){
-    		$.post("GTjoinacademicmeeting-meetingset!joinScienceReward",
-    				{"scienceReward.srrewardId":$('#joinSRRId').val().trim(),
-        			 "teacherandsr.selfRanking":$('#selfrank').val().trim()},
+    	if($('input[type="radio"][name="submMeetPaper"]:checked').val().trim()=="0"){
+    		$.post("GTjoinacademicmeeting-meetingset!joinacameeing",
+    				{"joinacademic.joinAcaMid":$('#joinacamId').val().trim()},
     				function(data,status){
         				 if(status=="success"){
         					 if(data=="succ"){
@@ -520,6 +583,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
         				 }
     				}
     		);
+    	}else{
+    		
     	}
 	});
     </script>

@@ -11,13 +11,17 @@ import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.JoinAcademicMeetingDAO;
 import com.nuaa.ec.dao.JoinAcademicMeetingScoreDAO;
+import com.nuaa.ec.dao.MeetingPaperDAO;
 import com.nuaa.ec.dao.MeetingPlaceDAO;
 import com.nuaa.ec.dao.MeetingTypeDAO;
+import com.nuaa.ec.dao.PaperRetrievalConditionDAO;
 import com.nuaa.ec.dao.TeacherAndjoinAcademicMeetingDAO;
 import com.nuaa.ec.model.JoinAcademicMeeting;
 import com.nuaa.ec.model.JoinAcademicMeetingScore;
+import com.nuaa.ec.model.MeetingPaper;
 import com.nuaa.ec.model.MeetingPlace;
 import com.nuaa.ec.model.MeetingType;
+import com.nuaa.ec.model.PaperRetrievalCondition;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndjoinAcademicMeeting;
 import com.nuaa.ec.utils.EntityUtil;
@@ -36,6 +40,7 @@ public class joinacademicmeetingAction implements RequestAware, SessionAware {
 	private TeacherAndjoinAcademicMeeting teacherandjoinacademic;
 	private MeetingPlace meetplace;
 	private MeetingType meettype;
+	private MeetingPaper meetpaper;
 	
 	private PrimaryKMaker pkmk = new PrimaryKMaker();
 	private JoinAcademicMeetingDAO joinacademicdao = new JoinAcademicMeetingDAO();
@@ -43,6 +48,8 @@ public class joinacademicmeetingAction implements RequestAware, SessionAware {
 	private TeacherAndjoinAcademicMeetingDAO teacherandjoinacademicdao = new TeacherAndjoinAcademicMeetingDAO();
 	private MeetingPlaceDAO meetplacedao = new MeetingPlaceDAO();
 	private MeetingTypeDAO meettypedao = new MeetingTypeDAO();
+	private PaperRetrievalConditionDAO meetpaperretridao = new PaperRetrievalConditionDAO();
+	private MeetingPaperDAO meetpaperdao = new MeetingPaperDAO();
 	//default method
 	public String execute(){
 		return "success";
@@ -63,6 +70,7 @@ public class joinacademicmeetingAction implements RequestAware, SessionAware {
 		request.put("joinacademic", joinacademicdao.findPageing((pagenum-1)*limitrow,limitrow,EntityUtil.generateQueryCondition(foredate, afterdate, "meetingdate")));
 		request.put("meetingplace", meetplacedao.findAll());
 		request.put("meetingtype", meettypedao.findAll());
+		request.put("paperretri", meetpaperretridao.findAll());
 		int li = joinacademicdao.getRows(EntityUtil.generateQueryCondition(foredate, afterdate, "meetingdate"));
 		int sumpage = 1;
 		if(li%limitrow==0){
@@ -153,8 +161,6 @@ public class joinacademicmeetingAction implements RequestAware, SessionAware {
 	
 	public void getMember() throws Exception{
 		try {
-//			JsonConfig config = new JsonConfig();
-//			config.setExcludes(new String[]{"teacher","periodicalPapersScore","periodical"});
 			JSONArray jary = JSONArray.fromObject(teacherandjoinacademicdao.findJMember(joinacademic.getJoinAcaMid()));
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 			ServletActionContext.getResponse().getWriter().write(jary.toString());
@@ -164,6 +170,54 @@ public class joinacademicmeetingAction implements RequestAware, SessionAware {
 		}
 	}
 	
+	public void joinacameeing() throws Exception{
+		Transaction tx = null;
+		try {
+			this.setJoinacademic(joinacademicdao.findById(joinacademic.getJoinAcaMid()));
+			teacherandjoinacademic = new TeacherAndjoinAcademicMeeting();
+			if(meetpaper!=null){
+				meetpaper.setMeetingPaperId(pkmk.mkpk(EntityUtil.getPkColumnName(MeetingPaper.class), EntityUtil.getTableName(MeetingPaper.class), ""));
+				meetpaper.setAuthorName(((Teacher)session.get("teacher")).getTeacherName());
+				meetpaper.setSpareTire("1");
+				teacherandjoinacademic.setMeetingPaper(meetpaper);
+				teacherandjoinacademic.setCheckOut("0");
+				teacherandjoinacademic.setSpareTire("1");
+				teacherandjoinacademic.setJoinAcademicMeeting(joinacademic);
+				teacherandjoinacademic.setTeacher((Teacher)session.get("teacher"));
+				joinacademicscore = joinacademicscoredao.findByMeetTypeAndPaperretri(joinacademic.getMeetingType(), meetpaper.getPaperRetrievalCondition());
+				if(joinacademicscore!=null){
+					meetpaperdao.save(meetpaper);
+					teacherandjoinacademic.setJoinAcademicMeetingScore(joinacademicscore);
+					teacherandjoinacademicdao.save(teacherandjoinacademic);
+					ServletActionContext.getResponse().getWriter().write("succ");
+				}else{
+					ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+					ServletActionContext.getResponse().getWriter().write("论文检索无对应评分项，请联系管理");
+				}
+			}else{
+				teacherandjoinacademic.setCheckOut("0");
+				teacherandjoinacademic.setSpareTire("1");
+				teacherandjoinacademic.setJoinAcademicMeeting(joinacademic);
+				teacherandjoinacademic.setTeacher((Teacher)session.get("teacher"));
+				joinacademicscore = joinacademicscoredao.findByMeetTypeAndPaperretri(joinacademic.getMeetingType(), new PaperRetrievalCondition());
+				if(joinacademicscore!=null){
+					meetpaperdao.save(meetpaper);
+					teacherandjoinacademic.setJoinAcademicMeetingScore(joinacademicscore);
+					teacherandjoinacademicdao.save(teacherandjoinacademic);
+					ServletActionContext.getResponse().getWriter().write("succ");
+				}else{
+					ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+					ServletActionContext.getResponse().getWriter().write("论文检索无对应评分项，请联系管理");
+				}
+			}
+			tx = teacherandjoinacademicdao.getSession().beginTransaction();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}
+	}
 	//个人参与设置
 	public String getPersonJoin(){
 		return "success";
@@ -248,6 +302,14 @@ public class joinacademicmeetingAction implements RequestAware, SessionAware {
 
 	public void setMeettype(MeetingType meettype) {
 		this.meettype = meettype;
+	}
+
+	public MeetingPaper getMeetpaper() {
+		return meetpaper;
+	}
+
+	public void setMeetpaper(MeetingPaper meetpaper) {
+		this.meetpaper = meetpaper;
 	}
 
 }
