@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ScienceReward --Personal-Set</title>
+    <title>JoinAcademicMeeting --Personal-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -50,7 +50,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="GTscienceresearch-personset!getPersonJoin?pagenum=1" method="post" name="pickdate" id="pickdates">
+			<form action="GTjoinacademicmeeting-personset!getPersonJoin?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
@@ -85,32 +85,34 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-										<td>科研奖励Id</td>
-										<td>奖励名称</td>
+										<td>学术会议Id</td>
+										<td>会议名称</td>
+										<td>会议论文Id</td>
+										<td>会议论文标题</td>
 										<td>登记负责人ID</td>
 										<td>登记负责人</td>
-										<td>本人排名</td>
-										<td>获奖日期</td>
+										<td>会议日期</td>
 										<td>绩效分</td>
 										<td>状态</td>
 										<td>操作</td>
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj" items="${teacherandssr }">
+									<c:forEach var="ebj" items="${teacherandjoinacam }">
 										<tr>
-											<td>${ebj.scientificResearchReward.srrewardId }</td>
-											<td>${ebj.scientificResearchReward.srrewardName }</td>
-											<td>${ebj.scientificResearchReward.chargePersonId }</td>
-											<td>${teachermp[ebj.scientificResearchReward.chargePersonId] }</td>
-											<td title="${ebj.selfRanking }">${ebj.selfRanking }</td>
-											<td>${ebj.rewardDate }</td>
+											<td>${ebj.joinAcademicMeeting.joinAcaMid }</td>
+											<td>${ebj.joinAcademicMeeting.acaMeetName }</td>
+											<td>${ebj.meetingPaper.meetingPaperId }</td>
+											<td>${ebj.meetingPaper.paperTitle }</td>
+											<td>${ebj.joinAcademicMeeting.chargePersonId }</td>
+											<td>${teachermp[ebj.joinAcademicMeeting.chargePersonId] }</td>
+											<td>${ebj.joinAcademicMeeting.meetingdate }</td>
 											<td>${ebj.finalScore }</td>
 											<c:if test="${ebj.checkOut==0 }"><td>待审核</td></c:if>
 											<c:if test="${ebj.checkOut==1 }"><td>已审核</td></c:if>
 											<c:if test="${ebj.checkOut==2 }"><td>审核未通过</td></c:if>
 											<td>
-												<c:if test="${teacher.teacherId!=ebj.scientificResearchReward.chargePersonId }">
+												<c:if test="${teacher.teacherId!=ebj.joinAcademicMeeting.chargePersonId }">
 													<c:if test="${ebj.checkOut==0 }"><a  class="btn btn-primary btn-sm quitpaper">退出</a></c:if>
 													<c:if test="${ebj.checkOut==1 }">&nbsp;&nbsp;&nbsp;√</c:if>
 													<c:if test="${ebj.checkOut==2 }"><a  class="btn btn-primary btn-sm quitpaper">退出</a></c:if>
@@ -124,10 +126,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-personset!getPersonJoin?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-personset!getPersonJoin?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-personset!getPersonJoin?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-personset!getPersonJoin?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="GTjoinacademicmeeting-personset!getPersonJoin?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTjoinacademicmeeting-personset!getPersonJoin?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTjoinacademicmeeting-personset!getPersonJoin?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTjoinacademicmeeting-personset!getPersonJoin?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -163,7 +165,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	//变更每页显示记录数
     $('#changelength').change(function() {
     	comphref($(this).val().trim());
-		window.location.replace("GTscienceresearch-personset!getPersonJoin?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
+		window.location.replace("GTjoinacademicmeeting-personset!getPersonJoin?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
 	});
 	//退出
 	$('.quitpaper').click(function() {
@@ -179,8 +181,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				 closeOnCancel: true }, 
 				 function(isConfirm){   
 					 if (isConfirm) {     
-						 $.post("GTscienceresearch-personset!quitProject",
-									{"scienceReward.srrewardId":row[0].cells[0].innerHTML.trim()},
+						 $.post("GTjoinacademicmeeting-personset!quitProject",
+									{"joinacademic.joinAcaMid":row[0].cells[0].innerHTML.trim()},
 									function(data,status){
 										 if(status=="success"){
 											 if(data=="succ"){

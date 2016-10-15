@@ -68,7 +68,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                    </div>
 	                    <div class="ibox-content" style="height:540px;">
 	                    	 <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#utdialog">
-	                        	 <strong>新增科研奖励</strong>
+	                        	 <strong>新增学术会议</strong>
 	                         </button><br><br>
 	                    <div>
 	                    	<a>每页   
@@ -265,7 +265,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                     	<h3 class="m-t-none m-b" id="addmodaldialogTitle">加入该学术会议</h3><hr>
 	                    			<div class="form-group" style="display: none">                                
 	                                    <label>会议ID:</label>
-	                                    <input id="joinacamId" type="text"  class="form-control nullcheck">
+	                                    <input id="joinacamIdes" type="text"  class="form-control nullcheck">
 	                                </div>
 	                    			<div class="form-group">
 	                                	<label>是否提交会议论文：</label>
@@ -275,16 +275,17 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                                                                          否:<input type="radio" value="0" class="checkattr choosepaper" name="submMeetPaper">
 	                                </div>
 	                                <div class="form-group meetpapers" style="display: none">                                
+	                                	<span style="color:red">*&nbsp;注：以下内容保存后无法修改&nbsp;*</span><br/>
 	                                    <label>会议论文名称:</label>
-	                                    <input id="joinacampaper" type="text"  class="form-control nullcheck" >
+	                                    <input id="joinacampaper" type="text"  class="form-control nullcheck joinpapers" >
 	                                </div>
 	                                <div class="form-group meetpapers" style="display: none">                                
 	                                    <label>作者身份:</label>
-	                                    <input id="p_authorIdentity" type="text"  class="form-control nullcheck" >
+	                                    <input id="p_authorIdentity" type="text"  class="form-control nullcheck joinpapers" >
 	                                </div>
 	                                <div class="form-group meetpapers" style="display: none">                            
 	                                    <label>论文检索情况:</label>
-	                                    <select id="joinacamretri" class="form-control nullcheck" >
+	                                    <select id="joinacamretri" class="form-control nullcheck joinpapers" >
 	                                    	<option></option>
 	                                    	<c:forEach items="${paperretri }" var="obj">
 	                                    		<option value="${obj.prconditionId }">${obj.prcondition }</option>
@@ -526,6 +527,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <script>
     $('.joinProj').click(function(e) {
     	var btn = $(this);
+    	$('#joinacamIdes').prop("value",btn.parent().parent()[0].cells[0].innerHTML.trim());
 	    if(btn.attr("isConfirm")!="1"){
 		    btn.removeAttr("data-target");
 	    }else{
@@ -549,7 +551,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     			if(isConfirm){
     				btn.attr("isConfirm","1");
 					btn.attr("data-target","#joinacam");
-					$('#joinacamId').prop("value",btn.parent().parent()[0].cells[0].innerHTML.trim());
 					btn.click();
     			}
     		});
@@ -569,7 +570,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     $('#subjoin').click(function() {
     	if($('input[type="radio"][name="submMeetPaper"]:checked').val().trim()=="0"){
     		$.post("GTjoinacademicmeeting-meetingset!joinacameeing",
-    				{"joinacademic.joinAcaMid":$('#joinacamId').val().trim()},
+    				{"joinacademic.joinAcaMid":$('#joinacamIdes').val().trim()},
     				function(data,status){
         				 if(status=="success"){
         					 if(data=="succ"){
@@ -584,7 +585,28 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     				}
     		);
     	}else{
-    		
+    		if(checkNUll(".joinpapers")){
+    			$.post("GTjoinacademicmeeting-meetingset!joinacameeing",
+        				{"joinacademic.joinAcaMid":$('#joinacamIdes').val().trim(),
+    					 "meetpaper.paperTitle":$('#joinacampaper').val().trim(),
+    					 "meetpaper.authorIdentity":$('#p_authorIdentity').val().trim(),
+    					 "meetpaper.paperRetrievalCondition.prconditionId":$('#joinacamretri').val().trim()},
+        				function(data,status){
+            				 if(status=="success"){
+            					 if(data=="succ"){
+            						 swal("加入成功","","success");
+            					 }else{
+            						 swal(data,"","warning");
+            					 }
+            					 $('#closebtn').click();
+            				 }else{
+            					 swal("请求失败","","error");
+            				 }
+        				}
+        		);
+    		}else{
+    			swal("是否还有空的？","","warning");
+    		}
     	}
 	});
     </script>

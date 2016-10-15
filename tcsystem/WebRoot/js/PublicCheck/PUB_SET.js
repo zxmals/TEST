@@ -183,6 +183,18 @@
 			}
 		}
 	}
-    function addajax(){
-    	
+    function checkNUll(classname){
+    	var readys = $(classname);
+		var cout = 0;
+		for(var i=0;i<readys.length;i++){
+			if(readys[i].value.trim()==""){
+				cout++;
+				break;
+			}
+		}
+		if(cout>0){
+			return false;
+		}else{
+			return true;
+		}
     }
