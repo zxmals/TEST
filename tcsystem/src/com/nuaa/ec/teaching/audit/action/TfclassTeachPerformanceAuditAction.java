@@ -21,18 +21,22 @@ public class TfclassTeachPerformanceAuditAction implements RequestAware {
 		List<TfclassTeachPefromance> checkoutList = new ArrayList<TfclassTeachPefromance>();
 		TfclassTeachPefromance TfClassTeachPefromance = null;
 		for (int i = 0; i < ids.length; i++) {
-			TfClassTeachPefromance = this.TFClassTeachPefroDAO.findById(ids[i]);
-			// 修改checkout 标志
-			if(TfClassTeachPefromance!=null){
-				TfClassTeachPefromance.setCheckOut("1");
-				checkoutList.add(TfClassTeachPefromance);
+			if(ids[i]!=null && ids[i].length()!=0 ){
+				TfClassTeachPefromance = this.TFClassTeachPefroDAO.findById(ids[i]);
+				// 修改checkout 标志
+				if(TfClassTeachPefromance!=null){
+					TfClassTeachPefromance.setCheckOut("1");
+					checkoutList.add(TfClassTeachPefromance);
+				}
 			}
 		}
 		for(int i=0;i<idsNot.length;i++){
-			TfClassTeachPefromance=this.TFClassTeachPefroDAO.findById(idsNot[i]);
-			if(TfClassTeachPefromance!=null){
-				TfClassTeachPefromance.setCheckOut("2");
-				checkoutList.add(TfClassTeachPefromance);
+			if(idsNot[i]!=null && idsNot[i].length()!=0 ){
+				TfClassTeachPefromance=this.TFClassTeachPefroDAO.findById(idsNot[i]);
+				if(TfClassTeachPefromance!=null){
+					TfClassTeachPefromance.setCheckOut("2");
+					checkoutList.add(TfClassTeachPefromance);
+				}
 			}
 		}
 		// 将待审核的项目传向后台

@@ -17,14 +17,28 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class TeacherAndSelectedTalentProjectAuditAction implements RequestAware {
 	public void doCheckOutTask(){
+		List<TeacherAndselectedTalentProject> checkoutList=new ArrayList<TeacherAndselectedTalentProject>();
 		String[] ids = this.checkOutIDs.split(",");
-		List<TeacherAndselectedTalentProject> checkoutList = new ArrayList<TeacherAndselectedTalentProject>();
-		TeacherAndselectedTalentProject TASTalentPro = null;
+		String[] idsNot=this.checkOutIDsNot.split(",");
+		TeacherAndselectedTalentProject teacherAndSelectedTalentProject = null;
 		for (int i = 0; i < ids.length; i++) {
-			TASTalentPro = this.TASTProjectDAO.findById(Integer.parseInt(ids[i]));
-			// 修改checkout 标志
-			TASTalentPro.setCheckOut("1");
-			checkoutList.add(TASTalentPro);
+			if(ids[i]!=null && ids[i].length()!=0 ){
+				teacherAndSelectedTalentProject = this.TASTProjectDAO.findById(Integer.parseInt(ids[i]));
+				// 修改checkout 标志
+				if(teacherAndSelectedTalentProject!=null){
+					teacherAndSelectedTalentProject.setCheckOut("1");
+					checkoutList.add(teacherAndSelectedTalentProject);
+				}
+			}
+		}
+		for(int i=0;i<idsNot.length;i++){
+			if(idsNot[i]!=null && idsNot[i].length()!=0){
+				teacherAndSelectedTalentProject=this.TASTProjectDAO.findById(Integer.parseInt(idsNot[i]));
+				if(teacherAndSelectedTalentProject!=null){
+					teacherAndSelectedTalentProject.setCheckOut("2");
+					checkoutList.add(teacherAndSelectedTalentProject);
+				}
+			}
 		}
 		// 将待审核的项目传向后台
 		try {
@@ -37,7 +51,6 @@ public class TeacherAndSelectedTalentProjectAuditAction implements RequestAware 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		this.getResearchLabList();
 	}
 	public String getTASTalentProListAfterDivide() {
 		Transaction tx = this.TASTProjectDAO.getSession().beginTransaction();
@@ -129,7 +142,7 @@ public class TeacherAndSelectedTalentProjectAuditAction implements RequestAware 
 	private Map<String, Object> request;
 	private String checkOutStatus_TAST = "0";
 	private String checkOutIDs;
-
+	private String checkOutIDsNot;
 	public String getCheckOutIDs() {
 		return checkOutIDs;
 	}
@@ -199,5 +212,11 @@ public class TeacherAndSelectedTalentProjectAuditAction implements RequestAware 
 
 	public void setRequest(Map<String, Object> request) {
 		this.request = request;
+	}
+	public String getCheckOutIDsNot() {
+		return checkOutIDsNot;
+	}
+	public void setCheckOutIDsNot(String checkOutIDsNot) {
+		this.checkOutIDsNot = checkOutIDsNot;
 	}
 }

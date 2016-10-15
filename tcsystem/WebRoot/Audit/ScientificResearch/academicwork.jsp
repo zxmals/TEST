@@ -92,11 +92,9 @@
 		</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select
 			name="pageSize_TAAW" id="pageSizeSelection">
-				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
-				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
-				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
-				<option value="20">&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;</option>
-				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
+				<c:forEach items="${pageSizeList }" var="pageSize">
+					<option value="${pageSize }">&nbsp;&nbsp;&nbsp;${pageSize }&nbsp;&nbsp;&nbsp;</option>
+				</c:forEach>
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
 			name="checkOutStatus_TAAW" id="checkoutStatus">
@@ -120,9 +118,13 @@
 				<td>是否其他作者参与</td>	<td>出版社名称</td>
 				<td>教师编号</td>			<td>教师姓名</td>
 				<td>本人承担任务</td>		<td>最终分数</td>
+<!-- 				<c:if test="${sessionScope.checkOutStatus_TAAW=='0' }"> -->
+<!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
+<!-- 						onchange="allAlowOrNot()" /></td> -->
+<!-- 				</c:if> -->
 				<c:if test="${sessionScope.checkOutStatus_TAAW=='0' }">
-					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
-						onchange="allAlowOrNot()" /></td>
+					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
+					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkOutStatus_TAAW=='1' }">
 					<td><font color="blue">通过</td>
@@ -159,9 +161,17 @@
 					<td>${TAAcademicWork.selfUndertakeTask.undertakeTaskName }</td>
 					<!-- 最终分数 -->
 					<td>${TAAcademicWork.finalScore }</td>
+<!-- 					<c:if test="${sessionScope.checkOutStatus_TAAW=='0' }"> -->
+<!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
+<!-- 							value="${TAAcademicWork.teacherAndAcawid}" /></td> -->
+<!-- 					</c:if> -->
 					<c:if test="${sessionScope.checkOutStatus_TAAW=='0' }">
-						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TAAcademicWork.teacherAndAcawid}" /></td>
+						<td class="c1">通过&nbsp;<input type="checkbox"
+							name="chooseWhichToAudit" value="${TAAcademicWork.teacherAndAcawid }"
+							class="check1" /></td>
+						<td class="c2">不通过<input
+							value="${TAAcademicWork.teacherAndAcawid }" type="checkbox"
+							name="notAudit" class="check2" /></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_TAAW=='1' }">
 						<td><font color="green"size:"3">√</td>
@@ -227,44 +237,17 @@
 	<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 	<script src="js/PublicCheck/PUB_SET.js"></script>
 	<script src="My97DatePicker/WdatePicker.js"></script>
+	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
 			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAAW}']").attr("selected",true);
 			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab_TAAW.researchLabId}']").attr("selected",true);
 			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAAW}']").attr("selected",true);
 		});
+		$("#doCheckout").click(function(){
+			submitAudit("ATTeacherAndacademicWorkAudit!doCheckOutTask",
+					"ATTeacherAndacademicWorkAudit!getTAAcademicWork");
+		});
 	</script>
 </body>
-<script type="text/javascript">
-		function getCheckOutResult(){
-			var arr = "";
-		      $('input:checkbox[name=chooseWhichToAudit]:checked').each(function(i){
-		    	  arr=arr+$(this).val()+",";
-		      });
-			  return arr; 
-		}
-		$("#doCheckout").click(function(){
-			var IDs=getCheckOutResult();
-			if(IDs.length==0){
-				window.alert("请选择要通过审核的项目！");
-				return;
-			}
-			if(window.confirm("您确认要提交审核吗？")){
-				$.post("ATTeacherAndacademicWorkAudit!doCheckOutTask",{
-					checkOutIDs:IDs
-				},function(data,status){
-					if(status=="success"){
-						if(data=="succ"){
-							window.alert("审核成功！");
-							window.location.replace("<%=basePath%>ATTeacherAndacademicWorkAudit!getTAAcademicWork");
-													} else {
-														window.alert("审核失败！");
-													}
-												}
-											});
-						} else {
-							return;
-						}
-					})
-</script>
 </html>

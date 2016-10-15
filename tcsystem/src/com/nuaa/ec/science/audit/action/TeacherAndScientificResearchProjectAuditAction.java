@@ -17,28 +17,36 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class TeacherAndScientificResearchProjectAuditAction implements RequestAware {
 	public void doCheckOut() {
+		List<TeacherAndscientificResearchProject> checkoutList=new ArrayList<TeacherAndscientificResearchProject>();
 		String[] ids = this.checkOutIDs.split(",");
-		List<TeacherAndscientificResearchProject> checkoutList = new ArrayList<TeacherAndscientificResearchProject>();
-		TeacherAndscientificResearchProject TARPro = null;
+		String[] idsNot=this.checkOutIDsNot.split(",");
+		TeacherAndscientificResearchProject teacherAndScientificResearchProject = null;
 		for (int i = 0; i < ids.length; i++) {
-			TARPro = this.TARProjectDAO.findById(Integer.parseInt(ids[i]));
-			// 修改checkout 标志
-			TARPro.setCheckOut("1");
-			checkoutList.add(TARPro);
+			if(ids[i]!=null && ids[i].length()!=0 ){
+				teacherAndScientificResearchProject = this.TARProjectDAO.findById(Integer.parseInt(ids[i]));
+				// 修改checkout 标志
+				if(teacherAndScientificResearchProject!=null){
+					teacherAndScientificResearchProject.setCheckOut("1");
+					checkoutList.add(teacherAndScientificResearchProject);
+				}
+			}
+		}
+		for(int i=0;i<idsNot.length;i++){
+			if(idsNot[i]!=null && idsNot[i].length()!=0){
+				teacherAndScientificResearchProject=this.TARProjectDAO.findById(Integer.parseInt(idsNot[i]));
+				if(teacherAndScientificResearchProject!=null){
+					teacherAndScientificResearchProject.setCheckOut("2");
+					checkoutList.add(teacherAndScientificResearchProject);
+				}
+			}
 		}
 		// 将待审核的项目传向后台
 		try {
 			if (TARProjectDAO.updateCheckoutStatus(checkoutList)) {
 				// 前端显示乱码解决
-				ServletActionContext
-						.getResponse()
-						.getWriter()
-						.write("succ");
+				ServletActionContext.getResponse().getWriter().write("succ");
 			} else {
-				ServletActionContext
-						.getResponse()
-						.getWriter()
-						.write("error");
+				ServletActionContext.getResponse().getWriter().write("error");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -129,6 +137,7 @@ public class TeacherAndScientificResearchProjectAuditAction implements RequestAw
 	private String checkout = "0";
 	private ResearchLabDAO researchDAO = new ResearchLabDAO();
 	private String checkOutIDs;
+	private String checkOutIDsNot;
 	private TeacherAndscientificResearchProject TARProject = new TeacherAndscientificResearchProject();
 	private TeacherAndscientificResearchProjectDAO TARProjectDAO = new TeacherAndscientificResearchProjectDAO();
 
@@ -246,5 +255,13 @@ public class TeacherAndScientificResearchProjectAuditAction implements RequestAw
 
 	public String execute() throws Exception {
 		return "success";
+	}
+
+	public String getCheckOutIDsNot() {
+		return checkOutIDsNot;
+	}
+
+	public void setCheckOutIDsNot(String checkOutIDsNot) {
+		this.checkOutIDsNot = checkOutIDsNot;
 	}
 }

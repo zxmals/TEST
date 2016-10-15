@@ -89,11 +89,9 @@
 		</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select name="pageSize_TAPA"
 			id="pageSizeSelection">
-				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
-				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
-				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
-				<option value="20">&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;</option>
-				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
+				<c:forEach items="${pageSizeList }" var="pageSize">
+					<option value="${pageSize }">&nbsp;&nbsp;&nbsp;${pageSize }&nbsp;&nbsp;&nbsp;</option>
+				</c:forEach>
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select name="checkOutStatus_TAPA"
 			id="checkoutStatus">
@@ -117,9 +115,13 @@
 				<td>卷</td>				<td>期</td>
 				<td>教师编号</td>		<td>教师姓名</td>
 				<td>相关描述</td>		<td>最终分数</td>
+<!-- 				<c:if test="${sessionScope.checkOutStatus_TAPA=='0' }"> -->
+<!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
+<!-- 						onchange="allAlowOrNot()" /></td> -->
+<!-- 				</c:if> -->
 				<c:if test="${sessionScope.checkOutStatus_TAPA=='0' }">
-					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck"
-						onchange="allAlowOrNot()" /></td>
+					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
+					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkOutStatus_TAPA=='1' }">
 					<td><font color="blue">通过</td>
@@ -155,9 +157,17 @@
 					<td>${TAPUnionPPModel.periodicalPapers.describe }</td>
 					<!-- 最终分数 -->
 					<td>${TAPUnionPPModel.TAPeriodical.finalScore }</td>
+<!-- 					<c:if test="${sessionScope.checkOutStatus_TAPA=='0' }"> -->
+<!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
+<!-- 							value="${TAPUnionPPModel.TAPeriodical.teacherAndPid }" /></td> -->
+<!-- 					</c:if> -->
 					<c:if test="${sessionScope.checkOutStatus_TAPA=='0' }">
-						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TAPUnionPPModel.TAPeriodical.teacherAndPid }" /></td>
+						<td class="c1">通过&nbsp;<input type="checkbox"
+							name="chooseWhichToAudit" value="${TAPUnionPPModel.TAPeriodical.teacherAndPid }"
+							class="check1" /></td>
+						<td class="c2">不通过<input
+							value="${TAPUnionPPModel.TAPeriodical.teacherAndPid }" type="checkbox"
+							name="notAudit" class="check2" /></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_TAPA=='1' }">
 						<td><font color="green"size:"3">√</td>
@@ -199,7 +209,7 @@
 		</span>
 	</div>
 	<c:if test="${sessionScope.checkOutStatus_TAPA=='0'}">
-		<input type="button" value="提交" class="button_set"
+		<input type="button" value="审核" class="button_set"
 		style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
 	<input type="submit" value="注销" style="display: none;"
@@ -227,44 +237,17 @@
 	<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 	<script src="js/PublicCheck/PUB_SET.js"></script>
 	<script src="My97DatePicker/WdatePicker.js"></script>
+	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
 			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAPA}']").attr("selected",true);
 			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab_TAPA.researchLabId}']").attr("selected",true);
 			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAPA}']").attr("selected",true);
 		});
+		$("#doCheckout").click(function(){
+			submitAudit("ATTeacherAndPeriodicalAudit!doCheckOutTask",
+					"ATTeacherAndPeriodicalAudit!getTAPeriodicalList");
+		});
 	</script>
 </body>
-<script type="text/javascript">
-		function getCheckOutResult(){
-			var arr = "";
-		      $('input:checkbox[name=chooseWhichToAudit]:checked').each(function(i){
-		    	  arr=arr+$(this).val()+",";
-		      });
-			  return arr; 
-		}
-		$("#doCheckout").click(function(){
-			var IDs=getCheckOutResult();
-			if(IDs.length==0){
-				window.alert("请选择要通过审核的项目！");
-				return;
-			}
-			if(window.confirm("您确认要提交审核吗？")){
-				$.post("ATTeacherAndPeriodicalAudit!doCheckOutTask",{
-					checkOutIDs:IDs
-				},function(data,status){
-					if(status=="success"){
-						if(data=="succ"){
-							window.alert("审核成功！");
-							window.location.replace("<%=basePath%>ATTeacherAndPeriodicalAudit!getTAPeriodicalList");
-						} else {
-							window.alert("审核失败！");
-						}
-					}
-				});
-			}else{
-				return;
-			}
-		})
-</script>
 </html>

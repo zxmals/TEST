@@ -16,15 +16,28 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class TeacherAndacademicWorkAuditAction implements RequestAware {
 	public void doCheckOutTask() {
+		List<TeacherAndacademicWork> checkoutList=new ArrayList<TeacherAndacademicWork>();
 		String[] ids = this.checkOutIDs.split(",");
-		List<TeacherAndacademicWork> checkoutList = new ArrayList<TeacherAndacademicWork>();
-		TeacherAndacademicWork TAAcademicWork = null;
+		String[] idsNot=this.checkOutIDsNot.split(",");
+		TeacherAndacademicWork teacherAndAcademicWork = null;
 		for (int i = 0; i < ids.length; i++) {
-			TAAcademicWork = this.TAAcademicWorkDAO.findById(Integer
-					.parseInt(ids[i]));
-			// 修改checkout 标志
-			TAAcademicWork.setCheckOut("1");
-			checkoutList.add(TAAcademicWork);
+			if(ids[i]!=null && ids[i].length()!=0 ){
+				teacherAndAcademicWork = this.TAAcademicWorkDAO.findById(Integer.parseInt(ids[i]));
+				// 修改checkout 标志
+				if(teacherAndAcademicWork!=null){
+					teacherAndAcademicWork.setCheckOut("1");
+					checkoutList.add(teacherAndAcademicWork);
+				}
+			}
+		}
+		for(int i=0;i<idsNot.length;i++){
+			if(idsNot[i]!=null && idsNot[i].length()!=0){
+				teacherAndAcademicWork=this.TAAcademicWorkDAO.findById(Integer.parseInt(idsNot[i]));
+				if(teacherAndAcademicWork!=null){
+					teacherAndAcademicWork.setCheckOut("2");
+					checkoutList.add(teacherAndAcademicWork);
+				}
+			}
 		}
 		// 将待审核的项目传向后台
 		try {
@@ -37,7 +50,6 @@ public class TeacherAndacademicWorkAuditAction implements RequestAware {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// this.getResearchLabList();
 	}
 
 	public String getTAAcademicWorkAfterDivide() {
@@ -103,6 +115,7 @@ public class TeacherAndacademicWorkAuditAction implements RequestAware {
 	private ResearchLab researchLab_TAAW;
 	private String checkOutStatus_TAAW;
 	private String checkOutIDs;
+	private String checkOutIDsNot;
 	private int operstatus;
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
@@ -180,5 +193,13 @@ public class TeacherAndacademicWorkAuditAction implements RequestAware {
 	public void setAfterdate_TAAW(String afterdate_TAAW) {
 		this.afterdate_TAAW = afterdate_TAAW;
 		session.put("afterdate_TAAW", afterdate_TAAW);
+	}
+
+	public String getCheckOutIDsNot() {
+		return checkOutIDsNot;
+	}
+
+	public void setCheckOutIDsNot(String checkOutIDsNot) {
+		this.checkOutIDsNot = checkOutIDsNot;
 	}
 }

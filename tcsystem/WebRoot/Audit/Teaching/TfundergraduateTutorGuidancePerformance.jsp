@@ -12,8 +12,8 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	request.setAttribute("researchLabList",
-			StoreData.getResearchLabList());
+	request.setAttribute("departmentList", StoreData.getDepartmentList());
+	request.setAttribute("tftermList", StoreData.getTftermList());
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -22,7 +22,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 <meta name="description" content="">
 <meta name="author" content="">
 <title>管理员界面</title>
@@ -33,10 +33,10 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
 
-	<!-- Sweet Alert -->
+<!-- Sweet Alert -->
 <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
-	<!-- Data Tables -->
+<!-- Data Tables -->
 <link href="css/plugins/dataTables/dataTables.bootstrap.css"
 	rel="stylesheet">
 <link href="css/animate.min.css" rel="stylesheet">
@@ -44,13 +44,13 @@
 <base target="_blank">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
-	<!-- Custom styles for this template -->
+<!-- Custom styles for this template -->
 <link href="css/dashboard.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/zxma.css">
 <link rel="stylesheet" type="text/css"
 	href="css/Audit_CSS/scientific.css">
-	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 <script src="js/ie-emulation-modes-warning.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -66,38 +66,34 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList"
+		action="ATTfundergraduateTutorGuidancePerformanceAudit!getTfUndergraduateTutorGuidancePerformanceList"
 		method="post" name="pickdate">
-		<div class="datepick" style="font-size:12px;">
-			<span>选择日期范围</span>
-			<div>
-
-				从:<input type="text" id="date1" class="Wdate"
-					onClick="WdatePicker()" value="${sessionScope.foredate_TAES }"
-					name="foredate_TAES" id="foredate" />到:<input type="text"
-					id="date2" onClick="WdatePicker()" class="Wdate"
-					value="${sessionScope.afterdate_TAES }" name="afterdate_TAES"
-					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep"
-					value="查询" title="点击查询">
-			</div>
-		</div>
-		<h3 style="padding:0px;margin-left: 10px;">邀请专家讲座审核</h3>
+		<h3 style="padding:0px;margin-left: 10px;">本科生导师指导绩效审核</h3>
 		<hr>
-		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="researchlab_TAES.researchLabId"
-			id="reserchLabSelection">
-				<c:forEach var="researchLab" items="${researchLabList }">
-					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
+		<span style="margin-left:10px;">所在系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
+			<select name="department_UTG.departmentId"
+			id="departmentSelection">
+				<c:forEach var="department" items="${departmentList }">
+					<option value="${department.departmentId }">${department.departmentName }</option>
 				</c:forEach>
 		</select>
-		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select
-			name="pageSize_TAES" id="pageSizeSelection">
+		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
+		<span>
+			学期：
+			<select id="termSelection" name="termId_UTG">
+				<c:forEach var="tfterm" items="${tftermList }">
+					<option value="${tfterm.termId }">${tfterm.term }</option>
+				</c:forEach>
+			</select>
+		</span>&nbsp;&nbsp;&nbsp;&nbsp; 
+		<span>每页显示： <select
+			name="pageSize_UTG" id="pageSizeSelection">
 				<c:forEach items="${pageSizeList }" var="pageSize">
 					<option value="${pageSize }">&nbsp;&nbsp;&nbsp;${pageSize }&nbsp;&nbsp;&nbsp;</option>
 				</c:forEach>
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
-			name="checkOutStatus_TAES" id="checkoutStatus">
+			name="checkOutStatus_UTG" id="checkoutStatus">
 				<option value="0">未审核</option>
 				<option value="1">审核通过</option>
 				<option value="2">未通过审核</option>
@@ -112,71 +108,49 @@
 			style="border-collapse:collapse;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
-				<td>邀请专家讲学编号</td>
-				<td>讲学名称</td>
-				<td>专家姓名</td>
-				<td>专家类型</td>
-				<td>国家</td>
+				<td>指导编号</td>
+				<td>学生数量</td>
+				<td>指导年数</td>
 				<td>教师编号</td>
 				<td>教师姓名</td>
-				<td>本人承担任务</td>
-				<td>讲座时间</td>
 				<td>最终分数</td>
-<!-- 				<c:if test="${sessionScope.checkOutStatus_TAES=='0' }"> -->
-<!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
-<!-- 						onchange="allAlowOrNot()" /></td> -->
-<!-- 				</c:if> -->
-				<c:if test="${sessionScope.checkOutStatus_TAES=='0' }">
-					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
+				<c:if test="${sessionScope.checkOutStatus_UTG=='0' }">
+					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAES=='1' }">
+				<c:if test="${sessionScope.checkOutStatus_UTG=='1' }">
 					<td><font color="blue">通过</td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAES=='2' }">
+				<c:if test="${sessionScope.checkOutStatus_UTG=='2' }">
 					<td><font color="red">未通过</td>
 				</c:if>
 
 			</tr>
-			<c:forEach var="TA_InviteExpertSpeech"
-				items="${TA_InviteExpertSpeechList }">
+			<c:forEach var="TfUndergraduateTutorGuidancePerformance"
+				items="${TfUndergraduateTutorGuidancePerformanceList }">
 				<tr>
-					<!-- 邀请专家讲学编号 -->
-					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.iespeechId }</td>
-					<!-- 讲学名称-->
-					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.lectureName }</td>
-					<!-- 专家姓名 -->
-					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.expertsName }</td>
-					<!-- 专家类型-->
-					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.expertType.expertTypeName }</td>
-					<!-- 国家 -->
-					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.nationality.countryName }</td>
+					<!-- 指导编号-->
+					<td>${TfUndergraduateTutorGuidancePerformance.tfundergraduateTutorGuidanceCache.guidanceId }</td>
+					<!-- 学生数量-->
+					<td>${TfUndergraduateTutorGuidancePerformance.studentQuantity }</td>
+					<!-- 指导年数 -->
+					<td>${TfUndergraduateTutorGuidancePerformance.years }</td>
 					<!-- 教师编号 -->
-					<td>${TA_InviteExpertSpeech.teacher.teacherId }</td>
+					<td>${TfUndergraduateTutorGuidancePerformance.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
-					<td>${TA_InviteExpertSpeech.teacher.teacherName }</td>
-					<!-- 本人承担任务 -->
-					<td>${TA_InviteExpertSpeech.selfUndertakeTask.undertakeTaskName }</td>
-					<!-- 讲座时间 -->
-					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.speechDate }</td>
+					<td>${TfUndergraduateTutorGuidancePerformance.teacher.teacherName }</td>
 					<!-- 最终分数 -->
-					<td>${TA_InviteExpertSpeech.finalScore }</td>
-<!-- 					<c:if test="${sessionScope.checkOutStatus_TAES=='0' }"> -->
-<!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
-<!-- 							value="${TA_InviteExpertSpeech.teacherAinvEsid}" /></td> -->
-<!-- 					</c:if> -->
-					<c:if test="${sessionScope.checkOutStatus_TAES=='0' }">
-						<td class="c1">通过&nbsp;<input type="checkbox"
-							name="chooseWhichToAudit" value="${TA_InviteExpertSpeech.teacherAinvEsid }"
-							class="check1" /></td>
-						<td class="c2">不通过<input
-							value="${TA_InviteExpertSpeech.teacherAinvEsid }" type="checkbox"
-							name="notAudit" class="check2" /></td>
+					<td>${TfUndergraduateTutorGuidancePerformance.finalScore }</td>
+					<c:if test="${sessionScope.checkOutStatus_UTG=='0' }">
+						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
+							value="${TfUndergraduateTutorGuidancePerformance.upid}"   class="check1"/></td>
+						<td class="c2">不通过<input value="${TfUndergraduateTutorGuidancePerformance.upid}" type="checkbox"
+						 name="notAudit" class="check2"/></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAES=='1' }">
+					<c:if test="${sessionScope.checkOutStatus_UTG=='1' }">
 						<td><font color="green"size:"3">√</td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAES=='2' }">
+					<c:if test="${sessionScope.checkOutStatus_UTG=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
 				</tr>
@@ -186,31 +160,31 @@
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;"> 当前是第<font
-			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TAES }</font>页
+			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_UTG }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
+					href="ATTfundergraduateTutorGuidancePerformanceAudit!getTfUndergraduateTutorGuidancePerformanceList?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index"
 			step="1">
-			<c:if test="${index<=pageCount_TAES }">
+			<c:if test="${index<=pageCount_UTG }">
 				<span> <a
-					href="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${index }">${index }</a>
+					href="ATTfundergraduateTutorGuidancePerformanceAudit!getTfUndergraduateTutorGuidancePerformanceList?isDivided=true&pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
-		<span> <c:if test="${pageIndex<pageCount_TAES }">
+		<span> <c:if test="${pageIndex<pageCount_UTG }">
 				<a
-					href="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
+					href="ATTfundergraduateTutorGuidancePerformanceAudit!getTfUndergraduateTutorGuidancePerformanceList?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
-		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TAES }</font>页
-		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAES }</font>条记录
+		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_UTG }</font>页
+		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_UTG }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_TAES=='0'}">
-		<input type="button" value="提交" class="button_set"
+	<c:if test="${sessionScope.checkOutStatus_UTG=='0'}">
+		<input type="button" value="审核" class="button_set"
 			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
 	<input type="submit" value="注销" style="display: none;"
@@ -240,13 +214,14 @@
 	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pageSizeSelection option[value='${sessionScope.pageSize_TAES}']").attr("selected",true);
-			$("#reserchLabSelection option[value='${sessionScope.selectedResearchlab_TAES.researchLabId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TAES}']").attr("selected",true);
+			$("#pageSizeSelection option[value='${sessionScope.pageSize_UTG}']").attr("selected",true);
+			$("#departmentSelection option[value='${sessionScope.department_UTG.departmentId}']").attr("selected",true);
+			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_UTG}']").attr("selected",true);
+			$("#termSelection option[value='${sessionScope.termId_UTG}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("ATTeacherAndinvitedExpertsSpeechAudit!doCheckOutTask",
-					"ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList");
+			submitAudit("ATTfundergraduateTutorGuidancePerformanceAudit!doCheckOutTask",
+					"ATTfundergraduateTutorGuidancePerformanceAudit!getTfUndergraduateTutorGuidancePerformanceList");
 		});
 	</script>
 </body>
