@@ -13,7 +13,10 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.InvitedExpertsSpeech;
+import com.nuaa.ec.model.InvitedExpertsSpeechScore;
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndinvitedExpertsSpeech;
 import com.nuaa.ec.model.TeacherAndjoinAcademicMeeting;
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
@@ -255,6 +258,99 @@ public class TeacherAndinvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 			String queryString = "from TeacherAndinvitedExpertsSpeech";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void quitproject(InvitedExpertsSpeech ies,Teacher teacher){
+		try {
+			String queryString = "update TeacherAndinvitedExpertsSpeech set spareTire='0' "
+					+ "where invitedExpertsSpeech=? "
+					+ "and teacher=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, ies);
+	         queryObject.setParameter(1, teacher);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public boolean checkexist(InvitedExpertsSpeech ies,Teacher teacher){
+		try {
+			String queryString = "from TeacherAndinvitedExpertsSpeech "
+					+ "where invitedExpertsSpeech=? "
+					+ "and teacher=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, ies);
+	         queryObject.setParameter(1, teacher);
+	         if(queryObject.list().size()>0){
+	        	 return false;
+	         }else return true;
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findPageing(int currentRow,int limitRow,String condition,Teacher teacher){
+		try {
+			String queryString = "from TeacherAndinvitedExpertsSpeech where spareTire='1' "
+					+ "and teacher.spareTire='1' "
+					+ "and invitedExpertsSpeech.spareTire='1' "
+					+ "and invitedExpertsSpeechScore.spareTire='1' "
+					+ "and teacher=? "
+					+ condition+" order by invitedExpertsSpeech.speechDate desc";
+	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow);
+	         queryObject.setParameter(0, teacher);
+	         queryObject.setMaxResults(limitRow);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition,Teacher teacher){
+		try {
+			String queryString = "from TeacherAndinvitedExpertsSpeech where spareTire='1' "
+					+ "and teacher.spareTire='1' "
+					+ "and invitedExpertsSpeech.spareTire='1' "
+					+ "and invitedExpertsSpeechScore.spareTire='1' "
+					+ "and teacher=? "
+					+ condition;
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, teacher);
+			 return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRefie(InvitedExpertsSpeech iespeech){
+		try {
+			String queryString = "update TeacherAndinvitedExpertsSpeech set spareTire='0' "
+					+ "where invitedExpertsSpeech=?";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, iespeech);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void updateRefSpeech(InvitedExpertsSpeech iespeech,InvitedExpertsSpeechScore iescore,double score){
+		try {
+			String queryString = "update TeacherAndinvitedExpertsSpeech set invitedExpertsSpeechScore=?,finalScore=? "
+					+ "where invitedExpertsSpeech=?"
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, iescore);
+	         queryObject.setParameter(1, score);
+	         queryObject.setParameter(2, iescore);
+	         queryObject.executeUpdate();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

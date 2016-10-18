@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.TeacherAndinvitedExpertsSpeech" table="TeacherANDInvitedExpertsSpeech" schema="dbo" catalog="ScientificResearch">
         <id name="teacherAinvEsid" type="java.lang.Integer">
             <column name="TeacherAInvESid" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <many-to-one name="invitedExpertsSpeechScore" class="com.nuaa.ec.model.InvitedExpertsSpeechScore" fetch="select">
             <column name="IESScoreID" length="20" />

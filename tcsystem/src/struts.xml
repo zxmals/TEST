@@ -150,13 +150,17 @@
 		</action>
 		<!-- 科研项目奖励绩效管理//ScientificResearchReward -->
 		<action name="GTscienceresearch-*set"
-			class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scienceResearchRewardAction">
+			class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scienceResearchRewardAction"> 
 			<result>/ScientificResearchPerformance/scienceresearch-{1}.jsp
 			</result>
 		</action>
-		<!-- 参加学术会议管理 //JoinAcademicMeeting-set -->
+		<!-- 参加学术会议绩效管理 //JoinAcademicMeeting-set -->
 		<action name="GTjoinacademicmeeting-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.joinacademicmeetingAction">
 			<result>/ScientificResearchPerformance/joinacademicmeeting-{1}.jsp</result>
+		</action>
+		<!-- 邀请专家讲学绩效管理//InviteExpertSpeech-set -->
+		<action name="GTinviteexpertspeech-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.inviteexpertspeechAction">
+			<result>/ScientificResearchPerformance/inviteexpertspeech-{1}.jsp</result>
 		</action>
 	</package>
 
