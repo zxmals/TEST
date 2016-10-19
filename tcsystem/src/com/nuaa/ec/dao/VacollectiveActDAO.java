@@ -1,14 +1,19 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.nuaa.ec.model.VacollectiveAct;
 
 /**
@@ -55,7 +60,7 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
         }
     }
     
-    public VacollectiveAct findById( java.lang.String id) {
+    public VacollectiveAct findById( java.lang.Integer id) {
         log.debug("getting VacollectiveAct instance with id: " + id);
         try {
             VacollectiveAct instance = (VacollectiveAct) getSession()
@@ -187,4 +192,75 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
             throw re;
         }
     }
+
+	public boolean updateAsparetire(List<VacollectiveAct> checkoutList) {
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<checkoutList.size();i++){
+				session.update(checkoutList.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+
+	public Object getVaactListsWithCondition(
+			int pageIndex, int pageSize, String foredate, String afterdate,String checkOut) {
+		 
+			StringBuffer hql=null;
+				hql=new StringBuffer(
+						"from TeacherAndscientificResearchProject TARP where TARP.spareTire='1'"
+								+ " and TARP.scientificResearchProject.spareTire='1'"
+								+ " and TARP.teacher.spareTire='1'"
+								+ " and TARP.selfUndertakeTask.spareTire='1'"
+								+ " and TARP.checkOut='"+checkOut+"'");
+			List<TeacherAndscientificResearchProject> list = new ArrayList<TeacherAndscientificResearchProject>();
+			String append = " and TARP.scientificResearchProject.admitedProjectYear between ? and ? ";
+			if (foredate != null && afterdate != null && foredate.length()!=0 && afterdate.length()!=0) {
+				// 判断日期范围限制
+				hql.append(append);
+				list = this.getSession().createQuery(hql.toString())
+						.setString(0, foredate).setString(1, afterdate)
+						.setFirstResult((pageIndex - 1) * pageSize)
+						.setMaxResults(pageSize).list();
+			} else {
+				list = this.getSession().createQuery(hql.toString())
+						.setFirstResult((pageIndex - 1) * pageSize)
+						.setMaxResults(pageSize).list();
+			}
+			return list;
+	}
+
+	public Object findAll(int pageIndex, int pageSize, String foredate, String afterdate,String AspareTire) {
+		StringBuffer hql=null;
+			hql=new StringBuffer(
+					"from VacollectiveAct VCAct where VCAct.spareTire='1'"
+//							+ " and VCAct.scientificResearchProject.spareTire='1'"
+							+ " and VCAct.teacher.spareTire='1'"
+							+ " and VCAct.selfUndertakeTask.spareTire='1'"
+							+ " and VCAct.AspareTire='"+AspareTire+"'");
+		
+		List<TeacherAndscientificResearchProject> list = new ArrayList<TeacherAndscientificResearchProject>();
+		String append = " and TARP.scientificResearchProject.admitedProjectYear between ? and ? ";
+		if (foredate != null && afterdate != null && foredate.length()!=0 && afterdate.length()!=0) {
+			// 判断日期范围限制
+			hql.append(append);
+			list = this.getSession().createQuery(hql.toString())
+					.setString(0, foredate).setString(1, afterdate)
+					.setFirstResult((pageIndex - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+		} else {
+			list = this.getSession().createQuery(hql.toString())
+					.setFirstResult((pageIndex - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+		}
+		return list;
+	}
+
 }

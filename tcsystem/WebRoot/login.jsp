@@ -66,7 +66,7 @@
 					<input type="password" class="form-control" placeholder="密码"
 						name="password" required="">
 				</div>
-				<button type="submit" class="btn btn-primary block full-width m-b">登陆</button>
+				<button type="submit" class="btn btn-primary block full-width m-b">登录</button>
 			</form>
 		</div>
 	</div>

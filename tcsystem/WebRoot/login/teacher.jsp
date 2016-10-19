@@ -198,10 +198,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                                </a>
 		                                <ul class="nav nav-second-level firstslide">
 				                            <li>
-				                                <a class="J_menuItem" href="#">1111</a>
+				                                <a class="J_menuItem" href="GTAddJoinedActAudit!getAddJoinActToBeAudited">活动加入审核</a>
 				                            </li>
 				                            <li>
-				                                <a class="J_menuItem" href="#">22222</a>
+				                                <a class="J_menuItem" href="#">活动缺席审核</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="#">活动发布审核</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="#">活动新增申请审核</a>
 				                            </li>
 				                        </ul>
 		                            </li>
