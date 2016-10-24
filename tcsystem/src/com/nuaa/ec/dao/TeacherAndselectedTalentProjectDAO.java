@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.TalentProject;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndselectedTalentProject;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -213,6 +215,89 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
       }
 	}
 
+    public List findPageing(int currentRow,int limitRow,String condition,Teacher teacher){
+    	try {
+            String queryString = "select new com.nuaa.ec.model.TeacherMember(tp.teacher.teacherId,tp.teacher.teacherName,'') "
+            		+ "from TeacherAndselectedTalentProject as tp "
+            		+ "where tp.spareTire='1' "
+            		+ "and tp.talentProject.spareTire='1' "
+            		+ "and tp.teacher.spareTire='1' "
+            		+ "and tp.teacher=? "
+            		+ "and tp.selectedTalentProjectScore.spareTire='1' "
+            		+ condition
+            		+" order by tp.talentProject.selectedDate desc";
+            Query queryObject = getSession().createQuery(queryString).setParameter(0, teacher).setFirstResult(currentRow).setMaxResults(limitRow);
+   		 return queryObject.list();
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
+    
+    public int getRows(String condition,Teacher teacher){
+    	try {
+            String queryString = "select new com.nuaa.ec.model.TeacherMember(tp.teacher.teacherId,tp.teacher.teacherName,'') "
+            		+ "from TeacherAndselectedTalentProject as tp "
+            		+ "where tp.spareTire='1' "
+            		+ "and tp.talentProject.spareTire='1' "
+            		+ "and tp.teacher.spareTire='1' "
+            		+ "and tp.teacher=? "
+            		+ "and tp.selectedTalentProjectScore.spareTire='1' "
+            		+ condition;
+            Query queryObject = getSession().createQuery(queryString).setParameter(0, teacher);
+   		 return queryObject.list().size();
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
+    
+    public List findMember(TalentProject tp){
+    	try {
+            String queryString = "select new com.nuaa.ec.model.TeacherMember(tat.teacher.teacherId,tat.teacher.teacherName,'') "
+            		+ "from TeacherAndselectedTalentProject tat "
+            		+ "where talentProject=? "
+            		+ "and teacher.spareTire='1' "
+            		+ "and talentProject.spareTire='1' "
+            		+ "and spareTire='1' ";
+            Query queryObject = getSession().createQuery(queryString).setParameter(0, tp);
+   		 	return queryObject.list();
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
+    
+	public void deleteBylogic(TalentProject tp){
+		try {
+			String queryString = "update TeacherAndselectedTalentProject set spareTire ='0' "
+					+ "where spareTire='1' "
+					+ "and talentProject=? ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, tp);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+    
+	public boolean checkexist(Teacher teacher,TalentProject tp){
+		try {
+			String queryString = "from TeacherAndselectedTalentProject  "
+					+ "where spareTire='1' "
+					+ "and talentProject=? "
+					+ "and teacher=? "
+					+ "and talentProject.spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, tp).setParameter(1, teacher);
+	         if(queryObject.list().size()>0){
+	        	 return false;
+	         }else return true;
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public List findByTpselectedYear(Object tpselectedYear
 	) {
 		return findByProperty(TPSELECTED_YEAR, tpselectedYear

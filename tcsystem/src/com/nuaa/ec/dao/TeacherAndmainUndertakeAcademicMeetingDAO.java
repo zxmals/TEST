@@ -12,7 +12,10 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.MainUndertakeAcademicMeeting;
+import com.nuaa.ec.model.MainUndertakeAcademicMeetingScore;
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
 import com.nuaa.ec.model.TeacherAndperiodical;
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
@@ -244,6 +247,100 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 		}
 	}
 
+	public List findMember(MainUndertakeAcademicMeeting macam){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(tm.teacher.teacherId,tm.teacher.teacherName,'') from TeacherAndmainUndertakeAcademicMeeting tm "
+					+ "where tm.mainUndertakeAcademicMeeting=?"
+					+ "and tm.mainUndertakeAcademicMeeting.spareTire='1' "
+					+ "and tm.spareTire='1' "
+					+ "and tm.teacher.spareTire='1' "
+					+ "and tm.mainUndertakeAcademicMeetingScore.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, macam);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public List findPageing(int currentRow,int limitRow,String condition,Teacher teacher){
+		try {
+			String queryString = "from TeacherAndmainUndertakeAcademicMeeting where spareTire='1' "
+					+ "and mainUndertakeAcademicMeeting.spareTire='1' "
+					+ "and teacher.spareTire='1' "
+					+ "and teacher=? "
+					+ "and mainUndertakeAcademicMeetingScore.spareTire='1' "
+					+ condition
+					+" order by mainUndertakeAcademicMeeting.meetingdate desc";
+			Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow).setParameter(0, teacher).setMaxResults(limitRow);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from TeacherAndmainUndertakeAcademicMeeting where spareTire='1' "
+					+ "and mainUndertakeAcademicMeeting.spareTire='1' "
+					+ "and teacher.spareTire='1' "
+					+ "and mainUndertakeAcademicMeetingScore.spareTire='1' "
+					+ condition;
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public void updateRefMeeting(Teacher teacher,MainUndertakeAcademicMeeting macam,MainUndertakeAcademicMeetingScore mscore){
+		try {
+			String queryString = "update TeacherAndmainUndertakeAcademicMeeting set mainUndertakeAcademicMeetingScore=?"
+					+ ",finalScore=? "
+					+ " where mainUndertakeAcademicMeeting=? "
+					+ "and teacher=? "
+					+ "and spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, mscore);
+			queryObject.setParameter(1, (double)mscore.getScore());
+			queryObject.setParameter(2, macam);
+			queryObject.setParameter(3, teacher);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+
+	public void deleteBylogic(Teacher teacher,MainUndertakeAcademicMeeting macam){
+		try {
+			String queryString = "update TeacherAndmainUndertakeAcademicMeeting set spareTire='0' "
+					+ " where mainUndertakeAcademicMeeting=? "
+					+ "and teacher=? "
+					+ "and spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, macam);
+			queryObject.setParameter(1, teacher);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRefMainMeet(MainUndertakeAcademicMeeting macam){
+		try {
+			String queryString = "update TeacherAndmainUndertakeAcademicMeeting set spareTire='0' "
+					+ " where mainUndertakeAcademicMeeting=? "
+					+ "and spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, macam);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	public List findByFinalScore(Object finalScore) {
 		return findByProperty(FINAL_SCORE, finalScore);
 	}

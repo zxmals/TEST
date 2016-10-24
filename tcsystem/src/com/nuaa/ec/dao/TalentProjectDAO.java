@@ -146,6 +146,28 @@ public class TalentProjectDAO extends BaseHibernateDAO  {
 		}
 	}
 	
+	public List findPageing(int currentRow,int limitRow,String condition){
+		try {
+			String queryString = "from TalentProject where spareTire='1' " +condition+" order by selectedDate desc";
+	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow).setMaxResults(limitRow);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from TalentProject where spareTire='1' " +condition;
+	         Query queryObject = getSession().createQuery(queryString);
+			 return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
     public TalentProject merge(TalentProject detachedInstance) {
         log.debug("merging TalentProject instance");
         try {

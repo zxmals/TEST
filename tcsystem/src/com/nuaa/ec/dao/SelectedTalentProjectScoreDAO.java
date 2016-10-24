@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.SelectedTalentProjectScore;
+import com.nuaa.ec.model.TalentProject;
 
 /**
  	* A data access object (DAO) providing persistence and search support for SelectedTalentProjectScore entities.
@@ -112,6 +113,21 @@ public class SelectedTalentProjectScoreDAO extends BaseHibernateDAO  {
 			String queryString = "from SelectedTalentProjectScore where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public SelectedTalentProjectScore findByProjecId(TalentProject tp){
+		try {
+			String queryString = "from SelectedTalentProjectScore where spareTire='1' "
+					+ "and talentProject=? "
+					+ "and talentProject.spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, tp);
+	         if(queryObject.list().size()>0){
+	        	 return (SelectedTalentProjectScore) queryObject.list().get(0);
+	         }else return null;
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

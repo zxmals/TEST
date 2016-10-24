@@ -182,10 +182,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                        </ul>
 		                            </li>
 		                            <li>
-		                                <a class="J_menuItem" href="VA/act_summary.jsp">主承办学术会议</a>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">主承办学术会议</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTundertakeacademicmeet-meetset!gainAllacademicm">学术会议管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTundertakeacademicmeet-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
 		                            </li>
 		                            <li>
-		                                <a class="J_menuItem" href="doPerformance_tf.jsp">入选人才工程</a>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">入选人才工程</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTselectedtalentprojec-talentset!gainAlltalentprojec">人才工程管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTselectedtalentprojec-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
 		                            </li>
 		                            <li>
 		                                <a class="J_menuItem" href="doPerformance_tf.jsp">科研项目</a>
