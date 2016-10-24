@@ -210,6 +210,19 @@ public class selectedtalentprojecAction implements RequestAware, SessionAware {
 		return "success";
 	}
 
+	public void quitProject()throws Exception{
+		Transaction tx = null;
+		try {
+			teacherandtalentpdao.quitProjec((Teacher)session.get("teacher"), talentp);
+			tx = teacherandtalentpdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
 	// Getter & Setter
 	public Map<String, Object> getSession() {
 		return session;

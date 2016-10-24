@@ -217,8 +217,7 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 
     public List findPageing(int currentRow,int limitRow,String condition,Teacher teacher){
     	try {
-            String queryString = "select new com.nuaa.ec.model.TeacherMember(tp.teacher.teacherId,tp.teacher.teacherName,'') "
-            		+ "from TeacherAndselectedTalentProject as tp "
+            String queryString = "from TeacherAndselectedTalentProject as tp "
             		+ "where tp.spareTire='1' "
             		+ "and tp.talentProject.spareTire='1' "
             		+ "and tp.teacher.spareTire='1' "
@@ -281,6 +280,20 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 		}
 	}
     
+	public void quitProjec(Teacher teacher,TalentProject tp){
+		try {
+			String queryString = "update TeacherAndselectedTalentProject set spareTire ='0' "
+					+ "where spareTire='1' "
+					+ "and talentProject=? "
+					+ "and teacher=? ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, tp).setParameter(1, teacher);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public boolean checkexist(Teacher teacher,TalentProject tp){
 		try {
 			String queryString = "from TeacherAndselectedTalentProject  "
