@@ -114,7 +114,7 @@ public class TeacherAndscientificResearchProject  implements java.io.Serializabl
     }
 
     public String getCheckOut() {
-        return this.checkOut;
+        return this.checkOut.trim();
     }
     
     public void setCheckOut(String checkOut) {

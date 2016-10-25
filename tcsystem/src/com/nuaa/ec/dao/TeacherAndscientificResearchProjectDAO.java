@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.ScientificResearchProject;
+import com.nuaa.ec.model.ScientificResearchProjectScore;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -244,6 +247,97 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public List findPageing(int currentRow,int limitRow,String condition,Teacher teacher){
+		try {
+			String queryString = "from TeacherAndscientificResearchProject where spareTire='1' "
+					+ "and teacher.spareTire='1' "
+					+ "and scientificResearchProject.projectType.spareTire='1' "
+					+ "and scientificResearchProject.spareTire='1' "
+					+condition
+					+ " order by scientificResearchProject.admitedProjectYear desc";
+			Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow).setMaxResults(limitRow);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition,Teacher teacher){
+		try {
+			String queryString = "from TeacherAndscientificResearchProject where spareTire='1' "
+					+ "and teacher.spareTire='1' "
+					+ "and scientificResearchProject.projectType.spareTire='1' "
+					+ "and scientificResearchProject.spareTire='1' "
+					+condition;
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public boolean checkexist(Teacher teacher,ScientificResearchProject srp){
+		try {
+			String queryString = "from TeacherAndscientificResearchProject where spareTire='1' "
+					+ "and scientificResearchProject=? "
+					+ "and teacher=? "
+					+ "and teacher.spareTire='1' "
+					+ "and scientificResearchProject.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, srp).setParameter(1, teacher);
+			if(queryObject.list().size()>0){
+				return false;
+			}else return true;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public void updateRef(ScientificResearchProjectScore srpscore,ScientificResearchProject srp){
+		try {
+			String queryString = "update TeacherAndscientificResearchProject "
+					+ "set scientificResearchProjectScore=? "
+					+ ",finalScore=? "
+					+ "where spareTire='1' "
+					+ "and scientificResearchProject=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, srpscore)
+					.setParameter(1, (double)srpscore.getScore()).setParameter(2, srp);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRef(ScientificResearchProject srp){
+		try {
+			String queryString = "update TeacherAndscientificResearchProject set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and scientificResearchProject=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, srp);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public void quitProject(ScientificResearchProject srp,Teacher teacher){
+		try {
+			String queryString = "update TeacherAndscientificResearchProject set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and scientificResearchProject=? "
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, srp).setParameter(1, teacher);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	public List findByYearFunds(Object yearFunds) {
 		return findByProperty(YEAR_FUNDS, yearFunds);
 	}

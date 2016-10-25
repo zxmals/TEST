@@ -167,6 +167,62 @@ public class ScientificResearchProjectDAO extends BaseHibernateDAO  {
 		}
 	}
 	
+	public void deleteBylogic(String srpId){
+		try {
+			String queryString = "update ScientificResearchProject set spareTire='0' "
+					+ "where srprojectId=? ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, srpId);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findMember(ScientificResearchProject srp){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(tsp.teacher.teacherId,tsp.teacher.teacherName,'') "
+					+ "from TeacherAndscientificResearchProject tsp "
+					+ "where tsp.spareTire=1 "
+					+ "and tsp.scientificResearchProject=? "
+					+ "and tsp.scientificResearchProject.spareTire='1' "
+					+ "and tsp.teacher.spareTire='1' "
+					+ "and tsp.scientificResearchProjectScore.spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, srp);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findPageing(int currentRow,int limitRow,String condition){
+		try {
+			String queryString = "from ScientificResearchProject  where spareTire=1 "
+					+ "and projectType.spareTire='1' "
+					+condition
+					+ " order by admitedProjectYear desc";
+	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow).setMaxResults(limitRow);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from ScientificResearchProject  where spareTire=1 "
+					+ "and projectType.spareTire='1' "
+					+condition;
+	         Query queryObject = getSession().createQuery(queryString);
+			 return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
     public ScientificResearchProject merge(ScientificResearchProject detachedInstance) {
         log.debug("merging ScientificResearchProject instance");
         try {

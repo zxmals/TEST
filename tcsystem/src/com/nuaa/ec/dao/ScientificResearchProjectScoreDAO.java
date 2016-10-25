@@ -9,6 +9,7 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.ProjectType;
 import com.nuaa.ec.model.ScientificResearchProjectScore;
 
 /**
@@ -112,6 +113,21 @@ public class ScientificResearchProjectScoreDAO extends BaseHibernateDAO  {
 			String queryString = "from ScientificResearchProjectScore where spareTire=1";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public ScientificResearchProjectScore findByProType(ProjectType pt){
+		try {
+			String queryString = "from ScientificResearchProjectScore where spareTire=1 "
+					+ "and projectType=? "
+					+ "and projectType.spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, pt);
+	         if(queryObject.list().size()>0){
+	        	 return (ScientificResearchProjectScore) queryObject.list().get(0);
+	         }else return null;
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

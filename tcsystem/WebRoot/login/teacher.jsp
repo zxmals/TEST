@@ -212,7 +212,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                        </ul>
 		                            </li>
 		                            <li>
-		                                <a class="J_menuItem" href="doPerformance_tf.jsp">科研项目</a>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">科研项目</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTscientificresearchpro-projectset!gainAllscienpro">科研项目管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTscientificresearchpro-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
 		                            </li>
 		                        </ul>
                             </li>

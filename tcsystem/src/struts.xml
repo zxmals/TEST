@@ -165,6 +165,10 @@
 		<action name="GTselectedtalentprojec-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.selectedtalentprojecAction">
 			<result>/ScientificResearchPerformance/selectedtalentprojec-{1}.jsp</result>
 		</action>
+		<!-- 科研项目绩效管理//ScientificResearchProject-set -->
+		<action name="GTscientificresearchpro-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scientificResearchProjecAction">
+			<result>/ScientificResearchPerformance/scientificresearchpro-{1}.jsp</result>
+		</action>
 	</package>
 
 	<!-- 教学设置 -->
