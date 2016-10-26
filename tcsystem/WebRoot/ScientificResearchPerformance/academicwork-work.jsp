@@ -70,18 +70,18 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                    	 <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#utdialog">
 	                        	 <strong>新增学术著作</strong>
 	                         </button><br><br>
-	                    <div>
-	                    	<a>每页   
-	                    	<select id="changelength" style="width:45px">
-	                    		<option selected="selected"></option>
-	                    		<option>2</option>
-	                    		<option>1</option>
-	                    		<option>5</option>
-	                    		<option>10</option>
-	                    		<option>15</option>
-	                    		<option>20</option>
-	                    	</select>  条记录</a>
-	                    </div>
+		                    <div>
+		                    	<a>每页   
+		                    	<select id="changelength" style="width:45px">
+		                    		<option selected="selected"></option>
+		                    		<option>2</option>
+		                    		<option>1</option>
+		                    		<option>5</option>
+		                    		<option>10</option>
+		                    		<option>15</option>
+		                    		<option>20</option>
+		                    	</select>  条记录</a>
+		                    </div>
 	                    <br>
 	                        <div class="example">
 	                        <form method="post" name="f">

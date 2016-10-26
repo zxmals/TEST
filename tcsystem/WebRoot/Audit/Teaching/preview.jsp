@@ -21,11 +21,6 @@ if(oint!=null)
 <head>
 <base target="_self">
 <script type="text/javascript">
-  		function relocal() {
-			var AuditpartID = "<%=request.getParameter("AuditpartID")%>
-	";
-		document.getElementById(AuditpartID + 'l').style.display = "block";
-	}
 </script>
 <script src="js/TeachAuditCheckbox.js"></script>
 <meta charset="utf-8">
