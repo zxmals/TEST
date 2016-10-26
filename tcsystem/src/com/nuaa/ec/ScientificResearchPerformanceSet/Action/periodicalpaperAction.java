@@ -90,7 +90,6 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 				tpdao.save(tp);
 			}else{
 				this.setOperstatus(-1);
-				return "";
 			}
 			tx = periopaperdao.getSession().beginTransaction();
 			tx.commit();

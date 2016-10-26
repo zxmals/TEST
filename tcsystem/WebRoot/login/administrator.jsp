@@ -80,25 +80,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </div>
                         <div class="logo-element">bamanker
                     </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-home"></i>
-                            <span class="nav-label">任务管理</span>
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="J_menuItem" href="index_v1.html" data-index="0">待完成任务</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="index_v2.html">已完成任务</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="index_v3.html">发出任务</a>
-                            </li>
-                        </ul>
+<!--                     <li> -->
+<!--                         <a href="#"> -->
+<!--                             <i class="fa fa-home"></i> -->
+<!--                             <span class="nav-label">任务管理</span> -->
+<!--                             <span class="fa arrow"></span> -->
+<!--                         </a> -->
+<!--                         <ul class="nav nav-second-level"> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v1.html" data-index="0">待完成任务</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v2.html">已完成任务</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v3.html">发出任务</a> -->
+<!--                             </li> -->
+<!--                         </ul> -->
 
-                    </li>
+<!--                     </li> -->
                     <li>
                         <a href="#">
                             <i class="fa fa fa-bar-chart-o"></i>
@@ -107,7 +107,133 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="ViewTeacherPerformance">科研绩效管理</a>
+	                            <a href="#">
+	                                <i class="fa fa fa-bar-chart-o"></i>
+	                            	<span class="nav-label">科研绩效管理</span>
+	                            	<span class="fa arrow"></span>
+	                            </a>
+	                            <ul class="nav nav-second-level firstslide">
+		                            <li>
+		                                <a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">期刊论文</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="ATperiodicalpaper-paperset!getPeriodicalPaperINF">论文管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="ATperiodicalpaper-personset!getPersonalJoinC?pagenum=1&">个人参与管理</a>
+				                            </li>
+				                        </ul>
+		                            </li>
+		                            <li>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">学术著作</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTacademicwork-workset!getWorkall">著作管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTacademicwork-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
+		                            </li>
+		                            <li>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">科研项目奖励</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTscienceresearch-rewardset!gainscienceReward">科研奖励管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTscienceresearch-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
+		                            </li>
+		                            <li>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">参加学术会议</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic">学术会议管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTjoinacademicmeeting-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
+		                            </li>
+		                            <li>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">邀请专家讲学</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTinviteexpertspeech-speechset!gainAllspeech">专家讲座管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTinviteexpertspeech-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
+		                            </li>
+		                            <li>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">主承办学术会议</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTundertakeacademicmeet-meetset!gainAllacademicm">学术会议管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTundertakeacademicmeet-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
+		                            </li>
+		                            <li>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">入选人才工程</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTselectedtalentprojec-talentset!gainAlltalentprojec">人才工程管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTselectedtalentprojec-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
+		                            </li>
+		                            <li>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">科研项目</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTscientificresearchpro-projectset!gainAllscienpro">科研项目管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTscientificresearchpro-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
+		                            </li>
+		                        </ul>
                             </li>
                             <li>
                                 <a class="J_menuItem" href="">教学绩效管理</a>
@@ -487,6 +613,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="js/contabs.min.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
     <script type="text/javascript">
+    $(document).ready(function() {
+		$('.firstslide li').css("margin-left","12%");
+		if("${teacher.vaadmin}"=="1"){
+			$('#vaadmin').css("display","");
+		}
+		$('.gohome .bounceInUp').remove();
+	});
     	$('.J_menuItem').click(function() {
     		$('.minimalize-styl-2').click();
     		$('.gohome .bounceInUp').remove();

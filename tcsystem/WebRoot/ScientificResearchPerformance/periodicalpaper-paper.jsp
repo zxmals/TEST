@@ -84,7 +84,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                	<td>序号</td>
 										<td>期刊论文Id</td>
 										<td>期刊论文标题</td>
-										<td style="display: none">期刊Id</td>
 										<td>期刊</td>
 										<td>年</td>
 										<td>卷</td>
@@ -94,9 +93,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										<td>登记负责人</td>
 										<td>状态</td>
 										<td>操作</td>
-										<td style="display: none">第一作者</td>
-										<td style="display: none">第二作者</td>
-										<td style="display: none">期刊论文Idano</td>
 									</tr>
 	                            </thead>
 	                            <tbody>

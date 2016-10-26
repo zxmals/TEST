@@ -235,6 +235,36 @@ public class PeriodicalPapersDAO extends BaseHibernateDAO  {
 		}
 	}
 	
+	public List findPageing(int currentRow,int limitRow,String condition){
+		try {
+			String queryString = "from PeriodicalPapers "
+					+ "where spareTire = '1' "
+					+ "and periodical.spareTire='1' "
+					+condition
+					+ "order by year desc";
+	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow).setMaxResults(limitRow);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from PeriodicalPapers "
+					+ "where spareTire = '1' "
+					+ "and periodical.spareTire='1' "
+					+condition
+					+ "order by year desc";
+	         Query queryObject = getSession().createQuery(queryString);
+			 return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
     public PeriodicalPapers merge(PeriodicalPapers detachedInstance) {
         log.debug("merging PeriodicalPapers instance");
         try {
