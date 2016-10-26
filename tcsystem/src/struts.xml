@@ -417,6 +417,24 @@
 			<result>/Audit/Teaching/Tf{1}Performance.jsp</result>
 		</action>
 	</package>
+	<!-- 教学绩效管理 -->
+	<package name="TeachingPeroformanceSet" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="logincheckeInterceptor"
+				class="com.nuaa.ec.interceptor.LoginCheckInterceptor"></interceptor>
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="logincheckeInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
+		<global-results>
+			<result name="relogin">login.jsp</result>
+		</global-results>
+		<action name="GT*PerformanceSet" class="com.nuaa.ec.teachingPerformanceSetAction.GT{1}PerformanceSetAction">
+			<result>/TeachingPerformance/GT{1}Performance.jsp</result>
+		</action>			
+	</package>
 </struts>
 
 

@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.nuaa.ec.model.ResearchLab;
-import com.nuaa.ec.model.Tfterm;
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.TfdegreeThesisGuidanceRewardLevel;
+import com.nuaa.ec.model.Tfterm;
 public class StoreData {
 
 	private static Map<String, Object> teachertranslate = new HashMap<String, Object>();
@@ -44,4 +45,5 @@ public class StoreData {
 	public static void setDepartmentList(List<Department> departmentList) {
 		StoreData.departmentList = departmentList;
 	}
+
 }

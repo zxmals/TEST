@@ -36,6 +36,31 @@ public class TfdegreeThesisGuidancePerformanceDAO extends BaseHibernateDAO  {
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
 	private List<TfdegreeThesisGuidancePerformance> TFdegreeThesisGuidancePefroList = null;
+	/**
+	 * 获得所有的记录信息 但是顺便实现了分页
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List findAllWithDivided(int pageIndex,int pageSize,boolean isDivided){
+		List<TfdegreeThesisGuidancePerformance> list=new ArrayList<TfdegreeThesisGuidancePerformance>();
+		String hql="from TfdegreeThesisGuidancePerformance DTG where spareTire='1' order by DTG.degreeThesisId desc";
+		try{
+			if(!isDivided){
+				list=this.getSession().createQuery(hql).list();
+				int listSize=list.size();
+				session.put("recordNumber_GTDTG",list.size());
+				session.put("pageCount_GTDTG", listSize%pageSize==0?(listSize/pageSize):(listSize/pageSize+1));
+			}
+			/*
+			 * 分页 pageIndex 默认是1，显示第一页，
+			 * 但以后会随着前台的分页操作同步更新。
+			 */
+			list=this.getSession().createQuery(hql).setFirstResult((pageIndex-1)*pageSize).setMaxResults(pageSize).list();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
 	public boolean updateCheckoutStatus(List<TfdegreeThesisGuidancePerformance> TfDTGPerfoList){
 		Session session=this.getSession();
 		Transaction tx=null;
@@ -190,7 +215,7 @@ public class TfdegreeThesisGuidancePerformanceDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all TfdegreeThesisGuidancePerformance instances");
 		try {
-			String queryString = "from TfdegreeThesisGuidancePerformance";
+			String queryString = "from TfdegreeThesisGuidancePerformance where spareTire='1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
