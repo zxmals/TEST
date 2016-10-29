@@ -236,7 +236,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="">课堂教学绩效</a></li>
 											<li><a class="J_menuItem" href="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord">学位论文指导质量绩效</a></li>
 											<li><a class="J_menuItem" href="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher">教学竞赛绩效</a></li>
-											<li><a class="J_menuItem" href="">教学能力提升绩效</a></li>
+											<li><a class="J_menuItem" href="GTTeachingAbilityImprovePerformanceSet!getAllRecord">教学能力提升绩效</a></li>
 											<li><a class="J_menuItem" href="">教学名师和教学团队绩效</a></li>
 										</ul>
 									</li>
