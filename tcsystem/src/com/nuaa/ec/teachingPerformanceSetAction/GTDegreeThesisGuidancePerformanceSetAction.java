@@ -9,7 +9,6 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
 
-import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.dao.TfdegreeThesisGuidancePerformanceDAO;
 import com.nuaa.ec.dao.TfdegreeThesisGuidanceRewardLevelDAO;
 import com.nuaa.ec.model.Teacher;
@@ -23,6 +22,7 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 	 * function：更新一条记录
 	 */
 	public void updateDegreeThesisGuidanceRecord(){
+		System.out.println("更新的ID是："+degreeThesisGuidancePerformance.getTermId());
 		Transaction tx=null;
 		try{
 			tx=this.degreeThesisGuidancePerformanceDAO.getSession().beginTransaction();
@@ -31,8 +31,7 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 			 */
 			degreeThsisGuidanceRewardLevel=this.degreeGuidanceRewardLevelDAO.findById(degreeThsisGuidanceRewardLevel.getRewardLevelId());
 			degreeThesisGuidancePerformance.setTfdegreeThesisGuidanceRewardLevel(degreeThsisGuidanceRewardLevel);
-			this.teacher=this.teacherDAO.findById(this.teacher.getTeacherId());
-			degreeThesisGuidancePerformance.setTeacher(teacher);
+			degreeThesisGuidancePerformance.setTeacher((Teacher) session.get("teacher"));
 			degreeThesisGuidancePerformance.setSpareTire("1");
 			degreeThesisGuidancePerformance.setCheckOut("0");
 			this.degreeThesisGuidancePerformanceDAO.merge(degreeThesisGuidancePerformance);
@@ -82,6 +81,7 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 	 * @return StringFlag
 	 */
 	public void insertDegreeThesisGuidanceRecord() {
+		System.out.println("termId:"+degreeThesisGuidancePerformance.getTermId());
 		Transaction tx = null;
 		try {
 			degreeThesisGuidancePerformance.setDegreeThesisId(pkmk.mkpk(
@@ -89,8 +89,7 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 					"DT"));
 			degreeThesisGuidancePerformance.setSpareTire("1");
 			degreeThesisGuidancePerformance.setCheckOut("0");
-			degreeThesisGuidancePerformance.setTeacher(this.teacherDAO
-					.findById(teacher.getTeacherId()));
+			degreeThesisGuidancePerformance.setTeacher((Teacher) session.get("teacher"));
 			degreeThesisGuidancePerformance
 					.setTfdegreeThesisGuidanceRewardLevel(this.degreeGuidanceRewardLevelDAO
 							.findById(degreeThsisGuidanceRewardLevel
@@ -115,7 +114,7 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 	}
 
 	/**
-	 * function:获得所有的学位论文指导绩效记录
+	 * function:获得当前教师的所有的学位论文指导绩效记录
 	 * 
 	 * @return StringFlag
 	 */
@@ -135,9 +134,8 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 				pageSize_GTDTG=(Integer) session.get("pageSize_GTDTG");
 			}
 			this.request.put("degreeThesisGuidancePerfList",
-					this.degreeThesisGuidancePerformanceDAO.findAllWithDivided(pageIndex, pageSize_GTDTG, isDivided));
+					this.degreeThesisGuidancePerformanceDAO.findAllWithDivided(pageIndex, pageSize_GTDTG,(String) session.get("termId_GTDTG"), isDivided));
 			tx.commit();
-			// this.setOperstatus(1);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			tx.rollback();
@@ -159,13 +157,13 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 			.getSession();
 	private TfdegreeThesisGuidancePerformance degreeThesisGuidancePerformance;
 	private Teacher teacher;
+	private String termId_GTDTG;
 	private TfdegreeThesisGuidanceRewardLevel degreeThsisGuidanceRewardLevel;
 	private TfdegreeThesisGuidancePerformanceDAO degreeThesisGuidancePerformanceDAO = new TfdegreeThesisGuidancePerformanceDAO();
 	private TfdegreeThesisGuidanceRewardLevelDAO degreeGuidanceRewardLevelDAO = new TfdegreeThesisGuidanceRewardLevelDAO();
-	private TeacherDAO teacherDAO = new TeacherDAO();
 	private HttpServletResponse response=ServletActionContext.getResponse();
 	private PrimaryKMaker pkmk = new PrimaryKMaker();
-
+	private Teacher teacherHaveLogin;
 	public void setRequest(Map<String, Object> request) {
 		this.request = request;
 	}
@@ -228,5 +226,16 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 
 	public void setIsDivided(String isDivided) {
 		this.isDivided = isDivided;
+	}
+	public Teacher getTeacherHaveLogin() {
+		this.teacherHaveLogin= (Teacher) this.session.get("teacher");
+		return teacherHaveLogin;
+	}
+	public String getTermId_GTDTG() {
+		return termId_GTDTG;
+	}
+	public void setTermId_GTDTG(String termId_GTDTG) {
+		this.termId_GTDTG = termId_GTDTG;
+		session.put("termId_GTDTG", termId_GTDTG);
 	}
 }

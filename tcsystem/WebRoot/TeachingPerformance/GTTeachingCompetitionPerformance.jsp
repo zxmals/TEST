@@ -1,4 +1,3 @@
-<%@page import="com.nuaa.ec.utils.StoreData"%>
 <%@ page language="java"
 	import="java.util.*,com.nuaa.ec.model.ProjectType" pageEncoding="UTF-8"%>
 <%@taglib uri="/struts-tags" prefix="s"%>
@@ -11,7 +10,13 @@
 %>
 
 <%
-	request.setAttribute("tftermList", StoreData.getTftermList());
+	/* List<ProjectType> scientypelist=(List<ProjectType>)session.getAttribute("projectType"); */
+	String add = (String) request.getAttribute("add");
+	String uudate = (String) request.getAttribute("i");
+	int uodate = 0;
+	if (uudate != null)
+		uodate = Integer.parseInt(uudate);
+	String update = (String) request.getAttribute("update");
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -63,7 +68,7 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-title">
 						<h5>
-							学术论文指导绩效管理 <small></small>
+							教学竞赛绩效管理 <small></small>
 						</h5>
 						<div class="ibox-tools">
 							<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -81,33 +86,24 @@
 					<div class="ibox-content">
 						<button class="btn  btn-primary openaddm" type="submit"
 							data-backdrop="true" data-toggle="modal" data-target="#add">
-							<strong>新增学术论文指导绩效</strong>
+							<strong>新增教学竞赛绩效</strong>
 						</button>
 						<br>
 						<br>
-						<form action="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord">
-							<div>
-								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_GTDTG">
-										<c:forEach var="pageSize" items="${pageSizeList }">
-											<option value="${pageSize }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${pageSize }</option>
-										</c:forEach>
-								</select>条记录
-								</a>
-								&nbsp;&nbsp;
-								<font color="#337AB7">学期：</font>
-								<select id="termSelection" name="termId_GTDTG" style="width:120px;height:25px;border-radius:3px;">
-									<option value="">全部学期</option>
-									<c:forEach var="tfterm" items="${tftermList }">
-										<option value="${tfterm.termId }">${tfterm.term }</option>
+						<div>
+							<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" placeholder='请选择'>
+<!-- 									<option selected="selected">请选择</option> -->
+									<c:forEach var="pageSize" items="${pageSizeList }">
+										<option value="${pageSize }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${pageSize }</option>
 									</c:forEach>
-								</select>
-								&nbsp;&nbsp;&nbsp;
-								<button class="button_set" type="submit" id="AlterPageSize"
-								data-backdrop="true" data-toggle="modal">
-								<strong>确认</strong>
-								</button>
-							</div>
-						</form>
+							</select>条记录
+							</a>
+							&nbsp;&nbsp;
+							<button class="button_set" type="button" id="AlterPageSize"
+							data-backdrop="true" data-toggle="modal">
+							<strong>确认更换</strong>
+						</button>
+						</div>
 						<br>
 						<div class="example">
 							<form method="post" name="f">
@@ -116,12 +112,11 @@
 									<thead>
 										<tr>
 											<td>ID</td>
-											<td>姓名</td>
 											<td>工号</td>
-											<td>学位论文名称</td>
+											<td>姓名</td>
+											<td>竞赛名称</td>
 											<td>奖励级别</td>
-											<td>状态</td>
-											<td>操作</td>
+											<td>得分</td>
 										</tr>
 									</thead>
 									<tbody>
@@ -129,16 +124,16 @@
 											items="${degreeThesisGuidancePerfList }">
 											<tr>
 												<!-- ID -->
+												<td></td>
+												<!-- 工号 -->
 												<td>${degreeThesisGuidancePerf.degreeThesisId }</td>
 												<!-- 姓名 -->
 												<td>${degreeThesisGuidancePerf.teacher.teacherName }</td>
-												<!-- 工号 -->
+												<!-- 竞赛名称-->
 												<td>${degreeThesisGuidancePerf.teacher.teacherId }</td>
-												<!-- 学位论文名称 -->
-												<td>${degreeThesisGuidancePerf.degreeThesisnName }</td>
 												<!-- 奖励级别 -->
 												<td>${degreeThesisGuidancePerf.tfdegreeThesisGuidanceRewardLevel.rewardLevel }</td>
-												<!-- 状态 -->
+												<!-- 得分-->
 												<c:if test="${degreeThesisGuidancePerf.checkOut ==0 }">
 													<td style="color:blue;">待审核</td>
 												</c:if>
@@ -201,16 +196,20 @@
 										type="text" class="form-control nullcheck" name="degreeThesisGuidancePerformance.degreeThesisId" 
 										value="">
 								</div>
+<!-- 								<div class="form-group"  style="display: none;"> -->
+<!-- 									<label>姓名</label>&nbsp;<label></label> <input id="up_teacherName" -->
+<!-- 										type="text" class="form-control nullcheck" -->
+<!-- 										name="teacher.teacherName" -->
+<!-- 										value="" readonly="readonly"> -->
+<!-- 								</div> -->
+<!-- 								<div class="form-group"  style="display: none;"> -->
+<!-- 									<label>工号:</label>&nbsp;<label></label> <input id="up_teacherId" -->
+<!-- 										type="text" class="form-control nullcheck" -->
+<!-- 										name="teacher.teacherId" -->
+<!-- 										value="" readonly="readonly"> -->
+<!-- 								</div> -->
 								<div class="form-group">
-									<label>学期:</label>&nbsp;<label></label> 
-									<select id="up_termSelection" name="degreeThesisGuidancePerformance.termId" style="width:568px;height:33px;border-radius:2px;border:1px #E5E6E7 solid;">
-										<c:forEach var="tfterm" items="${tftermList }">
-											<option value="${tfterm.termId }">${tfterm.term }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>学位论文名称:</label>&nbsp;<label></label> <input
+									<label>竞赛名称:</label>&nbsp;<label></label> <input
 										id=up_degreeThesisName " type="text"
 										class="form-control nullcheck"
 										name="degreeThesisGuidancePerformance.degreeThesisnName"
@@ -259,15 +258,7 @@
 										type="text" class="form-control nullcheck" name="" value="">
 								</div>
 								<div class="form-group">
-									<label>学期:</label>&nbsp;<label></label><br>
-									<select id="add_termSelection" name="degreeThesisGuidancePerformance.termId" style="width:568px;height:33px;border-radius:2px;border:1px #E5E6E7 solid;">
-										<c:forEach var="tfterm" items="${tftermList }">
-											<option value="${tfterm.termId }">${tfterm.term }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>学位论文名称:</label>&nbsp;<label></label> <input
+									<label>竞赛名称:</label>&nbsp;<label></label> <input
 										id=degreeThesisName " type="text"
 										class="form-control nullcheck"
 										name="degreeThesisGuidancePerformance.degreeThesisnName"
@@ -311,20 +302,18 @@
 	<script type="text/javascript">
 	$().ready(function(){
 		$("#changelength option[value='${sessionScope.pageSize_GTDTG}']").attr("selected",true);
-		$("#termSelection option[value='${sessionScope.termId_GTDTG}']").attr("selected",true);
-		$("#add_termSelection option[value='${sessionScope.termId_GTDTG}']").attr("selected",true);
-		$("#up_termSelection option[value='${sessionScope.termId_GTDTG}']").attr("selected",true);
 	});
 	function refresh(){
-		window.location.reload(false);
+		window.location.replace("<%=basePath %>GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord");
 	}
-// 	$('#AlterPageSize').click(function(){
-// 		if($("#changelength option:selected").text().trim().length!=0){
-// 			window.open("GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord?isDivided=false&pageSize_GTDTG="+$("#changelength option:selected").text().trim(), "_self");
-// 		}
-// 	});
+	$('#AlterPageSize').click(function(){
+		if($("#changelength option:selected").text().trim().length!=0){
+			window.open("GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord?isDivided=false&pageSize_GTDTG="+$("#changelength option:selected").text().trim(), "_self");
+		}
+	});
     $('#addDTGPerformance').click(function() {
 		if($('#degreeThesisName').val().trim()!=""){
+		alert("进来饿了");
 			$.ajax({
 				cache:true,
 				type:"POST",
@@ -349,19 +338,19 @@
 // 		}
 	});
     $('#updateDTGPerformance').click(function() {
-    	window.alert("hehehe");
     	if($('#up_degreeThesisName').val().trim()!=""){
-    		window.alert($("#up_termSelection option:selected").val());
+//     		alert($("#up_rewardLevel option:selected").val().trim());
     		$.post("GTDegreeThesisGuidancePerformanceSet!updateDegreeThesisGuidanceRecord",
     				{"degreeThesisGuidancePerformance.degreeThesisId":$('#up_ID').val().trim(),
+    				"teacher.teacherName":$('#up_teacherName').val().trim(),
+    				"teacher.teacherId":$('#up_teacherId').val().trim(),
     				"degreeThesisGuidancePerformance.degreeThesisnName":$('#up_degreeThesisName').val().trim(),
-    				"degreeThsisGuidanceRewardLevel.rewardLevelId":$("#up_rewardLevel option:selected").val().trim(),
-    				"degreeThesisGuidancePerformance.termId":$("#up_termSelection option:selected").val().trim()},
+    				"degreeThsisGuidanceRewardLevel.rewardLevelId":$("#up_rewardLevel option:selected").val().trim()},
     				function(data,status){
     					if(status=="success"){
     						if(data=="succ"){
     							alert("修改成功");
-    							window.location.replace("<%=basePath %>GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord");
+    							window.location.replace("<%=basePath %>GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord?isDivided=true&pageIndex=${pageIndex}");
     						}else{
     							alert("修改失败"+data);
     						}
@@ -378,6 +367,8 @@
 		}
 // 		$('#up_ID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
 		$('#up_ID')[0].value = $(this).parent().parent()[0].cells[0].innerHTML;
+		$('#up_teacherName')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
+		$('#up_teacherId')[0].value = $(this).parent().parent()[0].cells[2].innerHTML;
 		$('#up_degreeThesisName')[0].value = $(this).parent().parent()[0].cells[3].innerHTML;
 		var temp=$(this).parent().parent()[0].cells[4].innerHTML;
 		$("#up_rewardLevel option").each(function(){
