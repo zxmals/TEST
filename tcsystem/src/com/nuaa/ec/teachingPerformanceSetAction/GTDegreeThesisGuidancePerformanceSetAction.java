@@ -31,6 +31,7 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 			 */
 			degreeThsisGuidanceRewardLevel=this.degreeGuidanceRewardLevelDAO.findById(degreeThsisGuidanceRewardLevel.getRewardLevelId());
 			degreeThesisGuidancePerformance.setTfdegreeThesisGuidanceRewardLevel(degreeThsisGuidanceRewardLevel);
+			degreeThesisGuidancePerformance.setFinalScore(this.getScore(degreeThsisGuidanceRewardLevel.getRewardLevelId()));
 			degreeThesisGuidancePerformance.setTeacher((Teacher) session.get("teacher"));
 			degreeThesisGuidancePerformance.setSpareTire("1");
 			degreeThesisGuidancePerformance.setCheckOut("0");
@@ -56,7 +57,6 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 	public void deleteDegreeThesisGuidanceRecord(){
 		Transaction tx=null;
 		try{
-			System.out.println(degreeThesisGuidancePerformance.getDegreeThesisId());
 			tx=this.degreeThesisGuidancePerformanceDAO.getSession().beginTransaction();
 			degreeThesisGuidancePerformance=this.degreeThesisGuidancePerformanceDAO.findById(degreeThesisGuidancePerformance.getDegreeThesisId());
 			degreeThesisGuidancePerformance.setSpareTire("0");
@@ -87,6 +87,7 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 			degreeThesisGuidancePerformance.setDegreeThesisId(pkmk.mkpk(
 					"Degree_thesisID", "TFDegreeThesisGuidance_Performance",
 					"DT"));
+			degreeThesisGuidancePerformance.setFinalScore(this.getScore(this.degreeThsisGuidanceRewardLevel.getRewardLevelId().trim()));
 			degreeThesisGuidancePerformance.setSpareTire("1");
 			degreeThesisGuidancePerformance.setCheckOut("0");
 			degreeThesisGuidancePerformance.setTeacher((Teacher) session.get("teacher"));
@@ -143,7 +144,24 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 		}
 		return "success";
 	}
-
+	public double getScore(String rewardLevel){
+		double score=0;
+		if(rewardLevel.equals("TFDR1")){
+			score=500;
+		}else if(rewardLevel.equals("TFDR2")){
+			score=400;
+		}else if(rewardLevel.equals("TFDR3")){
+			score=300;
+		}else if(rewardLevel.equals("TFDR4")){
+			score=200;
+		}else if(rewardLevel.equals("TFDR5")){
+			score=100;
+		}else{
+			score=50;
+		}
+			
+		return score;
+	}
 	public String execute() throws Exception {
 		return "success";
 	}

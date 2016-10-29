@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 import com.nuaa.ec.dao.TfdegreeThesisGuidanceRewardLevelDAO;
+import com.nuaa.ec.dao.TfteachingCompetitionRewardLevelDAO;
 
 
 @SuppressWarnings("serial")
@@ -38,6 +39,7 @@ public class InitServlet extends HttpServlet {
 		 * 获得论文奖励水平的种类，到时候如果有变动在这里改
 		 */
 		context.setAttribute("degreeGuidanceRewardLevels", new TfdegreeThesisGuidanceRewardLevelDAO().findAll());
+		context.setAttribute("teachingCompetitionRewardLevelList", new TfteachingCompetitionRewardLevelDAO().findAll());
 		
 	}
 

@@ -120,6 +120,7 @@
 											<td>工号</td>
 											<td>学位论文名称</td>
 											<td>奖励级别</td>
+											<td>分数</td>
 											<td>状态</td>
 											<td>操作</td>
 										</tr>
@@ -138,6 +139,8 @@
 												<td>${degreeThesisGuidancePerf.degreeThesisnName }</td>
 												<!-- 奖励级别 -->
 												<td>${degreeThesisGuidancePerf.tfdegreeThesisGuidanceRewardLevel.rewardLevel }</td>
+												<!-- 分数 -->
+												<td>${degreeThesisGuidancePerf.finalScore }</td>
 												<!-- 状态 -->
 												<c:if test="${degreeThesisGuidancePerf.checkOut ==0 }">
 													<td style="color:blue;">待审核</td>

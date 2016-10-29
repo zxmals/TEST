@@ -42,10 +42,19 @@ public class TfteachingCompetitionPerformanceDAO extends BaseHibernateDAO  {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List findAllWithDivided(int pageIndex,int pageSize,boolean isDivided){
+	public List findAllWithDivided(int pageIndex,int pageSize,String termId,boolean isDivided){
 		Teacher teacherHaveLogin=(Teacher) session.get("teacher");
-		List<TfdegreeThesisGuidancePerformance> list=new ArrayList<TfdegreeThesisGuidancePerformance>();
-		String hql="from TfteachingCompetitionPerformance TCP where spareTire='1' and TCP.teacher=? order by TCP.competitionId desc";
+		List<TfteachingCompetitionPerformance> list=new ArrayList<TfteachingCompetitionPerformance>();
+		String hql = null;
+		/*
+		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
+		 */
+		if (termId == null || termId.length() == 0) {
+			hql = "from TfteachingCompetitionPerformance TCP where spareTire='1' and TCP.teacher=? order by TCP.competitionId desc";
+		} else {
+			hql = "from TfteachingCompetitionPerformance TCP where spareTire='1' and TCP.teacher=? and TCP.termId='"
+					+ termId + "' order by TCP.competitionId desc";
+		}
 		try{
 			if(!isDivided){
 				list=this.getSession().createQuery(hql).setParameter(0, teacherHaveLogin).list();
