@@ -9,6 +9,7 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.ExpertType;
 import com.nuaa.ec.model.InvitedExpertsSpeechScore;
 
 /**
@@ -112,6 +113,20 @@ public class InvitedExpertsSpeechScoreDAO extends BaseHibernateDAO  {
 			String queryString = "from InvitedExpertsSpeechScore where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public InvitedExpertsSpeechScore checkexist(ExpertType et){
+		try {
+			String queryString = "from InvitedExpertsSpeechScore where spareTire='1' "
+					+ "and expertType=?";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, et);
+	         if(queryObject.list().size()>0){
+	        	 return (InvitedExpertsSpeechScore) queryObject.list().get(0);
+	         }else return null;
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

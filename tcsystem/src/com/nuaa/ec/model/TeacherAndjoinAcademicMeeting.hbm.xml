@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.TeacherAndjoinAcademicMeeting" table="TeacherANDJoinAcademicMeeting" schema="dbo" catalog="ScientificResearch">
         <id name="teacherAjacaMid" type="java.lang.Integer">
             <column name="TeacherAJAcaMid" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <many-to-one name="meetingPaper" class="com.nuaa.ec.model.MeetingPaper" fetch="select">
             <column name="MeetingPaperID" length="20" />

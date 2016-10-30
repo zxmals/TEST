@@ -1,13 +1,19 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveActId;
+import com.opensymphony.xwork2.ActionContext;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +37,9 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 	public static final String SCORE = "score";
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String ASPARE_TIRE = "aspareTire";
-
+	private Map<String, Object> session = ActionContext.getContext().getSession();
+	private List<VateacherAndCollectiveAct> addJoinedActList = null;
+	
 	public void save(VateacherAndCollectiveAct transientInstance) {
 		log.debug("saving VateacherAndCollectiveAct instance");
 		try {
@@ -87,6 +95,18 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 			throw re;
 		}
 	}
+	
+//	public VateacherAndCollectiveAct findById(String id){
+//		log.debug("getting VateacherAndCollectiveAct instance with id: " + id);
+//		try {
+//			VateacherAndCollectiveAct instance = (VateacherAndCollectiveAct) getSession()
+//					.get("com.nuaa.ec.model.VateacherAndCollectiveAct", id);
+//			return instance;
+//		} catch (RuntimeException re) {
+//			log.error("get failed", re);
+//			throw re;
+//		}
+//	}
 
 	public List findByExample(VateacherAndCollectiveAct instance) {
 		log.debug("finding VateacherAndCollectiveAct instance by example");
@@ -192,4 +212,74 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 			throw re;
 		}
 	}
+
+	public boolean updateASparetire(List<VateacherAndCollectiveAct> checkoutList) {
+		// TODO Auto-generated method stub
+		Session session = this.getSession();
+		Transaction tx = null;
+		boolean updateFlag = false;
+		try {
+			for (int i = 0; i < checkoutList.size(); i++) {
+				session.update(checkoutList.get(i));
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			updateFlag = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return updateFlag;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List getVaAddJoinedAct(int pageIndex, int pagesize,
+			ResearchLab researchLab, String checkout, boolean isDivided) {
+		// TODO Auto-generated method stub
+		StringBuffer hqlBuffer = null;
+		try{
+		if (researchLab.getResearchLabId() == null || 
+				researchLab.getResearchLabId().length() == 0) {
+			/*
+			 * 第一次进入的时候，不显示记录
+			 */
+			
+			session.put("pageCount_CT", 0);
+			session.put("recordNumber_CT", 0);
+			return addJoinedActList = new ArrayList<VateacherAndCollectiveAct>();
+		}else {
+			hqlBuffer = new StringBuffer(
+					"from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+					+ " and VACA.aspareTire='" + checkout +"'"
+					+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+					+ " and VACA.id.teacher.spareTire='1'"
+					+ " and VACA.id.teacher.researchLab.spareTire='1'"
+					+ " and VACA.id.teacher.researchLab.researchLabId='"+researchLab.getResearchLabId()+"'"
+					+ " order by VACA.id.vacollectiveActivitiesPublish.actPubId asc " );
+//			hqlBuffer = new StringBuffer(
+//					"from VateacherAndCollectiveAct"
+//					);
+		}
+		if (!isDivided) {
+			//如果不是分页操作，取出所有符合条件的记录
+			addJoinedActList = this.getSession().createQuery(hqlBuffer.toString()).list();
+			int recordNumber = addJoinedActList.size();
+			session.put("pageCount_CT", recordNumber%pagesize==0?(recordNumber/pagesize):(recordNumber/pagesize+1));
+			session.put("recordNumber_CT", addJoinedActList.size());
+		}
+		//无论是不是分页查询，都在后台进行分页操作。
+
+		
+		addJoinedActList = this.getSession()
+				.createQuery(hqlBuffer.toString())
+				.setFirstResult((pageIndex - 1) * pagesize)
+				.setMaxResults(pagesize).list();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+			return addJoinedActList;
+	}
+
 }
+	

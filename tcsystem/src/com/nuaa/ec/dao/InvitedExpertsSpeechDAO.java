@@ -153,6 +153,64 @@ public class InvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 		}
 	}
 	
+	public List findMember(InvitedExpertsSpeech iespeech){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,'') "
+					+ "from TeacherAndinvitedExpertsSpeech t "
+					+ "where t.spareTire='1' "
+					+ "and t.invitedExpertsSpeech.spareTire='1' "
+					+ "and t.invitedExpertsSpeech=? "
+					+ "and t.teacher.spareTire='1' "
+					+ "and t.invitedExpertsSpeechScore.spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, iespeech);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteINvites(String iespeechId){
+		try {
+			String queryString = "update InvitedExpertsSpeech set spareTire='0' "
+					+ "where iespeechId=?";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, iespeechId);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findPageing(int currentRow,int limitRow,String condition){
+		try {
+			String queryString = "from InvitedExpertsSpeech where spareTire='1' "
+					+ "and nationality.spareTire='1' "
+					+ "and expertType.spareTire='1' "
+					+ condition+" order by speechDate desc";
+	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow);
+	         queryObject.setMaxResults(limitRow);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from InvitedExpertsSpeech where spareTire='1' "
+					+ "and nationality.spareTire='1' "
+					+ "and expertType.spareTire='1' "
+					+ condition;
+	         Query queryObject = getSession().createQuery(queryString);
+			 return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
     public InvitedExpertsSpeech merge(InvitedExpertsSpeech detachedInstance) {
         log.debug("merging InvitedExpertsSpeech instance");
         try {

@@ -1,6 +1,10 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.TeacherAndacademicWork;
+import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VaunJoinRecord;
+import com.opensymphony.xwork2.ActionContext;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,10 +12,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.service.jdbc.connections.spi.ConnectionProvider;
@@ -40,6 +46,8 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 	public static final String RESULTSCORE = "resultscore";
 	public static final String SPARETIRE = "sparetire";
 	public static final String ASPARETIRE = "asparetire";
+	private Map<String, Object> session = ActionContext.getContext().getSession();
+
 
 	public void save(VaunJoinRecord transientInstance) {
 		log.debug("saving VaunJoinRecord instance");
@@ -218,5 +226,128 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 			log.error("attach failed", re);
 			throw re;
 		}
+	}
+
+	public boolean updateCheckoutStatus(List<VaunJoinRecord> checkoutList) {
+		// TODO Auto-generated method stub
+		Session session=this.getSession();
+		Transaction tx=null;
+		boolean updateFlag=false;
+		try{
+			for(int i=0;i<checkoutList.size();i++){
+				session.update(checkoutList.get(i));
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			updateFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+
+	public List<VaunJoinRecord> getUnjoinedActListAfterDivide(int pageIndex,
+			Integer pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut) {
+		// TODO Auto-generated method stub
+		List<VaunJoinRecord> list=null;
+		StringBuffer hql = null;
+		if (researchLab.getResearchLabId() == null
+				|| researchLab.getResearchLabId().length() == 0) {
+			hql = new StringBuffer(
+					"select VAJR from VaunJoinRecord VAJR where"
+					+ "VAJR.sparetire='1'"
+					+ "and VAJR.asparetire='"
+					+ checkOut
+					+ "'"
+					);
+		}else {
+			// 查出符合条件的全部的记录
+			hql = new StringBuffer(
+					"from VaunJoinRecord VAJR where "
+					+ " VAJR.sparetire='1'"
+					+ " and VAJR.asparetire='"
+					+ checkOut
+					+ "'"
+					);
+		}
+		list = new ArrayList<VaunJoinRecord>();
+		String append = " and VAJR.actDate between ? and ? ";
+		String rank = " order by VAJR.unjoinId asc";
+		
+		if (foredate != null && afterdate != null && foredate.length() != 0
+				&& afterdate.length() != 0) {
+			// 判断日期范围限制
+			hql.append(append).append(rank);
+			list = this.getSession().createQuery(hql.append(rank).toString())
+					.setString(0, foredate).setString(1, afterdate)
+					.setFirstResult((pageIndex - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+		} else {
+			list = this.getSession().createQuery(hql.append(rank).toString())
+					.setFirstResult((pageIndex - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+
+		}
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List findAllWithCondition(int pageIndex, Integer pageSize,
+			String foredate, String afterdate, ResearchLab researchLab,
+			String checkOut) {
+		// TODO Auto-generated method stub
+		StringBuffer hql = null;
+		List<VaunJoinRecord> list = new ArrayList<VaunJoinRecord>();
+		if (researchLab.getResearchLabId() == null
+				|| researchLab.getResearchLabId().length() == 0) {
+			/*
+			 * 如果第一次进入界面 没有选择研究所 session里面没有对应的数据， 所以不显示数据
+			 */
+			session.put("recordNumber_UJA", 0);
+			session.put("pageCount_UJA", 0);
+			return list;
+		}else {
+			hql = new StringBuffer(
+					"from VaunJoinRecord VAJR where "
+					+ " VAJR.sparetire='1'"
+					+ " and VAJR.asparetire='"
+					+ checkOut
+					+ "'");
+		}
+		try {
+			String append = " and VAJR.actDate between ? and ? ";
+			String rank = " order by VAJR.unjoinId asc";
+			/*
+			 * 不一定有日期，所以要判断
+			 */
+			if (foredate != null && afterdate != null && foredate.length() != 0
+					&& afterdate.length() != 0) {
+				// 判断日期范围限制
+				hql.append(append).append(rank);
+				list = this.getSession().createQuery(hql.append(rank).toString())
+						.setString(0, foredate).setString(1, afterdate).list();
+			} else {
+				list = this.getSession().createQuery(hql.append(rank).toString()).list();
+			}
+			/*
+			 * 总体查询完毕，把总记录数和总页数放入session用于前台展现。
+			 */
+			session.put("recordNumber_UJA", list.size());
+			session.put("pageCount_UJA",
+					list.size() % pageSize == 0 ? (list.size() / pageSize)
+							: (list.size() / pageSize + 1));
+			/*
+			 * 调用分页函数，缓解前台压力， 在后台完成分页，在前台展示相应数据。
+			 */
+			list = this.getUnjoinedActListAfterDivide(pageIndex, pageSize,
+					foredate, afterdate, researchLab, checkOut);
+		} catch (Exception ex) {
+			// TODO: handle exception
+			log.error("find all failed", ex);
+			System.out.println(ex.getMessage());
+		}
+		return list;
+		
 	}
 }

@@ -94,16 +94,16 @@ public class JoinAcademicMeetingScoreDAO extends BaseHibernateDAO  {
       }
 	}
 
-    public JoinAcademicMeetingScore findByMeetTypeAndPaperretri(MeetingType mt,PaperRetrievalCondition prc){
+    public JoinAcademicMeetingScore findByMeetTypeAndPaperretri(MeetingType mt,String prcId){
     	try {
             String queryString = "from JoinAcademicMeetingScore "
             		+ "where meetingType=? "
             		+ "and meetingType.spareTire='1' "
-            		+ "and paperRetrievalCondition=? "
+            		+ "and paperRetrievalCondition.prconditionId=? "
             		+ "and spareTire='1' ";
             Query queryObject = getSession().createQuery(queryString);
 	   		 queryObject.setParameter(0, mt);
-	   		 queryObject.setParameter(1, prc);
+	   		 queryObject.setParameter(1, prcId);
 	   		 if(queryObject.list().size()>0){
 	   			return (JoinAcademicMeetingScore) queryObject.list().get(0);
 	   		 }else{

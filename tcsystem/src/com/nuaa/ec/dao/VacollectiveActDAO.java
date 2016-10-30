@@ -2,6 +2,7 @@ package com.nuaa.ec.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.nuaa.ec.model.VacollectiveAct;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for VacollectiveAct entities.
@@ -25,7 +27,7 @@ import com.nuaa.ec.model.VacollectiveAct;
   * @author MyEclipse Persistence Tools 
  */
 public class VacollectiveActDAO extends BaseHibernateDAO  {
-	     private static final Logger log = LoggerFactory.getLogger(VacollectiveActDAO.class);
+	private static final Logger log = LoggerFactory.getLogger(VacollectiveActDAO.class);
 		//property constants
 	public static final String ACT_NAME = "actName";
 	public static final String ATTENDEE = "attendee";
@@ -34,8 +36,8 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 	public static final String BASE_NUM = "baseNum";
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String ASPARE_TIRE = "aspareTire";
-
-
+	private Map<String, Object> session = ActionContext.getContext().getSession();
+	private List<VacollectiveAct> addJoinedActList = null;
 
     
     public void save(VacollectiveAct transientInstance) {
@@ -60,7 +62,7 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
         }
     }
     
-    public VacollectiveAct findById( java.lang.Integer id) {
+    public VacollectiveAct findById( java.lang.String id) {
         log.debug("getting VacollectiveAct instance with id: " + id);
         try {
             VacollectiveAct instance = (VacollectiveAct) getSession()
@@ -193,7 +195,7 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
         }
     }
 
-	public boolean updateAsparetire(List<VacollectiveAct> checkoutList) {
+	public boolean updateASparetire(List<VacollectiveAct> checkoutList) {
 		Session session=this.getSession();
 		Transaction tx=null;
 		boolean updateFlag=false;
@@ -210,57 +212,52 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 		return updateFlag;
 	}
 
-	public Object getVaactListsWithCondition(
-			int pageIndex, int pageSize, String foredate, String afterdate,String checkOut) {
-		 
-			StringBuffer hql=null;
-				hql=new StringBuffer(
-						"from TeacherAndscientificResearchProject TARP where TARP.spareTire='1'"
-								+ " and TARP.scientificResearchProject.spareTire='1'"
-								+ " and TARP.teacher.spareTire='1'"
-								+ " and TARP.selfUndertakeTask.spareTire='1'"
-								+ " and TARP.checkOut='"+checkOut+"'");
-			List<TeacherAndscientificResearchProject> list = new ArrayList<TeacherAndscientificResearchProject>();
-			String append = " and TARP.scientificResearchProject.admitedProjectYear between ? and ? ";
-			if (foredate != null && afterdate != null && foredate.length()!=0 && afterdate.length()!=0) {
-				// 判断日期范围限制
-				hql.append(append);
-				list = this.getSession().createQuery(hql.toString())
-						.setString(0, foredate).setString(1, afterdate)
-						.setFirstResult((pageIndex - 1) * pageSize)
-						.setMaxResults(pageSize).list();
-			} else {
-				list = this.getSession().createQuery(hql.toString())
-						.setFirstResult((pageIndex - 1) * pageSize)
-						.setMaxResults(pageSize).list();
-			}
-			return list;
-	}
 
-	public Object findAll(int pageIndex, int pageSize, String foredate, String afterdate,String AspareTire) {
-		StringBuffer hql=null;
-			hql=new StringBuffer(
-					"from VacollectiveAct VCAct where VCAct.spareTire='1'"
-//							+ " and VCAct.scientificResearchProject.spareTire='1'"
-							+ " and VCAct.teacher.spareTire='1'"
-							+ " and VCAct.selfUndertakeTask.spareTire='1'"
-							+ " and VCAct.AspareTire='"+AspareTire+"'");
-		
-		List<TeacherAndscientificResearchProject> list = new ArrayList<TeacherAndscientificResearchProject>();
-		String append = " and TARP.scientificResearchProject.admitedProjectYear between ? and ? ";
-		if (foredate != null && afterdate != null && foredate.length()!=0 && afterdate.length()!=0) {
-			// 判断日期范围限制
-			hql.append(append);
-			list = this.getSession().createQuery(hql.toString())
-					.setString(0, foredate).setString(1, afterdate)
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List getVaAddJoinedAct(int pageIndex, int pageSize,ResearchLab researchLab,String checkOut,
+			boolean isDivided) {
+		// TODO Auto-generated method stub
+		StringBuffer hqlBuffer = null;
+		if (researchLab.getResearchLabId() == null || 
+				researchLab.getResearchLabId().length() == 0) {
+			/*
+			 * 第一次进入的时候，不显示记录
+			 */
+			
+			session.put("pageCount_CT", 0);
+			session.put("recordNumber_CT", 0);
+			return addJoinedActList = new ArrayList<VacollectiveAct>();
+		}else {
+			// 查出符合条件的全部的记录
+			hqlBuffer = new StringBuffer(
+					"from VacollectiveAct CT where CT.spareTire='1' "
+							+ "and CT.aspareTire='" + checkOut + "' "
+							+ "and CT.teacher.spareTire = '1' "
+//							+ "and VACA.spareTire = '1' "
+//							+ "and CT.teacher.teacherId = VACA.TeacherID "
+							+ "and CT.teacher.researchLab.spareTire='1' "
+							+ "and CT.teacher.researchLab.researchLabId='"
+							+ researchLab.getResearchLabId() + "'");
+			// 判断是否为分页操作
+			if (!isDivided) {
+				//如果不是分页操作，取出所有符合条件的记录
+				addJoinedActList = this.getSession().createQuery(hqlBuffer.toString()).list();
+				int recordNumber=addJoinedActList.size();
+				session.put("pageCount_CT", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+				session.put("recordNumber_CT", addJoinedActList.size());
+			}
+			//无论是不是分页查询，都在后台进行分页操作
+			addJoinedActList = this.getSession()
+					.createQuery(hqlBuffer.toString())
 					.setFirstResult((pageIndex - 1) * pageSize)
-					.setMaxResults(pageSize).list();
-		} else {
-			list = this.getSession().createQuery(hql.toString())
-					.setFirstResult((pageIndex - 1) * pageSize)
-					.setMaxResults(pageSize).list();
+					.setMaxResults(pageIndex).list();
+			
 		}
-		return list;
+		
+		return addJoinedActList;
 	}
+	
+
+	
 
 }

@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>JoinacademicMeeting --academicmeeting-Set</title>
+    <title>InviteExpertSpeech --Speech-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -50,25 +50,25 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1" method="post" name="pickdate" id="pickdates">
+			<form action="GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
 		</div>
 	</div>
-	<div class="chooseact">
+	<div class="chooseact"> 
     <div class="wrapper wrapper-content animated fadeInRight">
 	        <div class="row">
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>学术会议管理<small></small></h5>
+	                        <h5>专家讲座管理<small></small></h5>
 	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
 	                    <div class="ibox-content" style="height:540px;">
 	                    	 <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#utdialog">
-	                        	 <strong>新增学术会议</strong>
+	                        	 <strong>新增专家讲座</strong>
 	                         </button><br><br>
 	                    <div>
 	                    	<a>每页   
@@ -88,11 +88,12 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-										<td>学术会议Id</td>
-										<td>会议名称</td>
-										<td>会议类型</td>
-										<td>会议地点</td>
-										<td>会议日期</td>
+										<td>邀请专家讲学Id</td>
+										<td>讲座名称</td>
+										<td>专家名称</td>
+										<td>专家类型</td>
+										<td>专家国籍</td>
+										<td>讲座日期</td>
 										<td>登记负责人Id</td>
 										<td>登记负责人</td>
 										<td>状态</td>
@@ -100,13 +101,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj" items="${joinacademic }">
+									<c:forEach var="ebj" items="${invitespeech }">
 										<tr>
-											<td>${ebj.joinAcaMid }</td>
-											<td>${ebj.acaMeetName }</td>
-											<td title="${ebj.meetingType.meetingTypeId }">${ebj.meetingType.meetingTypeName }</td>
-											<td title="${ebj.meetingPlace.meetingPlaceId }">${ebj.meetingPlace.meetingPlace }</td>
-											<td>${ebj.meetingdate }</td>
+											<td>${ebj.iespeechId }</td>
+											<td>${ebj.lectureName }</td>
+											<td>${ebj.expertsName }</td>
+											<td title="${ebj.expertType.expertTypeId }">${ebj.expertType.expertTypeName }</td>
+											<td title="${ebj.nationality.countryId }">${ebj.nationality.countryName }</td>
+											<td>${ebj.speechDate }</td>
 											<td>${ebj.chargePersonId }</td>
 											<td>${teachermp[ebj.chargePersonId] }</td>
 											<td title="${ebj.checkout }">
@@ -121,29 +123,27 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
-														&nbsp;&nbsp;
 													</c:if>
 													
 													<c:if test="${ebj.checkout==1 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
-														&nbsp;&nbsp;
 													</c:if>
 													
 													<c:if test="${ebj.checkout==3 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
-														&nbsp;&nbsp;
 													</c:if>
 													<c:if test="${ebj.checkout==2 }">
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
-														&nbsp;&nbsp;
 													</c:if>
 												</c:if>
-												<c:if test="${ebj.checkout==0 }">
-													<a  class="btn btn-primary btn-sm openaddm joinProj" data-toggle="modal">加入</a>
+												<c:if test="${sessionScope.teacher.teacherId!=ebj.chargePersonId }">
+													<c:if test="${ebj.checkout==0 }">
+														<a  class="btn btn-primary btn-sm joinProj" data-toggle="modal">加入</a>
+													</c:if>
 												</c:if>
 											</td>
 										</tr>
@@ -154,10 +154,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTinviteexpertspeech-speechset!gainAllspeech?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTinviteexpertspeech-speechset!gainAllspeech?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTinviteexpertspeech-speechset!gainAllspeech?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -171,39 +171,42 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="modal-content">
 	                <div class="modal-body">
 	                    <div class="row">
-	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增学术会议</h3>
-	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改学术会议</h3>
+	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增专家讲座</h3>
+	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改专家讲座</h3>
 	                            <hr >
 	                            	<div class="form-group" style="display: none">                                
-	                                    <label>学术会议Id:</label>
-	                                    <input id="academicmeetingId" type="text" class="form-control nullcheck">
+	                                    <label>邀请专家讲学ID:</label>
+	                                    <input id="inviteSpeechId" type="text" class="form-control nullcheck">
 	                                </div>
 	                                <div class="form-group">                                
-	                                    <label>会议名称:</label>
-	                                    <input id="academicmeetingname" type="text"  class="form-control nullcheck addcheck" >
+	                                    <label>讲座名称:</label>
+	                                    <input id="speechname" type="text"  class="form-control nullcheck addcheck" >
+	                                </div>
+	                                <div class="form-group">                                
+	                                    <label>专家名称:</label>
+	                                    <input id="expertname" type="text"  class="form-control nullcheck addcheck" >
 	                                </div>
 	                                <div class="form-group">                            
-	                                    <label>会议地点:</label>
-	                                    <select id="meetingplace" class="form-control nullcheck addcheck" >
+	                                    <label>专家类型:</label>
+	                                    <select id="experttype" class="form-control nullcheck addcheck" >
 	                                    	<option></option>
-	                                    	<c:forEach items="${meetingplace }" var="obj">
-	                                    		<option value="${obj.meetingPlaceId }">${obj.meetingPlace }</option>
+	                                    	<c:forEach items="${expertType }" var="obj">
+	                                    		<option value="${obj.expertTypeId }">${obj.expertTypeName }</option>
 	                                    	</c:forEach>
 	                                    </select>
 	                                </div>  
 	                                <div class="form-group">                            
-	                                    <label>会议类型:</label>
-	                                    <select id="meetingtype" class="form-control nullcheck addcheck"  >
+	                                    <label>专家国籍:</label>
+	                                    <select id="expertCountry" class="form-control nullcheck addcheck"  >
 	                                    	<option></option>
-	                                    	<c:forEach items="${meetingtype }" var="obj">
-	                                    		<option value="${obj.meetingTypeId }">${obj.meetingTypeName }</option>
+	                                    	<c:forEach items="${nationality }" var="obj">
+	                                    		<option value="${obj.countryId }">${obj.countryName }</option>
 	                                    	</c:forEach>
 	                                    </select>
-	                                    <span id="addhelp" style="color:red">*此项一经保存无法修改，请确保填写无误*</span>
 	                                </div>  
 	                                <div class="form-group">                                
-	                                    <label>会议日期:</label>
-	                                    <input id="meetingDate" type="text"  class="form-control nullcheck addcheck" onClick="WdatePicker()" readonly="readonly">
+	                                    <label>讲座日期:</label>
+	                                    <input id="speechDate" type="text"  class="form-control nullcheck addcheck" onClick="WdatePicker()" readonly="readonly">
 	                                </div>
 	                                <div class="form-group" style="display: none" id="crystatus">
 	                                	<label>项目人数：</label>
@@ -257,41 +260,25 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            </div>
 	        </div>
 	    </div>
-	    <div id="joinacam" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+	    <!-- JOIN  ADD-->
+	    <div id="joinaca" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
 	        <div class="modal-dialog">
 	            <div class="modal-content">
 	                <div class="modal-body">
 	                    <div class="row">
-	                     	<h3 class="m-t-none m-b" id="addmodaldialogTitle">加入该学术会议</h3><hr>
 	                    			<div class="form-group" style="display: none">                                
-	                                    <label>会议ID:</label>
-	                                    <input id="joinacamIdes" type="text"  class="form-control nullcheck">
+	                                    <label>邀请专家讲学ID:</label>
+	                                    <input id="joinIESId" type="text"  class="form-control nullcheck">
 	                                </div>
-	                    			<div class="form-group">
-	                                	<label>是否提交会议论文：</label>
-	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                                                                          是:<input type="radio" value="1" class="checkattr choosepaper" name="submMeetPaper"> 
-	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                                                                          否:<input type="radio" value="0" class="checkattr choosepaper" name="submMeetPaper">
-	                                </div>
-	                                <div class="form-group meetpapers" style="display: none">                                
-	                                	<span style="color:red">*&nbsp;注：以下内容保存后无法修改&nbsp;*</span><br/>
-	                                    <label>会议论文名称:</label>
-	                                    <input id="joinacampaper" type="text"  class="form-control nullcheck joinpapers" >
-	                                </div>
-	                                <div class="form-group meetpapers" style="display: none">                                
-	                                    <label>作者身份:</label>
-	                                    <input id="p_authorIdentity" type="text"  class="form-control nullcheck joinpapers" >
-	                                </div>
-	                                <div class="form-group meetpapers" style="display: none">                            
-	                                    <label>论文检索情况:</label>
-	                                    <select id="joinacamretri" class="form-control nullcheck joinpapers" >
+	                    			<div class="form-group">                            
+	                                    <label>参与身份:</label>
+	                                    <select id="joinIdentity" class="form-control nullcheck">
 	                                    	<option></option>
-	                                    	<c:forEach items="${paperretri }" var="obj">
-	                                    		<option value="${obj.prconditionId }">${obj.prcondition }</option>
+	                                    	<c:forEach items="${selfdown }" var="obj">
+	                                    		<option value="${obj.undertakeTaskId }">${obj.undertakeTaskName }</option>
 	                                    	</c:forEach>
 	                                    </select>
-	                                </div>
+	                                </div> 
 	                            	<div>
 	                                    <button type="button" id="closebtn"  class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
 	                                    <button id="subjoin" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="button">
@@ -332,14 +319,13 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	//变更每页显示记录数
     $('#changelength').change(function() {
     	comphref($(this).val().trim());
-		window.location.replace("GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
+		window.location.replace("GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
 	});
     $('.openaddm').click(function() {
     	$('#addmodaldialogTitle').css("display","");
     	$('#updatemodaldialogTitle').css("display","none");
     	$('#subadds').css("display","");
     	$('#subup').css("display","none");
-    	$('#addhelp').css("display","");
     	$('#crystatus').css("display","none");
     	$('#subdel').css("display","none");
 	});
@@ -358,17 +344,18 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	    		closeOnCancel: true }, 
 	    			function(isConfirm){   
 	    				if (isConfirm) {
-	    					$.post("GTjoinacademicmeeting-meetingset!addJoinacademicmeeting",
-	    							{"joinacademic.acaMeetName":$('#academicmeetingname').val().trim(),
-	    							 "joinacademic.meetingdate":$('#meetingDate').val().trim(),
-	    							 "meetplace.meetingPlaceId":$('#meetingplace').val().trim(),
-	    							 "meettype.meetingTypeId":$('#meetingtype').val().trim()},
+	    					$.post("GTinviteexpertspeech-speechset!addSpeech",
+	    							{"invitespeech.lectureName":$('#speechname').val().trim(),
+	    							 "invitespeech.expertsName":$('#expertname').val().trim(),
+	    							 "nation.countryId":$('#expertCountry').val().trim(),
+	    							 "expertType.expertTypeId":$('#experttype').val().trim(),
+	    							 "invitespeech.speechDate":$('#speechDate').val().trim()},
 	    							function(data,status){
 	    								 if(status=="success"){
 	    									 if(data=="succ"){
 	    										 swal("添加成功","","success");
 	    	    								 setTimeout(function() {
-	    	    									 window.location.replace("GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1");
+	    	    									 window.location.replace("GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1");
 	    										}, 2000);
 	    									 }else{
 	    										 swal(data,"","warning");
@@ -390,7 +377,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <!-- update  -->
     <script>
     $('.carrydata').click(function() {
-    	//通用
     	var row = $(this).parent().parent(); 
     	$('#addmodaldialogTitle').css("display","none");
     	$('#updatemodaldialogTitle').css("display","");
@@ -398,20 +384,18 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	$('#subup').css("display","");
     	$('#crystatus').css("display","");
     	$('#subdel').css("display","");
-    	$('#addhelp').css("display","none");
-    	//个别
-		$('#academicmeetingId').prop("value",row[0].cells[0].innerHTML);
-		$('#academicmeetingname').prop("value",row[0].cells[1].innerHTML);
-		set_selected_option($('#meetingplace option'), row[0].cells[3].title.trim());
-		set_selected_option($('#meetingtype option'), row[0].cells[2].title.trim());
-		$('#meetingtype').prop("disabled",true);
-		$('#meetingDate').prop("value",row[0].cells[4].innerHTML.trim());
-		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[7].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
-		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[7].title.trim());
+		$('#inviteSpeechId').prop("value",row[0].cells[0].innerHTML);
+		$('#speechname').prop("value",row[0].cells[1].innerHTML);
+		$('#expertname').prop("value",row[0].cells[2].innerHTML);
+		set_selected_option($('#experttype option'), row[0].cells[3].title.trim());
+		set_selected_option($('#expertCountry option'), row[0].cells[4].title.trim());
+		$('#speechDate').prop("value",row[0].cells[5].innerHTML.trim());
+		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[8].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
+		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[8].title.trim());
 	});
     $('#subup').click(function() {
-    	var joinacameetingID = $('#academicmeetingId').val().trim();
-    	if(checkadds()&&joinacameetingID!=""){	
+    	var iespeechId = $('#inviteSpeechId').val().trim();
+    	if(checkadds()&&iespeechId!=""){	
     			swal({   
     	    		title: "确定提交?",   
     	    		text: "",   
@@ -424,19 +408,20 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    		closeOnCancel: true }, 
     	    			function(isConfirm){   
     	    				if (isConfirm) {
-    	    					$.post("GTjoinacademicmeeting-meetingset!updateJoinacademic",
-    	    							{"joinacademic.joinAcaMid":joinacameetingID,
-	    	    						 "joinacademic.acaMeetName":$('#academicmeetingname').val().trim(),
-		    							 "joinacademic.meetingdate":$('#meetingDate').val().trim(),
-		    							 "meetplace.meetingPlaceId":$('#meetingplace').val().trim(),
-		    							 "meettype.meetingTypeId":$('#meetingtype').val().trim(),
-		    							 "joinacademic.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim()},
+    	    					$.post("GTinviteexpertspeech-speechset!updateInviteSpeech",
+    	    							{"invitespeech.iespeechId":$('#inviteSpeechId').val().trim(),
+	    	    						 "invitespeech.lectureName":$('#speechname').val().trim(),
+		    							 "invitespeech.expertsName":$('#expertname').val().trim(),
+		    							 "nation.countryId":$('#expertCountry').val().trim(),
+		    							 "expertType.expertTypeId":$('#experttype').val().trim(),
+		    							 "invitespeech.speechDate":$('#speechDate').val().trim(),
+		    							 "invitespeech.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim()},
     	    	    					function(data,status){
     	    	    						if(status=="success"){
     	    	    							 if(data=="succ"){
     	    	    								 swal("更新成功","","success");
     	    	    								 setTimeout(function() {
-    	    	    									 window.location.replace("GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1");
+    	    	    									 window.location.replace("GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1");
     	    										}, 2000);
     	    	    							 }else{
     	    	    								 swal(data,"","error");
@@ -450,7 +435,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    			}
     	    	);
     	}else{
-				swal("是否还有没填的?","请完善所有信息后提交","warning");
+				swal("是否还有没填的?","请完善所有信息后提交","error");
 		}
 	});
     $('#subdel').click(function() {
@@ -466,14 +451,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		closeOnCancel: true }, 
     			function(isConfirm){   
     				if (isConfirm) {
-    					$.post("GTjoinacademicmeeting-meetingset!deleteJoinacademic",
-    							{"joinacademic.joinAcaMid":$('#academicmeetingId').val().trim()},
+    					$.post("GTinviteexpertspeech-speechset!deleteInviteSpeech",
+    							{"invitespeech.iespeechId":$('#inviteSpeechId').val().trim()},
     							function(data,status){
     								if(status=="success"){
     									if(data=="succ"){
     										swal("删除成功","","success");
     										setTimeout(function() {
-    											window.location.replace("GTjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1");
+    											window.location.replace("GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1");
 											}, 2000);
     									}else{
     										swal("操作失败","","error");
@@ -489,8 +474,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	});
     $('.getMember').click(function() {
 		var row = $(this).parent().parent();
-		$.post("GTjoinacademicmeeting-meetingset!getMember",
-				{"joinacademic.joinAcaMid":row[0].cells[0].innerHTML},
+		$.post("GTinviteexpertspeech-speechset!getMember",
+				{"invitespeech.iespeechId":row[0].cells[0].innerHTML},
 				function(data,status){
 					var tabs = $('#membtab');
 					var trs = tabs.find("tr");
@@ -527,15 +512,11 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <script>
     $('.joinProj').click(function(e) {
     	var btn = $(this);
-    	$('#joinacamIdes').prop("value",btn.parent().parent()[0].cells[0].innerHTML.trim());
 	    if(btn.attr("isConfirm")!="1"){
 		    btn.removeAttr("data-target");
 	    }else{
 	    	btn.removeAttr("isConfirm");
-	    	var divs = $('.meetpapers');
-			for(var i=0;i<divs.length;i++){
-				divs[i].style.display="none";
-			}
+	    	$('#joinIESId').prop("value",btn.parent().parent()[0].cells[0].innerHTML.trim());
 	    }
 		swal({
 			title: "确定加入?",   
@@ -550,27 +531,16 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		function(isConfirm){
     			if(isConfirm){
     				btn.attr("isConfirm","1");
-					btn.attr("data-target","#joinacam");
+					btn.attr("data-target","#joinaca");
 					btn.click();
     			}
     		});
 	});
-    $('.choosepaper').click(function() {
-    	var divs = $('.meetpapers');
-		if($(this).val().trim()=="1"){
-			for(var i=0;i<divs.length;i++){
-				divs[i].style.display="";
-			}
-		}else{
-			for(var i=0;i<divs.length;i++){
-				divs[i].style.display="none";
-			}
-		}
-	});
     $('#subjoin').click(function() {
-    	if($('input[type="radio"][name="submMeetPaper"]:checked').val().trim()=="0"){
-    		$.post("GTjoinacademicmeeting-meetingset!joinacameeing",
-    				{"joinacademic.joinAcaMid":$('#joinacamIdes').val().trim()},
+    	if($('#joinIESId').val().trim()!=""&&$('#joinIdentity').val().trim()!=""){
+    		$.post("GTinviteexpertspeech-speechset!joinIESpeech",
+    				{"invitespeech.iespeechId":$('#joinIESId').val().trim(),
+        			 "selftask.undertakeTaskId":$('#joinIdentity').val().trim()},
     				function(data,status){
         				 if(status=="success"){
         					 if(data=="succ"){
@@ -584,29 +554,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
         				 }
     				}
     		);
-    	}else{
-    		if(checkNUll(".joinpapers")){
-    			$.post("GTjoinacademicmeeting-meetingset!joinacameeing",
-        				{"joinacademic.joinAcaMid":$('#joinacamIdes').val().trim(),
-    					 "meetpaper.paperTitle":$('#joinacampaper').val().trim(),
-    					 "meetpaper.authorIdentity":$('#p_authorIdentity').val().trim(),
-    					 "meetpaper.paperRetrievalCondition.prconditionId":$('#joinacamretri').val().trim()},
-        				function(data,status){
-            				 if(status=="success"){
-            					 if(data=="succ"){
-            						 swal("加入成功","","success");
-            					 }else{
-            						 swal(data,"","warning");
-            					 }
-            					 $('#closebtn').click();
-            				 }else{
-            					 swal("请求失败","","error");
-            				 }
-        				}
-        		);
-    		}else{
-    			swal("是否还有空的？","","warning");
-    		}
     	}
 	});
     </script>

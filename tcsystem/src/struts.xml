@@ -153,15 +153,23 @@
 		</action>
 		<!-- 科研项目奖励绩效管理//ScientificResearchReward -->
 		<action name="GTscienceresearch-*set"
-			class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scienceResearchRewardAction">
+			class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scienceResearchRewardAction"> 
 			<result>/ScientificResearchPerformance/scienceresearch-{1}.jsp
 			</result>
 		</action>
-		<!-- 参加学术会议管理 //JoinAcademicMeeting-set -->
+		<!-- 参加学术会议绩效管理 //JoinAcademicMeeting-set -->
 		<action name="GTjoinacademicmeeting-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.joinacademicmeetingAction">
 			<result>/ScientificResearchPerformance/joinacademicmeeting-{1}.jsp</result>
 		</action>
-	</package>	
+
+
+		<!-- 邀请专家讲学绩效管理//InviteExpertSpeech-set -->
+		<action name="GTinviteexpertspeech-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.inviteexpertspeechAction">
+			<result>/ScientificResearchPerformance/inviteexpertspeech-{1}.jsp</result>
+		</action>
+	</package>
+
+
 	<!-- 教学设置 -->
 	<package name="teachSet" extends="struts-default" namespace="/">
 		<interceptors>
@@ -387,10 +395,18 @@
 			class="com.nuaa.ec.science.audit.action.TeacherAndacademicWorkAuditAction">
 			<result>/Audit/ScientificResearch/academicwork.jsp</result>
 		</action>
+		
+		
+		
 		<!-- 公益活动参与审核 -->
 		<action name="GTAddJoinedActAudit"
-			class="com.nuaa.ec.va.audit.action.AddJoinActAuditAction">
-			<result>/Audit/Va/AddJoinedAct.jsp</result>
+			class="com.nuaa.ec.va.audit.action.AddJoinedActAuditAction">
+			<result>/Audit/Va/AddTeacherJoinedAct.jsp</result>
+		</action>
+		
+		<action name="GTUnjoinedActAudit"
+			class="com.nuaa.ec.va.audit.action.UnjoinedActAuditAction">
+			<result>/Audit/Va/UnjoinedTeacherAct.jsp</result>
 		</action>
 	</package>
 	<!-- 教学审核 -->
