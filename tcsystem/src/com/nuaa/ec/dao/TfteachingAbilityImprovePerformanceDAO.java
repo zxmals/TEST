@@ -51,10 +51,22 @@ public class TfteachingAbilityImprovePerformanceDAO extends BaseHibernateDAO  {
 		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
 		 */
 		if (termId == null || termId.length() == 0) {
-			hql = "from TfteachingAbilityImprovePerformance TAI where spareTire='1' and TAI.teacher=? order by TAI.eventId desc";
+			hql="select TAI from TfteachingAbilityImprovePerformance TAI,Tfterm TERM where TAI.spareTire='1'"
+						+ " and TERM.spareTire='1'"
+						+ " and TAI.tfteachingAbilityImproveLevel.spareTire='1'"
+						+ " and TAI.teacher.spareTire='1'"
+						+ " and TAI.teacher=?"
+						+ " and TAI.termId=TERM.termId"
+						+ " order by TAI.eventId desc";
 		} else {
-			hql = "from TfteachingAbilityImprovePerformance TAI where spareTire='1' and TAI.teacher=? and TAI.termId='"
-					+ termId + "' order by TAI.eventId desc";
+			hql="select TAI from TfteachingAbilityImprovePerformance TAI,Tfterm TERM where TAI.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and TAI.tfteachingAbilityImproveLevel.spareTire='1'"
+					+ " and TAI.teacher.spareTire='1'"
+					+ " and TAI.teacher=?"
+					+ " and TAI.termId=TERM.termId"
+					+ " and TERM.termId='"+ termId+"'"
+					+ " order by TAI.eventId desc";
 		}
 		try{
 			if(!isDivided){

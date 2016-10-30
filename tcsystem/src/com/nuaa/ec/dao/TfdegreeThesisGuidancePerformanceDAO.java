@@ -56,10 +56,22 @@ public class TfdegreeThesisGuidancePerformanceDAO extends BaseHibernateDAO {
 		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
 		 */
 		if (termId == null || termId.length() == 0) {
-			hql = "from TfdegreeThesisGuidancePerformance DTG where spareTire='1' and DTG.teacher=? order by DTG.degreeThesisId desc";
+			hql = "select DTG from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
+						+ " and TERM.spareTire='1'"
+						+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
+						+ " and DTG.teacher.spareTire='1'"
+						+ " and DTG.teacher=?"
+						+ " and DTG.termId=TERM.termId"
+						+ " order by DTG.degreeThesisId desc";
 		} else {
-			hql = "from TfdegreeThesisGuidancePerformance DTG where spareTire='1' and DTG.teacher=? and DTG.termId='"
-					+ termId + "' order by DTG.degreeThesisId desc";
+			hql = "select DTG from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
+					+ " and DTG.teacher.spareTire='1'"
+					+ " and DTG.teacher=?"
+					+ " and DTG.termId=TERM.termId"
+					+ " and TERM.termId='" + termId + "'"
+					+ " order by DTG.degreeThesisId desc";
 		}
 		try {
 			if (!isDivided) {

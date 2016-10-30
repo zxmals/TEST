@@ -63,7 +63,7 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-title">
 						<h5>
-							教学能力提升绩效管理 <small></small>
+							暑期课程与国际课程建设绩效管理 <small></small>
 						</h5>
 						<div class="ibox-tools">
 							<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -81,13 +81,13 @@
 					<div class="ibox-content">
 						<button class="btn  btn-primary openaddm" type="submit"
 							data-backdrop="true" data-toggle="modal" data-target="#add" id="submitNewRecord">
-							<strong>新增教学能力提升绩效</strong>
+							<strong>新增暑期课程与国际课程建设绩效</strong>
 						</button>
 						<br>
 						<br>
-						<form action="GTTeachingAbilityImprovePerformanceSet!getAllRecord">
+						<form action="GTSummerCourseInternationalConstructionPerformanceSet!getAllRecord">
 							<div>
-								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_GTTAI">
+								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_GTSCI">
 										<c:forEach var="pageSize" items="${pageSizeList }">
 											<option value="${pageSize }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${pageSize }</option>
 										</c:forEach>
@@ -95,7 +95,7 @@
 								</a>
 								&nbsp;&nbsp;
 								<font color="#337AB7">学期：</font>
-								<select id="termSelection" name="termId_GTTAI" style="width:120px;height:25px;border-radius:3px;">
+								<select id="termSelection" name="termId_GTSCI" style="width:120px;height:25px;border-radius:3px;">
 									<option value="">全部学期</option>
 									<c:forEach var="tfterm" items="${tftermList }">
 										<option value="${tfterm.termId }">${tfterm.term }</option>
@@ -115,46 +115,46 @@
 									class="table table-striped table-bordered table-hover dataTables-example">
 									<thead>
 										<tr>
-											<td>活动ID</td>
+											<td>项目ID</td>
 											<td>工号</td>
 											<td>姓名</td>
-											<td>活动名称</td>
-											<td>活动类型</td>
-											<td>总时数</td>
-											<td>分数</td>
+											<td>项目名称</td>
+											<td>项目级别</td>
+											<td>课程数量</td>
+											<td>得分</td>
 											<td style="display: none;">upid</td>
 											<td>状态</td>
 											<td>操作</td>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="tfTeachingAbilityImprovePerf"
-											items="${tfTeachingAbilityImprovePerfList }">
+										<c:forEach var="summerCourseInterConsPerf"
+											items="${summerCourseInterConsPerfList }">
 											<tr>
-												<!-- 活动ID -->
-												<td>${tfTeachingAbilityImprovePerf.eventId }</td>
+												<!-- 项目ID -->
+												<td>${summerCourseInterConsPerf.projectId }</td>
 												<!-- 工号 -->
-												<td>${tfTeachingAbilityImprovePerf.teacher.teacherId }</td>
+												<td>${summerCourseInterConsPerf.teacher.teacherId }</td>
 												<!-- 姓名 -->
-												<td>${tfTeachingAbilityImprovePerf.teacher.teacherName }</td>
-												<!-- 活动名称 -->
-												<td>${tfTeachingAbilityImprovePerf.eventName }</td>
-												<!-- 活动类型 -->
-												<td>${tfTeachingAbilityImprovePerf.tfteachingAbilityImproveLevel.improveLevel }</td>
-												<!-- 总时数 -->
-												<td>${tfTeachingAbilityImprovePerf.sumhours }</td>
-												<!-- 分数 -->
-												<td>${tfTeachingAbilityImprovePerf.finalScore }</td>
+												<td>${summerCourseInterConsPerf.teacher.teacherName }</td>
+												<!-- 项目名称 -->
+												<td>${summerCourseInterConsPerf.projectName }</td>
+												<!-- 项目级别 -->
+												<td>${summerCourseInterConsPerf.tfsummerCourseInternationalConstructionLevel.projectLevel }</td>
+												<!-- 课程数量 -->
+												<td>${summerCourseInterConsPerf.quantityUnit }</td>
+												<!-- 得分 -->
+												<td>${summerCourseInterConsPerf.score }</td>
 												<!-- upid -->
-												<td style="display:none;">${tfTeachingAbilityImprovePerf.puid }</td>
+												<td style="display:none;">${summerCourseInterConsPerf.upid }</td>
 												<!-- 状态 -->
-												<c:if test="${tfTeachingAbilityImprovePerf.checkOut ==0 }">
+												<c:if test="${summerCourseInterConsPerf.checkOut ==0 }">
 													<td style="color:blue;">待审核</td>
 												</c:if>
-												<c:if test="${tfTeachingAbilityImprovePerf.checkOut ==1 }">
+												<c:if test="${summerCourseInterConsPerf.checkOut ==1 }">
 													<td style="color: green;">审核通过</td>
 												</c:if>
-												<c:if test="${tfTeachingAbilityImprovePerf.checkOut ==2 }">
+												<c:if test="${summerCourseInterConsPerf.checkOut ==2 }">
 													<td style="color: red;">审核未通过</td>
 												</c:if>
 												<!-- 操作 -->
@@ -168,25 +168,25 @@
 								</table>
 							</form>
 							<div style="text-align: center;">
-								(共查询到${sessionScope.recordNumber_GTTAI }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_GTTAI }页&nbsp;&nbsp;&nbsp;
+								(共查询到${sessionScope.recordNumber_GTSCI }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_GTSCI }页&nbsp;&nbsp;&nbsp;
 								<a class="comphref"
-									href="GTTeachingAbilityImprovePerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
+									href="GTSummerCourseInternationalConstructionPerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
 								<c:if test="${pageIndex>1 }">
 									<a class="comphref"
-										href="GTTeachingAbilityImprovePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
+										href="GTSummerCourseInternationalConstructionPerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<c:forEach var="index" begin="${pageIndex }" end="${pageIndex+4 }" step="1">
-									<c:if test="${index<pageCount_GTTAI }">
+									<c:if test="${index<pageCount_GTSCI }">
 										<a class="comphref"
-										href="GTTeachingAbilityImprovePerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
+										href="GTSummerCourseInternationalConstructionPerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
 									</c:if>
 								</c:forEach>
-								<c:if test="${pageIndex<pageCount_GTTAI }">
+								<c:if test="${pageIndex<pageCount_GTSCI }">
 									<a class="comphref"
-										href="GTTeachingAbilityImprovePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
+										href="GTSummerCourseInternationalConstructionPerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<a class="comphref"
-									href="GTTeachingAbilityImprovePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_GTTAI }">尾页</a>
+									href="GTSummerCourseInternationalConstructionPerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_GTSCI }">尾页</a>
 							</div>
 						</div>
 					</div>
@@ -206,45 +206,45 @@
 								method="post">
 								<div class="form-group" style="display: none;">
 									<label>ID</label>&nbsp;<label></label> <input id="up_upid"
-										type="text" class="form-control" name="tfteachingAbilityImprovePerformance.puid" class="doCheck_update"
+										type="text" class="form-control doCheck_update" name="summerCourseInterConsPerf.upid" 
 										value="">
 								</div>
 								<div class="form-group" style="display: none;">
-									<label>活动ID</label>&nbsp;<label></label> <input id="up_eventId"
-										type="text" class="form-control" name="tfteachingAbilityImprovePerformance.eventId" class="doCheck_update"
-										value="" style="display: none;">
+									<label>项目ID</label>&nbsp;<label></label> <input id="up_projectId"
+										type="text" class="form-control doCheck_update" name="summerCourseInterConsPerf.projectId" 
+										value="">
 								</div>
 								<div class="form-group">
 									<label>学期:</label>&nbsp;<label></label> 
-									<select id="up_termSelection" name="tfteachingAbilityImprovePerformance.termId" style="width:568px;height:33px;border-radius:2px;border:1px #E5E6E7 solid;">
+									<select id="up_termSelection" name="summerCourseInterConsPerf.termId" class="form-control">
 										<c:forEach var="tfterm" items="${tftermList }">
 											<option value="${tfterm.termId }">${tfterm.term }</option>
 										</c:forEach>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>活动名称:</label>&nbsp;<label></label> <input
-										id="up_eventName" type="text"
-										class="form-control doCheck_update up_eventName"
-										name="tfteachingAbilityImprovePerformance.eventName"
+									<label>项目名称:</label>&nbsp;<label></label> <input
+										id="up_projectName" type="text"
+										class="form-control doCheck_update"
+										name="summerCourseInterConsPerf.projectName"
 										>
 								</div>
 								<div class="form-group">
-									<label>活动类型:</label>&nbsp;<label></label> 
+									<label>项目级别:</label>&nbsp;<label></label> 
 									<select
-										id="up_improveLevel" class="form-control"
-										name="tfteachingAbilityImproveLevel.improveLevelId">
-										<c:forEach var="teachingAbilityImproveLevel"
-											items="${teachingAbilityImproveLevelList }">
-											<option value="${teachingAbilityImproveLevel.improveLevelId }">${teachingAbilityImproveLevel.improveLevel }</option>
+										id="up_projectLevelId" class="form-control"
+										name="summerCourseInterConsLevel.projectLevelId">
+										<c:forEach var="summerAndInternationCourseLevel"
+											items="${summerAndInternationCourseLevelList }">
+											<option value="${summerAndInternationCourseLevel.projectLevelId }">${summerAndInternationCourseLevel.projectLevel }</option>
 										</c:forEach>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>总时数:</label>&nbsp;<label></label> <input
-										id=up_sumhours " type="text"
+									<label>课程数量:</label>&nbsp;<label></label> <input
+										id="up_quantityUnit" type="text"
 										class="form-control doCheck_update"
-										name="tfteachingAbilityImprovePerformance.sumhours"
+										name="summerCourseInterConsPerf.quantityUnit"
 										value="">
 								</div>
 							</form>
@@ -280,35 +280,35 @@
 								</div>
 								<div class="form-group">
 									<label>学期:</label>&nbsp;<label></label><br>
-									<select id="add_termSelection" name="tfteachingAbilityImprovePerformance.termId" style="width:568px;height:33px;border-radius:2px;border:1px #E5E6E7 solid;">
+									<select id="add_termSelection" name="summerCourseInterConsPerf.termId" class="form-control">
 										<c:forEach var="tfterm" items="${tftermList }">
 											<option value="${tfterm.termId }">${tfterm.term }</option>
 										</c:forEach>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>活动名称:</label>&nbsp;<label></label> <input
+									<label>项目名称:</label>&nbsp;<label></label> <input
 										id=eventName " type="text"
 										class="form-control doCheck_add"
-										name="tfteachingAbilityImprovePerformance.eventName"
+										name="summerCourseInterConsPerf.projectName"
 										value="">
 								</div>
 								<div class="form-group">
-									<label>活动类型:</label>&nbsp;<label></label> 
+									<label>项目级别:</label>&nbsp;<label></label> 
 									<select
 										id="improveLevel" class="form-control"
-										name="tfteachingAbilityImproveLevel.improveLevelId">
-										<c:forEach var="teachingAbilityImproveLevel"
-											items="${teachingAbilityImproveLevelList }">
-											<option value="${teachingAbilityImproveLevel.improveLevelId }">${teachingAbilityImproveLevel.improveLevel }</option>
+										name="summerCourseInterConsLevel.projectLevelId">
+										<c:forEach var="summerAndInternationCourseLevel"
+											items="${summerAndInternationCourseLevelList }">
+											<option value="${summerAndInternationCourseLevel.projectLevelId }">${summerAndInternationCourseLevel.projectLevel }</option>
 										</c:forEach>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>总时数:</label>&nbsp;<label></label> <input
+									<label>课程数量:</label>&nbsp;<label></label> <input
 										id=sumhours " type="text"
 										class="form-control doCheck_add"
-										name="tfteachingAbilityImprovePerformance.sumhours"
+										name="summerCourseInterConsPerf.quantityUnit"
 										value="">
 								</div>
 							</form>
@@ -338,25 +338,25 @@
 		<script src="js/PublicCheck/formFieldController.js"></script>
 	<script type="text/javascript">
 	$().ready(function(){
-		$("#changelength option[value='${sessionScope.pageSize_GTTAI}']").attr("selected",true);
-		$("#termSelection option[value='${sessionScope.termId_GTTAI}']").attr("selected",true);
-		$("#add_termSelection option[value='${sessionScope.termId_GTTAI}']").attr("selected",true);
-		$("#up_termSelection option[value='${sessionScope.termId_GTTAI}']").attr("selected",true);
+		$("#changelength option[value='${sessionScope.pageSize_GTSCI}']").attr("selected",true);
+		$("#termSelection option[value='${sessionScope.termId_GTSCI}']").attr("selected",true);
+		$("#add_termSelection option[value='${sessionScope.termId_GTSCI}']").attr("selected",true);
+		$("#up_termSelection option[value='${sessionScope.termId_GTSCI}']").attr("selected",true);
 	});
 	$("#submitAddInfo").click(function(){
 		//执行提交表单
-		submitAddedInfo("GTTeachingAbilityImprovePerformanceSet", "insertRecord", "getAllRecord");
+		submitAddedInfo("GTSummerCourseInternationalConstructionPerformanceSet", "insertRecord", "getAllRecord");
 	});
     $('#updateInfo').click(function() {
-    	submitUpdatedInfo("GTTeachingAbilityImprovePerformanceSet", "updateRecord", "getAllRecord");
+    	submitUpdatedInfo("GTSummerCourseInternationalConstructionPerformanceSet", "updateRecord", "getAllRecord");
 	});
     $('.update').click(function() {
 		$('#up_upid').val($(this).parent().parent()[0].cells[7].innerHTML);
-		$('#up_eventId').val($(this).parent().parent()[0].cells[0].innerHTML);
-		$('#up_eventName').val($(this).parent().parent()[0].cells[3].innerHTML);
-		$('#up_sumhours').val($(this).parent().parent()[0].cells[5].innerHTML);
+		$('#up_projectId').val($(this).parent().parent()[0].cells[0].innerHTML);
+		$('#up_projectName').val($(this).parent().parent()[0].cells[3].innerHTML);
+		$('#up_quantityUnit').val($(this).parent().parent()[0].cells[5].innerHTML);
 		var temp=$(this).parent().parent()[0].cells[4].innerHTML;
-		$("#up_improveLevel option").each(function(){
+		$("#up_projectLevelId option").each(function(){
 			if($(this).text()==temp.trim()){
 				$(this).prop("selected",true);//这里用attr会有问题。
 			}
@@ -365,8 +365,8 @@
     $('.deleteInfo').click(function() {
 		var upid = $(this).parent().parent()[0].cells[7].innerHTML;
 		deleteRecord({
-			"tfteachingAbilityImprovePerformance.puid":upid
-		}, "GTTeachingAbilityImprovePerformanceSet", "deleteRecord",
+			"summerCourseInterConsPerf.upid":upid
+		}, "GTSummerCourseInternationalConstructionPerformanceSet", "deleteRecord",
 		"getAllRecord?isDivided=false");
 	});
     </script>

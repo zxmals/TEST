@@ -51,9 +51,22 @@ public class TfteachingCompetitionPerformanceDAO extends BaseHibernateDAO  {
 		 */
 		if (termId == null || termId.length() == 0) {
 			hql = "from TfteachingCompetitionPerformance TCP where spareTire='1' and TCP.teacher=? order by TCP.competitionId desc";
+			hql = "select TCP from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+						+ " and TERM.spareTire='1'"
+						+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
+						+ " and TCP.teacher.spareTire='1'"
+						+ " and TCP.teacher=?"
+						+ " and TCP.termId=TERM.termId"
+						+ " order by TCP.competitionId desc";
 		} else {
-			hql = "from TfteachingCompetitionPerformance TCP where spareTire='1' and TCP.teacher=? and TCP.termId='"
-					+ termId + "' order by TCP.competitionId desc";
+			hql = "select TCP from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
+					+ " and TCP.teacher.spareTire='1'"
+					+ " and TCP.teacher=?"
+					+ " and TCP.termId=TERM.termId"
+					+ " and TERM.termId='"+ termId+"'"
+					+ " order by TCP.competitionId desc";
 		}
 		try{
 			if(!isDivided){

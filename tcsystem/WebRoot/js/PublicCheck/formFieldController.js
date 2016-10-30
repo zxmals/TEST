@@ -137,7 +137,7 @@ function fieldCSSReset(className){
 		function submitUpdatedInfo(actionName,postMethod,refreshMethod){
 			var illegal=updateFormCheck();
 			if(illegal){
-				window.alert("合法");
+//				window.alert("合法");
 				$.ajax({
 					cache:true,
 					type:"POST",

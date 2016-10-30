@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 import com.nuaa.ec.dao.TfdegreeThesisGuidanceRewardLevelDAO;
+import com.nuaa.ec.dao.TfsummerCourseInternationalConstructionLevelDAO;
 import com.nuaa.ec.dao.TfteachingAbilityImproveLevelDAO;
 import com.nuaa.ec.dao.TfteachingCompetitionRewardLevelDAO;
 
@@ -48,6 +49,13 @@ public class InitServlet extends HttpServlet {
 		 * 获得教学能力提高的水平
 		 */
 		context.setAttribute("teachingAbilityImproveLevelList", new TfteachingAbilityImproveLevelDAO().findAll());
+		/**
+		 * 获得暑期课程与国际课程的level信息，
+		 * 尽管数据库中只有一条level但是为了
+		 * 避免日后可能会有改动。所以还是用
+		 * 列表存放起来
+		 */
+		context.setAttribute("summerAndInternationCourseLevelList", new TfsummerCourseInternationalConstructionLevelDAO().findAll());
 	}
 
 }
