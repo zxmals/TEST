@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>PeriodicalPaper --paper-Set</title>
+    <title>AcademicWork --work-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -62,7 +62,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1" method="post" name="pickdate" id="pickdates">
+			<form action="ATacademicwk-workset!getWorkall?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
@@ -97,29 +97,38 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-										<td>期刊论文Id</td>
-										<td>期刊论文标题</td>
-										<td>期刊</td>
-										<td>年</td>
-										<td>卷</td>
-										<td>期</td>
-										<td>论文概述</td>
-										<td>登记负责人ID</td>
+										<td>学术著作Id</td>
+										<td>著作名称</td>
+										<td>第一作者</td>
+										<td style="display: none">出版社Id</td>
+										<td>出版社</td>
+										<td style="display: none">字数Id</td>
+										<td>字数</td>
+										<td>出版日期</td>
+										<td width="128">ISBN</td>
+										<td title="是否有其他作者参与" width="45">合作</td>
+										<td>登记负责人Id</td>
 										<td>登记负责人</td>
 										<td>状态</td>
 										<td>操作</td>
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj" items="${periodicalpaper }">
+									<c:forEach var="ebj" items="${academicwk }">
 										<tr>
-											<td>${ebj.ppid }</td>
-											<td>${ebj.thesisTitle }</td>
-											<td title="${ebj.periodical.periodicalId }">${ebj.periodical.periodicalName }</td>
-											<td>${ebj.year }</td>
-											<td>${ebj.file }</td>
-											<td>${ebj.phase }</td>
-											<td title="${ebj.describe }" class="disp"></td>
+											<td>${ebj.acaworkId }</td>
+											<td>${ebj.workName }</td>
+											<td title="${ebj.firstAuthor }">${teachermp[ebj.firstAuthor] }</td>
+											<td style="display: none">${ebj.publishClub.publishClubId }</td>
+											<td>${ebj.publishClub.publishClubName }</td>
+											<td style="display: none">${ebj.wordsNumber.wordId }</td>
+											<td>${ebj.wordsNumber.wordNumber }</td>
+											<td>${ebj.publishDate }</td>
+											<td>${ebj.isbn }</td>
+											<td title="${ebj.otherAuthorJoin }">
+												<c:if test="${ebj.otherAuthorJoin==1 }">是</c:if>
+												<c:if test="${ebj.otherAuthorJoin==0 }">否</c:if>
+											</td>
 											<td>${ebj.chargePersonId }</td>
 											<td>${teachermp[ebj.chargePersonId] }</td>
 											<td title="${ebj.checkout }">
@@ -158,10 +167,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="ATacademicwk-workset!getWorkall?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATacademicwk-workset!getWorkall?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATacademicwk-workset!getWorkall?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATacademicwk-workset!getWorkall?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -175,41 +184,70 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="modal-content">
 	                <div class="modal-body">
 	                    <div class="row">
-	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增期刊论文</h3>
-	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改期刊论文</h3>
+	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增学术著作</h3>
+	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改学术著作</h3>
 	                            <hr >
 	                            	<div class="form-group" style="display: none">                                
-	                                    <label>论文ID:</label>
-	                                    <input id="periopaperId" type="text" class="form-control nullcheck upcheck">
+	                                    <label>著作ID:</label>
+	                                    <input id="workId" type="text" class="form-control nullcheck upcheck">
 	                                </div>
 	                                <div class="form-group">                                
-	                                    <label>论文标题:</label>
-	                                    <input id="papertitle" type="text"  class="form-control nullcheck addcheck" >
+	                                    <label>著作名称:</label>
+	                                    <input id="workname" type="text"  class="form-control nullcheck addcheck" >
 	                                </div>
 	                                <div class="form-group">                            
-	                                    <label>期刊:</label>
-	                                    <select class="form-control nullcheck addcheck" id="periodicals" >
+	                                    <label>登记人身份:</label>
+	                                    <select class="form-control nullcheck addcheck" Id="isFauthor" >
 	                                    	<option></option>
-	                                    	<c:forEach items="${periodicalli }" var="obj">
-	                                    		<option value="${obj.periodicalId }">${obj.periodicalName }</option>
+	                                    	<option value="first">第一作者</option>
+	                                    	<option value="other">其他作者</option>
+	                                    </select>
+	                                </div> 
+	                                <div class="form-group">                            
+	                                    <label>出版社:</label>
+	                                    <select id="publishclub" class="form-control nullcheck addcheck" >
+	                                    	<option></option>
+	                                    	<c:forEach items="${publishclubli }" var="obj">
+	                                    		<option value="${obj.publishClubId }">${obj.publishClubName }</option>
+	                                    	</c:forEach>
+	                                    </select>
+	                                </div>  
+	                                <div class="form-group">                            
+	                                    <label>字数:</label>
+	                                    <select id="wordnum" class="form-control nullcheck addcheck"  >
+	                                    	<option></option>
+	                                    	<c:forEach items="${wordnum }" var="obj">
+	                                    		<option value="${obj.wordId }">${obj.wordNumber }</option>
 	                                    	</c:forEach>
 	                                    </select>
 	                                </div>  
 	                                <div class="form-group">                                
-	                                    <label>年:</label>
-	                                    <input  type="text" id="years"  class="form-control nullcheck addcheck" onClick="WdatePicker()">
+	                                    <label>出版日期:</label>
+	                                    <input id="publishdate" type="text"  class="form-control nullcheck addcheck" onClick="WdatePicker()" readonly="readonly">
 	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>卷:</label>
-	                                    <input  type="text"  id=files  class="form-control nullcheck addcheck"  value="">
+	                                <div class="form-group">                            
+	                                    <label>是否有其他作者参与:</label>
+	                                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                                    	是:<input type="radio"  value="1" class="author checkattr otherAuthorJoins"  name="otherAuthorJoin"> 
+	                                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                                    	否:<input type="radio" value="0" class="author checkattr otherAuthorJoins" name="otherAuthorJoin">
 	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>期:</label>
-	                                    <input type="text" id="phase" class="form-control nullcheck addcheck" value="">
+	                                <div class="form-group" id="hideisbn">
+	                                    <label>著作ISBN：</label>
+	                                    ISBN-10:<input type="radio"  class="isbncontrol checkattr" value="10"  name="ISBN"> &nbsp;&nbsp;ISBN-13:<input type="radio" class="isbncontrol checkattr"  value="13" name="ISBN">
 	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>论文概述:</label>
-	                                    <textarea  type="text" id="descirbe" class="form-control nullcheck addcheck" value=""></textarea>
+	                                <div class="form-group" style="display: none" id="isbn13">
+	                                    <input type="text" class="form-control ISBN" data-mask="999-9-999-99999-9" placeholder="">
+	                                    <span class="help-block">999-9-999-99999-9</span>
+	                                </div>
+	                                <div class="form-group" style="display: none" id="isbn10">
+	                                    <input type="text" class="form-control ISBN" data-mask="9-999-99999-9" placeholder="">
+	                                    <span class="help-block">9-999-99999-9</span>
+	                                </div>
+	                                <!-- 更新时所用的ISBN -->
+	                                <div class="form-group" style="display: none" id="cryisbn">
+	                                	<label>著作ISBN：</label>
+	                                    <input type="text" class="form-control nullcheck" id="upIsbn">
 	                                </div>
 	                                <div class="form-group" style="display: none" id="crystatus">
 	                                	<label>项目人数：</label>
@@ -237,7 +275,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            </div>
 	        </div>
 	    </div> 
-    </div>
     
     <div id="checkmember" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
 	        <div class="modal-dialog">
@@ -288,32 +325,40 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	//变更每页显示记录数
     $('#changelength').change(function() {
     	comphref($(this).val().trim());
-		window.location.replace("ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
+		window.location.replace("ATacademicwk-workset!getWorkall?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
 	});
 	</script>
 	<!-- carry-data -->
 	<script type="text/javascript">
-    $('.carrydata').click(function() {
+	var chargePersonId="";
+	$('.carrydata').click(function() {
     	var row = $(this).parent().parent(); 
     	$('#addmodaldialogTitle').css("display","none");
     	$('#updatemodaldialogTitle').css("display","");
     	$('#cryisbn').css("display","");
+    	$('#hideisbn').css("display","none");
     	$('#subadds').css("display","none");
     	$('#subup').css("display","");
     	$('#crystatus').css("display","");
     	$('#subdel').css("display","");
-		$('#periopaperId').prop("value",row[0].cells[0].innerHTML);
-		$('#papertitle').prop("value",row[0].cells[1].innerHTML);
-		set_selected_option($('#periodicals option'), row[0].cells[2].title.trim());
-		$('#years').prop("value",row[0].cells[3].innerHTML.trim());
-		$('#files').prop("value",row[0].cells[4].innerHTML.trim());
-		$('#phase').prop("value",row[0].cells[5].innerHTML.trim());
-		$('#descirbe').prop("value",row[0].cells[6].title.trim());
-		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[9].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
-		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[9].title.trim());
+		$('#workId').prop("value",row[0].cells[0].innerHTML);
+		$('#workname').prop("value",row[0].cells[1].innerHTML);
+		set_selected_option($('#isFauthor option'), row[0].cells[2].title.trim()==row[0].cells[10].innerHTML.trim()?"first":"other");
+		chargePersonId = row[0].cells[10].innerHTML.trim();
+		set_selected_option($('#publishclub option'), row[0].cells[3].innerHTML.trim());
+		set_selected_option($('#wordnum option'), row[0].cells[5].innerHTML.trim());
+		$('#publishdate').prop("value",row[0].cells[7].innerHTML.trim());
+		$('#upIsbn').prop("value",row[0].cells[8].innerHTML.trim());
+		$('input[type="radio"][name="otherAuthorJoin"][value="'+row[0].cells[9].title.trim()+'"]').prop("checked",true);
+		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[12].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
+		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[12].title.trim());
 	});
-    $('#subup').click(function() {
-    	if(checkadds()&&$('#periopaperId').val().trim()!=""){
+	$('#subup').click(function() {
+    	var firstauthor = $('#isFauthor').val().trim()!="first"?"":chargePersonId;
+    	var isbn = $('#upIsbn').val().trim();
+    	var author = $('.author').get(0).checked==false?($('.author').get(1).checked==true?$('.author').get(1).value.trim():""):$('.author').get(0).value.trim();
+    	if(checkadds()&&isbn!=""){
+    		if(checkISBN(isbn)){
     			swal({   
     	    		title: "确定提交?",   
     	    		text: "",   
@@ -326,21 +371,23 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    		closeOnCancel: true }, 
     	    			function(isConfirm){   
     	    				if (isConfirm) {
-    	    					$.post("ATperiodicalpaper-paperset!updatePpaper?pagenum=1",
-    	    						 	{"periopaper.ppid":$('#periopaperId').val().trim(),
-    	    	    					 "periopaper.thesisTitle":$('#papertitle').val().trim(),
-    	    							 "periopaper.year":$('#years').val().trim(),
-    	    							 "periopaper.file":$('#files').val().trim(),
-    	    							 "periopaper.phase":$('#phase').val().trim(),
-    	    							 "periopaper.describe":$('#descirbe').val().trim(),
-    	    							 "periopaper.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim(),
-    	    							 "periodical.periodicalId":$('#periodicals').val().trim()},
+    	    					$.post("ATacademicwk-workset!updateAcademicWork?pagenum=1",
+    	    						 	{"academicwk.acaworkId":$('#workId').val().trim(),
+    	    	    					 "academicwk.workName":$('#workname').val().trim(),
+    	    							 "academicwk.firstAuthor":firstauthor,
+    	    							 "academicwk.chargePersonId":chargePersonId,
+    	    							 "academicwk.publishClub.publishClubId":$('#publishclub').val().trim(),
+    	    							 "academicwk.wordsNumber.wordId":$('#wordnum').val().trim(),
+    	    							 "academicwk.publishDate":$('#publishdate').val().trim(),
+    	    							 "academicwk.otherAuthorJoin":author,
+    	    							 "academicwk.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim(),
+    	    							 "academicwk.isbn":isbn},
     	    	    					function(data,status){
     	    	    						if(status=="success"){
     	    	    							 if(data=="succ"){
     	    	    								 swal("更新成功","","success");
     	    	    								 setTimeout(function() {
-    	    	    									 window.location.replace("ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1");
+    	    	    									 window.location.replace("ATacademicwk-workset!getWorkall?pagenum=1");
     	    										}, 2000);
     	    	    							 }else{
     	    	    								 swal("操作失败: "+data,"","error");
@@ -353,6 +400,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    				}
     	    			}
     	    	);
+    		}else{
+    			swal("ISBN ["+isbn+"] 错误","请完善所有信息后提交","error");
+    		}
     	}else{
 				swal("是否还有没填的?","请完善所有信息后提交","error");
 		}
@@ -370,17 +420,17 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		closeOnCancel: true }, 
     			function(isConfirm){   
     				if (isConfirm) {
-    					$.post("ATperiodicalpaper-paperset!deletePpaper?pagenum=1",
-    							{"periopaper.ppid":$('#periopaperId').val().trim()},
+    					$.post("ATacademicwk-workset!deleteAcademicWork?pagenum=1",
+    							{"academicwk.acaworkId":$('#workId').val().trim()},
     							function(data,status){
     								if(status=="success"){
     									if(data=="succ"){
     										swal("删除成功","","success");
     										setTimeout(function() {
-    											window.location.replace("ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1");
+    											window.location.replace("ATacademicwk-workset!getWorkall?pagenum=1");
 											}, 2000);
     									}else{
-    										swal("操作失败","","error");
+    										swal("操作失败",data,"error");
     									}
     								}else{
     									swal("请求失败","","error");
@@ -394,8 +444,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     var pubsprojectId = "";
     $('.getMember').click(function() {
 		var row = $(this).parent().parent();
-		$.post("ATperiodicalpaper-paperset!getMember",
-				{"periopaper.ppid":row[0].cells[0].innerHTML},
+		$.post("ATacademicwk-workset!getMember",
+				{"academicwk.acaworkId":row[0].cells[0].innerHTML},
 				function(data,status){
 					var tabs = $('#membtab');
 					var trs = tabs.find("tr");
@@ -409,7 +459,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 							tabs.append("<tr>"
 									+"<td>"+obj[i].teacherId+"</td>"
 									+"<td>"+obj[i].teacherName+"</td>"
-									+"<td> </td>"
+									+"<td>"+obj[i].spare+"</td>"
 									+"<td><a class='btn btn-primary btn-sm deletemember'>移除</a> </td>"
 									+"</tr>");
 						}
@@ -469,6 +519,18 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
         	);
     	}
     });
+    $('.otherAuthorJoins').click(function() {
+    	var stus = $('.prostatus');
+		if($(this).val().trim()=="1"){
+// 			proJpeople
+			stus[0].disabled = false;
+			stus[1].disabled = false;
+		}else{
+			$('input[type="radio"][name="proJpeople"][value="0"]').attr("disabled","true");
+			$('input[type="radio"][name="proJpeople"][value="0"]').removeAttr("checked");
+			$('input[type="radio"][name="proJpeople"][value="1"]').prop("checked",true);
+		}
+	});
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>

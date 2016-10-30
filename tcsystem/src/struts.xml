@@ -171,10 +171,9 @@
 			<result>/ScientificResearchPerformance/scientificresearchpro-{1}.jsp</result>
 		</action>
 <!-- 科研绩效管理-管理 -->	
-		<!-- 期刊论文绩效设置//PeriodicalPaperSet -->
-		<action name="ATperiodicalpaper-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.adminperiodicalpaperAction">
-			<result>/ScientificResearchPerformanceAdm/admperiodicalpaper-{1}.jsp</result>
-		</action>	
+		<action name="AT*-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.admin{1}Action">
+			<result>/ScientificResearchPerformanceAdm/adm{1}-{2}.jsp</result>
+		</action>
 	</package>
 
 	<!-- 教学设置 -->

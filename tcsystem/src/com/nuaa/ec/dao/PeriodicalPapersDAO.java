@@ -265,6 +265,20 @@ public class PeriodicalPapersDAO extends BaseHibernateDAO  {
 		}
 	}
 	
+	public void deleteBylogic(String ppid){
+		try {
+			String queryString = "update PeriodicalPapers  "
+					+ "set spareTire='0' "
+					+ "where spareTire = '1' "
+					+ "and ppid=? ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, ppid);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
     public PeriodicalPapers merge(PeriodicalPapers detachedInstance) {
         log.debug("merging PeriodicalPapers instance");
         try {

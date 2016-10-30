@@ -2,6 +2,8 @@ package com.nuaa.ec.ScientificResearchPerformanceSet.Action;
 
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
@@ -16,7 +18,6 @@ import com.nuaa.ec.model.PeriodicalPapers;
 import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.TeacherAndperiodical;
 import com.nuaa.ec.utils.EntityUtil;
-import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class adminperiodicalpaperAction implements RequestAware, SessionAware {
 	private Map<String, Object> session;
@@ -31,9 +32,8 @@ public class adminperiodicalpaperAction implements RequestAware, SessionAware {
 
 	private PeriodicalPapersDAO periopaperdao = new PeriodicalPapersDAO();
 	private PeriodicalDAO periodao = new PeriodicalDAO();
-	private TeacherAndperiodicalDAO tapdao = new TeacherAndperiodicalDAO();
+	private TeacherAndperiodicalDAO tpdao = new TeacherAndperiodicalDAO();
 	private PeriodicalPapersScoreDAO ppscoredao = new PeriodicalPapersScoreDAO();
-	private PrimaryKMaker pkmk = new PrimaryKMaker();
 	
 	//default method
 	public String execute(){
@@ -53,7 +53,7 @@ public class adminperiodicalpaperAction implements RequestAware, SessionAware {
 				limitrow = !"".equals(limit.trim())?Integer.parseInt(limit):5;
 			}
 			request.put("periodicalpaper", periopaperdao.findPageing((pagenum-1)*limitrow,limitrow,EntityUtil.generateQueryCondition(foredate, afterdate, "year")));
-			request.put("periodical", periodao.findAll());
+			request.put("periodicalli", periodao.findAll());
 			int li = periopaperdao.getRows(EntityUtil.generateQueryCondition(foredate, afterdate, "year"));
 			int sumpage = 1;
 			if(li%limitrow==0){
@@ -81,6 +81,86 @@ public class adminperiodicalpaperAction implements RequestAware, SessionAware {
 		}
 	}
 	
+	public void updatePpaper()throws Exception{
+		Transaction tx = null;
+		try {
+			PeriodicalPapers tmppp =  (PeriodicalPapers) periopaperdao.findByPpid(periopaper.getPpid()).get(0);
+			periopaper.setSpareTire("1");
+			periopaper.setChargePersonId(tmppp.getChargePersonId());
+			periopaper.setPeriodical(periodao.findById(periodical.getPeriodicalId()));
+			periopaper.setPeriodicalPid(tmppp.getPeriodicalPid());
+			periopaper.setFirstAuthor(tmppp.getFirstAuthor());
+			periopaper.setSecondAuthor(tmppp.getSecondAuthor());
+			periopaperdao.merge(periopaper);
+			PeriodicalPapersScore ppsco = ppscoredao.findByPeriodicalType(periopaper.getPeriodical().getPeriodicalType());
+			if(ppsco!=null){
+				tpdao.updateRefTeacher(periopaper.getPpid(), ppsco.getScore(), ppsco);
+				ServletActionContext.getResponse().getWriter().write("succ");
+			}else{
+				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+				ServletActionContext.getResponse().getWriter().write("对应期刊没有评分");
+				return;
+			}
+			tx = periopaperdao.getSession().beginTransaction();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+			throw e;
+		}
+	}
+	
+	public void deletePpaper() throws Exception {
+		Transaction tx = null;
+		try {
+			periopaperdao.deleteBylogic(periopaper.getPpid());
+			tpdao.deleteRefTeacher(periopaper.getPpid());
+			tx = periopaperdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}
+	}
+	
+	public void getMember()throws Exception{
+		try {
+			JSONArray jary = JSONArray.fromObject(tpdao.findMembers(periopaper.getPpid()));
+			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+			ServletActionContext.getResponse().getWriter()
+					.write(jary.toString());
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw e;
+		}
+	}
+	
+	public void deleteMember()throws Exception{
+		Transaction tx = null;
+		try {
+			this.setPeriopaper((PeriodicalPapers) periopaperdao.findByPpid(tap.getPpid()).get(0));
+			if(tap.getTeacher().getTeacherId().equals(periopaper.getFirstAuthor().trim())?false:true){
+				periopaper.setSecondAuthor("");
+				periopaperdao.merge(periopaper);
+				tpdao.deleteMember(tap.getPpid(), tap.getTeacher().getTeacherId());
+			}else{
+				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+				ServletActionContext.getResponse().getWriter().write("不能删除第一作者，及登记负责人");
+				return;
+			}
+			tx = tpdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+			throw e;
+		}
+	}
 	//Getter & Setter
 	public Map<String, Object> getSession() {
 		return session;
