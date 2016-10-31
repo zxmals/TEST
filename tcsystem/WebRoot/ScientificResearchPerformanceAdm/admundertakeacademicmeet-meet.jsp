@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>JoinacademicMeeting --academicmeeting-Set</title>
+    <title>MainacademicMeeting --meeting-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -50,7 +50,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="ATjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1" method="post" name="pickdate" id="pickdates">
+			<form action="ATundertakeacademicmeet-meetset!gainAllacademicm?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
@@ -98,12 +98,12 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj" items="${joinacademic }">
+									<c:forEach var="ebj" items="${undertakemeeting }">
 										<tr>
-											<td>${ebj.joinAcaMid }</td>
-											<td>${ebj.acaMeetName }</td>
-											<td title="${ebj.meetingType.meetingTypeId }">${ebj.meetingType.meetingTypeName }</td>
-											<td title="${ebj.meetingPlace.meetingPlaceId }">${ebj.meetingPlace.meetingPlace }</td>
+											<td>${ebj.acaMeetingId }</td>
+											<td>${ebj.acaMeetingName }</td>
+											<td title="${ebj.mainUndertakeAcademicMeetingType.acaMeetTypeId }">${ebj.mainUndertakeAcademicMeetingType.acaMeetType }</td>
+											<td title="${ebj.mainUndertakeAcademicMeetingPlace.acaMeetPlaceId }">${ebj.mainUndertakeAcademicMeetingPlace.acaMeetPlace }</td>
 											<td>${ebj.meetingdate }</td>
 											<td>${ebj.chargePersonId }</td>
 											<td>${teachermp[ebj.chargePersonId] }</td>
@@ -143,10 +143,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="ATundertakeacademicmeet-meetset!gainAllacademicm?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATundertakeacademicmeet-meetset!gainAllacademicm?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATundertakeacademicmeet-meetset!gainAllacademicm?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATundertakeacademicmeet-meetset!gainAllacademicm?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -176,7 +176,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                    <select id="meetingplace" class="form-control nullcheck addcheck" >
 	                                    	<option></option>
 	                                    	<c:forEach items="${meetingplace }" var="obj">
-	                                    		<option value="${obj.meetingPlaceId }">${obj.meetingPlace }</option>
+	                                    		<option value="${obj.acaMeetPlaceId }">${obj.acaMeetPlace }</option>
 	                                    	</c:forEach>
 	                                    </select>
 	                                </div>  
@@ -185,10 +185,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                    <select id="meetingtype" class="form-control nullcheck addcheck"  >
 	                                    	<option></option>
 	                                    	<c:forEach items="${meetingtype }" var="obj">
-	                                    		<option value="${obj.meetingTypeId }">${obj.meetingTypeName }</option>
+	                                    		<option value="${obj.acaMeetTypeId }">${obj.acaMeetType }</option>
 	                                    	</c:forEach>
 	                                    </select>
-	                                    <span id="addhelp" style="color:red">*此项一经保存无法修改，请确保填写无误*</span>
 	                                </div>  
 	                                <div class="form-group">                                
 	                                    <label>会议日期:</label>
@@ -247,6 +246,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            </div>
 	        </div>
 	    </div>
+	    
+	    
     <script src="js/jquery.min.js?v=2.1.4"></script>
     <script src="js/bootstrap.min.js?v=3.3.5"></script>
     <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
@@ -275,7 +276,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	//变更每页显示记录数
     $('#changelength').change(function() {
     	comphref($(this).val().trim());
-		window.location.replace("ATjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
+		window.location.replace("ATundertakeacademicmeet-meetset!gainAllacademicm?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
 	});
     </script>
     <!-- update  -->
@@ -290,21 +291,19 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	$('#subup').css("display","");
     	$('#crystatus').css("display","");
     	$('#subdel').css("display","");
-    	$('#addhelp').css("display","none");
     	//个别
 		$('#academicmeetingId').prop("value",row[0].cells[0].innerHTML);
 		$('#academicmeetingname').prop("value",row[0].cells[1].innerHTML);
 		set_selected_option($('#meetingplace option'), row[0].cells[3].title.trim());
 		set_selected_option($('#meetingtype option'), row[0].cells[2].title.trim());
-		$('#meetingtype').prop("disabled",true);
 		$('#meetingDate').prop("value",row[0].cells[4].innerHTML.trim());
 		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[7].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
 		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[7].title.trim());
 		chargePersonIds = row[0].cells[5].innerHTML;
 	});
     $('#subup').click(function() {
-    	var joinacameetingID = $('#academicmeetingId').val().trim();
-    	if(checkadds()&&joinacameetingID!=""){	
+    	var acameetingID = $('#academicmeetingId').val().trim();
+    	if(checkadds()&&acameetingID!=""){	
     			swal({   
     	    		title: "确定提交?",   
     	    		text: "",   
@@ -317,20 +316,20 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    		closeOnCancel: true }, 
     	    			function(isConfirm){   
     	    				if (isConfirm) {
-    	    					$.post("ATjoinacademicmeeting-meetingset!updateJoinacademic",
-    	    							{"joinacademic.joinAcaMid":joinacameetingID,
-	    	    						 "joinacademic.acaMeetName":$('#academicmeetingname').val().trim(),
-		    							 "joinacademic.meetingdate":$('#meetingDate').val().trim(),
-		    							 "joinacademic.chargePersonId":chargePersonIds,
-		    							 "meetplace.meetingPlaceId":$('#meetingplace').val().trim(),
-		    							 "meettype.meetingTypeId":$('#meetingtype').val().trim(),
-		    							 "joinacademic.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim()},
+    	    					$.post("ATundertakeacademicmeet-meetset!updateUnderacademic",
+    	    							{"undertakemeet.acaMeetingId":acameetingID,
+	    	    						 "undertakemeet.acaMeetingName":$('#academicmeetingname').val().trim(),
+		    							 "undertakemeet.meetingdate":$('#meetingDate').val().trim(),
+		    							 "undertakemeet.chargePersonId":chargePersonIds,
+		    							 "meetplace.acaMeetPlaceId":$('#meetingplace').val().trim(),
+		    							 "meettype.acaMeetTypeId":$('#meetingtype').val().trim(),
+		    							 "undertakemeet.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim()},
     	    	    					function(data,status){
     	    	    						if(status=="success"){
     	    	    							 if(data=="succ"){
     	    	    								 swal("更新成功","","success");
     	    	    								 setTimeout(function() {
-    	    	    									 window.location.replace("ATjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1");
+    	    	    									 window.location.replace("ATundertakeacademicmeet-meetset!gainAllacademicm?pagenum=1");
     	    										}, 2000);
     	    	    							 }else{
     	    	    								 swal(data,"","error");
@@ -360,14 +359,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		closeOnCancel: true }, 
     			function(isConfirm){   
     				if (isConfirm) {
-    					$.post("ATjoinacademicmeeting-meetingset!deleteJoinacademic",
-    							{"joinacademic.joinAcaMid":$('#academicmeetingId').val().trim()},
+    					$.post("ATundertakeacademicmeet-meetset!deleteAcademicm",
+    							{"undertakemeet.acaMeetingId":$('#academicmeetingId').val().trim()},
     							function(data,status){
     								if(status=="success"){
     									if(data=="succ"){
     										swal("删除成功","","success");
     										setTimeout(function() {
-    											window.location.replace("ATjoinacademicmeeting-meetingset!gainAllJoinacademic?pagenum=1");
+    											window.location.replace("ATundertakeacademicmeet-meetset!gainAllacademicm?pagenum=1");
 											}, 2000);
     									}else{
     										swal("操作失败","","error");
@@ -384,8 +383,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     var pubsprojectId = "";
     $('.getMember').click(function() {
 		var row = $(this).parent().parent();
-		$.post("ATjoinacademicmeeting-meetingset!getMember",
-				{"joinacademic.joinAcaMid":row[0].cells[0].innerHTML},
+		$.post("ATundertakeacademicmeet-meetset!getMember",
+				{"undertakemeet.acaMeetingId":row[0].cells[0].innerHTML},
 				function(data,status){
 					var tabs = $('#membtab');
 					var trs = tabs.find("tr");
@@ -399,7 +398,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 							tabs.append("<tr>"
 									+"<td>"+obj[i].teacherId+"</td>"
 									+"<td>"+obj[i].teacherName+"</td>"
-									+"<td> </td>"
+									+"<td>"+obj[i].spare+"</td>"
 									+"<td><a class='btn btn-primary btn-sm deletemember'>移除</a> </td>"
 									+"</tr>");
 						}
@@ -419,7 +418,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				}
 		);
 	});
-    
     $(document).click(function(e) {
     	if(e.target.className.indexOf("deletemember")>=0){
     		var row  = $(e.target).parent().parent();
@@ -435,13 +433,13 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
         		closeOnCancel: true }, 
         			function(isConfirm){   
         				if (isConfirm&pubsprojectId!="") {
-        					$.post("ATjoinacademicmeeting-meetingset!deleteMember",
-        							{"joinacademic.joinAcaMid":pubsprojectId,
-        						 	 "teacherandjoinacademic.teacher.teacherId":row[0].cells[0].innerHTML.trim()},
+        					$.post("ATundertakeacademicmeet-meetset!deleteMember",
+        							{"undertakemeet.acaMeetingId":pubsprojectId,
+        						 	 "teacherandudtmeet.teacher.teacherId":row[0].cells[0].innerHTML.trim()},
         							function(data,status){
         								if(status=="success"){
         									if(data=="succ"){
-        										swal("删除成功","","success");
+        										swal("已移除","","success");
         										row.remove();
         									}else{
         										swal("操作失败",data,"error");

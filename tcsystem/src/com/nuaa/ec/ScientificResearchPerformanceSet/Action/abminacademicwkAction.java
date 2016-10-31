@@ -2,7 +2,6 @@ package com.nuaa.ec.ScientificResearchPerformanceSet.Action;
 
 import java.util.Map;
 
-import javax.servlet.Servlet;
 
 import net.sf.json.JSONArray;
 
@@ -20,7 +19,6 @@ import com.nuaa.ec.dao.WordsNumberDAO;
 import com.nuaa.ec.model.AcademicWork;
 import com.nuaa.ec.model.AcademicWorkScore;
 import com.nuaa.ec.model.SelfUndertakeTask;
-import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.utils.EntityUtil;
 

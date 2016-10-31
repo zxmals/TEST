@@ -338,7 +338,7 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 	
 	public List findJMember(String joinacaMiD){
 		try {
-			String queryString = "select distinct new com.nuaa.ec.model.TeacherMember(tj.teacher.teacherId,tj.teacher.teacherName,'') "
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(tj.teacher.teacherId,tj.teacher.teacherName,'') "
 					+ "from TeacherAndjoinAcademicMeeting tj "
 					+ "where tj.joinAcademicMeeting.joinAcaMid=? "
 					+ "and tj.spareTire='1' "
@@ -355,7 +355,7 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 	
 	public List findJMembersano(String joinacaMiD){
 		try {
-			String queryString = "select distinct new com.nuaa.ec.model.TeacherMember(tj.teacher.teacherId,tj.teacher.teacherName,'') "
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(tj.teacher.teacherId,tj.teacher.teacherName,'') "
 					+ "from TeacherAndjoinAcademicMeeting tj "
 					+ "where tj.joinAcademicMeeting.joinAcaMid=? "
 					+ "and tj.spareTire='1' "

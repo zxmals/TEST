@@ -50,7 +50,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1" method="post" name="pickdate" id="pickdates">
+			<form action="ATinviteexpertspeech-speechset!gainAllspeech?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
@@ -67,9 +67,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        </div>
 	                    </div>
 	                    <div class="ibox-content" style="height:540px;">
-	                    	 <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#utdialog">
-	                        	 <strong>新增专家讲座</strong>
-	                         </button><br><br>
+	                    	 <br>
 	                    <div>
 	                    	<a>每页   
 	                    	<select id="changelength" style="width:45px">
@@ -118,33 +116,26 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 												<c:if test="${ebj.checkout==3 }">未通过</c:if>
 											</td>
 											<td>
-												<c:if test="${sessionScope.teacher.teacherId==ebj.chargePersonId }">
 													<c:if test="${ebj.checkout==0 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
-														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">编辑项目成员</a>
 													</c:if>
 													
 													<c:if test="${ebj.checkout==1 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
-														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">编辑项目成员</a>
 													</c:if>
 													
 													<c:if test="${ebj.checkout==3 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
-														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">编辑项目成员</a>
 													</c:if>
 													<c:if test="${ebj.checkout==2 }">
-														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">编辑项目成员</a>
 													</c:if>
-												</c:if>
-												<c:if test="${sessionScope.teacher.teacherId!=ebj.chargePersonId }">
-													<c:if test="${ebj.checkout==0 }">
-														<a  class="btn btn-primary btn-sm joinProj" data-toggle="modal">加入</a>
-													</c:if>
-												</c:if>
 											</td>
 										</tr>
 									</c:forEach>
@@ -154,10 +145,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTinviteexpertspeech-speechset!gainAllspeech?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTinviteexpertspeech-speechset!gainAllspeech?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTinviteexpertspeech-speechset!gainAllspeech?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="ATinviteexpertspeech-speechset!gainAllspeech?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATinviteexpertspeech-speechset!gainAllspeech?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATinviteexpertspeech-speechset!gainAllspeech?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATinviteexpertspeech-speechset!gainAllspeech?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -249,42 +240,12 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 							                    <th>ID</th>
 							                    <th>姓名</th>
 							                    <th>备注</th>
+							                    <th>操作</th>
 							                </thead>
 							            </table>
         							</div>
 	                                <div>
 	                                    <button type="button"   class="btn btn-outline btn-primary m-t-n-xs" style="margin-top: 10px;margin-left: 43%" data-dismiss="modal">关闭</button>
-	                               </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	    <!-- JOIN  ADD-->
-	    <div id="joinaca" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
-	        <div class="modal-dialog">
-	            <div class="modal-content">
-	                <div class="modal-body">
-	                    <div class="row">
-	                    			<div class="form-group" style="display: none">                                
-	                                    <label>邀请专家讲学ID:</label>
-	                                    <input id="joinIESId" type="text"  class="form-control nullcheck">
-	                                </div>
-	                    			<div class="form-group">                            
-	                                    <label>参与身份:</label>
-	                                    <select id="joinIdentity" class="form-control nullcheck">
-	                                    	<option></option>
-	                                    	<c:forEach items="${selfdown }" var="obj">
-	                                    		<option value="${obj.undertakeTaskId }">${obj.undertakeTaskName }</option>
-	                                    	</c:forEach>
-	                                    </select>
-	                                </div> 
-	                            	<div>
-	                                    <button type="button" id="closebtn"  class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-	                                    <button id="subjoin" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="button">
-		                                     <i class="fa fa-check"></i>
-		                                     <strong>提交</strong>
-	                                    </button>
 	                               </div>
 	                    </div>
 	                </div>
@@ -319,63 +280,12 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	//变更每页显示记录数
     $('#changelength').change(function() {
     	comphref($(this).val().trim());
-		window.location.replace("GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
-	});
-    $('.openaddm').click(function() {
-    	$('#addmodaldialogTitle').css("display","");
-    	$('#updatemodaldialogTitle').css("display","none");
-    	$('#subadds').css("display","");
-    	$('#subup').css("display","none");
-    	$('#crystatus').css("display","none");
-    	$('#subdel').css("display","none");
-	});
-    //adds 
-    $('#subadds').click(function() {
-		if(checkadds()){
-			swal({   
-	    		title: "确定提交?",   
-	    		text: "",   
-	    		type: "warning",   
-	    		showCancelButton: true,   
-	    		confirmButtonColor: "#DD6B55",   
-	    		confirmButtonText: "确定",
-	    		cancelButtonText: "取消",   
-	    		closeOnConfirm: false,   
-	    		closeOnCancel: true }, 
-	    			function(isConfirm){   
-	    				if (isConfirm) {
-	    					$.post("GTinviteexpertspeech-speechset!addSpeech",
-	    							{"invitespeech.lectureName":$('#speechname').val().trim(),
-	    							 "invitespeech.expertsName":$('#expertname').val().trim(),
-	    							 "nation.countryId":$('#expertCountry').val().trim(),
-	    							 "expertType.expertTypeId":$('#experttype').val().trim(),
-	    							 "invitespeech.speechDate":$('#speechDate').val().trim()},
-	    							function(data,status){
-	    								 if(status=="success"){
-	    									 if(data=="succ"){
-	    										 swal("添加成功","","success");
-	    	    								 setTimeout(function() {
-	    	    									 window.location.replace("GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1");
-	    										}, 2000);
-	    									 }else{
-	    										 swal(data,"","warning");
-	    									 }
-	    								 }else{
-	    									 swal("请求失败");
-	    								 }
-	    							}
-	    					);
-	    					
-	    				}
-	    		});
-				
-		}else{
-				swal("是否还有没填的?","请完善所有信息后提交","warning");
-		}
+		window.location.replace("ATinviteexpertspeech-speechset!gainAllspeech?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
 	});
     </script>
     <!-- update  -->
     <script>
+    var chargePersonIds = "";
     $('.carrydata').click(function() {
     	var row = $(this).parent().parent(); 
     	$('#addmodaldialogTitle').css("display","none");
@@ -392,6 +302,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 		$('#speechDate').prop("value",row[0].cells[5].innerHTML.trim());
 		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[8].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
 		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[8].title.trim());
+		chargePersonIds = row[0].cells[6].innerHTML;
 	});
     $('#subup').click(function() {
     	var iespeechId = $('#inviteSpeechId').val().trim();
@@ -408,10 +319,11 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    		closeOnCancel: true }, 
     	    			function(isConfirm){   
     	    				if (isConfirm) {
-    	    					$.post("GTinviteexpertspeech-speechset!updateInviteSpeech",
+    	    					$.post("ATinviteexpertspeech-speechset!updateInviteSpeech",
     	    							{"invitespeech.iespeechId":$('#inviteSpeechId').val().trim(),
 	    	    						 "invitespeech.lectureName":$('#speechname').val().trim(),
 		    							 "invitespeech.expertsName":$('#expertname').val().trim(),
+		    							 "invitespeech.chargePersonId":chargePersonIds,
 		    							 "nation.countryId":$('#expertCountry').val().trim(),
 		    							 "expertType.expertTypeId":$('#experttype').val().trim(),
 		    							 "invitespeech.speechDate":$('#speechDate').val().trim(),
@@ -421,7 +333,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    	    							 if(data=="succ"){
     	    	    								 swal("更新成功","","success");
     	    	    								 setTimeout(function() {
-    	    	    									 window.location.replace("GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1");
+    	    	    									 window.location.replace("ATinviteexpertspeech-speechset!gainAllspeech?pagenum=1");
     	    										}, 2000);
     	    	    							 }else{
     	    	    								 swal(data,"","error");
@@ -451,14 +363,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		closeOnCancel: true }, 
     			function(isConfirm){   
     				if (isConfirm) {
-    					$.post("GTinviteexpertspeech-speechset!deleteInviteSpeech",
+    					$.post("ATinviteexpertspeech-speechset!deleteInviteSpeech",
     							{"invitespeech.iespeechId":$('#inviteSpeechId').val().trim()},
     							function(data,status){
     								if(status=="success"){
     									if(data=="succ"){
     										swal("删除成功","","success");
     										setTimeout(function() {
-    											window.location.replace("GTinviteexpertspeech-speechset!gainAllspeech?pagenum=1");
+    											window.location.replace("ATinviteexpertspeech-speechset!gainAllspeech?pagenum=1");
 											}, 2000);
     									}else{
     										swal("操作失败","","error");
@@ -472,9 +384,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     			}
     	);
 	});
+    var pubsprojectId = "";
     $('.getMember').click(function() {
 		var row = $(this).parent().parent();
-		$.post("GTinviteexpertspeech-speechset!getMember",
+		$.post("ATinviteexpertspeech-speechset!getMember",
 				{"invitespeech.iespeechId":row[0].cells[0].innerHTML},
 				function(data,status){
 					var tabs = $('#membtab');
@@ -484,11 +397,13 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 					}
 					var obj = JSON.parse(data);
 					if(status=="success"){
+						pubsprojectId = row[0].cells[0].innerHTML;
 						for(var i=0;i<obj.length;i++){
 							tabs.append("<tr>"
 									+"<td>"+obj[i].teacherId+"</td>"
 									+"<td>"+obj[i].teacherName+"</td>"
-									+"<td> </td>"
+									+"<td>"+obj[i].spare+"</td>"
+									+"<td><a class='btn btn-primary btn-sm deletemember'>移除</a> </td>"
 									+"</tr>");
 						}
 						trs = tabs.find("tr");
@@ -507,55 +422,45 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				}
 		);
 	});
-    </script>
-    <!-- join operate -->
-    <script>
-    $('.joinProj').click(function(e) {
-    	var btn = $(this);
-	    if(btn.attr("isConfirm")!="1"){
-		    btn.removeAttr("data-target");
-	    }else{
-	    	btn.removeAttr("isConfirm");
-	    	$('#joinIESId').prop("value",btn.parent().parent()[0].cells[0].innerHTML.trim());
-	    }
-		swal({
-			title: "确定加入?",   
-    		text: "",   
-    		type: "warning",   
-    		showCancelButton: true,   
-    		confirmButtonColor: "#DD6B55",   
-    		confirmButtonText: "确定",
-    		cancelButtonText: "取消",   
-    		closeOnConfirm: true,   
-    		closeOnCancel: true },
-    		function(isConfirm){
-    			if(isConfirm){
-    				btn.attr("isConfirm","1");
-					btn.attr("data-target","#joinaca");
-					btn.click();
-    			}
-    		});
-	});
-    $('#subjoin').click(function() {
-    	if($('#joinIESId').val().trim()!=""&&$('#joinIdentity').val().trim()!=""){
-    		$.post("GTinviteexpertspeech-speechset!joinIESpeech",
-    				{"invitespeech.iespeechId":$('#joinIESId').val().trim(),
-        			 "selftask.undertakeTaskId":$('#joinIdentity').val().trim()},
-    				function(data,status){
-        				 if(status=="success"){
-        					 if(data=="succ"){
-        						 swal("加入成功","","success");
-        					 }else{
-        						 swal(data,"","warning");
-        					 }
-        					 $('#closebtn').click();
-        				 }else{
-        					 swal("请求失败","","error");
-        				 }
-    				}
-    		);
+    
+    $(document).click(function(e) {
+    	if(e.target.className.indexOf("deletemember")>=0){
+    		var row  = $(e.target).parent().parent();
+    		swal({   
+        		title: "确定移除该成员?",   
+        		text: "即将移除...",   
+        		type: "warning",   
+        		showCancelButton: true,   
+        		confirmButtonColor: "#DD6B55",   
+        		confirmButtonText: "移除",
+        		cancelButtonText: "取消",   
+        		closeOnConfirm: false,   
+        		closeOnCancel: true }, 
+        			function(isConfirm){   
+        				if (isConfirm&pubsprojectId!="") {
+        					$.post("ATinviteexpertspeech-speechset!deleteMember",
+        							{"invitespeech.iespeechId":pubsprojectId,
+        						 	 "teacherandinvitespeech.teacher.teacherId":row[0].cells[0].innerHTML.trim()},
+        							function(data,status){
+        								if(status=="success"){
+        									if(data=="succ"){
+        										swal("已移除","","success");
+        										row.remove();
+        									}else{
+        										swal("操作失败",data,"error");
+        									}
+        								}else{
+        									swal("请求失败","","error");
+        								}
+        							}
+        					);
+        				}else{
+        					swal("操作失败","意外故障...","error");
+        				}
+        			}
+        	);
     	}
-	});
+    });
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>

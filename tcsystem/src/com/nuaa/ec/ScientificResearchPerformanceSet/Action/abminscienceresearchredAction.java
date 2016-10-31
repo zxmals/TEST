@@ -18,7 +18,6 @@ import com.nuaa.ec.model.RewardLevel;
 import com.nuaa.ec.model.RewardType;
 import com.nuaa.ec.model.ScientificResearchReward;
 import com.nuaa.ec.model.ScientificResearchRewardScore;
-import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
 import com.nuaa.ec.utils.EntityUtil;
 

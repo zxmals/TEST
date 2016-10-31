@@ -11,7 +11,6 @@ import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.JoinAcademicMeetingDAO;
 import com.nuaa.ec.dao.JoinAcademicMeetingScoreDAO;
-import com.nuaa.ec.dao.MeetingPaperDAO;
 import com.nuaa.ec.dao.MeetingPlaceDAO;
 import com.nuaa.ec.dao.MeetingTypeDAO;
 import com.nuaa.ec.dao.PaperRetrievalConditionDAO;
@@ -21,10 +20,8 @@ import com.nuaa.ec.model.JoinAcademicMeetingScore;
 import com.nuaa.ec.model.MeetingPaper;
 import com.nuaa.ec.model.MeetingPlace;
 import com.nuaa.ec.model.MeetingType;
-import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndjoinAcademicMeeting;
 import com.nuaa.ec.utils.EntityUtil;
-import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class abminjoinacademicmeetingAction implements RequestAware, SessionAware {
 
@@ -47,7 +44,6 @@ public class abminjoinacademicmeetingAction implements RequestAware, SessionAwar
 	private MeetingPlaceDAO meetplacedao = new MeetingPlaceDAO();
 	private MeetingTypeDAO meettypedao = new MeetingTypeDAO();
 	private PaperRetrievalConditionDAO meetpaperretridao = new PaperRetrievalConditionDAO();
-	private MeetingPaperDAO meetpaperdao = new MeetingPaperDAO();
 	//default method
 	public String execute(){
 		return "success";
