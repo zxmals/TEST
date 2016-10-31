@@ -338,7 +338,24 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 	
 	public List findJMember(String joinacaMiD){
 		try {
-			String queryString = "select new com.nuaa.ec.model.TeacherMember(tj.teacher.teacherId,tj.teacher.teacherName,'') "
+			String queryString = "select distinct new com.nuaa.ec.model.TeacherMember(tj.teacher.teacherId,tj.teacher.teacherName,'') "
+					+ "from TeacherAndjoinAcademicMeeting tj "
+					+ "where tj.joinAcademicMeeting.joinAcaMid=? "
+					+ "and tj.spareTire='1' "
+					+ "and tj.joinAcademicMeeting.spareTire='1' "
+					+ "and tj.joinAcademicMeetingScore.spareTire='1'";
+	         Query queryObject = getSession().createQuery(queryString);
+	         queryObject.setParameter(0, joinacaMiD);
+	         return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findJMembersano(String joinacaMiD){
+		try {
+			String queryString = "select distinct new com.nuaa.ec.model.TeacherMember(tj.teacher.teacherId,tj.teacher.teacherName,'') "
 					+ "from TeacherAndjoinAcademicMeeting tj "
 					+ "where tj.joinAcademicMeeting.joinAcaMid=? "
 					+ "and tj.spareTire='1' "

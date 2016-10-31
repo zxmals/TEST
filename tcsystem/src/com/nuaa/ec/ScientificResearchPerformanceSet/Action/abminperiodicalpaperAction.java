@@ -19,7 +19,7 @@ import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.TeacherAndperiodical;
 import com.nuaa.ec.utils.EntityUtil;
 
-public class adminperiodicalpaperAction implements RequestAware, SessionAware {
+public class abminperiodicalpaperAction implements RequestAware, SessionAware {
 	private Map<String, Object> session;
 	private Map<String, Object> request;
 	private String foredate;

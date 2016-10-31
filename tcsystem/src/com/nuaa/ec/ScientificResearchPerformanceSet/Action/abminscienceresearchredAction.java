@@ -21,9 +21,8 @@ import com.nuaa.ec.model.ScientificResearchRewardScore;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
 import com.nuaa.ec.utils.EntityUtil;
-import com.nuaa.ec.utils.PrimaryKMaker;
 
-public class scienceResearchRewardAction implements RequestAware, SessionAware {
+public class abminscienceresearchredAction implements RequestAware, SessionAware {
 
 	private Map<String, Object> request;
 	private Map<String, Object> session;
@@ -36,7 +35,6 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 	private RewardLevel rewardlevel;
 	private RewardType rewardtype;
 	
-	private PrimaryKMaker pkmk = new PrimaryKMaker();
 	private ScientificResearchRewardDAO sciencerewarddao = new ScientificResearchRewardDAO();
 	private ScientificResearchRewardScoreDAO sciencerewardscoredao = new ScientificResearchRewardScoreDAO();
 	private TeacherAndscientificResearchRewardDAO teacherandsrdao = new TeacherAndscientificResearchRewardDAO();
@@ -85,56 +83,11 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 		return "success";
 	}
 	
-	public void addScienReward() throws Exception{
-		Transaction tx = null;
-		try {
-			//project
-			scienceReward.setSrrewardId(pkmk.mkpk(EntityUtil.getPkColumnName(ScientificResearchReward.class), EntityUtil.getTableName(ScientificResearchReward.class), "SRP"));
-			scienceReward.setSpareTire("1");
-			scienceReward.setCheckout("0");
-			scienceReward.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			scienceReward.setRewardLevel(rewardleveldao.findById(rewardlevel.getRewardLevelId()));
-			scienceReward.setRewardType(rewardtypedao.findById(rewardtype.getRewardTypeId()));
-			sciencerewarddao.save(scienceReward);
-			//teacher-and
-			teacherandsr = new TeacherAndscientificResearchReward();
-			teacherandsr.setRewardDate(scienceReward.getRewardDate());
-			teacherandsr.setCheckOut("0");
-			teacherandsr.setScientificResearchReward(scienceReward);
-			teacherandsr.setSpareTire("1");
-			teacherandsr.setTeacher((Teacher)session.get("teacher"));
-			teacherandsr.setSelfRanking("1");
-			ScientificResearchRewardScore sciencerewardscore = sciencerewardscoredao.findByLT(scienceReward.getRewardLevel(),scienceReward.getRewardType());
-			if(sciencerewardscore!=null){
-				teacherandsr.setScientificResearchRewardScore(sciencerewardscore);
-				teacherandsr.setFinalScore((double)sciencerewardscore.getScore());
-				teacherandsrdao.save(teacherandsr);
-			}else{
-				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
-				ServletActionContext.getResponse().getWriter().write("项目奖励级别与项目类型匹配不存在，请联系管理员");
-				return;
-			}
-			tx = sciencerewarddao.getSession().beginTransaction();
-			tx.commit();
-			this.setOperstatus(1);
-			ServletActionContext.getResponse().getWriter().write("succ");
-		} catch (Exception e) {
-			// TODO: handle exception
-			this.setOperstatus(-1);
-			e.printStackTrace();;
-			tx.rollback();
-		}finally{
-			if(sciencerewarddao.getSession()!=null){
-				sciencerewarddao.closeSession();
-			}
-		}
-	}
 	
 	public void updateScienceRwared()throws Exception{
 		Transaction tx = null;
 		try {
 			scienceReward.setSpareTire("1");
-			scienceReward.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
 			scienceReward.setRewardLevel(rewardleveldao.findById(rewardlevel.getRewardLevelId()));
 			scienceReward.setRewardType(rewardtypedao.findById(rewardtype.getRewardTypeId()));
 			ScientificResearchRewardScore sciencerewardscore = sciencerewardscoredao.findByLT(scienceReward.getRewardLevel(),scienceReward.getRewardType());
@@ -175,7 +128,7 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 	
 	public void getMember() throws Exception{
 		try {
-			JSONArray jarray = JSONArray.fromObject(teacherandsrdao.getMember(scienceReward));
+			JSONArray jarray = JSONArray.fromObject(teacherandsrdao.getMembersano(scienceReward));
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 			ServletActionContext.getResponse().getWriter().write(jarray.toString());
 		} catch (Exception e) {
@@ -184,85 +137,23 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 		}
 	}
 	
-	public void joinScienceReward() throws Exception{
+	public void deleteMember()throws Exception{
 		Transaction tx = null;
 		try {
 			this.setScienceReward(sciencerewarddao.findById(scienceReward.getSrrewardId()));
-			teacherandsr.setRewardDate(scienceReward.getRewardDate());
-			teacherandsr.setCheckOut("0");
-			teacherandsr.setScientificResearchReward(scienceReward);
-			teacherandsr.setSpareTire("1");
-			teacherandsr.setTeacher((Teacher)session.get("teacher"));
-			ScientificResearchRewardScore sciencerewardscore = sciencerewardscoredao.findByLT(scienceReward.getRewardLevel(),scienceReward.getRewardType());
-			if(sciencerewardscore!=null){
-				teacherandsr.setScientificResearchRewardScore(sciencerewardscore);
-				teacherandsr.setFinalScore((double)sciencerewardscore.getScore());
-				if(teacherandsrdao.checkexist((Teacher)session.get("teacher"), scienceReward)){
-					teacherandsrdao.save(teacherandsr);
-					ServletActionContext.getResponse().getWriter().write("succ");
-				}else{
-					ServletActionContext.getResponse().setCharacterEncoding("utf-8");
-					ServletActionContext.getResponse().getWriter().write("不能重复加入");
-				}
+			if(!scienceReward.getChargePersonId().trim().equals(teacherandsr.getTeacher().getTeacherId())){
+				teacherandsrdao.quitProject(teacherandsr.getTeacher(), scienceReward);
 			}else{
 				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
-				ServletActionContext.getResponse().getWriter().write("对应评分项不存在，无法加入到该项目，请联系管理员");
+				ServletActionContext.getResponse().getWriter().write("不可以移除负责人");
 				return;
 			}
-			tx = teacherandsrdao.getSession().beginTransaction();
-			tx.commit();
-		} catch (Exception e) {
-			// TODO: handle exception
-			tx.rollback();
-			throw e;
-		}
-	}
-	//TODO: 个人参与设置
-	public String getPersonJoin()throws Exception{
-		int pagenum = 1;
-		int limitrow = 5;
-		String limit = (String)ServletActionContext.getRequest().getParameter("limit");
-		String pagenumber = (String)ServletActionContext.getRequest().getParameter("pagenum");
-		if(pagenumber!=null){
-			pagenum = !"".equals(pagenumber.trim())?Integer.parseInt(pagenumber):1;
-		}
-		if(limit!=null){
-			limitrow = !"".equals(limit.trim())?Integer.parseInt(limit):5;
-		}
-		request.put("teacherandssr", teacherandsrdao.findAllpaging((pagenum-1)*limitrow,limitrow,EntityUtil.generateQueryCondition(foredate, afterdate, "rewardDate"),(Teacher)session.get("teacher")));
-		int li = teacherandsrdao.getRows(EntityUtil.generateQueryCondition(foredate, afterdate, "rewardDate"),(Teacher)session.get("teacher"));
-		int sumpage = 1;
-		if(li%limitrow==0){
-			sumpage = li/limitrow;
-		}else{
-			sumpage = li/limitrow+1;
-		}
-		request.put("sumrow",li);
-		request.put("sumpage",sumpage);
-		if(pagenum<sumpage){
-			request.put("nextpage", 1+pagenum);
-		}else{
-			request.put("nextpage",pagenum);
-		}
-		if(pagenum>1){
-			request.put("prepage", pagenum-1);
-		}else{
-			request.put("prepage",1);
-		}
-		request.put("pagenum", pagenum);
-
-		return "success";
-	}
-	
-	public void quitProject()throws Exception{
-		Transaction tx = null;
-		try {
-			teacherandsrdao.quitProject((Teacher)session.get("teacher"), scienceReward);
 			tx = teacherandsrdao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			tx.rollback();
 			throw e;
 		}

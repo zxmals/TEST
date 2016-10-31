@@ -120,10 +120,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                         <a class="J_menuItem" href="ATacademicwk-workset!getWorkall">学术著作</a>
 				                    </li>
 				                    <li>
-				                         <a class="J_menuItem" href="GTscienceresearch-rewardset!gainscienceReward">科研项目奖励</a>
+				                         <a class="J_menuItem" href="ATscienceresearchred-rewardset!gainscienceReward">科研项目奖励</a>
 				                     </li>
 				                     <li>
-				                         <a class="J_menuItem" href="GTjoinacademicmeeting-meetingset!gainAllJoinacademic">参加学术会议</a>
+				                         <a class="J_menuItem" href="ATjoinacademicmeeting-meetingset!gainAllJoinacademic">参加学术会议</a>
 				                     </li>
 				                     <li>
 				                         <a class="J_menuItem" href="GTinviteexpertspeech-speechset!gainAllspeech">邀请专家讲学</a>

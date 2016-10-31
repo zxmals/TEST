@@ -24,7 +24,7 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.utils.EntityUtil;
 
-public class adminacademicwkAction implements RequestAware, SessionAware {
+public class abminacademicwkAction implements RequestAware, SessionAware {
 	private Map<String, Object> session;
 	private Map<String, Object> request;
 	private String foredate;
