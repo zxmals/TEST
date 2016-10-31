@@ -137,6 +137,7 @@
 		<global-results>
 			<result name="relogin">login.jsp</result>
 		</global-results>
+<!-- 科研绩效管理-管理 -->		
 		<!-- 期刊论文绩效设置//PeriodicalPaperSet -->
 		<action name="GTperiodicalpaper-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.periodicalpaperAction">
 			<result>/ScientificResearchPerformance/periodicalpaper-{1}.jsp</result>
@@ -168,6 +169,10 @@
 		<!-- 科研项目绩效管理//ScientificResearchProject-set -->
 		<action name="GTscientificresearchpro-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scientificResearchProjecAction">
 			<result>/ScientificResearchPerformance/scientificresearchpro-{1}.jsp</result>
+		</action>
+<!-- 科研绩效管理-管理 -->	
+		<action name="AT*-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.abmin{1}Action">
+			<result>/ScientificResearchPerformanceAdm/adm{1}-{2}.jsp</result>
 		</action>
 	</package>
 

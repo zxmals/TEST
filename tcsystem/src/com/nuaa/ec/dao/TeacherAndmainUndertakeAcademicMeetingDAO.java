@@ -249,7 +249,8 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 
 	public List findMember(MainUndertakeAcademicMeeting macam){
 		try {
-			String queryString = "select new com.nuaa.ec.model.TeacherMember(tm.teacher.teacherId,tm.teacher.teacherName,'') from TeacherAndmainUndertakeAcademicMeeting tm "
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(tm.teacher.teacherId,tm.teacher.teacherName,tm.selfUndertakeTask.undertakeTaskName) "
+					+ "from TeacherAndmainUndertakeAcademicMeeting tm "
 					+ "where tm.mainUndertakeAcademicMeeting=?"
 					+ "and tm.mainUndertakeAcademicMeeting.spareTire='1' "
 					+ "and tm.spareTire='1' "

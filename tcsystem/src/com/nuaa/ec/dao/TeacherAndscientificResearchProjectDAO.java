@@ -251,11 +251,12 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 		try {
 			String queryString = "from TeacherAndscientificResearchProject where spareTire='1' "
 					+ "and teacher.spareTire='1' "
+					+ "and teacher=? "
 					+ "and scientificResearchProject.projectType.spareTire='1' "
 					+ "and scientificResearchProject.spareTire='1' "
 					+condition
 					+ " order by scientificResearchProject.admitedProjectYear desc";
-			Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow).setMaxResults(limitRow);
+			Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow).setMaxResults(limitRow).setParameter(0, teacher);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);

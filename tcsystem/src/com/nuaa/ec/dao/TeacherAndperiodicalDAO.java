@@ -265,7 +265,21 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 	         Query queryObject = getSession().createQuery(queryString);
 	         queryObject.setParameter(0, score);
 	         queryObject.setParameter(1, ppscore);
-	         queryObject.setParameter(1, ppid);
+	         queryObject.setParameter(2, ppid);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+    }
+    
+    public void deleteMember(String ppid,String teacherId){
+    	try {
+			String queryString = "update TeacherAndperiodical set spareTire='0' "
+					+ " where ppid=? "
+					+ "and teacher.teacherId=? "
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, ppid).setParameter(1, teacherId);
 	         queryObject.executeUpdate();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
@@ -332,6 +346,22 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 		}
 	}
 
+    public List findMembers(String ppid){
+    	try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(tp.teacher.teacherId,tp.teacher.teacherName,'') "
+					+ "from TeacherAndperiodical tp "
+					+ "where spareTire='1' "
+					+ "and periodicalPapersScore.spareTire='1' "
+					+ "and teacher.spareTire='1' "
+					+ "and ppid=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, ppid);
+			return queryObject.list().size() > 0 ? queryObject.list() : null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+    }
+    
 	public List findByProperty(String propertyName, Object value) {
 		log.debug("finding TeacherAndperiodical instance with property: "
 				+ propertyName + ", value: " + value);
