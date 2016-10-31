@@ -72,10 +72,10 @@
 			<div>
 
 				从:<input type="text" id="date1" class="Wdate"
-					onClick="WdatePicker()" value="${sessionScope.foredate_UJA }"
-					name="foredate_UJA" id="foredate" />到:<input type="text" id="date2"
+					onClick="WdatePicker()" value="${sessionScope.foredate_TA }"
+					name="foredate_TA" id="foredate" />到:<input type="text" id="date2"
 					onClick="WdatePicker()" class="Wdate"
-					value="${sessionScope.afterdate_UJA }" name="afterdate_UJA"
+					value="${sessionScope.afterdate_TA }" name="afterdate_TA"
 					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep"
 					value="查询" title="点击查询">
 			</div>
@@ -83,18 +83,21 @@
 		<h3 style="padding:0px;margin-left: 10px;">活动缺席审核</h3>
 		<hr>
 		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="researchLab_UJA.researchLabId" id="reserchLabSelection">
+			<select name="researchLab_TA.researchLabId" id="reserchLabSelection">
 				<c:forEach var="researchLab" items="${researchLabList }">
 					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
 				</c:forEach>
 		</select>
-		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select name="pageSize_UJA"
+		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select 
+			name="pageSize_TA"
 			id="pageSizeSelection">
-				<c:forEach items="${pageSizeList }" var="pageSize">
-					<option value="${pageSize }">&nbsp;&nbsp;&nbsp;${pageSize }&nbsp;&nbsp;&nbsp;</option>
-				</c:forEach>
+				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
+				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
+				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
+				<option value="20">&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;</option>
+				<option value="30">&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;</option>
 		</select> 条记录
-		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select name="checkOutStatus_UJA"
+		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select name="checkOutStatus_TA"
 			id="checkoutStatus">
 				<option value="0">未审核</option>
 				<option value="1">审核通过</option>
@@ -118,27 +121,27 @@
 				<td>教师编号</td>
 				<td>教师姓名</td>		
 				<td>最终得分</td>
-<!-- 				<c:if test="${sessionScope.checkOutStatus_UJA=='0' }"> -->
+<!-- 				<c:if test="${sessionScope.checkOutStatus_TA=='0' }"> -->
 <!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
 <!-- 						onchange="allAlowOrNot()" /></td> -->
 <!-- 				</c:if> -->
-				<c:if test="${sessionScope.checkOutStatus_UJA=='0' }">
+				<c:if test="${sessionScope.checkOutStatus_TA=='0' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_UJA=='1' }">
+				<c:if test="${sessionScope.checkOutStatus_TA=='1' }">
 					<td><font color="blue">通过</td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_UJA=='2' }">
+				<c:if test="${sessionScope.checkOutStatus_TA=='2' }">
 					<td><font color="red">未通过</td>
 				</c:if>
 
 			</tr>
 			<c:forEach var="TAPUnionPPModel" 
-				items="${UnjoinedActList}">
+				items="${UnjoinedActList }">
 				<tr>
 					<!-- 活动编号 -->
-					<td>${actId }</td>
+					<td>${TAPUnionPPModel.actId }</td>
 					<!-- 活动名称-->
 					
 					<!-- 参与人员 -->
@@ -147,22 +150,22 @@
 					<!-- 教师编号 -->
 					<!-- 教师姓名 -->
 					<!-- 最终分数 -->
-<!-- 					<c:if test="${sessionScope.checkOutStatus_UJA=='0' }"> -->
+<!-- 					<c:if test="${sessionScope.checkOutStatus_TA=='0' }"> -->
 <!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
-<!-- 							value="${TAPUnionPPModel.TAPeriodical.teacherAndPid }" /></td> -->
+<!-- 							value="${TAPUnionPPModel.actId  }" /></td> -->
 <!-- 					</c:if> -->
-					<c:if test="${sessionScope.checkOutStatus_UJA=='0' }">
+					<c:if test="${sessionScope.checkOutStatus_TA=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox"
-							name="chooseWhichToAudit" value="${TAPUnionPPModel.TAPeriodical.teacherAndPid }"
+							name="chooseWhichToAudit" value="${TAPUnionPPModel.actId }"
 							class="check1" /></td>
 						<td class="c2">不通过<input
-							value="${TAPUnionPPModel.TAPeriodical.teacherAndPid }" type="checkbox"
+							value="${TAPUnionPPModel.actId }" type="checkbox"
 							name="notAudit" class="check2" /></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_UJA=='1' }">
+					<c:if test="${sessionScope.checkOutStatus_TA=='1' }">
 						<td><font color="green"size:"3">√</td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_UJA=='2' }">
+					<c:if test="${sessionScope.checkOutStatus_TA=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
 				</tr>
@@ -172,7 +175,7 @@
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;">
-			当前是第<font style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_UJA }</font>页
+			当前是第<font style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TA }</font>页
 		</span>
 		 <span> 
 			<c:if
@@ -184,21 +187,21 @@
 
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index"
 			step="1">
-			<c:if test="${index<=pageCount_UJA }">
+			<c:if test="${index<=pageCount_TA }">
 				<span> <a
 					href="GTUnjoinedActAudit!getUnjoinedActListAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
-		<span> <c:if test="${pageIndex<pageCount_UJA }">
+		<span> <c:if test="${pageIndex<pageCount_TA }">
 				<a
 					href="GTUnjoinedActAudit!getUnjoinedActListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
-		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_UJA }</font>页
-		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_UJA }</font>条记录
+		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TA }</font>页
+		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TA }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_UJA=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_TA=='0'}">
 		<input type="button" value="审核" class="button_set"
 		style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
@@ -230,9 +233,9 @@
 	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pageSizeSelection option[value='${sessionScope.pageSize_UJA}']").attr("selected",true);
-			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab_UJA.researchLabId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_UJA}']").attr("selected",true);
+			$("#pageSizeSelection option[value='${sessionScope.pageSize_TA}']").attr("selected",true);
+			$("#reserchLabSelection option[value='${sessionScope.researchLab_TA.researchLabId}']").attr("selected",true);
+			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TA}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
 			submitAudit("GTUnjoinedActAudit!doCheckOutTask",

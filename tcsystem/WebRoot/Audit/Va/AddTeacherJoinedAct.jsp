@@ -122,29 +122,29 @@
 				</c:if>
 
 			</tr>
-			<c:forEach var="TFClassTeachPefro"
+			<c:forEach var="VaAddJoinedAct"
 				items="${VaAddJoinedActList }">
 				<tr>
 					<!-- 公益活动编号 -->
-					<td>${TFClassTeachPefro.id.vacollectiveActivitiesPublish.actPubId }</td>
+					<td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId }</td>
 					<!-- 公益活动名称-->
-					<td>${TFClassTeachPefro.id.vacollectiveActivitiesPublish.vacollectiveAct.actName }</td>
+					<td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.vacollectiveAct.actName }</td>
 					<!-- 参与人员 -->
-					<td>${TFClassTeachPefro.id.vacollectiveActivitiesPublish.vacollectiveAct.attendee }</td>
+					<td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.vacollectiveAct.attendee }</td>
 					<!-- 活动日期 -->
-					<td>${TFClassTeachPefro.id.vacollectiveActivitiesPublish.actDate}</td>
+					<td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actDate}</td>
 					<!-- 活动类型 -->
-					<td>${TFClassTeachPefro.id.vacollectiveActivitiesPublish.actType }</td>
+					<td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.vacollectiveAct.actType }</td>
 					<!-- 教师编号 -->
-					<td>${TFClassTeachPefro.id.teacher.teacherId }</td>
+					<td>${VaAddJoinedAct.id.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
-					<td>${TFClassTeachPefro.id.teacher.teacherName }</td>
+					<td>${VaAddJoinedAct.id.teacher.teacherName }</td>
 					<!-- 最终分数 -->
-					<td>${TFClassTeachPefro.score }</td>
+					<td>${VaAddJoinedAct.score }</td>
 					<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${TFClassTeachPefro.id.vacollectiveActivitiesPublish.actPubId}"   class="check1"/></td>
-						<td class="c2">不通过<input value="${TFClassTeachPefro.id.vacollectiveActivitiesPublish.actPubId}" type="checkbox"
+							value="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId}"   class="check1"/></td>
+						<td class="c2">不通过<input value="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId}" type="checkbox"
 						 name="notAudit" class="check2"/></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_CT=='1' }">

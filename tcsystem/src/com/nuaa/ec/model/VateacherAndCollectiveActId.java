@@ -13,10 +13,17 @@ public class VateacherAndCollectiveActId implements java.io.Serializable {
 
 	// Constructors
 
-	/** default constructor */
-	public VateacherAndCollectiveActId() {
+	/** default constructor 
+	 * 
+	 * @param vacollectiveActivitiesPublish2 */
+	public VateacherAndCollectiveActId(VacollectiveActivitiesPublish vacollectiveActivitiesPublish2) {
+		this.vacollectiveActivitiesPublish = vacollectiveActivitiesPublish2;
 	}
 
+	public VateacherAndCollectiveActId(){
+		
+	}
+	
 	/** full constructor */
 	public VateacherAndCollectiveActId(
 			VacollectiveActivitiesPublish vacollectiveActivitiesPublish,

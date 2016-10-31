@@ -1,10 +1,14 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
+import com.nuaa.ec.model.VateacherAndCollectiveAct;
+import com.opensymphony.xwork2.ActionContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
@@ -35,6 +39,9 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 	public static final String ACT_DATE = "actDate";
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String ASPARE_TIRE = "aspareTire";
+	private Map<String, Object> session = ActionContext.getContext().getSession();
+	private List<VacollectiveActivitiesPublish> newActPulishList = null;
+	
 
 	public void save(VacollectiveActivitiesPublish transientInstance) {
 		log.debug("saving VacollectiveActivitiesPublish instance");
@@ -210,5 +217,63 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 			log.error("attach failed", re);
 			throw re;
 		}
+	}
+	public boolean updateASparetire(
+			List<VacollectiveActivitiesPublish> checkoutList) {
+		// TODO Auto-generated method stub
+		Session session = this.getSession();
+		Transaction tx = null;
+		boolean updateFlag = false;
+		try {
+			for (int i = 0; i < checkoutList.size(); i++) {
+				session.update(checkoutList.get(i));
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			updateFlag = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return updateFlag;
+	}
+	@SuppressWarnings("unchecked")
+	public List getNewActPublishAct(int pageIndex, int pagesize,
+			ResearchLab researchLab, String checkout, boolean isDivided) {
+		// TODO Auto-generated method stub
+		StringBuffer hqlBuffer = null;
+		try {
+			if (researchLab.getResearchLabId() == null || 
+				researchLab.getResearchLabId().length() == 0) {
+				/*
+				 * 第一次进入的时候，不显示记录
+				 */
+				
+				session.put("pageCount_CT", 0);
+				session.put("recordNumber_CT", 0);
+				return newActPulishList = new ArrayList<VacollectiveActivitiesPublish>();
+			}else {
+				hqlBuffer = new StringBuffer(
+						"from VacollectiveActivitiesPublish"
+						);
+			}
+			if (!isDivided) {
+				newActPulishList = this.getSession().createQuery(hqlBuffer.toString()).list();
+				int recordNumber = newActPulishList.size();
+				session.put("pageCount_CT", recordNumber%pagesize==0?(recordNumber/pagesize):(recordNumber/pagesize+1));
+				session.put("recordNumber_CT", newActPulishList.size());
+			}
+			//无论是不是分页查询，都在后台进行分页操作。
+			newActPulishList = this.getSession()
+					.createQuery(hqlBuffer.toString())
+					.setFirstResult((pageIndex - 1) * pagesize)
+					.setMaxResults(pagesize).list();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return newActPulishList;
 	}
 }

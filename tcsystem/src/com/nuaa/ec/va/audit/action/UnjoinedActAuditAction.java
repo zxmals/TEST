@@ -54,21 +54,21 @@ public class UnjoinedActAuditAction implements RequestAware{
 	
 	public String getUnjoinedActListAfterDivide(){
 		Transaction tx = this.vaunJoinRecordDAO.getSession().beginTransaction();
-		if ((ResearchLab) session.get("selectedResearchLab_UJA") == null) {
-			session.put("selectedResearchLab_UJA", new ResearchLab());
+		if ((ResearchLab) session.get("researchLab_UA") == null) {
+			session.put("researchLab_UA", new ResearchLab());
 		}
-		if ((Integer) session.get("pageSize_UJA") == null) {
-			session.put("pageSize_UJA", 1);
+		if ((Integer) session.get("pageSize_UA") == null) {
+			session.put("pageSize_UA", 1);
 		}
-		
+		System.out.println("*******************");
 		try {
-			this.request.put("UnjoinedActList", this.vaunJoinRecordDAO
+			session.put("UnjoinedActList", this.vaunJoinRecordDAO
 					.getUnjoinedActListAfterDivide(pageIndex,
-							(Integer) session.get("pageSize_UJA"),
-							(String) session.get("foredate_UJA"),
-							(String) session.get("afterdate_UJA"),
-							(ResearchLab) session.get("selectedResearchLab_UJA"),
-							(String) session.get("checkOutStatus_UJA")));
+							(Integer) session.get("pageSize_UA"),
+							(String) session.get("foredate_UA"),
+							(String) session.get("afterdate_UA"),
+							(ResearchLab) session.get("researchLab_UA"),
+							(String) session.get("checkOutStatus_UA")));
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
@@ -82,29 +82,19 @@ public class UnjoinedActAuditAction implements RequestAware{
 	public String getUnjoinedActList(){
 		Transaction tx = this.vaunJoinRecordDAO.getSession()
 				.beginTransaction();
-		if ((ResearchLab) session.get("selectedResearchLab_UJA") == null) {
-			session.put("selectedResearchLab_UJA", new ResearchLab());
+		if ((ResearchLab) session.get("researchLab_UA") == null) {
+			session.put("researchLab_UA", new ResearchLab());
 		}
-		if ((Integer) session.get("pageSize_UJA") == null) {
-			session.put("pageSize_UJA", 1);
+		if ((Integer) session.get("pageSize_UA") == null) {
+			session.put("pageSize_UA", 1);
 		}try {
-			System.out.println("11111111111111111");
-			System.out.println(pageIndex);
-			System.out.println(session.get("pageSize_UJA"));
-			System.out.println(session.get("foredate_UJA"));
-			System.out.println(session.get("afterdate_UJA"));
-			System.out.println(session.get("selectedResearchLab_UJA"));
-			System.out.println(session.get("checkOutStatus_UJA"));
-			System.out.println("2222222222222");
-			
-			
-			this.request.put("UnjoinedActList", this.vaunJoinRecordDAO
+			session.put("UnjoinedActList", this.vaunJoinRecordDAO
 					.findAllWithCondition(pageIndex,
-							(Integer) session.get("pageSize_UJA"),
-							(String) session.get("foredate_UJA"),
-							(String) session.get("afterdate_UJA"),
-							(ResearchLab) session.get("selectedResearchLab_UJA"),
-							(String) session.get("checkOutStatus_UJA")));
+							(Integer) session.get("pageSize_UA"),
+							(String) session.get("foredate_UA"),
+							(String) session.get("afterdate_UA"),
+							(ResearchLab) session.get("researchLab_UA"),
+							(String) session.get("checkOutStatus_UA")));
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
@@ -124,11 +114,11 @@ public class UnjoinedActAuditAction implements RequestAware{
 	}
 	
 	private int pageIndex = 1;
-	private int pageSize_UJA;
-	private String foredate_UJA;
-	private String afterdate_UJA;
-	private ResearchLab researchLab_UJA;
-	private String checkOutStatus_UJA;
+	private int pageSize_UA;
+	private String foredate_UA;
+	private String afterdate_UA;
+	private ResearchLab researchLab_UA;
+	private String checkOutStatus_UA;
 	private String checkOutIDs;
 	private String checkOutIDsNot;
 	private int operstatus;
@@ -144,49 +134,49 @@ public class UnjoinedActAuditAction implements RequestAware{
 		this.pageIndex = pageIndex;
 	}
 
-	public int getPageSize_UJA() {
-		return pageSize_UJA;
+	public int getPageSize_UA() {
+		return pageSize_UA;
 	}
 
-	public void setPageSize_UJA(int pageSize_UJA) {
-		this.pageSize_UJA = pageSize_UJA;
-		session.put("pageSize_UJA", pageSize_UJA);
+	public void setPageSize_UA(int pageSize_UA) {
+		this.pageSize_UA = pageSize_UA;
+		session.put("pageSize_UA", pageSize_UA);
 	}
 
-	public String getForedate_UJA() {
-		return foredate_UJA;
+	public String getForedate_UA() {
+		return foredate_UA;
 	}
 
-	public void setForedate_UJA(String foredate_UJA) {
-		this.foredate_UJA = foredate_UJA;
-		session.put("foredate_UJA", foredate_UJA);
+	public void setForedate_UA(String foredate_UA) {
+		this.foredate_UA = foredate_UA;
+		session.put("foredate_UA", foredate_UA);
 	}
 
-	public String getAfterdate_UJA() {
-		return afterdate_UJA;
+	public String getAfterdate_UA() {
+		return afterdate_UA;
 	}
 
-	public void setAfterdate_UJA(String afterdate_UJA) {
-		this.afterdate_UJA = afterdate_UJA;
-		session.put("afterdate_UJA", afterdate_UJA);
+	public void setAfterdate_UA(String afterdate_UA) {
+		this.afterdate_UA = afterdate_UA;
+		session.put("afterdate_UA", afterdate_UA);
 	}
 
-	public ResearchLab getResearchLab_UJA() {
-		return researchLab_UJA;
+	public ResearchLab getResearchLab_UA() {
+		return researchLab_UA;
 	}
 
-	public void setResearchLab_UJA(ResearchLab researchLab_UJA) {
-		this.researchLab_UJA = researchLab_UJA;
-		session.put("selectedResearchLab_UJA", researchLab_UJA);
+	public void setResearchLab_UA(ResearchLab researchLab_UA) {
+		this.researchLab_UA = researchLab_UA;
+		session.put("researchLab_UA", researchLab_UA);
 	}
 
-	public String getCheckOutStatus_UJA() {
-		return checkOutStatus_UJA;
+	public String getCheckOutStatus_UA() {
+		return checkOutStatus_UA;
 	}
 
-	public void setCheckOutStatus_UJA(String checkOutStatus_UJA) {
-		this.checkOutStatus_UJA = checkOutStatus_UJA;
-		session.put("checkOutStatus_UJA", checkOutStatus_UJA);
+	public void setCheckOutStatus_UA(String checkOutStatus_UA) {
+		this.checkOutStatus_UA = checkOutStatus_UA;
+		session.put("checkOutStatus_UA", checkOutStatus_UA);
 	}
 
 	public String getCheckOutIDs() {

@@ -246,6 +246,7 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		return updateFlag;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<VaunJoinRecord> getUnjoinedActListAfterDivide(int pageIndex,
 			Integer pageSize, String foredate, String afterdate,
 			ResearchLab researchLab, String checkOut) {
@@ -255,9 +256,9 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		if (researchLab.getResearchLabId() == null
 				|| researchLab.getResearchLabId().length() == 0) {
 			hql = new StringBuffer(
-					"select VAJR from VaunJoinRecord VAJR where"
-					+ "VAJR.sparetire='1'"
-					+ "and VAJR.asparetire='"
+					"from VaunJoinRecord VAJR where "
+					+ " VAJR.sparetire='1'"
+					+ " and VAJR.asparetire='"
 					+ checkOut
 					+ "'"
 					);
@@ -292,6 +293,8 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		return list;
 	}
 
+	
+	
 	@SuppressWarnings("unchecked")
 	public List findAllWithCondition(int pageIndex, Integer pageSize,
 			String foredate, String afterdate, ResearchLab researchLab,
@@ -304,16 +307,18 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 			/*
 			 * 如果第一次进入界面 没有选择研究所 session里面没有对应的数据， 所以不显示数据
 			 */
-			session.put("recordNumber_UJA", 0);
-			session.put("pageCount_UJA", 0);
+			session.put("recordNumber_UA", 0);
+			session.put("pageCount_UA", 0);
 			return list;
 		}else {
+//			hql = new StringBuffer(
+//					"from VaunJoinRecord VAJR where "
+//					+ " VAJR.sparetire='1'"
+//					+ " and VAJR.asparetire='"
+//					+ checkOut+ "'");
 			hql = new StringBuffer(
-					"from VaunJoinRecord VAJR where "
-					+ " VAJR.sparetire='1'"
-					+ " and VAJR.asparetire='"
-					+ checkOut
-					+ "'");
+					"from VaunJoinRecord VAJR"
+					);
 		}
 		try {
 			String append = " and VAJR.actDate between ? and ? ";
@@ -333,8 +338,8 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 			/*
 			 * 总体查询完毕，把总记录数和总页数放入session用于前台展现。
 			 */
-			session.put("recordNumber_UJA", list.size());
-			session.put("pageCount_UJA",
+			session.put("recordNumber_UA", list.size());
+			session.put("pageCount_UA",
 					list.size() % pageSize == 0 ? (list.size() / pageSize)
 							: (list.size() / pageSize + 1));
 			/*
