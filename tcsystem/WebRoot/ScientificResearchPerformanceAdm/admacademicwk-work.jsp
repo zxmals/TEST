@@ -494,15 +494,15 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
         		closeOnCancel: true }, 
         			function(isConfirm){   
         				if (isConfirm&pubsprojectId!="") {
-        					$.post("ATperiodicalpaper-paperset!deleteMember",
-        							{"tap.ppid":pubsprojectId,
-        						 	 "tap.teacher.teacherId":row[0].cells[0].innerHTML.trim()},
+        					$.post("ATacademicwk-workset!deleteMember",
+        							{"academicwk.acaworkId":pubsprojectId,
+        						 	 "teacherandaw.teacher.teacherId":row[0].cells[0].innerHTML.trim()},
         							function(data,status){
         								if(status=="success"){
         									if(data=="succ"){
         										swal("删除成功","","success");
         										setTimeout(function() {
-        											window.location.replace("ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1");
+        											window.location.replace("ATacademicwk-workset!getWorkall?pagenum=1");
     											}, 2000);
         									}else{
         										swal("操作失败",data,"error");

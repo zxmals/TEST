@@ -2,6 +2,8 @@ package com.nuaa.ec.ScientificResearchPerformanceSet.Action;
 
 import java.util.Map;
 
+import javax.servlet.Servlet;
+
 import net.sf.json.JSONArray;
 
 import org.apache.struts2.ServletActionContext;
@@ -139,6 +141,27 @@ public class adminacademicwkAction implements RequestAware, SessionAware {
 			}
 		}
 		
+	public void deleteMember()throws Exception{
+		Transaction tx = null;
+		try {
+			TeacherAndacademicWork tmptawk = teacherandawdao.findByTeacherAndProject(academicwk, teacherandaw.getTeacher());
+			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+			if(tmptawk.getSelfUndertakeTask().getUndertakeTaskName().trim().indexOf("负责")>=0){
+				ServletActionContext.getResponse().getWriter().write("不能移除负责人");
+				return;
+			}else{
+				teacherandawdao.quitAcademicWork(teacherandaw.getTeacher(), academicwkdao.findById(academicwk.getAcaworkId()));
+			}
+			tx = teacherandawdao.getSession().beginTransaction();
+			tx.commit();
+			ServletActionContext.getResponse().getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+			throw e;
+		}
+	}
 	public Map<String, Object> getSession() {
 		return session;
 	}

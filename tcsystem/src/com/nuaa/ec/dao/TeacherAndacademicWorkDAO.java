@@ -269,6 +269,24 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
          }
     }
     
+    public TeacherAndacademicWork findByTeacherAndProject(AcademicWork awk,Teacher teacher){
+    	try {
+            String queryString = "from TeacherAndacademicWork "
+            		+ "where academicWork=? "
+            		+ "and teacher=? "
+            		+ "and spareTire='1' ";
+            Query queryObject = getSession().createQuery(queryString).setParameter(0, awk).setParameter(1, teacher);
+            if(queryObject.list().size()>0){
+            	return (TeacherAndacademicWork) queryObject.list().get(0);
+            }else{
+            	return null;
+            }
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
+    
 	public List findByFinalScore(Object finalScore
 	) {
 		return findByProperty(FINAL_SCORE, finalScore
