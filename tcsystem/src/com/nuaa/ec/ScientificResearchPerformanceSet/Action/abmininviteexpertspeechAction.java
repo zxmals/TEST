@@ -20,10 +20,8 @@ import com.nuaa.ec.model.InvitedExpertsSpeech;
 import com.nuaa.ec.model.InvitedExpertsSpeechScore;
 import com.nuaa.ec.model.Nationality;
 import com.nuaa.ec.model.SelfUndertakeTask;
-import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndinvitedExpertsSpeech;
 import com.nuaa.ec.utils.EntityUtil;
-import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class abmininviteexpertspeechAction implements RequestAware, SessionAware {
 

@@ -25,7 +25,6 @@ import com.nuaa.ec.model.SelfUndertakeTask;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
 import com.nuaa.ec.utils.EntityUtil;
-import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class abminundertakeacademicmeetAction implements RequestAware, SessionAware {
 //	Attr
