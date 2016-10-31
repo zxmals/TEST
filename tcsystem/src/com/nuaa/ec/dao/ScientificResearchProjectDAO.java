@@ -181,7 +181,7 @@ public class ScientificResearchProjectDAO extends BaseHibernateDAO  {
 	
 	public List findMember(ScientificResearchProject srp){
 		try {
-			String queryString = "select new com.nuaa.ec.model.TeacherMember(tsp.teacher.teacherId,tsp.teacher.teacherName,'') "
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(tsp.teacher.teacherId,tsp.teacher.teacherName,tsp.selfUndertakeTask.undertakeTaskName) "
 					+ "from TeacherAndscientificResearchProject tsp "
 					+ "where tsp.spareTire=1 "
 					+ "and tsp.scientificResearchProject=? "

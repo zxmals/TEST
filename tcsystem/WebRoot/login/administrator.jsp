@@ -135,7 +135,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                          <a class="J_menuItem" href="ATselectedtalentprojec-talentset!gainAlltalentprojec">入选人才工程</a>
 				                     </li>
 				                     <li>
-				                          <a class="J_menuItem" href="GTscientificresearchpro-projectset!gainAllscienpro">科研项目</a>
+				                          <a class="J_menuItem" href="ATscientificresearchpro-projectset!gainAllscienpro">科研项目</a>
 				                     </li>
 		                        </ul>
                             </li>

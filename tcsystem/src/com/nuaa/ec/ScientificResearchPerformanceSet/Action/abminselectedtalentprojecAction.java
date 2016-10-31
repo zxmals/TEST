@@ -9,15 +9,12 @@ import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Transaction;
 
-import com.nuaa.ec.dao.SelectedTalentProjectScoreDAO;
 import com.nuaa.ec.dao.TalentProjectDAO;
 import com.nuaa.ec.dao.TeacherAndselectedTalentProjectDAO;
 import com.nuaa.ec.model.SelectedTalentProjectScore;
 import com.nuaa.ec.model.TalentProject;
-import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndselectedTalentProject;
 import com.nuaa.ec.utils.EntityUtil;
-import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class abminselectedtalentprojecAction implements RequestAware, SessionAware {
 
@@ -31,7 +28,6 @@ public class abminselectedtalentprojecAction implements RequestAware, SessionAwa
 	private TeacherAndselectedTalentProject teacherandtalentp;
 
 	private TalentProjectDAO talentpdao = new TalentProjectDAO();
-	private SelectedTalentProjectScoreDAO talentpscoredao = new SelectedTalentProjectScoreDAO();
 	private TeacherAndselectedTalentProjectDAO teacherandtalentpdao = new TeacherAndselectedTalentProjectDAO();
 	// default method
 	public String execute() {
