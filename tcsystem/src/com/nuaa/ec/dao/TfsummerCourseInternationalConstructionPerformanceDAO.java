@@ -14,9 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
-import com.nuaa.ec.model.TfprofessionalProjectDeclarePerformance;
 import com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformance;
-import com.nuaa.ec.model.TfteachingAbilityImprovePerformance;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
