@@ -96,17 +96,6 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		}
 	}
 	
-//	public VateacherAndCollectiveAct findById(String id){
-//		log.debug("getting VateacherAndCollectiveAct instance with id: " + id);
-//		try {
-//			VateacherAndCollectiveAct instance = (VateacherAndCollectiveAct) getSession()
-//					.get("com.nuaa.ec.model.VateacherAndCollectiveAct", id);
-//			return instance;
-//		} catch (RuntimeException re) {
-//			log.error("get failed", re);
-//			throw re;
-//		}
-//	}
 
 	public List findByExample(VateacherAndCollectiveAct instance) {
 		log.debug("finding VateacherAndCollectiveAct instance by example");

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.nuaa.ec.model.VacollectiveAct;
+import com.nuaa.ec.model.VacollectiveActivitiesPublish;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -37,8 +38,7 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String ASPARE_TIRE = "aspareTire";
 	private Map<String, Object> session = ActionContext.getContext().getSession();
-	private List<VacollectiveAct> addJoinedActList = null;
-
+	private List<VacollectiveAct> newActApplyList = null;
     
     public void save(VacollectiveAct transientInstance) {
         log.debug("saving VacollectiveAct instance");
@@ -213,51 +213,48 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 	}
 
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List getVaAddJoinedAct(int pageIndex, int pageSize,ResearchLab researchLab,String checkOut,
-			boolean isDivided) {
+
+	@SuppressWarnings("unchecked")
+	public List<VacollectiveAct> getNewActApplyList(int pageIndex, Integer pagesize,
+			ResearchLab researchLab, String checkout, boolean isDivided) {
 		// TODO Auto-generated method stub
 		StringBuffer hqlBuffer = null;
-		if (researchLab.getResearchLabId() == null || 
+		try {
+			if (researchLab.getResearchLabId() == null || 
 				researchLab.getResearchLabId().length() == 0) {
-			/*
-			 * 第一次进入的时候，不显示记录
-			 */
-			
-			session.put("pageCount_CT", 0);
-			session.put("recordNumber_CT", 0);
-			return addJoinedActList = new ArrayList<VacollectiveAct>();
-		}else {
-			// 查出符合条件的全部的记录
-			hqlBuffer = new StringBuffer(
-					"from VacollectiveAct CT where CT.spareTire='1' "
-							+ "and CT.aspareTire='" + checkOut + "' "
-							+ "and CT.teacher.spareTire = '1' "
-//							+ "and VACA.spareTire = '1' "
-//							+ "and CT.teacher.teacherId = VACA.TeacherID "
-							+ "and CT.teacher.researchLab.spareTire='1' "
-							+ "and CT.teacher.researchLab.researchLabId='"
-							+ researchLab.getResearchLabId() + "'");
-			// 判断是否为分页操作
-			if (!isDivided) {
-				//如果不是分页操作，取出所有符合条件的记录
-				addJoinedActList = this.getSession().createQuery(hqlBuffer.toString()).list();
-				int recordNumber=addJoinedActList.size();
-				session.put("pageCount_CT", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
-				session.put("recordNumber_CT", addJoinedActList.size());
+				/*
+				 * 第一次进入的时候，不显示记录
+				 */
+				
+				session.put("pageCount_CT", 0);
+				session.put("recordNumber_CT", 0);
+				return newActApplyList = new ArrayList<VacollectiveAct>();
+			}else {
+				hqlBuffer = new StringBuffer(
+						"from VacollectiveAct VA"
+						+ " where VA.aspareTire='" + checkout +"'"
+						+ " and VA.spareTire = '1' "
+						+ " and VA.teacher.spareTire='1' "
+						+ " and VA.teacher.researchLab.researchLabId='" + researchLab.getResearchLabId() + "'"
+						+ " and VA.teacher.researchLab.spareTire='1'"
+						+ " order by VA.actId asc"
+						);
 			}
-			//无论是不是分页查询，都在后台进行分页操作
-			addJoinedActList = this.getSession()
+			if (!isDivided) {
+				newActApplyList = this.getSession().createQuery(hqlBuffer.toString()).list();
+				int recordNumber = newActApplyList.size();
+				session.put("pageCount_CT", recordNumber%pagesize==0?(recordNumber/pagesize):(recordNumber/pagesize+1));
+				session.put("recordNumber_CT", newActApplyList.size());
+			}
+			//无论是不是分页查询，都在后台进行分页操作。
+			newActApplyList = this.getSession()
 					.createQuery(hqlBuffer.toString())
-					.setFirstResult((pageIndex - 1) * pageSize)
-					.setMaxResults(pageIndex).list();
-			
-		}
+					.setFirstResult((pageIndex - 1) * pagesize)
+					.setMaxResults(pagesize).list();
 		
-		return addJoinedActList;
+	}catch(Exception e){
+		e.printStackTrace();
 	}
-	
-
-	
-
+		return newActApplyList;
+	}
 }

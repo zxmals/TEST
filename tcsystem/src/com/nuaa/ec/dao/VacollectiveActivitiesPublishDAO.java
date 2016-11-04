@@ -255,7 +255,14 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 				return newActPulishList = new ArrayList<VacollectiveActivitiesPublish>();
 			}else {
 				hqlBuffer = new StringBuffer(
-						"from VacollectiveActivitiesPublish"
+						"from VacollectiveActivitiesPublish VA"
+						+ " where VA.aspareTire='" + checkout +"'"
+						+ " and VA.spareTire = '1' "
+						+ " and VA.vacollectiveAct.spareTire='1'"
+						+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+						+ " and VA.vacollectiveAct.teacher.researchLab.researchLabId='" + researchLab.getResearchLabId() + "'"
+						+ " and VA.vacollectiveAct.teacher.researchLab.spareTire='1'"
+						+ " order by VA.actPubId asc"
 						);
 			}
 			if (!isDivided) {

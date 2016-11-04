@@ -102,11 +102,11 @@
 			style="border-collapse:collapse;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
-				<td>活动发布编号</td>
+				<td>活动编号</td>
 				<td>活动名称</td>
 				<td>参与人员</td>
-				<td>活动日期</td>
 				<td>活动类型</td>
+				<td>说明</td>
 				<td>教师编号</td>
 				<td>教师姓名</td>
 				<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
@@ -122,26 +122,26 @@
 
 			</tr>
 			<c:forEach var="VaAddJoinedAct"
-				items="${newActPulishList }">
+				items="${newActApplyList }">
 				<tr>
 					<!-- 活动发布编号 -->
-					<td>${VaAddJoinedAct.actPubId }</td>
+					<td>${VaAddJoinedAct.actId }</td>
 					<!-- 活动名称-->
-					<td>${VaAddJoinedAct.vacollectiveAct.actName }</td>
+					<td>${VaAddJoinedAct.actName }</td>
 					<!-- 参与人员 -->
-					<td>${VaAddJoinedAct.vacollectiveAct.attendee }</td>
-					<!-- 活动日期 -->
-					<td>${VaAddJoinedAct.actDate}</td>
+					<td>${VaAddJoinedAct.attendee }</td>
 					<!-- 活动类型 -->
-					<td>${VaAddJoinedAct.vacollectiveAct.actType }</td>
+					<td>${VaAddJoinedAct.actType }</td>
+					<!-- 说明 -->
+					<td>${VaAddJoinedAct.actapplyfile }</td>
 					<!-- 教师编号 -->
-					<td>${VaAddJoinedAct.vacollectiveAct.teacher.teacherId }</td>
+					<td>${VaAddJoinedAct.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
-					<td>${VaAddJoinedAct.vacollectiveAct.teacher.teacherName }</td>
+					<td>${VaAddJoinedAct.teacher.teacherName }</td>
 					<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${VaAddJoinedAct.actPubId}"   class="check1"/></td>
-						<td class="c2">不通过<input value="${VaAddJoinedAct.actPubId}" type="checkbox"
+							value="${VaAddJoinedAct.actId}"   class="check1"/></td>
+						<td class="c2">不通过<input value="${VaAddJoinedAct.actId}" type="checkbox"
 						 name="notAudit" class="check2"/></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_CT=='1' }">
@@ -160,7 +160,7 @@
 			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_CT }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="GTNewActPublishActAudit!getNewActPublishListAfterDivided?pageIndex=${pageIndex-1 }">上一页</a>
+					href="GTNewActApplyAudit!getNewActApplyListAfterDivided?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
@@ -168,13 +168,13 @@
 			step="1">
 			<c:if test="${index<=pageCount_CT }">
 				<span> <a
-					href="GTNewActPublishActAudit!getNewActPublishListAfterDivided?pageIndex=${index }">${index }</a>
+					href="GTNewActApplyAudit!getNewActApplyListAfterDivided?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		<span> <c:if test="${pageIndex<pageCount_CT }">
 				<a
-					href="GTNewActPublishActAudit!getNewActPublishListAfterDivided?pageIndex=${pageIndex+1 }">下一页</a>
+					href="GTNewActApplyAudit!getNewActApplyListAfterDivided?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
 		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_CT }</font>页
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_CT }</font>条记录
@@ -216,8 +216,8 @@
 			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_CT}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("GTNewActPublishActAudit!doCheckOutTask",
-					"GTNewActPublishActAudit!getNewActPublishList");
+			submitAudit("GTNewActApplyAudit!doCheckOutTask",
+					"GTNewActApplyAudit!getNewActApplyList");
 		});
 	</script>
 </body>

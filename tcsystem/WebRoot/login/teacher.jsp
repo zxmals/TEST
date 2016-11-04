@@ -216,10 +216,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                                <a class="J_menuItem" href="GTUnjoinedActAudit!getUnjoinedActList">活动缺席审核</a>
 				                            </li>
 				                            <li>
-				                                <a class="J_menuItem" href="#">活动发布审核</a>
+				                                <a class="J_menuItem" href="GTNewActPublishActAudit!getNewActPublishList">活动发布审核</a>
 				                            </li>
 				                            <li>
-				                                <a class="J_menuItem" href="#">活动新增申请审核</a>
+				                                <a class="J_menuItem" href="GTNewActApplyAudit!getNewActApplyList">活动新增申请审核</a>
 				                            </li>
 				                        </ul>
 		                            </li>

@@ -398,7 +398,7 @@
 		
 		
 		
-		<!-- 公益活动参与审核 -->
+		<!-- 公益活动审核 -->
 		<action name="GTAddJoinedActAudit"
 			class="com.nuaa.ec.va.audit.action.AddJoinedActAuditAction">
 			<result>/Audit/Va/AddTeacherJoinedAct.jsp</result>
@@ -412,6 +412,11 @@
 		<action name="GTNewActPublishActAudit"
 			class="com.nuaa.ec.va.audit.action.NewActPublishAuditAction">
 			<result>/Audit/Va/NewActPublishAct.jsp</result>
+		</action>
+		
+		<action name="GTNewActApplyAudit"
+			class="com.nuaa.ec.va.audit.action.NewActApplyAudit">
+			<result>/Audit/Va/NewActApply.jsp</result>
 		</action>
 	</package>
 	<!-- 教学审核 -->
