@@ -229,10 +229,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                        </ul>
                             </li>
                             <li>
-                                <a class="" href="#">教学绩效管理 <span class="fa arrow"></span></a>
+                                <a href="#">
+									<i class="fa fa fa-bar-chart-o"></i>
+									<span class="nav-label">教学绩效管理 </span>
+									<span class="fa arrow"></span>
+								</a>
                                 <ul class="nav nav-third-level">
-									<li><a href="#">教学能力与实效 <span class="fa arrow"></span></a>
-										<ul class="nav nav-third-level"">
+									<li>
+										<a href="#">
+											<i class="fa fa fa-bar-chart-o"></i>
+											<span class="nav-label">教学能力与实效 </span>
+											<span class="fa arrow"></span>
+										</a>
+										<ul class="nav nav-third-level firstslide">
 											<li><a class="J_menuItem" href="">课堂教学绩效</a></li>
 											<li><a class="J_menuItem" href="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord">学位论文指导质量绩效</a></li>
 											<li><a class="J_menuItem" href="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher">教学竞赛绩效</a></li>
@@ -240,8 +249,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="">教学名师和教学团队绩效</a></li>
 										</ul>
 									</li>
-									<li><a href="">综合改革与教学研究 <span class="fa arrow"></span></a>
-										<ul class="nav nav-third-level">
+									<li>
+										<a href="#">
+											<i class="fa fa fa-bar-chart-o"></i>
+											<span class="nav-label">综合改革与教学研究 </span>
+											<span class="fa arrow"></span>
+										</a>
+										<ul class="nav nav-third-level firstslide">
 											<li><a class="J_menuItem" href="">教学研究绩效</a></li>
 											<li><a class="J_menuItem" href="">教学论文绩效</a></li>
 											<li><a class="J_menuItem" href="">教学成果奖绩效</a></li>
@@ -252,8 +266,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="GTSummerCourseInternationalConstructionPerformanceSet!getAllRecord">暑期课程与国际课程建设绩效</a></li>
 										</ul>
 									</li>
-									<li><a href="">学生指导工作 <span class="fa arrow"></span></a>
-										<ul class="nav nav-third-level">
+									<li>
+										<a href="#">
+											<i class="fa fa fa-bar-chart-o"></i>
+											<span class="nav-label">学生指导工作 </span>
+											<span class="fa arrow"></span>
+										</a>
+										<ul class="nav nav-third-level firstslide">
 											<li><a class="J_menuItem" href="GTPracticeInnovationGuidePerformanceSet!getAllRecord">实践创新指导绩效</a></li>
 											<li><a class="J_menuItem" href="GTStudentCompetitionGuidancePerformanceSet!getAllRecord">学生竞赛指导绩效</a></li>
 											<li><a class="J_menuItem" href="">参与学生活动绩效</a></li>
