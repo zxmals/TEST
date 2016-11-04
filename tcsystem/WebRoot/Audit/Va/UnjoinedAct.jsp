@@ -114,12 +114,13 @@
 			<tr>
 				<td>活动编号</td>		
 				<td>活动名称</td>
-				<td>参与人员</td>		
+				<td>参与人员</td>
+				<td>活动日期</td>		
 				<td>未参与原因</td>
 				<td>是否请假</td>		
 				<td>教师编号</td>
 				<td>教师姓名</td>		
-				<td>最终得分</td>>
+				<td>最终得分</td>
 <!-- 				<c:if test="${sessionScope.checkOutStatus_UA=='0' }"> -->
 <!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
 <!-- 						onchange="allAlowOrNot()" /></td> -->
@@ -140,25 +141,33 @@
 				items="${UnjoinedActList }">
 				<tr>
 					<!-- 活动编号 -->
-					<td>${unjoinId }</td>
+					<td>${TAAcademicWork.actId }</td>
 					<!-- 活动名称-->
-					
+					<td>${TAAcademicWork.actName }</td>
 					<!-- 参与人员 -->
+					<td>${TAAcademicWork.actAttendee }</td>
+					<!-- 活动日期 -->
+					<td>${TAAcademicWork.actDate }</td>
 					<!-- 未参与原因-->
+					<td>${TAAcademicWork.unjoinreason }</td>
 					<!-- 是否请假 -->
+					<td>${TAAcademicWork.leavereqobtain }</td>
 					<!-- 教师编号 -->
+					<td>${TAAcademicWork.teacherId }</td>
 					<!-- 教师姓名 -->
+					<td>${TAAcademicWork.teacherName }</td>
 					<!-- 最终分数 -->
+					<td>${TAAcademicWork.resultscore }</td>
 <!-- 					<c:if test="${sessionScope.checkOutStatus_UA=='0' }"> -->
 <!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
 <!-- 							value="${actId}" /></td> -->
 <!-- 					</c:if> -->
 					<c:if test="${sessionScope.checkOutStatus_UA=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox"
-							name="chooseWhichToAudit" value="${actId }"
+							name="chooseWhichToAudit" value="${TAAcademicWork.unjoinId }"
 							class="check1" /></td>
 						<td class="c2">不通过<input
-							value="${TAAcademicWork.actId }" type="checkbox"
+							value="${TAAcademicWork.unjoinId }" type="checkbox"
 							name="notAudit" class="check2" /></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_UA=='1' }">

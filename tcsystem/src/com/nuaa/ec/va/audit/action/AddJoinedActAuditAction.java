@@ -44,7 +44,6 @@ public class AddJoinedActAuditAction implements RequestAware{
 			if (ids[i]!=null && ids[i].length()!=0) {
 				VateacherAndCollectiveActId vateacherAndCollectiveActId = new VateacherAndCollectiveActId(
 						new VacollectiveActivitiesPublishDAO().findById(ids[i]),
-//						new VacollectiveActivitiesPublishDAO().findById(ids[i])
 						new TeacherDAO().findById(new VacollectiveActivitiesPublishDAO().findById(ids[i]).getTeacherId())
 						);
 				

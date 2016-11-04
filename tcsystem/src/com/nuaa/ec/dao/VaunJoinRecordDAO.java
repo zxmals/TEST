@@ -5,6 +5,7 @@ import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VaunJoinRecord;
 import com.opensymphony.xwork2.ActionContext;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -184,7 +185,7 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 	public List findAll() {
 		log.debug("finding all VaunJoinRecord instances");
 		try {
-			String queryString = "from VaunJoinRecord";
+			String queryString = "from VaunJoinRecord where spareTire='1'";
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -256,25 +257,33 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		if (researchLab.getResearchLabId() == null
 				|| researchLab.getResearchLabId().length() == 0) {
 			hql = new StringBuffer(
-					"from VaunJoinRecord VAJR where "
-					+ " VAJR.sparetire='1'"
-					+ " and VAJR.asparetire='"
-					+ checkOut
-					+ "'"
+					" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,VA.teacher.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
+					+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP  "
+					+ " where UJ.asparetire='" + checkOut + "'"
+					+ " and VA.spareTire='1' and UJ.sparetire='1' and VP.spareTire='1' "
+					+ " and VA.actId = UJ.actId "
+					+ " and UJ.actId = VP.vacollectiveAct.actId "
+					+ " and VA.teacher.spareTire='1'"
+					+ " and VA.teacher.researchLab.spareTire='1'"
+					+ " and VA.teacher.researchLab.researchLabId='" +  researchLab.getResearchLabId()+"'"
 					);
 		}else {
 			// 查出符合条件的全部的记录
 			hql = new StringBuffer(
-					"from VaunJoinRecord VAJR where "
-					+ " VAJR.sparetire='1'"
-					+ " and VAJR.asparetire='"
-					+ checkOut
-					+ "'"
+					" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,VA.teacher.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
+					+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP "
+					+ " where UJ.asparetire='" + checkOut + "'"
+					+ " and VA.spareTire='1' and UJ.sparetire='1' and VP.spareTire='1' "
+					+ " and VA.actId = UJ.actId "
+					+ " and UJ.actId = VP.vacollectiveAct.actId "
+					+ " and VA.teacher.spareTire='1'"
+					+ " and VA.teacher.researchLab.spareTire='1'"
+					+ " and VA.teacher.researchLab.researchLabId='" +  researchLab.getResearchLabId()+"'"
 					);
 		}
 		list = new ArrayList<VaunJoinRecord>();
-		String append = " and VAJR.actDate between ? and ? ";
-		String rank = " order by VAJR.unjoinId asc";
+		String append = " and VP.actDate between ? and ? ";
+		String rank = " order by UJ.unjoinId asc";
 		
 		if (foredate != null && afterdate != null && foredate.length() != 0
 				&& afterdate.length() != 0) {
@@ -288,7 +297,6 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 			list = this.getSession().createQuery(hql.append(rank).toString())
 					.setFirstResult((pageIndex - 1) * pageSize)
 					.setMaxResults(pageSize).list();
-
 		}
 		return list;
 	}
@@ -311,18 +319,21 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 			session.put("pageCount_UA", 0);
 			return list;
 		}else {
-//			hql = new StringBuffer(
-//					"from VaunJoinRecord VAJR where "
-//					+ " VAJR.sparetire='1'"
-//					+ " and VAJR.asparetire='"
-//					+ checkOut+ "'");
 			hql = new StringBuffer(
-					"from VaunJoinRecord VAJR"
+					" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,VA.teacher.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
+					+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP "
+					+ " where UJ.asparetire='" + checkOut + "'"
+					+ " and VA.spareTire='1' and UJ.sparetire='1' and VP.spareTire='1' "
+					+ " and VA.actId = UJ.actId "
+					+ " and UJ.actId = VP.vacollectiveAct.actId "
+					+ " and VA.teacher.spareTire='1'"
+					+ " and VA.teacher.researchLab.spareTire='1'"
+					+ " and VA.teacher.researchLab.researchLabId='" +  researchLab.getResearchLabId()+"'"
 					);
 		}
 		try {
-			String append = " and VAJR.actDate between ? and ? ";
-			String rank = " order by VAJR.unjoinId asc";
+			String append = " and VP.actDate between ? and ? ";
+			String rank = " order by UJ.unjoinId asc";
 			/*
 			 * 不一定有日期，所以要判断
 			 */
@@ -355,4 +366,5 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		return list;
 		
 	}
+
 }

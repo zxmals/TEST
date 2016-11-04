@@ -257,9 +257,6 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 					+ " and VACA.id.teacher.researchLab.spareTire='1'"
 					+ " and VACA.id.teacher.researchLab.researchLabId='"+researchLab.getResearchLabId()+"'"
 					+ " order by VACA.id.vacollectiveActivitiesPublish.actPubId asc " );
-//			hqlBuffer = new StringBuffer(
-//					"from VateacherAndCollectiveAct"
-//					);
 		}
 		if (!isDivided) {
 			//如果不是分页操作，取出所有符合条件的记录

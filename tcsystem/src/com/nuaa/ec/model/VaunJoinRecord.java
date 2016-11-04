@@ -23,7 +23,8 @@ public class VaunJoinRecord implements java.io.Serializable {
 	private Double resultscore;
 	private String sparetire;
 	private String asparetire;
-
+	
+	private String teacherName;
 	// Constructors
 
 	/** default constructor */
@@ -37,6 +38,29 @@ public class VaunJoinRecord implements java.io.Serializable {
 		this.teacherId = teacherId;
 		this.actId = actId;
 		this.leavereqobtain = leavereqobtain;
+	}
+
+	
+	
+	
+	
+	public VaunJoinRecord(String unjoinId, String teacherId, String actId,
+			String actName, String actDate, String actAttendee,
+			String unjoinreason, String leavereqobtain, Double resultscore,
+			String sparetire, String asparetire, String teacherName) {
+		super();
+		this.unjoinId = unjoinId;
+		this.teacherId = teacherId;
+		this.actId = actId;
+		this.actName = actName;
+		this.actDate = actDate;
+		this.actAttendee = actAttendee;
+		this.unjoinreason = unjoinreason;
+		this.leavereqobtain = leavereqobtain;
+		this.resultscore = resultscore;
+		this.sparetire = sparetire;
+		this.asparetire = asparetire;
+		this.teacherName = teacherName;
 	}
 
 	public VaunJoinRecord(String unjoinId, String teacherId, String actId,
@@ -146,6 +170,14 @@ public class VaunJoinRecord implements java.io.Serializable {
 
 	public String getActDate() {
 		return actDate;
+	}
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
 	}
 
 	public void setActDate(String actDate) {

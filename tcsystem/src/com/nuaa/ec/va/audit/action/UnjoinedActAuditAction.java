@@ -60,9 +60,15 @@ public class UnjoinedActAuditAction implements RequestAware{
 		if ((Integer) session.get("pageSize_UA") == null) {
 			session.put("pageSize_UA", 1);
 		}
-		System.out.println("*******************");
 		try {
-			session.put("UnjoinedActList", this.vaunJoinRecordDAO
+//			ServletActionContext.getRequest().setAttribute("UnjoinedActList", this.vaunJoinRecordDAO
+//					.getUnjoinedActListAfterDivide(pageIndex,
+//							(Integer) session.get("pageSize_UA"),
+//							(String) session.get("foredate_UA"),
+//							(String) session.get("afterdate_UA"),
+//							(ResearchLab) session.get("researchLab_UA"),
+//							(String) session.get("checkOutStatus_UA")));
+			this.request.put("UnjoinedActList",  this.vaunJoinRecordDAO
 					.getUnjoinedActListAfterDivide(pageIndex,
 							(Integer) session.get("pageSize_UA"),
 							(String) session.get("foredate_UA"),
@@ -88,7 +94,8 @@ public class UnjoinedActAuditAction implements RequestAware{
 		if ((Integer) session.get("pageSize_UA") == null) {
 			session.put("pageSize_UA", 1);
 		}try {
-			session.put("UnjoinedActList", this.vaunJoinRecordDAO
+			
+			this.request.put("UnjoinedActList",  this.vaunJoinRecordDAO
 					.findAllWithCondition(pageIndex,
 							(Integer) session.get("pageSize_UA"),
 							(String) session.get("foredate_UA"),
@@ -108,7 +115,7 @@ public class UnjoinedActAuditAction implements RequestAware{
 		return "success";
 	}
 	
-	public void setRequest(Map<String, Object> arg0) {
+	public void setRequest(Map<String, Object> request) {
 		// TODO Auto-generated method stub
 		this.request = request;
 	}
