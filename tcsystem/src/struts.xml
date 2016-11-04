@@ -140,22 +140,18 @@
 		<global-results>
 			<result name="relogin">login.jsp</result>
 		</global-results>
+<!-- 科研绩效管理-管理 -->		
 		<!-- 期刊论文绩效设置//PeriodicalPaperSet -->
-		<action name="GTperiodicalpaper-*set"
-			class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.periodicalpaperAction">
-			<result>/ScientificResearchPerformance/periodicalpaper-{1}.jsp
-			</result>
+		<action name="GTperiodicalpaper-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.periodicalpaperAction">
+			<result>/ScientificResearchPerformance/periodicalpaper-{1}.jsp</result>
 		</action>
 		<!-- 学术著作绩效管理//AcademicWork -->
-		<action name="GTacademicwork-*set"
-			class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.academicworkAction">
+		<action name="GTacademicwork-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.academicworkAction">
 			<result>/ScientificResearchPerformance/academicwork-{1}.jsp</result>
 		</action>
 		<!-- 科研项目奖励绩效管理//ScientificResearchReward -->
-		<action name="GTscienceresearch-*set"
-			class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scienceResearchRewardAction"> 
-			<result>/ScientificResearchPerformance/scienceresearch-{1}.jsp
-			</result>
+		<action name="GTscienceresearch-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scienceResearchRewardAction"> 
+			<result>/ScientificResearchPerformance/scienceresearch-{1}.jsp</result>
 		</action>
 		<!-- 参加学术会议绩效管理 //JoinAcademicMeeting-set -->
 		<action name="GTjoinacademicmeeting-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.joinacademicmeetingAction">
@@ -166,6 +162,22 @@
 		<!-- 邀请专家讲学绩效管理//InviteExpertSpeech-set -->
 		<action name="GTinviteexpertspeech-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.inviteexpertspeechAction">
 			<result>/ScientificResearchPerformance/inviteexpertspeech-{1}.jsp</result>
+		</action>
+		<!-- 主承办学术会议绩效管理//MainUndertakeAcademicMeeting-set -->
+		<action name="GTundertakeacademicmeet-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.undertakeacademicmeetAction">
+			<result>/ScientificResearchPerformance/undertakeacademicmeet-{1}.jsp</result>
+		</action>
+		<!-- 入选人才工程绩效管理//SelectedTalentProject-set -->
+		<action name="GTselectedtalentprojec-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.selectedtalentprojecAction">
+			<result>/ScientificResearchPerformance/selectedtalentprojec-{1}.jsp</result>
+		</action>
+		<!-- 科研项目绩效管理//ScientificResearchProject-set -->
+		<action name="GTscientificresearchpro-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.scientificResearchProjecAction">
+			<result>/ScientificResearchPerformance/scientificresearchpro-{1}.jsp</result>
+		</action>
+<!-- 科研绩效管理-管理 -->	
+		<action name="AT*-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.abmin{1}Action">
+			<result>/ScientificResearchPerformanceAdm/adm{1}-{2}.jsp</result>
 		</action>
 	</package>
 
@@ -439,8 +451,25 @@
 			<result>/Audit/Teaching/Tf{1}Performance.jsp</result>
 		</action>
 	</package>
-	
-	
+
+	<!-- 教学绩效管理 -->
+	<package name="TeachingPeroformanceSet" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="logincheckeInterceptor"
+				class="com.nuaa.ec.interceptor.LoginCheckInterceptor"></interceptor>
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="logincheckeInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
+		<global-results>
+			<result name="relogin">login.jsp</result>
+		</global-results>
+		<action name="GT*PerformanceSet" class="com.nuaa.ec.teachingPerformanceSetAction.GT{1}PerformanceSetAction">
+			<result>/TeachingPerformance/GT{1}Performance.jsp</result>
+		</action>			
+	</package>
 </struts>
 
 

@@ -70,6 +70,24 @@ public class AcademicWorkDAO extends BaseHibernateDAO  {
             throw re;
         }
     }
+
+    public List findMembersano(String acaworkId) {
+   	 
+        try {
+           String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,t.selfUndertakeTask.undertakeTaskName) "
+           		+ "from TeacherAndacademicWork as t "
+           		+ "where t.academicWork.acaworkId=? "
+           		+ "and t.spareTire='1' "
+           		+ "and t.teacher.spareTire='1'";
+           Query queryObject = getSession().createQuery(queryString);
+  		  queryObject.setParameter(0, acaworkId);
+  		 List li = queryObject.list();
+  		return li;
+        } catch (RuntimeException re) {
+           log.error("find by property name failed", re);
+           throw re;
+        }
+  	}
     
     public List findMember(String acaworkId) {
     	 

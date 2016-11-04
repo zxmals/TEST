@@ -182,18 +182,105 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                        </ul>
 		                            </li>
 		                            <li>
-		                                <a class="J_menuItem" href="VA/act_summary.jsp">主承办学术会议</a>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">主承办学术会议</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTundertakeacademicmeet-meetset!gainAllacademicm">学术会议管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTundertakeacademicmeet-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
 		                            </li>
 		                            <li>
-		                                <a class="J_menuItem" href="doPerformance_tf.jsp">入选人才工程</a>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">入选人才工程</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTselectedtalentprojec-talentset!gainAlltalentprojec">人才工程管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTselectedtalentprojec-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
 		                            </li>
 		                            <li>
-		                                <a class="J_menuItem" href="doPerformance_tf.jsp">科研项目</a>
+		                            	<a href="#">
+		                                	<i class="fa fa fa-bar-chart-o"></i>
+		                                	<span class="nav-label">科研项目</span>
+		                                	<span class="fa arrow"></span>
+		                                </a>
+		                                <ul class="nav nav-second-level firstslide">
+				                            <li>
+				                                <a class="J_menuItem" href="GTscientificresearchpro-projectset!gainAllscienpro">科研项目管理</a>
+				                            </li>
+				                            <li>
+				                                <a class="J_menuItem" href="GTscientificresearchpro-personset!getPersonJoin">个人参与管理</a>
+				                            </li>
+				                        </ul>
 		                            </li>
 		                        </ul>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="doPerformance_tf.jsp">教学绩效管理</a>
+                                <a href="#">
+									<i class="fa fa fa-bar-chart-o"></i>
+									<span class="nav-label">教学绩效管理 </span>
+									<span class="fa arrow"></span>
+								</a>
+                                <ul class="nav nav-third-level">
+									<li>
+										<a href="#">
+											<i class="fa fa fa-bar-chart-o"></i>
+											<span class="nav-label">教学能力与实效 </span>
+											<span class="fa arrow"></span>
+										</a>
+										<ul class="nav nav-third-level firstslide">
+											<li><a class="J_menuItem" href="">课堂教学绩效</a></li>
+											<li><a class="J_menuItem" href="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord">学位论文指导质量绩效</a></li>
+											<li><a class="J_menuItem" href="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher">教学竞赛绩效</a></li>
+											<li><a class="J_menuItem" href="GTTeachingAbilityImprovePerformanceSet!getAllRecord">教学能力提升绩效</a></li>
+											<li><a class="J_menuItem" href="">教学名师和教学团队绩效</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#">
+											<i class="fa fa fa-bar-chart-o"></i>
+											<span class="nav-label">综合改革与教学研究 </span>
+											<span class="fa arrow"></span>
+										</a>
+										<ul class="nav nav-third-level firstslide">
+											<li><a class="J_menuItem" href="">教学研究绩效</a></li>
+											<li><a class="J_menuItem" href="">教学论文绩效</a></li>
+											<li><a class="J_menuItem" href="">教学成果奖绩效</a></li>
+											<li><a class="J_menuItem" href="">教材建设绩效</a></li>
+											<li><a class="J_menuItem" href="">精品课程建设绩效</a></li>
+											<li><a class="J_menuItem" href="">专业建设项目申报绩效</a></li>
+											<li><a class="J_menuItem" href="">企业工作站和联合培养基地建设绩效</a></li>
+											<li><a class="J_menuItem" href="GTSummerCourseInternationalConstructionPerformanceSet!getAllRecord">暑期课程与国际课程建设绩效</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#">
+											<i class="fa fa fa-bar-chart-o"></i>
+											<span class="nav-label">学生指导工作 </span>
+											<span class="fa arrow"></span>
+										</a>
+										<ul class="nav nav-third-level firstslide">
+											<li><a class="J_menuItem" href="GTPracticeInnovationGuidePerformanceSet!getAllRecord">实践创新指导绩效</a></li>
+											<li><a class="J_menuItem" href="GTStudentCompetitionGuidancePerformanceSet!getAllRecord">学生竞赛指导绩效</a></li>
+											<li><a class="J_menuItem" href="GTJoinStudentActivityPerformanceSet!getAllRecord">参与学生活动绩效</a></li>
+											<li><a class="J_menuItem" href="">本科生导师指导绩效</a></li>
+											<li><a class="J_menuItem" href="">校外实践指导绩效</a></li>
+										</ul>
+									</li>
+								</ul>
                             </li>
                             <li>
                                 <a class="J_menuItem" href="VA/act_summary.jsp">公益绩效管理 </a>

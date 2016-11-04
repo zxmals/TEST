@@ -1,5 +1,5 @@
 package com.nuaa.ec.model;
-
+//com.nuaa.ec.model.TeacherMember
 public class TeacherMember {
 	private String teacherId;
 	private String teacherName;

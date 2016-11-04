@@ -318,7 +318,27 @@ public class TeacherAndscientificResearchRewardDAO extends BaseHibernateDAO {
 	
 	public List getMember(ScientificResearchReward srr){
 		try {
-			String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,'') from TeacherAndscientificResearchReward as t where t.scientificResearchReward=? and t.teacher.spareTire='1' ";
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,'')"
+					+ " from TeacherAndscientificResearchReward as t "
+					+ "where t.scientificResearchReward=? "
+					+ "and t.teacher.spareTire='1' "
+					+ "and spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter(0, srr);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public List getMembersano(ScientificResearchReward srr){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,t.selfRanking)"
+					+ " from TeacherAndscientificResearchReward as t "
+					+ "where t.scientificResearchReward=? "
+					+ "and spareTire='1' "
+					+ "and t.teacher.spareTire='1' ";
 			Query queryObject = getSession().createQuery(queryString);
 			queryObject.setParameter(0, srr);
 			return queryObject.list();

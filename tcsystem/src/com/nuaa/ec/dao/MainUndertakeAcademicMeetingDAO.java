@@ -146,6 +146,49 @@ public class MainUndertakeAcademicMeetingDAO extends BaseHibernateDAO  {
 		}
 	}
 	
+	public void deleteBylogic(String acameetId){
+		try {
+			String queryString = "update MainUndertakeAcademicMeeting set spareTire='0' "
+					+ "where  acaMeetingId=?"
+					+ "and spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString).setParameter(0, acameetId);
+	         queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findPageing(int currentRow,int limitRow,String condition){
+		try {
+			String queryString = "from MainUndertakeAcademicMeeting where spareTire='1' "
+					+ "and mainUndertakeAcademicMeetingPlace.spareTire='1' "
+					+ "and mainUndertakeAcademicMeetingType.spareTire='1' "
+					+condition
+					+"order by meetingdate desc";
+	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow);
+	         queryObject.setMaxResults(limitRow);
+			 return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from MainUndertakeAcademicMeeting where spareTire='1' "
+					+ "and mainUndertakeAcademicMeetingPlace.spareTire='1' "
+					+ "and mainUndertakeAcademicMeetingType.spareTire='1' "
+					+condition;
+	         Query queryObject = getSession().createQuery(queryString);
+			 return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
     public MainUndertakeAcademicMeeting merge(MainUndertakeAcademicMeeting detachedInstance) {
         log.debug("merging MainUndertakeAcademicMeeting instance");
         try {

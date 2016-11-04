@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.TfpracticeInnovationGuidePerformance" table="TFPracticeInnovationGuide_Performance" schema="dbo" catalog="ScientificResearch">
         <id name="upid" type="java.lang.Integer">
             <column name="upid" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <many-to-one name="tfpracticeInnovationGuideLevel" class="com.nuaa.ec.model.TfpracticeInnovationGuideLevel" fetch="select">
             <column name="InnovationGuideLevelID" length="20" />

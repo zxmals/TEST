@@ -104,7 +104,7 @@ public class TeacherAndmainUndertakeAcademicMeeting  implements java.io.Serializ
     }
 
     public String getCheckOut() {
-        return this.checkOut;
+        return this.checkOut.trim();
     }
     
     public void setCheckOut(String checkOut) {

@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.TfstudentCompetitionGuidancePerformance" table="TFStudentCompetitionGuidance_Performance" schema="dbo" catalog="ScientificResearch">
         <id name="upid" type="java.lang.Integer">
             <column name="upid" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <many-to-one name="tfstudentCompetitionGuidanceScore" class="com.nuaa.ec.model.TfstudentCompetitionGuidanceScore" fetch="select">
             <column name="SCGuidanceScoreID" length="20" />

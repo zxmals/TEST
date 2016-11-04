@@ -80,25 +80,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </div>
                         <div class="logo-element">bamanker
                     </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-home"></i>
-                            <span class="nav-label">任务管理</span>
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="J_menuItem" href="index_v1.html" data-index="0">待完成任务</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="index_v2.html">已完成任务</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="index_v3.html">发出任务</a>
-                            </li>
-                        </ul>
+<!--                     <li> -->
+<!--                         <a href="#"> -->
+<!--                             <i class="fa fa-home"></i> -->
+<!--                             <span class="nav-label">任务管理</span> -->
+<!--                             <span class="fa arrow"></span> -->
+<!--                         </a> -->
+<!--                         <ul class="nav nav-second-level"> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v1.html" data-index="0">待完成任务</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v2.html">已完成任务</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="index_v3.html">发出任务</a> -->
+<!--                             </li> -->
+<!--                         </ul> -->
 
-                    </li>
+<!--                     </li> -->
                     <li>
                         <a href="#">
                             <i class="fa fa fa-bar-chart-o"></i>
@@ -107,10 +107,72 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="ViewTeacherPerformance">科研绩效管理</a>
+	                            <a href="#">
+	                                <i class="fa fa fa-bar-chart-o"></i>
+	                            	<span class="nav-label">科研绩效管理</span>
+	                            	<span class="fa arrow"></span>
+	                            </a>
+	                            <ul class="nav nav-second-level firstslide">
+	                            	<li>
+				                        <a class="J_menuItem" href="ATperiodicalpaper-paperset!getPeriodicalPaperINF">期刊论文</a>
+				                    </li>
+				                    <li>
+				                         <a class="J_menuItem" href="ATacademicwk-workset!getWorkall">学术著作</a>
+				                    </li>
+				                    <li>
+				                         <a class="J_menuItem" href="ATscienceresearchred-rewardset!gainscienceReward">科研项目奖励</a>
+				                     </li>
+				                     <li>
+				                         <a class="J_menuItem" href="ATjoinacademicmeeting-meetingset!gainAllJoinacademic">参加学术会议</a>
+				                     </li>
+				                     <li>
+				                         <a class="J_menuItem" href="ATinviteexpertspeech-speechset!gainAllspeech">邀请专家讲学</a>
+				                     </li>
+				                     <li>
+				                         <a class="J_menuItem" href="ATundertakeacademicmeet-meetset!gainAllacademicm">主承办学术会议</a>
+				                     </li>
+				                     <li>
+				                          <a class="J_menuItem" href="ATselectedtalentprojec-talentset!gainAlltalentprojec">入选人才工程</a>
+				                     </li>
+				                     <li>
+				                          <a class="J_menuItem" href="ATscientificresearchpro-projectset!gainAllscienpro">科研项目</a>
+				                     </li>
+		                        </ul>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="">教学绩效管理</a>
+                                <a class="" href="#">教学绩效管理 <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+									<li><a href="#">教学能力与实效 <span class="fa arrow"></span></a>
+										<ul class="nav nav-third-level"">
+											<li><a class="J_menuItem" href="">课堂教学绩效</a></li>
+											<li><a class="J_menuItem" href="">学位论文指导质量绩效</a></li>
+											<li><a class="J_menuItem" href="">教学竞赛绩效</a></li>
+											<li><a class="J_menuItem" href="">教学能力提升绩效</a></li>
+											<li><a class="J_menuItem" href="">教学名师和教学团队绩效</a></li>
+										</ul>
+									</li>
+									<li><a href="">综合改革与教学研究 <span class="fa arrow"></span></a>
+										<ul class="nav nav-third-level">
+											<li><a class="J_menuItem" href="">教学研究绩效</a></li>
+											<li><a class="J_menuItem" href="">教学论文绩效</a></li>
+											<li><a class="J_menuItem" href="">教学成果奖绩效</a></li>
+											<li><a class="J_menuItem" href="">教材建设绩效</a></li>
+											<li><a class="J_menuItem" href="">精品课程建设绩效</a></li>
+											<li><a class="J_menuItem" href="">专业建设项目申报绩效</a></li>
+											<li><a class="J_menuItem" href="">企业工作站和联合培养基地建设绩效</a></li>
+											<li><a class="J_menuItem" href="">暑期课程与国际课程建设绩效</a></li>
+										</ul>
+									</li>
+									<li><a href="">学生指导工作 <span class="fa arrow"></span></a>
+										<ul class="nav nav-third-level">
+											<li><a class="J_menuItem" href="">实践创新指导绩效</a></li>
+											<li><a class="J_menuItem" href="">学生竞赛指导绩效</a></li>
+											<li><a class="J_menuItem" href="">参与学生活动绩效</a></li>
+											<li><a class="J_menuItem" href="">本科生导师指导绩效</a></li>
+											<li><a class="J_menuItem" href="">校外实践指导绩效</a></li>
+										</ul>
+									</li>
+								</ul>
                             </li>
                             <li>
                                 <a class="J_menuItem" href="">公益绩效管理</a>
@@ -208,7 +270,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<li>
                                 <a href="#">教学审核 <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">                                                                    
-<!-- 									<li><a class="J_menuItem" href="">教学能力与实效 <span class="fa arrow"></span></a> -->
 									<li><a href="#">教学能力与实效 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level"">
 											<li><a class="J_menuItem" href="ATTfclassTeachPerformanceAudit!getTF_classTeachPerformanceList">课堂教学绩效审核</a></li>
@@ -490,6 +551,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="js/contabs.min.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
     <script type="text/javascript">
+    $(document).ready(function() {
+		$('.firstslide li').css("margin-left","12%");
+		if("${teacher.vaadmin}"=="1"){
+			$('#vaadmin').css("display","");
+		}
+		$('.gohome .bounceInUp').remove();
+	});
     	$('.J_menuItem').click(function() {
     		$('.minimalize-styl-2').click();
     		$('.gohome .bounceInUp').remove();

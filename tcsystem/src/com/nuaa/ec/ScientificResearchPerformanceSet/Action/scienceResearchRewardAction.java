@@ -162,7 +162,7 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 			this.setScienceReward(sciencerewarddao.findById(scienceReward.getSrrewardId()));
 			scienceReward.setSpareTire("0");
 			teacherandsrdao.deleteRefUser(scienceReward);
-			sciencerewarddao.save(scienceReward);
+			sciencerewarddao.merge(scienceReward);
 			tx = sciencerewarddao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");

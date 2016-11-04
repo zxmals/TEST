@@ -167,7 +167,9 @@ public class ScientificResearchRewardDAO extends BaseHibernateDAO  {
 		try {
 			String queryString = "from ScientificResearchReward where spareTire='1'"
 					+ "and rewardLevel.spareTire='1' "
-					+ "and rewardType.spareTire='1'  "+condition+"  order by rewardDate desc";
+					+ "and rewardType.spareTire='1'  "
+					+condition
+					+"  order by rewardDate";
 	         Query queryObject = getSession().createQuery(queryString).setFirstResult(currentrow);
 	         queryObject.setMaxResults(limitrow);
 			 return queryObject.list();

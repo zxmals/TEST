@@ -24,7 +24,6 @@ public class TftermDAO extends BaseHibernateDAO  {
 	     private static final Logger log = LoggerFactory.getLogger(TftermDAO.class);
 	
 
-    
     public void save(Tfterm transientInstance) {
         log.debug("saving Tfterm instance");
         try {

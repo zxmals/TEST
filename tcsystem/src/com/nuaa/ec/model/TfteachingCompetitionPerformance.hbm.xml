@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.TfteachingCompetitionPerformance" table="TFTeachingCompetition_Performance" schema="dbo" catalog="ScientificResearch">
         <id name="upid" type="java.lang.Integer">
             <column name="upid" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <many-to-one name="tfteachingCompetitionRewardLevel" class="com.nuaa.ec.model.TfteachingCompetitionRewardLevel" fetch="select">
             <column name="competRewardLevelID" length="20" />

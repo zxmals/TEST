@@ -9,7 +9,9 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.MainUndertakeAcademicMeetingPlace;
 import com.nuaa.ec.model.MainUndertakeAcademicMeetingScore;
+import com.nuaa.ec.model.MainUndertakeAcademicMeetingType;
 
 /**
  	* A data access object (DAO) providing persistence and search support for MainUndertakeAcademicMeetingScore entities.
@@ -62,6 +64,23 @@ public class MainUndertakeAcademicMeetingScoreDAO extends BaseHibernateDAO  {
         }
     }
     
+    public MainUndertakeAcademicMeetingScore findByscoreCondition(MainUndertakeAcademicMeetingPlace mp,MainUndertakeAcademicMeetingType mt){
+    	 try {
+             String queryString = "from MainUndertakeAcademicMeetingScore where mainUndertakeAcademicMeetingPlace=? "
+             		+ "and mainUndertakeAcademicMeetingType=? "
+             		+ "and spareTire='1' "
+             		+ "and mainUndertakeAcademicMeetingPlace.spareTire='1' "
+             		+ "and mainUndertakeAcademicMeetingType.spareTire='1' ";
+             Query queryObject = getSession().createQuery(queryString).setParameter(0, mp);
+    		 queryObject.setParameter(1, mt);
+    		 if(queryObject.list().size()>0){
+    			 return (MainUndertakeAcademicMeetingScore) queryObject.list().get(0);
+    		 }else return null;
+          } catch (RuntimeException re) {
+             log.error("find by property name failed", re);
+             throw re;
+          }
+    }
     
     public List findByExample(MainUndertakeAcademicMeetingScore instance) {
         log.debug("finding MainUndertakeAcademicMeetingScore instance by example");

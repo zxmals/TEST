@@ -116,7 +116,7 @@ public class TfdegreeThesisGuidanceRewardLevelDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all TfdegreeThesisGuidanceRewardLevel instances");
 		try {
-			String queryString = "from TfdegreeThesisGuidanceRewardLevel where spareTire=1";
+			String queryString = "from TfdegreeThesisGuidanceRewardLevel where spareTire='1'";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
