@@ -429,6 +429,12 @@
 				$(this).prop("selected",true);//这里用attr会有问题。
 			}
 		});
+		var currentTerm=$(this).parent().parent()[0].cells[3].innerHTML;
+		$("#up_termSelection option").each(function(){
+			if($(this).text()==currentTerm){
+				$(this).prop("selected",true);
+			}
+		});
 	});
     $('.deleteInfo').click(function() {
 		var upid = $(this).parent().parent()[0].cells[8].innerHTML;
