@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.TfundergraduateTutorGuidancePerformance" table="TFUndergraduateTutorGuidance_Performance" schema="dbo" catalog="ScientificResearch">
         <id name="upid" type="java.lang.Integer">
             <column name="upid" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <many-to-one name="tfundergraduateTutorGuidanceCache" class="com.nuaa.ec.model.TfundergraduateTutorGuidanceCache" fetch="select">
             <column name="guidanceID" length="20" />
