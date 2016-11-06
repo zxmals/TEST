@@ -8,6 +8,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+import com.nuaa.ec.dao.TfclassTeachEvaluationDAO;
+import com.nuaa.ec.dao.TfclassTeachTimeDAO;
 import com.nuaa.ec.dao.TfdegreeThesisGuidanceRewardLevelDAO;
 import com.nuaa.ec.dao.TfoffCampusPracticeGuidanceLevelDAO;
 import com.nuaa.ec.dao.TfpracticeInnovationGuideGraduationThesisGuideEvalutionDAO;
@@ -85,6 +87,14 @@ public class InitServlet extends HttpServlet {
 		 * 获得校外实践指导绩效指导的级别（类型）信息
 		 */
 		context.setAttribute("tfoffCampusPracticeGuidanceLevelList", new TfoffCampusPracticeGuidanceLevelDAO().findAll());
+		/*
+		 * 获得课堂教学时间表的有关信息
+		 */
+		context.setAttribute("classTeachTimeList", new TfclassTeachTimeDAO().findAll());
+		/*
+		 * 获得课堂教学绩效评估表的有关信息
+		 */
+		context.setAttribute("classTeachEvaluationList", new TfclassTeachEvaluationDAO().findAll());
 	}
 
 }
