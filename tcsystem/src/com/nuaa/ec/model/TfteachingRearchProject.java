@@ -19,6 +19,7 @@ public class TfteachingRearchProject implements java.io.Serializable {
 	private String spareTire;
 	private String checkOut;
 	private Double projetScore;
+	private String chargePersonId;
 	private Set tfteachingRearchPerformances = new HashSet(0);
 
 	// Constructors
@@ -51,12 +52,39 @@ public class TfteachingRearchProject implements java.io.Serializable {
 
 	// Property accessors
 
+	public TfteachingRearchProject(String projectId,
+			TfteachingRearchEvaluation tfteachingRearchEvaluation,
+			Tfterm tfterm, TfteachingRearchFundlevel tfteachingRearchFundlevel,
+			String project, String spareTire, String checkOut,
+			Double projetScore, String chargePersonId,
+			Set tfteachingRearchPerformances) {
+		super();
+		this.projectId = projectId;
+		this.tfteachingRearchEvaluation = tfteachingRearchEvaluation;
+		this.tfterm = tfterm;
+		this.tfteachingRearchFundlevel = tfteachingRearchFundlevel;
+		this.project = project;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.projetScore = projetScore;
+		this.chargePersonId = chargePersonId;
+		this.tfteachingRearchPerformances = tfteachingRearchPerformances;
+	}
+
 	public String getProjectId() {
 		return this.projectId;
 	}
 
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
+	}
+
+	public String getChargePersonId() {
+		return chargePersonId;
+	}
+
+	public void setChargePersonId(String chargePersonId) {
+		this.chargePersonId = chargePersonId;
 	}
 
 	public TfteachingRearchEvaluation getTfteachingRearchEvaluation() {

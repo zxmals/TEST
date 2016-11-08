@@ -17,6 +17,8 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 //	private String termId;
 	private Tfterm tfterm;
 	private String spareTire;
+	private String chargePersonId;
+	private String checkout;
 	private Set tffamousTeacherTeamPerformances = new HashSet(0);
 
 	// Constructors
@@ -44,6 +46,22 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 	}
 
 	// Property accessors
+
+	public TffamousTeacherTeamProject(String teacherTeamPerformanceId,
+			TffamousTeacherTeamRewadLevel tffamousTeacherTeamRewadLevel,
+			Double projectSumScore, Tfterm tfterm, String spareTire,
+			String chargePersonId, String checkout,
+			Set tffamousTeacherTeamPerformances) {
+		super();
+		this.teacherTeamPerformanceId = teacherTeamPerformanceId;
+		this.tffamousTeacherTeamRewadLevel = tffamousTeacherTeamRewadLevel;
+		this.projectSumScore = projectSumScore;
+		this.tfterm = tfterm;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.checkout = checkout;
+		this.tffamousTeacherTeamPerformances = tffamousTeacherTeamPerformances;
+	}
 
 	public String getTeacherTeamPerformanceId() {
 		return this.teacherTeamPerformanceId;
@@ -94,6 +112,22 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 
 	public void setTfterm(Tfterm tfterm) {
 		this.tfterm = tfterm;
+	}
+
+	public String getChargePersonId() {
+		return chargePersonId;
+	}
+
+	public void setChargePersonId(String chargePersonId) {
+		this.chargePersonId = chargePersonId;
+	}
+
+	public String getCheckout() {
+		return checkout;
+	}
+
+	public void setCheckout(String checkout) {
+		this.checkout = checkout;
 	}
 
 }

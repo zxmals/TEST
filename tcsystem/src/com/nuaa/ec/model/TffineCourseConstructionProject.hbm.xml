@@ -31,6 +31,9 @@
         <property name="checkOut" type="java.lang.String">
             <column name="CheckOut" length="10" />
         </property>
+        <property name="chargePersonId" type="java.lang.String">
+            <column name="ChargePersonID" length="20" />
+        </property>
         <set name="tffineCourseConstructionPerformances" inverse="true">
             <key>
                 <column name="courseID" length="20" />

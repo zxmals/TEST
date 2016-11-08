@@ -6,6 +6,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.mapping.PersistentClass;
 
 import com.nuaa.ec.dao.SessionFactory;
+import com.nuaa.ec.model.Tfterm;
 
 public class EntityUtil {
 
@@ -60,6 +61,17 @@ public class EntityUtil {
 				if(afterdate!=null){
 					if(!"".equals(afterdate.trim()))
 						condition.append(" "+colname+"<='"+afterdate+"' AND");
+				}
+			}
+			return condition.substring(0, condition.length()-3);
+		}
+		
+		public static String generateTeachingQueryCondition(Tfterm term,String colname){
+			StringBuffer condition = new StringBuffer();
+			condition.append("AND");
+			if(term!=null){
+				if(!"".equals(term.getTermId().trim())){
+					condition.append(" "+colname+"='"+term.getTermId()+"' AND");
 				}
 			}
 			return condition.substring(0, condition.length()-3);

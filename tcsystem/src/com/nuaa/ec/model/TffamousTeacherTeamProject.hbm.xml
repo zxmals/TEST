@@ -22,6 +22,12 @@
         <property name="spareTire" type="java.lang.String">
             <column name="SpareTire" length="20" />
         </property>
+        <property name="chargePersonId" type="java.lang.String">
+            <column name="ChargePersonID" length="20" />
+        </property>
+        <property name="checkout" type="java.lang.String">
+            <column name="checkout" length="10" />
+        </property>
         <set name="tffamousTeacherTeamPerformances" inverse="true">
             <key>
                 <column name="TeacherTeamPerformanceID" length="20" not-null="true" />

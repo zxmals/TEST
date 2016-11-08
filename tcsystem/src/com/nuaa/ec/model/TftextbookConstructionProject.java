@@ -19,6 +19,7 @@ public class TftextbookConstructionProject implements java.io.Serializable {
 	private Double projectSumScore;
 	private String spareTire;
 	private String checkOut;
+	private String chargePersonId;
 	private Set tftextbookConstructionPerformances = new HashSet(0);
 
 	// Constructors
@@ -51,12 +52,38 @@ public class TftextbookConstructionProject implements java.io.Serializable {
 
 	// Property accessors
 
+	public TftextbookConstructionProject(String bookId,
+			TftextbookConstructionTblevel tftextbookConstructionTblevel,
+			Tfterm tfterm, String bookName, String cooperator,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, Set tftextbookConstructionPerformances) {
+		super();
+		this.bookId = bookId;
+		this.tftextbookConstructionTblevel = tftextbookConstructionTblevel;
+		this.tfterm = tfterm;
+		this.bookName = bookName;
+		this.cooperator = cooperator;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.tftextbookConstructionPerformances = tftextbookConstructionPerformances;
+	}
+
 	public String getBookId() {
 		return this.bookId;
 	}
 
 	public void setBookId(String bookId) {
 		this.bookId = bookId;
+	}
+
+	public String getChargePersonId() {
+		return chargePersonId;
+	}
+
+	public void setChargePersonId(String chargePersonId) {
+		this.chargePersonId = chargePersonId;
 	}
 
 	public TftextbookConstructionTblevel getTftextbookConstructionTblevel() {

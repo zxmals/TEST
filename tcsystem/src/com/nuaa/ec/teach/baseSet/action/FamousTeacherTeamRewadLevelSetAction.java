@@ -38,13 +38,24 @@ public class FamousTeacherTeamRewadLevelSetAction extends ActionSupport
 
 	/**
 	 * 添加优秀教师团队称号删除
+	 * @throws Exception 
 	 */
-	public void addFamousTeacherTeamRewadLevel() {
+	public String addFamousTeacherTeamRewadLevel() throws Exception {
 		famousTeacherTeamRewadLevel.setSpareTire("1");
 		famousTeacherTeamRewadLevel.setTeachRewardLevelId(pkmk.mkpk(
-				EntityUtil.getPkColumnName(TfclassTeachTime.class),
-				EntityUtil.getTableName(TfclassTeachTime.class), "Tteam"));
+				EntityUtil.getPkColumnName(TffamousTeacherTeamRewadLevel.class),
+				EntityUtil.getTableName(TffamousTeacherTeamRewadLevel.class), "Tteam"));
 		famousTeacherTeamRewadLevelDao.save(famousTeacherTeamRewadLevel);
+		Transaction tx = famousTeacherTeamRewadLevelDao.getSession().beginTransaction();
+		try {
+			tx.commit();
+			return "success";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+			throw e;
+		}
 	}
 
 	/**

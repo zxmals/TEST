@@ -94,7 +94,7 @@ public class TftermDAO extends BaseHibernateDAO  {
 	public List findAll() {
 		log.debug("finding all Tfterm instances");
 		try {
-			String queryString = "from Tfterm";
+			String queryString = "from Tfterm where spareTire='1' ";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {

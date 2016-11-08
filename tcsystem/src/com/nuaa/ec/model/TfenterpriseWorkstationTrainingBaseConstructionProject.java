@@ -21,6 +21,7 @@ public class TfenterpriseWorkstationTrainingBaseConstructionProject implements
 	private String quantityUnit;
 	private String spareTire;
 	private String checkOut;
+	private String chargePersonId;
 	private Set tfenterpriseWorkstationTrainingBaseConstructionPerformances = new HashSet(
 			0);
 
@@ -56,6 +57,26 @@ public class TfenterpriseWorkstationTrainingBaseConstructionProject implements
 
 	// Property accessors
 
+	public TfenterpriseWorkstationTrainingBaseConstructionProject(
+			String projectId,
+			TfenterpriseWorkstationTrainingbaseConstructionLevel tfenterpriseWorkstationTrainingbaseConstructionLevel,
+			Tfterm tfterm, String projectName, Double projectSumScore,
+			String quantityUnit, String spareTire, String checkOut,
+			String chargePersonId,
+			Set tfenterpriseWorkstationTrainingBaseConstructionPerformances) {
+		super();
+		this.projectId = projectId;
+		this.tfenterpriseWorkstationTrainingbaseConstructionLevel = tfenterpriseWorkstationTrainingbaseConstructionLevel;
+		this.tfterm = tfterm;
+		this.projectName = projectName;
+		this.projectSumScore = projectSumScore;
+		this.quantityUnit = quantityUnit;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.tfenterpriseWorkstationTrainingBaseConstructionPerformances = tfenterpriseWorkstationTrainingBaseConstructionPerformances;
+	}
+
 	public String getProjectId() {
 		return this.projectId;
 	}
@@ -75,6 +96,14 @@ public class TfenterpriseWorkstationTrainingBaseConstructionProject implements
 
 	public Tfterm getTfterm() {
 		return this.tfterm;
+	}
+
+	public String getChargePersonId() {
+		return chargePersonId;
+	}
+
+	public void setChargePersonId(String chargePersonId) {
+		this.chargePersonId = chargePersonId;
 	}
 
 	public void setTfterm(Tfterm tfterm) {

@@ -20,6 +20,7 @@ public class TfprofessionalProjectDeclareProject implements
 	private Double projectSumScore;
 	private String spareTire;
 	private String checkOut;
+	private String chargePersonId;
 	private Set tfprofessionalProjectDeclarePerformances = new HashSet(0);
 
 	// Constructors
@@ -51,6 +52,24 @@ public class TfprofessionalProjectDeclareProject implements
 	}
 
 	// Property accessors
+
+	public TfprofessionalProjectDeclareProject(
+			String projectId,
+			TfprofessionalProjectDeclareLevel tfprofessionalProjectDeclareLevel,
+			Tfterm tfterm, String projectName, Double projectSumScore,
+			String spareTire, String checkOut, String chargePersonId,
+			Set tfprofessionalProjectDeclarePerformances) {
+		super();
+		this.projectId = projectId;
+		this.tfprofessionalProjectDeclareLevel = tfprofessionalProjectDeclareLevel;
+		this.tfterm = tfterm;
+		this.projectName = projectName;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.tfprofessionalProjectDeclarePerformances = tfprofessionalProjectDeclarePerformances;
+	}
 
 	public String getProjectId() {
 		return this.projectId;
@@ -91,6 +110,14 @@ public class TfprofessionalProjectDeclareProject implements
 
 	public void setProjectSumScore(Double projectSumScore) {
 		this.projectSumScore = projectSumScore;
+	}
+
+	public String getChargePersonId() {
+		return chargePersonId;
+	}
+
+	public void setChargePersonId(String chargePersonId) {
+		this.chargePersonId = chargePersonId;
 	}
 
 	public String getSpareTire() {
