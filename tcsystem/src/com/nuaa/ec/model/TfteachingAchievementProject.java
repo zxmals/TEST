@@ -19,6 +19,7 @@ public class TfteachingAchievementProject implements java.io.Serializable {
 	private Double projectSumScore;
 	private String spareTire;
 	private String checkOut;
+	private String chargePersonId;
 	private Set tfteachingAchievementPerformances = new HashSet(0);
 
 	// Constructors
@@ -51,6 +52,23 @@ public class TfteachingAchievementProject implements java.io.Serializable {
 
 	// Property accessors
 
+	public TfteachingAchievementProject(String projectId,
+			TfteachingAchievementRewardLevel tfteachingAchievementRewardLevel,
+			Tfterm tfterm, String projectName, String cooperator,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, Set tfteachingAchievementPerformances) {
+		this.projectId = projectId;
+		this.tfteachingAchievementRewardLevel = tfteachingAchievementRewardLevel;
+		this.tfterm = tfterm;
+		this.projectName = projectName;
+		this.cooperator = cooperator;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.tfteachingAchievementPerformances = tfteachingAchievementPerformances;
+	}
+
 	public String getProjectId() {
 		return this.projectId;
 	}
@@ -70,6 +88,14 @@ public class TfteachingAchievementProject implements java.io.Serializable {
 
 	public Tfterm getTfterm() {
 		return this.tfterm;
+	}
+
+	public String getChargePersonId() {
+		return chargePersonId;
+	}
+
+	public void setChargePersonId(String chargePersonId) {
+		this.chargePersonId = chargePersonId;
 	}
 
 	public void setTfterm(Tfterm tfterm) {

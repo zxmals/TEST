@@ -19,6 +19,7 @@ public class TffineCourseConstructionProject implements java.io.Serializable {
 	private Double projectSumScore;
 	private String spareTire;
 	private String checkOut;
+	private String chargePersonId;
 	private Set tffineCourseConstructionPerformances = new HashSet(0);
 
 	// Constructors
@@ -51,12 +52,38 @@ public class TffineCourseConstructionProject implements java.io.Serializable {
 
 	// Property accessors
 
+	public TffineCourseConstructionProject(String courseId,
+			TffineCourseConstructionLevel tffineCourseConstructionLevel,
+			Tfterm tfterm, String courseName, String cooperator,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, Set tffineCourseConstructionPerformances) {
+		super();
+		this.courseId = courseId;
+		this.tffineCourseConstructionLevel = tffineCourseConstructionLevel;
+		this.tfterm = tfterm;
+		this.courseName = courseName;
+		this.cooperator = cooperator;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.tffineCourseConstructionPerformances = tffineCourseConstructionPerformances;
+	}
+
 	public String getCourseId() {
 		return this.courseId;
 	}
 
 	public void setCourseId(String courseId) {
 		this.courseId = courseId;
+	}
+
+	public String getChargePersonId() {
+		return chargePersonId;
+	}
+
+	public void setChargePersonId(String chargePersonId) {
+		this.chargePersonId = chargePersonId;
 	}
 
 	public TffineCourseConstructionLevel getTffineCourseConstructionLevel() {

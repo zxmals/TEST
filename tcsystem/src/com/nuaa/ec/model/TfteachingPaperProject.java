@@ -19,6 +19,7 @@ public class TfteachingPaperProject implements java.io.Serializable {
 	private Double projectSumScore;
 	private String spareTire;
 	private String checkOut;
+	private String chargePersonId;
 	private Set tfteachingPaperPerformances = new HashSet(0);
 
 	// Constructors
@@ -53,6 +54,26 @@ public class TfteachingPaperProject implements java.io.Serializable {
 
 	// Property accessors
 
+	public TfteachingPaperProject(
+			String teachPaperId,
+			Tfterm tfterm,
+			TfteachingPaperRetrievalCondition tfteachingPaperRetrievalCondition,
+			String teachPaperName, String otherAuthorJoin,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, Set tfteachingPaperPerformances) {
+		super();
+		this.teachPaperId = teachPaperId;
+		this.tfterm = tfterm;
+		this.tfteachingPaperRetrievalCondition = tfteachingPaperRetrievalCondition;
+		this.teachPaperName = teachPaperName;
+		this.otherAuthorJoin = otherAuthorJoin;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.tfteachingPaperPerformances = tfteachingPaperPerformances;
+	}
+
 	public String getTeachPaperId() {
 		return this.teachPaperId;
 	}
@@ -76,6 +97,14 @@ public class TfteachingPaperProject implements java.io.Serializable {
 	public void setTfteachingPaperRetrievalCondition(
 			TfteachingPaperRetrievalCondition tfteachingPaperRetrievalCondition) {
 		this.tfteachingPaperRetrievalCondition = tfteachingPaperRetrievalCondition;
+	}
+
+	public String getChargePersonId() {
+		return chargePersonId;
+	}
+
+	public void setChargePersonId(String chargePersonId) {
+		this.chargePersonId = chargePersonId;
 	}
 
 	public String getTeachPaperName() {

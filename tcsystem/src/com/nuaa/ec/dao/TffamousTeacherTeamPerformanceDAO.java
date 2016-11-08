@@ -183,7 +183,7 @@ public class TffamousTeacherTeamPerformanceDAO extends BaseHibernateDAO {
 	public List findAll() {
 		log.debug("finding all TffamousTeacherTeamPerformance instances");
 		try {
-			String queryString = "from TffamousTeacherTeamPerformance";
+			String queryString = "from TffamousTeacherTeamPerformance where spareTire='1' ";
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -192,6 +192,18 @@ public class TffamousTeacherTeamPerformanceDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public List findPaging(int currentRow,int limitRow,String condition){
+		try {
+			String queryString = "from TffamousTeacherTeamPerformance "
+					+ "where spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public TffamousTeacherTeamPerformance merge(
 			TffamousTeacherTeamPerformance detachedInstance) {
 		log.debug("merging TffamousTeacherTeamPerformance instance");

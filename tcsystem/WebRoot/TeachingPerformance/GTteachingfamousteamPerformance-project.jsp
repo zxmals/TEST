@@ -47,34 +47,24 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 </head>
 
 <body class="gray-bg"  onload="DoCheck()">
-	<div class="datepick">
-		<span>选择日期范围</span>
-		<div>
-			<form action="GTscienceresearch-rewardset!gainscienceReward?pagenum=1" method="post" name="pickdate" id="pickdates">
-				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
-				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
-			</form>
-		</div>
-	</div>
 	<div class="chooseact">
     <div class="wrapper wrapper-content animated fadeInRight">
 	        <div class="row">
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>科研奖励管理<small></small></h5>
+	                        <h5>教学名师与教学团队管理<small></small></h5>
 	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
 	                    <div class="ibox-content" style="height:540px;">
 	                    	 <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#utdialog">
-	                        	 <strong>新增科研奖励</strong>
+	                        	 <strong>新增教学名师或教学团队</strong>
 	                         </button><br><br>
-	                    <form action="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher">
+	                    <form id="adjusts" action="GTteachingfamousteamPerformanceSet-project!gainAllProject" method="get">
 							<div>
-								<div>
 			                    	<a>每页   
-			                    	<select id="changelength" style="width:45px">
+			                    	<select name="limit" id="changelength" style="width:60px;height:25px;border-radius:3px;">
 			                    		<option selected="selected"></option>
 			                    		<option>2</option>
 			                    		<option>1</option>
@@ -83,10 +73,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 			                    		<option>15</option>
 			                    		<option>20</option>
 			                    	</select>  条记录</a>
-			                    </div>
-								&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;
 								<font color="#337AB7">学期：</font>
-								<select id="termSelection" name="termId_GTTCP" style="width:120px;height:25px;border-radius:3px;">
+								<select id="termSelection" name="term.termId" style="width:120px;height:25px;border-radius:3px;">
 									<option value="">全部学期</option>
 									<c:forEach var="tfterm" items="${tftermList }">
 										<option value="${tfterm.termId }">${tfterm.term }</option>
@@ -106,13 +95,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-										<td>科研奖励Id</td>
-										<td>奖励名称</td>
-										<td>奖励类型</td>
-										<td>奖励级别</td>
-										<td>获奖日期</td>
-										<td>授奖部门</td>
-										<td>获奖人数</td>
+										<td>教学名师团队Id</td>
+										<td>级别</td>
+										<td>项目总分</td>
+										<td>学期</td>
 										<td>登记负责人Id</td>
 										<td>登记负责人</td>
 										<td>状态</td>
@@ -120,15 +106,12 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj" items="${sciencerewards }">
+									<c:forEach var="ebj" items="${teachteamli }">
 										<tr>
-											<td>${ebj.srrewardId }</td>
-											<td>${ebj.srrewardName }</td>
-											<td title="${ebj.rewardType.rewardTypeId }">${ebj.rewardType.rewardTypeName }</td>
-											<td title="${ebj.rewardLevel.rewardLevelId }">${ebj.rewardLevel.rewardLevelName }</td>
-											<td>${ebj.rewardDate }</td>
-											<td>${ebj.awardDepartment }</td>
-											<td>${ebj.rewardTotalPeople }</td>
+											<td>${ebj.teacherTeamPerformanceId }</td>
+											<td title="${ebj.tffamousTeacherTeamRewadLevel.teachRewardLevelId }">${ebj.tffamousTeacherTeamRewadLevel.teachRewardLevelName }</td>
+											<td>${ebj.projectSumScore }</td>
+											<td title="${ebj.tfterm.termId }">${ebj.tfterm.term }</td>
 											<td>${ebj.chargePersonId }</td>
 											<td>${teachermp[ebj.chargePersonId] }</td>
 											<td title="${ebj.checkout }">
@@ -174,10 +157,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTscienceresearch-rewardset!gainscienceReward?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -195,42 +178,30 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改科研奖励</h3>
 	                            <hr >
 	                            	<div class="form-group" style="display: none">                                
-	                                    <label>科研奖励ID:</label>
-	                                    <input id="scienrewardId" type="text" class="form-control nullcheck">
-	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>奖励名称:</label>
-	                                    <input id="rewardname" type="text"  class="form-control nullcheck addcheck" >
+	                                    <label>项目ID:</label>
+	                                    <input id="projectId" type="text" class="form-control nullcheck">
 	                                </div>
 	                                <div class="form-group">                            
-	                                    <label>奖励级别:</label>
-	                                    <select id="rewardlevel" class="form-control nullcheck addcheck" >
+	                                    <label>项目级别:</label>
+	                                    <select id="peojectlevel" class="form-control nullcheck addcheck" >
 	                                    	<option></option>
-	                                    	<c:forEach items="${rewardlevel }" var="obj">
-	                                    		<option value="${obj.rewardLevelId }">${obj.rewardLevelName }</option>
+	                                    	<c:forEach items="${rewardLevel }" var="obj">
+	                                    		<option value="${obj.teachRewardLevelId }">${obj.teachRewardLevelName }</option>
 	                                    	</c:forEach>
 	                                    </select>
 	                                </div>  
 	                                <div class="form-group">                            
-	                                    <label>奖励类型:</label>
-	                                    <select id="rewardtype" class="form-control nullcheck addcheck"  >
+	                                    <label>学期:</label>
+	                                    <select id="aup_term" class="form-control nullcheck addcheck"  >
 	                                    	<option></option>
-	                                    	<c:forEach items="${rewardtype }" var="obj">
-	                                    		<option value="${obj.rewardTypeId }">${obj.rewardTypeName }</option>
+	                                    	<c:forEach items="${tftermList }" var="obj">
+	                                    		<option value="${obj.termId }">${obj.term }</option>
 	                                    	</c:forEach>
 	                                    </select>
 	                                </div>  
 	                                <div class="form-group">                                
-	                                    <label>获奖日期:</label>
-	                                    <input id="rewardDate" type="text"  class="form-control nullcheck addcheck" onClick="WdatePicker()" readonly="readonly">
-	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>授奖部门:</label>
-	                                    <input id="awardDepart" type="text"  class="form-control nullcheck addcheck" >
-	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>获奖人数:</label>
-	                                    <input id="rewardpeoplenum" type="text"  class="form-control nullcheck addcheck" >
+	                                    <label>项目总分:</label>
+	                                    <input id="projectSumScore" type="text"  class="form-control nullcheck addcheck" >
 	                                </div>
 	                                <div class="form-group" style="display: none" id="crystatus">
 	                                	<label>项目人数：</label>
@@ -325,28 +296,22 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <script>
     //页面初始化处理
 	var limit = getParameters("limit");
-	comphref(limit);
+	var termId = getParameters("term.termId");
 	set_selected_option($('#changelength option'), limit);
+	set_selected_option($('#termSelection option'), termId);
+	comphref(limit);
 	//对所有跳转链接加 limit字段
 	function comphref(limits) {
 		var hrefs = $('.comphref');
 		for(var i=0;i<hrefs.length;i++){
-			hrefs[i].href = hrefs[i].href+"&limit="+limits+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim();
+			hrefs[i].href = hrefs[i].href+"&limit="+limits+"&term.termId="+$('#termSelection').val().trim();
 		}
-		$('#pickdates')[0].action = $('#pickdates')[0].action+"&limit="+limits;
 	}
-	//变更每页显示记录数
-    $('#changelength').change(function() {
-    	comphref($(this).val().trim());
-		window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
-	});
     $('.openaddm').click(function() {
     	$('#addmodaldialogTitle').css("display","");
     	$('#updatemodaldialogTitle').css("display","none");
     	$('#subadds').css("display","");
     	$('#subup').css("display","none");
-    	$('#cryisbn').css("display","none");
-    	$('#hideisbn').css("display","");
     	$('#crystatus').css("display","none");
     	$('#subdel').css("display","none");
 	});
@@ -365,19 +330,16 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	    		closeOnCancel: true }, 
 	    			function(isConfirm){   
 	    				if (isConfirm) {
-	    					$.post("GTscienceresearch-rewardset!addScienReward",
-	    							{"scienceReward.srrewardName":$('#rewardname').val().trim(),
-	    							 "scienceReward.rewardDate":$('#rewardDate').val().trim(),
-	    							 "scienceReward.awardDepartment":$('#awardDepart').val().trim(),
-	    							 "scienceReward.rewardTotalPeople":$('#rewardpeoplenum').val().trim(),
-	    							 "rewardlevel.rewardLevelId":$('#rewardlevel').val().trim(),
-	    							 "rewardtype.rewardTypeId":$('#rewardtype').val().trim()},
+	    					$.post("GTteachingfamousteamPerformanceSet-project!addProject",
+	    							{"teachteamprojec.projectSumScore":$('#projectSumScore').val().trim(),
+	    							 "teachteamrewardlevel.teachRewardLevelId":$('#peojectlevel').val().trim(),
+	    							 "teachteamprojec.tfterm.termId":$('#aup_term').val().trim()},
 	    							function(data,status){
 	    								 if(status=="success"){
 	    									 if(data=="succ"){
 	    										 swal("添加成功","","success");
 	    	    								 setTimeout(function() {
-	    	    									 window.location.replace("GTscienceresearch-rewardset!gainscienceReward?pagenum=1");
+	    	    									 window.location.replace("GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=1");
 	    										}, 2000);
 	    									 }else{
 	    										 swal(data,"","warning");

@@ -468,7 +468,11 @@
 		</global-results>
 		<action name="GT*PerformanceSet" class="com.nuaa.ec.teachingPerformanceSetAction.GT{1}PerformanceSetAction">
 			<result>/TeachingPerformance/GT{1}Performance.jsp</result>
-		</action>			
+		</action>
+		<!-- teaching project set -->	
+		<action name="GT*PerformanceSet-*" class="com.nuaa.ec.teachingPerformanceSetAction.GT{1}PerformanceSetAction">
+			<result>/TeachingPerformance/GT{1}Performance-{2}.jsp</result>
+		</action>		
 	</package>
 </struts>
 

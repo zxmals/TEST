@@ -92,20 +92,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--                         </ul> -->
 
 <!--                     </li> -->
-                    <li>
-                        <a href="#">
-                            <i class="fa fa fa-bar-chart-o"></i>
-                            <span class="nav-label">绩效管理</span>
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
                             <li>
                                 <a href="#">
                                 	<i class="fa fa fa-bar-chart-o"></i>
                                 	<span class="nav-label">科研绩效管理</span>
                                 	<span class="fa arrow"></span>
                                 </a>
-                                <ul class="nav nav-second-level firstslide">
+                                <ul class="nav nav-second-level">
 		                            <li>
 		                                <a href="#">
 		                                	<i class="fa fa fa-bar-chart-o"></i>
@@ -246,7 +239,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord">学位论文指导质量绩效</a></li>
 											<li><a class="J_menuItem" href="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher">教学竞赛绩效</a></li>
 											<li><a class="J_menuItem" href="GTTeachingAbilityImprovePerformanceSet!getAllRecord">教学能力提升绩效</a></li>
-											<li><a class="J_menuItem" href="">教学名师和教学团队绩效</a></li>
+											<li>
+												<a href="#">
+													<i class="fa fa fa-bar-chart-o"></i>
+													<span class="nav-label">教学名师和教学团队绩效 </span>
+													<span class="fa arrow"></span>
+												</a>
+												<ul class="nav nav-third-level firstslide">
+												<li><a class="J_menuItem" href="GTteachingfamousteamPerformanceSet-project!gainAllProject">团队项目设置</a></li>
+													<li><a class="J_menuItem" href="GTteachingfamousteamPerformanceSet-project">个人参与设置</a></li>
+												</ul>
+											</li>
 										</ul>
 									</li>
 									<li>
@@ -283,10 +286,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</ul>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="VA/act_summary.jsp">公益绩效管理 </a>
+<!--                                 <a class="J_menuItem" href="VA/act_summary.jsp">公益绩效管理 </a> -->
+                                <a href="#">
+									<i class="fa fa fa-bar-chart-o"></i>
+									<span class="nav-label">公益绩效管理 </span>
+									<span class="fa arrow"></span>
+								</a>
+								<ul class="nav nav-third-level">
+									<li><a class="J_menuItem" href="VA/act_summary.jsp">公益绩效管理</a></li>
+								</ul>
                             </li>
-                        </ul>
-                    </li>
                     <li id="resAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">所审核</span></a> </li>
                        <li id="departAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">系审核</span></a> </li>
                        <li id="vaadmin"  style="display: none">
