@@ -13,7 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfoffCampusPracticeGuidancePerformance;
+import com.nuaa.ec.model.TfoffCampusPracticeGuidancePerformanceUnionTfterm;
+import com.nuaa.ec.model.TfstudentCompetitionGuidancePerformanceUnionTfterm;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -41,6 +44,54 @@ public class TfoffCampusPracticeGuidancePerformanceDAO extends BaseHibernateDAO 
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfoffCampusPracticeGuidancePerformance> tfOffCampusPracticeGuidancePerformanceList = null;
+	
+	/**
+	 * 获得所有的记录信息 但是顺便实现了分页
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List findAllWithDivided(int pageIndex,int pageSize,String termId,boolean isDivided){
+		Teacher teacherHaveLogin=(Teacher) session.get("teacher");
+		List<TfoffCampusPracticeGuidancePerformanceUnionTfterm> list=new ArrayList<TfoffCampusPracticeGuidancePerformanceUnionTfterm>();
+		String hql = null;
+		/*
+		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
+		 */
+		if (termId == null || termId.length() == 0) {
+			hql="select new com.nuaa.ec.model.TfoffCampusPracticeGuidancePerformanceUnionTfterm(OCP,TERM) from TfoffCampusPracticeGuidancePerformance OCP,Tfterm TERM where TERM.termId=OCP.termId"
+					+ " and OCP.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and OCP.tfoffCampusPracticeGuidanceLevel.spareTire='1'"
+					+ " and OCP.teacher.spareTire='1'"
+					+ " and OCP.teacher=?"
+					+ " order by OCP.offguidanceId desc";
+		} else {
+			hql="select new com.nuaa.ec.model.TfoffCampusPracticeGuidancePerformanceUnionTfterm(OCP,TERM) from TfoffCampusPracticeGuidancePerformance OCP,Tfterm TERM where TERM.termId=OCP.termId"
+					+ " and OCP.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and OCP.tfoffCampusPracticeGuidanceLevel.spareTire='1'"
+					+ " and OCP.teacher.spareTire='1'"
+					+ " and OCP.teacher=?"
+					+ " and OCP.termId='"+termId+"'"
+					+ " order by OCP.offguidanceId desc";
+		}
+		try{
+			if(!isDivided){
+				list=this.getSession().createQuery(hql).setParameter(0, teacherHaveLogin).list();
+				int listSize=list.size();
+				session.put("recordNumber_GTOCP",list.size());
+				session.put("pageCount_GTOCP", listSize%pageSize==0?(listSize/pageSize):(listSize/pageSize+1));
+			}
+			/*
+			 * 分页 pageIndex 默认是1，显示第一页，
+			 * 但以后会随着前台的分页操作同步更新。
+			 */
+			list=this.getSession().createQuery(hql).setFirstResult((pageIndex-1)*pageSize).setMaxResults(pageSize).setParameter(0, teacherHaveLogin).list();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
 	public boolean updateCheckoutStatus(List<TfoffCampusPracticeGuidancePerformance> tfOffCampusPracticeGuidancePerfList){
 		Session session=this.getSession();
 		Transaction tx=null;

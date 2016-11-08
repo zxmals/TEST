@@ -234,8 +234,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<span class="nav-label">教学能力与实效 </span>
 											<span class="fa arrow"></span>
 										</a>
-										<ul class="nav nav-second-level firstslide">
-											<li><a class="J_menuItem" href="">课堂教学绩效</a></li>
+										<ul class="nav nav-third-level firstslide">
+											<li><a class="J_menuItem" href="GTClassTeachPerformanceSet!getAllRecord">课堂教学绩效</a></li>
 											<li><a class="J_menuItem" href="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord">学位论文指导质量绩效</a></li>
 											<li><a class="J_menuItem" href="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher">教学竞赛绩效</a></li>
 											<li><a class="J_menuItem" href="GTTeachingAbilityImprovePerformanceSet!getAllRecord">教学能力提升绩效</a></li>
@@ -279,8 +279,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="GTPracticeInnovationGuidePerformanceSet!getAllRecord">实践创新指导绩效</a></li>
 											<li><a class="J_menuItem" href="GTStudentCompetitionGuidancePerformanceSet!getAllRecord">学生竞赛指导绩效</a></li>
 											<li><a class="J_menuItem" href="GTJoinStudentActivityPerformanceSet!getAllRecord">参与学生活动绩效</a></li>
-											<li><a class="J_menuItem" href="">本科生导师指导绩效</a></li>
-											<li><a class="J_menuItem" href="">校外实践指导绩效</a></li>
+											<li><a class="J_menuItem" href="GTUndergraduateTutorGuidancePerformanceSet!getAllRecord">本科生导师指导绩效</a></li>
+											<li><a class="J_menuItem" href="GTOffCampusPracticeGuidancePerformanceSet!getAllRecord">校外实践指导绩效</a></li>
 										</ul>
 									</li>
 								</ul>
