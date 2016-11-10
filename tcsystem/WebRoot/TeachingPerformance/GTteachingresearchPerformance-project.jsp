@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TFteachingFamousTeam --project-Set</title>
+    <title>TFteachingResearch --project-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -53,15 +53,15 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>教学名师与教学团队管理<small></small></h5>
+	                        <h5>教学研究管理<small></small></h5>
 	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
 	                    <div class="ibox-content" style="height:540px;">
 	                    	 <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#utdialog">
-	                        	 <strong>新增教学名师或教学团队</strong>
+	                        	 <strong>新增教学研究</strong>
 	                         </button><br><br>
-	                    <form id="adjusts" action="GTteachingfamousteamPerformanceSet-project!gainAllProject" method="get">
+	                    <form id="adjusts" action="GTteachingresearchPerformanceSet-project!gainAllProject" method="get">
 							<div>
 			                    	<a>每页   
 			                    	<select name="limit" id="changelength" style="width:60px;height:25px;border-radius:3px;">
@@ -95,9 +95,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-										<td>教学名师团队Id</td>
-										<td>称号</td>
-										<td>级别</td>
+										<td>教学研究Id</td>
+										<td>名称</td>
+										<td>通过金额</td>
+										<td>结题成绩</td>
 										<td>项目总分</td>
 										<td>学期</td>
 										<td>登记负责人Id</td>
@@ -107,46 +108,47 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj" items="${teachteamli }">
+									<c:forEach var="ebj" items="${teachresearchli }">
 										<tr>
-											<td>${ebj.teacherTeamPerformanceId }</td>
-											<td>${ebj.name }</td>
-											<td title="${ebj.tffamousTeacherTeamRewadLevel.teachRewardLevelId }">${ebj.tffamousTeacherTeamRewadLevel.teachRewardLevelName }</td>
-											<td>${ebj.projectSumScore }</td>
+											<td>${ebj.projectId }</td>
+											<td>${ebj.project }</td>
+											<td title="${ebj.tfteachingRearchFundlevel.fundLevelId }">${ebj.tfteachingRearchFundlevel.fundLevel }</td>
+											<td title="${ebj.tfteachingRearchEvaluation.evaluationId }">${ebj.tfteachingRearchEvaluation.reaults }</td>
+											<td>${ebj.projetScore }</td>
 											<td title="${ebj.tfterm.termId }">${ebj.tfterm.term }</td>
 											<td>${ebj.chargePersonId }</td>
 											<td>${teachermp[ebj.chargePersonId] }</td>
-											<td title="${ebj.checkout }">
-												<c:if test="${ebj.checkout==0 }">待完善</c:if>
-												<c:if test="${ebj.checkout==1 }">已完善,待审核</c:if>
-												<c:if test="${ebj.checkout==2 }">已审核</c:if>
-												<c:if test="${ebj.checkout==3 }">未通过</c:if>
+											<td title="${ebj.checkOut }">
+												<c:if test="${ebj.checkOut==0 }">待完善</c:if>
+												<c:if test="${ebj.checkOut==1 }">已完善,待审核</c:if>
+												<c:if test="${ebj.checkOut==2 }">已审核</c:if>
+												<c:if test="${ebj.checkOut==3 }">未通过</c:if>
 											</td>
 											<td>
 												<c:if test="${sessionScope.teacher.teacherId==ebj.chargePersonId }">
-													<c:if test="${ebj.checkout==0 }">
+													<c:if test="${ebj.checkOut==0 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 													
-													<c:if test="${ebj.checkout==1 }">
+													<c:if test="${ebj.checkOut==1 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 													
-													<c:if test="${ebj.checkout==3 }">
+													<c:if test="${ebj.checkOut==3 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
-													<c:if test="${ebj.checkout==2 }">
+													<c:if test="${ebj.checkOut==2 }">
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 												</c:if>
 												<c:if test="${sessionScope.teacher.teacherId!=ebj.chargePersonId }">
-													<c:if test="${ebj.checkout==0 }">
+													<c:if test="${ebj.checkOut==0 }">
 														<a  class="btn btn-primary btn-sm joinProj" data-toggle="modal">加入</a>
 													</c:if>
 												</c:if>
@@ -159,10 +161,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="GTteachingresearchPerformanceSet-project!gainAllProject?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTteachingresearchPerformanceSet-project!gainAllProject?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTteachingresearchPerformanceSet-project!gainAllProject?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTteachingresearchPerformanceSet-project!gainAllProject?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -176,26 +178,35 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="modal-content">
 	                <div class="modal-body">
 	                    <div class="row">
-	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增科研奖励</h3>
-	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改科研奖励</h3>
+	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增教学研究</h3>
+	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改教学研究</h3>
 	                            <hr >
 	                            	<div class="form-group" style="display: none">                                
 	                                    <label>项目ID:</label>
 	                                    <input id="projectId" type="text" class="form-control nullcheck">
 	                                </div>
 	                                <div class="form-group">                                
-	                                    <label>所获称号:</label>
+	                                    <label>名称:</label>
 	                                    <input id="gainName" type="text" class="form-control nullcheck addcheck">
 	                                </div>
 	                                <div class="form-group">                            
-	                                    <label>项目级别:</label>
-	                                    <select id="peojectlevel" class="form-control nullcheck addcheck" >
+	                                    <label>通过金额:</label>
+	                                    <select id="fundlevel" class="form-control nullcheck addcheck" >
 	                                    	<option></option>
-	                                    	<c:forEach items="${rewardLevel }" var="obj">
-	                                    		<option value="${obj.teachRewardLevelId }">${obj.teachRewardLevelName }</option>
+	                                    	<c:forEach items="${passfundli }" var="obj">
+	                                    		<option value="${obj.fundLevelId }">${obj.fundLevel }</option>
 	                                    	</c:forEach>
 	                                    </select>
-	                                </div>  
+	                                </div>
+	                                <div class="form-group">                            
+	                                    <label>结题成绩:</label>
+	                                    <select id="evaluatelevel" class="form-control nullcheck addcheck" >
+	                                    	<option></option>
+	                                    	<c:forEach items="${evaluateli }" var="obj">
+	                                    		<option value="${obj.evaluationId }">${obj.reaults }</option>
+	                                    	</c:forEach>
+	                                    </select>
+	                                </div>    
 	                                <div class="form-group">                            
 	                                    <label>学期:</label>
 	                                    <select id="aup_term" class="form-control nullcheck addcheck"  >
@@ -205,10 +216,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                    	</c:forEach>
 	                                    </select>
 	                                </div>  
-<!-- 	                                <div class="form-group">                                 -->
-<!-- 	                                    <label>项目总分:</label> -->
-<!-- 	                                    <input id="projectSumScore" type="text"  class="form-control nullcheck addcheck" > -->
-<!-- 	                                </div> -->
 	                                <div class="form-group" style="display: none" id="crystatus">
 	                                	<label>项目人数：</label>
 	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -299,7 +306,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	$('#crystatus').css("display","none");
     	$('#subdel').css("display","none");
 	});
-    //adds 
+    </script>
+    <!-- add -project -->
+    <script type="text/javascript">
     $('#subadds').click(function() {
 		if(checkadds()){
 			swal({   
@@ -314,18 +323,17 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	    		closeOnCancel: true }, 
 	    			function(isConfirm){   
 	    				if (isConfirm) {
-	    					$.post("GTteachingfamousteamPerformanceSet-project!addProject",
-	    							{
-// 	    						"teachteamprojec.projectSumScore":$('#projectSumScore').val().trim(),
-	    							 "teachteamprojec.name":$('#gainName').val().trim(),
-	    							 "teachteamrewardlevel.teachRewardLevelId":$('#peojectlevel').val().trim(),
-	    							 "teachteamprojec.tfterm.termId":$('#aup_term').val().trim()},
+	    					$.post("GTteachingresearchPerformanceSet-project!addProject",
+	    							{"teachreachprojec.project":$('#gainName').val().trim(),
+	    							 "teachreachfundlevel.fundLevelId":$('#fundlevel').val().trim(),
+	    							 "teachreachevalute.evaluationId":$('#evaluatelevel').val().trim(),
+	    							 "term.termId":$('#aup_term').val().trim()},
 	    							function(data,status){
 	    								 if(status=="success"){
 	    									 if(data=="succ"){
 	    										 swal("添加成功","","success");
 	    	    								 setTimeout(function() {
-	    	    									 window.location.replace("GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=1");
+	    	    									 window.location.replace("GTteachingresearchPerformanceSet-project!gainAllProject?pagenum=1");
 	    										}, 2000);
 	    									 }else{
 	    										 swal("成功","","warning");
@@ -356,11 +364,11 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	$('#subdel').css("display","");
 		$('#projectId').prop("value",row[0].cells[0].innerHTML);
 		$('#gainName').prop("value",row[0].cells[1].innerHTML);
-		set_selected_option($('#peojectlevel option'), row[0].cells[2].title.trim());
-		set_selected_option($('#aup_term option'), row[0].cells[4].title.trim());
-// 		$('#projectSumScore').prop("value",row[0].cells[3].innerHTML.trim());
-		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[7].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
-		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[7].title.trim());
+		set_selected_option($('#fundlevel option'), row[0].cells[2].title.trim());
+		set_selected_option($('#evaluatelevel option'), row[0].cells[3].title.trim());
+		set_selected_option($('#aup_term option'), row[0].cells[5].title.trim());
+		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[8].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
+		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[8].title.trim());
 	});
     $('#subup').click(function() {
     	var projectId = $('#projectId').val().trim();
@@ -377,19 +385,19 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    		closeOnCancel: true }, 
     	    			function(isConfirm){   
     	    				if (isConfirm) {
-    	    					$.post("GTteachingfamousteamPerformanceSet-project!updateTeachTeam",
-    	    							{"teachteamprojec.teacherTeamPerformanceId":projectId,
-// 	    	    						 "teachteamprojec.projectSumScore":$('#projectSumScore').val().trim(),
-		    							 "teachteamprojec.name":$('#gainName').val().trim(),
-		    							 "teachteamrewardlevel.teachRewardLevelId":$('#peojectlevel').val().trim(),
-		    							 "teachteamprojec.tfterm.termId":$('#aup_term').val().trim(),
-		    							 "teachteamprojec.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim()},
+    	    					$.post("GTteachingresearchPerformanceSet-project!updateProject",
+    	    							{"teachreachprojec.projectId":projectId,
+	    	    						 "teachreachprojec.project":$('#gainName').val().trim(),
+		    							 "teachreachfundlevel.fundLevelId":$('#fundlevel').val().trim(),
+		    							 "teachreachevalute.evaluationId":$('#evaluatelevel').val().trim(),
+		    							 "term.termId":$('#aup_term').val().trim(),
+		    							 "teachreachprojec.checkOut":$('input[type="radio"][name="proJpeople"]:checked').val().trim()},
     	    	    					function(data,status){
     	    	    						if(status=="success"){
     	    	    							 if(data=="succ"){
     	    	    								 swal("更新成功","","success");
     	    	    								 setTimeout(function() {
-    	    	    									 window.location.replace("GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=1");
+    	    	    									 window.location.replace("GTteachingresearchPerformanceSet-project!gainAllProject?pagenum=1");
     	    										}, 2000);
     	    	    							 }else{
     	    	    								 swal("失败","","error");
@@ -419,14 +427,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		closeOnCancel: true }, 
     			function(isConfirm){   
     				if (isConfirm) {
-    					$.post("GTteachingfamousteamPerformanceSet-project!deleteProject",
-    							{"teachteamprojec.teacherTeamPerformanceId":$('#projectId').val().trim()},
+    					$.post("GTteachingresearchPerformanceSet-project!deleteProject",
+    							{"teachreachprojec.projectId":$('#projectId').val().trim()},
     							function(data,status){
     								if(status=="success"){
     									if(data=="succ"){
     										swal("删除成功","","success");
     										setTimeout(function() {
-    											window.location.replace("GTteachingfamousteamPerformanceSet-project!gainAllProject?pagenum=1");
+    											window.location.replace("GTteachingresearchPerformanceSet-project!gainAllProject?pagenum=1");
 											}, 2000);
     									}else{
     										swal("操作失败","","error");
@@ -445,9 +453,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     $('.getMember').click(function() {
 		var row = $(this).parent().parent();
 		projectId = row[0].cells[0].innerHTML;
-		sumscore = row[0].cells[3].innerHTML.trim();
-		$.post("GTteachingfamousteamPerformanceSet-project!getMember",
-				{"teachteamprojec.teacherTeamPerformanceId":row[0].cells[0].innerHTML},
+		sumscore = row[0].cells[4].innerHTML.trim();
+		$.post("GTteachingresearchPerformanceSet-project!getMember",
+				{"teachreachprojec.projectId":row[0].cells[0].innerHTML},
 				function(data,status){
 					var tabs = $('#membtab');
 					var trs = tabs.find("tr");
@@ -489,10 +497,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 			jobj += trs[i].cells[0].innerHTML+",";	
 			jobj += trs[i].cells[2].firstChild.value+"_";
 		}
-		$.post("GTteachingfamousteamPerformanceSet-project!changescore",
+		$.post("GTteachingresearchPerformanceSet-project!changescore",
 				{"mixs":jobj,
 				 "sumscore":sumscore,
-				 "teachteamprojec.teacherTeamPerformanceId":projectId},
+				 "teachreachprojec.projectId":projectId},
 		function(data,status){
 			if(status=="success"){
 				if(data=="succ"){
@@ -525,8 +533,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		closeOnCancel: true },
     		function(isConfirm){
     			if(isConfirm){
-    				$.post("GTteachingfamousteamPerformanceSet-project!joinPeoject",
-    	    				{"teachteamprojec.teacherTeamPerformanceId":row[0].cells[0].innerHTML.trim()},
+    				$.post("GTteachingresearchPerformanceSet-project!joinPeoject",
+    	    				{"teachreachprojec.projectId":row[0].cells[0].innerHTML.trim()},
     	    				function(data,status){
     	        				 if(status=="success"){
     	        					 if(data=="succ"){
@@ -542,26 +550,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     	    		);
     			}
     		});
-	});
-    $('#subjoin').click(function() {
-    	if($('#joinSRRId').val().trim()!=""&&$('#selfrank').val().trim()!=""){
-    		$.post("GTscienceresearch-rewardset!joinScienceReward",
-    				{"scienceReward.srrewardId":$('#joinSRRId').val().trim(),
-        			 "teacherandsr.selfRanking":$('#selfrank').val().trim()},
-    				function(data,status){
-        				 if(status=="success"){
-        					 if(data=="succ"){
-        						 swal("加入成功","","success");
-        					 }else{
-        						 swal(data,"","warning");
-        					 }
-        					 $('#closebtn').click();
-        				 }else{
-        					 swal("请求失败","","error");
-        				 }
-    				}
-    		);
-    	}
 	});
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>

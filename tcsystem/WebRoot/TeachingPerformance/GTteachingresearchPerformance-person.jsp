@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TFteachingFamousTeam --Personal-Set</title>
+    <title>TFteachingresearch --Personal-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -53,12 +53,12 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>个人参与教学名师与教学团队管理<small></small></h5>
+	                        <h5>个人参与教学研究管理<small></small></h5>
 	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
 	                    <div class="ibox-content" style="height:540px;">
-	                    <form id="adjusts" action="GTteachingfamousteamPerformanceSet-person!getPersonJoin" method="get">
+	                    <form id="adjusts" action="GTteachingresearchPerformanceSet-person!getPersonJoin" method="get">
 							<div>
 			                    	<a>每页   
 			                    	<select name="limit" id="changelength" style="width:60px;height:25px;border-radius:3px;">
@@ -91,8 +91,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-										<td>教学名师团队Id</td>
-										<td>称号</td>
+										<td>教学研究Id</td>
+										<td>项目名称</td>
 										<td>项目总分</td>
 										<td>学期</td>
 										<td>个人所得分</td>
@@ -103,14 +103,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj" items="${teachteampceli }">
-										<td>${ebj.tffamousTeacherTeamProject.teacherTeamPerformanceId }</td>
-											<td>${ebj.tffamousTeacherTeamProject.name }</td>
-											<td>${ebj.tffamousTeacherTeamProject.projectSumScore }</td>
-											<td title="${ebj.tffamousTeacherTeamProject.tfterm.termId }">${ebj.tffamousTeacherTeamProject.tfterm.term }</td>
-											<td>${ebj.singelScore }</td>
-											<td>${ebj.tffamousTeacherTeamProject.chargePersonId }</td>
-											<td>${teachermp[ebj.tffamousTeacherTeamProject.chargePersonId] }</td>
+									<c:forEach var="ebj" items="${teachreachperceli }">
+										<td>${ebj.tfteachingRearchProject.projectId }</td>
+											<td>${ebj.tfteachingRearchProject.project }</td>
+											<td>${ebj.tfteachingRearchProject.projetScore }</td>
+											<td title="${ebj.tfteachingRearchProject.tfterm.termId }">${ebj.tfteachingRearchProject.tfterm.term }</td>
+											<td>${ebj.finalScore }</td>
+											<td>${ebj.tfteachingRearchProject.chargePersonId }</td>
+											<td>${teachermp[ebj.tfteachingRearchProject.chargePersonId] }</td>
 											<td title="${ebj.checkOut }">
 												<c:if test="${ebj.checkOut==0 }">待完善</c:if>
 												<c:if test="${ebj.checkOut==1 }">已完善,待审核</c:if>
@@ -118,7 +118,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 												<c:if test="${ebj.checkOut==3 }">未通过</c:if>
 											</td>
 											<td>
-												<c:if test="${teacher.teacherId!=ebj.tffamousTeacherTeamProject.chargePersonId }">
+												<c:if test="${teacher.teacherId!=ebj.tfteachingRearchProject.chargePersonId }">
 													<c:if test="${ebj.checkOut==0 }"><a  class="btn btn-primary btn-sm quitpaper">退出</a></c:if>
 													<c:if test="${ebj.checkOut==1 }">&nbsp;&nbsp;&nbsp;√</c:if>
 													<c:if test="${ebj.checkOut==2 }"><a  class="btn btn-primary btn-sm quitpaper">退出</a></c:if>
@@ -132,10 +132,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-person!getPersonJoin?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-person!getPersonJoin?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-person!getPersonJoin?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="GTteachingfamousteamPerformanceSet-person!getPersonJoin?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="GTteachingresearchPerformanceSet-person!getPersonJoin?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTteachingresearchPerformanceSet-person!getPersonJoin?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTteachingresearchPerformanceSet-person!getPersonJoin?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="GTteachingresearchPerformanceSet-person!getPersonJoin?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -183,8 +183,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				 closeOnCancel: true }, 
 				 function(isConfirm){   
 					 if (isConfirm) {     
-						 $.post("GTteachingfamousteamPerformanceSet-person!quitProject",
-									{"teachteamprojec.teacherTeamPerformanceId":row[0].cells[0].innerHTML.trim()},
+						 $.post("GTteachingresearchPerformanceSet-person!quitProject",
+									{"teachreachprojec.projectId":row[0].cells[0].innerHTML.trim()},
 									function(data,status){
 										 if(status=="success"){
 											 if(data=="succ"){

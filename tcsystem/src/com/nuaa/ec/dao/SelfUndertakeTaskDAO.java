@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.SelfUndertakeTask;
+import com.nuaa.ec.model.Teacher;
+import com.nuaa.ec.model.TffamousTeacherTeamProject;
 
 /**
  	* A data access object (DAO) providing persistence and search support for SelfUndertakeTask entities.
@@ -96,6 +98,20 @@ public class SelfUndertakeTaskDAO extends BaseHibernateDAO  {
     public SelfUndertakeTask findByUndertakeTaskNameDim(){
     	try {
             String queryString = "from SelfUndertakeTask  where undertakeTaskName like '%负责人%' "
+            		+ "and  spareTire='1' ";
+            Query queryObject = getSession().createQuery(queryString);
+            if(queryObject.list().size()>0){
+            	return (SelfUndertakeTask) queryObject.list().get(0);
+            }else return null;
+         } catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+         }
+    }
+    
+    public SelfUndertakeTask findByUndertakeTaskNameOJoin(){
+    	try {
+            String queryString = "from SelfUndertakeTask  where undertakeTaskName like '%参与人%' "
             		+ "and  spareTire='1' ";
             Query queryObject = getSession().createQuery(queryString);
             if(queryObject.list().size()>0){

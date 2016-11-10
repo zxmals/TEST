@@ -19,6 +19,7 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 	private String spareTire;
 	private String chargePersonId;
 	private String checkout;
+	private String name;
 	private Set tffamousTeacherTeamPerformances = new HashSet(0);
 
 	// Constructors
@@ -45,14 +46,11 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 		this.tffamousTeacherTeamPerformances = tffamousTeacherTeamPerformances;
 	}
 
-	// Property accessors
-
 	public TffamousTeacherTeamProject(String teacherTeamPerformanceId,
 			TffamousTeacherTeamRewadLevel tffamousTeacherTeamRewadLevel,
 			Double projectSumScore, Tfterm tfterm, String spareTire,
-			String chargePersonId, String checkout,
+			String chargePersonId, String checkout, String name,
 			Set tffamousTeacherTeamPerformances) {
-		super();
 		this.teacherTeamPerformanceId = teacherTeamPerformanceId;
 		this.tffamousTeacherTeamRewadLevel = tffamousTeacherTeamRewadLevel;
 		this.projectSumScore = projectSumScore;
@@ -60,8 +58,11 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 		this.spareTire = spareTire;
 		this.chargePersonId = chargePersonId;
 		this.checkout = checkout;
+		this.name = name;
 		this.tffamousTeacherTeamPerformances = tffamousTeacherTeamPerformances;
 	}
+
+	// Property accessors
 
 	public String getTeacherTeamPerformanceId() {
 		return this.teacherTeamPerformanceId;
@@ -124,6 +125,14 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 
 	public String getCheckout() {
 		return checkout;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setCheckout(String checkout) {

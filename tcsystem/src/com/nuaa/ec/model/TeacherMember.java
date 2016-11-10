@@ -13,7 +13,13 @@ public class TeacherMember {
 		this.teacherName = teacherName;
 		this.spare = spare;
 	}
-
+	
+	public TeacherMember(String teacherId, String teacherName, Double spare) {
+		this.teacherId = teacherId;
+		this.teacherName = teacherName;
+		this.spare = spare+"";
+	}
+	
 	public String getTeacherId() {
 		return teacherId;
 	}

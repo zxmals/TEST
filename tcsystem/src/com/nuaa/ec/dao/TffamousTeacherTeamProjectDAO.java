@@ -120,6 +120,19 @@ public class TffamousTeacherTeamProjectDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public void deleteBylogic(String projectId){
+		try {
+			String queryString = "update TffamousTeacherTeamProject "
+					+ "set spareTire='0' "
+					+ "where teacherTeamPerformanceId=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, projectId);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public List findPaging(int currentRow,int limitRow,String condition){
 		try {
 			String queryString = "from TffamousTeacherTeamProject "

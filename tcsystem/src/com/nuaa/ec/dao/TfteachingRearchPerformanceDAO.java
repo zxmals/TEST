@@ -1,8 +1,10 @@
 package com.nuaa.ec.dao;
 
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfteachingAbilityImprovePerformance;
 import com.nuaa.ec.model.TfteachingRearchPerformance;
+import com.nuaa.ec.model.TfteachingRearchProject;
 import com.opensymphony.xwork2.ActionContext;
 
 import java.util.ArrayList;
@@ -191,6 +193,119 @@ public class TfteachingRearchPerformanceDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public List findPaging(int currentRow,int lmitRow,String condition,Teacher teacher){
+		try {
+			String queryString = "from TfteachingRearchPerformance "
+					+ "where spareTire='1' "
+					+ "and tfteachingRearchProject.spareTire='1' "
+					+condition
+					+ "and teacher.spareTire='1' "
+					+ "and teacher=?";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, teacher)
+					.setFirstResult(currentRow).setMaxResults(lmitRow);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition,Teacher teacher){
+		try {
+			String queryString = "from TfteachingRearchPerformance "
+					+ "where spareTire='1' "
+					+ "and tfteachingRearchProject.spareTire='1' "
+					+condition
+					+ "and teacher.spareTire='1' "
+					+ "and teacher=?";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, teacher);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRef(TfteachingRearchProject project){
+		try {
+			String queryString = "update TfteachingRearchPerformance "
+					+ "set spareTire='0' "
+					+ "where tfteachingRearchProject=? "
+					+ "and spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, project);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void quitProject(Teacher teacher,TfteachingRearchProject project){
+		try {
+			String queryString = "update TfteachingRearchPerformance "
+					+ "set spareTire='0' "
+					+ "where tfteachingRearchProject=? "
+					+ "and spareTire='1' "
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, project).setParameter(1, teacher);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public boolean checkexist(TfteachingRearchProject project,Teacher teacher){
+		try {
+			String queryString = "from TfteachingRearchPerformance "
+					+ "where spareTire='1' "
+					+ "and teacher=? "
+					+ "and tfteachingRearchProject=? "
+					+ "and tfteachingRearchProject.spareTire='1' "
+					+ "and teacher.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, teacher).setParameter(1, project);
+			if(queryObject.list().size()>0){
+				return false;
+			}else return true;
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findMember(TfteachingRearchProject project){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,t.finalScore) "
+					+ "from TfteachingRearchPerformance t "
+					+ "where spareTire='1' "
+					+ "and tfteachingRearchProject=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, project);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void updateScore(String teacherId,double score,TfteachingRearchProject project){
+		try {
+			String queryString = "update TfteachingRearchPerformance "
+					+ "set finalScore=? "
+					+ "where tfteachingRearchProject=? "
+					+ "and spareTire='1' "
+					+ "and teacher.teacherId=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, score)
+					.setParameter(1, project).setParameter(2, teacherId);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public TfteachingRearchPerformance merge(
 			TfteachingRearchPerformance detachedInstance) {
 		log.debug("merging TfteachingRearchPerformance instance");

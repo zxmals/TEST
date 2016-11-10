@@ -123,6 +123,54 @@ public class TfteachingRearchProjectDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public void deleteBylogic(String projectId){
+		try {
+			String queryString = "update TfteachingRearchProject "
+					+ "set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and projectId=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, projectId);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findPaging(int currentRow,int limitRow,String condition){
+		try {
+			String queryString = "from TfteachingRearchProject "
+					+ "where spareTire='1' "
+					+ "and tfteachingRearchEvaluation.spareTire = '1' "
+					+ "and tfterm.spareTire='1' "
+					+condition
+					+ "and tfteachingRearchFundlevel.spareTire = '1' ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setFirstResult(currentRow).setMaxResults(limitRow);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from TfteachingRearchProject "
+					+ "where spareTire='1' "
+					+ "and tfteachingRearchEvaluation.spareTire = '1' "
+					+ "and tfterm.spareTire='1' "
+					+condition
+					+ "and tfteachingRearchFundlevel.spareTire = '1' ";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public TfteachingRearchProject merge(
 			TfteachingRearchProject detachedInstance) {
 		log.debug("merging TfteachingRearchProject instance");

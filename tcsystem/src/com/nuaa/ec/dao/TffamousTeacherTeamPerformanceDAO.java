@@ -1,7 +1,10 @@
 package com.nuaa.ec.dao;
 
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.SelfUndertakeTask;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TffamousTeacherTeamPerformance;
+import com.nuaa.ec.model.TffamousTeacherTeamProject;
 import com.nuaa.ec.model.TfteachingAbilityImprovePerformance;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -192,12 +195,125 @@ public class TffamousTeacherTeamPerformanceDAO extends BaseHibernateDAO {
 		}
 	}
 
-	public List findPaging(int currentRow,int limitRow,String condition){
+	public boolean checkexist(TffamousTeacherTeamProject project,Teacher teacher){
 		try {
 			String queryString = "from TffamousTeacherTeamPerformance "
-					+ "where spareTire='1' ";
-			Query queryObject = getSession().createQuery(queryString);
+					+ "where spareTire='1' "
+					+ "and tffamousTeacherTeamProject=? "
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, project).setParameter(1, teacher);
+			if(queryObject.list().size()>0){
+				return false;
+			}else return true;
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+    }
+	
+	public List findMember(TffamousTeacherTeamProject project){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,t.singelScore) "
+					+ "from TffamousTeacherTeamPerformance t "
+					+ "where t.spareTire='1' "
+					+ "and t.teacher.spareTire='1' "
+					+ "and t.tffamousTeacherTeamProject=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, project);
 			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRef(TffamousTeacherTeamProject ttpro){
+		try {
+			String queryString = "update TffamousTeacherTeamPerformance "
+					+ "set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and tffamousTeacherTeamProject=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, ttpro);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void quitProject(Teacher teacher,TffamousTeacherTeamProject ttpro){
+		try {
+			String queryString = "update TffamousTeacherTeamPerformance "
+					+ "set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and tffamousTeacherTeamProject=? "
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, ttpro).setParameter(1, teacher);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void updateScore(String teacherId,double score,TffamousTeacherTeamProject project){
+		try {
+			String queryString = "update TffamousTeacherTeamPerformance "
+					+ "set singelScore=? "
+					+ "where spareTire='1' "
+					+ "and tffamousTeacherTeamProject=? "
+					+ "and teacher.teacherId=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0,score)
+					.setParameter(1, project).setParameter(2, teacherId);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+//	public void updateByRef(double score,Teacher teacher,TffamousTeacherTeamPerformance teachteam){
+//		try {
+//			String queryString = "update TffamousTeacherTeamPerformance "
+//					+ "set singelScore=?"
+//					+ " where spareTire='1' "
+//					+ "and teacher=? "
+//					+ "and tffamousTeacherTeamProject=?";
+//			Query queryObject = getSession().createQuery(queryString).setParameter(0, score)
+//					.setParameter(1, teacher).setParameter(2, teachteam);
+//			queryObject.executeUpdate();
+//		} catch (RuntimeException re) {
+//			log.error("find all failed", re);
+//			throw re;
+//		}
+//	}
+	public List findPaging(int currentRow,int limitRow,String condition,Teacher teacher){
+		try {
+			String queryString = "from TffamousTeacherTeamPerformance "
+					+ "where spareTire='1' "
+					+ "and tffamousTeacherTeamProject.spareTire='1' "
+					+ "and teacher=? "
+					+condition
+					+ "and teacher.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow)
+					.setMaxResults(limitRow).setParameter(0, teacher);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition,Teacher teacher){
+		try {
+			String queryString = "from TffamousTeacherTeamPerformance "
+					+ "where spareTire='1' "
+					+ "and tffamousTeacherTeamProject.spareTire='1' "
+					+ "and teacher=? "
+					+condition
+					+ "and teacher.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, teacher);
+			return queryObject.list().size();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

@@ -25,6 +25,9 @@
         <property name="chargePersonId" type="java.lang.String">
             <column name="ChargePersonID" length="20" />
         </property>
+        <property name="name" type="java.lang.String">
+            <column name="Name" length="200" />
+        </property>
         <property name="checkout" type="java.lang.String">
             <column name="checkout" length="10" />
         </property>
