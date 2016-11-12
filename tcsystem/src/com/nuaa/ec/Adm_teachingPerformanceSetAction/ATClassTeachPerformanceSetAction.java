@@ -18,7 +18,6 @@ import com.nuaa.ec.model.TfclassTeachEvaluation;
 import com.nuaa.ec.model.TfclassTeachPefromance;
 import com.nuaa.ec.model.TfclassTeachTime;
 import com.nuaa.ec.utils.MergeTermToYear;
-import com.nuaa.ec.utils.PrimaryKMaker;
 import com.opensymphony.xwork2.ActionContext;
 
 public class ATClassTeachPerformanceSetAction implements RequestAware{
@@ -155,7 +154,6 @@ public class ATClassTeachPerformanceSetAction implements RequestAware{
 	private Map<String, Object> request;
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
-	private PrimaryKMaker pkmk = new PrimaryKMaker();
 	private HttpServletResponse response = ServletActionContext.getResponse();
 	private TfclassTeachPefromance classTeachPerformance;
 	private TfclassTeachPefromanceDAO classTeachPerformanceDAO = new TfclassTeachPefromanceDAO();

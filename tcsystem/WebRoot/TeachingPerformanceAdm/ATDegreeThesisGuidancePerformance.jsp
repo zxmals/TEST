@@ -22,7 +22,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>periodicalTypeSet</title>
+<title>学术论文指导绩效管理（管理员）</title>
 
 <link rel="shortcut icon" href="favicon.ico">
 <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
@@ -79,29 +79,27 @@
 						</div>
 					</div>
 					<div class="ibox-content">
-						<button class="btn  btn-primary openaddm" type="submit"
-							data-backdrop="true" data-toggle="modal" data-target="#add">
-							<strong>新增学术论文指导绩效</strong>
-						</button>
-						<br>
-						<br>
-						<form action="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord">
+						<form action="ATDegreeThesisGuidancePerformanceSet!getAllRecord">
 							<div>
-								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_GTDTG">
+								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_ATDTG">
 										<c:forEach var="pageSize" items="${pageSizeList }">
 											<option value="${pageSize }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${pageSize }</option>
 										</c:forEach>
 								</select>条记录
 								</a>
-								&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;
 								<font color="#337AB7">学期：</font>
-								<select id="termSelection" name="termId_GTDTG" style="width:120px;height:25px;border-radius:3px;">
+								<select id="termSelection" name="termId_ATDTG" style="width:120px;height:25px;border-radius:3px;">
 									<option value="">全部学期</option>
 									<c:forEach var="tfterm" items="${tftermList }">
 										<option value="${tfterm.termId }">${tfterm.term }</option>
 									</c:forEach>
 								</select>
-								&nbsp;&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<font color="#337AB7">检索条件：</font>
+								<input type="text" id="searchCondition_ATDTG" name="searchCondition_ATDTG"  placeholder="请输入要查询项目的名称"
+								 style="width:150px;height:25px;border-radius:3px;border:1px solid #A9A9A9;"/>
+								 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<button class="button_set" type="submit" id="AlterPageSize"
 								data-backdrop="true" data-toggle="modal">
 								<strong>确认</strong>
@@ -156,7 +154,7 @@
 												</c:if>
 												<!-- 操作 -->
 												<td>
-													<a  class="btn btn-primary btn-sm update" data-toggle="modal" data-target="#update" onclick="resetGreen">修改</a>
+													<a  class="btn btn-primary btn-sm update" data-toggle="modal" data-target="#update" onclick="resetGreen">编辑</a>
 													<a  class="btn btn-primary btn-sm deleteInfo" data-toggle="modal">删除</a>
 <!-- 													<button class="btn btn-primary btn-sm deleteInfo" >删除</button> -->
 												</td>
@@ -166,25 +164,25 @@
 								</table>
 							</form>
 							<div style="text-align: center;">
-								(共查询到${sessionScope.recordNumber_GTDTG }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_GTDTG }页&nbsp;&nbsp;&nbsp;
+								(共查询到${sessionScope.recordNumber_ATDTG }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_ATDTG }页&nbsp;&nbsp;&nbsp;
 								<a class="comphref"
-									href="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord">首页</a>&nbsp;&nbsp;&nbsp;
+									href="ATDegreeThesisGuidancePerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
 								<c:if test="${pageIndex>1 }">
 									<a class="comphref"
-										href="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
+										href="ATDegreeThesisGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<c:forEach var="index" begin="${pageIndex }" end="${pageIndex+4 }" step="1">
-									<c:if test="${index<pageCount_GTDTG }">
+									<c:if test="${index<pageCount_ATDTG }">
 										<a class="comphref"
-										href="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
+										href="ATDegreeThesisGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
 									</c:if>
 								</c:forEach>
-								<c:if test="${pageIndex<pageCount_GTDTG }">
+								<c:if test="${pageIndex<pageCount_ATDTG }">
 									<a class="comphref"
-										href="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
+										href="ATDegreeThesisGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<a class="comphref"
-									href="GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord?isDivided=true&pageIndex=${pageCount_GTDTG }">尾页</a>
+									href="ATDegreeThesisGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_ATDTG }">尾页</a>
 							</div>
 						</div>
 					</div>
@@ -216,8 +214,15 @@
 									</select>
 								</div>
 								<div class="form-group">
+									<label>教师工号:</label>&nbsp;<label></label> <input
+										id="up_teacherId" type="text"
+										class="form-control nullcheck"
+										name="teacher.teacherId"
+										value="" readonly="readonly">
+								</div>
+								<div class="form-group">
 									<label>学位论文名称:</label>&nbsp;<label></label> <input
-										id=up_degreeThesisName " type="text"
+										id="up_degreeThesisName" type="text"
 										class="form-control nullcheck"
 										name="degreeThesisGuidancePerformance.degreeThesisnName"
 										value="">
@@ -249,63 +254,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- 添加 -->
-		<div id="add" class="modal fade" aria-hidden="true" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-body">
-						<div class="row">
-							<h3 class="m-t-none m-b">添加学术论文指导绩效</h3>
-							<form role="form" name="adds" id="addInfoForm"
-								action="GTDegreeThesisGuidancePerformanceSet!insertDegreeThesisGuidanceRecord"
-								method="post">
-								<div class="form-group" style="display: none;">
-									<label>ID</label>&nbsp;<label></label> <input id="ID"
-										type="text" class="form-control nullcheck" name="" value="">
-								</div>
-								<div class="form-group">
-									<label>学期:</label>&nbsp;<label></label><br>
-									<select id="add_termSelection" name="degreeThesisGuidancePerformance.termId" style="width:568px;height:33px;border-radius:2px;border:1px #E5E6E7 solid;">
-										<c:forEach var="tfterm" items="${tftermList }">
-											<option value="${tfterm.termId }">${tfterm.term }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>学位论文名称:</label>&nbsp;<label></label> <input
-										id=degreeThesisName " type="text"
-										class="form-control nullcheck"
-										name="degreeThesisGuidancePerformance.degreeThesisnName"
-										value="">
-								</div>
-								<div class="form-group">
-									<label>奖励级别:</label>&nbsp;<label></label> 
-									<select
-										id="rewardLevel" class="form-control nullcheck"
-										name="degreeThsisGuidanceRewardLevel.rewardLevelId">
-										<c:forEach var="degreeGuidanceRewardLevel"
-											items="${degreeGuidanceRewardLevels }">
-											<option value="${degreeGuidanceRewardLevel.rewardLevelId }">${degreeGuidanceRewardLevel.rewardLevel }</option>
-										</c:forEach>
-									</select>
-								</div>
-							</form>
-							<div>
-								<button type="button"
-									class="btn btn-outline btn-primary pull-right m-t-n-xs"
-									data-dismiss="modal" onclick="refresh()">关闭</button>
-								<button id="addDTGPerformance"
-									class="btn  btn-primary pull-left m-t-n-xs subcheck"
-									type="submit">
-									<i class="fa fa-check"></i> <strong>提交</strong>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<script src="js/jquery.min.js?v=2.1.4"></script>
 		<script src="js/bootstrap.min.js?v=3.3.5"></script>
@@ -316,57 +264,29 @@
 		<script src="js/PublicCheck/PUB_SET.js"></script>
 	<script type="text/javascript">
 	$().ready(function(){
-		$("#changelength option[value='${sessionScope.pageSize_GTDTG}']").attr("selected",true);
-		$("#termSelection option[value='${sessionScope.termId_GTDTG}']").attr("selected",true);
-		$("#add_termSelection option[value='${sessionScope.termId_GTDTG}']").attr("selected",true);
-		$("#up_termSelection option[value='${sessionScope.termId_GTDTG}']").attr("selected",true);
+		$("#changelength option[value='${sessionScope.pageSize_ATDTG}']").attr("selected",true);
+		$("#termSelection option[value='${sessionScope.termId_ATDTG}']").attr("selected",true);
+		$("#add_termSelection option[value='${sessionScope.termId_ATDTG}']").attr("selected",true);
+		$("#up_termSelection option[value='${sessionScope.termId_ATDTG}']").attr("selected",true);
+		$("#searchCondition_ATDTG").val('${sessionScope.searchCondition_ATDTG}');
 	});
 	function refresh(){
 		window.location.reload(false);
 	}
-// 	$('#AlterPageSize').click(function(){
-// 		if($("#changelength option:selected").text().trim().length!=0){
-// 			window.open("GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord?isDivided=false&pageSize_GTDTG="+$("#changelength option:selected").text().trim(), "_self");
-// 		}
-// 	});
-    $('#addDTGPerformance').click(function() {
-		if($('#degreeThesisName').val().trim()!=""){
-			$.ajax({
-				cache:true,
-				type:"POST",
-				url:"GTDegreeThesisGuidancePerformanceSet!insertDegreeThesisGuidanceRecord",
-				data:$("#addInfoForm").serialize(),
-				async:true,
-				error:function(){
-					alert("连接失败！!!");
-				},
-				success:function(data){
-					if(data=="succ"){
-						window.alert("添加成功！");
-						window.location.replace("<%=basePath %>GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord");
-					}else{
-						window.alert("添加成败！");
-					}
-				}
-			});
-		}
-// 		else{
-// 			window.location.replace("<%=basePath %>GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord?isDivided=true&pageIndex=${pageIndex}");
-// 		}
-	});
     $('#updateDTGPerformance').click(function() {
     	if($('#up_degreeThesisName').val().trim()!=""){
     		window.alert($("#up_termSelection option:selected").val());
-    		$.post("GTDegreeThesisGuidancePerformanceSet!updateDegreeThesisGuidanceRecord",
+    		$.post("ATDegreeThesisGuidancePerformanceSet!updateRecord",
     				{"degreeThesisGuidancePerformance.degreeThesisId":$('#up_ID').val().trim(),
     				"degreeThesisGuidancePerformance.degreeThesisnName":$('#up_degreeThesisName').val().trim(),
     				"degreeThsisGuidanceRewardLevel.rewardLevelId":$("#up_rewardLevel option:selected").val().trim(),
+    				"teacher.teacherId":$("#up_teacherId").val().trim(),
     				"degreeThesisGuidancePerformance.termId":$("#up_termSelection option:selected").val().trim()},
     				function(data,status){
     					if(status=="success"){
     						if(data=="succ"){
     							alert("修改成功");
-    							window.location.replace("<%=basePath %>GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord");
+    							window.location.replace("<%=basePath %>ATDegreeThesisGuidancePerformanceSet!getAllRecord");
     						}else{
     							alert("修改失败"+data);
     						}
@@ -384,6 +304,7 @@
 // 		$('#up_ID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
 		$('#up_ID')[0].value = $(this).parent().parent()[0].cells[0].innerHTML;
 		$('#up_degreeThesisName')[0].value = $(this).parent().parent()[0].cells[4].innerHTML;
+		$('#up_teacherId')[0].value = $(this).parent().parent()[0].cells[2].innerHTML;
 		var temp=$(this).parent().parent()[0].cells[5].innerHTML;
 		$("#up_rewardLevel option").each(function(){
 			if($(this).text()==temp.trim()){
@@ -401,13 +322,13 @@
 		var x = confirm("确定删除 ? ");
 		var row = $(this).parent().parent();
 		if(x){
-			$.post("GTDegreeThesisGuidancePerformanceSet!deleteDegreeThesisGuidanceRecord",
+			$.post("ATDegreeThesisGuidancePerformanceSet!deleteRecord",
     				{"degreeThesisGuidancePerformance.degreeThesisId":row[0].cells[0].innerHTML},
     				function(data,status){
     					if(status=="success"){
     						if(data=="succ"){
     							alert("删除成功");
-    							window.location.replace("<%=basePath %>GTDegreeThesisGuidancePerformanceSet!getDegreeThesisGuidanceRecord?isDivided=true&pageIndex=${pageIndex}");
+    							window.location.replace("<%=basePath %>ATDegreeThesisGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex}");
     						}else{
     							alert("删除失败");
     						}

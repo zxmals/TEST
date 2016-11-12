@@ -16,6 +16,7 @@ import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfdegreeThesisGuidancePerformance;
 import com.nuaa.ec.model.TfteachingCompetitionPerformance;
+import com.nuaa.ec.model.TfteachingCompetitionPerformanceUnionTfterm;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -42,24 +43,79 @@ public class TfteachingCompetitionPerformanceDAO extends BaseHibernateDAO  {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List findAllWithDivided_adm(int pageIndex,int pageSize,String termId,String searchCondition,boolean isDivided){
+		List<TfteachingCompetitionPerformanceUnionTfterm> list=new ArrayList<TfteachingCompetitionPerformanceUnionTfterm>();
+		StringBuffer hql = null;
+		/*
+		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
+		 */
+		if (termId != null && termId.length() != 0 && searchCondition!=null && searchCondition.trim().length()!=0 ) {
+			hql = new StringBuffer("select new com.nuaa.ec.model.TfteachingCompetitionPerformanceUnionTfterm(TCP,TERM) from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+						+ " and TERM.spareTire='1'"
+						+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
+						+ " and TCP.teacher.spareTire='1'"
+						+ " and TCP.termId=TERM.termId"
+						+ " and TCP.termId='"+termId+"'"
+						+ " and TCP.competitionName like '%"+searchCondition+"%'"
+						+ " order by TCP.competitionId desc");
+		} else {
+			hql = new StringBuffer("select new com.nuaa.ec.model.TfteachingCompetitionPerformanceUnionTfterm(TCP,TERM) from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
+					+ " and TCP.teacher.spareTire='1'"
+					+ " and TCP.termId=TERM.termId");
+//					+ " order by TCP.competitionId desc";
+			//有学期但是没有查询条件的情况
+			if(termId != null && termId.length() != 0 &&(searchCondition==null || searchCondition.trim().length()==0)){
+				hql.append(" and TCP.termId='"+termId+"'");
+			}else if(searchCondition!=null && searchCondition.length()!=0 &&(termId == null || termId.length() == 0)){
+				//有查询条件 但是没有学期的情况
+				hql.append(" and TCP.competitionName like '%"+searchCondition+"%'");
+			}else{//学期和查询条件都没有的情况
+				//这块没有业务逻辑，只是为了使得逻辑清楚
+			}
+			hql.append(" order by TCP.competitionId desc");//指定结果集排序规则
+		}
+		try{
+			if(!isDivided){
+				list=this.getSession().createQuery(hql.toString()).list();
+				int listSize=list.size();
+				session.put("recordNumber_ATTCP",list.size());
+				session.put("pageCount_ATTCP", listSize%pageSize==0?(listSize/pageSize):(listSize/pageSize+1));
+			}
+			/*
+			 * 分页 pageIndex 默认是1，显示第一页，
+			 * 但以后会随着前台的分页操作同步更新。
+			 */
+			list=this.getSession().createQuery(hql.toString()).setFirstResult((pageIndex-1)*pageSize).setMaxResults(pageSize).list();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 获得所有的记录信息 但是顺便实现了分页
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List findAllWithDivided(int pageIndex,int pageSize,String termId,boolean isDivided){
 		Teacher teacherHaveLogin=(Teacher) session.get("teacher");
-		List<TfteachingCompetitionPerformance> list=new ArrayList<TfteachingCompetitionPerformance>();
+		List<TfteachingCompetitionPerformanceUnionTfterm> list=new ArrayList<TfteachingCompetitionPerformanceUnionTfterm>();
 		String hql = null;
 		/*
 		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
 		 */
 		if (termId == null || termId.length() == 0) {
-			hql = "from TfteachingCompetitionPerformance TCP where spareTire='1' and TCP.teacher=? order by TCP.competitionId desc";
-			hql = "select TCP from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
-						+ " and TERM.spareTire='1'"
-						+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
-						+ " and TCP.teacher.spareTire='1'"
-						+ " and TCP.teacher=?"
-						+ " and TCP.termId=TERM.termId"
-						+ " order by TCP.competitionId desc";
+//			hql = "select new com.nuaa.ec.model.TfteachingCompetitionPerformanceUnionTfterm(TCP,TERM) from TfteachingCompetitionPerformance TCP where spareTire='1' and TCP.teacher=? order by TCP.competitionId desc";
+			hql = "select new com.nuaa.ec.model.TfteachingCompetitionPerformanceUnionTfterm(TCP,TERM) from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
+					+ " and TCP.teacher.spareTire='1'"
+					+ " and TCP.teacher=?"
+					+ " and TCP.termId=TERM.termId"
+					+ " order by TCP.competitionId desc";
 		} else {
-			hql = "select TCP from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+			hql = "select new com.nuaa.ec.model.TfteachingCompetitionPerformanceUnionTfterm(TCP,TERM) from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
 					+ " and TERM.spareTire='1'"
 					+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
 					+ " and TCP.teacher.spareTire='1'"
