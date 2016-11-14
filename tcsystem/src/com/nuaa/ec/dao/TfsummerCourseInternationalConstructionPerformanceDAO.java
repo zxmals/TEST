@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformance;
+import com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformanceUnionTfterm;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -42,15 +43,69 @@ public class TfsummerCourseInternationalConstructionPerformanceDAO extends BaseH
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List findAllWithDivided_adm(int pageIndex,int pageSize,String termId,String searchCondition,boolean isDivided){
+		List<TfsummerCourseInternationalConstructionPerformanceUnionTfterm> list=new ArrayList<TfsummerCourseInternationalConstructionPerformanceUnionTfterm>();
+		StringBuffer hql = null;
+		/*
+		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
+		 */
+		if (termId != null && termId.length() != 0 && searchCondition!=null && searchCondition.trim().length()!=0 ) {
+			hql=new StringBuffer("select new com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformanceUnionTfterm(SCI,TERM) from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
+					+ " and SCI.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and SCI.tfsummerCourseInternationalConstructionLevel.spareTire='1'"
+					+ " and SCI.teacher.spareTire='1'"
+					+ " and SCI.termId='"+termId+"'"
+					+ " and SCI.projectName like '%"+searchCondition+"%'"
+					+ " order by SCI.projectId desc");
+		} else {
+			hql=new StringBuffer("select new com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformanceUnionTfterm(SCI,TERM) from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
+					+ " and SCI.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and SCI.tfsummerCourseInternationalConstructionLevel.spareTire='1'"
+					+ " and SCI.teacher.spareTire='1'");
+			//有学期但是没有查询条件的情况
+			if(termId != null && termId.length() != 0 &&(searchCondition==null || searchCondition.trim().length()==0)){
+				hql.append(" and SCI.termId='"+termId+"'");
+			}else if(searchCondition!=null && searchCondition.length()!=0 &&(termId == null || termId.length() == 0)){
+				//有查询条件 但是没有学期的情况
+				hql.append(" and SCI.projectName like '%"+searchCondition+"%'");
+			}else{//学期和查询条件都没有的情况
+				//这块没有业务逻辑，只是为了使得逻辑清楚
+			}
+			hql.append(" order by SCI.projectId desc");//指定结果集排序规则
+		}
+		try{
+			if(!isDivided){
+				list=this.getSession().createQuery(hql.toString()).list();
+				int listSize=list.size();
+				session.put("recordNumber_ATSCI",list.size());
+				session.put("pageCount_ATSCI", listSize%pageSize==0?(listSize/pageSize):(listSize/pageSize+1));
+			}
+			/*
+			 * 分页 pageIndex 默认是1，显示第一页，
+			 * 但以后会随着前台的分页操作同步更新。
+			 */
+			list=this.getSession().createQuery(hql.toString()).setFirstResult((pageIndex-1)*pageSize).setMaxResults(pageSize).list();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 获得所有的记录信息 但是顺便实现了分页
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List findAllWithDivided(int pageIndex,int pageSize,String termId,boolean isDivided){
 		Teacher teacherHaveLogin=(Teacher) session.get("teacher");
-		List<TfsummerCourseInternationalConstructionPerformance> list=new ArrayList<TfsummerCourseInternationalConstructionPerformance>();
+		List<TfsummerCourseInternationalConstructionPerformanceUnionTfterm> list=new ArrayList<TfsummerCourseInternationalConstructionPerformanceUnionTfterm>();
 		String hql = null;
 		/*
 		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
 		 */
 		if (termId == null || termId.length() == 0) {
-			hql="select SCI from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
+			hql="select new com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformanceUnionTfterm(SCI,TERM) from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
 					+ " and SCI.spareTire='1'"
 					+ " and TERM.spareTire='1'"
 					+ " and SCI.tfsummerCourseInternationalConstructionLevel.spareTire='1'"
@@ -58,7 +113,7 @@ public class TfsummerCourseInternationalConstructionPerformanceDAO extends BaseH
 					+ " and SCI.teacher=?"
 					+ " order by SCI.projectId desc";
 		} else {
-			hql="select SCI from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
+			hql="select new com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformanceUnionTfterm(SCI,TERM)select new com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformanceUnionTfterm(SCI,TERM) from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
 					+ " and SCI.spareTire='1'"
 					+ " and TERM.spareTire='1'"
 					+ " and SCI.tfsummerCourseInternationalConstructionLevel.spareTire='1'"
