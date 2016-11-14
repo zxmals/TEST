@@ -402,7 +402,7 @@
 		var row = $(this).parent().parent();
 		if(x){
 			$.post("GTTeachingCompetitionPerformanceSet!deleteRecord",
-    				{"tfTeachingCompetitionPerformance.upid":row[0].cells[6].innerHTML},
+    				{"tfTeachingCompetitionPerformance.upid":row[0].cells[7].innerHTML},
     				function(data,status){
     					if(status=="success"){
     						if(data=="succ"){

@@ -134,9 +134,4 @@ public class TfteachingCompetitionPerformance  implements java.io.Serializable {
 	public void setTermId(String termId) {
 		this.termId = termId;
 	}
-   
-
-
-
-
 }

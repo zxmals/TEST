@@ -147,7 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="ATClassTeachPerformanceSet!getAllRecord">课堂教学绩效</a></li>
 											<li><a class="J_menuItem" href="ATDegreeThesisGuidancePerformanceSet!getAllRecord">学位论文指导质量绩效</a></li>
 											<li><a class="J_menuItem" href="ATTeachingCompetitionPerformanceSet!getAllRecord">教学竞赛绩效</a></li>
-											<li><a class="J_menuItem" href="">教学能力提升绩效</a></li>
+											<li><a class="J_menuItem" href="ATTeachingAbilityImprovePerformanceSet!getAllRecord">教学能力提升绩效</a></li>
 											<li><a class="J_menuItem" href="">教学名师和教学团队绩效</a></li>
 										</ul>
 									</li>
@@ -160,7 +160,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a class="J_menuItem" href="">精品课程建设绩效</a></li>
 											<li><a class="J_menuItem" href="">专业建设项目申报绩效</a></li>
 											<li><a class="J_menuItem" href="">企业工作站和联合培养基地建设绩效</a></li>
-											<li><a class="J_menuItem" href="">暑期课程与国际课程建设绩效</a></li>
+											<li><a class="J_menuItem" href="ATSummerCourseInternationalConstructionPerformanceSet!getAllRecord">暑期课程与国际课程建设绩效</a></li>
 										</ul>
 									</li>
 									<li><a href="">学生指导工作 <span class="fa arrow"></span></a>

@@ -1,6 +1,7 @@
-package com.nuaa.ec.teachingPerformanceSetAction;
+package com.nuaa.ec.Adm_teachingPerformanceSetAction;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -9,15 +10,15 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
 
+import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.dao.TfteachingAbilityImproveLevelDAO;
 import com.nuaa.ec.dao.TfteachingAbilityImprovePerformanceDAO;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfteachingAbilityImproveLevel;
 import com.nuaa.ec.model.TfteachingAbilityImprovePerformance;
-import com.nuaa.ec.utils.PrimaryKMaker;
 import com.opensymphony.xwork2.ActionContext;
 
-public class GTTeachingAbilityImprovePerformanceSetAction implements
+public class ATTeachingAbilityImprovePerformanceSetAction implements
 		RequestAware {
 	/**
 	 * 删除一条记录
@@ -57,53 +58,12 @@ public class GTTeachingAbilityImprovePerformanceSetAction implements
 			tfteachingAbilityImproveLevel=this.tfteachingAbilityImproveLevelDAO.findById(tfteachingAbilityImproveLevel.getImproveLevelId());
 			double score=this.getScore(tfteachingAbilityImprovePerformance.getSumhours(), tfteachingAbilityImproveLevel.getImproveLevelId());
 			tfteachingAbilityImprovePerformance.setTfteachingAbilityImproveLevel(tfteachingAbilityImproveLevel);
-			tfteachingAbilityImprovePerformance.setTeacher((Teacher) session.get("teacher"));
+			tfteachingAbilityImprovePerformance.setTeacher(teacherDAO.findById(teacher.getTeacherId()));
 			tfteachingAbilityImprovePerformance.setYearceiling(30);
 			tfteachingAbilityImprovePerformance.setFinalScore(score);
 			tfteachingAbilityImprovePerformance.setSpareTire("1");
 			tfteachingAbilityImprovePerformance.setCheckOut("0");
 			this.tfteachingAbilityImprovePerformanceDAO.merge(tfteachingAbilityImprovePerformance);
-			tx=this.tfteachingAbilityImprovePerformanceDAO.getSession().beginTransaction();
-			tx.commit();
-			this.setOperstatus(1);
-			this.response.getWriter().write("succ");
-		}catch(Exception ex){
-			ex.printStackTrace();
-			this.setOperstatus(-1);
-			tx.rollback();
-			try {
-				this.response.getWriter().write("error");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	/**
-	 * 添加一条教学能力提升绩效记录
-	 * @return null
-	 */
-	public void insertRecord(){
-		Transaction tx=null;
-		try{
-			/**
-			 * 获得提升水平信息
-			 */
-			tfteachingAbilityImproveLevel=this.tfteachingAbilityImproveLevelDAO.findById(tfteachingAbilityImproveLevel.getImproveLevelId());
-			/**
-			 * 计算分数
-			 */
-			double score=this.getScore(tfteachingAbilityImprovePerformance.getSumhours(), tfteachingAbilityImproveLevel.getImproveLevelId());
-			/**
-			 * 封装信息
-			 */
-			tfteachingAbilityImprovePerformance.setEventId(pkmk.mkpk("EventID", "TFTeachingAbilityImprove_Performance", "TFTAI"));
-			tfteachingAbilityImprovePerformance.setTfteachingAbilityImproveLevel(tfteachingAbilityImproveLevel);
-			tfteachingAbilityImprovePerformance.setTeacher((Teacher) session.get("teacher"));
-			tfteachingAbilityImprovePerformance.setYearceiling(30);
-			tfteachingAbilityImprovePerformance.setFinalScore(score);
-			tfteachingAbilityImprovePerformance.setSpareTire("1");
-			tfteachingAbilityImprovePerformance.setCheckOut("0");
-			this.tfteachingAbilityImprovePerformanceDAO.save(tfteachingAbilityImprovePerformance);
 			tx=this.tfteachingAbilityImprovePerformanceDAO.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
@@ -142,8 +102,7 @@ public class GTTeachingAbilityImprovePerformanceSetAction implements
 		return score;
 	}
 	/**
-	 * 获得当前教师所有的教学能力提升绩效记录
-	 * 
+	 * 获得教师所有的教学能力提升绩效记录
 	 * @return
 	 */
 	public String getAllRecord() {
@@ -160,13 +119,14 @@ public class GTTeachingAbilityImprovePerformanceSetAction implements
 			/**
 			 * 第一次进来的时候pageSize为空
 			 */
-			if (session.get("pageSize_GTTAI") != null) {
-				pageSize_GTTAI = (Integer) session.get("pageSize_GTTAI");
+			if (session.get("pageSize_ATTAI") != null) {
+				pageSize_ATTAI = (Integer) session.get("pageSize_ATTAI");
 			}
 			this.request.put("tfTeachingAbilityImprovePerfUnionTfermList",
 					this.tfteachingAbilityImprovePerformanceDAO
-							.findAllWithDivided(pageIndex, pageSize_GTTAI,
-									(String) session.get("termId_GTTAI"),
+							.findAllWithDivided_adm(pageIndex, pageSize_ATTAI,
+									(String) session.get("termId_ATTAI"),
+									(String) session.get("searchCondition_ATTAI"),
 									isDivided));
 			tx = this.tfteachingAbilityImprovePerformanceDAO.getSession()
 					.beginTransaction();
@@ -179,20 +139,26 @@ public class GTTeachingAbilityImprovePerformanceSetAction implements
 		return "success";
 	}
 
+	public String execute() throws Exception {
+		return "success";
+	}
+
 	private int pageIndex = 1;
-	private int pageSize_GTTAI = 1;
+	private int pageSize_ATTAI = 1;
 	private int operstatus;
 	private String isDivided;
-	private String termId_GTTAI;
+	private String termId_ATTAI;
+	private Teacher teacher;
+	private String searchCondition_ATTAI;
 	private Map<String, Object> request;
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+	private TeacherDAO teacherDAO=new TeacherDAO();
 	private TfteachingAbilityImprovePerformanceDAO tfteachingAbilityImprovePerformanceDAO = new TfteachingAbilityImprovePerformanceDAO();
-	private TfteachingAbilityImproveLevelDAO tfteachingAbilityImproveLevelDAO=new TfteachingAbilityImproveLevelDAO();
+	private TfteachingAbilityImproveLevelDAO tfteachingAbilityImproveLevelDAO = new TfteachingAbilityImproveLevelDAO();
 	private TfteachingAbilityImprovePerformance tfteachingAbilityImprovePerformance;
 	private TfteachingAbilityImproveLevel tfteachingAbilityImproveLevel;
-	private PrimaryKMaker pkmk = new PrimaryKMaker();
-	private HttpServletResponse response=ServletActionContext.getResponse();
+	private HttpServletResponse response = ServletActionContext.getResponse();
 
 	public int getPageIndex() {
 		return pageIndex;
@@ -202,13 +168,13 @@ public class GTTeachingAbilityImprovePerformanceSetAction implements
 		this.pageIndex = pageIndex;
 	}
 
-	public int getPageSize_GTTAI() {
-		return pageSize_GTTAI;
+	public int getPageSize_ATTAI() {
+		return pageSize_ATTAI;
 	}
 
-	public void setPageSize_GTTAI(int pageSize_GTTAI) {
-		this.pageSize_GTTAI = pageSize_GTTAI;
-		session.put("pageSize_GTTAI", pageSize_GTTAI);
+	public void setPageSize_ATTAI(int pageSize_ATTAI) {
+		this.pageSize_ATTAI = pageSize_ATTAI;
+		session.put("pageSize_ATTAI", pageSize_ATTAI);
 	}
 
 	public int getOperstatus() {
@@ -227,13 +193,13 @@ public class GTTeachingAbilityImprovePerformanceSetAction implements
 		this.isDivided = isDivided;
 	}
 
-	public String getTermId_GTTAI() {
-		return termId_GTTAI;
+	public String getTermId_ATTAI() {
+		return termId_ATTAI;
 	}
 
-	public void setTermId_GTTAI(String termId_GTTAI) {
-		this.termId_GTTAI = termId_GTTAI;
-		session.put("termId_GTTAI", termId_GTTAI);
+	public void setTermId_ATTAI(String termId_ATTAI) {
+		this.termId_ATTAI = termId_ATTAI;
+		session.put("termId_ATTAI", termId_ATTAI);
 	}
 
 	public void setRequest(Map<String, Object> request) {
@@ -256,5 +222,27 @@ public class GTTeachingAbilityImprovePerformanceSetAction implements
 	public void setTfteachingAbilityImproveLevel(
 			TfteachingAbilityImproveLevel tfteachingAbilityImproveLevel) {
 		this.tfteachingAbilityImproveLevel = tfteachingAbilityImproveLevel;
+	}
+
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+
+	public String getSearchCondition_ATTAI() {
+		return searchCondition_ATTAI;
+	}
+
+	public void setSearchCondition_ATTAI(String searchCondition_ATTAI) {
+		this.searchCondition_ATTAI = searchCondition_ATTAI;
+		try {
+			session.put("searchCondition_ATTAI", new String(
+					searchCondition_ATTAI.getBytes("ISO-8859-1"), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 }
