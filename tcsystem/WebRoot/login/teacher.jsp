@@ -270,8 +270,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<li><a class="J_menuItem" href="GTteachingresearchPerformanceSet-person!getPersonJoin">个人参与设置</a></li>
 												</ul>
 											</li>
-											<li><a class="J_menuItem" href="">教学论文绩效</a></li>
-											<li><a class="J_menuItem" href="">教学成果奖绩效</a></li>
+											<li>
+												<a href="#">
+													<i class="fa fa fa-bar-chart-o"></i>
+													<span class="nav-label">教学论文绩效 </span>
+													<span class="fa arrow"></span>
+												</a>
+												<ul class="nav nav-second-level">
+													<li><a class="J_menuItem" href="GTteachingpaperPerformanceSet-project!gainAllProject">教学论文设置</a></li>
+													<li><a class="J_menuItem" href="GTteachingpaperPerformanceSet-person!getPersonJoin">个人参与设置</a></li>
+												</ul>
+											</li>
+											<li>
+												<a href="#">
+													<i class="fa fa fa-bar-chart-o"></i>
+													<span class="nav-label">教学成果奖绩效 </span>
+													<span class="fa arrow"></span>
+												</a>
+												<ul class="nav nav-second-level">
+													<li><a class="J_menuItem" href="GTteachingpaperPerformanceSet-project!gainAllProject">教学成果奖设置</a></li>
+													<li><a class="J_menuItem" href="GTteachingpaperPerformanceSet-person!getPersonJoin">个人参与设置</a></li>
+												</ul>
+											</li>
 											<li><a class="J_menuItem" href="">教材建设绩效</a></li>
 											<li><a class="J_menuItem" href="">精品课程建设绩效</a></li>
 											<li><a class="J_menuItem" href="">专业建设项目申报绩效</a></li>

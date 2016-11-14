@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.TfteachingPaperPerformance" table="TFTeachingPaper_Performance" schema="dbo" catalog="ScientificResearch">
         <id name="upid" type="java.lang.Integer">
             <column name="upid" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <many-to-one name="selfUndertakeTask" class="com.nuaa.ec.model.SelfUndertakeTask" fetch="select">
             <column name="UndertkaeTaskID" length="20" />

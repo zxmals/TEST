@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.Teacher;
+import com.nuaa.ec.model.TfteachingPaperPerformance;
 import com.nuaa.ec.model.TfteachingPaperProject;
 
 import java.util.List;
@@ -128,6 +130,49 @@ public class TfteachingPaperProjectDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public void deleteBylogic(String projectId){
+		try {
+			String queryString = "update TfteachingPaperProject "
+					+ "set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and teachPaperId=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, projectId);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findPaging(int currentRow,int limitRow,String condition){
+		try {
+			String queryString = "from TfteachingPaperProject "
+					+ "where spareTire='1' "
+					+condition
+					+ "and tfteachingPaperRetrievalCondition.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setFirstResult(currentRow).setMaxResults(limitRow);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from TfteachingPaperProject "
+					+ "where spareTire='1' "
+					+condition
+					+ "and tfteachingPaperRetrievalCondition.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public TfteachingPaperProject merge(TfteachingPaperProject detachedInstance) {
 		log.debug("merging TfteachingPaperProject instance");
 		try {
