@@ -145,8 +145,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<li><a href="#">教学能力与实效 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level"">
 											<li><a class="J_menuItem" href="ATClassTeachPerformanceSet!getAllRecord">课堂教学绩效</a></li>
-											<li><a class="J_menuItem" href="">学位论文指导质量绩效</a></li>
-											<li><a class="J_menuItem" href="">教学竞赛绩效</a></li>
+											<li><a class="J_menuItem" href="ATDegreeThesisGuidancePerformanceSet!getAllRecord">学位论文指导质量绩效</a></li>
+											<li><a class="J_menuItem" href="ATTeachingCompetitionPerformanceSet!getAllRecord">教学竞赛绩效</a></li>
 											<li><a class="J_menuItem" href="">教学能力提升绩效</a></li>
 											<li><a class="J_menuItem" href="">教学名师和教学团队绩效</a></li>
 										</ul>

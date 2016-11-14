@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfdegreeThesisGuidancePerformance;
+import com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -42,6 +43,66 @@ public class TfdegreeThesisGuidancePerformanceDAO extends BaseHibernateDAO {
 	private List<TfdegreeThesisGuidancePerformance> TFdegreeThesisGuidancePefroList = null;
 
 	/**
+	 * （管理员操作）获得所有的记录信息 但是顺便实现了分页
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List findAllWithDivided_adm(int pageIndex, int pageSize, String termId,
+			String searchCondition,boolean isDivided) {
+		List<TfdegreeThesisGuidancePerformanceUnionTfterm> list = new ArrayList<TfdegreeThesisGuidancePerformanceUnionTfterm>();
+		StringBuffer hql = null;
+		/*
+		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
+		 */
+		if (termId != null && termId.length() != 0 && searchCondition!=null && searchCondition.trim().length()!=0 ) {
+			hql = new StringBuffer("select new com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm(DTG,TERM) from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
+						+ " and TERM.spareTire='1'"
+						+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
+						+ " and DTG.teacher.spareTire='1'"
+						+ " and DTG.termId=TERM.termId"
+						+ " and TERM.termId='" + termId + "'"
+						+ " and DTG.degreeThesisnName like '%"+searchCondition+"%'"
+						+ " order by DTG.degreeThesisId desc");
+		} else {
+			hql = new StringBuffer("select new com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm(DTG,TERM) from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
+					+ " and DTG.teacher.spareTire='1'"
+					+ " and DTG.termId=TERM.termId");
+//					+ " order by DTG.degreeThesisId desc");
+			//有学期但是没有查询条件的情况
+			if(termId != null && termId.length() != 0 &&(searchCondition==null || searchCondition.trim().length()==0)){
+				hql.append(" and DTG.termId='"+termId+"'");
+			}else if(searchCondition!=null && searchCondition.length()!=0 &&(termId == null || termId.length() == 0)){
+				//有查询条件 但是没有学期的情况
+				hql.append(" and DTG.degreeThesisnName like '%"+searchCondition+"%'");
+			}else{//学期和查询条件都没有的情况
+				//这块没有业务逻辑，只是为了使得逻辑清楚
+			}
+			hql.append(" order by DTG.degreeThesisId desc");//指定结果集排序规则
+		}
+		try {
+			if (!isDivided) {
+				list = this.getSession().createQuery(hql.toString()).list();
+				int listSize = list.size();
+				session.put("recordNumber_ATDTG", list.size());
+				session.put("pageCount_ATDTG",
+						listSize % pageSize == 0 ? (listSize / pageSize)
+								: (listSize / pageSize + 1));
+			}
+			/*
+			 * 分页 pageIndex 默认是1，显示第一页， 但以后会随着前台的分页操作同步更新。
+			 */
+			list = this.getSession().createQuery(hql.toString())
+					.setFirstResult((pageIndex - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	/**
 	 * 获得所有的记录信息 但是顺便实现了分页
 	 * 
 	 * @return
@@ -50,21 +111,21 @@ public class TfdegreeThesisGuidancePerformanceDAO extends BaseHibernateDAO {
 	public List findAllWithDivided(int pageIndex, int pageSize, String termId,
 			boolean isDivided) {
 		Teacher teacherHaveLogin = (Teacher) session.get("teacher");
-		List<TfdegreeThesisGuidancePerformance> list = new ArrayList<TfdegreeThesisGuidancePerformance>();
+		List<TfdegreeThesisGuidancePerformanceUnionTfterm> list = new ArrayList<TfdegreeThesisGuidancePerformanceUnionTfterm>();
 		String hql = null;
 		/*
 		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
 		 */
 		if (termId == null || termId.length() == 0) {
-			hql = "select DTG from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
-						+ " and TERM.spareTire='1'"
-						+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
-						+ " and DTG.teacher.spareTire='1'"
-						+ " and DTG.teacher=?"
-						+ " and DTG.termId=TERM.termId"
-						+ " order by DTG.degreeThesisId desc";
+			hql = "select new com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm(DTG,TERM) from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
+					+ " and DTG.teacher.spareTire='1'"
+					+ " and DTG.teacher=?"
+					+ " and DTG.termId=TERM.termId"
+					+ " order by DTG.degreeThesisId desc";
 		} else {
-			hql = "select DTG from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
+			hql = "select new com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm(DTG,TERM) from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
 					+ " and TERM.spareTire='1'"
 					+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
 					+ " and DTG.teacher.spareTire='1'"

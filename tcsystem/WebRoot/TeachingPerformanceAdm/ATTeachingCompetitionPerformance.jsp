@@ -79,15 +79,9 @@
 						</div>
 					</div>
 					<div class="ibox-content">
-						<button class="btn  btn-primary openaddm" type="submit"
-							data-backdrop="true" data-toggle="modal" data-target="#add">
-							<strong>新增教学竞赛绩效</strong>
-						</button>
-						<br>
-						<br>
-						<form action="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher">
+						<form action="ATTeachingCompetitionPerformanceSet!getAllRecord">
 							<div>
-								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_GTTCP">
+								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_ATTCP">
 										<c:forEach var="pageSize" items="${pageSizeList }">
 											<option value="${pageSize }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${pageSize }</option>
 										</c:forEach>
@@ -95,13 +89,17 @@
 								</a>
 								&nbsp;&nbsp;
 								<font color="#337AB7">学期：</font>
-								<select id="termSelection" name="termId_GTTCP" style="width:120px;height:25px;border-radius:3px;">
+								<select id="termSelection" name="termId_ATTCP" style="width:120px;height:25px;border-radius:3px;">
 									<option value="">全部学期</option>
-									<c:forEach var="tfterm" items="${tftermList }">
+									<c:forEach var="tfterm"  items="${tftermList }">
 										<option value="${tfterm.termId }">${tfterm.term }</option>
 									</c:forEach>
 								</select>
 								&nbsp;&nbsp;&nbsp;
+								<font color="#337AB7">检索条件：</font>
+								<input type="text" id="searchCondition_ATTCP" name="searchCondition_ATTCP" 
+								style="width:200px;height:25px;border-radius:3px;border: 1px solid #A9A9A9;" placeholder="请输入竞赛名称"/>
+								&nbsp;&nbsp;&nbsp; 
 								<button class="button_set" type="submit" id="AlterPageSize"
 								data-backdrop="true" data-toggle="modal">
 								<strong>确认</strong>
@@ -169,25 +167,25 @@
 								</table>
 							</form>
 							<div style="text-align: center;">
-								(共查询到${sessionScope.recordNumber_GTTCP }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_GTTCP }页&nbsp;&nbsp;&nbsp;
+								(共查询到${sessionScope.recordNumber_ATTCP }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_ATTCP }页&nbsp;&nbsp;&nbsp;
 								<a class="comphref"
-									href="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher">首页</a>&nbsp;&nbsp;&nbsp;
+									href="ATTeachingCompetitionPerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
 								<c:if test="${pageIndex>1 }">
 									<a class="comphref"
-										href="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
+										href="ATTeachingCompetitionPerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<c:forEach var="index" begin="${pageIndex }" end="${pageIndex+4 }" step="1">
-									<c:if test="${index<pageCount_GTTCP }">
+									<c:if test="${index<pageCount_ATTCP }">
 										<a class="comphref"
-										href="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
+										href="ATTeachingCompetitionPerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
 									</c:if>
 								</c:forEach>
-								<c:if test="${pageIndex<pageCount_GTTCP }">
+								<c:if test="${pageIndex<pageCount_ATTCP }">
 									<a class="comphref"
-										href="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
+										href="ATTeachingCompetitionPerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<a class="comphref"
-									href="GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher?isDivided=true&pageIndex=${pageCount_GTTCP }">尾页</a>
+									href="ATTeachingCompetitionPerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_ATTCP }">尾页</a>
 							</div>
 						</div>
 					</div>
@@ -209,6 +207,11 @@
 									<label>upid</label>&nbsp;<label></label> <input id="up_upid"
 										type="text" class="form-control nullcheck" name="tfTeachingCompetitionPerformance.upid" 
 										value="">
+								</div>
+								<div class="form-group">
+									<label>教师编号</label>&nbsp;<label></label> <input id="up_teacherId"
+										type="text" class="form-control nullcheck" name="teacher.teacherId" 
+										value="" readonly="readonly">
 								</div>
 								<div class="form-group">
 									<label>竞赛编号</label>&nbsp;<label></label> <input id="up_competitionId"
@@ -257,64 +260,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- 添加 -->
-		<div id="add" class="modal fade" aria-hidden="true" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-body">
-						<div class="row">
-							<h3 class="m-t-none m-b">添加教学竞赛绩效</h3>
-							<form role="form" name="adds" id="addInfoForm"
-								action=""
-								method="post">
-								<div class="form-group" style="display: none;">
-									<label>ID</label>&nbsp;<label></label> <input id="ID"
-										type="text" class="form-control nullcheck" name="" value="">
-								</div>
-								<div class="form-group">
-									<label>学期:</label>&nbsp;<label></label><br>
-									<select id="add_termSelection" name="tfTeachingCompetitionPerformance.termId" style="width:568px;height:33px;border-radius:2px;border:1px #E5E6E7 solid;">
-										<c:forEach var="tfterm" items="${tftermList }">
-											<option value="${tfterm.termId }">${tfterm.term }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>竞赛名称:</label>&nbsp;<label></label> <input
-										id=competitionName " type="text"
-										class="form-control nullcheck"
-										name="tfTeachingCompetitionPerformance.competitionName"
-										value="">
-								</div>
-								<div class="form-group">
-									<label>奖励级别:</label>&nbsp;<label></label> 
-									<select
-										id="rewardLevel" class="form-control nullcheck"
-										name="tfTeachingCompetitionRewardLevel.competRewardLevelId">
-										<c:forEach var="teachingCompetitionRewardLevel"
-											items="${teachingCompetitionRewardLevelList }">
-											<option value="${teachingCompetitionRewardLevel.competRewardLevelId }">${teachingCompetitionRewardLevel.competRewardLevel }</option>
-										</c:forEach>
-									</select>
-								</div>
-							</form>
-							<div>
-								<button type="button"
-									class="btn btn-outline btn-primary pull-right m-t-n-xs"
-									data-dismiss="modal" onclick="refresh()">关闭</button>
-								<button id="addTCP"
-									class="btn  btn-primary pull-left m-t-n-xs subcheck"
-									type="submit">
-									<i class="fa fa-check"></i> <strong>提交</strong>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<script src="js/jquery.min.js?v=2.1.4"></script>
 		<script src="js/bootstrap.min.js?v=3.3.5"></script>
 		<script src="js/plugins/jeditable/jquery.jeditable.js"></script>
@@ -324,49 +269,29 @@
 		<script src="js/PublicCheck/PUB_SET.js"></script>
 	<script type="text/javascript">
 	$().ready(function(){
-		$("#changelength option[value='${sessionScope.pageSize_GTTCP}']").attr("selected",true);
-		$("#termSelection option[value='${sessionScope.termId_GTTCP}']").attr("selected",true);
-		$("#add_termSelection option[value='${sessionScope.termId_GTTCP}']").attr("selected",true);
-		$("#up_termSelection option[value='${sessionScope.termId_GTTCP}']").attr("selected",true);
+		$("#changelength option[value='${sessionScope.pageSize_ATTCP}']").attr("selected",true);
+		$("#termSelection option[value='${sessionScope.termId_ATTCP}']").attr("selected",true);
+		$("#add_termSelection option[value='${sessionScope.termId_ATTCP}']").attr("selected",true);
+		$("#up_termSelection option[value='${sessionScope.termId_ATTCP}']").attr("selected",true);
+		$("#searchCondition_ATTCP").val('${sessionScope.searchCondition_ATTCP}');
 	});
 	function refresh(){
 		window.location.reload(false);
 	}
-    $('#addTCP').click(function() {
-		if($('#competitionName').val().trim()!=""){
-			$.ajax({
-				cache:true,
-				type:"POST",
-				url:"GTTeachingCompetitionPerformanceSet!insertRecord",
-				data:$("#addInfoForm").serialize(),
-				async:true,
-				error:function(){
-					alert("连接失败！!!");
-				},
-				success:function(data){
-					if(data=="succ"){
-						window.alert("添加成功！");
-						window.location.replace("<%=basePath %>GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher");
-					}else{
-						window.alert("添加成败！");
-					}
-				}
-			});
-		}
-	});
     $('#updateTCP').click(function() {
     	if($('#up_competitionName').val().trim()!=""){
-    		$.post("GTTeachingCompetitionPerformanceSet!updateRecord",
+    		$.post("ATTeachingCompetitionPerformanceSet!updateRecord",
     				{"tfTeachingCompetitionPerformance.upid":$('#up_upid').val().trim(),
     				"tfTeachingCompetitionPerformance.competitionId":$('#up_competitionId').val().trim(),
     				"tfTeachingCompetitionPerformance.competitionName":$('#up_competitionName').val().trim(),
     				"tfTeachingCompetitionRewardLevel.competRewardLevelId":$("#up_rewardLevel option:selected").val().trim(),
+    				"teacher.teacherId":$("#up_teacherId").val().trim(),
     				"tfTeachingCompetitionPerformance.termId":$("#up_termSelection option:selected").val().trim()},
     				function(data,status){
     					if(status=="success"){
     						if(data=="succ"){
     							alert("修改成功");
-    							window.location.replace("<%=basePath %>GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher");
+    							window.location.replace("<%=basePath %>ATTeachingCompetitionPerformanceSet!getAllRecord");
     						}else{
     							alert("修改失败"+data);
     						}
@@ -384,6 +309,7 @@
 		$('#up_upid')[0].value = $(this).parent().parent()[0].cells[7].innerHTML;
 		$('#up_competitionName')[0].value = $(this).parent().parent()[0].cells[4].innerHTML;
 		$('#up_competitionId')[0].value = $(this).parent().parent()[0].cells[0].innerHTML;
+		$('#up_teacherId')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
 		var temp=$(this).parent().parent()[0].cells[5].innerHTML;
 		$("#up_rewardLevel option").each(function(){
 			if($(this).text()==temp.trim()){
@@ -401,13 +327,13 @@
 		var x = confirm("确定删除 ? ");
 		var row = $(this).parent().parent();
 		if(x){
-			$.post("GTTeachingCompetitionPerformanceSet!deleteRecord",
-    				{"tfTeachingCompetitionPerformance.upid":row[0].cells[6].innerHTML},
+			$.post("ATTeachingCompetitionPerformanceSet!deleteRecord",
+    				{"tfTeachingCompetitionPerformance.upid":row[0].cells[7].innerHTML},
     				function(data,status){
     					if(status=="success"){
     						if(data=="succ"){
     							alert("删除成功");
-    							window.location.replace("<%=basePath %>GTTeachingCompetitionPerformanceSet!getAllRecordOfCurrentTeacher?isDivided=true&pageIndex=${pageIndex}");
+    							window.location.replace("<%=basePath %>ATTeachingCompetitionPerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex}");
     						}else{
     							alert("删除失败");
     						}
