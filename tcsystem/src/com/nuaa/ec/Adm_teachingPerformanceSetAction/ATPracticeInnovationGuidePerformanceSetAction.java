@@ -1,6 +1,7 @@
-package com.nuaa.ec.teachingPerformanceSetAction;
+package com.nuaa.ec.Adm_teachingPerformanceSetAction;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
 
+import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.dao.TfpracticeInnovationGuideGraduationThesisGuideEvalutionDAO;
 import com.nuaa.ec.dao.TfpracticeInnovationGuideLevelDAO;
 import com.nuaa.ec.dao.TfpracticeInnovationGuidePerformanceDAO;
@@ -17,11 +19,9 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfpracticeInnovationGuideGraduationThesisGuideEvalution;
 import com.nuaa.ec.model.TfpracticeInnovationGuideLevel;
 import com.nuaa.ec.model.TfpracticeInnovationGuidePerformance;
-import com.nuaa.ec.utils.PrimaryKMaker;
 import com.opensymphony.xwork2.ActionContext;
 
-public class GTPracticeInnovationGuidePerformanceSetAction implements
-		RequestAware {
+public class ATPracticeInnovationGuidePerformanceSetAction implements RequestAware{
 	/**
 	 * 删除一条记录
 	 */
@@ -83,7 +83,7 @@ public class GTPracticeInnovationGuidePerformanceSetAction implements
 			/**
 			 * 设置当前教师
 			 */
-			pracInnoGuidPerf.setTeacher((Teacher) session.get("teacher"));
+			pracInnoGuidPerf.setTeacher(teacherDAO.findById(teacher.getTeacherId()));
 			/**
 			 * 设置分数
 			 */
@@ -113,73 +113,13 @@ public class GTPracticeInnovationGuidePerformanceSetAction implements
 		}
 	}
 	/**
-	 * 增加一条新的记录
-	 */
-	public void insertRecord(){
-		Transaction tx=null;
-		try{
-			/**
-			 * 获得论文评定等级
-			 */
-			pracInnoGuidGradThesisExalution=this.pracInnoGuidGradThesisExalutionDAO.findById(pracInnoGuidGradThesisExalution.getThesisEvaluationLevelId());
-			/**
-			 * 获得创新项目等级
-			 */
-			pracInnoGuidLevel=this.pracInnoGuidLevelDAO.findById(pracInnoGuidLevel.getInnovationGuideLevelId());
-			/**
-			 * 设置当前教师
-			 */
-			pracInnoGuidPerf.setTeacher((Teacher) session.get("teacher"));
-			/**
-			 * 设置自定义主键（项目ID）
-			 */
-			pracInnoGuidPerf.setProjectId(pkmk.mkpk("ProjectID", "TFPracticeInnovationGuide_Performance", "TFIP"));
-			/**
-			 * 设置论文级别
-			 */
-			pracInnoGuidPerf.setTfpracticeInnovationGuideGraduationThesisGuideEvalution(pracInnoGuidGradThesisExalution);
-			/**
-			 * 设置项目指导级别
-			 */
-			pracInnoGuidPerf.setTfpracticeInnovationGuideLevel(pracInnoGuidLevel);
-			/**
-			 * 设置分数
-			 */
-			pracInnoGuidPerf.setFinalScore(this.getScore(pracInnoGuidGradThesisExalution, pracInnoGuidLevel));
-			/**
-			 * 设置checkout和spareTire
-			 */
-			pracInnoGuidPerf.setSpareTire("1");
-			pracInnoGuidPerf.setCheckOut("0");
-			/**
-			 * 执行插入事务
-			 */
-			this.pracInnoGuidPerfDAO.save(pracInnoGuidPerf);
-			tx=this.pracInnoGuidPerfDAO.getSession().beginTransaction();
-			tx.commit();
-			/*
-			 * ajax响应前台
-			 */
-			this.response.getWriter().write("succ");
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-			this.setOperstatus(-1);
-			tx.rollback();
-			try {
-				this.response.getWriter().write("error");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	/**
 	 * 获取分数
 	 */
 	public double getScore(TfpracticeInnovationGuideGraduationThesisGuideEvalution thesisLevel,TfpracticeInnovationGuideLevel projectLevel){
 		DecimalFormat  df  = new DecimalFormat("######0.00"); 
 		return Double.parseDouble(df.format(thesisLevel.getRatio()*projectLevel.getScore()));
 	}
+
 	/**
 	 * 获取当前用户的符合条件的所有记录
 	 * @return
@@ -198,12 +138,12 @@ public class GTPracticeInnovationGuidePerformanceSetAction implements
 			/**
 			 * 第一次进来的时候pageSize为空
 			 */
-			if (session.get("pageSize_GTPIG") != null) {
-				pageSize_GTPIG = (Integer) session.get("pageSize_GTPIG");
+			if (session.get("pageSize_ATPIG") != null) {
+				pageSize_ATPIG = (Integer) session.get("pageSize_ATPIG");
 			}
 			this.request.put("pracInnoGuidPerfUnionTftermList", pracInnoGuidPerfDAO
-					.findAllWithDivided(pageIndex, pageSize_GTPIG,
-							(String) session.get("termId_GTPIG"), isDivided));
+					.findAllWithDivided_adm(pageIndex, pageSize_ATPIG,
+							(String) session.get("termId_ATPIG"), (String) session.get("searchCondition_ATPIG"),isDivided));
 			tx=this.pracInnoGuidPerfDAO.getSession().beginTransaction();
 			tx.commit();
 		} catch (Exception ex) {
@@ -213,12 +153,13 @@ public class GTPracticeInnovationGuidePerformanceSetAction implements
 		}
 		return "success";
 	}
-
 	private int pageIndex = 1;
-	private int pageSize_GTPIG = 1;
+	private int pageSize_ATPIG = 1;
 	private int operstatus;
 	private String isDivided;
-	private String termId_GTPIG;
+	private String termId_ATPIG;
+	private Teacher teacher;
+	private String searchCondition_ATPIG;
 	private Map<String, Object> request;
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
@@ -228,7 +169,7 @@ public class GTPracticeInnovationGuidePerformanceSetAction implements
 	private TfpracticeInnovationGuidePerformanceDAO pracInnoGuidPerfDAO = new TfpracticeInnovationGuidePerformanceDAO();
 	private TfpracticeInnovationGuideLevelDAO pracInnoGuidLevelDAO = new TfpracticeInnovationGuideLevelDAO();
 	private TfpracticeInnovationGuideGraduationThesisGuideEvalutionDAO pracInnoGuidGradThesisExalutionDAO = new TfpracticeInnovationGuideGraduationThesisGuideEvalutionDAO();
-	private PrimaryKMaker pkmk = new PrimaryKMaker();
+	private TeacherDAO teacherDAO=new TeacherDAO();
 	private HttpServletResponse response = ServletActionContext.getResponse();
 
 	public int getPageIndex() {
@@ -239,13 +180,13 @@ public class GTPracticeInnovationGuidePerformanceSetAction implements
 		this.pageIndex = pageIndex;
 	}
 
-	public int getPageSize_GTPIG() {
-		return pageSize_GTPIG;
+	public int getPageSize_ATPIG() {
+		return pageSize_ATPIG;
 	}
 
-	public void setPageSize_GTPIG(int pageSize_GTPIG) {
-		this.pageSize_GTPIG = pageSize_GTPIG;
-		session.put("pageSize_GTPIG", pageSize_GTPIG);
+	public void setPageSize_ATPIG(int pageSize_ATPIG) {
+		this.pageSize_ATPIG = pageSize_ATPIG;
+		session.put("pageSize_ATPIG", pageSize_ATPIG);
 	}
 
 	public int getOperstatus() {
@@ -264,13 +205,13 @@ public class GTPracticeInnovationGuidePerformanceSetAction implements
 		this.isDivided = isDivided;
 	}
 
-	public String getTermId_GTPIG() {
-		return termId_GTPIG;
+	public String getTermId_ATPIG() {
+		return termId_ATPIG;
 	}
 
-	public void setTermId_GTPIG(String termId_GTPIG) {
-		this.termId_GTPIG = termId_GTPIG;
-		session.put("termId_GTPIG", termId_GTPIG);
+	public void setTermId_ATPIG(String termId_ATPIG) {
+		this.termId_ATPIG = termId_ATPIG;
+		session.put("termId_ATPIG", termId_ATPIG);
 	}
 
 	public TfpracticeInnovationGuidePerformance getPracInnoGuidPerf() {
@@ -302,5 +243,26 @@ public class GTPracticeInnovationGuidePerformanceSetAction implements
 
 	public void setRequest(Map<String, Object> request) {
 		this.request = request;
+	}
+
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+
+	public String getSearchCondition_ATPIG() {
+		return searchCondition_ATPIG;
+	}
+
+	public void setSearchCondition_ATPIG(String searchCondition_ATPIG) {
+		this.searchCondition_ATPIG = searchCondition_ATPIG;
+		try {
+			session.put("searchCondition_ATPIG", new String(searchCondition_ATPIG.getBytes("ISO-8859-1"),"UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 }

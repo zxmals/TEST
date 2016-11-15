@@ -22,7 +22,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>实践创新与指导绩效管理</title>
+<title>实践创新与指导绩效管理(管理员)</title>
 
 <link rel="shortcut icon" href="favicon.ico">
 <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
@@ -79,15 +79,9 @@
 						</div>
 					</div>
 					<div class="ibox-content">
-						<button class="btn  btn-primary openaddm" type="submit"
-							data-backdrop="true" data-toggle="modal" data-target="#add" id="submitNewRecord">
-							<strong>新增实践创新指导绩效</strong>
-						</button>
-						<br>
-						<br>
-						<form action="GTPracticeInnovationGuidePerformanceSet!getAllRecord">
+						<form action="ATPracticeInnovationGuidePerformanceSet!getAllRecord">
 							<div>
-								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_GTPIG">
+								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_ATPIG">
 										<c:forEach var="pageSize" items="${pageSizeList }">
 											<option value="${pageSize }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${pageSize }</option>
 										</c:forEach>
@@ -95,13 +89,17 @@
 								</a>
 								&nbsp;&nbsp;
 								<font color="#337AB7">学期：</font>
-								<select id="termSelection" name="termId_GTPIG" style="width:120px;height:25px;border-radius:3px;">
+								<select id="termSelection" name="termId_ATPIG" style="width:120px;height:25px;border-radius:3px;">
 									<option value="">全部学期</option>
 									<c:forEach var="tfterm" items="${tftermList }">
 										<option value="${tfterm.termId }">${tfterm.term }</option>
 									</c:forEach>
 								</select>
-								&nbsp;&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<font color="#337AB7">检索条件：</font>
+								<input type="text" id="searchCondition_ATPIG" name="searchCondition_ATPIG"  placeholder="请输入项目的名称"
+								 style="width:150px;height:25px;border-radius:3px;border:1px solid #A9A9A9;"/>
+								 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<button class="button_set" type="submit" id="AlterPageSize"
 								data-backdrop="true" data-toggle="modal">
 								<strong>确认</strong>
@@ -171,25 +169,25 @@
 								</table>
 							</form>
 							<div style="text-align: center;">
-								(共查询到${sessionScope.recordNumber_GTPIG }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_GTPIG }页&nbsp;&nbsp;&nbsp;
+								(共查询到${sessionScope.recordNumber_ATPIG }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_ATPIG }页&nbsp;&nbsp;&nbsp;
 								<a class="comphref"
-									href="GTPracticeInnovationGuidePerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
+									href="ATPracticeInnovationGuidePerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
 								<c:if test="${pageIndex>1 }">
 									<a class="comphref"
-										href="GTPracticeInnovationGuidePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
+										href="ATPracticeInnovationGuidePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<c:forEach var="index" begin="${pageIndex }" end="${pageIndex+4 }" step="1">
-									<c:if test="${index<pageCount_GTPIG }">
+									<c:if test="${index<pageCount_ATPIG }">
 										<a class="comphref"
-										href="GTPracticeInnovationGuidePerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
+										href="ATPracticeInnovationGuidePerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
 									</c:if>
 								</c:forEach>
-								<c:if test="${pageIndex<pageCount_GTPIG }">
+								<c:if test="${pageIndex<pageCount_ATPIG }">
 									<a class="comphref"
-										href="GTPracticeInnovationGuidePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
+										href="ATPracticeInnovationGuidePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<a class="comphref"
-									href="GTPracticeInnovationGuidePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_GTPIG }">尾页</a>
+									href="ATPracticeInnovationGuidePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_ATPIG }">尾页</a>
 							</div>
 						</div>
 					</div>
@@ -212,10 +210,15 @@
 										type="text" class="form-control doCheck_update" name="pracInnoGuidPerf.upid" 
 										value="">
 								</div>
-								<div class="form-group" style="display: none;">
+								<div class="form-group">
 									<label>项目ID</label>&nbsp;<label></label> <input id="up_projectId"
 										type="text" class="form-control doCheck_update" name="pracInnoGuidPerf.projectId" 
-										value="">
+										value="" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>教师工号</label>&nbsp;<label></label> <input id="up_teacherId"
+										type="text" class="form-control doCheck_update" name="teacher.teacherId" 
+										value="" readonly="readonly">
 								</div>
 								<div class="form-group">
 									<label>学期:</label>&nbsp;<label></label> 
@@ -270,75 +273,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- 添加 -->
-		<div id="add" class="modal fade" aria-hidden="true" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-body">
-						<div class="row">
-							<h3 class="m-t-none m-b">添加实践创新指导绩效</h3>
-							<form role="form" name="adds" id="addInfoForm"
-								action=""
-								method="post">
-								<div class="form-group" style="display: none;">
-									<label>项目ID</label>&nbsp;<label></label> <input id="ID"
-										type="text" class="form-control" name="" value="">
-								</div>
-								<div class="form-group">
-									<label>学期:</label>&nbsp;<label></label><br>
-									<select id="add_termSelection" name="pracInnoGuidPerf.termId" class="form-control">
-										<c:forEach var="tfterm" items="${tftermList }">
-											<option value="${tfterm.termId }">${tfterm.term }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>项目名称:</label>&nbsp;<label></label> <input
-										id=projectName " type="text"
-										class="form-control doCheck_add"
-										name="pracInnoGuidPerf.projectName"
-										value="">
-								</div>
-								<div class="form-group">
-									<label>论文评估级别:</label>&nbsp;<label></label> 
-									<select
-										id="thesisEvaluationLevel" class="form-control"
-										name="pracInnoGuidGradThesisExalution.thesisEvaluationLevelId">
-										<c:forEach var="practiceInnovationGuideGraduationThesisGuideEvalution"
-											items="${practiceInnovationGuideGraduationThesisGuideEvalutionList }">
-											<option value="${practiceInnovationGuideGraduationThesisGuideEvalution.thesisEvaluationLevelId }">${practiceInnovationGuideGraduationThesisGuideEvalution.thesisEvaluationLevel }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>项目指导级别:</label>&nbsp;<label></label>
-									<select
-										id="innovatIonguideLevel" class="form-control"
-										name="pracInnoGuidLevel.innovationGuideLevelId">
-										<c:forEach var="practiceInnovationGuideLevel"
-											items="${practiceInnovationGuideLevelList }">
-											<option value="${practiceInnovationGuideLevel.innovationGuideLevelId }">${practiceInnovationGuideLevel.innovatIonguideLevel }</option>
-										</c:forEach>
-									</select>
-								</div>
-							</form>
-							<div>
-								<button type="button"
-									class="btn btn-outline btn-primary pull-right m-t-n-xs"
-									data-dismiss="modal">关闭</button>
-								<button id="submitAddInfo"
-									class="btn  btn-primary pull-left m-t-n-xs subcheck"
-									type="submit">
-									<i class="fa fa-check"></i> <strong>提交</strong>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<script src="js/jquery.min.js?v=2.1.4"></script>
 		<script src="js/bootstrap.min.js?v=3.3.5"></script>
 		<script src="js/plugins/jeditable/jquery.jeditable.js"></script>
@@ -349,22 +283,20 @@
 		<script src="js/PublicCheck/formFieldController.js"></script>
 	<script type="text/javascript">
 	$().ready(function(){
-		$("#changelength option[value='${sessionScope.pageSize_GTPIG}']").attr("selected",true);
-		$("#termSelection option[value='${sessionScope.termId_GTPIG}']").attr("selected",true);
-		$("#add_termSelection option[value='${sessionScope.termId_GTPIG}']").attr("selected",true);
-		$("#up_termSelection option[value='${sessionScope.termId_GTPIG}']").attr("selected",true);
-	});
-	$("#submitAddInfo").click(function(){
-		//执行提交表单
-		submitAddedInfo("GTPracticeInnovationGuidePerformanceSet", "insertRecord", "getAllRecord");
+		$("#changelength option[value='${sessionScope.pageSize_ATPIG}']").attr("selected",true);
+		$("#termSelection option[value='${sessionScope.termId_ATPIG}']").attr("selected",true);
+		$("#add_termSelection option[value='${sessionScope.termId_ATPIG}']").attr("selected",true);
+		$("#up_termSelection option[value='${sessionScope.termId_ATPIG}']").attr("selected",true);
+		$("#searchCondition_ATPIG").val('${sessionScope.searchCondition_ATPIG}');
 	});
     $('#updateInfo').click(function() {
-    	submitUpdatedInfo("GTPracticeInnovationGuidePerformanceSet", "updateRecord", "getAllRecord");
+    	submitUpdatedInfo("ATPracticeInnovationGuidePerformanceSet", "updateRecord", "getAllRecord");
 	});
     $('.update').click(function() {
 		$('#up_upid').val($(this).parent().parent()[0].cells[8].innerHTML);
 		$('#up_projectId').val($(this).parent().parent()[0].cells[0].innerHTML);
 		$('#up_projectName').val($(this).parent().parent()[0].cells[4].innerHTML);
+		$('#up_teacherId').val($(this).parent().parent()[0].cells[1].innerHTML);
 		var temp=$(this).parent().parent()[0].cells[5].innerHTML;
 		$("#up_thesisEvaluationLevel option").each(function(){
 			if($(this).text()==temp.trim()){
@@ -388,7 +320,7 @@
 		var upid = $(this).parent().parent()[0].cells[8].innerHTML;
 		deleteRecord({
 			"pracInnoGuidPerf.upid":upid
-		}, "GTPracticeInnovationGuidePerformanceSet", "deleteRecord",
+		}, "ATPracticeInnovationGuidePerformanceSet", "deleteRecord",
 		"getAllRecord?isDivided=false");
 	});
     </script>
