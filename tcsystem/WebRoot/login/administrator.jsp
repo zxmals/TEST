@@ -166,8 +166,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<li><a href="">学生指导工作 <span class="fa arrow"></span></a>
 										<ul class="nav nav-third-level">
 											<li><a class="J_menuItem" href="ATPracticeInnovationGuidePerformanceSet!getAllRecord">实践创新指导绩效</a></li>
-											<li><a class="J_menuItem" href="">学生竞赛指导绩效</a></li>
-											<li><a class="J_menuItem" href="">参与学生活动绩效</a></li>
+											<li><a class="J_menuItem" href="ATStudentCompetitionGuidancePerformanceSet!getAllRecord">学生竞赛指导绩效</a></li>
+											<li><a class="J_menuItem" href="ATJoinStudentActivityPerformanceSet!getAllRecord">参与学生活动绩效</a></li>
 											<li><a class="J_menuItem" href="">本科生导师指导绩效</a></li>
 											<li><a class="J_menuItem" href="">校外实践指导绩效</a></li>
 										</ul>
