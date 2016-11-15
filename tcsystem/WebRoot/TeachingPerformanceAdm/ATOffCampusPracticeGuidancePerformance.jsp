@@ -79,15 +79,9 @@
 						</div>
 					</div>
 					<div class="ibox-content">
-						<button class="btn  btn-primary openaddm" type="submit"
-							data-backdrop="true" data-toggle="modal" data-target="#add" id="submitNewRecord">
-							<strong>新增校外实践指导绩效</strong>
-						</button>
-						<br>
-						<br>
-						<form action="GTOffCampusPracticeGuidancePerformanceSet!getAllRecord">
+						<form action="ATOffCampusPracticeGuidancePerformanceSet!getAllRecord">
 							<div>
-								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_GTOCP">
+								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_ATOCP">
 										<c:forEach var="pageSize" items="${pageSizeList }">
 											<option value="${pageSize }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${pageSize }</option>
 										</c:forEach>
@@ -95,13 +89,17 @@
 								</a>
 								&nbsp;&nbsp;
 								<font color="#337AB7">学期：</font>
-								<select id="termSelection" name="termId_GTOCP" style="width:120px;height:25px;border-radius:3px;">
+								<select id="termSelection" name="termId_ATOCP" style="width:120px;height:25px;border-radius:3px;">
 									<option value="">全部学期</option>
 									<c:forEach var="tfterm" items="${tftermList }">
 										<option value="${tfterm.termId }">${tfterm.term }</option>
 									</c:forEach>
 								</select>
-								&nbsp;&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<font color="#337AB7">检索条件：</font>
+								<input type="text" id="searchCondition_ATOCP" name="searchCondition_ATOCP"  placeholder="请输入活动的名称"
+								 style="width:150px;height:25px;border-radius:3px;border:1px solid #A9A9A9;"/>
+								 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<button class="button_set" type="submit" id="AlterPageSize"
 								data-backdrop="true" data-toggle="modal">
 								<strong>确认</strong>
@@ -174,25 +172,25 @@
 								</table>
 							</form>
 							<div style="text-align: center;">
-								(共查询到${sessionScope.recordNumber_GTOCP }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_GTOCP }页&nbsp;&nbsp;&nbsp;
+								(共查询到${sessionScope.recordNumber_ATOCP }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_ATOCP }页&nbsp;&nbsp;&nbsp;
 								<a class="comphref"
-									href="GTOffCampusPracticeGuidancePerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
+									href="ATOffCampusPracticeGuidancePerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
 								<c:if test="${pageIndex>1 }">
 									<a class="comphref"
-										href="GTOffCampusPracticeGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
+										href="ATOffCampusPracticeGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<c:forEach var="index" begin="${pageIndex }" end="${pageIndex+4 }" step="1">
-									<c:if test="${index<pageCount_GTOCP }">
+									<c:if test="${index<pageCount_ATOCP }">
 										<a class="comphref"
-										href="GTOffCampusPracticeGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
+										href="ATOffCampusPracticeGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
 									</c:if>
 								</c:forEach>
-								<c:if test="${pageIndex<pageCount_GTOCP }">
+								<c:if test="${pageIndex<pageCount_ATOCP }">
 									<a class="comphref"
-										href="GTOffCampusPracticeGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
+										href="ATOffCampusPracticeGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<a class="comphref"
-									href="GTOffCampusPracticeGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_GTOCP }">尾页</a>
+									href="ATOffCampusPracticeGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_ATOCP }">尾页</a>
 							</div>
 						</div>
 					</div>
@@ -214,6 +212,11 @@
 									<label>ID</label>&nbsp;<label></label> <input id="up_upid"
 										type="text" class="form-control doCheck_update" name="offCampusPracticeGuidancePerformance.upid" 
 										value="">
+								</div>
+								<div class="form-group">
+									<label>教师工号</label>&nbsp;<label></label> <input id="up_teacherId"
+										type="text" class="form-control doCheck_update" name="teacher.teacherId" 
+										value=""readonly="readonly">
 								</div>
 								<div class="form-group">
 									<label>指导编号</label>&nbsp;<label></label> <input id="up_offguidanceId"
@@ -274,74 +277,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- 添加 -->
-		<div id="add" class="modal fade" aria-hidden="true" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-body">
-						<div class="row">
-							<h3 class="m-t-none m-b">添加校外实践指导绩效</h3>
-							<form role="form" name="adds" id="addInfoForm"
-								action=""
-								method="post">
-								<div class="form-group">
-									<label>学期:</label>&nbsp;<label></label><br>
-									<select id="add_termSelection" name="offCampusPracticeGuidancePerformance.termId" class="form-control">
-										<c:forEach var="tfterm" items="${tftermList }">
-											<option value="${tfterm.termId }">${tfterm.term }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>项目名称:</label>&nbsp;<label></label> <input
-										id="projectName" type="text"
-										class="form-control doCheck_add"
-										name="offCampusPracticeGuidancePerformance.projectName"
-										value="">
-								</div>
-								<div class="form-group">
-									<label>绩效级别:</label>&nbsp;<label></label> 
-									<select
-										id="add_projectId" class="form-control"
-										name="offCampusPracticeGuidanceLevel.projectId">
-										<c:forEach var="tfoffCampusPracticeGuidanceLevel"
-											items="${tfoffCampusPracticeGuidanceLevelList }">
-											<option value="${tfoffCampusPracticeGuidanceLevel.projectId }">${tfoffCampusPracticeGuidanceLevel.projectType }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group" id="baseQuantityDiv">
-									<label>基地数量:</label>&nbsp;<label></label> <input
-										id="add_quantityUnit" type="text"
-										class="form-control doCheck_add"
-										name="offCampusPracticeGuidancePerformance.quantityUnit"
-										value="" disabled="disabled">
-								</div>
-								<div class="form-group" id="guidanceSumHoursDiv">
-									<label>指导总时长:</label>&nbsp;<label></label> <input
-										id="add_sumhours" type="text"
-										class="form-control"
-										name="offCampusPracticeGuidancePerformance.sumhours"
-										value="" disabled="disabled" style="display: none;">
-								</div>
-							</form>
-							<div>
-								<button type="button"
-									class="btn btn-outline btn-primary pull-right m-t-n-xs"
-									data-dismiss="modal">关闭</button>
-								<button id="submitAddInfo"
-									class="btn  btn-primary pull-left m-t-n-xs subcheck"
-									type="submit">
-									<i class="fa fa-check"></i> <strong>提交</strong>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<script src="js/jquery.min.js?v=2.1.4"></script>
 		<script src="js/bootstrap.min.js?v=3.3.5"></script>
 		<script src="js/plugins/jeditable/jquery.jeditable.js"></script>
@@ -377,17 +312,14 @@
 	});
 	/* 说明：更新窗口的id前缀是add_，增加是add_ */
 	$().ready(function(){
-		$("#changelength option[value='${sessionScope.pageSize_GTOCP}']").attr("selected",true);
-		$("#termSelection option[value='${sessionScope.termId_GTOCP}']").attr("selected",true);
-		$("#add_termSelection option[value='${sessionScope.termId_GTOCP}']").attr("selected",true);
-		$("#up_termSelection option[value='${sessionScope.termId_GTOCP}']").attr("selected",true);
-	});
-	$("#submitAddInfo").click(function(){
-		//执行提交表单
-		submitAddedInfo("GTOffCampusPracticeGuidancePerformanceSet", "insertRecord", "getAllRecord");
+		$("#changelength option[value='${sessionScope.pageSize_ATOCP}']").attr("selected",true);
+		$("#termSelection option[value='${sessionScope.termId_ATOCP}']").attr("selected",true);
+		$("#add_termSelection option[value='${sessionScope.termId_ATOCP}']").attr("selected",true);
+		$("#up_termSelection option[value='${sessionScope.termId_ATOCP}']").attr("selected",true);
+		$("#searchCondition_ATOCP").val('${sessionScope.searchCondition_ATOCP}');
 	});
     $('#updateInfo').click(function() {
-    	submitUpdatedInfo("GTOffCampusPracticeGuidancePerformanceSet", "updateRecord", "getAllRecord");
+    	submitUpdatedInfo("ATOffCampusPracticeGuidancePerformanceSet", "updateRecord", "getAllRecord");
 	});
     $("#up_projectId").change(function(){
     	if($(this).val().trim()=='TFOCP1'){
@@ -412,6 +344,7 @@
 		$('#up_projectName').val($(this).parent().parent()[0].cells[4].innerHTML);
 		$('#up_quantityUnit').val($(this).parent().parent()[0].cells[5].innerHTML);
 		$('#up_sumhours').val($(this).parent().parent()[0].cells[6].innerHTML);
+		$('#up_teacherId').val($(this).parent().parent()[0].cells[1].innerHTML);
 		var temp=$(this).parent().parent()[0].cells[7].innerHTML;
 		$("#up_projectId option").each(function(){
 			if($(this).text()==temp.trim()){
@@ -444,7 +377,7 @@
 		var upid = $(this).parent().parent()[0].cells[9].innerHTML;
 		deleteRecord({
 			"offCampusPracticeGuidancePerformance.upid":upid
-		}, "GTOffCampusPracticeGuidancePerformanceSet", "deleteRecord",
+		}, "ATOffCampusPracticeGuidancePerformanceSet", "deleteRecord",
 		"getAllRecord?isDivided=false");
 	});
     </script>

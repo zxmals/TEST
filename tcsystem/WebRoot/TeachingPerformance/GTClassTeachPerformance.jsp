@@ -109,12 +109,12 @@
 							</div>
 						</form>
 						<div style="margin-top: 10px;">
-						<span><font color="red"><b>说明：</b></font>本绩效录入周期为<font color="red"><b>一学年</b></font>，
-						无论在该学年的哪个学期录入绩效记录，日期都默认存储为该学年的
-						<font color="red"><b>第一学期</b></font>。
-						每学年只有<font color="red"><b>第一学期</b></font>才有用户的绩效记录。
-						</span>
-					</div>
+							<span><font color="red"><b>说明：</b></font>本绩效录入周期为<font color="red"><b>一学年</b></font>，
+							无论在该学年的哪个学期录入绩效记录，日期都默认存储为该学年的
+							<font color="red"><b>第一学期</b></font>。
+							每学年只有<font color="red"><b>第一学期</b></font>才有用户的绩效记录。
+							</span>
+						</div>
 						<br>
 						<div class="example">
 							<form method="post" name="f">

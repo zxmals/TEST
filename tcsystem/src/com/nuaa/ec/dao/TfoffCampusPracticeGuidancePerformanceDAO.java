@@ -50,6 +50,62 @@ public class TfoffCampusPracticeGuidancePerformanceDAO extends BaseHibernateDAO 
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List findAllWithDivided_adm(int pageIndex,int pageSize,String termId,String searchCondition,boolean isDivided){
+		List<TfoffCampusPracticeGuidancePerformanceUnionTfterm> list=new ArrayList<TfoffCampusPracticeGuidancePerformanceUnionTfterm>();
+		StringBuffer hql = null;
+		/*
+		 * 第一次进来的时候 TermID应该为空，默认取出当前教师所有的数据
+		 */
+		if (termId != null && termId.length() != 0 && searchCondition!=null && searchCondition.trim().length()!=0) {
+			hql=new StringBuffer("select new com.nuaa.ec.model.TfoffCampusPracticeGuidancePerformanceUnionTfterm(OCP,TERM) from TfoffCampusPracticeGuidancePerformance OCP,Tfterm TERM where TERM.termId=OCP.termId"
+					+ " and OCP.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and OCP.tfoffCampusPracticeGuidanceLevel.spareTire='1'"
+					+ " and OCP.teacher.spareTire='1'"
+					+ " and OCP.termId='"+termId+"'"
+					+ " and OCP.projectName like '%"+searchCondition+"%'"
+					+ " order by OCP.offguidanceId desc");
+		} else {
+			hql=new StringBuffer("select new com.nuaa.ec.model.TfoffCampusPracticeGuidancePerformanceUnionTfterm(OCP,TERM) from TfoffCampusPracticeGuidancePerformance OCP,Tfterm TERM where TERM.termId=OCP.termId"
+					+ " and OCP.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and OCP.tfoffCampusPracticeGuidanceLevel.spareTire='1'"
+					+ " and OCP.teacher.spareTire='1'");
+
+
+			//有学期但是没有查询条件的情况
+			if(termId != null && termId.length() != 0 &&(searchCondition==null || searchCondition.trim().length()==0)){
+				hql.append(" and OCP.termId='"+termId+"'");
+			}else if(searchCondition!=null && searchCondition.length()!=0 &&(termId == null || termId.length() == 0)){
+				//有查询条件 但是没有学期的情况
+				hql.append(" and OCP.projectName like '%"+searchCondition+"%'");
+			}else{//学期和查询条件都没有的情况
+				//这块没有业务逻辑，只是为了使得逻辑清楚
+			}
+			hql.append(" order by OCP.offguidanceId desc");
+		}
+		try{
+			if(!isDivided){
+				list=this.getSession().createQuery(hql.toString()).list();
+				int listSize=list.size();
+				session.put("recordNumber_ATOCP",list.size());
+				session.put("pageCount_ATOCP", listSize%pageSize==0?(listSize/pageSize):(listSize/pageSize+1));
+			}
+			/*
+			 * 分页 pageIndex 默认是1，显示第一页，
+			 * 但以后会随着前台的分页操作同步更新。
+			 */
+			list=this.getSession().createQuery(hql.toString()).setFirstResult((pageIndex-1)*pageSize).setMaxResults(pageSize).list();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 获得所有的记录信息 但是顺便实现了分页
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List findAllWithDivided(int pageIndex,int pageSize,String termId,boolean isDivided){
 		Teacher teacherHaveLogin=(Teacher) session.get("teacher");
 		List<TfoffCampusPracticeGuidancePerformanceUnionTfterm> list=new ArrayList<TfoffCampusPracticeGuidancePerformanceUnionTfterm>();

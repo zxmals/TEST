@@ -80,15 +80,9 @@
 						</div>
 					</div>
 					<div class="ibox-content">
-						<button class="btn  btn-primary openaddm" type="submit"
-							data-backdrop="true" data-toggle="modal" data-target="#add" id="submitNewRecord">
-							<strong>新增本科生导师指导绩效</strong>
-						</button>
-						<br>
-						<br>
-						<form action="GTUndergraduateTutorGuidancePerformanceSet!getAllRecord">
+						<form action="ATUndergraduateTutorGuidancePerformanceSet!getAllRecord">
 							<div>
-								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_GTUTG">
+								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_ATUTG">
 										<c:forEach var="pageSize" items="${pageSizeList }">
 											<option value="${pageSize }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${pageSize }</option>
 										</c:forEach>
@@ -96,13 +90,17 @@
 								</a>
 								&nbsp;&nbsp;
 								<font color="#337AB7">学期：</font>
-								<select id="termSelection" name="termId_GTUTG" style="width:120px;height:25px;border-radius:3px;">
+								<select id="termSelection" name="termId_ATUTG" style="width:120px;height:25px;border-radius:3px;">
 									<option value="">全部学期</option>
 									<c:forEach var="tfterm" items="${tftermList }">
 										<option value="${tfterm.termId }">${tfterm.term }</option>
 									</c:forEach>
 								</select>
-								&nbsp;&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<font color="#337AB7">检索条件：</font>
+								<input type="text" id="searchCondition_ATUTG" name="searchCondition_ATUTG"  placeholder="请输入教师工号"
+								 style="width:150px;height:25px;border-radius:3px;border:1px solid #A9A9A9;"/>
+								 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<button class="button_set" type="submit" id="AlterPageSize"
 								data-backdrop="true" data-toggle="modal">
 								<strong>确认</strong>
@@ -125,7 +123,7 @@
 										<tr>
 											<td>工号</td>
 											<td>姓名</td>
-<!-- 											<td>学期</td> -->
+											<td>学期</td>
 											<td>指导学生数量</td>
 											<td>得分</td>
 											<td style="display: none;">upid</td>
@@ -142,7 +140,7 @@
 												<!-- 姓名 -->
 												<td>${undergraduateTutorGuidPerfUnionTfterm.undergraduateTutorGuidancePerformance.teacher.teacherName }</td>
 												<!-- 学期 -->
-<!-- 												<td>${undergraduateTutorGuidPerfUnionTfterm.currentTerm.term }</td> -->
+												<td>${undergraduateTutorGuidPerfUnionTfterm.currentTerm.term }</td>
 												<!-- 指导学生数量 -->
 												<td>${undergraduateTutorGuidPerfUnionTfterm.undergraduateTutorGuidancePerformance.studentQuantity }</td>
 												<!-- 得分 -->
@@ -170,25 +168,25 @@
 								</table>
 							</form>
 							<div style="text-align: center;">
-								(共查询到${sessionScope.recordNumber_GTUTG }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_GTUTG }页&nbsp;&nbsp;&nbsp;
+								(共查询到${sessionScope.recordNumber_ATUTG }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_ATUTG }页&nbsp;&nbsp;&nbsp;
 								<a class="comphref"
-									href="GTUndergraduateTutorGuidancePerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
+									href="ATUndergraduateTutorGuidancePerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
 								<c:if test="${pageIndex>1 }">
 									<a class="comphref"
-										href="GTUndergraduateTutorGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
+										href="ATUndergraduateTutorGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<c:forEach var="index" begin="${pageIndex }" end="${pageIndex+4 }" step="1">
-									<c:if test="${index<pageCount_GTUTG }">
+									<c:if test="${index<pageCount_ATUTG }">
 										<a class="comphref"
-										href="GTUndergraduateTutorGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
+										href="ATUndergraduateTutorGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
 									</c:if>
 								</c:forEach>
-								<c:if test="${pageIndex<pageCount_GTUTG }">
+								<c:if test="${pageIndex<pageCount_ATUTG }">
 									<a class="comphref"
-										href="GTUndergraduateTutorGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
+										href="ATUndergraduateTutorGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<a class="comphref"
-									href="GTUndergraduateTutorGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_GTUTG }">尾页</a>
+									href="ATUndergraduateTutorGuidancePerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_ATUTG }">尾页</a>
 							</div>
 						</div>
 					</div>
@@ -206,10 +204,15 @@
 							<form role="form" name="" id="updateInfoForm"
 								action=""
 								method="post">
-								<div class="form-group">
+								<div class="form-group" style="display: none;">
 									<label>ID</label>&nbsp;<label></label> <input id="up_upid"
 										type="text" class="form-control doCheck_update" name="undergraduateTutorGuidancePerformance.upid" 
-										value="">
+										value="" readonly="readonly">
+								</div> 
+								<div class="form-group">
+									<label>教师工号</label>&nbsp;<label></label> <input id="up_teacherId"
+										type="text" class="form-control doCheck_update" name="teacher.teacherId" 
+										value="" readonly="readonly">
 								</div>
 								<div class="form-group">
 									<label>学期:</label>&nbsp;<label></label> 
@@ -242,49 +245,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- 添加 -->
-		<div id="add" class="modal fade" aria-hidden="true" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-body">
-						<div class="row">
-							<h3 class="m-t-none m-b">添加参与学生活动绩效</h3>
-							<form role="form" name="adds" id="addInfoForm"
-								action=""
-								method="post">
-								<div class="form-group">
-									<label>学期:</label>&nbsp;<label></label><br>
-									<select id="add_termSelection" name="undergraduateTutorGuidancePerformance.termId" class="form-control">
-										<c:forEach var="tfterm" items="${tftermList }">
-											<option value="${tfterm.termId }">${tfterm.term }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>指导学生数量:</label>&nbsp;<label></label> <input
-										id="add_studentQuantity" type="text"
-										class="form-control doCheck_add"
-										name="undergraduateTutorGuidancePerformance.studentQuantity"
-										value="">
-								</div>
-							</form>
-							<div>
-								<button type="button"
-									class="btn btn-outline btn-primary pull-right m-t-n-xs"
-									data-dismiss="modal">关闭</button>
-								<button id="submitAddInfo"
-									class="btn  btn-primary pull-left m-t-n-xs subcheck"
-									type="submit">
-									<i class="fa fa-check"></i> <strong>提交</strong>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<script src="js/jquery.min.js?v=2.1.4"></script>
 		<script src="js/bootstrap.min.js?v=3.3.5"></script>
 		<script src="js/plugins/jeditable/jquery.jeditable.js"></script>
@@ -295,33 +255,35 @@
 		<script src="js/PublicCheck/formFieldController.js"></script>
 	<script type="text/javascript">
 	$().ready(function(){
-		$("#changelength option[value='${sessionScope.pageSize_GTUTG}']").attr("selected",true);
-		$("#termSelection option[value='${sessionScope.termId_GTUTG}']").attr("selected",true);
-		$("#add_termSelection option[value='${sessionScope.termId_GTUTG}']").attr("selected",true);
-		$("#up_termSelection option[value='${sessionScope.termId_GTUTG}']").attr("selected",true);
+		$("#changelength option[value='${sessionScope.pageSize_ATUTG}']").attr("selected",true);
+		$("#termSelection option[value='${sessionScope.termId_ATUTG}']").attr("selected",true);
+		$("#add_termSelection option[value='${sessionScope.termId_ATUTG}']").attr("selected",true);
+		$("#up_termSelection option[value='${sessionScope.termId_ATUTG}']").attr("selected",true);
+		$("#searchCondition_ATUTG").val('${sessionScope.searchCondition_ATUTG}');
 	});
 	$("#submitAddInfo").click(function(){
 		//执行提交表单
-		submitAddedInfo("GTUndergraduateTutorGuidancePerformanceSet", "insertRecord", "getAllRecord");
+		submitAddedInfo("ATUndergraduateTutorGuidancePerformanceSet", "insertRecord", "getAllRecord");
 	});
     $('#updateInfo').click(function() {
-    	submitUpdatedInfo("GTUndergraduateTutorGuidancePerformanceSet", "updateRecord", "getAllRecord");
+    	submitUpdatedInfo("ATUndergraduateTutorGuidancePerformanceSet", "updateRecord", "getAllRecord");
 	});
     $('.update').click(function() {
-		$('#up_upid').val($(this).parent().parent()[0].cells[4].innerHTML);
-		$('#up_studentQuantity').val($(this).parent().parent()[0].cells[2].innerHTML);
-// 		var currentTerm=$(this).parent().parent()[0].cells[3].innerHTML;
-// 		$("#up_termSelection option").each(function(){
-// 			if($(this).text()==currentTerm){
-// 				$(this).prop("selected",true);
-// 			}
-// 		});
+		$('#up_upid').val($(this).parent().parent()[0].cells[5].innerHTML);
+		$('#up_studentQuantity').val($(this).parent().parent()[0].cells[3].innerHTML);
+		$('#up_teacherId').val($(this).parent().parent()[0].cells[0].innerHTML);
+		var currentTerm=$(this).parent().parent()[0].cells[2].innerHTML;
+		$("#up_termSelection option").each(function(){
+			if($(this).text()==currentTerm){
+				$(this).prop("selected",true);
+			}
+		});
 	});
     $('.deleteInfo').click(function() {
-		var upid = $(this).parent().parent()[0].cells[4].innerHTML;
+		var upid = $(this).parent().parent()[0].cells[5].innerHTML;
 		deleteRecord({
 			"undergraduateTutorGuidancePerformance.upid":upid
-		}, "GTUndergraduateTutorGuidancePerformanceSet", "deleteRecord",
+		}, "ATUndergraduateTutorGuidancePerformanceSet", "deleteRecord",
 		"getAllRecord?isDivided=false");
 	});
     </script>
