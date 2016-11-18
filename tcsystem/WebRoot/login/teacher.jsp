@@ -288,8 +288,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<span class="fa arrow"></span>
 												</a>
 												<ul class="nav nav-second-level">
-													<li><a class="J_menuItem" href="GTteachingpaperPerformanceSet-project!gainAllProject">教学成果设置</a></li>
-													<li><a class="J_menuItem" href="GTteachingpaperPerformanceSet-person!getPersonJoin">个人参与设置</a></li>
+													<li><a class="J_menuItem" href="GTteachingachievePerformanceSet-project!gainAllProject">教学成果设置</a></li>
+													<li><a class="J_menuItem" href="GTteachingachievePerformanceSet-person!getPersonJoin">个人参与设置</a></li>
 												</ul>
 											</li>
 											<li><a class="J_menuItem" href="">教材建设绩效</a></li>

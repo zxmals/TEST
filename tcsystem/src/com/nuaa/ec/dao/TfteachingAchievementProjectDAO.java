@@ -130,7 +130,52 @@ public class TfteachingAchievementProjectDAO extends BaseHibernateDAO {
 			throw re;
 		}
 	}
+	
+	public void deleteBylogic(String projectId){
+		try {
+			String queryString = "update TfteachingAchievementProject "
+					+ "set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and projectId=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, projectId);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findPaging(int currnetRow,int limitRow,String condition){
+		try {
+			String queryString = "from TfteachingAchievementProject "
+					+ "where spareTire='1' "
+					+ "and  tfteachingAchievementRewardLevel.spareTire='1' "
+					+condition
+					+ "and tfterm.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setFirstResult(currnetRow).setMaxResults(limitRow);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
 
+	public int getRows(String condition){
+		try {
+			String queryString = "from TfteachingAchievementProject "
+					+ "where spareTire='1' "
+					+ "and  tfteachingAchievementRewardLevel.spareTire='1' "
+					+condition
+					+ "and tfterm.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public TfteachingAchievementProject merge(
 			TfteachingAchievementProject detachedInstance) {
 		log.debug("merging TfteachingAchievementProject instance");
