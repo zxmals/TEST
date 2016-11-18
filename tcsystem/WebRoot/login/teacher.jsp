@@ -292,8 +292,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<li><a class="J_menuItem" href="GTteachingachievePerformanceSet-person!getPersonJoin">个人参与设置</a></li>
 												</ul>
 											</li>
-											<li><a class="J_menuItem" href="">教材建设绩效</a></li>
-											<li><a class="J_menuItem" href="">精品课程建设绩效</a></li>
+											<li>
+												<a href="#">
+													<i class="fa fa fa-bar-chart-o"></i>
+													<span class="nav-label">教材建设绩效 </span>
+													<span class="fa arrow"></span>
+												</a>
+												<ul class="nav nav-second-level">
+													<li><a class="J_menuItem" href="GTteachingtextbookPerformanceSet-project!gainAllProject">教材建设设置</a></li>
+													<li><a class="J_menuItem" href="GTteachingtextbookPerformanceSet-person!getPersonJoin">个人参与设置</a></li>
+												</ul>
+											</li>
+											<li>
+												<a href="#">
+													<i class="fa fa fa-bar-chart-o"></i>
+													<span class="nav-label">精品课程建设绩效 </span>
+													<span class="fa arrow"></span>
+												</a>
+												<ul class="nav nav-second-level">
+													<li><a class="J_menuItem" href="GTteachingfinecoursePerformanceSet-project!gainAllProject">精品课程设置</a></li>
+													<li><a class="J_menuItem" href="GTteachingfinecoursePerformanceSet-person!getPersonJoin">个人参与设置</a></li>
+												</ul>
+											</li>
 											<li><a class="J_menuItem" href="">专业建设项目申报绩效</a></li>
 											<li><a class="J_menuItem" href="">企业工作站和联合培养基地建设绩效</a></li>
 											<li><a class="J_menuItem" href="GTSummerCourseInternationalConstructionPerformanceSet!getAllRecord">暑期课程与国际课程建设绩效</a></li>

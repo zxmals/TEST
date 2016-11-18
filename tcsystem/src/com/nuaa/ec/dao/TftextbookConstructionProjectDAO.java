@@ -131,6 +131,51 @@ public class TftextbookConstructionProjectDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public void deleteBylogic(String projectId){
+		try {
+			String queryString = "update TftextbookConstructionProject "
+					+ "set spareTire='0' "
+					+ "where bookId=? "
+					+ "and spareTire='1'";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, projectId);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findPaging(int currentRow,int limitRow,String condition){
+		try {
+			String queryString = "from TftextbookConstructionProject "
+					+ "where spareTire='1' "
+					+condition
+					+ "and tftextbookConstructionTblevel.spareTire='1'"
+					+ "and tfterm.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setFirstResult(currentRow).setMaxResults(limitRow);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition){
+		try {
+			String queryString = "from TftextbookConstructionProject "
+					+ "where spareTire='1' "
+					+condition
+					+ "and tftextbookConstructionTblevel.spareTire='1'"
+					+ "and tfterm.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public TftextbookConstructionProject merge(
 			TftextbookConstructionProject detachedInstance) {
 		log.debug("merging TftextbookConstructionProject instance");

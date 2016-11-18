@@ -7,7 +7,6 @@ import java.util.Map;
 
 
 
-import javax.servlet.Servlet;
 
 import net.sf.json.JSONArray;
 
@@ -21,7 +20,6 @@ import com.nuaa.ec.dao.TffamousTeacherTeamPerformanceDAO;
 import com.nuaa.ec.dao.TffamousTeacherTeamProjectDAO;
 import com.nuaa.ec.dao.TffamousTeacherTeamRewadLevelDAO;
 import com.nuaa.ec.dao.TftermDAO;
-import com.nuaa.ec.model.SelfUndertakeTask;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TffamousTeacherTeamPerformance;
 import com.nuaa.ec.model.TffamousTeacherTeamProject;
@@ -39,7 +37,6 @@ public class GTteachingfamousteamPerformanceSetAction implements RequestAware,
 	private TffamousTeacherTeamPerformance teachteam;
 	private TffamousTeacherTeamProject teachteamprojec;
 	private TffamousTeacherTeamRewadLevel teachteamrewardlevel;
-	private SelfUndertakeTask self;
 
 	private TffamousTeacherTeamPerformanceDAO teachteamdao = new TffamousTeacherTeamPerformanceDAO();
 	private TffamousTeacherTeamProjectDAO teachteamprojecdao = new TffamousTeacherTeamProjectDAO();
