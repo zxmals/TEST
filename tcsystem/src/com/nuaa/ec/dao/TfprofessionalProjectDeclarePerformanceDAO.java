@@ -1,8 +1,10 @@
 package com.nuaa.ec.dao;
 
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TffineCourseConstructionPerformance;
 import com.nuaa.ec.model.TfprofessionalProjectDeclarePerformance;
+import com.nuaa.ec.model.TfprofessionalProjectDeclareProject;
 import com.opensymphony.xwork2.ActionContext;
 
 import java.util.ArrayList;
@@ -195,6 +197,117 @@ public class TfprofessionalProjectDeclarePerformanceDAO extends
 		}
 	}
 
+	public List findPaging(int currentRow,int limitRow,String condition,Teacher teacher){
+		try {
+			String queryString = "from TfprofessionalProjectDeclarePerformance "
+					+ "where spareTire='1' "
+					+ "and tfprofessionalProjectDeclareProject.spareTire='1'"
+					+condition
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, teacher)
+					.setFirstResult(currentRow).setMaxResults(limitRow);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition,Teacher teacher){
+		try {
+			String queryString = "from TfprofessionalProjectDeclarePerformance "
+					+ "where spareTire='1' "
+					+ "and tfprofessionalProjectDeclareProject.spareTire='1'"
+					+condition
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, teacher);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void updateScore(String teacherId,double score,TfprofessionalProjectDeclareProject project){
+		try {
+			String queryString = "update TfprofessionalProjectDeclarePerformance "
+					+ "set singleScore=? "
+					+ "where teacher.teacherId=?"
+					+ "and tfprofessionalProjectDeclareProject=? "
+					+ "and spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, score).setParameter(1, teacherId).setParameter(2, project);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findMember(TfprofessionalProjectDeclareProject project){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,t.singleScore) "
+					+ "from TfprofessionalProjectDeclarePerformance t "
+					+ "where spareTire='1' "
+					+ "and tfprofessionalProjectDeclareProject=? "
+					+ "and teacher.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, project);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRef(TfprofessionalProjectDeclareProject project){
+		try {
+			String queryString = "update TfprofessionalProjectDeclarePerformance "
+					+ "set spareTire='0' "
+					+ "where tfprofessionalProjectDeclareProject=? "
+					+ "and spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, project);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public void quitProject(Teacher teacher,TfprofessionalProjectDeclareProject project){
+		try {
+			String queryString = "update TfprofessionalProjectDeclarePerformance "
+					+ "set spareTire='0' "
+					+ "where tfprofessionalProjectDeclareProject=? "
+					+ "and spareTire='1' "
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, project).setParameter(1, teacher);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public boolean checkexist(TfprofessionalProjectDeclareProject project,Teacher teacher){
+		try {
+			String queryString = "from TfprofessionalProjectDeclarePerformance "
+					+ "where spareTire='1' "
+					+ "and tfprofessionalProjectDeclareProject=? "
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, project).setParameter(1, teacher);
+			if(queryObject.list().size()>0){
+				return false;
+			}else return true;
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public TfprofessionalProjectDeclarePerformance merge(
 			TfprofessionalProjectDeclarePerformance detachedInstance) {
 		log.debug("merging TfprofessionalProjectDeclarePerformance instance");
