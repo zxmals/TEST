@@ -1,5 +1,5 @@
 package com.nuaa.ec.teachingPerformanceSetAction;
-
+//专业建设项目申报
 import java.util.Map;
 
 import net.sf.json.JSONArray;
@@ -185,7 +185,7 @@ public class GTteachingprofeprojePerformanceSetAction implements RequestAware,
 			if(profeprojeprecedao.checkexist(profeprojeproject, (Teacher)session.get("teacher"))){
 				profeprojeprece = new TfprofessionalProjectDeclarePerformance();
 				profeprojeprece.setCheckOut("0");
-				profeprojeprece.setSelfUndertakeTask(selfdao.findByUndertakeTaskNameDim());
+				profeprojeprece.setSelfUndertakeTask(selfdao.findByUndertakeTaskNameOJoin());
 				profeprojeprece.setSingleScore(0.0);
 				profeprojeprece.setSpareTire("1");
 				profeprojeprece.setTeacher((Teacher)session.get("teacher"));

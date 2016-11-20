@@ -325,7 +325,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<li><a class="J_menuItem" href="GTteachingprofeprojePerformanceSet-person!getPersonJoin">个人参与设置</a></li>
 												</ul>
 											</li>
-											<li><a class="J_menuItem" href="">企业工作站和联合培养基地建设绩效</a></li>
+											<li>
+												<a href="#">
+													<i class="fa fa fa-bar-chart-o"></i>
+													<span class="nav-label">企业工作站和联合培养基地建设绩效 </span>
+													<span class="fa arrow"></span>
+												</a>
+												<ul class="nav nav-second-level">
+													<li><a class="J_menuItem" href="GTteachingfirmbaseconPerformanceSet-project!gainAllProject">企业工作站与联合培养基地设置</a></li>
+													<li><a class="J_menuItem" href="GTteachingfirmbaseconPerformanceSet-person!getPersonJoin">个人参与设置</a></li>
+												</ul>
+											</li>
 											<li><a class="J_menuItem" href="GTSummerCourseInternationalConstructionPerformanceSet!getAllRecord">暑期课程与国际课程建设绩效</a></li>
 										</ul>
 									</li>

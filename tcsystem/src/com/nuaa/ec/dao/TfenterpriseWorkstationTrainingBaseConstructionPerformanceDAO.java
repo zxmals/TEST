@@ -13,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfenterpriseWorkstationTrainingBaseConstructionPerformance;
+import com.nuaa.ec.model.TfenterpriseWorkstationTrainingBaseConstructionProject;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -205,6 +207,118 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO
 		}
 	}
 
+	public List findPaging(int currentRow,int limitRow,String condition,Teacher teacher){
+		try {
+			String queryString = "from TfenterpriseWorkstationTrainingBaseConstructionPerformance "
+					+ "where spareTire='1' "
+					+ "and tfenterpriseWorkstationTrainingBaseConstructionProject.spareTire='1' "
+					+condition
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, teacher)
+					.setFirstResult(currentRow).setMaxResults(limitRow);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public int getRows(String condition,Teacher teacher){
+		try {
+			String queryString = "from TfenterpriseWorkstationTrainingBaseConstructionPerformance "
+					+ "where spareTire='1' "
+					+ "and tfenterpriseWorkstationTrainingBaseConstructionProject.spareTire='1' "
+					+condition
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, teacher);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public boolean checkexist(TfenterpriseWorkstationTrainingBaseConstructionProject project,Teacher teacher){
+		try {
+			String queryString = "from TfenterpriseWorkstationTrainingBaseConstructionPerformance "
+					+ "where spareTire='1' "
+					+ "and tfenterpriseWorkstationTrainingBaseConstructionProject=? "
+					+ "and teacher=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, project).setParameter(1, teacher);
+			if(queryObject.list().size()>0){
+				return false;
+			}else return true;
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findMember(TfenterpriseWorkstationTrainingBaseConstructionProject project){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,t.singleScore) "
+					+ " from TfenterpriseWorkstationTrainingBaseConstructionPerformance t "
+					+ "where spareTire='1' "
+					+ "and tfenterpriseWorkstationTrainingBaseConstructionProject=? "
+					+ "and teacher.spareTire='1' ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, project);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRef(TfenterpriseWorkstationTrainingBaseConstructionProject project){
+		try {
+			String queryString = "update TfenterpriseWorkstationTrainingBaseConstructionPerformance "
+					+ "set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and tfenterpriseWorkstationTrainingBaseConstructionProject=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, project);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void quitProject(Teacher teacher,TfenterpriseWorkstationTrainingBaseConstructionProject project){
+		try {
+			String queryString = "update TfenterpriseWorkstationTrainingBaseConstructionPerformance "
+					+ "set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and tfenterpriseWorkstationTrainingBaseConstructionProject=? "
+					+ "and teacher=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, project).setParameter(1, teacher);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void updateScore(String teacherId,double score,TfenterpriseWorkstationTrainingBaseConstructionProject project){
+		try {
+			String queryString = "update TfenterpriseWorkstationTrainingBaseConstructionPerformance "
+					+ "set singleScore=? "
+					+ "where spareTire='1' "
+					+ "and tfenterpriseWorkstationTrainingBaseConstructionProject=? "
+					+ "and teacher.teacherId=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(1, project).setParameter(2, teacherId).setParameter(0, score);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+		
+	}
+	
 	public TfenterpriseWorkstationTrainingBaseConstructionPerformance merge(
 			TfenterpriseWorkstationTrainingBaseConstructionPerformance detachedInstance) {
 		log.debug("merging TfenterpriseWorkstationTrainingBaseConstructionPerformance instance");
