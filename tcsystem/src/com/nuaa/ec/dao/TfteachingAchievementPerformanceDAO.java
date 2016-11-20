@@ -1,7 +1,9 @@
 package com.nuaa.ec.dao;
 
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfteachingAchievementPerformance;
+import com.nuaa.ec.model.TfteachingAchievementProject;
 import com.nuaa.ec.model.TfteachingPaperPerformance;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -193,6 +195,118 @@ public class TfteachingAchievementPerformanceDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public List findPaging(int currentRow,int limitRow,String condition,Teacher teacher){
+		try {
+			String queryString = "from TfteachingAchievementPerformance "
+					+ "where spareTire='1' "
+					+ "and tfteachingAchievementProject.spareTire='1' "
+					+condition
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, teacher)
+					.setFirstResult(currentRow).setMaxResults(limitRow);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public int getRows(String condition,Teacher teacher){
+		try {
+			String queryString = "from TfteachingAchievementPerformance "
+					+ "where spareTire='1' "
+					+ "and tfteachingAchievementProject.spareTire='1' "
+					+condition
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, teacher);
+			return queryObject.list().size();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public boolean checkexist(TfteachingAchievementProject project,Teacher teacher){
+		try {
+			String queryString = "from TfteachingAchievementPerformance "
+					+ "where spareTire='1' "
+					+ "and tfteachingAchievementProject=? "
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, project).setParameter(1, teacher);
+			if(queryObject.list().size()>0){
+				return false;
+			}else return true;
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findMember(TfteachingAchievementProject project){
+		try {
+			String queryString = "select new com.nuaa.ec.model.TeacherMember(t.teacher.teacherId,t.teacher.teacherName,t.singelScore) "
+					+ " from TfteachingAchievementPerformance t "
+					+ "where spareTire='1' "
+					+ "and teacher.spareTire='1' "
+					+ "and tfteachingAchievementProject=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, project);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void deleteRef(TfteachingAchievementProject project){
+		try {
+			String queryString = "update TfteachingAchievementPerformance "
+					+ "set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and tfteachingAchievementProject=? ";
+			Query queryObject = getSession().createQuery(queryString).setParameter(0, project);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void quitProject(Teacher teacher,TfteachingAchievementProject project){
+		try {
+			String queryString = "update TfteachingAchievementPerformance "
+					+ "set spareTire='0' "
+					+ "where spareTire='1' "
+					+ "and tfteachingAchievementProject=? "
+					+ "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, project).setParameter(1,teacher);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void updateScore(String teacherId,double score,TfteachingAchievementProject project){
+		try {
+			String queryString = "update TfteachingAchievementPerformance "
+					+ "set singelScore=? "
+					+ "where spareTire='1'"
+					+ "and teacher.teacherId=? "
+					+ "and tfteachingAchievementProject=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, score).setParameter(1, teacherId)
+					.setParameter(2, project);
+			queryObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 	public TfteachingAchievementPerformance merge(
 			TfteachingAchievementPerformance detachedInstance) {
 		log.debug("merging TfteachingAchievementPerformance instance");

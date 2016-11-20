@@ -9,7 +9,7 @@
     catalog="ScientificResearch">
         <id name="upid" type="java.lang.Integer">
             <column name="upid" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <many-to-one name="tfenterpriseWorkstationTrainingBaseConstructionProject" class="com.nuaa.ec.model.TfenterpriseWorkstationTrainingBaseConstructionProject" fetch="select">
             <column name="projectId" length="20" />

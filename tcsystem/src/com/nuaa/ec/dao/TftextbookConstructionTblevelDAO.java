@@ -117,7 +117,8 @@ public class TftextbookConstructionTblevelDAO extends BaseHibernateDAO {
 	public List findAll() {
 		log.debug("finding all TftextbookConstructionTblevel instances");
 		try {
-			String queryString = "from TftextbookConstructionTblevel";
+			String queryString = "from TftextbookConstructionTblevel "
+					+ "where spareTire='1' ";
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {

@@ -2,7 +2,6 @@ package com.nuaa.ec.teachingPerformanceSetAction;
 
 import java.util.Map;
 
-
 import net.sf.json.JSONArray;
 
 import org.apache.struts2.ServletActionContext;
@@ -10,38 +9,35 @@ import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Transaction;
 
-import com.nuaa.ec.dao.TfteachingRearchEvaluationDAO;
-import com.nuaa.ec.dao.TfteachingRearchFundlevelDAO;
-import com.nuaa.ec.dao.TfteachingRearchPerformanceDAO;
-import com.nuaa.ec.dao.TfteachingRearchProjectDAO;
+import com.nuaa.ec.dao.SelfUndertakeTaskDAO;
+import com.nuaa.ec.dao.TffineCourseConstructionLevelDAO;
+import com.nuaa.ec.dao.TffineCourseConstructionPerformanceDAO;
+import com.nuaa.ec.dao.TffineCourseConstructionProjectDAO;
 import com.nuaa.ec.dao.TftermDAO;
 import com.nuaa.ec.model.Teacher;
-import com.nuaa.ec.model.TfteachingRearchEvaluation;
-import com.nuaa.ec.model.TfteachingRearchFundlevel;
-import com.nuaa.ec.model.TfteachingRearchPerformance;
-import com.nuaa.ec.model.TfteachingRearchProject;
+import com.nuaa.ec.model.TffineCourseConstructionLevel;
+import com.nuaa.ec.model.TffineCourseConstructionPerformance;
+import com.nuaa.ec.model.TffineCourseConstructionProject;
 import com.nuaa.ec.model.Tfterm;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
 
-
-public class GTteachingresearchPerformanceSetAction implements RequestAware,
+public class GTteachingfinecoursePerformanceSetAction implements RequestAware,
 		SessionAware {
 
 	private Map<String, Object> session;
 	private Map<String, Object> request;
 	private Tfterm term;
-	private TfteachingRearchEvaluation teachreachevalute;
-	private TfteachingRearchFundlevel teachreachfundlevel;
-	private TfteachingRearchPerformance teachreachperce;
-	private TfteachingRearchProject teachreachprojec;
+	private TffineCourseConstructionPerformance finecourseperce;
+	private TffineCourseConstructionLevel finecourselevel;
+	private TffineCourseConstructionProject finecourseproject;
 	
-	private TfteachingRearchEvaluationDAO teachreachevalutedao = new TfteachingRearchEvaluationDAO();
-	private TfteachingRearchFundlevelDAO teachreachfundleveldao = new TfteachingRearchFundlevelDAO();
-	private TfteachingRearchPerformanceDAO teachreachpercedao = new TfteachingRearchPerformanceDAO();
-	private TfteachingRearchProjectDAO teachreachprojecdao = new TfteachingRearchProjectDAO();
+	private TffineCourseConstructionPerformanceDAO finecoursepercedao = new TffineCourseConstructionPerformanceDAO();
+	private TffineCourseConstructionProjectDAO finecourseprojectdao = new TffineCourseConstructionProjectDAO();
+	private TffineCourseConstructionLevelDAO finecourseleveldao = new TffineCourseConstructionLevelDAO();
 	private PrimaryKMaker pkmk = new PrimaryKMaker();
 	private TftermDAO termdao = new TftermDAO();
+	private SelfUndertakeTaskDAO selfdao = new SelfUndertakeTaskDAO();
 	//default method
 	public String execute(){
 		return "success";
@@ -55,11 +51,10 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 			String pagenumber = (String) ServletActionContext.getRequest().getParameter("pagenum");
 			pagenum = pagenumber != null?(pagenum = !"".equals(pagenumber.trim()) ? Integer.parseInt(pagenumber) : 1):1;
 			limitrow = limit != null?(!"".equals(limit.trim()) ? Integer.parseInt(limit) : 5):5;
-			request.put("teachresearchli", teachreachprojecdao.findPaging((pagenum - 1)* limitrow, limitrow, EntityUtil.generateTeachingQueryCondition(term, "tfterm.termId")));
+			request.put("finecourseli", finecourseprojectdao.findPaging((pagenum - 1)* limitrow, limitrow, EntityUtil.generateTeachingQueryCondition(term, "tfterm.termId")));
 			request.put("tftermList", termdao.findAll());
-			request.put("passfundli", teachreachfundleveldao.findAll());
-			request.put("evaluateli", teachreachevalutedao.findAll());
-			int li = teachreachprojecdao.getRows(EntityUtil.generateTeachingQueryCondition(term, "tfterm.termId"));
+			request.put("courselevel", finecourseleveldao.findAll());
+			int li = finecourseprojectdao.getRows(EntityUtil.generateTeachingQueryCondition(term, "tfterm.termId"));
 			int sumpage = 0;
 			sumpage = li % limitrow == 0?li / limitrow:li / limitrow + 1;
 			request.put("sumrow", li);
@@ -77,25 +72,24 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	public void addProject()throws Exception{
 		Transaction tx = null;
 		try {
-			teachreachprojec.setSpareTire("1");
-			teachreachprojec.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			teachreachprojec.setCheckOut("0");
-			teachreachprojec.setProjectId(pkmk.mkpk(EntityUtil.getPkColumnName(TfteachingRearchProject.class), EntityUtil.getTableName(TfteachingRearchProject.class), "TFTR"));
-			this.setTeachreachevalute(teachreachevalutedao.findById(teachreachevalute.getEvaluationId()));
-			this.setTeachreachfundlevel(teachreachfundleveldao.findById(teachreachfundlevel.getFundLevelId()));
-			teachreachprojec.setTfteachingRearchEvaluation(teachreachevalute);
-			teachreachprojec.setTfteachingRearchFundlevel(teachreachfundlevel);
-			teachreachprojec.setProjetScore(teachreachevalute.getRatio()*teachreachfundlevel.getScore());
-			teachreachprojec.setTfterm(termdao.findById(term.getTermId()));
+			finecourseproject.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
+			finecourseproject.setCheckOut("0");
+			finecourseproject.setCourseId(pkmk.mkpk(EntityUtil.getPkColumnName(TffineCourseConstructionProject.class), EntityUtil.getTableName(TffineCourseConstructionProject.class), "TFCOURSE"));
+			this.setFinecourselevel(finecourseleveldao.findById(finecourselevel.getCourseLevelId()));
+			finecourseproject.setProjectSumScore(finecourselevel.getScore());
+			finecourseproject.setSpareTire("1");
+			finecourseproject.setTffineCourseConstructionLevel(finecourselevel);
+			finecourseproject.setTfterm(termdao.findById(term.getTermId()));
 //			
-			teachreachperce = new TfteachingRearchPerformance();
-			teachreachperce.setCheckOut("0");
-			teachreachperce.setSpareTire("1");
-			teachreachperce.setTeacher((Teacher)session.get("teacher"));
-			teachreachperce.setTfteachingRearchProject(teachreachprojec);
-			teachreachprojecdao.save(teachreachprojec);
-			teachreachpercedao.save(teachreachperce);
-			tx = teachreachprojecdao.getSession().beginTransaction();
+			finecourseperce = new TffineCourseConstructionPerformance();
+			finecourseperce.setCheckOut("0");
+			finecourseperce.setSelfUndertakeTask(selfdao.findByUndertakeTaskNameDim());
+			finecourseperce.setSpareTire("1");
+			finecourseperce.setTeacher((Teacher)session.get("teacher"));
+			finecourseperce.setTffineCourseConstructionProject(finecourseproject);
+			finecourseprojectdao.save(finecourseproject);
+			finecoursepercedao.save(finecourseperce);
+			tx = finecourseprojectdao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -109,16 +103,14 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	public void updateProject()throws Exception{
 		Transaction tx = null;
 		try {
-			teachreachprojec.setSpareTire("1");
-			teachreachprojec.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			this.setTeachreachevalute(teachreachevalutedao.findById(teachreachevalute.getEvaluationId()));
-			this.setTeachreachfundlevel(teachreachfundleveldao.findById(teachreachfundlevel.getFundLevelId()));
-			teachreachprojec.setTfteachingRearchEvaluation(teachreachevalute);
-			teachreachprojec.setTfteachingRearchFundlevel(teachreachfundlevel);
-			teachreachprojec.setProjetScore(teachreachevalute.getRatio()*teachreachfundlevel.getScore());
-			teachreachprojec.setTfterm(termdao.findById(term.getTermId()));
-			teachreachprojecdao.merge(teachreachprojec);
-			tx = teachreachprojecdao.getSession().beginTransaction();
+			finecourseproject.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
+			this.setFinecourselevel(finecourseleveldao.findById(finecourselevel.getCourseLevelId()));
+			finecourseproject.setProjectSumScore(finecourselevel.getScore());
+			finecourseproject.setSpareTire("1");
+			finecourseproject.setTffineCourseConstructionLevel(finecourselevel);
+			finecourseproject.setTfterm(termdao.findById(term.getTermId()));
+			finecourseprojectdao.merge(finecourseproject);
+			tx = finecourseprojectdao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -132,9 +124,9 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	public void deleteProject()throws Exception{
 		Transaction tx = null;
 		try {
-			teachreachprojecdao.deleteBylogic(teachreachprojec.getProjectId());
-			teachreachpercedao.deleteRef(teachreachprojec);
-			tx = teachreachpercedao.getSession().beginTransaction();
+			finecourseprojectdao.deleteBylogic(finecourseproject.getCourseId());
+			finecoursepercedao.deleteRef(finecourseproject);
+			tx = finecoursepercedao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -147,7 +139,7 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	
 	public void getMember()throws Exception{
 		try {
-			JSONArray jsay = JSONArray.fromObject(teachreachpercedao.findMember(teachreachprojec));
+			JSONArray jsay = JSONArray.fromObject(finecoursepercedao.findMember(finecourseproject));
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 			ServletActionContext.getResponse().getWriter().write(jsay.toString());
 		} catch (Exception e) {
@@ -167,7 +159,7 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 			for(int i=0;i<tscores.length;i++){
 				tmps = tscores[i].split(",");
 				tmpscore = Double.parseDouble(tmps[1]);
-				teachreachpercedao.updateScore(tmps[0],tmpscore, teachreachprojec);
+				finecoursepercedao.updateScore(tmps[0],tmpscore,finecourseproject);
 				sumscore -= tmpscore;
 			}
 			if(sumscore!=0){
@@ -175,7 +167,7 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 				ServletActionContext.getResponse().getWriter().write("分数分配不当，或多或少");
 				return;
 			}
-			tx = teachreachpercedao.getSession().beginTransaction();
+			tx = finecoursepercedao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -189,19 +181,20 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	public void joinPeoject()throws Exception{
 		Transaction tx = null;
 		try {
-			if(teachreachpercedao.checkexist(teachreachprojec, (Teacher)session.get("teacher"))){
-				teachreachperce = new TfteachingRearchPerformance();
-				teachreachperce.setCheckOut("0");
-				teachreachperce.setSpareTire("1");
-				teachreachperce.setTeacher((Teacher)session.get("teacher"));
-				teachreachperce.setTfteachingRearchProject(teachreachprojec);
-				teachreachpercedao.save(teachreachperce);
+			if(finecoursepercedao.checkexist(finecourseproject, (Teacher)session.get("teacher"))){
+				finecourseperce = new TffineCourseConstructionPerformance();
+				finecourseperce.setCheckOut("0");
+				finecourseperce.setSelfUndertakeTask(selfdao.findByUndertakeTaskNameDim());
+				finecourseperce.setSpareTire("1");
+				finecourseperce.setTeacher((Teacher)session.get("teacher"));
+				finecourseperce.setTffineCourseConstructionProject(finecourseproject);
+				finecoursepercedao.save(finecourseperce);
 			}else{
 				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 				ServletActionContext.getResponse().getWriter().write("不能重复加入");
 				return;
 			}
-			tx = teachreachpercedao.getSession().beginTransaction();
+			tx = finecoursepercedao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -220,10 +213,10 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 			String pagenumber = (String) ServletActionContext.getRequest().getParameter("pagenum");
 			pagenum = pagenumber != null?(pagenum = !"".equals(pagenumber.trim()) ? Integer.parseInt(pagenumber) : 1):1;
 			limitrow = limit != null?(!"".equals(limit.trim()) ? Integer.parseInt(limit) : 5):5;
-			request.put("teachreachperceli", teachreachpercedao.findPaging((pagenum - 1)* limitrow, limitrow,
-					EntityUtil.generateTeachingQueryCondition(term, "tfteachingRearchProject.tfterm.termId"),(Teacher)session.get("teacher")));
+			request.put("finecoursepli", finecoursepercedao.findPaging((pagenum - 1)* limitrow, limitrow,
+					EntityUtil.generateTeachingQueryCondition(term, "tffineCourseConstructionProject.tfterm.termId"),(Teacher)session.get("teacher")));
 			request.put("tftermList", termdao.findAll());
-			int li = teachreachpercedao.getRows(EntityUtil.generateTeachingQueryCondition(term, "tfteachingRearchProject.tfterm.termId"),(Teacher)session.get("teacher"));
+			int li = finecoursepercedao.getRows(EntityUtil.generateTeachingQueryCondition(term, "tffineCourseConstructionProject.tfterm.termId"),(Teacher)session.get("teacher"));
 			int sumpage = 0;
 			sumpage = li % limitrow == 0?li / limitrow:li / limitrow + 1;
 			request.put("sumrow", li);
@@ -241,8 +234,8 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	public void quitProject()throws Exception{
 		Transaction tx = null;
 		try {
-			teachreachpercedao.quitProject((Teacher)session.get("teacher"), teachreachprojec);
-			tx = teachreachpercedao.getSession().beginTransaction();
+			finecoursepercedao.quitProject((Teacher)session.get("teacher"), finecourseproject);
+			tx = finecoursepercedao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -278,36 +271,29 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 		this.term = term;
 	}
 
-	public TfteachingRearchEvaluation getTeachreachevalute() {
-		return teachreachevalute;
+	public TffineCourseConstructionPerformance getFinecourseperce() {
+		return finecourseperce;
 	}
 
-	public void setTeachreachevalute(TfteachingRearchEvaluation teachreachevalute) {
-		this.teachreachevalute = teachreachevalute;
+	public void setFinecourseperce(
+			TffineCourseConstructionPerformance finecourseperce) {
+		this.finecourseperce = finecourseperce;
 	}
 
-	public TfteachingRearchFundlevel getTeachreachfundlevel() {
-		return teachreachfundlevel;
+	public TffineCourseConstructionLevel getFinecourselevel() {
+		return finecourselevel;
 	}
 
-	public void setTeachreachfundlevel(TfteachingRearchFundlevel teachreachfundlevel) {
-		this.teachreachfundlevel = teachreachfundlevel;
+	public void setFinecourselevel(TffineCourseConstructionLevel finecourselevel) {
+		this.finecourselevel = finecourselevel;
 	}
 
-	public TfteachingRearchPerformance getTeachreachperce() {
-		return teachreachperce;
+	public TffineCourseConstructionProject getFinecourseproject() {
+		return finecourseproject;
 	}
 
-	public void setTeachreachperce(TfteachingRearchPerformance teachreachperce) {
-		this.teachreachperce = teachreachperce;
+	public void setFinecourseproject(
+			TffineCourseConstructionProject finecourseproject) {
+		this.finecourseproject = finecourseproject;
 	}
-
-	public TfteachingRearchProject getTeachreachprojec() {
-		return teachreachprojec;
-	}
-
-	public void setTeachreachprojec(TfteachingRearchProject teachreachprojec) {
-		this.teachreachprojec = teachreachprojec;
-	}
-
 }

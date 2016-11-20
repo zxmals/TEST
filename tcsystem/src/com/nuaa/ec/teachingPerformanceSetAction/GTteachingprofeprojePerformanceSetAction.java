@@ -1,7 +1,6 @@
 package com.nuaa.ec.teachingPerformanceSetAction;
-
+//专业建设项目申报
 import java.util.Map;
-
 
 import net.sf.json.JSONArray;
 
@@ -10,38 +9,35 @@ import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Transaction;
 
-import com.nuaa.ec.dao.TfteachingRearchEvaluationDAO;
-import com.nuaa.ec.dao.TfteachingRearchFundlevelDAO;
-import com.nuaa.ec.dao.TfteachingRearchPerformanceDAO;
-import com.nuaa.ec.dao.TfteachingRearchProjectDAO;
+import com.nuaa.ec.dao.SelfUndertakeTaskDAO;
+import com.nuaa.ec.dao.TfprofessionalProjectDeclareLevelDAO;
+import com.nuaa.ec.dao.TfprofessionalProjectDeclarePerformanceDAO;
+import com.nuaa.ec.dao.TfprofessionalProjectDeclareProjectDAO;
 import com.nuaa.ec.dao.TftermDAO;
 import com.nuaa.ec.model.Teacher;
-import com.nuaa.ec.model.TfteachingRearchEvaluation;
-import com.nuaa.ec.model.TfteachingRearchFundlevel;
-import com.nuaa.ec.model.TfteachingRearchPerformance;
-import com.nuaa.ec.model.TfteachingRearchProject;
+import com.nuaa.ec.model.TfprofessionalProjectDeclareLevel;
+import com.nuaa.ec.model.TfprofessionalProjectDeclarePerformance;
+import com.nuaa.ec.model.TfprofessionalProjectDeclareProject;
 import com.nuaa.ec.model.Tfterm;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
 
-
-public class GTteachingresearchPerformanceSetAction implements RequestAware,
+public class GTteachingprofeprojePerformanceSetAction implements RequestAware,
 		SessionAware {
 
 	private Map<String, Object> session;
 	private Map<String, Object> request;
 	private Tfterm term;
-	private TfteachingRearchEvaluation teachreachevalute;
-	private TfteachingRearchFundlevel teachreachfundlevel;
-	private TfteachingRearchPerformance teachreachperce;
-	private TfteachingRearchProject teachreachprojec;
+	private TfprofessionalProjectDeclarePerformance profeprojeprece;
+	private TfprofessionalProjectDeclareProject profeprojeproject;
+	private TfprofessionalProjectDeclareLevel profeprojelevel;
 	
-	private TfteachingRearchEvaluationDAO teachreachevalutedao = new TfteachingRearchEvaluationDAO();
-	private TfteachingRearchFundlevelDAO teachreachfundleveldao = new TfteachingRearchFundlevelDAO();
-	private TfteachingRearchPerformanceDAO teachreachpercedao = new TfteachingRearchPerformanceDAO();
-	private TfteachingRearchProjectDAO teachreachprojecdao = new TfteachingRearchProjectDAO();
+	private TfprofessionalProjectDeclarePerformanceDAO profeprojeprecedao = new TfprofessionalProjectDeclarePerformanceDAO();
+	private TfprofessionalProjectDeclareProjectDAO profeprojeprojectdao = new TfprofessionalProjectDeclareProjectDAO();
+	private TfprofessionalProjectDeclareLevelDAO profeprojeleveldao = new TfprofessionalProjectDeclareLevelDAO();
 	private PrimaryKMaker pkmk = new PrimaryKMaker();
 	private TftermDAO termdao = new TftermDAO();
+	private SelfUndertakeTaskDAO selfdao = new SelfUndertakeTaskDAO();
 	//default method
 	public String execute(){
 		return "success";
@@ -55,11 +51,10 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 			String pagenumber = (String) ServletActionContext.getRequest().getParameter("pagenum");
 			pagenum = pagenumber != null?(pagenum = !"".equals(pagenumber.trim()) ? Integer.parseInt(pagenumber) : 1):1;
 			limitrow = limit != null?(!"".equals(limit.trim()) ? Integer.parseInt(limit) : 5):5;
-			request.put("teachresearchli", teachreachprojecdao.findPaging((pagenum - 1)* limitrow, limitrow, EntityUtil.generateTeachingQueryCondition(term, "tfterm.termId")));
+			request.put("profeprojeporjeli", profeprojeprojectdao.findPaging((pagenum - 1)* limitrow, limitrow, EntityUtil.generateTeachingQueryCondition(term, "tfterm.termId")));
 			request.put("tftermList", termdao.findAll());
-			request.put("passfundli", teachreachfundleveldao.findAll());
-			request.put("evaluateli", teachreachevalutedao.findAll());
-			int li = teachreachprojecdao.getRows(EntityUtil.generateTeachingQueryCondition(term, "tfterm.termId"));
+			request.put("projectlevel", profeprojeleveldao.findAll());
+			int li = profeprojeprojectdao.getRows(EntityUtil.generateTeachingQueryCondition(term, "tfterm.termId"));
 			int sumpage = 0;
 			sumpage = li % limitrow == 0?li / limitrow:li / limitrow + 1;
 			request.put("sumrow", li);
@@ -77,25 +72,25 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	public void addProject()throws Exception{
 		Transaction tx = null;
 		try {
-			teachreachprojec.setSpareTire("1");
-			teachreachprojec.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			teachreachprojec.setCheckOut("0");
-			teachreachprojec.setProjectId(pkmk.mkpk(EntityUtil.getPkColumnName(TfteachingRearchProject.class), EntityUtil.getTableName(TfteachingRearchProject.class), "TFTR"));
-			this.setTeachreachevalute(teachreachevalutedao.findById(teachreachevalute.getEvaluationId()));
-			this.setTeachreachfundlevel(teachreachfundleveldao.findById(teachreachfundlevel.getFundLevelId()));
-			teachreachprojec.setTfteachingRearchEvaluation(teachreachevalute);
-			teachreachprojec.setTfteachingRearchFundlevel(teachreachfundlevel);
-			teachreachprojec.setProjetScore(teachreachevalute.getRatio()*teachreachfundlevel.getScore());
-			teachreachprojec.setTfterm(termdao.findById(term.getTermId()));
-//			
-			teachreachperce = new TfteachingRearchPerformance();
-			teachreachperce.setCheckOut("0");
-			teachreachperce.setSpareTire("1");
-			teachreachperce.setTeacher((Teacher)session.get("teacher"));
-			teachreachperce.setTfteachingRearchProject(teachreachprojec);
-			teachreachprojecdao.save(teachreachprojec);
-			teachreachpercedao.save(teachreachperce);
-			tx = teachreachprojecdao.getSession().beginTransaction();
+			profeprojeproject.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
+			profeprojeproject.setCheckOut("0");
+			profeprojeproject.setProjectId(pkmk.mkpk(EntityUtil.getPkColumnName(TfprofessionalProjectDeclareProject.class), EntityUtil.getTableName(TfprofessionalProjectDeclareProject.class), "TFPFPJ"));
+			this.setProfeprojelevel(profeprojeleveldao.findById(profeprojelevel.getProjectLevelId()));
+			profeprojeproject.setProjectSumScore(profeprojelevel.getScore());
+			profeprojeproject.setSpareTire("1");
+			profeprojeproject.setTfprofessionalProjectDeclareLevel(profeprojelevel);
+			profeprojeproject.setTfterm(termdao.findById(term.getTermId()));
+//
+			profeprojeprece = new TfprofessionalProjectDeclarePerformance();
+			profeprojeprece.setCheckOut("0");
+			profeprojeprece.setSelfUndertakeTask(selfdao.findByUndertakeTaskNameDim());
+			profeprojeprece.setSingleScore(0.0);
+			profeprojeprece.setSpareTire("1");
+			profeprojeprece.setTeacher((Teacher)session.get("teacher"));
+			profeprojeprece.setTfprofessionalProjectDeclareProject(profeprojeproject);
+			profeprojeprojectdao.save(profeprojeproject);
+			profeprojeprecedao.save(profeprojeprece);
+			tx = profeprojeprojectdao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -109,16 +104,14 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	public void updateProject()throws Exception{
 		Transaction tx = null;
 		try {
-			teachreachprojec.setSpareTire("1");
-			teachreachprojec.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			this.setTeachreachevalute(teachreachevalutedao.findById(teachreachevalute.getEvaluationId()));
-			this.setTeachreachfundlevel(teachreachfundleveldao.findById(teachreachfundlevel.getFundLevelId()));
-			teachreachprojec.setTfteachingRearchEvaluation(teachreachevalute);
-			teachreachprojec.setTfteachingRearchFundlevel(teachreachfundlevel);
-			teachreachprojec.setProjetScore(teachreachevalute.getRatio()*teachreachfundlevel.getScore());
-			teachreachprojec.setTfterm(termdao.findById(term.getTermId()));
-			teachreachprojecdao.merge(teachreachprojec);
-			tx = teachreachprojecdao.getSession().beginTransaction();
+			profeprojeproject.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
+			this.setProfeprojelevel(profeprojeleveldao.findById(profeprojelevel.getProjectLevelId()));
+			profeprojeproject.setProjectSumScore(profeprojelevel.getScore());
+			profeprojeproject.setSpareTire("1");
+			profeprojeproject.setTfprofessionalProjectDeclareLevel(profeprojelevel);
+			profeprojeproject.setTfterm(termdao.findById(term.getTermId()));
+			profeprojeprojectdao.merge(profeprojeproject);
+			tx = profeprojeprojectdao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -132,9 +125,9 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	public void deleteProject()throws Exception{
 		Transaction tx = null;
 		try {
-			teachreachprojecdao.deleteBylogic(teachreachprojec.getProjectId());
-			teachreachpercedao.deleteRef(teachreachprojec);
-			tx = teachreachpercedao.getSession().beginTransaction();
+			profeprojeprojectdao.deleteBylogic(profeprojeproject.getProjectId());
+			profeprojeprecedao.deleteRef(profeprojeproject);
+			tx = profeprojeprecedao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -147,7 +140,7 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	
 	public void getMember()throws Exception{
 		try {
-			JSONArray jsay = JSONArray.fromObject(teachreachpercedao.findMember(teachreachprojec));
+			JSONArray jsay = JSONArray.fromObject(profeprojeprecedao.findMember(profeprojeproject));
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 			ServletActionContext.getResponse().getWriter().write(jsay.toString());
 		} catch (Exception e) {
@@ -167,7 +160,7 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 			for(int i=0;i<tscores.length;i++){
 				tmps = tscores[i].split(",");
 				tmpscore = Double.parseDouble(tmps[1]);
-				teachreachpercedao.updateScore(tmps[0],tmpscore, teachreachprojec);
+				profeprojeprecedao.updateScore(tmps[0],tmpscore,profeprojeproject);
 				sumscore -= tmpscore;
 			}
 			if(sumscore!=0){
@@ -175,7 +168,7 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 				ServletActionContext.getResponse().getWriter().write("分数分配不当，或多或少");
 				return;
 			}
-			tx = teachreachpercedao.getSession().beginTransaction();
+			tx = profeprojeprecedao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -189,19 +182,21 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	public void joinPeoject()throws Exception{
 		Transaction tx = null;
 		try {
-			if(teachreachpercedao.checkexist(teachreachprojec, (Teacher)session.get("teacher"))){
-				teachreachperce = new TfteachingRearchPerformance();
-				teachreachperce.setCheckOut("0");
-				teachreachperce.setSpareTire("1");
-				teachreachperce.setTeacher((Teacher)session.get("teacher"));
-				teachreachperce.setTfteachingRearchProject(teachreachprojec);
-				teachreachpercedao.save(teachreachperce);
+			if(profeprojeprecedao.checkexist(profeprojeproject, (Teacher)session.get("teacher"))){
+				profeprojeprece = new TfprofessionalProjectDeclarePerformance();
+				profeprojeprece.setCheckOut("0");
+				profeprojeprece.setSelfUndertakeTask(selfdao.findByUndertakeTaskNameOJoin());
+				profeprojeprece.setSingleScore(0.0);
+				profeprojeprece.setSpareTire("1");
+				profeprojeprece.setTeacher((Teacher)session.get("teacher"));
+				profeprojeprece.setTfprofessionalProjectDeclareProject(profeprojeproject);
+				profeprojeprecedao.save(profeprojeprece);
 			}else{
 				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 				ServletActionContext.getResponse().getWriter().write("不能重复加入");
 				return;
 			}
-			tx = teachreachpercedao.getSession().beginTransaction();
+			tx = profeprojeprecedao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -220,10 +215,10 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 			String pagenumber = (String) ServletActionContext.getRequest().getParameter("pagenum");
 			pagenum = pagenumber != null?(pagenum = !"".equals(pagenumber.trim()) ? Integer.parseInt(pagenumber) : 1):1;
 			limitrow = limit != null?(!"".equals(limit.trim()) ? Integer.parseInt(limit) : 5):5;
-			request.put("teachreachperceli", teachreachpercedao.findPaging((pagenum - 1)* limitrow, limitrow,
-					EntityUtil.generateTeachingQueryCondition(term, "tfteachingRearchProject.tfterm.termId"),(Teacher)session.get("teacher")));
+			request.put("profeprojepli", profeprojeprecedao.findPaging((pagenum - 1)* limitrow, limitrow,
+					EntityUtil.generateTeachingQueryCondition(term, "tfprofessionalProjectDeclareProject.tfterm.termId"),(Teacher)session.get("teacher")));
 			request.put("tftermList", termdao.findAll());
-			int li = teachreachpercedao.getRows(EntityUtil.generateTeachingQueryCondition(term, "tfteachingRearchProject.tfterm.termId"),(Teacher)session.get("teacher"));
+			int li = profeprojeprecedao.getRows(EntityUtil.generateTeachingQueryCondition(term, "tfprofessionalProjectDeclareProject.tfterm.termId"),(Teacher)session.get("teacher"));
 			int sumpage = 0;
 			sumpage = li % limitrow == 0?li / limitrow:li / limitrow + 1;
 			request.put("sumrow", li);
@@ -241,8 +236,8 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 	public void quitProject()throws Exception{
 		Transaction tx = null;
 		try {
-			teachreachpercedao.quitProject((Teacher)session.get("teacher"), teachreachprojec);
-			tx = teachreachpercedao.getSession().beginTransaction();
+			profeprojeprecedao.quitProject((Teacher)session.get("teacher"), profeprojeproject);
+			tx = profeprojeprecedao.getSession().beginTransaction();
 			tx.commit();
 			ServletActionContext.getResponse().getWriter().write("succ");
 		} catch (Exception e) {
@@ -278,36 +273,29 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 		this.term = term;
 	}
 
-	public TfteachingRearchEvaluation getTeachreachevalute() {
-		return teachreachevalute;
+	public TfprofessionalProjectDeclarePerformance getProfeprojeprece() {
+		return profeprojeprece;
 	}
 
-	public void setTeachreachevalute(TfteachingRearchEvaluation teachreachevalute) {
-		this.teachreachevalute = teachreachevalute;
+	public void setProfeprojeprece(
+			TfprofessionalProjectDeclarePerformance profeprojeprece) {
+		this.profeprojeprece = profeprojeprece;
 	}
 
-	public TfteachingRearchFundlevel getTeachreachfundlevel() {
-		return teachreachfundlevel;
+	public TfprofessionalProjectDeclareProject getProfeprojeproject() {
+		return profeprojeproject;
 	}
 
-	public void setTeachreachfundlevel(TfteachingRearchFundlevel teachreachfundlevel) {
-		this.teachreachfundlevel = teachreachfundlevel;
+	public void setProfeprojeproject(
+			TfprofessionalProjectDeclareProject profeprojeproject) {
+		this.profeprojeproject = profeprojeproject;
 	}
 
-	public TfteachingRearchPerformance getTeachreachperce() {
-		return teachreachperce;
+	public TfprofessionalProjectDeclareLevel getProfeprojelevel() {
+		return profeprojelevel;
 	}
 
-	public void setTeachreachperce(TfteachingRearchPerformance teachreachperce) {
-		this.teachreachperce = teachreachperce;
+	public void setProfeprojelevel(TfprofessionalProjectDeclareLevel profeprojelevel) {
+		this.profeprojelevel = profeprojelevel;
 	}
-
-	public TfteachingRearchProject getTeachreachprojec() {
-		return teachreachprojec;
-	}
-
-	public void setTeachreachprojec(TfteachingRearchProject teachreachprojec) {
-		this.teachreachprojec = teachreachprojec;
-	}
-
 }

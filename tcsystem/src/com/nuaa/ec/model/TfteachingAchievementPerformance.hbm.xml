@@ -8,7 +8,7 @@
     <class name="com.nuaa.ec.model.TfteachingAchievementPerformance" table="TFTeaching_achievement_Performance" schema="dbo" catalog="ScientificResearch">
         <id name="upid" type="java.lang.Integer">
             <column name="upid" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <many-to-one name="tfteachingAchievementProject" class="com.nuaa.ec.model.TfteachingAchievementProject" fetch="select">
             <column name="ProjectID" length="20" />
