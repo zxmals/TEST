@@ -123,7 +123,7 @@ public class TfenterpriseWorkstationTrainingbaseConstructionLevelDAO extends
 	public List findAll() {
 		log.debug("finding all TfenterpriseWorkstationTrainingbaseConstructionLevel instances");
 		try {
-			String queryString = "from TfenterpriseWorkstationTrainingbaseConstructionLevel";
+			String queryString = "from TfenterpriseWorkstationTrainingbaseConstructionLevel where spareTire = '1'";
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {

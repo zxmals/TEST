@@ -57,6 +57,7 @@ public class classTeachEvaluationSetAction extends ActionSupport implements
 			tx = classTeachEvaluationDao.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
+			teachEvaluation();
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();

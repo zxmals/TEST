@@ -60,6 +60,7 @@ public class TeachAbilityImproveLevelSetAction extends ActionSupport implements
 			tx = teachingAbilityImproveLevelDao.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
+			teachingAbilityImproveLevelList();
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();

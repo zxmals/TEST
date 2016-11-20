@@ -5,6 +5,7 @@ import java.util.Map;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
+import org.infinispan.commands.remote.recovery.TxCompletionNotificationCommand;
 
 import com.nuaa.ec.dao.TffamousTeacherTeamRewadLevelDAO;
 import com.nuaa.ec.model.TfclassTeachTime;
@@ -38,13 +39,28 @@ public class FamousTeacherTeamRewadLevelSetAction extends ActionSupport
 
 	/**
 	 * 添加优秀教师团队称号删除
+	 * @return 
+	 * @throws Exception 
 	 */
-	public void addFamousTeacherTeamRewadLevel() {
-		famousTeacherTeamRewadLevel.setSpareTire("1");
-		famousTeacherTeamRewadLevel.setTeachRewardLevelId(pkmk.mkpk(
-				EntityUtil.getPkColumnName(TfclassTeachTime.class),
-				EntityUtil.getTableName(TfclassTeachTime.class), "Tteam"));
-		famousTeacherTeamRewadLevelDao.save(famousTeacherTeamRewadLevel);
+	public String addFamousTeacherTeamRewadLevel() throws Exception {
+		Transaction tx = null;
+		try {
+			famousTeacherTeamRewadLevel.setSpareTire("1");
+			famousTeacherTeamRewadLevel.setTeachRewardLevelId(pkmk.mkpk(
+					EntityUtil.getPkColumnName(TfclassTeachTime.class),
+					EntityUtil.getTableName(TfclassTeachTime.class), "Tteam"));
+			famousTeacherTeamRewadLevelDao.save(famousTeacherTeamRewadLevel);
+			tx = famousTeacherTeamRewadLevelDao.getSession().beginTransaction();
+			tx.commit();
+			this.setOperstatus(1);
+			famousTeacherTeamRewadLevelList();
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			this.setOperstatus(-1);
+			throw e;
+		}
+		return SUCCESS;
 	}
 
 	/**

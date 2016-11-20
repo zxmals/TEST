@@ -119,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								
 								<div class="form-group">
 									<label>教师信息:</label> 
-									<input id="departAdmin" type="text"
+									<input id="VaAdmin" type="text"
 										autocomplete="off" class="form-control keyUp"
 										placeholder="输入教师工号或姓名查询">
 									<div style="width:568px;overflow-y: auto;display: none"
@@ -159,9 +159,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script>
     $('#subadd').click(function() {
     	nullcheck();
-		if($('#departAdmin').val().trim()!=""){//$('#upinfscope').val().trim()!=""
+		if($('#VaAdmin').val().trim()!=""){//$('#upinfscope').val().trim()!=""
 			$.post("ATVaSetting2!addVaAdmin",
-				{"entity.TeacherId":$('#departAdmin').val().substring(0,9)},
+				{"entity.TeacherId":$('#VaAdmin').val().substring(0,9)},
 					function(data,status){
 						if(status=="success"){
 							if(data.trim()=="succ"){
@@ -214,7 +214,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 	});
 	
-	$('#departAdmin').keyup(function() {
+	$('#VaAdmin').keyup(function() {
 		var vals = $('.selectsele');
 		var targets = $(this).val();
 		if($('.selecthead').css('display')=="none"){
@@ -232,7 +232,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		}
 	});
-	$('#departAdmin').click(function(){
+	$('#VaAdmin').click(function(){
 		var selects = $('.selectsele');
 		if($('.selecthead').css('display')=="none"){
     		for(var i=0;i<selects.length;i++){
@@ -245,8 +245,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 	});
 	$('.selectsele').click(function(){
-		$('#departAdmin')[0].value = $(this)[0].innerHTML;
-		$('#departAdmin').css("background-color","white");
+		$('#VaAdmin')[0].value = $(this)[0].innerHTML;
+		$('#VaAdmin').css("background-color","white");
 	});
 	
 

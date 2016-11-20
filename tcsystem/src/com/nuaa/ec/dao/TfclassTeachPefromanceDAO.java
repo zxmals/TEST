@@ -179,7 +179,7 @@ public class TfclassTeachPefromanceDAO extends BaseHibernateDAO {
 	public List findAll() {
 		log.debug("finding all TfclassTeachPefromance instances");
 		try {
-			String queryString = "from TfclassTeachPefromance";
+			String queryString = "from TfclassTeachPefromance where spareTire = '1'";
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {

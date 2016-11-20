@@ -118,7 +118,7 @@ public class TfprofessionalProjectDeclareLevelDAO extends BaseHibernateDAO {
 	public List findAll() {
 		log.debug("finding all TfprofessionalProjectDeclareLevel instances");
 		try {
-			String queryString = "from TfprofessionalProjectDeclareLevel";
+			String queryString = "from TfprofessionalProjectDeclareLevel where spareTire='1' ";
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {

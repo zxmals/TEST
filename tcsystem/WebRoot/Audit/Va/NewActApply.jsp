@@ -66,9 +66,9 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="GTNewActPublishActAudit!getNewActPublishList"
+		action="GTNewActApplyAudit!getNewActApplyList"
 		method="post" name="pickdate">
-		<h3 style="padding:0px;margin-left: 10px;">活动发布审核</h3>
+		<h3 style="padding:0px;margin-left: 10px;">活动新增申请审核</h3>
 		<hr>
 		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
 			<select name="researchLab_CT.researchLabId"

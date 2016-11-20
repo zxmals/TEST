@@ -111,7 +111,7 @@ public class TfteachingRearchFundlevelDAO extends BaseHibernateDAO {
 	public List findAll() {
 		log.debug("finding all TfteachingRearchFundlevel instances");
 		try {
-			String queryString = "from TfteachingRearchFundlevel";
+			String queryString = "from TfteachingRearchFundlevel where spareTire='1' ";
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {

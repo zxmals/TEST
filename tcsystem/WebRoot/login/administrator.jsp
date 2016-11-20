@@ -323,7 +323,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <li><a class="J_menuItem" href="ATDepartmentBaseset!getDepartinfo">系设置</a></li>
                                     <li><a class="J_menuItem" href="ATResearchLabBaseset!getResearchLabinfo">研究所设置</a></li>
                                     <li><a class="J_menuItem" href="ATNationalityBaseset!getNationalityinfo">国籍设置</a></li>
+                                    <li><a class="J_menuItem" href="ATTermBaseset!getTermList">学期设置</a></li>
                                     <li><a class="J_menuItem" href="ATVaSetting2!entityList">公益管理员设置</a></li>
+                                    
                                 </ul>
                              </li>
                             </li>
@@ -402,12 +404,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     	 <ul class="nav nav-third-level">
 		                                 		<li><a href="#">课堂教学<span class="fa arrow"></span></a>
 				                                    	<ul class="nav nav-third-level">
-						                                      	 <li><a class="J_menuItem"  href="ATclassTeachRatioset!totalClassTimeRatio">总站堂时系数设置</a></li>
+						                                      	<li><a class="J_menuItem"  href="ATclassTeachRatioset!totalClassTimeRatio">总站堂时系数设置</a></li>
 																<li><a class="J_menuItem"  href="ATteachEvaluationset!teachEvaluation">综合教学评估设置</a></li>
 																<li><a class="J_menuItem"  href="ATdegreeThesisGuidanceRewardLevelset!degreeThesisGuidanceRewardLevelList">论文指导系数设置</a></li>
 																<li><a class="J_menuItem"  href="ATteachingCompetitionRewardLevelset!teachingCompetitionRewardLevelList">教学竞赛系数设置</a></li>
 																<li><a class="J_menuItem"  href="ATteachingAbilityImproveLevelset!teachingAbilityImproveLevelList">教学能力提升设置</a></li>
-																<li><a class="J_menuItem"  href="ATfamousTeacherTeamRewadLevelset!famousTeacherTeamRewadLevelList">优秀教师团队称号系数设置</a></li>												
+																<li><a class="J_menuItem"  href="ATfamousTeacherTeamRewadLevelset!famousTeacherTeamRewadLevelList">优秀教师团队称号系数设置</a></li>	
+																<li><a class="J_menuItem"  href="ATTerm1set!getTermList">学期设置</a></li>	
+																											
 					                                     </ul>
 	                                      		 </li>													
 													<li><a href="#">教学研究<span class="fa arrow"></span></a>

@@ -54,6 +54,7 @@ public class StudentCompetitionGuidanceRewardLevelSetAction extends ActionSuppor
 			tx = entityDao.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
+			entityList();
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
