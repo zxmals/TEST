@@ -58,6 +58,7 @@ public class DegreeThesisGuidanceRewardLevelRatioSetAction extends
 			tx = degreeThesisGuidanceRewardLevelDao.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
+			degreeThesisGuidanceRewardLevelList();
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();

@@ -197,7 +197,11 @@
 			<result name="relogin">login.jsp</result>
 			<!--课堂教学 -->
 		</global-results>
-		<!--总堂时系数设置 -->
+		<!--学期设置 -->
+		<action name="ATTerm1set"
+			class="com.nuaa.ec.teach.baseSet.action.TermSetAction">
+			<result>/sysSetting/BaseSet/TermSetting.jsp</result>
+		</action>
 		<action name="ATclassTeach*set"
 			class="com.nuaa.ec.teach.baseSet.action.ClassTeachRatioSetAction">
 			<result>/sysSetting/classTeachSet/classTeach{1}Set.jsp</result>

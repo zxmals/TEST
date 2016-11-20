@@ -13,7 +13,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>JoinAcademicMeeting--TYPE --Set</title>
 
 <link rel="shortcut icon" href="favicon.ico">
@@ -110,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div id="update" class="modal fade" aria-hidden="true" tabindex="-1"
-			role="dialog"="myModalLabel">
+			role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-body">

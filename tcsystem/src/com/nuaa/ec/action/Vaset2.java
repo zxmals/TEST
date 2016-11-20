@@ -37,7 +37,7 @@ public class Vaset2 extends ActionSupport implements RequestAware{
 		Session session = entityDao.getSession();
 		String queryString1 = "from Teacher as t where t.vaadmin = '1'";
 		Query queryObject1 = session.createQuery(queryString1);
-		String queryString2 = "from Teacher as t where t.vaadmin = '0'";
+		String queryString2 = "from Teacher as t where t.vaadmin = '0' or t.vaadmin = 'NULL'";
 		Query queryObject2 = session.createQuery(queryString2);
 		request.put("Vaadmin", queryObject1.list());
 		request.put("notVaadmin", queryObject2.list());

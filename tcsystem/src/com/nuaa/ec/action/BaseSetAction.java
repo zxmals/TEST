@@ -13,10 +13,12 @@ import com.nuaa.ec.dao.DepartmentDAO;
 import com.nuaa.ec.dao.NationalityDAO;
 import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.TeacherDAO;
+import com.nuaa.ec.dao.TftermDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Nationality;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
+import com.nuaa.ec.model.Tfterm;
 import com.nuaa.ec.utils.PrimaryKMaker;
 import com.nuaa.ec.utils.StoreData;
 import com.opensymphony.xwork2.ActionContext;
@@ -33,6 +35,8 @@ public class BaseSetAction implements SessionAware{
 	private TeacherDAO teacherdao = new TeacherDAO();
 	private PrimaryKMaker pk = new PrimaryKMaker();
 	
+	private Tfterm term;
+	private TftermDAO termDao = new TftermDAO();
 
 	// default method
 	public String execute() {
@@ -262,6 +266,72 @@ public class BaseSetAction implements SessionAware{
 			nationdao.closeSession();
 		}
 	}
+	/**************************学期所置*******TermSet*****************************/
+	public String getTermList() throws Exception{
+		ServletActionContext.getRequest().setAttribute("Term", termDao.findAll());
+		return "success";
+	}
+	
+	public String addTerm() throws Exception{
+		term.setTermId(pk.mkpk("termID", "Tfterm", "Term"));
+		term.setSpareTire("1");
+		Transaction tx = null;
+		try {
+			termDao.save(term);
+			tx = termDao.getSession().beginTransaction();
+			tx.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}finally{
+			termDao.closeSession();
+			getTermList();
+		}
+		return "success";
+	}
+	
+	public void updateTerm() throws Exception{
+		Transaction tx = null;
+		term.setSpareTire("1");
+		HttpServletResponse resp = (HttpServletResponse) ActionContext.getContext().get(org.apache.struts2.StrutsStatics.HTTP_RESPONSE);
+		try {
+			termDao.merge(term);
+			tx = termDao.getSession().beginTransaction();
+			tx.commit();
+			resp.getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			try {
+				resp.getWriter().write("fail");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				throw e;
+			}
+			throw e;
+		}finally{
+			termDao.closeSession();
+		}
+	}
+	
+	public void deleteTerm() throws Exception{
+		Transaction tx = null;
+		term.setSpareTire("0");
+		HttpServletResponse resp = (HttpServletResponse)ActionContext.getContext().get(org.apache.struts2.StrutsStatics.HTTP_RESPONSE);
+		try {
+			termDao.merge(term);
+			tx = termDao.getSession().beginTransaction();
+			tx.commit();
+			resp.getWriter().write("succ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			throw e;
+		}finally{
+			termDao.closeSession();
+		}
+	}
 
 
 	/**************************Getter&Setter*****************************/
@@ -297,5 +367,12 @@ public class BaseSetAction implements SessionAware{
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
 	}
-
+	public Tfterm getTerm() {
+		return term;
+	}
+	public void setTerm(Tfterm term) {
+		this.term = term;
+	}
+	
+	
 }

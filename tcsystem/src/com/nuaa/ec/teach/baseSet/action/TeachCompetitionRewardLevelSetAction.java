@@ -62,6 +62,7 @@ public class TeachCompetitionRewardLevelSetAction extends ActionSupport
 					.beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
+			teachingCompetitionRewardLevelList();
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();

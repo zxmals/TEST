@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>JoinAcademicMeeting--TYPE --Set</title>
+<title>classTeachRatio--TYPE --Set</title>
 
 <link rel="shortcut icon" href="favicon.ico">
 <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
@@ -110,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div id="update" class="modal fade" aria-hidden="true" tabindex="-1"
-			role="dialog"="myModalLabel">
+			role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-body">
@@ -206,7 +206,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						if(status=="success"){
 							if(data.trim()=="succ"){
 								swal("Good job!","更新成功","success");
-								window.location.replace("ATclassTeachRatioset!totalClassTimeRatio");
+								window.location.replace("<%=basePath %>ATclassTeachRatioset!totalClassTimeRatio");
 							}else{
 								swal("Oops...","更新失败","error");
 							}
@@ -257,9 +257,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$('#upinfscope')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
 		$('#upinfratio')[0].value = $(this).parent().parent()[0].cells[2].innerHTML;
 	});
-        $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
-        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});            
-    </script>
+      
+			$(document).ready(function() {
+				$(".dataTables-example").dataTable();
+				var oTable = $("#editable").dataTable();
+				oTable.$("td").editable("../example_ajax.php", {
+					"callback" : function(sValue, y) {
+						var aPos = oTable.fnGetPosition(this);
+						oTable.fnUpdate(sValue, aPos[0], aPos[1])
+					},
+					"submitdata" : function(value, settings) {
+						return {
+							"row_id" : this.parentNode.getAttribute("id"),
+							"column" : oTable.fnGetPosition(this)[2]
+						}
+					},
+					"width" : "90%",
+					"height" : "100%"
+				})
+			});
+			function fnClickAddRow() {
+				$("#editable").dataTable().fnAddData(
+						[ "Custom row", "New row", "New row", "New row",
+								"New row" ])
+			};
+			$(document).ready(function() {
+				$(".i-checks").iCheck({
+					checkboxClass : "icheckbox_square-green",
+					radioClass : "iradio_square-green",
+				})
+			});
+		</script>
 		<script type="text/javascript"
 			src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 		<s:debug></s:debug>

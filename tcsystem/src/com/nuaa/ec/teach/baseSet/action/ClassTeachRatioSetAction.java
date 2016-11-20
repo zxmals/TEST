@@ -7,6 +7,7 @@ import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.TfclassTeachTimeDAO;
+import com.nuaa.ec.dao.TftechingAbilityEffectSubModularDAO;
 import com.nuaa.ec.model.ExpertType;
 import com.nuaa.ec.model.TfclassTeachTime;
 import com.nuaa.ec.utils.EntityUtil;
@@ -28,11 +29,12 @@ public class ClassTeachRatioSetAction extends ActionSupport implements
 	 */
 	private TfclassTeachTime classTeachTime;
 	private TfclassTeachTimeDAO classTeachTimeDao = new TfclassTeachTimeDAO();
+//	private TftechingAbilityEffectSubModularDAO tftechingAbilityEffectSubModularDAO = new TftechingAbilityEffectSubModularDAO();
 	private PrimaryKMaker pkmk = new PrimaryKMaker();
 	private Integer operstatus;
 
 	public String execute() {
-		return SUCCESS;
+		return "success";
 	}
 
 	/**
@@ -42,7 +44,7 @@ public class ClassTeachRatioSetAction extends ActionSupport implements
 	 */
 	public String totalClassTimeRatio() {
 		request.put("classTeachTimeList", classTeachTimeDao.findAll());
-		return SUCCESS;
+		return "success";
 	}
 
 	/**
@@ -64,13 +66,14 @@ public class ClassTeachRatioSetAction extends ActionSupport implements
 			tx = classTeachTimeDao.getSession().beginTransaction();
 			tx.commit();
 			this.setOperstatus(1);
+			totalClassTimeRatio();
 		} catch (Exception e) {
 			// TODO: handle exception
 			tx.rollback();
 			this.setOperstatus(-1);
 			throw e;
 		}
-		return SUCCESS;
+		return "success";
 	}
 
 	/**

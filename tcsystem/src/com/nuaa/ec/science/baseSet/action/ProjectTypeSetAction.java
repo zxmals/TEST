@@ -208,8 +208,8 @@ public class ProjectTypeSetAction extends ActionSupport implements RequestAware{
 		SRPScore.setSpareTire("1");
 		SRPScore.setSubModular(subModular);
 		SRPScore.setProjectType(proType);
-		System.out.println("subID"+subModular.getSubModularId());
-		System.out.println("proID"+proType.getProjectTypeId());
+//		System.out.println("subID"+subModular.getSubModularId());
+//		System.out.println("proID"+proType.getProjectTypeId());
 		Transaction tx = null;
 		try {
 			SRPScoreDAO.merge(SRPScore);
@@ -226,8 +226,8 @@ public class ProjectTypeSetAction extends ActionSupport implements RequestAware{
 		SRPScore.setSrprojectScoreId(pkmk.mkpk("SRProjectScoreID", "ScientificResearchProjectScore", "srps"));
 		SRPScore.setSpareTire("1");
 		SRPScore.setProjectType(proTypeDAO.findById(proType.getProjectTypeId()));
-		System.out.println("proTypeId:"+proType.getProjectTypeId());
-		System.out.println("SRPScoreTypeId:"+SRPScore.getSrprojectScoreId());
+//		System.out.println("proTypeId:"+proType.getProjectTypeId());
+//		System.out.println("SRPScoreTypeId:"+SRPScore.getSrprojectScoreId());
 		Transaction tx = null;
 		try {
 			SRPScoreDAO.save(SRPScore);
