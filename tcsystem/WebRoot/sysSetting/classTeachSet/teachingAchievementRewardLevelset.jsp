@@ -155,7 +155,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								action="ATteachAchievementRewardLevelset!addEntity" method="post">
 								<div class="form-group">
 									<label>获奖等级:</label> <input id="addinf1" type="text"
-										class="form-control nullcheck" name="entity.fundLevel"
+										class="form-control nullcheck" name="entity.rewardName"
 										value="">
 								</div>
 								<div class="form-group">

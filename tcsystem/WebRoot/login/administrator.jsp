@@ -410,7 +410,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																<li><a class="J_menuItem"  href="ATteachingCompetitionRewardLevelset!teachingCompetitionRewardLevelList">教学竞赛系数设置</a></li>
 																<li><a class="J_menuItem"  href="ATteachingAbilityImproveLevelset!teachingAbilityImproveLevelList">教学能力提升设置</a></li>
 																<li><a class="J_menuItem"  href="ATfamousTeacherTeamRewadLevelset!famousTeacherTeamRewadLevelList">优秀教师团队称号系数设置</a></li>	
-																<li><a class="J_menuItem"  href="ATTerm1set!getTermList">学期设置</a></li>	
+<!-- 																<li><a class="J_menuItem"  href="ATTerm1set!getTermList">学期设置</a></li>	 -->
 																											
 					                                     </ul>
 	                                      		 </li>													

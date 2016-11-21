@@ -155,7 +155,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								action="ATundergraduateTutorGuidanceCacheset!addEntity" method="post">
 								<div class="form-group">
 									<label>描述:</label> <input id="addinf1" type="text"
-										class="form-control describe" name="entity.fundLevel"
+										class="form-control describe" name="entity.describe"
 										value="">
 								</div>
 								<div class="form-group">

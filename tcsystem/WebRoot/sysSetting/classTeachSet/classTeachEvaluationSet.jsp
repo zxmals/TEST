@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>JoinAcademicMeeting--TYPE --Set</title>
+<title>classTeachEvaluation--TYPE --Set</title>
 
 <link rel="shortcut icon" href="favicon.ico">
 <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">

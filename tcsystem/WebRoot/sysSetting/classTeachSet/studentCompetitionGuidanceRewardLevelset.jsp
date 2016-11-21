@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="ibox float-e-margins">
 					<div class="ibox-title">
 						<h5>
-							教学研究--学生竞赛等级设置<small></small>
+							创新项目--学生竞赛等级设置<small></small>
 						</h5>
 						<div class="ibox-tools">
 							<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -153,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								action="ATstudentCompetitionGuidanceRewardLevelset!addEntity" method="post">
 								<div class="form-group">
 									<label>竞赛等级:</label> <input id="addinf1" type="text"
-										class="form-control nullcheck" name="entity.reaults"
+										class="form-control nullcheck" name="entity.rewardLevel"
 										value="">
 								</div>
 								<!-- <div class="form-group">

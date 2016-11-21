@@ -45,7 +45,7 @@ public class classTeachEvaluationSetAction extends ActionSupport implements
 	 * 
 	 * @throws Exception
 	 */
-	public void addTeachEvaluation() throws Exception {
+	public String addTeachEvaluation() throws Exception {
 		Transaction tx = null;
 		try {
 			teachEvaluation.setSpareTire("1");
@@ -64,6 +64,7 @@ public class classTeachEvaluationSetAction extends ActionSupport implements
 			this.setOperstatus(-1);
 			throw e;
 		}
+		return SUCCESS;
 	}
 
 	/**
