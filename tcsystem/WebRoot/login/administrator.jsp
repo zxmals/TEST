@@ -140,31 +140,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                        </ul>
                             </li>
                             <li>
-                                <a class="" href="#">教学绩效管理 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-									<li><a href="#">教学能力与实效 <span class="fa arrow"></span></a>
-										<ul class="nav nav-third-level"">
+                                <a href="#">
+	                                <i class="fa fa fa-bar-chart-o"></i>
+	                            	<span class="nav-label">教学绩效管理 </span>
+	                            	<span class="fa arrow"></span>
+	                            </a>
+                                <ul class="nav nav-second-level controlslide">
+									<li>
+										<a href="#">
+			                                <i class="fa fa fa-bar-chart-o"></i>
+			                            	<span class="nav-label">教学能力与实效 </span>
+			                            	<span class="fa arrow"></span>
+			                            </a>
+										<ul class="nav nav-second-level controlslide">
 											<li><a class="J_menuItem" href="ATClassTeachPerformanceSet!getAllRecord">课堂教学绩效</a></li>
 											<li><a class="J_menuItem" href="ATDegreeThesisGuidancePerformanceSet!getAllRecord">学位论文指导质量绩效</a></li>
 											<li><a class="J_menuItem" href="ATTeachingCompetitionPerformanceSet!getAllRecord">教学竞赛绩效</a></li>
 											<li><a class="J_menuItem" href="ATTeachingAbilityImprovePerformanceSet!getAllRecord">教学能力提升绩效</a></li>
-											<li><a class="J_menuItem" href="">教学名师和教学团队绩效</a></li>
+											<li><a class="J_menuItem" href="ATteachingfamousteamPerformanceSet!gainAllProject">教学名师和教学团队绩效</a></li>
 										</ul>
 									</li>
-									<li><a href="">综合改革与教学研究 <span class="fa arrow"></span></a>
-										<ul class="nav nav-third-level">
-											<li><a class="J_menuItem" href="">教学研究绩效</a></li>
-											<li><a class="J_menuItem" href="">教学论文绩效</a></li>
-											<li><a class="J_menuItem" href="">教学成果奖绩效</a></li>
-											<li><a class="J_menuItem" href="">教材建设绩效</a></li>
-											<li><a class="J_menuItem" href="">精品课程建设绩效</a></li>
-											<li><a class="J_menuItem" href="">专业建设项目申报绩效</a></li>
-											<li><a class="J_menuItem" href="">企业工作站和联合培养基地建设绩效</a></li>
+									<li>
+										<a href="#">
+			                                <i class="fa fa fa-bar-chart-o"></i>
+			                            	<span class="nav-label">综合改革与教学研究 </span>
+			                            	<span class="fa arrow"></span>
+			                            </a>
+										<ul class="nav nav-second-level controlslide">
+											<li><a class="J_menuItem" href="ATteachingresearchPerformanceSet!gainAllProject">教学研究绩效</a></li>
+											<li><a class="J_menuItem" href="ATteachingpaperPerformanceSet!gainAllProject">教学论文绩效</a></li>
+											<li><a class="J_menuItem" href="ATteachingachievePerformanceSet!gainAllProject">教学成果奖绩效</a></li>
+											<li><a class="J_menuItem" href="ATteachingtextbookPerformanceSet!gainAllProject">教材建设绩效</a></li>
+											<li><a class="J_menuItem" href="ATteachingfinecoursePerformanceSet!gainAllProject">精品课程建设绩效</a></li>
+											<li><a class="J_menuItem" href="ATteachingprofeprojePerformanceSet!gainAllProject">专业建设项目申报绩效</a></li>
+											<li><a class="J_menuItem" href="ATteachingfirmbaseconPerformanceSet!gainAllProject">企业工作站和联合培养基地建设绩效</a></li>
 											<li><a class="J_menuItem" href="ATSummerCourseInternationalConstructionPerformanceSet!getAllRecord">暑期课程与国际课程建设绩效</a></li>
 										</ul>
 									</li>
-									<li><a href="">学生指导工作 <span class="fa arrow"></span></a>
-										<ul class="nav nav-third-level">
+									<li>
+										<a href="#">
+			                                <i class="fa fa fa-bar-chart-o"></i>
+			                            	<span class="nav-label">学生指导工作 </span>
+			                            	<span class="fa arrow"></span>
+			                            </a>
+										<ul class="nav nav-second-level controlslide">
 											<li><a class="J_menuItem" href="ATPracticeInnovationGuidePerformanceSet!getAllRecord">实践创新指导绩效</a></li>
 											<li><a class="J_menuItem" href="ATStudentCompetitionGuidancePerformanceSet!getAllRecord">学生竞赛指导绩效</a></li>
 											<li><a class="J_menuItem" href="ATJoinStudentActivityPerformanceSet!getAllRecord">参与学生活动绩效</a></li>
@@ -553,6 +572,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript">
     $(document).ready(function() {
 		$('.firstslide li').css("margin-left","12%");
+		$('.controlslide li').css("margin-left","8%");
 		if("${teacher.vaadmin}"=="1"){
 			$('#vaadmin').css("display","");
 		}
