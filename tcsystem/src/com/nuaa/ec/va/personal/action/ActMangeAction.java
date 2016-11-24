@@ -1,15 +1,14 @@
 package com.nuaa.ec.va.personal.action;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.BaseHibernateDAO;
 import com.nuaa.ec.dao.TeacherDAO;
@@ -28,9 +27,9 @@ public class ActMangeAction implements SessionAware{
 
 	private VacollectiveAct vaact;
 	private Teacher teacher;
-	private File actFile;
-	private String actFileContentType;
-	private String actFileFileName;
+//	private File actFile;
+//	private String actFileContentType;
+//	private String actFileFileName;
 	private String AddResStatus;
 	private String foredate;
 	private String afterdate;
@@ -53,41 +52,65 @@ public class ActMangeAction implements SessionAware{
 	 * 添加一个活动申请/add a apply for act(activity)
 	 * @return
 	 */
-	public String addAnoAct() {
-		/*文件保存路径 /File save-path*/
-		String destPath = "F:/Tomcat/Tomcat-6.0.45/work";
-		/*文件全/complete name of the File*/
-		String filepath = destPath + actFileFileName;
-		/*
-		 * set-attribute to vaact/ 为对象vaact补充属性值
-		 */
-		vaact.setActapplyfile(filepath);
-		vaact.setTeacher(teacherdao.findById(teacher.getTeacherId()));
-		vaact.setActId(pkm.mkpk("ActID", "VACollectiveAct", "vaact"));
-		vaact.setScore(0.0);
-		vaact.setBaseNum(null);
-		vaact.setAspareTire("0");
-		vaact.setSpareTire("1");
-		/*存文件以及保存对象到数据库/execute save File and save object to database */
+//	public String addAnoAct() {
+//		/*文件保存路径 /File save-path*/
+//		String destPath = "F:/Tomcat/Tomcat-6.0.45/work";
+//		/*文件全/complete name of the File*/
+//		String filepath = destPath + actFileFileName;
+//		/*
+//		 * set-attribute to vaact/ 为对象vaact补充属性值
+//		 */
+//		vaact.setActapplyfile(filepath);
+//		vaact.setTeacher(teacherdao.findById(teacher.getTeacherId()));
+//		vaact.setActId(pkm.mkpk("ActID", "VACollectiveAct", "vaact"));
+//		vaact.setScore(0.0);
+//		vaact.setBaseNum(null);
+//		vaact.setAspareTire("0");
+//		vaact.setSpareTire("1");
+//		/*存文件以及保存对象到数据库/execute save File and save object to database */
+//		try {
+//			// System.out.println("Src File name: " + actFile);
+//			// System.out.println("Dst File name: " + actFileFileName);
+//			File destFile = new File(destPath, actFileFileName);
+//			FileUtils.copyFile(actFile, destFile);
+//			vadao.save(vaact);
+//			new BaseHibernateDAO().getSession().beginTransaction().commit();
+//			this.setAddResStatus("已申请，请等待审核！");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			/*保存失败 事物回滚/save object fail ,rollback transaction*/
+//			new BaseHibernateDAO().getSession().beginTransaction().rollback();
+//			this.setAddResStatus("申请失败，请稍后重试！");
+//		} finally {
+//			/*close session, release space/关闭session，以免内存溢出*/
+//			new BaseHibernateDAO().closeSession();
+//		}
+//		return "success";
+//	}
+	
+	public String addAnoAct()throws Exception{
+		Transaction tx = null;
 		try {
-			// System.out.println("Src File name: " + actFile);
-			// System.out.println("Dst File name: " + actFileFileName);
-			File destFile = new File(destPath, actFileFileName);
-			FileUtils.copyFile(actFile, destFile);
+			vaact.setTeacher(teacherdao.findById(teacher.getTeacherId()));
+			vaact.setActId(pkm.mkpk("ActID", "VACollectiveAct", "vaact"));
+			vaact.setScore(0.0);
+			vaact.setBaseNum(null);
+			vaact.setAspareTire("0");
+			vaact.setSpareTire("1");
 			vadao.save(vaact);
-			new BaseHibernateDAO().getSession().beginTransaction().commit();
+			tx = vadao.getSession().beginTransaction();
+			tx.commit();
 			this.setAddResStatus("已申请，请等待审核！");
 		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
-			/*保存失败 事物回滚/save object fail ,rollback transaction*/
-			new BaseHibernateDAO().getSession().beginTransaction().rollback();
 			this.setAddResStatus("申请失败，请稍后重试！");
-		} finally {
-			/*close session, release space/关闭session，以免内存溢出*/
-			new BaseHibernateDAO().closeSession();
+			tx.rollback();
+			throw e;
 		}
 		return "success";
 	}
+	
 /**
  * 根据用户划定的时间范围，获取对应时间范围内举办的活动
  * according to the time-limted get the Acts inner time-limted
@@ -197,29 +220,29 @@ public class ActMangeAction implements SessionAware{
 		this.vaact = vaact;
 	}
 
-	public File getActFile() {
-		return actFile;
-	}
-
-	public void setActFile(File actFile) {
-		this.actFile = actFile;
-	}
-
-	public String getActFileContentType() {
-		return actFileContentType;
-	}
-
-	public void setActFileContentType(String actFileContentType) {
-		this.actFileContentType = actFileContentType;
-	}
-
-	public String getActFileFileName() {
-		return actFileFileName;
-	}
-
-	public void setActFileFileName(String actFileFileName) {
-		this.actFileFileName = actFileFileName;
-	}
+//	public File getActFile() {
+//		return actFile;
+//	}
+//
+//	public void setActFile(File actFile) {
+//		this.actFile = actFile;
+//	}
+//
+//	public String getActFileContentType() {
+//		return actFileContentType;
+//	}
+//
+//	public void setActFileContentType(String actFileContentType) {
+//		this.actFileContentType = actFileContentType;
+//	}
+//
+//	public String getActFileFileName() {
+//		return actFileFileName;
+//	}
+//
+//	public void setActFileFileName(String actFileFileName) {
+//		this.actFileFileName = actFileFileName;
+//	}
 
 	public Teacher getTeacher() {
 		return teacher;

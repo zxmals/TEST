@@ -23,26 +23,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body onload="loads()" >
 	  	<div id="f">
 	        <form method="post" name="vaaddreq"action="GTadd_applay_act!addAnoAct" enctype="multipart/form-data">
-	            <div class="left">
+	            <div class="mediuam">
 	                <label>申请其他公益活动</label>
 	                <hr>
 	            </div><br>
 	            <div class="betu">
 	                <label>活动名称:</label>
 	                <input type="text" name="vaact.actName">
-	            </div><br>
+	            </div><br><br>
 	            <div class="betu" style="display: none">
 	                <label>&nbsp;申请人:</label>
 	                <input type="text" name="teacher.teacherId" value="${teacher.teacherId }">
-	            </div>
+	            </div><br>
 	            <div class="betu">
 	                <label>&nbsp;参与人:</label>
 	                <input type="text" name="vaact.attendee">
-	            </div><br>
+	            </div><br><br>
 	            <div class="betu">
-	                <label>申请文件:</label>
-	                <input type="file" name="actFile">
-	            </div><br>
+	                <label>活动描述:</label>
+	                <textarea name="vaact.actapplyfile" rows="8" cols="43"></textarea>
+	            </div><br><br>
 	            <div class="betu" style=" display: none;">
 	                <label>活动类别:</label>
 	                <input type="text" name="vaact.actType" value="0">

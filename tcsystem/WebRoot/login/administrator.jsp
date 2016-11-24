@@ -27,14 +27,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet">
     <script type="text/javascript">    		
     		function checkID() {
-				var resAdmin = "${teacher.researchLabAdmin}";
-				var resA = document.getElementById("resAdmin");
-				var departAdmin = "${teacher.departAdmin}";
-				var departA = document.getElementById("departAdmin");
-				if(resAdmin =="1" )
-					resA.style.display = "block";
-				if(departAdmin =="1" )
-					departA.style.display = "block";
 				var message = "${loginstatus}";
 				if(message!=""&&message!=null)
 					alert(message);

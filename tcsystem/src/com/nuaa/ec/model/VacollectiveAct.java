@@ -46,28 +46,33 @@ public class VacollectiveAct  implements java.io.Serializable {
 	}
 
 	/** full constructor */
-    public VacollectiveAct(String actId, Teacher teacher, String actName, String attendee, Double score, String actType, Double baseNum, String actapplyfile,String spareTire, String aspareTire, Set vacollectiveActivitiesPublishs) {
-        this.actId = actId;
-        this.teacher = teacher;
-        this.actName = actName;
-        this.attendee = attendee;
-        this.score = score;
-        this.actType = actType;
-        this.baseNum = baseNum;
-        this.actapplyfile = actapplyfile;
-        this.spareTire = spareTire;
-        this.aspareTire = aspareTire;
-        this.vacollectiveActivitiesPublishs = vacollectiveActivitiesPublishs;
+    
+    public VacollectiveAct(String actId, Teacher teacher, String actName,
+    		String attendee, Double score, String actType, Double baseNum,
+    		String actapplyfile, String spareTire, String aspareTire,
+    		Set vacollectiveActivitiesPublishs) {
+    	super();
+    	this.actId = actId;
+    	this.teacher = teacher;
+    	this.actName = actName;
+    	this.attendee = attendee;
+    	this.score = score;
+    	this.actType = actType;
+    	this.baseNum = baseNum;
+    	this.actapplyfile = actapplyfile;
+    	this.spareTire = spareTire;
+    	this.aspareTire = aspareTire;
+    	this.vacollectiveActivitiesPublishs = vacollectiveActivitiesPublishs;
     }
 
-   
-    // Property accessors
+	// Property accessors
 
     public String getActId() {
         return this.actId;
     }
     
-    public void setActId(String actId) {
+
+	public void setActId(String actId) {
         this.actId = actId;
     }
 
@@ -150,13 +155,5 @@ public class VacollectiveAct  implements java.io.Serializable {
 	public void setActapplyfile(String actapplyfile) {
 		this.actapplyfile = actapplyfile;
 	}
-   
-
-
-
-
-
-
-
 
 }
