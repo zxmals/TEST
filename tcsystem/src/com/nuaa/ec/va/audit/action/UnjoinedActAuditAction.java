@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.TeacherAndacademicWorkDAO;
 import com.nuaa.ec.dao.VaunJoinRecordDAO;
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VaunJoinRecord;
 import com.opensymphony.xwork2.ActionContext;
@@ -54,26 +55,19 @@ public class UnjoinedActAuditAction implements RequestAware{
 	
 	public String getUnjoinedActListAfterDivide(){
 		Transaction tx = this.vaunJoinRecordDAO.getSession().beginTransaction();
-		if ((ResearchLab) session.get("researchLab_UA") == null) {
-			session.put("researchLab_UA", new ResearchLab());
+		if ((Department) session.get("department_UA") == null) {
+			session.put("department_UA", new Department());
 		}
 		if ((Integer) session.get("pageSize_UA") == null) {
 			session.put("pageSize_UA", 1);
 		}
 		try {
-//			ServletActionContext.getRequest().setAttribute("UnjoinedActList", this.vaunJoinRecordDAO
-//					.getUnjoinedActListAfterDivide(pageIndex,
-//							(Integer) session.get("pageSize_UA"),
-//							(String) session.get("foredate_UA"),
-//							(String) session.get("afterdate_UA"),
-//							(ResearchLab) session.get("researchLab_UA"),
-//							(String) session.get("checkOutStatus_UA")));
 			this.request.put("UnjoinedActList",  this.vaunJoinRecordDAO
 					.getUnjoinedActListAfterDivide(pageIndex,
 							(Integer) session.get("pageSize_UA"),
 							(String) session.get("foredate_UA"),
 							(String) session.get("afterdate_UA"),
-							(ResearchLab) session.get("researchLab_UA"),
+							(Department) session.get("department_UA"),
 							(String) session.get("checkOutStatus_UA")));
 			tx.commit();
 			this.setOperstatus(1);
@@ -88,8 +82,8 @@ public class UnjoinedActAuditAction implements RequestAware{
 	public String getUnjoinedActList(){
 		Transaction tx = this.vaunJoinRecordDAO.getSession()
 				.beginTransaction();
-		if ((ResearchLab) session.get("researchLab_UA") == null) {
-			session.put("researchLab_UA", new ResearchLab());
+		if ((Department) session.get("department_UA") == null) {
+			session.put("department_UA", new Department());
 		}
 		if ((Integer) session.get("pageSize_UA") == null) {
 			session.put("pageSize_UA", 1);
@@ -100,7 +94,7 @@ public class UnjoinedActAuditAction implements RequestAware{
 							(Integer) session.get("pageSize_UA"),
 							(String) session.get("foredate_UA"),
 							(String) session.get("afterdate_UA"),
-							(ResearchLab) session.get("researchLab_UA"),
+							(Department) session.get("department_UA"),
 							(String) session.get("checkOutStatus_UA")));
 			tx.commit();
 			this.setOperstatus(1);
@@ -125,6 +119,7 @@ public class UnjoinedActAuditAction implements RequestAware{
 	private String foredate_UA;
 	private String afterdate_UA;
 	private ResearchLab researchLab_UA;
+	private Department department_UA;
 	private String checkOutStatus_UA;
 	private String checkOutIDs;
 	private String checkOutIDsNot;
@@ -229,7 +224,14 @@ public class UnjoinedActAuditAction implements RequestAware{
 	public Map<String, Object> getRequest() {
 		return request;
 	}
-
+	
+	public Department getDepartment_UA() {
+		return department_UA;
+	}
+	public void setDepartment_UA(Department department_UA) {
+		this.department_UA = department_UA;
+		session.put("department_UA", department_UA);
+	}
 	
 	
 }

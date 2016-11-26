@@ -12,8 +12,8 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	request.setAttribute("researchLabList",
-			StoreData.getResearchLabList());
+	request.setAttribute("departmentList",
+			StoreData.getDepartmentList());
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -84,10 +84,10 @@
 		<h3 style="padding:0px;margin-left: 10px;">活动缺席审核</h3>
 		<hr>
 		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="researchLab_UA.researchLabId"
-			id="reserchLabSelection">
-				<c:forEach var="researchLab" items="${researchLabList }">
-					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
+			<select name="department_UA.departmentId"
+			id="departmentSelection">
+				<c:forEach var="department" items="${departmentList }">
+					<option value="${department.departmentId }">${department.departmentName }</option>
 				</c:forEach>
 		</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select
@@ -137,37 +137,37 @@
 				</c:if>
 
 			</tr>
-			<c:forEach var="TAAcademicWork"
+			<c:forEach var="entity"
 				items="${UnjoinedActList }">
 				<tr>
 					<!-- 活动编号 -->
-					<td>${TAAcademicWork.actId }</td>
+					<td>${entity.actId }</td>
 					<!-- 活动名称-->
-					<td>${TAAcademicWork.actName }</td>
+					<td>${entity.actName }</td>
 					<!-- 参与人员 -->
-					<td>${TAAcademicWork.actAttendee }</td>
+					<td>${entity.actAttendee }</td>
 					<!-- 活动日期 -->
-					<td>${TAAcademicWork.actDate }</td>
+					<td>${entity.actDate }</td>
 					<!-- 未参与原因-->
-					<td>${TAAcademicWork.unjoinreason }</td>
+					<td>${entity.unjoinreason }</td>
 					<!-- 是否请假 -->
-					<td>${TAAcademicWork.leavereqobtain }</td>
+					<td>${entity.leavereqobtain }</td>
 					<!-- 教师编号 -->
-					<td>${TAAcademicWork.teacherId }</td>
+					<td>${entity.teacherId }</td>
 					<!-- 教师姓名 -->
-					<td>${TAAcademicWork.teacherName }</td>
+					<td>${entity.teacherName }</td>
 					<!-- 最终分数 -->
-					<td>${TAAcademicWork.resultscore }</td>
+					<td>${entity.resultscore }</td>
 <!-- 					<c:if test="${sessionScope.checkOutStatus_UA=='0' }"> -->
 <!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
 <!-- 							value="${actId}" /></td> -->
 <!-- 					</c:if> -->
 					<c:if test="${sessionScope.checkOutStatus_UA=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox"
-							name="chooseWhichToAudit" value="${TAAcademicWork.unjoinId }"
+							name="chooseWhichToAudit" value="${entity.unjoinId }"
 							class="check1" /></td>
 						<td class="c2">不通过<input
-							value="${TAAcademicWork.unjoinId }" type="checkbox"
+							value="${entity.unjoinId }" type="checkbox"
 							name="notAudit" class="check2" /></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_UA=='1' }">
@@ -238,7 +238,7 @@
 	<script type="text/javascript">
 		$().ready(function(){
 			$("#pageSizeSelection option[value='${sessionScope.pageSize_UA}']").attr("selected",true);
-			$("#reserchLabSelection option[value='${sessionScope.researchLab_UA.researchLabId}']").attr("selected",true);
+			$("#departmentSelection option[value='${sessionScope.department_UA.departmentId}']").attr("selected",true);
 			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_UA}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){

@@ -1,5 +1,6 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
@@ -282,5 +283,93 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 			e.printStackTrace();
 		}
 		return newActPulishList;
+	}
+	@SuppressWarnings("unchecked")
+	public List getNewActPublishAct(int pageIndex, Integer pagesize,
+			Department department, String checkout, String foredate, String afterdate) {
+		// TODO Auto-generated method stub
+		List<VacollectiveActivitiesPublish> list = null;
+		StringBuffer hql = null;
+		try{
+		if (department.getDepartmentId() == null || department.getDepartmentId().length() == 0) {
+			session.put("pageCount_CT", 0);
+			session.put("recordNumber_CT", 0);
+			return list = new ArrayList<VacollectiveActivitiesPublish>();
+		}else {
+			hql = new StringBuffer(
+					"from VacollectiveActivitiesPublish VA"
+							+ " where VA.aspareTire='" + checkout +"'"
+							+ " and VA.spareTire = '1' "
+							+ " and VA.vacollectiveAct.spareTire='1'"
+							+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+							+ " and VA.vacollectiveAct.teacher.department.departmentId='" + department.getDepartmentId() + "'"
+							+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
+//							+ " order by VA.actPubId asc"
+					);
+		}
+		String append = " and VA.actDate between ? and ? ";
+		String rankString = " order by VA.actPubId asc ";
+		
+		if (foredate != null && afterdate != null &&foredate.length()!= 0 && afterdate.length()!= 0) {
+			hql.append(append).append(rankString);
+			list = this.getSession().createQuery(hql.append(rankString).toString()).setString(0, foredate).setString(1, afterdate).list();
+		}else {
+			list = this.getSession().createQuery(hql.append(rankString).toString()).list();
+		}
+		session.put("recordNumber_CT", list.size());
+		session.put("pageCount_CT", list.size()%pagesize == 0?(list.size()/pagesize):(list.size()/pagesize + 1));
+		
+		list = this.getNewActPublishActAfterDivide(pageIndex, pagesize, department, checkout, foredate, afterdate);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	public List getNewActPublishActAfterDivide(int pageIndex,
+			Integer pagesize, Department department, String checkout,
+			String foredate, String afterdate) {
+		// TODO Auto-generated method stub
+		List<VacollectiveActivitiesPublish> list = null;
+		StringBuffer hql = null;
+		try{
+		if (department.getDepartmentId() == null || department.getDepartmentId().length() == 0) {
+			hql = new StringBuffer(
+					"from VacollectiveActivitiesPublish VA"
+							+ " where VA.aspareTire='" + checkout +"'"
+							+ " and VA.spareTire = '1' "
+							+ " and VA.vacollectiveAct.spareTire='1'"
+							+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+							+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
+//							+ " order by VA.actPubId asc"
+					);
+		}else {
+			hql = new StringBuffer(
+					"from VacollectiveActivitiesPublish VA"
+							+ " where VA.aspareTire='" + checkout +"'"
+							+ " and VA.spareTire = '1' "
+							+ " and VA.vacollectiveAct.spareTire='1'"
+							+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+							+ " and VA.vacollectiveAct.teacher.department.departmentId='" + department.getDepartmentId() + "'"
+							+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
+//							+ " order by VA.actPubId asc"
+					);
+		}
+		String append = " and VA.actDate between ? and ? ";
+		String rankString = " order by VA.actPubId asc ";
+		
+		list = new ArrayList<VacollectiveActivitiesPublish>();
+		if (foredate != null && afterdate != null &&foredate.length()!= 0 && afterdate.length()!= 0) {
+			list = this.getSession().createQuery(hql.append(append).append(rankString).toString())
+					.setString(0, foredate).setString(1, afterdate)
+					.setFirstResult((pageIndex - 1) * pagesize).setMaxResults(pagesize).list();
+		}else {
+			list = this.getSession().createQuery(hql.append(rankString).toString()).setFirstResult((pageIndex - 1) * pagesize).setMaxResults(pagesize).list();
+		}
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

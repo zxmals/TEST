@@ -3,8 +3,6 @@ package com.nuaa.ec.dao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -13,10 +11,8 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nuaa.ec.model.ResearchLab;
-import com.nuaa.ec.model.TeacherAndscientificResearchProject;
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.VacollectiveAct;
-import com.nuaa.ec.model.VacollectiveActivitiesPublish;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -215,13 +211,13 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 
 
 	@SuppressWarnings("unchecked")
-	public List<VacollectiveAct> getNewActApplyList(int pageIndex, Integer pagesize,
-			ResearchLab researchLab, String checkout, boolean isDivided) {
+	public List<VacollectiveAct> getNewActApplyList(int pageIndex, int pagesize,
+			Department department, String checkout, boolean isDivided) {
 		// TODO Auto-generated method stub
 		StringBuffer hqlBuffer = null;
 		try {
-			if (researchLab.getResearchLabId() == null || 
-				researchLab.getResearchLabId().length() == 0) {
+			if (department.getDepartmentId() == null || 
+					department.getDepartmentId().length() == 0) {
 				/*
 				 * 第一次进入的时候，不显示记录
 				 */
@@ -235,8 +231,8 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 						+ " where VA.aspareTire='" + checkout +"'"
 						+ " and VA.spareTire = '1' "
 						+ " and VA.teacher.spareTire='1' "
-						+ " and VA.teacher.researchLab.researchLabId='" + researchLab.getResearchLabId() + "'"
-						+ " and VA.teacher.researchLab.spareTire='1'"
+						+ " and VA.teacher.department.departmentId='" + department.getDepartmentId() + "'"
+						+ " and VA.teacher.department.spareTire='1'"
 						+ " order by VA.actId asc"
 						);
 			}
@@ -257,4 +253,93 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 	}
 		return newActApplyList;
 	}
+
+	public List getNewActApplyList(int pageIndex, Integer pagesize,
+			Department department, String checkout, String foredate,
+			String afterdate) {
+		// TODO Auto-generated method stub
+		StringBuffer hqlBuffer = null;
+		try {
+			if (department.getDepartmentId() == null || 
+				department.getDepartmentId().length() == 0) {
+				/*
+				 * 第一次进入的时候，不显示记录
+				 */
+				
+				session.put("pageCount_CT", 0);
+				session.put("recordNumber_CT", 0);
+				return newActApplyList = new ArrayList<VacollectiveAct>();
+			}else {
+				hqlBuffer = new StringBuffer(
+						"from VacollectiveAct VA"
+						+ " where VA.aspareTire='" + checkout +"'"
+						+ " and VA.spareTire = '1' "
+						+ " and VA.teacher.spareTire='1' "
+						+ " and VA.teacher.department.departmentId='" + department.getDepartmentId() + "'"
+						+ " and VA.teacher.department.spareTire='1'"
+						+ " and VA.actId = VAP.vacollectiveAct.actId "
+//						+ " order by VA.actId asc"
+						);
+			}
+			String append = " and VAP.actDate between ? and ? ";
+			String rank = " order by VA.actId asc";
+			if (foredate !=null && afterdate != null && foredate.length() != 0 && afterdate.length() != 0) {
+				newActApplyList = this.getSession().createQuery(hqlBuffer.append(append).append(rank).toString()).setString(0, foredate).setString(1, afterdate).list();
+			}else {
+				newActApplyList = this.getSession().createQuery(hqlBuffer.append(rank).toString()).list();
+			}
+			int recordNumber = newActApplyList.size();
+			session.put("pageCount_CT", recordNumber%pagesize == 0?(recordNumber/pagesize):(recordNumber/pagesize + 1));
+			session.put("recordNumber_CT", recordNumber);
+			
+			newActApplyList =  this.getNewActApplyListAfterDivide(pageIndex, pagesize, department, checkout, foredate, afterdate);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return newActApplyList;
+	}
+
+	public List getNewActApplyListAfterDivide(int pageIndex, Integer pagesize,
+			Department department, String checkout, String foredate,
+			String afterdate) {
+		// TODO Auto-generated method stub
+		List<VacollectiveAct> list = null;
+		StringBuffer hql = null;
+		if (department.getDepartmentId() == null || department.getDepartmentId().length() == 0) {
+			hql = new StringBuffer(
+					"from VacollectiveAct VA, VacollectiveActivitiesPublish VAP"
+							+ " where VA.aspareTire='" + checkout +"'"
+							+ " and VA.spareTire = '1' "
+							+ " and VA.teacher.spareTire='1' "
+//							+ " and VA.teacher.department.departmentId='" + department.getDepartmentId() + "'"
+							+ " and VA.teacher.department.spareTire='1'"
+							+ " and VA.actId = VAP.vacollectiveAct.actId "
+					);
+		}else {
+			hql = new StringBuffer(
+					"from VacollectiveAct VA, VacollectiveActivitiesPublish VAP"
+							+ " where VA.aspareTire='" + checkout +"'"
+							+ " and VA.spareTire = '1' "
+							+ " and VA.teacher.spareTire='1' "
+							+ " and VA.teacher.department.departmentId='" + department.getDepartmentId() + "'"
+							+ " and VA.teacher.department.spareTire='1'"
+							+ " and VA.actId = VAP.vacollectiveAct.actId "
+					);
+		}
+		list = new ArrayList<VacollectiveAct>();
+		String append = " and VAP.actDate between ? and ? ";
+		String rank = " order by VA.actId asc";
+		
+		if (foredate != null && afterdate != null && foredate.length() != 0 && afterdate.length() != 0) {
+			hql.append(append).append(rank);
+			list = this.getSession().createQuery(hql.append(rank).toString()).setString(0, foredate).setString(1, afterdate)
+					.setFirstResult((pageIndex - 1) * pagesize).setMaxResults(pagesize).list();
+		}else {
+			list = this.getSession().createQuery(hql.append(rank).toString()).setFirstResult((pageIndex - 1) * pagesize).setMaxResults(pagesize).list();
+			
+		}
+
+		return list;
+	}
+
 }

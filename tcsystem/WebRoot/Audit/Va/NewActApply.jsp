@@ -12,8 +12,8 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	request.setAttribute("researchLabList",
-			StoreData.getResearchLabList());
+	request.setAttribute("departmentList",
+			StoreData.getDepartmentList());
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -68,13 +68,26 @@
 	<form
 		action="GTNewActApplyAudit!getNewActApplyList"
 		method="post" name="pickdate">
+<!-- 		<div class="datepick" style="font-size:12px;"> -->
+<!-- 			<span>选择日期范围</span> -->
+<!-- 			<div> -->
+
+<!-- 				从:<input type="text" id="date1" class="Wdate" -->
+<!-- 					onClick="WdatePicker()" value="${sessionScope.foredate_CT }" -->
+<!-- 					name="foredate_CT" id="foredate" />到:<input type="text" -->
+<!-- 					id="date2" onClick="WdatePicker()" class="Wdate" -->
+<!-- 					value="${sessionScope.afterdate_CT }" name="afterdate_CT" -->
+<!-- 					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep" -->
+<!-- 					value="查询" title="点击查询"> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
 		<h3 style="padding:0px;margin-left: 10px;">活动新增申请审核</h3>
 		<hr>
-		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="researchLab_CT.researchLabId"
-			id="reserchLabSelection">
-				<c:forEach var="researchLab" items="${researchLabList }">
-					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
+		<span style="margin-left:10px;">系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
+			<select name="department_CT.departmentId"
+			id="departmentSelection">
+				<c:forEach var="department" items="${departmentList }">
+					<option value="${department.departmentId }">${department.departmentName }</option>
 				</c:forEach>
 		</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -133,7 +146,11 @@
 					<!-- 活动类型 -->
 					<td>${VaAddJoinedAct.actType }</td>
 					<!-- 说明 -->
-					<td>${VaAddJoinedAct.actapplyfile }</td>
+<!-- 					<td>${VaAddJoinedAct.actapplyfile }</td> -->
+<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->
+<!-- 					<td><a href="#" title="${VaAddJoinedAct.actapplyfile }" alt="">${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</a> -->
+<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->
+					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }…… <button class="button_set" onclick="alert('${VaAddJoinedAct.actapplyfile }')">查看</button></td>
 					<!-- 教师编号 -->
 					<td>${VaAddJoinedAct.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
@@ -212,13 +229,16 @@
 	<script type="text/javascript">
 		$().ready(function(){
 			$("#pageSizeSelection option[value='${sessionScope.pageSize_CT}']").attr("selected",true);
-			$("#reserchLabSelection option[value='${sessionScope.researchLab_CT.researchLabId}']").attr("selected",true);
+			$("#departmentSelection option[value='${sessionScope.department_CT.departmentId}']").attr("selected",true);
 			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_CT}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
 			submitAudit("GTNewActApplyAudit!doCheckOutTask",
 					"GTNewActApplyAudit!getNewActApplyList");
 		});
+		function show(obj,sType){
+			
+		}
 	</script>
 </body>
 </html>
