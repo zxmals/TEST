@@ -1,5 +1,6 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveAct;
@@ -224,12 +225,12 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 
 	@SuppressWarnings("unchecked")
 	public List getVaAddJoinedAct(int pageIndex, int pagesize,
-			ResearchLab researchLab, String checkout, boolean isDivided) {
+			String foredate, String afterdate, Department department, String checkout) {
 		// TODO Auto-generated method stub
 		StringBuffer hqlBuffer = null;
 		try{
-		if (researchLab.getResearchLabId() == null || 
-				researchLab.getResearchLabId().length() == 0) {
+		if (department.getDepartmentId() == null || 
+				department.getDepartmentId().length() == 0) {
 			/*
 			 * 第一次进入的时候，不显示记录
 			 */
@@ -243,29 +244,74 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 					+ " and VACA.aspareTire='" + checkout +"'"
 					+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
 					+ " and VACA.id.teacher.spareTire='1'"
-					+ " and VACA.id.teacher.researchLab.spareTire='1'"
-					+ " and VACA.id.teacher.researchLab.researchLabId='"+researchLab.getResearchLabId()+"'"
-					+ " order by VACA.id.vacollectiveActivitiesPublish.actPubId asc " );
+					+ " and VACA.id.teacher.department.spareTire='1'"
+					+ " and VACA.id.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+//					+ " order by VACA.id.vacollectiveActivitiesPublish.actPubId asc " 
+					);
 		}
-		if (!isDivided) {
+			String append = " and VACA.id.vacollectiveActivitiesPublish.actDate between ? and ? ";
+			String rank = " order by VACA.id.vacollectiveActivitiesPublish.actPubId asc";
+				/*
+				 * 不一定有日期 要判断
+				 */
+			if (foredate !=null && afterdate != null && foredate.length() != 0 && afterdate.length() != 0) {
+				hqlBuffer.append(append).append(rank);
+				addJoinedActList = this.getSession().createQuery(hqlBuffer.toString()).setString(0, foredate)
+						.setString(1, afterdate)
+						.list();
+			}else {
+				addJoinedActList = this.getSession().createQuery(hqlBuffer.append(rank).toString()).list();
+			}
 			//如果不是分页操作，取出所有符合条件的记录
-			addJoinedActList = this.getSession().createQuery(hqlBuffer.toString()).list();
 			int recordNumber = addJoinedActList.size();
 			session.put("pageCount_CT", recordNumber%pagesize==0?(recordNumber/pagesize):(recordNumber/pagesize+1));
 			session.put("recordNumber_CT", addJoinedActList.size());
-		}
+			
 		//无论是不是分页查询，都在后台进行分页操作。
-
-		
-		addJoinedActList = this.getSession()
-				.createQuery(hqlBuffer.toString())
-				.setFirstResult((pageIndex - 1) * pagesize)
-				.setMaxResults(pagesize).list();
+		addJoinedActList = this.getVaAddJoinedActAfterDivide(pageIndex, pagesize, foredate, afterdate, department, checkout);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 			return addJoinedActList;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List getVaAddJoinedActAfterDivide(int pageIndex, Integer pageSize,
+			String foredate, String afterdate, Department department, String checkout) {
+		// TODO Auto-generated method stub
+		List<VateacherAndCollectiveAct> list = null;
+		StringBuffer hql = null;
+		if (department.getDepartmentId() == null || department.getDepartmentId().length() == 0) {
+			hql = new StringBuffer(
+					"from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+					+ " and VACA.aspareTire='" + checkout +"'"
+					+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+					+ " and VACA.id.teacher.spareTire='1'"
+					+ " and VACA.id.teacher.department.spareTire='1'"
+					);
+		}else {
+			hql = new StringBuffer(
+					"from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+					+ " and VACA.aspareTire='" + checkout +"'"
+					+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+					+ " and VACA.id.teacher.spareTire='1'"
+					+ " and VACA.id.teacher.department.spareTire='1'"
+					+ " and VACA.id.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+					);
+		}
+		list = new ArrayList<VateacherAndCollectiveAct>();
+		String append = " and VACA.id.vacollectiveActivitiesPublish.actDate between ? and ? ";
+		String rank = " order by VACA.id.vacollectiveActivitiesPublish.actPubId asc";
+		
+		if (foredate != null && afterdate != null && foredate.length() != 0 && afterdate.length() != 0) {
+			hql.append(append).append(rank);
+			list = this.getSession().createQuery(hql.append(rank).toString()).setString(0, foredate).setString(1, afterdate).setFirstResult((pageIndex - 1) * pageSize).setMaxResults(pageSize).list();
+		}else {
+			list = this.getSession().createQuery(hql.append(rank).toString()).setFirstResult((pageIndex - 1) * pageSize).setMaxResults(pageSize).list();
+		}
+		
+		return list;
+	}
+	
 }
 	

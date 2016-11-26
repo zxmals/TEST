@@ -17,19 +17,13 @@ import java.util.Map;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
-import org.hamcrest.core.Is;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.TeacherDAO;
-import com.nuaa.ec.dao.TfclassTeachPefromanceDAO;
-import com.nuaa.ec.dao.VacollectiveActDAO;
 import com.nuaa.ec.dao.VacollectiveActivitiesPublishDAO;
 import com.nuaa.ec.dao.VateacherAndCollectiveActDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
-import com.nuaa.ec.model.VacollectiveAct;
-import com.nuaa.ec.model.VacollectiveActivitiesPublish;
 import com.nuaa.ec.model.VateacherAndCollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveActId;
 import com.opensymphony.xwork2.ActionContext;
@@ -87,8 +81,8 @@ public class AddJoinedActAuditAction implements RequestAware{
 	public String getAddJoinedActListAfterDivide(){
 		Transaction tx = this.vateacherAndCollectiveActDAO.getSession()
 				.beginTransaction();
-		if ((ResearchLab) session.get("researchLab_CT") == null) {
-			session.put("researchLab_CT", new ResearchLab());
+		if ((Department) session.get("department_CT") == null) {
+			session.put("department_CT", new Department());
 		}
 		if ((Integer) session.get("pageSize_CT") == null) {
 			session.put("pageSize_CT", 1);
@@ -96,11 +90,13 @@ public class AddJoinedActAuditAction implements RequestAware{
 		
 		try {
 			this.request.put("VaAddJoinedActList", this.vateacherAndCollectiveActDAO
-					.getVaAddJoinedAct(pageIndex,
+					.getVaAddJoinedActAfterDivide(pageIndex,
 							(Integer) session.get("pageSize_CT"),
-							(ResearchLab) session.get("researchLab_CT"),
-							(String)session.get("checkOutStatus_CT"),
-							true));
+							(String)session.get("foredate_CT"),
+							(String)session.get("afterdate_CT"),
+							(Department) session.get("department_CT"),
+							(String)session.get("checkOutStatus_CT")
+							));
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception e) {
@@ -117,8 +113,8 @@ public class AddJoinedActAuditAction implements RequestAware{
 	public String getAddJoinedActList(){
 		Transaction tx = this.vateacherAndCollectiveActDAO.getSession().beginTransaction();
 		//判断是否分页
-		if ((ResearchLab) session.get("researchLab_CT") == null) {
-			session.put("researchLab_CT", new ResearchLab());
+		if ((Department) session.get("department_CT") == null) {
+			session.put("department_CT", new Department());
 		}
 		if ((Integer) session.get("pageSize_CT") == null) {
 			session.put("pageSize_CT", 1);
@@ -127,9 +123,11 @@ public class AddJoinedActAuditAction implements RequestAware{
 			this.request.put("VaAddJoinedActList", this.vateacherAndCollectiveActDAO
 					.getVaAddJoinedAct(pageIndex,
 							(Integer) session.get("pageSize_CT"),
-							(ResearchLab) session.get("researchLab_CT"),
-							(String)session.get("checkOutStatus_CT"),
-							false));
+							(String)session.get("foredate_CT"),
+							(String)session.get("afterdate_CT"),
+							(Department) session.get("department_CT"),
+							(String)session.get("checkOutStatus_CT")
+							));
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception e) {
@@ -145,6 +143,7 @@ public class AddJoinedActAuditAction implements RequestAware{
 	private int pageIndex = 1;
 	private int pageSize_CT;
 	private ResearchLab researchLab_CT;
+	private Department department_CT;
 	private int operstatus;
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
@@ -153,7 +152,8 @@ public class AddJoinedActAuditAction implements RequestAware{
 	private String checkOutIDs;
 	private String checkOutIDsNot;
 	private VateacherAndCollectiveActDAO vateacherAndCollectiveActDAO = new VateacherAndCollectiveActDAO();
-	
+	private String foredate_CT;
+	private String afterdate_CT;
 	
 	
 	
@@ -174,7 +174,15 @@ public class AddJoinedActAuditAction implements RequestAware{
 		this.researchLab_CT = researchLab_CT;
 		session.put("researchLab_CT", researchLab_CT);
 	}
-
+	
+	public void setDepartment_CT(Department department_CT) {
+		this.department_CT = department_CT;
+		session.put("department_CT", department_CT);
+	}
+	public Department getDepartment_CT() {
+		return department_CT;
+	}
+	
 	public int getPageIndex() {
 		return pageIndex;
 	}
@@ -226,4 +234,23 @@ public class AddJoinedActAuditAction implements RequestAware{
 	public void setCheckOutIDsNot(String checkOutIDsNot) {
 		this.checkOutIDsNot = checkOutIDsNot;
 	}
+
+	public String getForedate_CT() {
+		return foredate_CT;
+	}
+
+	public void setForedate_CT(String foredate_CT) {
+		this.foredate_CT = foredate_CT;
+		session.put("foredate_CT", foredate_CT);
+	}
+
+	public String getAfterdate_CT() {
+		return afterdate_CT;
+	}
+
+	public void setAfterdate_CT(String afterdate_CT) {
+		this.afterdate_CT = afterdate_CT;
+		session.put("afterdate_CT", afterdate_CT);
+	}
+	
 }

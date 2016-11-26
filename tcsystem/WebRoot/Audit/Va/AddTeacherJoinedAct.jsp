@@ -12,8 +12,8 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	request.setAttribute("researchLabList",
-			StoreData.getResearchLabList());
+	request.setAttribute("departmentList",
+			StoreData.getDepartmentList());
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -68,13 +68,26 @@
 	<form
 		action="GTAddJoinedActAudit!getAddJoinedActList"
 		method="post" name="pickdate">
+		<div class="datepick" style="font-size:12px;">
+			<span>选择日期范围</span>
+			<div>
+
+				从:<input type="text" id="date1" class="Wdate"
+					onClick="WdatePicker()" value="${sessionScope.foredate_CT }"
+					name="foredate_CT" id="foredate" />到:<input type="text"
+					id="date2" onClick="WdatePicker()" class="Wdate"
+					value="${sessionScope.afterdate_CT }" name="afterdate_CT"
+					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep"
+					value="查询" title="点击查询">
+			</div>
+		</div>
 		<h3 style="padding:0px;margin-left: 10px;">活动参与审核</h3>
 		<hr>
-		<span style="margin-left:10px;">研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="researchLab_CT.researchLabId"
-			id="reserchLabSelection">
-				<c:forEach var="researchLab" items="${researchLabList }">
-					<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
+		<span style="margin-left:10px;">系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
+			<select name="department_CT.departmentId"
+			id="departmentSelection">
+				<c:forEach var="department" items="${departmentList }">
+					<option value="${department.departmentId }">${department.departmentName }</option>
 				</c:forEach>
 		</select>
 		</span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -215,7 +228,7 @@
 	<script type="text/javascript">
 		$().ready(function(){
 			$("#pageSizeSelection option[value='${sessionScope.pageSize_CT}']").attr("selected",true);
-			$("#reserchLabSelection option[value='${sessionScope.researchLab_CT.researchLabId}']").attr("selected",true);
+			$("#departmentSelection option[value='${sessionScope.department_CT.departmentId}']").attr("selected",true);
 			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_CT}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){

@@ -1,5 +1,6 @@
 package com.nuaa.ec.dao;
 
+import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.model.VacollectiveAct;
@@ -250,12 +251,12 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 	@SuppressWarnings("unchecked")
 	public List<VaunJoinRecord> getUnjoinedActListAfterDivide(int pageIndex,
 			Integer pageSize, String foredate, String afterdate,
-			ResearchLab researchLab, String checkOut) {
+			Department department, String checkOut) {
 		// TODO Auto-generated method stub
 		List<VaunJoinRecord> list=null;
 		StringBuffer hql = null;
-		if (researchLab.getResearchLabId() == null
-				|| researchLab.getResearchLabId().length() == 0) {
+		if (department.getDepartmentId() == null
+				|| department.getDepartmentId().length() == 0) {
 			hql = new StringBuffer(
 					" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,VA.teacher.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
 					+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP  "
@@ -264,8 +265,8 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 					+ " and VA.actId = UJ.actId "
 					+ " and UJ.actId = VP.vacollectiveAct.actId "
 					+ " and VA.teacher.spareTire='1'"
-					+ " and VA.teacher.researchLab.spareTire='1'"
-					+ " and VA.teacher.researchLab.researchLabId='" +  researchLab.getResearchLabId()+"'"
+					+ " and VA.teacher.department.spareTire='1'"
+//					+ " and VA.teacher.researchLab.researchLabId='" +  researchLab.getResearchLabId()+"'"
 					);
 		}else {
 			// 查出符合条件的全部的记录
@@ -277,8 +278,8 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 					+ " and VA.actId = UJ.actId "
 					+ " and UJ.actId = VP.vacollectiveAct.actId "
 					+ " and VA.teacher.spareTire='1'"
-					+ " and VA.teacher.researchLab.spareTire='1'"
-					+ " and VA.teacher.researchLab.researchLabId='" +  researchLab.getResearchLabId()+"'"
+					+ " and VA.teacher.department.spareTire='1'"
+					+ " and VA.teacher.department.departmentId='" +  department.getDepartmentId()+"'"
 					);
 		}
 		list = new ArrayList<VaunJoinRecord>();
@@ -305,13 +306,13 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 	
 	@SuppressWarnings("unchecked")
 	public List findAllWithCondition(int pageIndex, Integer pageSize,
-			String foredate, String afterdate, ResearchLab researchLab,
+			String foredate, String afterdate, Department department,
 			String checkOut) {
 		// TODO Auto-generated method stub
 		StringBuffer hql = null;
 		List<VaunJoinRecord> list = new ArrayList<VaunJoinRecord>();
-		if (researchLab.getResearchLabId() == null
-				|| researchLab.getResearchLabId().length() == 0) {
+		if (department.getDepartmentId() == null
+				|| department.getDepartmentId().length() == 0) {
 			/*
 			 * 如果第一次进入界面 没有选择研究所 session里面没有对应的数据， 所以不显示数据
 			 */
@@ -327,8 +328,8 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 					+ " and VA.actId = UJ.actId "
 					+ " and UJ.actId = VP.vacollectiveAct.actId "
 					+ " and VA.teacher.spareTire='1'"
-					+ " and VA.teacher.researchLab.spareTire='1'"
-					+ " and VA.teacher.researchLab.researchLabId='" +  researchLab.getResearchLabId()+"'"
+					+ " and VA.teacher.department.spareTire='1'"
+					+ " and VA.teacher.department.departmentId='" +  department.getDepartmentId()+"'"
 					);
 		}
 		try {
@@ -357,7 +358,7 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 			 * 调用分页函数，缓解前台压力， 在后台完成分页，在前台展示相应数据。
 			 */
 			list = this.getUnjoinedActListAfterDivide(pageIndex, pageSize,
-					foredate, afterdate, researchLab, checkOut);
+					foredate, afterdate, department, checkOut);
 		} catch (Exception ex) {
 			// TODO: handle exception
 			log.error("find all failed", ex);
