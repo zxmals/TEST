@@ -150,7 +150,23 @@
 <!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->
 <!-- 					<td><a href="#" title="${VaAddJoinedAct.actapplyfile }" alt="">${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</a> -->
 <!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->
-					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }…… <button class="button_set" onclick="alert('${VaAddJoinedAct.actapplyfile }')">查看</button></td>
+<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }…… <button class="button_set" onclick="alert('${VaAddJoinedAct.actapplyfile }')">查看</button></td> -->
+					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }…… <button class="button_set" data-toggle="modal" data-target="#myModal">查看</button>
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+							${VaAddJoinedAct.actapplyfile }
+							</div>
+							<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+							</button>
+
+							</div>
+						</div>
+				</div>
+				</div>
+					</td>
 					<!-- 教师编号 -->
 					<td>${VaAddJoinedAct.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
@@ -171,6 +187,22 @@
 			</c:forEach>
 		</table>
 	</form>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+</div>
+<div class="modal-body">
+在这里添加一些文本
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+</button>
+
+</div>
+</div>
+</div>
+</div>
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;"> 当前是第<font
@@ -219,6 +251,7 @@
 	<script src="js/ie10-viewport-bug-workaround.js"></script>
 	<script src="js/jquery.min.js?v=2.1.4"></script>
 	<script src="js/bootstrap.min.js?v=3.3.5"></script>
+	<script src="js/bootstrap-modal.js"></script>
 	<script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 	<script src="js/content.min.js?v=1.0.0"></script>
 	<script src="js/plugins/iCheck/icheck.min.js"></script>
@@ -236,9 +269,7 @@
 			submitAudit("GTNewActApplyAudit!doCheckOutTask",
 					"GTNewActApplyAudit!getNewActApplyList");
 		});
-		function show(obj,sType){
-			
-		}
+		
 	</script>
 </body>
 </html>
