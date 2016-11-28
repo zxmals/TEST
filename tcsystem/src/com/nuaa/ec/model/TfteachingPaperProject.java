@@ -20,12 +20,34 @@ public class TfteachingPaperProject implements java.io.Serializable {
 	private String spareTire;
 	private String checkOut;
 	private String chargePersonId;
+	private String departmentId;
 	private Set tfteachingPaperPerformances = new HashSet(0);
 
 	// Constructors
-
+	
 	/** default constructor */
 	public TfteachingPaperProject() {
+	}
+
+	public TfteachingPaperProject(
+			String teachPaperId,
+			Tfterm tfterm,
+			TfteachingPaperRetrievalCondition tfteachingPaperRetrievalCondition,
+			String teachPaperName, String otherAuthorJoin,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, String departmentId,
+			Set tfteachingPaperPerformances) {
+		this.teachPaperId = teachPaperId;
+		this.tfterm = tfterm;
+		this.tfteachingPaperRetrievalCondition = tfteachingPaperRetrievalCondition;
+		this.teachPaperName = teachPaperName;
+		this.otherAuthorJoin = otherAuthorJoin;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.departmentId = departmentId;
+		this.tfteachingPaperPerformances = tfteachingPaperPerformances;
 	}
 
 	/** minimal constructor */
@@ -153,6 +175,14 @@ public class TfteachingPaperProject implements java.io.Serializable {
 
 	public void setTfteachingPaperPerformances(Set tfteachingPaperPerformances) {
 		this.tfteachingPaperPerformances = tfteachingPaperPerformances;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 }

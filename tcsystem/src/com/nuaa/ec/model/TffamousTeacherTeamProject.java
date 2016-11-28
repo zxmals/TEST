@@ -20,6 +20,24 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 	private String chargePersonId;
 	private String checkout;
 	private String name;
+	private String departmentId;
+	public TffamousTeacherTeamProject(String teacherTeamPerformanceId,
+			TffamousTeacherTeamRewadLevel tffamousTeacherTeamRewadLevel,
+			Double projectSumScore, Tfterm tfterm, String spareTire,
+			String chargePersonId, String checkout, String name,
+			String departmentId, Set tffamousTeacherTeamPerformances) {
+		this.teacherTeamPerformanceId = teacherTeamPerformanceId;
+		this.tffamousTeacherTeamRewadLevel = tffamousTeacherTeamRewadLevel;
+		this.projectSumScore = projectSumScore;
+		this.tfterm = tfterm;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.checkout = checkout;
+		this.name = name;
+		this.departmentId = departmentId;
+		this.tffamousTeacherTeamPerformances = tffamousTeacherTeamPerformances;
+	}
+
 	private Set tffamousTeacherTeamPerformances = new HashSet(0);
 
 	// Constructors
@@ -137,6 +155,14 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 
 	public void setCheckout(String checkout) {
 		this.checkout = checkout;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 }

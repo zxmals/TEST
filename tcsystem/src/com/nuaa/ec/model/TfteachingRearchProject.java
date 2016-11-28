@@ -20,6 +20,26 @@ public class TfteachingRearchProject implements java.io.Serializable {
 	private String checkOut;
 	private Double projetScore;
 	private String chargePersonId;
+	private String departmentId;
+	public TfteachingRearchProject(String projectId,
+			TfteachingRearchEvaluation tfteachingRearchEvaluation,
+			Tfterm tfterm, TfteachingRearchFundlevel tfteachingRearchFundlevel,
+			String project, String spareTire, String checkOut,
+			Double projetScore, String chargePersonId, String departmentId,
+			Set tfteachingRearchPerformances) {
+		this.projectId = projectId;
+		this.tfteachingRearchEvaluation = tfteachingRearchEvaluation;
+		this.tfterm = tfterm;
+		this.tfteachingRearchFundlevel = tfteachingRearchFundlevel;
+		this.project = project;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.projetScore = projetScore;
+		this.chargePersonId = chargePersonId;
+		this.departmentId = departmentId;
+		this.tfteachingRearchPerformances = tfteachingRearchPerformances;
+	}
+
 	private Set tfteachingRearchPerformances = new HashSet(0);
 
 	// Constructors
@@ -151,6 +171,14 @@ public class TfteachingRearchProject implements java.io.Serializable {
 
 	public void setTfteachingRearchPerformances(Set tfteachingRearchPerformances) {
 		this.tfteachingRearchPerformances = tfteachingRearchPerformances;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 }

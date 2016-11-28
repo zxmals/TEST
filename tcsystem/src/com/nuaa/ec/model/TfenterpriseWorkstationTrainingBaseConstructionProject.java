@@ -24,6 +24,27 @@ public class TfenterpriseWorkstationTrainingBaseConstructionProject implements
 	private String chargePersonId;
 	private Set tfenterpriseWorkstationTrainingBaseConstructionPerformances = new HashSet(
 			0);
+	private String departmentId;
+	public TfenterpriseWorkstationTrainingBaseConstructionProject(
+			String projectId,
+			TfenterpriseWorkstationTrainingbaseConstructionLevel tfenterpriseWorkstationTrainingbaseConstructionLevel,
+			Tfterm tfterm, String projectName, Double projectSumScore,
+			String quantityUnit, String spareTire, String checkOut,
+			String chargePersonId,
+			Set tfenterpriseWorkstationTrainingBaseConstructionPerformances,
+			String departmentId) {
+		this.projectId = projectId;
+		this.tfenterpriseWorkstationTrainingbaseConstructionLevel = tfenterpriseWorkstationTrainingbaseConstructionLevel;
+		this.tfterm = tfterm;
+		this.projectName = projectName;
+		this.projectSumScore = projectSumScore;
+		this.quantityUnit = quantityUnit;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.tfenterpriseWorkstationTrainingBaseConstructionPerformances = tfenterpriseWorkstationTrainingBaseConstructionPerformances;
+		this.departmentId = departmentId;
+	}
 
 	// Constructors
 
@@ -157,6 +178,14 @@ public class TfenterpriseWorkstationTrainingBaseConstructionProject implements
 	public void setTfenterpriseWorkstationTrainingBaseConstructionPerformances(
 			Set tfenterpriseWorkstationTrainingBaseConstructionPerformances) {
 		this.tfenterpriseWorkstationTrainingBaseConstructionPerformances = tfenterpriseWorkstationTrainingBaseConstructionPerformances;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 }
