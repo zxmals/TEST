@@ -10,10 +10,10 @@
             <column name="TeacherID" length="20" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="researchLab" class="com.nuaa.ec.model.ResearchLab" fetch="select">
+        <many-to-one name="researchLab" class="com.nuaa.ec.model.ResearchLab" fetch="join" lazy="false">
             <column name="ResearchLabID" length="20" />
         </many-to-one>
-        <many-to-one name="department" class="com.nuaa.ec.model.Department" fetch="select">
+        <many-to-one name="department" class="com.nuaa.ec.model.Department" fetch="join" lazy="false">
             <column name="DepartmentID" length="20" />
         </many-to-one>
         <property name="spareTire" type="java.lang.String">

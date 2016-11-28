@@ -41,6 +41,24 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+	/**
+	 * 所长审核需要的获取记录的方法
+	 * @param TARProList
+	 * @return
+	 */
+	public List<TeacherAndscientificResearchProject> getAllMembersOfProject(int pageIndex, int pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut,boolean isDivided){
+		List<ScientificResearchProject> scienResProList;
+		// 获取当前登录的教师的研究所
+		ResearchLab currentResearchLab = ((Teacher) session.get("teacher"))
+				.getResearchLab();
+		/*
+		 * 利用审核状态是否是NULL来判断是否是第一次登陆 如果checkout是NULL，那么说明是第一次登陆
+		 */
+		StringBuffer hql=null;
+		
+		return null;
+	}
 	public boolean updateCheckoutStatus(
 			List<TeacherAndscientificResearchProject> TARProList) {
 		Session session = this.getSession();

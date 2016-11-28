@@ -101,10 +101,12 @@ public class InitServlet extends HttpServlet {
 		 * 审核状态
 		 */
 		Map<String,Object> auditStatus=new TreeMap<String,Object>();
+//		auditStatus.put("0", "全部记录");
 		auditStatus.put("0", "待审核");
-		auditStatus.put("1", "审核通过");
+		auditStatus.put("1", "所长/系主任审核通过");
 		auditStatus.put("2", "未通过审核");
-		auditStatus.put("3", "所长/系主任审核通过");
+		auditStatus.put("3", "管理员审核通过");
+		auditStatus.put("4", "查看全部记录");
 		context.setAttribute("auditStatus", auditStatus);
 		
 	}

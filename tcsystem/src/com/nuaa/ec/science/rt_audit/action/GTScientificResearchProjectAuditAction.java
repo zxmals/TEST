@@ -1,7 +1,11 @@
 package com.nuaa.ec.science.rt_audit.action;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
 
@@ -9,28 +13,96 @@ import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.ScientificResearchProjectDAO;
 import com.nuaa.ec.dao.TeacherAndscientificResearchProjectDAO;
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.ScientificResearchProject;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.opensymphony.xwork2.ActionContext;
 
 public class GTScientificResearchProjectAuditAction implements RequestAware {
-	public String getAllRecord(){
+	/**
+	 * 取出团队成员
+	 */
+	public String getAllMembersOfProject() {
+		return "success";
+	}
+
+	/**
+	 * 审核团队中的成员
+	 */
+	public void doCheckOut_person() {
+
+	}
+
+	/**
+	 * 审核团队
+	 */
+	public void doCheckOut_project() {
+		List<ScientificResearchProject> checkoutList = new ArrayList<ScientificResearchProject>();
+		List<ScientificResearchProject> checkoutNotList = new ArrayList<ScientificResearchProject>();
+		String[] ids = this.checkOutIDs.split(",");
+		String[] idsNot = this.checkOutIDsNot.split(",");
+		ScientificResearchProject scientificResearchProject = null;
+		for (int i = 0; i < ids.length; i++) {
+			if (ids[i] != null && ids[i].length() != 0) {
+				scientificResearchProject = this.scientificResearchProjectDAO
+						.findById(ids[i]);
+				// 修改checkout 标志
+				if (scientificResearchProject != null) {
+					scientificResearchProject.setCheckout("1");
+					checkoutList.add(scientificResearchProject);
+				}
+			}
+		}
+		for (int i = 0; i < idsNot.length; i++) {
+			if (idsNot[i] != null && idsNot[i].length() != 0) {
+				scientificResearchProject = this.scientificResearchProjectDAO
+						.findById(idsNot[i]);
+				if (scientificResearchProject != null) {
+					scientificResearchProject.setCheckout("2");
+					checkoutList.add(scientificResearchProject);
+					checkoutNotList.add(scientificResearchProject);
+				}
+			}
+		}
+		// 将待审核的项目传向后台
+		try {
+			if (scientificResearchProjectDAO.updateCheckoutStatus(checkoutList)
+					&& scientificResearchProjectDAO
+							.cascadeUpdateCheckOutOfMembers(checkoutNotList)) {
+				// 前端显示乱码解决
+				ServletActionContext.getResponse().getWriter().write("succ");
+			} else {
+				ServletActionContext.getResponse().getWriter().write("error");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String getAllRecord() {
 		Transaction tx = null;
 		boolean isDivided = false;
-		String isDivided_s=(String) session.get("isDivided");
-		if (isDivided_s!=null && isDivided_s.trim().equals("true")) {
+		if (this.isDivided != null && this.isDivided.trim().equals("true")) {
 			isDivided = true;
 		}
-		String pageSize_s = (String) session.get("pageSize_GTSRP");
-		if (pageSize_s != null) {
-			pageSize_GTSRP = Integer.parseInt(pageSize_s);
+		String pageSize_s = null;
+		if (session.get("pageSize_GTSRP") != null) {
+			pageSize_s = (String) (session.get("pageSize_GTSRP") + "");
+			if (pageSize_s != null && pageSize_s.trim().length() != 0) {
+				pageSize_GTSRP = Integer.parseInt(pageSize_s);
+			}
 		}
+		System.out.println(pageSize_GTSRP);
 		this.request.put("SRPProjectList", this.scientificResearchProjectDAO
 				.getAllRecordWithCondition_RT(pageIndex, pageSize_GTSRP,
-						foredate_GTSRP, afterdate_GTSRP, researchLab_GTSRP,
-						checkout_GTSRP, isDivided));
-		try{
-			this.TARProjectDAO.getSession().beginTransaction().commit();
-		}catch(Exception ex){
+						(String) session.get("foredate_GTSRP"),
+						(String) session.get("afterdate_GTSRP"),
+						((Teacher) session.get("teacher")).getResearchLab(),
+						(String) session.get("checkout_GTSRP"), isDivided));
+		try {
+			tx = this.TARProjectDAO.getSession().beginTransaction();
+			tx.commit();
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			tx.rollback();
 		}
@@ -43,8 +115,7 @@ public class GTScientificResearchProjectAuditAction implements RequestAware {
 	private Map<String, Object> request = null;
 	private int pageIndex = 1;
 	private int pageSize_GTSRP = 1;
-	private ResearchLab researchLab_GTSRP;
-	private String checkout_GTSRP = "0";
+	private String checkout_GTSRP;
 	private String checkOutIDs;
 	private String checkOutIDsNot;
 	private String isDivided;
@@ -100,15 +171,6 @@ public class GTScientificResearchProjectAuditAction implements RequestAware {
 	public void setPageSize_GTSRP(int pageSize_GTSRP) {
 		this.pageSize_GTSRP = pageSize_GTSRP;
 		session.put("pageSize_GTSRP", pageSize_GTSRP);
-	}
-
-	public ResearchLab getResearchLab_GTSRP() {
-		return researchLab_GTSRP;
-	}
-
-	public void setResearchLab_GTSRP(ResearchLab researchLab_GTSRP) {
-		this.researchLab_GTSRP = researchLab_GTSRP;
-		session.put("researchLab_GTSRP", researchLab_GTSRP);
 	}
 
 	public TeacherAndscientificResearchProject getTARProject() {

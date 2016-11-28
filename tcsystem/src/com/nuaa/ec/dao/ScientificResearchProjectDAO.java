@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.ScientificResearchProject;
 import com.nuaa.ec.model.Teacher;
+import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -40,7 +43,46 @@ public class ScientificResearchProjectDAO extends BaseHibernateDAO  {
 
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
-
+	/**
+	 * 所长审核功能
+	 * @param scientificResearchProjectList
+	 * @return
+	 */
+	public boolean updateCheckoutStatus(
+			List<ScientificResearchProject> scientificResearchProjectList) {
+		Session session = this.getSession();
+		Transaction tx = null;
+		boolean updateFlag = false;
+		try {
+			for (int i = 0; i < scientificResearchProjectList.size(); i++) {
+				session.update(scientificResearchProjectList.get(i));
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			updateFlag = true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return updateFlag;
+	}
+	/**
+	 * 如果项目没有通过那么项目里的所有成员都将不通过。
+	 * @param scientificResearchProjectList
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean cascadeUpdateCheckOutOfMembers(List<ScientificResearchProject> scientificResearchProjectList){
+		Session session=this.getSession();
+		Set<TeacherAndscientificResearchProject> srpSet;
+		for(ScientificResearchProject srp:scientificResearchProjectList){
+			srpSet=srp.getTeacherAndscientificResearchProjects();
+			for(TeacherAndscientificResearchProject tasrp:srpSet){
+				tasrp.setCheckOut("1");
+			}
+			session.saveOrUpdate(srp);
+		}
+		return false;
+	}
 	@SuppressWarnings("unchecked")
 	public List<ScientificResearchProject> getAllRecordWithCondition_RT(
 			int pageIndex, int pageSize, String foredate, String afterdate,
@@ -52,26 +94,41 @@ public class ScientificResearchProjectDAO extends BaseHibernateDAO  {
 		/*
 		 * 利用审核状态是否是NULL来判断是否是第一次登陆 如果checkout是NULL，那么说明是第一次登陆
 		 */
-		StringBuffer hql = null;
-		if (checkOut != null && checkOut.length() != 0) {//说明不是第一次进入界面
-			hql = new StringBuffer("FROM ScientificResearchProject SRP WHERE SRP.checkout='"+ checkOut+"'");
-			if(foredate!=null && afterdate!=null && foredate.length()!=0 && afterdate.length()!=0){
-				hql.append(" AND SRP.admitedProjectYear BETWEEN '"+foredate+"' AND '"+afterdate+"'");
+		StringBuffer hql=null;
+		if (checkOut != null && checkOut.length() != 0) {//第一次进入界面或者选择了查看全部的记录
+			if(!checkOut.trim().equals("4")){
+				hql= new StringBuffer("FROM ScientificResearchProject SRP WHERE SRP.checkout='"+ checkOut+"'");
+				if(foredate!=null && afterdate!=null && foredate.length()!=0 && afterdate.length()!=0){
+					hql.append(" AND SRP.admitedProjectYear BETWEEN '"+foredate+"' AND '"+afterdate+"'");
+				}
+				hql.append(" AND SRP.researchLabId='"+currentResearchLab.getResearchLabId()+"'");
+			}else{
+				hql=new StringBuffer("FROM ScientificResearchProject SRP ");
+				if(foredate!=null && afterdate!=null && foredate.length()!=0 && afterdate.length()!=0){
+					hql.append(" WHERE SRP.admitedProjectYear BETWEEN '"+foredate+"' AND '"+afterdate+"'");
+					hql.append(" AND SRP.researchLabId='"+currentResearchLab.getResearchLabId()+"'");
+				}else{
+					hql.append(" WHERE SRP.researchLabId='"+currentResearchLab.getResearchLabId()+"'");
+				}
+				
 			}
 		}
-		hql.append(" AND SRP.researchLabId='"+ currentResearchLab.getResearchLabId()+"'");
-		if(isDivided){
-			//此处是分页操作
-			scienResProList=this.getSession().createQuery(hql.toString()).setMaxResults(pageSize).setFirstResult((pageIndex-1)*pageSize).list();
-			int size=scienResProList.size();
-			session.put("pageCount_GTSRP", size%pageSize==0?(size/pageSize):(size/pageSize+1));
-			session.put("recordNumber_GTSRP", size);
-		}else{
+		else{
+			hql=new StringBuffer("FROM ScientificResearchProject SRP ");
+			if(foredate!=null && afterdate!=null && foredate.length()!=0 && afterdate.length()!=0){
+				hql.append(" WHERE SRP.admitedProjectYear BETWEEN '"+foredate+"' AND '"+afterdate+"'");
+				hql.append(" AND SRP.researchLabId='"+currentResearchLab.getResearchLabId()+"'");
+			}else{
+				hql.append(" WHERE SRP.researchLabId='"+currentResearchLab.getResearchLabId()+"'");
+			}
+		}
+		if(!isDivided){
 			scienResProList=this.getSession().createQuery(hql.toString()).list();
 			int size=scienResProList.size();
 			session.put("pageCount_GTSRP", size%pageSize==0?(size/pageSize):(size/pageSize+1));
 			session.put("recordNumber_GTSRP", size);
 		}
+		scienResProList=this.getSession().createQuery(hql.toString()).setMaxResults(pageSize).setFirstResult((pageIndex-1)*pageSize).list();
 		return scienResProList;
 	}
 

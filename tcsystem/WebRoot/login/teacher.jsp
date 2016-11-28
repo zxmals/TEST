@@ -379,7 +379,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                            	<span class="fa arrow"></span></a>
 	                            	<ul class="nav nav-third-level">
 									<li>
-										<a class="J_menuItem" href="GTScientificResearchProjectAudit!getAllRecord">项目审核</a>
+										<a class="J_menuItem" href="GTScientificResearchProjectAudit_project!getAllRecord">项目审核</a>
 									</li>
 									<li>
 										<a class="J_menuItem" href="GTScientificResearchProjectAudit!getAllRecord">项目成员审核</a>

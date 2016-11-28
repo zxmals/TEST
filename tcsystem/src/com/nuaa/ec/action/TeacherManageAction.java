@@ -48,6 +48,8 @@ public class TeacherManageAction implements SessionAware {
 				teacherlgdao.save(teacherlg);
 				this.setTeacher(teacherdao.findById(teacherid));
 				session.put("teacher", teacher);
+				session.put("teacherDepartment", teacher.getDepartment().getDepartmentName());
+				session.put("teacherResearchLab", teacher.getResearchLab().getResearchLabName());
 				/*
 				 * 验证身份/check user level
 				 */

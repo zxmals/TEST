@@ -44,7 +44,6 @@ function getCheckOutResult(){
       $('input:checkbox[name=chooseWhichToAudit]:checked').each(function(i){
     	  arr=arr+$(this).val()+",";
       });
-      alert(arr.substring(0,arr.length-1));
 	  return arr.substring(0,arr.length-1); 
 }
 function getCheckOutNotAudit(){
@@ -52,47 +51,67 @@ function getCheckOutNotAudit(){
 	$('input:checkbox[name=notAudit]:checked').each(function(i){
 		arr=arr+$(this).val()+",";
 	});
-	alert(arr.substring(0,arr.length-1));
 	return arr.substring(0,arr.length-1); 
 }
 function submitAudit(postUrl,refreshUrl){
 	var IDs=getCheckOutResult();
 	var IDsNot=getCheckOutNotAudit();
 	if(IDs.length==0 && IDsNot.length==0){
-		swal("请选择要通过审核的项目！", "", "warning");
+//		swal("请选择要通过审核的项目！", "", "warning");
+		alert("请选择要通过审核的项目！");
 		return;
 	}
-	swal({   title: "确定要审核吗？",
-		text: "请仔细检查后进行审核",
-		type: "warning",   showCancelButton: true,
-		confirmButtonColor: "#DD6B55",
-		confirmButtonText: "进行审核",
-		cancelButtonText: "取消审核",
-		closeOnConfirm: false,
-		closeOnCancel: true }, 
-		function(isConfirm){   
-			if (isConfirm) { 
-				$.post(postUrl,{
-					checkOutIDs:IDs,
-					checkOutIDsNot:IDsNot
-					},function(data,status){
-					if(status=="success"){
-						if(data=="succ"){
-							swal("审核成功！", "", "success");
-							setTimeout(function(){
-								window.location.replace(refreshUrl);
-							},2000);
-						}else{
-							swal("审核失败！", "", "error");
-						}
-					}
-					else{
-						return;
-					}
-				});
-				
-			} 
+	if(window.confirm("确认要进行审核吗？")){
+		$.post(postUrl,{
+			checkOutIDs:IDs,
+			checkOutIDsNot:IDsNot
+			},function(data,status){
+			if(status=="success"){
+				if(data=="succ"){
+//					swal("审核成功！", "", "success");
+					alert("审核成功！");
+					window.location.replace(refreshUrl);
+				}else{
+					alert("发生错误！审核失败！");
+//					swal("审核失败！", "", "error");
+				}
+			}
+			else{
+				return;
+			}
 		});
+	}
+//	swal({   title: "确定要审核吗？",
+//		text: "请仔细检查后进行审核",
+//		type: "warning",   showCancelButton: true,
+//		confirmButtonColor: "#DD6B55",
+//		confirmButtonText: "进行审核",
+//		cancelButtonText: "取消审核",
+//		closeOnConfirm: false,
+//		closeOnCancel: true }, 
+//		function(isConfirm){   
+//			if (isConfirm) { 
+//				$.post(postUrl,{
+//					checkOutIDs:IDs,
+//					checkOutIDsNot:IDsNot
+//					},function(data,status){
+//					if(status=="success"){
+//						if(data=="succ"){
+//							swal("审核成功！", "", "success");
+//							setTimeout(function(){
+//								window.location.replace(refreshUrl);
+//							},2000);
+//						}else{
+//							swal("审核失败！", "", "error");
+//						}
+//					}
+//					else{
+//						return;
+//					}
+//				});
+//				
+//			} 
+//		});
 }
 
 
