@@ -37,6 +37,9 @@
         <property name="chargePersonId" type="java.lang.String">
             <column name="ChargePersonID" length="200" />
         </property>
+        <property name="researchLabId" type="java.lang.String">
+        	<column name="researchLabId"/>
+        </property>
         <property name="checkout" type="java.lang.String">
             <column name="checkout" length="10" />
         </property>

@@ -23,7 +23,27 @@ public class InvitedExpertsSpeech  implements java.io.Serializable {
      private String chargePerson;
      private String checkout;
      private String speechDate;
-     private Set teacherAndinvitedExpertsSpeechs = new HashSet(0);
+     private String researchLabId;
+     public InvitedExpertsSpeech(String iespeechId, Nationality nationality,
+			ExpertType expertType, String expertsName, String lectureName,
+			String spareTire, String chargePersonId, String chargePerson,
+			String checkout, String speechDate, String researchLabId,
+			Set teacherAndinvitedExpertsSpeechs) {
+		this.iespeechId = iespeechId;
+		this.nationality = nationality;
+		this.expertType = expertType;
+		this.expertsName = expertsName;
+		this.lectureName = lectureName;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.chargePerson = chargePerson;
+		this.checkout = checkout;
+		this.speechDate = speechDate;
+		this.researchLabId = researchLabId;
+		this.teacherAndinvitedExpertsSpeechs = teacherAndinvitedExpertsSpeechs;
+	}
+
+	private Set teacherAndinvitedExpertsSpeechs = new HashSet(0);
 
 
     // Constructors
@@ -142,6 +162,14 @@ public class InvitedExpertsSpeech  implements java.io.Serializable {
     public void setTeacherAndinvitedExpertsSpeechs(Set teacherAndinvitedExpertsSpeechs) {
         this.teacherAndinvitedExpertsSpeechs = teacherAndinvitedExpertsSpeechs;
     }
+
+	public String getResearchLabId() {
+		return researchLabId;
+	}
+
+	public void setResearchLabId(String researchLabId) {
+		this.researchLabId = researchLabId;
+	}
    
 
 

@@ -22,7 +22,26 @@ public class JoinAcademicMeeting  implements java.io.Serializable {
      private String chargePerson;
      private String checkout;
      private String meetingdate;
-     private Set teacherAndjoinAcademicMeetings = new HashSet(0);
+     private String researchLabId;
+     public JoinAcademicMeeting(String joinAcaMid, MeetingPlace meetingPlace,
+			MeetingType meetingType, String acaMeetName, String spareTire,
+			String chargePersonId, String chargePerson, String checkout,
+			String meetingdate, String researchLabId,
+			Set teacherAndjoinAcademicMeetings) {
+		this.joinAcaMid = joinAcaMid;
+		this.meetingPlace = meetingPlace;
+		this.meetingType = meetingType;
+		this.acaMeetName = acaMeetName;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.chargePerson = chargePerson;
+		this.checkout = checkout;
+		this.meetingdate = meetingdate;
+		this.researchLabId = researchLabId;
+		this.teacherAndjoinAcademicMeetings = teacherAndjoinAcademicMeetings;
+	}
+
+	private Set teacherAndjoinAcademicMeetings = new HashSet(0);
 
 
     // Constructors
@@ -132,6 +151,14 @@ public class JoinAcademicMeeting  implements java.io.Serializable {
     public void setTeacherAndjoinAcademicMeetings(Set teacherAndjoinAcademicMeetings) {
         this.teacherAndjoinAcademicMeetings = teacherAndjoinAcademicMeetings;
     }
+
+	public String getResearchLabId() {
+		return researchLabId;
+	}
+
+	public void setResearchLabId(String researchLabId) {
+		this.researchLabId = researchLabId;
+	}
    
 
 

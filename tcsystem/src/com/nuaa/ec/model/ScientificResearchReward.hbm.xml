@@ -40,6 +40,9 @@
         <property name="checkout" type="java.lang.String">
             <column name="checkout" length="10" />
         </property>
+        <property name="researchLabId" type="java.lang.String">
+        	<column name="researchLabId"/>
+        </property>
         <set name="teacherAndscientificResearchRewards" inverse="true">
             <key>
                 <column name="SRRewardID" length="20" />

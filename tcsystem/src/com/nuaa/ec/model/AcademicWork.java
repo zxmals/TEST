@@ -26,7 +26,31 @@ public class AcademicWork  implements java.io.Serializable {
      private String chargePersonId;
      private String chargePerson;
      private String checkout;
-     private Set teacherAndacademicWorks = new HashSet(0);
+     private String researchLabId;
+     public AcademicWork(String acaworkId, PublishClub publishClub,
+			String firstAuthor, String workName, String publishDate,
+			String isbn, String wordNumber, String otherAuthorJoin,
+			String spareTire, String chargePersonId, String chargePerson,
+			String checkout, String researchLabId, Set teacherAndacademicWorks,
+			WordsNumber wordsNumber) {
+		this.acaworkId = acaworkId;
+		this.publishClub = publishClub;
+		this.firstAuthor = firstAuthor;
+		this.workName = workName;
+		this.publishDate = publishDate;
+		this.isbn = isbn;
+		this.wordNumber = wordNumber;
+		this.otherAuthorJoin = otherAuthorJoin;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.chargePerson = chargePerson;
+		this.checkout = checkout;
+		this.researchLabId = researchLabId;
+		this.teacherAndacademicWorks = teacherAndacademicWorks;
+		this.wordsNumber = wordsNumber;
+	}
+
+	private Set teacherAndacademicWorks = new HashSet(0);
 
      private WordsNumber wordsNumber;
 
@@ -195,6 +219,14 @@ public class AcademicWork  implements java.io.Serializable {
 
 	public void setWordsNumber(WordsNumber wordsNumber) {
 		this.wordsNumber = wordsNumber;
+	}
+
+	public String getResearchLabId() {
+		return researchLabId;
+	}
+
+	public void setResearchLabId(String researchLabId) {
+		this.researchLabId = researchLabId;
 	}
    
 

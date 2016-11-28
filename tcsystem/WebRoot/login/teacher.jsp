@@ -366,29 +366,58 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<li><a class="J_menuItem" href="VA/act_summary.jsp">公益绩效管理</a></li>
 								</ul>
                             </li>
-                    <li id="resAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">所审核</span></a> </li>
+                   	   <li id="resAdmin"  style="display: none">
+	                   	    <a href="#">
+	                   	    	<i class="fa fa-edit"></i> 
+		                   	    <span class="nav-label">所审核</span>
+		                   	    <span class="fa arrow"></span>
+	                   	    </a>
+                   	   	 	<ul class="nav nav-second-level firstslide">
+	                            <li>
+	                            	<a href="#">
+	                            	<span class="nav-label">科研项目审核</span>
+	                            	<span class="fa arrow"></span></a>
+	                            	<ul class="nav nav-third-level">
+									<li>
+										<a class="J_menuItem" href="GTScientificResearchProjectAudit!getAllRecord">项目审核</a>
+									</li>
+									<li>
+										<a class="J_menuItem" href="GTScientificResearchProjectAudit!getAllRecord">项目成员审核</a>
+									</li>
+								</ul>
+	                            </li>
+								<li><a class="J_menuItem" href="ATScientificResearchRewardAudit!getRewardInfo">科研项目奖励审核</a></li>
+                               	<li><a class="J_menuItem" href="ATTeacherAndSelectedTalentProjectAudit!getTASTalentProjectInfo">入选人才项目审核</a></li>
+                               	<li><a class="J_menuItem" href="ATTeacherAndPeriodicalAudit!getTAPeriodicalList">期刊论文审核</a></li>
+                               	<li><a class="J_menuItem" href="ATTeacherAndmainUndertakeAcademicMeetingAudit!getTAUAcademicMeetingList">承担学术会议审核</a></li>
+                               	<li><a class="J_menuItem" href="ATTeacherAndjoinAcademicMeetingAudit!getTAAMeetingList">参加学术会议审核</a></li>
+                               	<li><a class="J_menuItem" href="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList">邀请专家讲座审核</a></li>
+                               	<li><a class="J_menuItem" href="ATTeacherAndacademicWorkAudit!getTAAcademicWork">学术著作审核</a></li>
+                      	   </ul>
+                   	   
+                   	    </li>
                        <li id="departAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">系审核</span></a> </li>
                        <li id="vaadmin"  style="display: none">
-		                            	<a href="#">
-		                                	<i class="fa fa-edit"></i>
-		                                	<span class="nav-label">公益审核</span>
-		                                	<span class="fa arrow"></span>
-		                                </a>
-		                                <ul class="nav nav-second-level firstslide">
-				                            <li>
-				                                <a class="J_menuItem" href="GTAddJoinedActAudit!getAddJoinedActList">活动加入审核</a>
-				                            </li>
-				                            <li>
-				                                <a class="J_menuItem" href="GTUnjoinedActAudit!getUnjoinedActList">活动缺席审核</a>
-				                            </li>
-				                            <li>
-				                                <a class="J_menuItem" href="GTNewActPublishActAudit!getNewActPublishList">活动发布审核</a>
-				                            </li>
-				                            <li>
-				                                <a class="J_menuItem" href="GTNewActApplyAudit!getNewActApplyList">活动新增申请审核</a>
-				                            </li>
-				                        </ul>
-		                            </li>
+                           	<a href="#">
+                            	<i class="fa fa-edit"></i>
+                            	<span class="nav-label">公益审核</span>
+                            	<span class="fa arrow"></span>
+                            </a>
+                             <ul class="nav nav-second-level firstslide">
+	                            <li>
+	                                <a class="J_menuItem" href="GTAddJoinedActAudit!getAddJoinedActList">活动加入审核</a>
+	                            </li>
+	                            <li>
+	                                <a class="J_menuItem" href="GTUnjoinedActAudit!getUnjoinedActList">活动缺席审核</a>
+	                            </li>
+	                            <li>
+	                                <a class="J_menuItem" href="GTNewActPublishActAudit!getNewActPublishList">活动发布审核</a>
+	                            </li>
+	                            <li>
+	                                <a class="J_menuItem" href="GTNewActApplyAudit!getNewActApplyList">活动新增申请审核</a>
+	                            </li>
+                      	   </ul>
+                       </li>
                 </ul>
             </div>
         </nav>

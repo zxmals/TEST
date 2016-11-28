@@ -22,7 +22,28 @@ public class MainUndertakeAcademicMeeting  implements java.io.Serializable {
      private String chargePersonId;
      private String checkout;
      private String meetingdate;
-     private Set teacherAndmainUndertakeAcademicMeetings = new HashSet(0);
+     private String researchLabId;
+     public MainUndertakeAcademicMeeting(
+			String acaMeetingId,
+			MainUndertakeAcademicMeetingPlace mainUndertakeAcademicMeetingPlace,
+			MainUndertakeAcademicMeetingType mainUndertakeAcademicMeetingType,
+			String chargePerson, String acaMeetingName, String spareTire,
+			String chargePersonId, String checkout, String meetingdate,
+			String researchLabId, Set teacherAndmainUndertakeAcademicMeetings) {
+		this.acaMeetingId = acaMeetingId;
+		this.mainUndertakeAcademicMeetingPlace = mainUndertakeAcademicMeetingPlace;
+		this.mainUndertakeAcademicMeetingType = mainUndertakeAcademicMeetingType;
+		this.chargePerson = chargePerson;
+		this.acaMeetingName = acaMeetingName;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.checkout = checkout;
+		this.meetingdate = meetingdate;
+		this.researchLabId = researchLabId;
+		this.teacherAndmainUndertakeAcademicMeetings = teacherAndmainUndertakeAcademicMeetings;
+	}
+
+	private Set teacherAndmainUndertakeAcademicMeetings = new HashSet(0);
 
 
     // Constructors
@@ -132,6 +153,14 @@ public class MainUndertakeAcademicMeeting  implements java.io.Serializable {
     public void setTeacherAndmainUndertakeAcademicMeetings(Set teacherAndmainUndertakeAcademicMeetings) {
         this.teacherAndmainUndertakeAcademicMeetings = teacherAndmainUndertakeAcademicMeetings;
     }
+
+	public String getResearchLabId() {
+		return researchLabId;
+	}
+
+	public void setResearchLabId(String researchLabId) {
+		this.researchLabId = researchLabId;
+	}
    
 
 

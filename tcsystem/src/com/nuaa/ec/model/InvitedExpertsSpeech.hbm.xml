@@ -37,6 +37,9 @@
         <property name="speechDate" type="java.lang.String">
             <column name="SpeechDate" length="50" />
         </property>
+        <property name="researchLabId" type="java.lang.String">
+        	<column name="researchLabId"/>
+        </property>
         <set name="teacherAndinvitedExpertsSpeechs" inverse="true">
             <key>
                 <column name="IESpeechID" length="20" />
