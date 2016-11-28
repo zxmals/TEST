@@ -31,6 +31,9 @@
         <property name="checkout" type="java.lang.String">
             <column name="checkout" length="10" />
         </property>
+        <property name="departmentId" type="java.lang.String">
+        	<column name="departmentId"></column>
+        </property>
         <set name="tffamousTeacherTeamPerformances" inverse="true">
             <key>
                 <column name="TeacherTeamPerformanceID" length="20" not-null="true" />

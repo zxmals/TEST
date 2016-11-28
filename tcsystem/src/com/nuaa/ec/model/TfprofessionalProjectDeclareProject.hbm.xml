@@ -31,6 +31,9 @@
         <property name="chargePersonId" type="java.lang.String">
             <column name="ChargePersonID" length="20" />
         </property>
+        <property name="departmentId" type="java.lang.String">
+        	<column name="departmentId"></column>
+        </property>
         <set name="tfprofessionalProjectDeclarePerformances" inverse="true">
             <key>
                 <column name="ProjectId" length="20" />

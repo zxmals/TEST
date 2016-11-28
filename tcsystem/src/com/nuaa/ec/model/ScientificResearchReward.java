@@ -24,7 +24,28 @@ public class ScientificResearchReward  implements java.io.Serializable {
      private String chargePersonId;
      private String chargePerson;
      private String checkout;
-     private Set teacherAndscientificResearchRewards = new HashSet(0);
+     private String researchLabId;
+     public ScientificResearchReward(String srrewardId, RewardLevel rewardLevel,
+			RewardType rewardType, String srrewardName, String rewardDate,
+			String awardDepartment, String rewardTotalPeople, String spareTire,
+			String chargePersonId, String chargePerson, String checkout,
+			String researchLabId, Set teacherAndscientificResearchRewards) {
+		this.srrewardId = srrewardId;
+		this.rewardLevel = rewardLevel;
+		this.rewardType = rewardType;
+		this.srrewardName = srrewardName;
+		this.rewardDate = rewardDate;
+		this.awardDepartment = awardDepartment;
+		this.rewardTotalPeople = rewardTotalPeople;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.chargePerson = chargePerson;
+		this.checkout = checkout;
+		this.researchLabId = researchLabId;
+		this.teacherAndscientificResearchRewards = teacherAndscientificResearchRewards;
+	}
+
+	private Set teacherAndscientificResearchRewards = new HashSet(0);
 
 
     // Constructors
@@ -152,6 +173,14 @@ public class ScientificResearchReward  implements java.io.Serializable {
     public void setTeacherAndscientificResearchRewards(Set teacherAndscientificResearchRewards) {
         this.teacherAndscientificResearchRewards = teacherAndscientificResearchRewards;
     }
+
+	public String getResearchLabId() {
+		return researchLabId;
+	}
+
+	public void setResearchLabId(String researchLabId) {
+		this.researchLabId = researchLabId;
+	}
    
 
 

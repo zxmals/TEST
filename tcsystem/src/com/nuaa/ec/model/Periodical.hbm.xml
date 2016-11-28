@@ -19,6 +19,9 @@
         <property name="spareTire" type="java.lang.String">
             <column name="SpareTire" length="100" />
         </property>
+        <property name="researchLabId" type="java.lang.String">
+        	<column name="researchLabId"/>
+        </property>
         <set name="periodicalPaperses" inverse="true">
             <key>
                 <column name="PeriodicalID" length="20" />

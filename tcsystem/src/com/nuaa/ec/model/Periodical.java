@@ -17,7 +17,20 @@ public class Periodical  implements java.io.Serializable {
      private PeriodicalType periodicalType;
      private String periodicalName;
      private String spareTire;
-     private Set periodicalPaperses = new HashSet(0);
+     private String researchLabId;
+     public Periodical(String periodicalId, PeriodicalType periodicalType,
+			String periodicalName, String spareTire, String researchLabId,
+			Set periodicalPaperses, Set teacherAndperiodicals) {
+		this.periodicalId = periodicalId;
+		this.periodicalType = periodicalType;
+		this.periodicalName = periodicalName;
+		this.spareTire = spareTire;
+		this.researchLabId = researchLabId;
+		this.periodicalPaperses = periodicalPaperses;
+		this.teacherAndperiodicals = teacherAndperiodicals;
+	}
+
+	private Set periodicalPaperses = new HashSet(0);
      private Set teacherAndperiodicals = new HashSet(0);
 
 
@@ -92,6 +105,14 @@ public class Periodical  implements java.io.Serializable {
     public void setTeacherAndperiodicals(Set teacherAndperiodicals) {
         this.teacherAndperiodicals = teacherAndperiodicals;
     }
+
+	public String getResearchLabId() {
+		return researchLabId;
+	}
+
+	public void setResearchLabId(String researchLabId) {
+		this.researchLabId = researchLabId;
+	}
    
 
 

@@ -496,6 +496,24 @@
 			<result>/TeachingPerformanceAdm/AT{1}Performance.jsp</result>
 		</action>
 	</package>
+	<!-- 所长级别的审核 -->
+	<package name="ResearchLabAdminAudit" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="logincheckeInterceptor"
+				class="com.nuaa.ec.interceptor.LoginCheckInterceptor"></interceptor>
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="logincheckeInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
+		<global-results>
+			<result name="relogin">login.jsp</result>
+		</global-results>
+		<action name="GT*Audit" class="com.nuaa.ec.science.rt_audit.action.GT{1}AuditAction">
+			<result>/Audit/GT_ScientificResearch/GT{1}.jsp</result>
+		</action>
+	</package>
 </struts>
 
 

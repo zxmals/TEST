@@ -41,23 +41,24 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
-
-	public boolean updateCheckoutStatus(List<TeacherAndscientificResearchProject> TARProList){
-		Session session=this.getSession();
-		Transaction tx=null;
-		boolean updateFlag=false;
-		try{
-			for(int i=0;i<TARProList.size();i++){
+	public boolean updateCheckoutStatus(
+			List<TeacherAndscientificResearchProject> TARProList) {
+		Session session = this.getSession();
+		Transaction tx = null;
+		boolean updateFlag = false;
+		try {
+			for (int i = 0; i < TARProList.size(); i++) {
 				session.update(TARProList.get(i));
 			}
-			tx=session.beginTransaction();
+			tx = session.beginTransaction();
 			tx.commit();
-			updateFlag=true;
-		}catch(Exception ex){
+			updateFlag = true;
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return updateFlag;
 	}
+
 	/**
 	 * 完成分页功能(只针对分页！其他更换时间等调用改动的findall()方法)
 	 * 
@@ -65,27 +66,31 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<TeacherAndscientificResearchProject> getTASRProjectListsWithCondition(
-			int pageIndex, int pageSize, String foredate, String afterdate,ResearchLab researchLab,String checkOut) {
-		StringBuffer hql=null;
-		if(researchLab.getResearchLabId()==null || researchLab.getResearchLabId().length()==0){
-			hql=new StringBuffer(
+			int pageIndex, int pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut) {
+		StringBuffer hql = null;
+		if (researchLab.getResearchLabId() == null
+				|| researchLab.getResearchLabId().length() == 0) {
+			hql = new StringBuffer(
 					"from TeacherAndscientificResearchProject TARP where TARP.spareTire='1'"
 							+ " and TARP.scientificResearchProject.spareTire='1'"
 							+ " and TARP.teacher.spareTire='1'"
 							+ " and TARP.selfUndertakeTask.spareTire='1'"
-							+ " and TARP.checkOut='"+checkOut+"'");
-		}else{
+							+ " and TARP.checkOut='" + checkOut + "'");
+		} else {
 			hql = new StringBuffer(
 					"from TeacherAndscientificResearchProject TARP where spareTire='1' "
 							+ " and TARP.scientificResearchProject.spareTire='1'"
 							+ " and TARP.teacher.spareTire='1'"
 							+ " and TARP.selfUndertakeTask.spareTire='1'"
-							+ " and TARP.checkOut='"+checkOut+"'"
-							+ " and TARP.teacher.researchLab.researchLabId=\'"+researchLab.getResearchLabId()+"\'");
+							+ " and TARP.checkOut='" + checkOut + "'"
+							+ " and TARP.teacher.researchLab.researchLabId=\'"
+							+ researchLab.getResearchLabId() + "\'");
 		}
 		List<TeacherAndscientificResearchProject> list = new ArrayList<TeacherAndscientificResearchProject>();
 		String append = " and TARP.scientificResearchProject.admitedProjectYear between ? and ? ";
-		if (foredate != null && afterdate != null && foredate.length()!=0 && afterdate.length()!=0) {
+		if (foredate != null && afterdate != null && foredate.length() != 0
+				&& afterdate.length() != 0) {
 			// 判断日期范围限制
 			hql.append(append);
 			list = this.getSession().createQuery(hql.toString())
@@ -100,40 +105,41 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 		return list;
 	}
 
-	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List findAll(int pageIndex, int pageSize, String foredate,
-			String afterdate,ResearchLab researchLab,String checkOut) {
+			String afterdate, ResearchLab researchLab, String checkOut) {
 		log.debug("finding all TeacherAndscientificResearchProject instances");
-		StringBuffer hql=null;
+		StringBuffer hql = null;
 		List<TeacherAndscientificResearchProject> list = new ArrayList<TeacherAndscientificResearchProject>();
-		if(researchLab.getResearchLabId()==null || researchLab.getResearchLabId().length()==0){
-//			hql=new StringBuffer(
-//					"from TeacherAndscientificResearchProject TARP where spareTire=1 and TARP.checkOut='"+checkOut+"'");
+		if (researchLab.getResearchLabId() == null
+				|| researchLab.getResearchLabId().length() == 0) {
+			// hql=new StringBuffer(
+			// "from TeacherAndscientificResearchProject TARP where spareTire=1 and TARP.checkOut='"+checkOut+"'");
 			/*
-			 * 如果第一次进入界面 没有选择研究所 session里面没有对应的数据，
-			 * 所以不显示数据
+			 * 如果第一次进入界面 没有选择研究所 session里面没有对应的数据， 所以不显示数据
 			 */
 			session.put("recordNumber", 0);
-			session.put("pageCount",0);
+			session.put("pageCount", 0);
 			return list;
-		}else{
+		} else {
 			hql = new StringBuffer(
 					"from TeacherAndscientificResearchProject TARP where spareTire='1'"
 							+ " and TARP.scientificResearchProject.spareTire='1'"
 							+ " and TARP.teacher.spareTire='1'"
 							+ " and TARP.selfUndertakeTask.spareTire='1'"
-							+ " and TARP.checkOut='"+checkOut+"'"
-							+ " and TARP.teacher.researchLab.researchLabId='"+researchLab.getResearchLabId()+"'");
+							+ " and TARP.checkOut='" + checkOut + "'"
+							+ " and TARP.teacher.researchLab.researchLabId='"
+							+ researchLab.getResearchLabId() + "'");
 		}
 		try {
-//			hql = new StringBuffer(
-//					"from TeacherAndscientificResearchProject TARP where TARP.spareTire=1");
+			// hql = new StringBuffer(
+			// "from TeacherAndscientificResearchProject TARP where TARP.spareTire=1");
 			String append = " and TARP.scientificResearchProject.admitedProjectYear between ? and ? ";
 			/*
 			 * 不一定有日期，所以要判断
 			 */
-			if (foredate != null && afterdate != null && foredate.length()!=0 && afterdate.length()!=0) {
+			if (foredate != null && afterdate != null && foredate.length() != 0
+					&& afterdate.length() != 0) {
 				// 判断日期范围限制
 				hql.append(append);
 				list = this.getSession().createQuery(hql.toString())
@@ -145,18 +151,21 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 			 * 总体查询完毕，把总记录数和总页数放入session用于前台展现。
 			 */
 			session.put("recordNumber", list.size());
-			session.put("pageCount",list.size() % pageSize == 0 ? (list.size() / pageSize): (list.size() / pageSize + 1));
+			session.put("pageCount",
+					list.size() % pageSize == 0 ? (list.size() / pageSize)
+							: (list.size() / pageSize + 1));
 			/*
-			 * 调用分页函数，缓解前台压力，
-			 * 在后台完成分页，在前台展示相应数据。
+			 * 调用分页函数，缓解前台压力， 在后台完成分页，在前台展示相应数据。
 			 */
-			list = this.getTASRProjectListsWithCondition(pageIndex, pageSize,foredate, afterdate,researchLab,checkOut);
+			list = this.getTASRProjectListsWithCondition(pageIndex, pageSize,
+					foredate, afterdate, researchLab, checkOut);
 			return list;
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
 		}
 	}
+
 	/**
 	 * 实现查询在指定时间范围内记录的功能
 	 * 
@@ -247,30 +256,33 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 		}
 	}
 
-	public List findPageing(int currentRow,int limitRow,String condition,Teacher teacher){
+	public List findPageing(int currentRow, int limitRow, String condition,
+			Teacher teacher) {
 		try {
 			String queryString = "from TeacherAndscientificResearchProject where spareTire='1' "
 					+ "and teacher.spareTire='1' "
 					+ "and teacher=? "
 					+ "and scientificResearchProject.projectType.spareTire='1' "
 					+ "and scientificResearchProject.spareTire='1' "
-					+condition
+					+ condition
 					+ " order by scientificResearchProject.admitedProjectYear desc";
-			Query queryObject = getSession().createQuery(queryString).setFirstResult(currentRow).setMaxResults(limitRow).setParameter(0, teacher);
+			Query queryObject = getSession().createQuery(queryString)
+					.setFirstResult(currentRow).setMaxResults(limitRow)
+					.setParameter(0, teacher);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
 			throw re;
 		}
 	}
-	
-	public int getRows(String condition,Teacher teacher){
+
+	public int getRows(String condition, Teacher teacher) {
 		try {
 			String queryString = "from TeacherAndscientificResearchProject where spareTire='1' "
 					+ "and teacher.spareTire='1' "
 					+ "and scientificResearchProject.projectType.spareTire='1' "
 					+ "and scientificResearchProject.spareTire='1' "
-					+condition;
+					+ condition;
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list().size();
 		} catch (RuntimeException re) {
@@ -278,67 +290,72 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 			throw re;
 		}
 	}
-	
-	public boolean checkexist(Teacher teacher,ScientificResearchProject srp){
+
+	public boolean checkexist(Teacher teacher, ScientificResearchProject srp) {
 		try {
 			String queryString = "from TeacherAndscientificResearchProject where spareTire='1' "
 					+ "and scientificResearchProject=? "
 					+ "and teacher=? "
 					+ "and teacher.spareTire='1' "
 					+ "and scientificResearchProject.spareTire='1' ";
-			Query queryObject = getSession().createQuery(queryString).setParameter(0, srp).setParameter(1, teacher);
-			if(queryObject.list().size()>0){
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, srp).setParameter(1, teacher);
+			if (queryObject.list().size() > 0) {
 				return false;
-			}else return true;
+			} else
+				return true;
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
 			throw re;
 		}
 	}
-	
-	public void updateRef(ScientificResearchProjectScore srpscore,ScientificResearchProject srp){
+
+	public void updateRef(ScientificResearchProjectScore srpscore,
+			ScientificResearchProject srp) {
 		try {
 			String queryString = "update TeacherAndscientificResearchProject "
 					+ "set scientificResearchProjectScore=? "
-					+ ",finalScore=? "
-					+ "where spareTire='1' "
+					+ ",finalScore=? " + "where spareTire='1' "
 					+ "and scientificResearchProject=? ";
-			Query queryObject = getSession().createQuery(queryString).setParameter(0, srpscore)
-					.setParameter(1, (double)srpscore.getScore()).setParameter(2, srp);
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, srpscore)
+					.setParameter(1, (double) srpscore.getScore())
+					.setParameter(2, srp);
 			queryObject.executeUpdate();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
 			throw re;
 		}
 	}
-	
-	public void deleteRef(ScientificResearchProject srp){
+
+	public void deleteRef(ScientificResearchProject srp) {
 		try {
 			String queryString = "update TeacherAndscientificResearchProject set spareTire='0' "
 					+ "where spareTire='1' "
 					+ "and scientificResearchProject=? ";
-			Query queryObject = getSession().createQuery(queryString).setParameter(0, srp);
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, srp);
 			queryObject.executeUpdate();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
 			throw re;
 		}
 	}
-	
-	public void quitProject(ScientificResearchProject srp,Teacher teacher){
+
+	public void quitProject(ScientificResearchProject srp, Teacher teacher) {
 		try {
 			String queryString = "update TeacherAndscientificResearchProject set spareTire='0' "
 					+ "where spareTire='1' "
-					+ "and scientificResearchProject=? "
-					+ "and teacher=? ";
-			Query queryObject = getSession().createQuery(queryString).setParameter(0, srp).setParameter(1, teacher);
+					+ "and scientificResearchProject=? " + "and teacher=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, srp).setParameter(1, teacher);
 			queryObject.executeUpdate();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
 			throw re;
 		}
 	}
-	
+
 	public List findByYearFunds(Object yearFunds) {
 		return findByProperty(YEAR_FUNDS, yearFunds);
 	}

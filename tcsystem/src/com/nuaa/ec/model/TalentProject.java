@@ -20,11 +20,29 @@ public class TalentProject  implements java.io.Serializable {
      private String chargePerson;
      private String checkout;
      private String selectedDate;
+     private String researchLabId;
      private Set selectedTalentProjectScores = new HashSet(0);
      private Set teacherAndselectedTalentProjects = new HashSet(0);
 
 
-    // Constructors
+    public TalentProject(String talentProjectId, String talentProjectName,
+			String spareTire, String chargePersonId, String chargePerson,
+			String checkout, String selectedDate, String researchLabId,
+			Set selectedTalentProjectScores,
+			Set teacherAndselectedTalentProjects) {
+		this.talentProjectId = talentProjectId;
+		this.talentProjectName = talentProjectName;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.chargePerson = chargePerson;
+		this.checkout = checkout;
+		this.selectedDate = selectedDate;
+		this.researchLabId = researchLabId;
+		this.selectedTalentProjectScores = selectedTalentProjectScores;
+		this.teacherAndselectedTalentProjects = teacherAndselectedTalentProjects;
+	}
+
+	// Constructors
 
     /** default constructor */
     public TalentProject() {
@@ -122,6 +140,14 @@ public class TalentProject  implements java.io.Serializable {
     public void setTeacherAndselectedTalentProjects(Set teacherAndselectedTalentProjects) {
         this.teacherAndselectedTalentProjects = teacherAndselectedTalentProjects;
     }
+
+	public String getResearchLabId() {
+		return researchLabId;
+	}
+
+	public void setResearchLabId(String researchLabId) {
+		this.researchLabId = researchLabId;
+	}
    
 
 

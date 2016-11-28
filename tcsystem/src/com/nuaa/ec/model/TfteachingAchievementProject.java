@@ -21,6 +21,26 @@ public class TfteachingAchievementProject implements java.io.Serializable {
 	private String checkOut;
 	private String chargePersonId;
 	private Set tfteachingAchievementPerformances = new HashSet(0);
+	private String departmentId;
+
+	public TfteachingAchievementProject(String projectId,
+			TfteachingAchievementRewardLevel tfteachingAchievementRewardLevel,
+			Tfterm tfterm, String projectName, String cooperator,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, Set tfteachingAchievementPerformances,
+			String departmentId) {
+		this.projectId = projectId;
+		this.tfteachingAchievementRewardLevel = tfteachingAchievementRewardLevel;
+		this.tfterm = tfterm;
+		this.projectName = projectName;
+		this.cooperator = cooperator;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.tfteachingAchievementPerformances = tfteachingAchievementPerformances;
+		this.departmentId = departmentId;
+	}
 
 	// Constructors
 
@@ -149,6 +169,14 @@ public class TfteachingAchievementProject implements java.io.Serializable {
 	public void setTfteachingAchievementPerformances(
 			Set tfteachingAchievementPerformances) {
 		this.tfteachingAchievementPerformances = tfteachingAchievementPerformances;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 }

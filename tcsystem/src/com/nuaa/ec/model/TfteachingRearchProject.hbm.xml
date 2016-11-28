@@ -34,6 +34,9 @@
         <property name="chargePersonId" type="java.lang.String">
             <column name="ChargePersonID" length="20" />
         </property>
+        <property name="departmentId" type="java.lang.String">
+        	<column name="departmentId"></column>
+        </property>
         <set name="tfteachingRearchPerformances" inverse="true">
             <key>
                 <column name="ProjectID" length="20" />

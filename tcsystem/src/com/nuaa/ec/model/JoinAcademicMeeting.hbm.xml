@@ -34,6 +34,9 @@
         <property name="meetingdate" type="java.lang.String">
             <column name="meetingdate" length="100" />
         </property>
+        <property name="researchLabId" type="java.lang.String">
+        	<column name="researchLabId"></column>
+        </property>
         <set name="teacherAndjoinAcademicMeetings" inverse="true">
             <key>
                 <column name="JoinAcaMID" length="20" />

@@ -22,6 +22,25 @@ public class TfprofessionalProjectDeclareProject implements
 	private String checkOut;
 	private String chargePersonId;
 	private Set tfprofessionalProjectDeclarePerformances = new HashSet(0);
+	private String departmentId;
+
+	public TfprofessionalProjectDeclareProject(
+			String projectId,
+			TfprofessionalProjectDeclareLevel tfprofessionalProjectDeclareLevel,
+			Tfterm tfterm, String projectName, Double projectSumScore,
+			String spareTire, String checkOut, String chargePersonId,
+			Set tfprofessionalProjectDeclarePerformances, String departmentId) {
+		this.projectId = projectId;
+		this.tfprofessionalProjectDeclareLevel = tfprofessionalProjectDeclareLevel;
+		this.tfterm = tfterm;
+		this.projectName = projectName;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.tfprofessionalProjectDeclarePerformances = tfprofessionalProjectDeclarePerformances;
+		this.departmentId = departmentId;
+	}
 
 	// Constructors
 
@@ -143,6 +162,14 @@ public class TfprofessionalProjectDeclareProject implements
 	public void setTfprofessionalProjectDeclarePerformances(
 			Set tfprofessionalProjectDeclarePerformances) {
 		this.tfprofessionalProjectDeclarePerformances = tfprofessionalProjectDeclarePerformances;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 }

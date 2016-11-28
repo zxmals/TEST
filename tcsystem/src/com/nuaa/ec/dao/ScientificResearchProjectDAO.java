@@ -1,6 +1,7 @@
 package com.nuaa.ec.dao;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
@@ -9,7 +10,10 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.ScientificResearchProject;
+import com.nuaa.ec.model.Teacher;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for ScientificResearchProject entities.
@@ -34,7 +38,43 @@ public class ScientificResearchProjectDAO extends BaseHibernateDAO  {
 
 
 
-    
+	private Map<String, Object> session = ActionContext.getContext()
+			.getSession();
+
+	@SuppressWarnings("unchecked")
+	public List<ScientificResearchProject> getAllRecordWithCondition_RT(
+			int pageIndex, int pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut, boolean isDivided) {
+		List<ScientificResearchProject> scienResProList;
+		// 获取当前登录的教师的研究所
+		ResearchLab currentResearchLab = ((Teacher) session.get("teacher"))
+				.getResearchLab();
+		/*
+		 * 利用审核状态是否是NULL来判断是否是第一次登陆 如果checkout是NULL，那么说明是第一次登陆
+		 */
+		StringBuffer hql = null;
+		if (checkOut != null && checkOut.length() != 0) {//说明不是第一次进入界面
+			hql = new StringBuffer("FROM ScientificResearchProject SRP WHERE SRP.checkout='"+ checkOut+"'");
+			if(foredate!=null && afterdate!=null && foredate.length()!=0 && afterdate.length()!=0){
+				hql.append(" AND SRP.admitedProjectYear BETWEEN '"+foredate+"' AND '"+afterdate+"'");
+			}
+		}
+		hql.append(" AND SRP.researchLabId='"+ currentResearchLab.getResearchLabId()+"'");
+		if(isDivided){
+			//此处是分页操作
+			scienResProList=this.getSession().createQuery(hql.toString()).setMaxResults(pageSize).setFirstResult((pageIndex-1)*pageSize).list();
+			int size=scienResProList.size();
+			session.put("pageCount_GTSRP", size%pageSize==0?(size/pageSize):(size/pageSize+1));
+			session.put("recordNumber_GTSRP", size);
+		}else{
+			scienResProList=this.getSession().createQuery(hql.toString()).list();
+			int size=scienResProList.size();
+			session.put("pageCount_GTSRP", size%pageSize==0?(size/pageSize):(size/pageSize+1));
+			session.put("recordNumber_GTSRP", size);
+		}
+		return scienResProList;
+	}
+
     public void save(ScientificResearchProject transientInstance) {
         log.debug("saving ScientificResearchProject instance");
         try {

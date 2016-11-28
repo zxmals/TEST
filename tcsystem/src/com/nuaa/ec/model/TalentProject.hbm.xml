@@ -28,6 +28,9 @@
         <property name="selectedDate" type="java.lang.String">
             <column name="selectedDate" length="50" />
         </property>
+        <property name="researchLabId" type="java.lang.String">
+        	<column name="researchLabId"/>
+        </property>
         <set name="selectedTalentProjectScores" inverse="true">
             <key>
                 <column name="TalentProjectID" length="20" />
