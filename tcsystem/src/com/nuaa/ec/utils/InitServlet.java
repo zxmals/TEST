@@ -2,7 +2,9 @@ package com.nuaa.ec.utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 import java.util.List;
+import java.util.TreeMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -95,6 +97,16 @@ public class InitServlet extends HttpServlet {
 		 * 获得课堂教学绩效评估表的有关信息
 		 */
 		context.setAttribute("classTeachEvaluationList", new TfclassTeachEvaluationDAO().findAll());
+		/*
+		 * 审核状态
+		 */
+		Map<String,Object> auditStatus=new TreeMap<String,Object>();
+		auditStatus.put("0", "待审核");
+		auditStatus.put("1", "审核通过");
+		auditStatus.put("2", "未通过审核");
+		auditStatus.put("3", "所长/系主任审核通过");
+		context.setAttribute("auditStatus", auditStatus);
+		
 	}
 
 }

@@ -27,7 +27,7 @@ public class GTScientificResearchProjectAuditAction implements RequestAware {
 		this.request.put("SRPProjectList", this.scientificResearchProjectDAO
 				.getAllRecordWithCondition_RT(pageIndex, pageSize_GTSRP,
 						foredate_GTSRP, afterdate_GTSRP, researchLab_GTSRP,
-						checkout_GTSRP, false));
+						checkout_GTSRP, isDivided));
 		try{
 			this.TARProjectDAO.getSession().beginTransaction().commit();
 		}catch(Exception ex){

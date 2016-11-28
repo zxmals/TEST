@@ -100,10 +100,10 @@
 		</span>
 		<span>&nbsp;&nbsp;&nbsp;&nbsp;
 			审核状态：
-			<select name="checkout" id="checkoutStatus">
-				<option value="0">未审核</option>
-				<option value="1">审核通过</option>
-				<option value="2">未通过审核</option>
+			<select name="checkout" id="checkoutStatus" style="width:160px;">
+				<c:forEach var="status" items="${auditStatus }">
+					<option value="${status.key }">${status.value }</option>
+				</c:forEach>
 			</select>
 		</span>
 		<span style="margin-left:15px;"><button type="submit" class="button_set" style="height:25px;">确认</button></span>
