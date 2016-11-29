@@ -26,7 +26,7 @@ public class TeacherAndScientificResearchProjectAuditAction implements RequestAw
 				teacherAndScientificResearchProject = this.TARProjectDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(teacherAndScientificResearchProject!=null){
-					teacherAndScientificResearchProject.setCheckOut("1");
+					teacherAndScientificResearchProject.setCheckOut("3");
 					checkoutList.add(teacherAndScientificResearchProject);
 				}
 			}

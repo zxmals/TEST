@@ -9,10 +9,8 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.hibernate.Transaction;
 
-import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.ScientificResearchProjectDAO;
 import com.nuaa.ec.dao.TeacherAndscientificResearchProjectDAO;
-import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.ScientificResearchProject;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
@@ -78,7 +76,6 @@ public class GTScientificResearchProjectAuditAction_project implements RequestAw
 				pageSize_GTSRP = Integer.parseInt(pageSize_s);
 			}
 		}
-		System.out.println(pageSize_GTSRP);
 		this.request.put("SRPProjectList", this.scientificResearchProjectDAO
 				.getAllRecordWithCondition_RT(pageIndex, pageSize_GTSRP,
 						(String) session.get("foredate_GTSRP"),
@@ -105,7 +102,6 @@ public class GTScientificResearchProjectAuditAction_project implements RequestAw
 	private String checkOutIDs;
 	private String checkOutIDsNot;
 	private String isDivided;
-	private ResearchLabDAO researchDAO = new ResearchLabDAO();
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
 	private ScientificResearchProjectDAO scientificResearchProjectDAO = new ScientificResearchProjectDAO();

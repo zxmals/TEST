@@ -57,11 +57,11 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 		 * 提取查询语句的公共部分
 		 */
 		StringBuffer hql=new StringBuffer("FROM TeacherAndscientificResearchProject TASRP"
-				+ " WHRER TASRP.scientificResearchProjectScore.spareTire='1'"
+				+ " WHERE TASRP.scientificResearchProjectScore.spareTire='1'"
 				+ " AND TASRP.scientificResearchProject.spareTire='1'"
 				+ " AND TASRP.teacher.spareTire='1'"
 				+ " AND TASRP.selfUndertakeTask.spareTire='1'"
-				+ " AND TASRP.teacher.researchLab.researchLabId='"+researchLab.getResearchLabId()+"'");//指明研究所
+				+ " AND TASRP.scientificResearchProject.researchLabId='"+researchLab.getResearchLabId()+"'");//指明研究所
 		/*
 		 * 利用审核状态是否是NULL来判断是否是第一次登陆 如果checkout是NULL，那么说明是第一次登陆
 		 */
@@ -79,6 +79,10 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 		if(afterdate!=null && afterdate.length()!=0 && foredate!=null && foredate.length()!=0){
 			hql.append(" AND TASRP.scientificResearchProject.admitedProjectYear between '"+foredate+"' and '"+afterdate+"'");
 		}
+		/**
+		 * 将项目成员进行分组,并且排序
+		 */
+		hql.append(" ORDER BY TASRP.scientificResearchProject DESC ");
 		/**
 		 * 判断是否为分页操作
 		 */
