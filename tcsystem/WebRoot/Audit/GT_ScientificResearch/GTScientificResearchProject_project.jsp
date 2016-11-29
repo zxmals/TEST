@@ -125,7 +125,7 @@
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkout_GTSRP=='1' }">
-					<td><font color="blue">所长/系主任审核通过</td>
+					<td><font color="blue">所长审核通过</td>
 				</c:if>	
 				<c:if test="${sessionScope.checkout_GTSRP=='2' }">
 					<td><font color="red">未通过审核</td>
@@ -134,7 +134,7 @@
 					<td><font color="green">管理员审核通过</td>
 				</c:if>	
 				<c:if test="${sessionScope.checkout_GTSRP=='4' }">
-					<td><font color="blue">全部记录</td>
+					<td><font color="blue">审核状态</td>
 				</c:if>	
 			</tr>
 			<c:forEach var="SRProject" items="${SRPProjectList }">
@@ -158,7 +158,7 @@
 					</c:if>
 					<c:if test="${sessionScope.checkout_GTSRP=='2' }">
 						<td><font color="red" size="3">×</td>
-					</c:if>s
+					</c:if>
 					<c:if test="${sessionScope.checkout_GTSRP=='3' }">
 						<td><font color="green" size="3">√</td>
 					</c:if>
@@ -167,7 +167,7 @@
 							<td>待审核</td>
 						</c:if>
 						<c:if test="${SRProject.checkout=='1' }">
-							<td><font color="blue" >所长/系主任审核通过</td>
+							<td><font color="blue" >所长审核通过</td>
 						</c:if>
 						<c:if test="${SRProject.checkout=='2' }">
 							<td><font color="red">未通过审核</td>
