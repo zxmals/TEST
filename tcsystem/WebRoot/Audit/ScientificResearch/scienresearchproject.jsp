@@ -101,9 +101,9 @@
 		<span>&nbsp;&nbsp;&nbsp;&nbsp;
 			审核状态：
 			<select name="checkout" id="checkoutStatus">
-				<option value="0">未审核</option>
-				<option value="1">审核通过</option>
-				<option value="2">未通过审核</option>
+				<c:forEach var="status" items="${auditStatus }">
+					<option value="${status.key }">${status.value }</option>
+				</c:forEach>
 			</select>
 		</span>
 		<span style="margin-left:15px;"><button type="submit" class="button_set" style="height:25px;">确认</button></span>
@@ -127,19 +127,21 @@
 				<td>项目总金/万</td>
 				<td>当年到款/万</td>
 				<td>最终分数</td>
-<!-- 				<c:if test="${sessionScope.checkoutStatus=='0' }"> -->
-<!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
-<!-- 						onchange="allAlowOrNot()" /></td> -->
-<!-- 				</c:if> -->
-				<c:if test="${sessionScope.checkoutStatus=='0' }">
+				<c:if test="${sessionScope.checkoutStatus=='1' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkoutStatus=='1' }">
-					<td><font color="blue" >通过</td>
+				<c:if test="${sessionScope.checkoutStatus=='0' }">
+					<td><font color="blue" >待所长审核项目</td>
 				</c:if>
 				<c:if test="${sessionScope.checkoutStatus=='2' }">
-					<td><font color="red">未通过</td>
+					<td><font color="red">未通过审核</td>
+				</c:if>				
+				<c:if test="${sessionScope.checkoutStatus=='3' }">
+					<td><font color="green">管理员审核通过</td>
+				</c:if>				
+				<c:if test="${sessionScope.checkoutStatus=='4' }">
+					<td><font color="blue">查看全部记录</td>
 				</c:if>				
 			</tr>
 			<c:forEach var="SRProject" items="${TA_SRProjectList }">
@@ -157,20 +159,34 @@
 					<td>${SRProject.scientificResearchProject.sumFunds }</td>
 					<td>${SRProject.yearFunds }</td>
 					<td>${SRProject.finalScore }</td>
-					<c:if test="${sessionScope.checkoutStatus=='0' }">
+					<c:if test="${sessionScope.checkoutStatus=='1' }">
 						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
 							value="${SRProject.teacherAscienRpid}"   class="check1"/></td>
 						<td class="c2">不通过<input value="${SRProject.teacherAscienRpid}" type="checkbox"
 						 name="notAudit" class="check2"/></td>
 					</c:if>
-<!-- 					<c:if test="${sessionScope.checkoutStatus=='0' }"> -->
-<!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" value="${SRProject.teacherAscienRpid }"/></td> -->
-<!-- 					</c:if> -->
-					<c:if test="${sessionScope.checkoutStatus=='1' }">
-						<td><font color="green" size:"3">√</td>
+					<c:if test="${sessionScope.checkoutStatus=='0' }">
+						<td><font color="blue" size:"3">待所长审核</td>
 					</c:if>
 					<c:if test="${sessionScope.checkoutStatus=='2' }">
 						<td><font color="red" size="3">×</td>
+					</c:if>
+					<c:if test="${sessionScope.checkoutStatus=='3' }">
+						<td><font color="green" size="3">管理员审核通过</td>
+					</c:if>
+					<c:if test="${sessionScope.checkoutStatus=='4' }">
+						<c:if test="${SRProject.checkOut=='0' }">
+							<td><font color="orange" >待所长审核项目</td>
+						</c:if>
+						<c:if test="${SRProject.checkOut=='1' }">
+							<td><font color="blue" >所长审核通过</td>
+						</c:if>
+						<c:if test="${SRProject.checkOut=='2' }">
+							<td><font color="red">未通过审核</td>
+						</c:if>				
+						<c:if test="${SRProject.checkOut=='3' }">
+							<td><font color="green">管理员审核通过</td>
+						</c:if>				
 					</c:if>
 				</tr>
 			</c:forEach>

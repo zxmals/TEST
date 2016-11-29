@@ -133,17 +133,20 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 					"from TeacherAndscientificResearchProject TARP where TARP.spareTire='1'"
 							+ " and TARP.scientificResearchProject.spareTire='1'"
 							+ " and TARP.teacher.spareTire='1'"
-							+ " and TARP.selfUndertakeTask.spareTire='1'"
-							+ " and TARP.checkOut='" + checkOut + "'");
+							+ " and TARP.selfUndertakeTask.spareTire='1'");
+//							+ " and TARP.checkOut='" + checkOut + "'");
 		} else {
 			hql = new StringBuffer(
 					"from TeacherAndscientificResearchProject TARP where spareTire='1' "
 							+ " and TARP.scientificResearchProject.spareTire='1'"
 							+ " and TARP.teacher.spareTire='1'"
 							+ " and TARP.selfUndertakeTask.spareTire='1'"
-							+ " and TARP.checkOut='" + checkOut + "'"
+//							+ " and TARP.checkOut='" + checkOut + "'"
 							+ " and TARP.teacher.researchLab.researchLabId=\'"
 							+ researchLab.getResearchLabId() + "\'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TARP.checkOut='" + checkOut + "'");
 		}
 		List<TeacherAndscientificResearchProject> list = new ArrayList<TeacherAndscientificResearchProject>();
 		String append = " and TARP.scientificResearchProject.admitedProjectYear between ? and ? ";
@@ -185,9 +188,12 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 							+ " and TARP.scientificResearchProject.spareTire='1'"
 							+ " and TARP.teacher.spareTire='1'"
 							+ " and TARP.selfUndertakeTask.spareTire='1'"
-							+ " and TARP.checkOut='" + checkOut + "'"
+//							+ " and TARP.checkOut='" + checkOut + "'"
 							+ " and TARP.teacher.researchLab.researchLabId='"
 							+ researchLab.getResearchLabId() + "'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TARP.checkOut='" + checkOut + "'");
 		}
 		try {
 			// hql = new StringBuffer(
