@@ -510,7 +510,7 @@
 		<global-results>
 			<result name="relogin">login.jsp</result>
 		</global-results>
-		<action name="GT*Audit_*" class="com.nuaa.ec.science.rt_audit.action.GT{1}AuditAction">
+		<action name="GT*Audit_*" class="com.nuaa.ec.science.rt_audit.action.GT{1}AuditAction_{2}">
 			<result>/Audit/GT_ScientificResearch/GT{1}_{2}.jsp</result>
 		</action>
 	</package>

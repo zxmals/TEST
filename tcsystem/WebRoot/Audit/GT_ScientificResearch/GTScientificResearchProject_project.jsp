@@ -65,7 +65,7 @@
 
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
-	<form action="GTScientificResearchProjectAudit_project!getAllRecord?isDivided=false"
+	<form action="GTScientificResearchProjectAudit_project!getAllRecord_project?isDivided=false"
 				method="post" name="pickdate">
 	<div class="datepick" style="font-size:12px;">
 		<span>选择日期范围</span>
@@ -125,13 +125,13 @@
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkout_GTSRP=='1' }">
-					<td><font color="color" >未通过审核</td>
-				</c:if>
+					<td><font color="blue">所长/系主任审核通过</td>
+				</c:if>	
 				<c:if test="${sessionScope.checkout_GTSRP=='2' }">
-					<td><font color="green">管理员审核通过</td>
+					<td><font color="red">未通过审核</td>
 				</c:if>	
 				<c:if test="${sessionScope.checkout_GTSRP=='3' }">
-					<td><font color="blue">所长/系主任审核通过</td>
+					<td><font color="green">管理员审核通过</td>
 				</c:if>	
 				<c:if test="${sessionScope.checkout_GTSRP=='4' }">
 					<td><font color="blue">全部记录</td>
@@ -154,26 +154,26 @@
 						 name="notAudit" class="check2"/></td>
 					</c:if>
 					<c:if test="${sessionScope.checkout_GTSRP=='1' }">
-						<td><font color="green" size:"3">×</td>
+						<td><font color="blue" size:"3">√</td>
 					</c:if>
 					<c:if test="${sessionScope.checkout_GTSRP=='2' }">
-						<td><font color="green" size="3">√</td>
+						<td><font color="red" size="3">×</td>
 					</c:if>s
 					<c:if test="${sessionScope.checkout_GTSRP=='3' }">
-						<td><font color="blue" size="3">√</td>
+						<td><font color="green" size="3">√</td>
 					</c:if>
 					<c:if test="${sessionScope.checkout_GTSRP=='4' }">
 						<c:if test="${SRProject.checkout=='0' }">
 							<td>待审核</td>
 						</c:if>
 						<c:if test="${SRProject.checkout=='1' }">
-							<td><font color="color" >未通过审核</td>
+							<td><font color="blue" >所长/系主任审核通过</td>
 						</c:if>
 						<c:if test="${SRProject.checkout=='2' }">
-							<td><font color="green">管理员审核通过</td>
+							<td><font color="red">未通过审核</td>
 						</c:if>	
 						<c:if test="${SRProject.checkout=='3' }">
-							<td><font color="blue">所长/系主任审核通过</td>
+							<td><font color="green">管理员审核通过</td>
 						</c:if>	
 					</c:if>
 				</tr>
@@ -187,20 +187,20 @@
 		</span>
 		<span>
 			<c:if test="${pageIndex>1}">
-				<a href="GTScientificResearchProjectAudit_project!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
+				<a href="GTScientificResearchProjectAudit_project!getAllRecord_project?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 		
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index" step="1">
 			<c:if test="${index<=pageCount_GTSRP }">
 				<span>
-					<a href="GTScientificResearchProjectAudit_project!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>
+					<a href="GTScientificResearchProjectAudit_project!getAllRecord_project?isDivided=true&pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		 <span>
 		 	<c:if test="${pageIndex<pageCount_GTSRP }">
-		 		<a href="GTScientificResearchProjectAudit_project!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
+		 		<a href="GTScientificResearchProjectAudit_project!getAllRecord_project?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
 		 	</c:if>
 	 	</span> 
 	 	<span>
@@ -247,7 +247,7 @@
 		});
 		$("#doCheckout").click(function(){
 			submitAudit("GTScientificResearchProjectAudit_project!doCheckOut_project",
-					"GTScientificResearchProjectAudit_project!getAllRecord?isDivided=false");
+					"GTScientificResearchProjectAudit_project!getAllRecord_project?isDivided=false");
 		});
 	</script>
 </body>

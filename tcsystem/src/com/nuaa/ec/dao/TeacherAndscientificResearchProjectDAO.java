@@ -46,18 +46,54 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 	 * @param TARProList
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public List<TeacherAndscientificResearchProject> getAllMembersOfProject(int pageIndex, int pageSize, String foredate, String afterdate,
 			ResearchLab researchLab, String checkOut,boolean isDivided){
-		List<ScientificResearchProject> scienResProList;
+		List<TeacherAndscientificResearchProject> TeacherAndScienResProList=null;
 		// 获取当前登录的教师的研究所
 		ResearchLab currentResearchLab = ((Teacher) session.get("teacher"))
 				.getResearchLab();
 		/*
+		 * 提取查询语句的公共部分
+		 */
+		StringBuffer hql=new StringBuffer("FROM TeacherAndscientificResearchProject TASRP"
+				+ " WHRER TASRP.scientificResearchProjectScore.spareTire='1'"
+				+ " AND TASRP.scientificResearchProject.spareTire='1'"
+				+ " AND TASRP.teacher.spareTire='1'"
+				+ " AND TASRP.selfUndertakeTask.spareTire='1'"
+				+ " AND TASRP.teacher.researchLab.researchLabId='"+researchLab.getResearchLabId()+"'");//指明研究所
+		/*
 		 * 利用审核状态是否是NULL来判断是否是第一次登陆 如果checkout是NULL，那么说明是第一次登陆
 		 */
-		StringBuffer hql=null;
-		
-		return null;
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql=hql.append("AND TASRP.checkOut='"+checkOut+"'");//checkOut这个条件可以确定了
+		}else{
+			/**
+			 * checkout为4，代表选择查看全部记录，首次进入界面默认取出所有记录
+			 * 所以两个状态操作是一样的，因而这里没有代码，只是为了逻辑的顺畅
+			 */
+		}
+		/**
+		 * 判断日期的条件
+		 */
+		if(afterdate!=null && afterdate.length()!=0 && foredate!=null && foredate.length()!=0){
+			hql.append(" AND TASRP.scientificResearchProject.admitedProjectYear between '"+foredate+"' and '"+afterdate+"'");
+		}
+		/**
+		 * 判断是否为分页操作
+		 */
+		Query query=this.getSession().createQuery(hql.toString());
+		if(!isDivided){
+			TeacherAndScienResProList=query.list();
+			int size=TeacherAndScienResProList.size();
+			session.put("pageCount_GTTASRP", size%pageSize==0?(size/pageSize):(size/pageSize+1));
+			session.put("recordNumber_GTTASRP", size);
+		}
+		/**
+		 * 无论如何都要进行分页操作
+		 */
+		TeacherAndScienResProList=query.setMaxResults(pageSize).setFirstResult((pageIndex-1)*pageSize).list();
+		return TeacherAndScienResProList;
 	}
 	public boolean updateCheckoutStatus(
 			List<TeacherAndscientificResearchProject> TARProList) {

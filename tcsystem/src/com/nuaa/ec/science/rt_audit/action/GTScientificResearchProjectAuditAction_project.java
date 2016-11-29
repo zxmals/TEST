@@ -18,21 +18,7 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.opensymphony.xwork2.ActionContext;
 
-public class GTScientificResearchProjectAuditAction implements RequestAware {
-	/**
-	 * 取出团队成员
-	 */
-	public String getAllMembersOfProject() {
-		return "success";
-	}
-
-	/**
-	 * 审核团队中的成员
-	 */
-	public void doCheckOut_person() {
-
-	}
-
+public class GTScientificResearchProjectAuditAction_project implements RequestAware {
 	/**
 	 * 审核团队
 	 */
@@ -79,7 +65,7 @@ public class GTScientificResearchProjectAuditAction implements RequestAware {
 		}
 	}
 
-	public String getAllRecord() {
+	public String getAllRecord_project() {
 		Transaction tx = null;
 		boolean isDivided = false;
 		if (this.isDivided != null && this.isDivided.trim().equals("true")) {
