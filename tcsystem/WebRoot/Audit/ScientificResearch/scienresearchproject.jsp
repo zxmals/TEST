@@ -132,8 +132,8 @@
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkoutStatus=='0' }">
-					<td><font color="blue" >待所长审核项目</td>
-				</c:if>
+					<td><font color="blue">待管理员审核项目</td>
+				</c:if>				
 				<c:if test="${sessionScope.checkoutStatus=='2' }">
 					<td><font color="red">未通过审核</td>
 				</c:if>				
@@ -166,7 +166,7 @@
 						 name="notAudit" class="check2"/></td>
 					</c:if>
 					<c:if test="${sessionScope.checkoutStatus=='0' }">
-						<td><font color="blue" size:"3">待所长审核</td>
+						<td><font color="blue" size:"3">待所长审核项目</td>
 					</c:if>
 					<c:if test="${sessionScope.checkoutStatus=='2' }">
 						<td><font color="red" size="3">×</td>
@@ -176,11 +176,11 @@
 					</c:if>
 					<c:if test="${sessionScope.checkoutStatus=='4' }">
 						<c:if test="${SRProject.checkOut=='0' }">
-							<td><font color="orange" >待所长审核项目</td>
+							<td><font color="orange" >待审核</td>
 						</c:if>
-						<c:if test="${SRProject.checkOut=='1' }">
-							<td><font color="blue" >所长审核通过</td>
-						</c:if>
+<!-- 						<c:if test="${SRProject.checkOut=='1' }"> -->
+<!-- 							<td><font color="blue" >所长审核通过</td> -->
+<!-- 						</c:if> -->
 						<c:if test="${SRProject.checkOut=='2' }">
 							<td><font color="red">未通过审核</td>
 						</c:if>				

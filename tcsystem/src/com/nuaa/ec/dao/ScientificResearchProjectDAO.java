@@ -79,17 +79,18 @@ public class ScientificResearchProjectDAO extends BaseHibernateDAO {
 	 * @return
 	 */
 	public boolean cascadeUpdateCheckOutOfMembers(
-			List<ScientificResearchProject> scientificResearchProjectList) {
+			List<ScientificResearchProject> scientificResearchProjectList,String flag) {
 		boolean operationFlag=false;
 		Session session = this.getSession();
 		Transaction tx=null;
 		try{
 			for (ScientificResearchProject srp : scientificResearchProjectList) {
 				session.createQuery(
-						"UPDATE TeacherAndscientificResearchProject TASRP SET TASRP.checkOut='2'"
+						"UPDATE TeacherAndscientificResearchProject TASRP SET TASRP.checkOut="+flag
 						+ " WHERE TASRP.scientificResearchProject.srprojectId='"+ srp.getSrprojectId()+"'").executeUpdate();
 			}
 			tx=session.beginTransaction();
+			session.clear();
 			tx.commit();
 			operationFlag=true;
 		}catch(Exception ex){

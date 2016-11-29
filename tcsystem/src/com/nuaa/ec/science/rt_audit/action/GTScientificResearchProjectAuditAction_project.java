@@ -16,13 +16,15 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.opensymphony.xwork2.ActionContext;
 
-public class GTScientificResearchProjectAuditAction_project implements RequestAware {
+public class GTScientificResearchProjectAuditAction_project implements
+		RequestAware {
 	/**
 	 * 审核团队
 	 */
 	public void doCheckOut_project() {
 		List<ScientificResearchProject> checkoutList = new ArrayList<ScientificResearchProject>();
 		List<ScientificResearchProject> checkoutNotList = new ArrayList<ScientificResearchProject>();
+		List<ScientificResearchProject> checkoutYesList = new ArrayList<ScientificResearchProject>();
 		String[] ids = this.checkOutIDs.split(",");
 		String[] idsNot = this.checkOutIDsNot.split(",");
 		ScientificResearchProject scientificResearchProject = null;
@@ -34,6 +36,7 @@ public class GTScientificResearchProjectAuditAction_project implements RequestAw
 				if (scientificResearchProject != null) {
 					scientificResearchProject.setCheckout("1");
 					checkoutList.add(scientificResearchProject);
+					checkoutYesList.add(scientificResearchProject);
 				}
 			}
 		}
@@ -52,7 +55,10 @@ public class GTScientificResearchProjectAuditAction_project implements RequestAw
 		try {
 			if (scientificResearchProjectDAO.updateCheckoutStatus(checkoutList)
 					&& scientificResearchProjectDAO
-							.cascadeUpdateCheckOutOfMembers(checkoutNotList)) {
+							.cascadeUpdateCheckOutOfMembers(checkoutNotList,
+									"2")
+					&& scientificResearchProjectDAO
+							.cascadeUpdateCheckOutOfMembers(checkoutYesList, "1")) {
 				// 前端显示乱码解决
 				ServletActionContext.getResponse().getWriter().write("succ");
 			} else {

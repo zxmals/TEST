@@ -66,17 +66,17 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form action="GTScientificResearchProjectAudit_project!getAllRecord_project?isDivided=false"
-				method="post" name="pickdate">
+				method="post" name="pickdate" id="conditionForm">
 	<div class="datepick" style="font-size:12px;">
 		<span>选择日期范围</span>
 		<div>
 			
 				从:<input type="text" id="date1" class="Wdate"
 					onClick="WdatePicker()" value="${sessionScope.foredate_GTSRP }" name="foredate_GTSRP"
-					id="foredate" />到:<input type="text" id="date2"
+					 />到:<input type="text" id="date2"
 					onClick="WdatePicker()" class="Wdate" value="${sessionScope.afterdate_GTSRP }"
-					name="afterdate_GTSRP" id="afterdate" /> &nbsp;&nbsp;<input
-					type="submit" id="datep" value="查询" title="点击查询">
+					name="afterdate_GTSRP" /> &nbsp;&nbsp;<input
+					type="button" id="datep" value="查询" title="点击查询" name="submitCondition">
 		</div>
 	</div>
 	<h3 style="padding:0px;margin-left: 10px;">科研项目审核</h3>
@@ -102,11 +102,9 @@
 				</c:forEach>
 			</select>
 		</span>
-		<span style="margin-left:15px;"><button type="submit" class="button_set" style="height:25px;">确认</button></span>
+		<span style="margin-left:15px;"><button type="submit" class="button_set" style="height:25px;" name="submitCondition">确认</button></span>
 	</form>
-	<div style="margin-top:10px; padding-bottom: 10px;padding-left:10px;color:blue;">
-		<i>默认显示<font color="deeppink">全部记录的前十条</font>记录，欲查询指定条件的记录请选择<font color="deeppink">筛选条件</font>。</i>
-	</div>
+	<hr/>
 	<!-- <a href="">科研项目审核</a><br /><br /> -->
 	<form name="Audit" action="" method="post" style="margin-top:0px;">
 		<table class="table table-striped table-bordered table-hover dataTables-example"
@@ -116,6 +114,7 @@
 				<td>科研项目名称</td>
 				<td>项目原编号</td>
 				<td>项目类型</td>
+				<td>负责人ID</td>
 				<td>负责人</td>
 				<td>项目来源</td>
 				<td>立项年份</td>
@@ -143,6 +142,7 @@
 					<td>${SRProject.srpname }</td>
 					<td>${SRProject.projectNumber }</td>
 					<td>${SRProject.projectType.projectTpName }</td>
+					<td>${SRProject.chargePersonId }</td>
 					<td>${SRProject.chargePerson }</td>
 					<td>${SRProject.projectSource }</td>
 					<td>${SRProject.admitedProjectYear }</td>
@@ -248,6 +248,15 @@
 		$("#doCheckout").click(function(){
 			submitAudit("GTScientificResearchProjectAudit_project!doCheckOut_project",
 					"GTScientificResearchProjectAudit_project!getAllRecord_project?isDivided=false");
+		});
+		$("#datep").click(function(){
+			if(($("#date1").val().length!=0 && $("#date2").val().length==0) 
+					||($("#date1").val().length==0 && $("#date2").val().length!=0)){
+				window.alert("请填写完整日期");
+				return false;
+			}else{
+				$("#conditionForm").submit();
+			}
 		});
 	</script>
 </body>
