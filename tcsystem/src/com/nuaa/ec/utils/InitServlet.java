@@ -107,6 +107,7 @@ public class InitServlet extends HttpServlet {
 		auditStatus.put("2", "未通过审核");
 		auditStatus.put("3", "管理员审核通过");
 		auditStatus.put("4", "查看全部记录");
+		auditStatus.put("5", "待完善");
 		context.setAttribute("auditStatus", auditStatus);
 		
 	}

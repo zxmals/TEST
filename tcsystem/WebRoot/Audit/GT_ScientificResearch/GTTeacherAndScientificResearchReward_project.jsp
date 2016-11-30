@@ -98,7 +98,16 @@
 			审核状态：
 			<select name="checkout_GTSRR" id="checkoutStatus" style="width:160px;">
 				<c:forEach var="status" items="${auditStatus }">
-					<option value="${status.key }">${status.value }</option>
+					<c:if test="${status.key!='3' }">
+						<c:choose>
+							<c:when test="${status.key=='1' }">
+								<option value="${status.key }">审核通过</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${status.key }">${status.value }</option>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
 				</c:forEach>
 			</select>
 		</span>
@@ -129,11 +138,11 @@
 				<c:if test="${sessionScope.checkout_GTSRR=='2' }">
 					<td><font color="red">未通过审核</td>
 				</c:if>	
-				<c:if test="${sessionScope.checkout_GTSRR=='3' }">
-					<td><font color="green">管理员审核通过</td>
-				</c:if>	
 				<c:if test="${sessionScope.checkout_GTSRR=='4' }">
 					<td><font color="blue">审核状态</td>
+				</c:if>	
+				<c:if test="${sessionScope.checkout_GTSRR=='5' }">
+					<td><font color="orange">待完善</td>
 				</c:if>	
 			</tr>
 			<c:forEach var="scienReschReward" items="${scienReschRewardList }">
@@ -168,9 +177,6 @@
 					<c:if test="${sessionScope.checkout_GTSRR=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
-					<c:if test="${sessionScope.checkout_GTSRR=='3' }">
-						<td><font color="green" size="3">√</td>
-					</c:if>
 					<c:if test="${sessionScope.checkout_GTSRR=='4' }">
 						<c:if test="${scienReschReward.checkout=='0' }">
 							<td>待审核</td>
@@ -181,8 +187,8 @@
 						<c:if test="${scienReschReward.checkout=='2' }">
 							<td><font color="red">未通过审核</td>
 						</c:if>	
-						<c:if test="${scienReschReward.checkout=='3' }">
-							<td><font color="green">管理员审核通过</td>
+						<c:if test="${scienReschReward.checkout=='5' }">
+							<td><font color="orange">待完善</td>
 						</c:if>	
 					</c:if>
 				</tr>

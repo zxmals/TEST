@@ -102,7 +102,9 @@
 			审核状态：
 			<select name="checkout" id="checkoutStatus">
 				<c:forEach var="status" items="${auditStatus }">
-					<option value="${status.key }">${status.value }</option>
+					<c:if test="${status.key!='5' }">
+						<option value="${status.key }">${status.value }</option>
+					</c:if>
 				</c:forEach>
 			</select>
 		</span>

@@ -98,7 +98,16 @@
 			审核状态：
 			<select name="checkout_GTSRP" id="checkoutStatus" style="width:160px;">
 				<c:forEach var="status" items="${auditStatus }">
-					<option value="${status.key }">${status.value }</option>
+					<c:if test="${status.key!='3' }">
+						<c:choose>
+							<c:when test="${status.key=='1' }">
+								<option value="${status.key }">审核通过</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${status.key }">${status.value }</option>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
 				</c:forEach>
 			</select>
 		</span>
@@ -128,12 +137,12 @@
 				</c:if>	
 				<c:if test="${sessionScope.checkout_GTSRP=='2' }">
 					<td><font color="red">未通过审核</td>
-				</c:if>	
-				<c:if test="${sessionScope.checkout_GTSRP=='3' }">
-					<td><font color="green">管理员审核通过</td>
-				</c:if>	
+				</c:if>
 				<c:if test="${sessionScope.checkout_GTSRP=='4' }">
 					<td><font color="blue">审核状态</td>
+				</c:if>	
+				<c:if test="${sessionScope.checkout_GTSRP=='5' }">
+					<td><font color="orange">待完善</td>
 				</c:if>	
 			</tr>
 			<c:forEach var="SRProject" items="${SRPProjectList }">
@@ -159,8 +168,8 @@
 					<c:if test="${sessionScope.checkout_GTSRP=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
-					<c:if test="${sessionScope.checkout_GTSRP=='3' }">
-						<td><font color="green" size="3">√</td>
+					<c:if test="${sessionScope.checkout_GTSRP=='5' }">
+						<td><font color="orange" size="2">待完善</td>
 					</c:if>
 					<c:if test="${sessionScope.checkout_GTSRP=='4' }">
 						<c:if test="${SRProject.checkout=='0' }">
@@ -172,8 +181,8 @@
 						<c:if test="${SRProject.checkout=='2' }">
 							<td><font color="red">未通过审核</td>
 						</c:if>	
-						<c:if test="${SRProject.checkout=='3' }">
-							<td><font color="green">管理员审核通过</td>
+						<c:if test="${SRProject.checkout=='5' }">
+							<td><font color="orange">待完善</td>
 						</c:if>	
 					</c:if>
 				</tr>
