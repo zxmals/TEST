@@ -90,7 +90,6 @@ public class ScientificResearchProjectDAO extends BaseHibernateDAO {
 						+ " WHERE TASRP.scientificResearchProject.srprojectId='"+ srp.getSrprojectId()+"'").executeUpdate();
 			}
 			tx=session.beginTransaction();
-			session.clear();
 			tx.commit();
 			operationFlag=true;
 		}catch(Exception ex){

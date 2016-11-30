@@ -81,9 +81,12 @@ public class TeacherAndscientificResearchRewardDAO extends BaseHibernateDAO {
 					"from TeacherAndscientificResearchReward TARR where TARR.spareTire='1'"
 							+ " and TARR.scientificResearchReward.spareTire='1'"
 							+ " and TARR.teacher.spareTire='1'"
-							+ " and TARR.checkOut='"+ checkOut
-							+ "' and TARR.teacher.researchLab.researchLabId='"
+//							+ " and TARR.checkOut='"+ checkOut
+							+ " and TARR.teacher.researchLab.researchLabId='"
 							+ researchLab.getResearchLabId() + "'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TARR.checkOut='"+ checkOut+"'");
 		}
 		try {
 			String append = " and TARR.scientificResearchReward.rewardDate between ? and ? ";
@@ -129,16 +132,19 @@ public class TeacherAndscientificResearchRewardDAO extends BaseHibernateDAO {
 					"from TeacherAndscientificResearchReward TARR where TARR.spareTire='1'"
 							+ " and TARR.scientificResearchReward.spareTire='1'"
 							+ " and TARR.teacher.spareTire='1'"
-							+ " and TARR.checkOut='"
+//							+ " and TARR.checkOut='"
 							+ checkOut + "'");
 		} else {
 			hql = new StringBuffer(
 					"from TeacherAndscientificResearchReward TARR where TARR.spareTire='1'"
 							+ " and TARR.scientificResearchReward.spareTire='1'"
 							+ " and TARR.teacher.spareTire='1'"
-							+ " and TARR.checkOut='"+ checkOut
-							+ "' and TARR.teacher.researchLab.researchLabId=\'"
+//							+ " and TARR.checkOut='"+ checkOut
+							+ " and TARR.teacher.researchLab.researchLabId=\'"
 							+ researchLab.getResearchLabId() + "\'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TARR.checkOut='"+ checkOut+"'");
 		}
 		List<TeacherAndscientificResearchReward> list = new ArrayList<TeacherAndscientificResearchReward>();
 		String append = " and TARR.scientificResearchReward.rewardDate between ? and ? ";

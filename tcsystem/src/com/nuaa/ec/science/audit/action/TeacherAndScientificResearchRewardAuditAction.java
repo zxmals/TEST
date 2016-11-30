@@ -54,7 +54,7 @@ public class TeacherAndScientificResearchRewardAuditAction implements RequestAwa
 				teacherAndScientificResearchReward = this.TARRewardDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(teacherAndScientificResearchReward!=null){
-					teacherAndScientificResearchReward.setCheckOut("1");
+					teacherAndScientificResearchReward.setCheckOut("3");
 					checkoutList.add(teacherAndScientificResearchReward);
 				}
 			}

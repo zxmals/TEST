@@ -25,6 +25,7 @@ public class ScientificResearchReward  implements java.io.Serializable {
      private String chargePerson;
      private String checkout;
      private String researchLabId;
+     private Set teacherAndscientificResearchRewards = new HashSet(0);
      public ScientificResearchReward(String srrewardId, RewardLevel rewardLevel,
 			RewardType rewardType, String srrewardName, String rewardDate,
 			String awardDepartment, String rewardTotalPeople, String spareTire,
@@ -45,7 +46,6 @@ public class ScientificResearchReward  implements java.io.Serializable {
 		this.teacherAndscientificResearchRewards = teacherAndscientificResearchRewards;
 	}
 
-	private Set teacherAndscientificResearchRewards = new HashSet(0);
 
 
     // Constructors
