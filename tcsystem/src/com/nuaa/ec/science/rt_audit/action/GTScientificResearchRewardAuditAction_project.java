@@ -14,7 +14,7 @@ import com.nuaa.ec.model.ScientificResearchReward;
 import com.nuaa.ec.model.Teacher;
 import com.opensymphony.xwork2.ActionContext;
 
-public class GTTeacherAndScientificResearchRewardAuditAction_project implements RequestAware{
+public class GTScientificResearchRewardAuditAction_project implements RequestAware{
 	/**
 	 * 审核团队
 	 */
