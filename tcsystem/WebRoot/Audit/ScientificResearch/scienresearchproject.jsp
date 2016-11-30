@@ -222,8 +222,10 @@
 			共<font style="color:blue;">${sessionScope.recordNumber }</font>条记录
 		</span>
 	</div>
-	<input type="submit" value="提交"
+	<c:if test="${sessionScope.checkoutStatus=='1' }">
+			<input type="submit" value="提交"
 		class="button_set" style="margin-left:10px;" id="doCheckout"></input>
+	</c:if>
 	<input type="submit" value="注销" style="display: none;"
 		onclick="window.location.href='<%=basePath%>logout!out'"
 		class="button_set" style="margin-left:10px;" />

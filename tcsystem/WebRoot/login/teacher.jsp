@@ -373,28 +373,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                   	    <span class="fa arrow"></span>
 	                   	    </a>
                    	   	 	<ul class="nav nav-second-level firstslide">
-	                            <li>
-	                            	<a href="#">
-	                            	<span class="nav-label">科研项目审核</span>
-	                            	<span class="fa arrow"></span></a>
-	                            	<ul class="nav nav-third-level">
-									<li>
-										<a class="J_menuItem" href="GTScientificResearchProjectAudit_project!getAllRecord_project">项目审核</a>
-									</li>
-									<li>
-										<a class="J_menuItem" href="GTScientificResearchProjectAudit_person!getAllRecord_person">项目成员审核</a>
-									</li>
-								</ul>
-	                            </li>
-								<li><a class="J_menuItem" href="ATScientificResearchRewardAudit!getRewardInfo">科研项目奖励审核</a></li>
-                               	<li><a class="J_menuItem" href="ATTeacherAndSelectedTalentProjectAudit!getTASTalentProjectInfo">入选人才项目审核</a></li>
-                               	<li><a class="J_menuItem" href="ATTeacherAndPeriodicalAudit!getTAPeriodicalList">期刊论文审核</a></li>
-                               	<li><a class="J_menuItem" href="ATTeacherAndmainUndertakeAcademicMeetingAudit!getTAUAcademicMeetingList">承担学术会议审核</a></li>
-                               	<li><a class="J_menuItem" href="ATTeacherAndjoinAcademicMeetingAudit!getTAAMeetingList">参加学术会议审核</a></li>
-                               	<li><a class="J_menuItem" href="ATTeacherAndinvitedExpertsSpeechAudit!getTAExpertSpeechList">邀请专家讲座审核</a></li>
-                               	<li><a class="J_menuItem" href="ATTeacherAndacademicWorkAudit!getTAAcademicWork">学术著作审核</a></li>
+								<li><a class="J_menuItem" href="GTScientificResearchProjectAudit_project!getAllRecord_project">科研项目审核</a></li>
+								<li><a class="J_menuItem" href="">科研项目奖励审核</a></li>
+                               	<li><a class="J_menuItem" href="">入选人才项目审核</a></li>
+                               	<li><a class="J_menuItem" href="">期刊论文审核</a></li>
+                               	<li><a class="J_menuItem" href="">承担学术会议审核</a></li>
+                               	<li><a class="J_menuItem" href="">参加学术会议审核</a></li>
+                               	<li><a class="J_menuItem" href="">邀请专家讲座审核</a></li>
+                               	<li><a class="J_menuItem" href="">学术著作审核</a></li>
                       	   </ul>
-                   	   
                    	    </li>
                        <li id="departAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">系审核</span></a> </li>
                        <li id="vaadmin"  style="display: none">
