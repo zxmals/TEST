@@ -70,10 +70,13 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 					"from TeacherAndselectedTalentProject TAST where TAST.spareTire=1"
 							+ " and TAST.talentProject.spareTire='1'"
 							+ " and TAST.teacher.spareTire='1'"
-							+ " and TAST.checkOut='"
-							+ checkOut
-							+ "' and TAST.teacher.researchLab.researchLabId='"
+//							+ " and TAST.checkOut='"
+//							+ checkOut
+							+ " and TAST.teacher.researchLab.researchLabId='"
 							+ researchLab.getResearchLabId() + "'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAST.checkOut='"+checkOut+"'");
 		}
 		try {
 			String append = " and TAST.tpselectedYear between ? and ? ";
@@ -118,17 +121,20 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 			hql = new StringBuffer(
 					"from TeacherAndselectedTalentProject TAST where TAST.spareTire=1"
 							+ " and TAST.talentProject.spareTire='1'"
-							+ " and TAST.teacher.spareTire='1'"
-							+ " and TAST.checkOut='"
-							+ checkOut + "'");
+							+ " and TAST.teacher.spareTire='1'");
+//							+ " and TAST.checkOut='"
+//							+ checkOut + "'");
 		} else {
 			hql = new StringBuffer(
 					"from TeacherAndselectedTalentProject TAST where TAST.spareTire='1'"
 							+ " and TAST.talentProject.spareTire='1'"
 							+ " and TAST.teacher.spareTire='1'"
-							+ " and TAST.checkOut='"+ checkOut
-							+ "' and TAST.teacher.researchLab.researchLabId=\'"
+//							+ " and TAST.checkOut='"+ checkOut
+							+ " and TAST.teacher.researchLab.researchLabId=\'"
 							+ researchLab.getResearchLabId() + "\'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAST.checkOut='"+checkOut+"'");
 		}
 		List<TeacherAndselectedTalentProject> list = new ArrayList<TeacherAndselectedTalentProject>();
 		String append = " and TAST.tpselectedYear between ? and ? ";

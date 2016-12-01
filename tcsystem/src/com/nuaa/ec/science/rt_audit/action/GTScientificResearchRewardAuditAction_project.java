@@ -79,13 +79,13 @@ public class GTScientificResearchRewardAuditAction_project implements RequestAwa
 				pageSize_GTSRR = Integer.parseInt(pageSize_s);
 			}
 		}
-		this.request.put("scienReschRewardList", this.scienReschRewardDAO
-				.getAllRecordsWithCondition(pageIndex, pageSize_GTSRR,
-						(String) session.get("foredate_GTSRR"),
-						(String) session.get("afterdate_GTSRR"),
-						((Teacher) session.get("teacher")).getResearchLab(),
-						(String) session.get("checkout_GTSRR"), isDivided));
 		try {
+			this.request.put("scienReschRewardList", this.scienReschRewardDAO
+					.getAllRecordsWithCondition(pageIndex, pageSize_GTSRR,
+							(String) session.get("foredate_GTSRR"),
+							(String) session.get("afterdate_GTSRR"),
+							((Teacher) session.get("teacher")).getResearchLab(),
+							(String) session.get("checkout_GTSRR"), isDivided));
 			tx = this.scienReschRewardDAO.getSession().beginTransaction();
 			tx.commit();
 		} catch (Exception ex) {

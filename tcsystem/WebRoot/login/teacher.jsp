@@ -375,7 +375,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	   	 	<ul class="nav nav-second-level firstslide">
 								<li><a class="J_menuItem" href="GTScientificResearchProjectAudit_project!getAllRecord_project">科研项目审核</a></li>
 								<li><a class="J_menuItem" href="GTScientificResearchRewardAudit_project!getAllRecord">科研项目奖励审核</a></li>
-                               	<li><a class="J_menuItem" href="">入选人才项目审核</a></li>
+                               	<li><a class="J_menuItem" href="GTSelectedTalentProjectAudit_project!getAllRecord">入选人才项目审核</a></li>
                                	<li><a class="J_menuItem" href="">期刊论文审核</a></li>
                                	<li><a class="J_menuItem" href="">承担学术会议审核</a></li>
                                	<li><a class="J_menuItem" href="">参加学术会议审核</a></li>

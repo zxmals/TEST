@@ -65,28 +65,28 @@
 
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
-	<form action="GTScientificResearchRewardAudit_project!getAllRecord?isDivided=false"
+	<form action="GTSelectedTalentProjectAudit_project!getAllRecord?isDivided=false"
 				method="post" name="pickdate" id="conditionForm">
 	<div class="datepick" style="font-size:12px;">
 		<span>选择日期范围</span>
 		<div>
 			
 				从:<input type="text" id="date1" class="Wdate"
-					onClick="WdatePicker()" value="${sessionScope.foredate_GTSRR }" name="foredate_GTSRR"
+					onClick="WdatePicker()" value="${sessionScope.foredate_GTTP }" name="foredate_GTTP"
 					 />到:<input type="text" id="date2"
-					onClick="WdatePicker()" class="Wdate" value="${sessionScope.afterdate_GTSRR }"
-					name="afterdate_GTSRR" /> &nbsp;&nbsp;<input
+					onClick="WdatePicker()" class="Wdate" value="${sessionScope.afterdate_GTTP }"
+					name="afterdate_GTTP" /> &nbsp;&nbsp;<input
 					type="button" id="datep" value="查询" title="点击查询" name="submitCondition">
 		</div>
 	</div>
-	<h3 style="padding:0px;margin-left: 10px;">科研项目奖励审核</h3>
+	<h3 style="padding:0px;margin-left: 10px;">入选人才项目审核</h3>
 	<hr>
 		<span style="margin-left:10px;">当前研究所：&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 		<span style="color:blue;font-weight:bold">
 		${sessionScope.teacherResearchLab } 
 		</span>&nbsp;&nbsp;&nbsp;&nbsp;
 	 	<span>每页显示：
-			<select name="pageSize_GTSRR" id="pageSizeSelection">
+			<select name="pageSize_GTTP" id="pageSizeSelection">
 				<option value="1" >&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
 				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
 				<option value="10" >&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
@@ -96,7 +96,7 @@
 		</span>
 		<span>&nbsp;&nbsp;&nbsp;&nbsp;
 			审核状态：
-			<select name="checkout_GTSRR" id="checkoutStatus" style="width:160px;">
+			<select name="checkout_GTTP" id="checkoutStatus" style="width:160px;">
 				<c:forEach var="status" items="${auditStatus }">
 					<c:if test="${status.key!='3' }">
 						<c:choose>
@@ -114,85 +114,73 @@
 		<span style="margin-left:15px;"><button type="submit" class="button_set" style="height:25px;" name="submitCondition">确认</button></span>
 	</form>
 	<hr/>
-	<!-- <a href="">科研项目审核</a><br /><br /> -->
+	<!-- <a href="">科研项目审核</a><br /><br /> --> 
 	<form name="Audit" action="" method="post" style="margin-top:0px;">
 		<table class="table table-striped table-bordered table-hover dataTables-example"
 			style="border-collapse:collapse;font-size: 13px;">
 			<tr>
-				<td>科研奖励编号</td>
-				<td>科研奖励名称</td>
-				<td>获奖级别</td>
-				<td>获奖类别</td>
-				<td>授奖部门</td>
+				<td>人才工程编号</td>
+				<td>人才工程名称</td>
+				<td>入选年份</td>
 				<td>负责人ID</td>
 				<td>负责人</td>
-				<td>获奖总人数</td>
-				<td>获奖时间</td>
-				<c:if test="${sessionScope.checkout_GTSRR=='0' }">
+				<c:if test="${sessionScope.checkout_GTTP=='0' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkout_GTSRR=='1' }">
+				<c:if test="${sessionScope.checkout_GTTP=='1' }">
 					<td><font color="blue">所长审核通过</td>
 				</c:if>	
-				<c:if test="${sessionScope.checkout_GTSRR=='2' }">
+				<c:if test="${sessionScope.checkout_GTTP=='2' }">
 					<td><font color="red">未通过审核</td>
 				</c:if>	
-				<c:if test="${sessionScope.checkout_GTSRR=='4' }">
+				<c:if test="${sessionScope.checkout_GTTP=='4' }">
 					<td><font color="blue">审核状态</td>
 				</c:if>	
-				<c:if test="${sessionScope.checkout_GTSRR=='5' }">
+				<c:if test="${sessionScope.checkout_GTTP=='5' }">
 					<td><font color="orange">待完善</td>
 				</c:if>	
 			</tr>
-			<c:forEach var="scienReschReward" items="${scienReschRewardList }">
+			<c:forEach var="talentProject" items="${talentProjectList }">
 				<tr>
-					<!-- 科研项目奖励编号 -->
-					<td>${scienReschReward.srrewardId }</td>
-					<!-- 科研项目奖励名称 -->
-					<td>${scienReschReward.srrewardName}</td>
-					<!-- 获奖级别 -->
-					<td>${scienReschReward.rewardLevel.rewardLevelName}</td>
-					<!-- 获奖类别 -->
-					<td>${scienReschReward.rewardType.rewardTypeName}</td>
-					<!-- 授奖部门 -->
-					<td>${scienReschReward.awardDepartment}</td>
+					<!-- 人才工程编号 -->
+					<td>${talentProject.talentProjectId }</td>
+					<!-- 人才工程名称 -->
+					<td>${talentProject.talentProjectName}</td>
+					<!-- 入选年份 -->
+					<td>${talentProject.selectedDate}</td>
 					<!-- 负责人ID -->
-					<td>${scienReschReward.chargePersonId}</td>
+					<td>${talentProject.chargePersonId}</td>
 					<!-- 负责人 -->
-					<td>${scienReschReward.chargePerson}</td>
-					<!-- 获奖总人数 -->
-					<td>${scienReschReward.rewardTotalPeople}</td>
-					<!-- 获奖时间 -->
-					<td>${scienReschReward.rewardDate}</td>
-					<c:if test="${sessionScope.checkout_GTSRR=='0' }">
+					<td>${talentProject.chargePerson}</td>
+					<c:if test="${sessionScope.checkout_GTTP=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${scienReschReward.srrewardId}"   class="check1"/></td>
-						<td class="c2">不通过<input value="${scienReschReward.srrewardId}" type="checkbox"
+							value="${talentProject.talentProjectId}"   class="check1"/></td>
+						<td class="c2">不通过<input value="${talentProject.talentProjectId}" type="checkbox"
 						 name="notAudit" class="check2"/></td>
 					</c:if>
-					<c:if test="${sessionScope.checkout_GTSRR=='1' }">
+					<c:if test="${sessionScope.checkout_GTTP=='1' }">
 						<td><font color="blue" size:"3">√</td>
 					</c:if>
-					<c:if test="${sessionScope.checkout_GTSRR=='2' }">
+					<c:if test="${sessionScope.checkout_GTTP=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
-					<c:if test="${sessionScope.checkout_GTSRR=='5' }">
-						<td><font color="orange" size="2">待完善</td>
-					</c:if>
-					<c:if test="${sessionScope.checkout_GTSRR=='4' }">
-						<c:if test="${scienReschReward.checkout=='0' }">
+					<c:if test="${sessionScope.checkout_GTTP=='4' }">
+						<c:if test="${talentProject.checkout=='0' }">
 							<td>待审核</td>
 						</c:if>
-						<c:if test="${scienReschReward.checkout=='1' }">
+						<c:if test="${talentProject.checkout=='1' }">
 							<td><font color="blue" >所长审核通过</td>
 						</c:if>
-						<c:if test="${scienReschReward.checkout=='2' }">
+						<c:if test="${talentProject.checkout=='2' }">
 							<td><font color="red">未通过审核</td>
 						</c:if>	
-						<c:if test="${scienReschReward.checkout=='5' }">
+						<c:if test="${talentProject.checkout=='5' }">
 							<td><font color="orange">待完善</td>
 						</c:if>	
+					</c:if>
+					<c:if test="${sessionScope.checkout_GTTP=='5' }">
+						<td><font color="orange" size="2">待完善</td>
 					</c:if>
 				</tr>
 			</c:forEach>
@@ -205,30 +193,30 @@
 		</span>
 		<span>
 			<c:if test="${pageIndex>1}">
-				<a href="GTScientificResearchRewardAudit_project!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
+				<a href="GTSelectedTalentProjectAudit_project!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 		
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index" step="1">
-			<c:if test="${index<=pageCount_GTSRR }">
+			<c:if test="${index<=pageCount_GTTP }">
 				<span>
-					<a href="GTScientificResearchRewardAudit_project!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>
+					<a href="GTSelectedTalentProjectAudit_project!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
 		 <span>
-		 	<c:if test="${pageIndex<pageCount_GTSRR }">
-		 		<a href="GTScientificResearchRewardAudit_project!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
+		 	<c:if test="${pageIndex<pageCount_GTTP }">
+		 		<a href="GTSelectedTalentProjectAudit_project!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>
 		 	</c:if>
 	 	</span> 
 	 	<span>
-	 		共<font style="color:blue;">${sessionScope.pageCount_GTSRR }</font>页
+	 		共<font style="color:blue;">${sessionScope.pageCount_GTTP }</font>页
  		</span> 
 		<span>
-			共<font style="color:blue;">${sessionScope.recordNumber_GTSRR }</font>条记录
+			共<font style="color:blue;">${sessionScope.recordNumber_GTTP }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkout_GTSRR=='0' }">
+	<c:if test="${sessionScope.checkout_GTTP=='0' }">
 		<input type="submit" value="提交"
 		class="button_set" style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
@@ -259,13 +247,13 @@
 	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pageSizeSelection option[value='${pageSize_GTSRR}']").attr("selected",true);
+			$("#pageSizeSelection option[value='${pageSize_GTTP}']").attr("selected",true);
 			$("#reserchLabSelection option[value='${sessionScope.selectedResearchLab.researchLabId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkout_GTSRR}']").attr("selected",true);
+			$("#checkoutStatus option[value='${sessionScope.checkout_GTTP}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("GTScientificResearchRewardAudit_project!doCheckOut_project",
-					"GTScientificResearchRewardAudit_project!getAllRecord?isDivided=false");
+			submitAudit("GTSelectedTalentProjectAudit_project!doCheckOut_project",
+					"GTSelectedTalentProjectAudit_project!getAllRecord?isDivided=false");
 		});
 		$("#datep").click(function(){
 			if(($("#date1").val().length!=0 && $("#date2").val().length==0) 

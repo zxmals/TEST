@@ -109,19 +109,21 @@ public class ScientificResearchRewardDAO extends BaseHibernateDAO {
 			ResearchLab researchLab, String checkOut, boolean isDivided) {
 		List<ScientificResearchReward> scienReschRewdList=new ArrayList<ScientificResearchReward>();
 		StringBuffer hql = new StringBuffer(
-				"FROM ScientificResearchReward SRP WHERE SRP.researchLabId='"
-						+ researchLab.getResearchLabId() + "'");
+				"FROM ScientificResearchReward SRR WHERE SRR.researchLabId='"
+						+ researchLab.getResearchLabId() + "'"
+						+ " AND SRR.rewardLevel.spareTire='1'"
+						+ " AND SRR.rewardType.spareTire='1'");
 		/*
 		 * 基于前端HTML的OPTION的特性， 如果checkOut为NULL，那么一定是第一次进入界面 因为前端表单没有提交到后台
 		 * 否则不是第一次进入界面，或者网页被刷新；
 		 */
 		if (checkOut != null && checkOut.length() != 0
 				&& !checkOut.trim().equals("4")) {
-			hql.append(" AND SRP.checkout='" + checkOut + "'");
+			hql.append(" AND SRR.checkout='" + checkOut + "'");
 		}
 		if (foredate != null && afterdate != null && foredate.length() != 0
 				&& afterdate.length() != 0) {
-			hql.append(" AND SRP.rewardDate BETWEEN '"+foredate+"' AND '"+afterdate+"'");
+			hql.append(" AND SRR.rewardDate BETWEEN '"+foredate+"' AND '"+afterdate+"'");
 		}
 		Query query=this.getSession().createQuery(hql.toString());
 		if(!isDivided){
