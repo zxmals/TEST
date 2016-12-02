@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -15,7 +18,10 @@ import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.Periodical;
 import com.nuaa.ec.model.PeriodicalPapers;
+import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.ScientificResearchReward;
 import com.nuaa.ec.utils.EntityUtil;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for PeriodicalPapers entities.
@@ -41,7 +47,90 @@ public class PeriodicalPapersDAO extends BaseHibernateDAO  {
 	public static final String CHARGE_PERSON = "chargePerson";
 	public static final String CHECKOUT = "checkout";
 
-
+	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
+	/**
+	 * 所长审核功能
+	 * 
+	 * @param periodicalPapersList
+	 * @return
+	 */
+	public boolean updateCheckoutStatus(
+			List<PeriodicalPapers> periodicalPapersList) {
+		Session session = this.getSession();
+		Transaction tx = null;
+		boolean updateFlag = false;
+		try {
+			for (int i = 0; i < periodicalPapersList.size(); i++) {
+				session.update(periodicalPapersList.get(i));
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			updateFlag = true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			tx.rollback();
+		}
+		return updateFlag;
+	}
+	/**
+	 * 如果项目没有通过那么项目里的所有成员都将不通过。
+	 * 
+	 * @param periodicalPaperList
+	 * @return
+	 */
+	public boolean cascadeUpdateCheckOutOfMembers(
+			List<PeriodicalPapers> periodicalPaperList,String flag) {
+		boolean operationFlag=false;
+		Session session = this.getSession();
+		Transaction tx=null;
+		try{
+			for (PeriodicalPapers pp : periodicalPaperList) {
+				session.createQuery(
+						"UPDATE TeacherAndperiodical TAP SET TAP.checkOut="+flag
+						+ " WHERE TAP.ppid='"+ pp.getPpid()+"'").executeUpdate();
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			operationFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			tx.rollback();
+		}
+		return operationFlag;
+	}
+	
+	/**
+	 * 获得符合查询条件的所有期刊论文项目记录
+	 * 
+	 * @param transientInstance
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PeriodicalPapers> getAllRecordsWithCondition(int pageIndex,
+			int pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut, boolean isDivided) {
+		List<PeriodicalPapers> periodicalList = new ArrayList<PeriodicalPapers>();
+		StringBuffer hql = new StringBuffer("FROM PeriodicalPapers PP WHERE PP.spareTire='1'"
+				+ " AND PP.periodical.spareTire='1' "
+				+ " AND PP.researchLabId='"+researchLab.getResearchLabId()+"'");
+		if (checkOut != null && checkOut.length() != 0
+				&& !checkOut.trim().equals("4")) {
+			hql.append(" AND PP.checkout='" + checkOut + "'");
+		}
+		if (foredate != null && afterdate != null && foredate.length() != 0
+				&& afterdate.length() != 0) {
+			hql.append(" AND PP.year BETWEEN '"+foredate+"' AND '"+afterdate+"'");
+		}
+		Query query=this.getSession().createQuery(hql.toString());
+		if(!isDivided){
+			periodicalList=query.list();
+			int size=periodicalList.size();
+			session.put("pageCount_GTPP", size%pageSize==0?(size/pageSize):(size/pageSize+1));
+			session.put("recordNumber_GTPP", size);
+		}
+		periodicalList=query.setMaxResults(pageSize).setFirstResult((pageIndex-1)*pageSize).list();
+		return periodicalList;
+	}
 
     
     public void save(PeriodicalPapers transientInstance) {

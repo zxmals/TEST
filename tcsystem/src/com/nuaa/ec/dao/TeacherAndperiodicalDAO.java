@@ -83,8 +83,11 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 							+ " and TAPA.teacher.spareTire='1'"
 							+ " and PP.spareTire='1'"
 							+ " and TAPA.ppid=PP.ppid"
-							+ " and TAPA.checkOut='"+ checkOut+"'"
+//							+ " and TAPA.checkOut='"+ checkOut+"'"
 							+ " and TAPA.teacher.researchLab.researchLabId='"+ researchLab.getResearchLabId() + "'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAPA.checkOut='"+checkOut+"'");
 		}
 		try {
 			String append = " and PP.year between ? and ? ";
@@ -135,8 +138,8 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 					+ " and TAPA.periodical.spareTire='1'"
 					+ " and TAPA.teacher.spareTire='1'"
 					+ " and PP.spareTire='1'"
-					+ " and TAPA.ppid=PP.ppid"
-					+ " and TAPA.checkOut='"+ checkOut + "'");
+					+ " and TAPA.ppid=PP.ppid");
+//					+ " and TAPA.checkOut='"+ checkOut + "'");
 		} else {
 			hql = new StringBuffer(
 					"select new com.nuaa.ec.model.PeriodicalPaperInfoUnionModel(TAPA,PP) from TeacherAndperiodical TAPA "
@@ -145,8 +148,11 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 						+ " and TAPA.teacher.spareTire='1'"
 						+ " and PP.spareTire='1'"
 						+ " and TAPA.ppid=PP.ppid"
-						+ " and TAPA.checkOut='"+ checkOut+"'"
+//						+ " and TAPA.checkOut='"+ checkOut+"'"
 						+ " and TAPA.teacher.researchLab.researchLabId=\'"+ researchLab.getResearchLabId() + "\'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAPA.checkOut='"+checkOut+"'");
 		}
 		List<TeacherAndperiodical> list = new ArrayList<TeacherAndperiodical>();
 		String append = " and PP.year between ? and ? ";
