@@ -98,9 +98,11 @@
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
 			name="checkOutStatus_TAES" id="checkoutStatus">
-				<option value="0">未审核</option>
-				<option value="1">审核通过</option>
-				<option value="2">未通过审核</option>
+				<c:forEach var="status" items="${auditStatus }">
+					<c:if test="${status.key!='5' }">
+						<option value="${status.key }">${status.value }</option>
+					</c:if>
+				</c:forEach>
 		</select>
 		</span> <span style="margin-left:15px;"><button type="submit"
 				class="button_set" style="height:25px;">确认</button></span>
@@ -122,21 +124,22 @@
 				<td>本人承担任务</td>
 				<td>讲座时间</td>
 				<td>最终分数</td>
-<!-- 				<c:if test="${sessionScope.checkOutStatus_TAES=='0' }"> -->
-<!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
-<!-- 						onchange="allAlowOrNot()" /></td> -->
-<!-- 				</c:if> -->
-				<c:if test="${sessionScope.checkOutStatus_TAES=='0' }">
+				<c:if test="${sessionScope.checkOutStatus_TAES=='1' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAES=='1' }">
-					<td><font color="blue">通过</td>
-				</c:if>
+				<c:if test="${sessionScope.checkOutStatus_TAES=='0' }">
+					<td><font color="blue">待所长审核项目</td>
+				</c:if>				
 				<c:if test="${sessionScope.checkOutStatus_TAES=='2' }">
-					<td><font color="red">未通过</td>
-				</c:if>
-
+					<td><font color="red">未通过审核</td>
+				</c:if>				
+				<c:if test="${sessionScope.checkOutStatus_TAES=='3' }">
+					<td><font color="green">管理员审核通过</td>
+				</c:if>				
+				<c:if test="${sessionScope.checkOutStatus_TAES=='4' }">
+					<td><font color="blue">查看全部记录</td>
+				</c:if>	
 			</tr>
 			<c:forEach var="TA_InviteExpertSpeech"
 				items="${TA_InviteExpertSpeechList }">
@@ -161,11 +164,7 @@
 					<td>${TA_InviteExpertSpeech.invitedExpertsSpeech.speechDate }</td>
 					<!-- 最终分数 -->
 					<td>${TA_InviteExpertSpeech.finalScore }</td>
-<!-- 					<c:if test="${sessionScope.checkOutStatus_TAES=='0' }"> -->
-<!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
-<!-- 							value="${TA_InviteExpertSpeech.teacherAinvEsid}" /></td> -->
-<!-- 					</c:if> -->
-					<c:if test="${sessionScope.checkOutStatus_TAES=='0' }">
+					<c:if test="${sessionScope.checkOutStatus_TAES=='1' }">
 						<td class="c1">通过&nbsp;<input type="checkbox"
 							name="chooseWhichToAudit" value="${TA_InviteExpertSpeech.teacherAinvEsid }"
 							class="check1" /></td>
@@ -173,11 +172,28 @@
 							value="${TA_InviteExpertSpeech.teacherAinvEsid }" type="checkbox"
 							name="notAudit" class="check2" /></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAES=='1' }">
-						<td><font color="green"size:"3">√</td>
+					<c:if test="${sessionScope.checkOutStatus_TAES=='0' }">
+						<td><font color="blue" size:"3">待所长审核项目</td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_TAES=='2' }">
 						<td><font color="red" size="3">×</td>
+					</c:if>
+					<c:if test="${sessionScope.checkOutStatus_TAES=='3' }">
+						<td><font color="green" size="2">管理员审核通过</td>
+					</c:if>
+					<c:if test="${sessionScope.checkOutStatus_TAES=='4' }">
+						<c:if test="${TA_InviteExpertSpeech.checkOut=='0' }">
+							<td><font color="orange" >待所长审核项目</td>
+						</c:if>
+						<c:if test="${TA_InviteExpertSpeech.checkOut=='1' }">
+							<td><font color="blue" >待管理员审核</td>
+						</c:if>
+						<c:if test="${TA_InviteExpertSpeech.checkOut=='2' }">
+							<td><font color="red">未通过审核</td>
+						</c:if>				
+						<c:if test="${TA_InviteExpertSpeech.checkOut=='3' }">
+							<td><font color="green">管理员审核通过</td>
+						</c:if>				
 					</c:if>
 				</tr>
 			</c:forEach>
@@ -209,7 +225,7 @@
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAES }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_TAES=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_TAES=='1'}">
 		<input type="button" value="提交" class="button_set"
 			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>

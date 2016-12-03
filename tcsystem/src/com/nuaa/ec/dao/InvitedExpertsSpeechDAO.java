@@ -1,15 +1,22 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.InvitedExpertsSpeech;
+import com.nuaa.ec.model.JoinAcademicMeeting;
+import com.nuaa.ec.model.ResearchLab;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for InvitedExpertsSpeech entities.
@@ -29,8 +36,92 @@ public class InvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 	public static final String CHARGE_PERSON = "chargePerson";
 	public static final String CHECKOUT = "checkout";
 	public static final String SPEECH_DATE = "speechDate";
+	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 
+	/**
+	 * 所长审核功能
+	 * 
+	 * @param invitedExpertsSpeechs
+	 * @return
+	 */
+	public boolean updateCheckoutStatus(
+			List<InvitedExpertsSpeech> invitedExpertsSpeechs) {
+		Session session = this.getSession();
+		Transaction tx = null;
+		boolean updateFlag = false;
+		try {
+			for (int i = 0; i < invitedExpertsSpeechs.size(); i++) {
+				session.update(invitedExpertsSpeechs.get(i));
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			updateFlag = true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			tx.rollback();
+		}
+		return updateFlag;
+	}
+	/**
+	 * 如果项目没有通过那么项目里的所有成员都将不通过。
+	 * 
+	 * @param invitedExpertsSpeechs
+	 * @return
+	 */
+	public boolean cascadeUpdateCheckOutOfMembers(
+			List<InvitedExpertsSpeech> invitedExpertsSpeechs,String flag) {
+		boolean operationFlag=false;
+		Session session = this.getSession();
+		Transaction tx=null;
+		try{
+			for (InvitedExpertsSpeech ies : invitedExpertsSpeechs) {
+				session.createQuery(
+						"UPDATE TeacherAndinvitedExpertsSpeech TAIES SET TAIES.checkOut="+flag
+						+ " WHERE TAIES.invitedExpertsSpeech.iespeechId='"+ ies.getIespeechId()+"'").executeUpdate();
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			operationFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			tx.rollback();
+		}
+		return operationFlag;
+	}
+
+	/**
+	 * function：获得符合条件的所有参加学术会议的记录
+	 * @param
+	 * @param transientInstance
+	 */
+    @SuppressWarnings("unchecked")
+	public List<InvitedExpertsSpeech> getAllRecordsWithCondition(int pageIndex,
+			int pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut, boolean isDivided){
+    	StringBuffer hql=new StringBuffer("FROM InvitedExpertsSpeech IES WHERE IES.spareTire='1'"
+    			+ " AND IES.researchLabId='"+researchLab.getResearchLabId()+"'"
+				+ " AND IES.nationality.spareTire='1'"
+				+ " AND IES.expertType.spareTire='1'");
+    	List<InvitedExpertsSpeech> invitedExpertsSpeechs=new ArrayList<InvitedExpertsSpeech>();
+		if (checkOut != null && checkOut.length() != 0
+				&& !checkOut.trim().equals("4")) {
+			hql.append(" AND IES.checkout='" + checkOut + "'");
+		}
+		if (foredate != null && afterdate != null && foredate.length() != 0
+				&& afterdate.length() != 0) {
+			hql.append(" AND IES.speechDate BETWEEN '"+foredate+"' AND '"+afterdate+"'");
+		}
+		Query query=this.getSession().createQuery(hql.toString());
+		if(!isDivided){
+			invitedExpertsSpeechs=query.list();
+			int size=invitedExpertsSpeechs.size();
+			session.put("pageCount_GTIES", size%pageSize==0?(size/pageSize):(size/pageSize+1));
+			session.put("recordNumber_GTIES", size);
+		}
+		invitedExpertsSpeechs=query.setMaxResults(pageSize).setFirstResult((pageIndex-1)*pageSize).list();
+    	return invitedExpertsSpeechs;
+    }
 
     
     public void save(InvitedExpertsSpeech transientInstance) {

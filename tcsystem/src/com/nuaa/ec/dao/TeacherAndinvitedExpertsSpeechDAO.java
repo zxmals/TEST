@@ -77,10 +77,13 @@ public class TeacherAndinvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 							+ " and TAES.invitedExpertsSpeechScore.spareTire='1'"
 							+ " and TAES.selfUndertakeTask.spareTire='1'"
 							+ " and TAES.teacher.spareTire='1' "
-							+ " and TAES.checkOut='"
-							+ checkOut
-							+ "' and TAES.teacher.researchLab.researchLabId='"
+//							+ " and TAES.checkOut='"
+//							+ checkOut
+							+ " and TAES.teacher.researchLab.researchLabId='"
 							+ researchLab.getResearchLabId() + "'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAES.checkOut='"+checkOut+"'");
 		}
 		try {
 			String append = " and TAES.invitedExpertsSpeech.speechDate between ? and ? ";
@@ -131,9 +134,9 @@ public class TeacherAndinvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 							+ " and TAES.invitedExpertsSpeech.nationality.spareTire='1'"
 							+ " and TAES.invitedExpertsSpeechScore.spareTire='1'"
 							+ " and TAES.selfUndertakeTask.spareTire='1'"
-							+ " and TAES.teacher.spareTire='1' "
-							+ " and TAES.checkOut='"
-							+ checkOut+"'");
+							+ " and TAES.teacher.spareTire='1' ");
+//							+ " and TAES.checkOut='"
+//							+ checkOut+"'");
 		} else {
 			hql = new StringBuffer(
 					"from TeacherAndinvitedExpertsSpeech TAES  where"
@@ -144,10 +147,13 @@ public class TeacherAndinvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 							+ " and TAES.invitedExpertsSpeechScore.spareTire='1'"
 							+ " and TAES.selfUndertakeTask.spareTire='1'"
 							+ " and TAES.teacher.spareTire='1' "
-							+ " and TAES.checkOut='"
-							+ checkOut
-							+ "' and TAES.teacher.researchLab.researchLabId=\'"
+//							+ " and TAES.checkOut='"
+//							+ checkOut
+							+ " and TAES.teacher.researchLab.researchLabId=\'"
 							+ researchLab.getResearchLabId() + "\'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAES.checkOut='"+checkOut+"'");
 		}
 		list = new ArrayList<TeacherAndinvitedExpertsSpeech>();
 		String append = " and TAES.invitedExpertsSpeech.speechDate between ? and ? ";

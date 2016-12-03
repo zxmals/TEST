@@ -25,7 +25,7 @@ public class TeacherAndinvitedExpertsSpeechAuditAction implements RequestAware {
 				teacherAndInvitedExpertsSpeech = this.TAInviteExpertsSpeechDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(teacherAndInvitedExpertsSpeech!=null){
-					teacherAndInvitedExpertsSpeech.setCheckOut("1");
+					teacherAndInvitedExpertsSpeech.setCheckOut("3");
 					checkoutList.add(teacherAndInvitedExpertsSpeech);
 				}
 			}
