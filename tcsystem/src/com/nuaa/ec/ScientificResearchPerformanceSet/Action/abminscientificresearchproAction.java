@@ -18,10 +18,8 @@ import com.nuaa.ec.model.ProjectType;
 import com.nuaa.ec.model.ScientificResearchProject;
 import com.nuaa.ec.model.ScientificResearchProjectScore;
 import com.nuaa.ec.model.SelfUndertakeTask;
-import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.nuaa.ec.utils.EntityUtil;
-import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class abminscientificresearchproAction implements RequestAware,
 		SessionAware {
