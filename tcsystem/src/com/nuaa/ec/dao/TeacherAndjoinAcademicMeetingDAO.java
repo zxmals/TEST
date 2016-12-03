@@ -58,10 +58,13 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 							+ " and TAAM.joinAcademicMeetingScore.spareTire='1'"
 							+ " and TAAM.joinAcademicMeeting.spareTire='1'"
 							+ " and TAAM.teacher.spareTire='1' "
-							+ " and TAAM.checkOut='"
-							+ checkOut
-							+ "' and TAAM.teacher.researchLab.researchLabId='"
+//							+ " and TAAM.checkOut='"
+//							+ checkOut
+							+ " and TAAM.teacher.researchLab.researchLabId='"
 							+ researchLab.getResearchLabId() + "'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAAM.checkOut='"+checkOut+"'");
 		}
 		try {
 			String append = " and TAAM.joinAcademicMeeting.meetingdate between ? and ? ";
@@ -110,9 +113,9 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 							+ " and TAAM.meetingPaper.spareTire='1'"
 							+ " and TAAM.joinAcademicMeetingScore.spareTire='1'"
 							+ " and TAAM.joinAcademicMeeting.spareTire='1'"
-							+ " and TAAM.teacher.spareTire='1' "
-							+ " and TAAM.checkOut='"
-							+ checkOut+"'");
+							+ " and TAAM.teacher.spareTire='1' ");
+//							+ " and TAAM.checkOut='"
+//							+ checkOut+"'");
 		} else {
 			hql = new StringBuffer(
 					"from TeacherAndjoinAcademicMeeting TAAM  where"
@@ -121,10 +124,13 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 							+ " and TAAM.joinAcademicMeetingScore.spareTire='1'"
 							+ " and TAAM.joinAcademicMeeting.spareTire='1'"
 							+ " and TAAM.teacher.spareTire='1' "
-							+ " and TAAM.checkOut='"
-							+ checkOut
-							+ "' and TAAM.teacher.researchLab.researchLabId=\'"
+//							+ " and TAAM.checkOut='"
+//							+ checkOut
+							+ " and TAAM.teacher.researchLab.researchLabId=\'"
 							+ researchLab.getResearchLabId() + "\'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAAM.checkOut='"+checkOut+"'");
 		}
 		List<TeacherAndjoinAcademicMeeting> list = new ArrayList<TeacherAndjoinAcademicMeeting>();
 		String append = " and TAAM.joinAcademicMeeting.meetingdate between ? and ? ";

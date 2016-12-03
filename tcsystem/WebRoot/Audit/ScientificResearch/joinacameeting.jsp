@@ -95,9 +95,11 @@
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select name="checkOutStatus_TAAM"
 			id="checkoutStatus">
-				<option value="0">未审核</option>
-				<option value="1">审核通过</option>
-				<option value="2">未通过审核</option>
+				<c:forEach var="status" items="${auditStatus }">
+					<c:if test="${status.key!='5' }">
+						<option value="${status.key }">${status.value }</option>
+					</c:if>
+				</c:forEach>
 		</select>
 		</span> <span style="margin-left:15px;"><button type="submit"
 				class="button_set" style="height:25px;">确认</button></span>
@@ -109,27 +111,35 @@
 			style="border-collapse:collapse; font-size: 13px;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
-				<td>参加学术会议编号</td>		<td>参加学术会议名称</td>		
-				<td>会议类型</td>				<td>会议地点</td>
-				<td>会议时间</td>				<td>会议论文编号</td>
-				<td>论文标题</td>				<td>作者</td>
-				<td>作者身份</td>				<td>教师编号</td>
-				<td>教师姓名</td>				<td>检索情况</td>			
+				<td>参加学术会议编号</td>
+				<td>参加学术会议名称</td>
+				<td>会议类型</td>
+				<td>会议地点</td>
+				<td>会议论文编号</td>
+				<td>会议时间</td>
+				<td>论文标题</td>
+				<td>作者</td>
+				<td>作者身份</td>
+				<td>教师编号</td>
+				<td>教师姓名</td>
+				<td>检索情况</td>
 				<td>最终分数</td>
-<!-- 				<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }"> -->
-<!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
-<!-- 						onchange="allAlowOrNot()" /></td> -->
-<!-- 				</c:if> -->
-				<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }">
+				<c:if test="${sessionScope.checkOutStatus_TAAM=='1' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_TAAM=='1' }">
-					<td><font color="blue">通过</td>
-				</c:if>
+				<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }">
+					<td><font color="blue">待所长审核项目</td>
+				</c:if>				
 				<c:if test="${sessionScope.checkOutStatus_TAAM=='2' }">
-					<td><font color="red">未通过</td>
-				</c:if>
+					<td><font color="red">未通过审核</td>
+				</c:if>				
+				<c:if test="${sessionScope.checkOutStatus_TAAM=='3' }">
+					<td><font color="green">管理员审核通过</td>
+				</c:if>				
+				<c:if test="${sessionScope.checkOutStatus_TAAM=='4' }">
+					<td><font color="blue">查看全部记录</td>
+				</c:if>	
 
 			</tr>
 			<c:forEach var="TAAMeeting" items="${TAAMeetingList }">
@@ -160,11 +170,7 @@
 					<td>${TAAMeeting.teacher.teacherName }</td>
 					<!-- 最终分数 -->
 					<td>${TAAMeeting.finalScore }</td>
-<!-- 					<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }"> -->
-<!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
-<!-- 							value="${TAAMeeting.teacherAjacaMid}" /></td> -->
-<!-- 					</c:if> -->
-					<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }">
+					<c:if test="${sessionScope.checkOutStatus_TAAM=='1' }">
 						<td class="c1">通过&nbsp;<input type="checkbox"
 							name="chooseWhichToAudit" value="${TAAMeeting.teacherAjacaMid }"
 							class="check1" /></td>
@@ -172,11 +178,28 @@
 							value="${TAAMeeting.teacherAjacaMid }" type="checkbox"
 							name="notAudit" class="check2" /></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_TAAM=='1' }">
-						<td><font color="green"size:"3">√</td>
+					<c:if test="${sessionScope.checkOutStatus_TAAM=='0' }">
+						<td><font color="blue" size:"3">待所长审核项目</td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_TAAM=='2' }">
 						<td><font color="red" size="3">×</td>
+					</c:if>
+					<c:if test="${sessionScope.checkOutStatus_TAAM=='3' }">
+						<td><font color="green" size="2">管理员审核通过</td>
+					</c:if>
+					<c:if test="${sessionScope.checkOutStatus_TAAM=='4' }">
+						<c:if test="${TAAMeeting.checkOut=='0' }">
+							<td><font color="orange" >待所长审核项目</td>
+						</c:if>
+						<c:if test="${TAAMeeting.checkOut=='1' }">
+							<td><font color="blue" >待管理员审核</td>
+						</c:if>
+						<c:if test="${TAAMeeting.checkOut=='2' }">
+							<td><font color="red">未通过审核</td>
+						</c:if>				
+						<c:if test="${TAAMeeting.checkOut=='3' }">
+							<td><font color="green">管理员审核通过</td>
+						</c:if>				
 					</c:if>
 				</tr>
 			</c:forEach>
@@ -211,7 +234,7 @@
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TAAM }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_TAAM=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_TAAM=='1'}">
 		<input type="button" value="提交" class="button_set"
 		style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>

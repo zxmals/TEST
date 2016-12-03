@@ -25,7 +25,7 @@ public class TeacherAndjoinAcademicMeetingAuditAction implements RequestAware {
 				teacherAndJoinAcademicMeeting = this.TAAMeetingDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(teacherAndJoinAcademicMeeting!=null){
-					teacherAndJoinAcademicMeeting.setCheckOut("1");
+					teacherAndJoinAcademicMeeting.setCheckOut("3");
 					checkoutList.add(teacherAndJoinAcademicMeeting);
 				}
 			}
