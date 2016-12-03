@@ -25,7 +25,7 @@ public class TeacherAndacademicWorkAuditAction implements RequestAware {
 				teacherAndAcademicWork = this.TAAcademicWorkDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(teacherAndAcademicWork!=null){
-					teacherAndAcademicWork.setCheckOut("1");
+					teacherAndAcademicWork.setCheckOut("3");
 					checkoutList.add(teacherAndAcademicWork);
 				}
 			}

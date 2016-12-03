@@ -1,15 +1,22 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.AcademicWork;
+import com.nuaa.ec.model.InvitedExpertsSpeech;
+import com.nuaa.ec.model.ResearchLab;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for AcademicWork entities.
@@ -33,6 +40,93 @@ public class AcademicWorkDAO extends BaseHibernateDAO  {
 	public static final String CHARGE_PERSON_ID = "chargePersonId";
 	public static final String CHARGE_PERSON = "chargePerson";
 	public static final String CHECKOUT = "checkout";
+	
+	private Map<String,Object> session=ActionContext.getContext().getSession();
+
+
+	/**
+	 * 所长审核功能
+	 * 
+	 * @param academicWorks
+	 * @return
+	 */
+	public boolean updateCheckoutStatus(
+			List<AcademicWork> academicWorks) {
+		Session session = this.getSession();
+		Transaction tx = null;
+		boolean updateFlag = false;
+		try {
+			for (int i = 0; i < academicWorks.size(); i++) {
+				session.update(academicWorks.get(i));
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			updateFlag = true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			tx.rollback();
+		}
+		return updateFlag;
+	}
+	/**
+	 * 如果项目没有通过那么项目里的所有成员都将不通过。
+	 * 
+	 * @param academicWorks
+	 * @return
+	 */
+	public boolean cascadeUpdateCheckOutOfMembers(
+			List<AcademicWork> academicWorks,String flag) {
+		boolean operationFlag=false;
+		Session session = this.getSession();
+		Transaction tx=null;
+		try{
+			for (AcademicWork aw : academicWorks) {
+				session.createQuery(
+						"UPDATE TeacherAndacademicWork TAAW SET TAAW.checkOut="+flag
+						+ " WHERE TAAW.academicWork.acaworkId='"+ aw.getAcaworkId()+"'").executeUpdate();
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			operationFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			tx.rollback();
+		}
+		return operationFlag;
+	}
+
+	/**
+	 * function：获得符合条件的所有参加学术会议的记录
+	 * @param
+	 * @param transientInstance
+	 */
+    @SuppressWarnings("unchecked")
+	public List<AcademicWork> getAllRecordsWithCondition(int pageIndex,
+			int pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut, boolean isDivided){
+    	StringBuffer hql=new StringBuffer("FROM AcademicWork AW WHERE AW.spareTire='1'"
+    			+ " AND AW.researchLabId='"+researchLab.getResearchLabId()+"'"
+				+ " AND AW.publishClub.spareTire='1'"
+				+ " AND AW.wordsNumber.spareTire='1'");
+    	List<AcademicWork> academicWorks=new ArrayList<AcademicWork>();
+		if (checkOut != null && checkOut.length() != 0
+				&& !checkOut.trim().equals("4")) {
+			hql.append(" AND AW.checkout='" + checkOut + "'");
+		}
+		if (foredate != null && afterdate != null && foredate.length() != 0
+				&& afterdate.length() != 0) {
+			hql.append(" AND AW.publishDate BETWEEN '"+foredate+"' AND '"+afterdate+"'");
+		}
+		Query query=this.getSession().createQuery(hql.toString());
+		if(!isDivided){
+			academicWorks=query.list();
+			int size=academicWorks.size();
+			session.put("pageCount_GTAW", size%pageSize==0?(size/pageSize):(size/pageSize+1));
+			session.put("recordNumber_GTAW", size);
+		}
+		academicWorks=query.setMaxResults(pageSize).setFirstResult((pageIndex-1)*pageSize).list();
+    	return academicWorks;
+    }
 
 
 

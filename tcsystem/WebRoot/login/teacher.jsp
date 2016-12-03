@@ -380,7 +380,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                	<li><a class="J_menuItem" href="GTMainUndertakeAcademicMeetingAudit_project!getAllRecord">承担学术会议审核</a></li>
                                	<li><a class="J_menuItem" href="GTJoinAcademicMeetingAudit_project!getAllRecord">参加学术会议审核</a></li>
                                	<li><a class="J_menuItem" href="GTInvitedExpertsSpeechAudit_project!getAllRecord">邀请专家讲座审核</a></li>
-                               	<li><a class="J_menuItem" href="">学术著作审核</a></li>
+                               	<li><a class="J_menuItem" href="GTAcademicWorkAudit_project!getAllRecord">学术著作审核</a></li>
                       	   </ul>
                    	    </li>
                        <li id="departAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">系审核</span></a> </li>

@@ -74,10 +74,13 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 							+ " and TAAW.academicWork.publishClub.spareTire='1'"
 							+ " and TAAW.selfUndertakeTask.spareTire='1'"
 							+ " and TAAW.teacher.spareTire='1' "
-							+ " and TAAW.checkOut='"
-							+ checkOut
-							+ "' and TAAW.teacher.researchLab.researchLabId='"
+//							+ " and TAAW.checkOut='"
+//							+ checkOut
+							+ " and TAAW.teacher.researchLab.researchLabId='"
 							+ researchLab.getResearchLabId() + "'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAAW.checkOut='"+checkOut+"'");
 		}
 		try {
 			String append = " and TAAW.academicWork.publishDate between ? and ? ";
@@ -126,9 +129,9 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 							+ " and TAAW.academicWork.spareTire='1'"
 							+ " and TAAW.academicWork.publishClub.spareTire='1'"
 							+ " and TAAW.selfUndertakeTask.spareTire='1'"
-							+ " and TAAW.teacher.spareTire='1' "
-							+ " and TAAW.checkOut='"
-							+ checkOut+"'");
+							+ " and TAAW.teacher.spareTire='1' ");
+//							+ " and TAAW.checkOut='"
+//							+ checkOut+"'");
 		} else {
 			hql = new StringBuffer(
 					"from TeacherAndacademicWork TAAW  where"
@@ -137,10 +140,13 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 							+ " and TAAW.academicWork.publishClub.spareTire='1'"
 							+ " and TAAW.selfUndertakeTask.spareTire='1'"
 							+ " and TAAW.teacher.spareTire='1' "
-							+ " and TAAW.checkOut='"
-							+ checkOut
-							+ "' and TAAW.teacher.researchLab.researchLabId=\'"
+//							+ " and TAAW.checkOut='"
+//							+ checkOut
+							+ " and TAAW.teacher.researchLab.researchLabId=\'"
 							+ researchLab.getResearchLabId() + "\'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAAW.checkOut='"+checkOut+"'");
 		}
 		list = new ArrayList<TeacherAndacademicWork>();
 		String append = " and TAAW.academicWork.publishDate between ? and ? ";
