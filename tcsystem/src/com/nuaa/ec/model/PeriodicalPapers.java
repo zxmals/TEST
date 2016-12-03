@@ -26,11 +26,38 @@ public class PeriodicalPapers  implements java.io.Serializable {
      private String spareTire;
      private String chargePersonId;
      private String chargePerson;
+     private String researchLabId;
      private String checkout;
      
      private String periodicalName; 
      private String periodicalId;
-    // Constructors
+     
+    public PeriodicalPapers(Integer periodicalPid, Periodical periodical,
+			String ppid, String firstAuthor, String secondAuthor,
+			String thesisTitle, String year, String file, String phase,
+			String describe, String spareTire, String chargePersonId,
+			String chargePerson, String researchLabId, String checkout,
+			String periodicalName, String periodicalId) {
+		this.periodicalPid = periodicalPid;
+		this.periodical = periodical;
+		this.ppid = ppid;
+		this.firstAuthor = firstAuthor;
+		this.secondAuthor = secondAuthor;
+		this.thesisTitle = thesisTitle;
+		this.year = year;
+		this.file = file;
+		this.phase = phase;
+		this.describe = describe;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.chargePerson = chargePerson;
+		this.researchLabId = researchLabId;
+		this.checkout = checkout;
+		this.periodicalName = periodicalName;
+		this.periodicalId = periodicalId;
+	}
+
+	// Constructors
 
     /** default constructor */
     public PeriodicalPapers() {
@@ -209,5 +236,13 @@ public class PeriodicalPapers  implements java.io.Serializable {
 
 	public void setPeriodicalName(String periodicalName) {
 		this.periodicalName = periodicalName;
+	}
+
+	public String getResearchLabId() {
+		return researchLabId;
+	}
+
+	public void setResearchLabId(String researchLabId) {
+		this.researchLabId = researchLabId;
 	}
 }

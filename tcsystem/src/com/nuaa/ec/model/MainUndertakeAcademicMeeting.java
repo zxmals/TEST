@@ -23,6 +23,8 @@ public class MainUndertakeAcademicMeeting  implements java.io.Serializable {
      private String checkout;
      private String meetingdate;
      private String researchLabId;
+	private Set teacherAndmainUndertakeAcademicMeetings = new HashSet(0);
+
      public MainUndertakeAcademicMeeting(
 			String acaMeetingId,
 			MainUndertakeAcademicMeetingPlace mainUndertakeAcademicMeetingPlace,
@@ -43,7 +45,6 @@ public class MainUndertakeAcademicMeeting  implements java.io.Serializable {
 		this.teacherAndmainUndertakeAcademicMeetings = teacherAndmainUndertakeAcademicMeetings;
 	}
 
-	private Set teacherAndmainUndertakeAcademicMeetings = new HashSet(0);
 
 
     // Constructors

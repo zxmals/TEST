@@ -110,45 +110,14 @@ public class ScientificResearchProjectDAO extends BaseHibernateDAO {
 		/*
 		 * 利用审核状态是否是NULL来判断是否是第一次登陆 如果checkout是NULL，那么说明是第一次登陆
 		 */
-		StringBuffer hql = null;
-		if (checkOut != null && checkOut.length() != 0) {// 第一次进入界面或者选择了查看全部的记录
-			if (!checkOut.trim().equals("4")) {
-				hql = new StringBuffer(
-						"FROM ScientificResearchProject SRP WHERE SRP.checkout='"
-								+ checkOut + "'");
-				if (foredate != null && afterdate != null
-						&& foredate.length() != 0 && afterdate.length() != 0) {
-					hql.append(" AND SRP.admitedProjectYear BETWEEN '"
-							+ foredate + "' AND '" + afterdate + "'");
-				}
-				hql.append(" AND SRP.researchLabId='"
-						+ currentResearchLab.getResearchLabId() + "'");
-			} else {
-				hql = new StringBuffer("FROM ScientificResearchProject SRP ");
-				if (foredate != null && afterdate != null
-						&& foredate.length() != 0 && afterdate.length() != 0) {
-					hql.append(" WHERE SRP.admitedProjectYear BETWEEN '"
-							+ foredate + "' AND '" + afterdate + "'");
-					hql.append(" AND SRP.researchLabId='"
-							+ currentResearchLab.getResearchLabId() + "'");
-				} else {
-					hql.append(" WHERE SRP.researchLabId='"
-							+ currentResearchLab.getResearchLabId() + "'");
-				}
-
-			}
-		} else {
-			hql = new StringBuffer("FROM ScientificResearchProject SRP ");
-			if (foredate != null && afterdate != null && foredate.length() != 0
-					&& afterdate.length() != 0) {
-				hql.append(" WHERE SRP.admitedProjectYear BETWEEN '" + foredate
-						+ "' AND '" + afterdate + "'");
-				hql.append(" AND SRP.researchLabId='"
-						+ currentResearchLab.getResearchLabId() + "'");
-			} else {
-				hql.append(" WHERE SRP.researchLabId='"
-						+ currentResearchLab.getResearchLabId() + "'");
-			}
+		StringBuffer hql = new StringBuffer("FROM ScientificResearchProject SRP WHERE SRP.spareTire='1'"
+				+ " AND SRP.projectType.spareTire='1' "
+				+ " AND SRP.researchLabId='"+researchLab.getResearchLabId()+"'");
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND SRP.checkout='"+checkOut+"'");
+		}
+		if(foredate!=null && foredate.length()!=0 && afterdate!=null && afterdate.length() !=0){
+			hql.append(" AND SRP.rewardDate BETWEEN '"+foredate+"' AND '"+afterdate+"'");
 		}
 		if (!isDivided) {
 			scienResProList = this.getSession().createQuery(hql.toString())

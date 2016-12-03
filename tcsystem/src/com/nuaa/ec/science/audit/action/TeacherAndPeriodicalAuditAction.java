@@ -26,7 +26,7 @@ public class TeacherAndPeriodicalAuditAction implements RequestAware {
 				teacherAndperiodical = this.TAPeriodialDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(teacherAndperiodical!=null){
-					teacherAndperiodical.setCheckOut("1");
+					teacherAndperiodical.setCheckOut("3");
 					checkoutList.add(teacherAndperiodical);
 				}
 			}

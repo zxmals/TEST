@@ -1,15 +1,21 @@
 package com.nuaa.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.MainUndertakeAcademicMeeting;
+import com.nuaa.ec.model.PeriodicalPapers;
+import com.nuaa.ec.model.ResearchLab;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for MainUndertakeAcademicMeeting entities.
@@ -28,9 +34,91 @@ public class MainUndertakeAcademicMeetingDAO extends BaseHibernateDAO  {
 	public static final String CHARGE_PERSON_ID = "chargePersonId";
 	public static final String CHECKOUT = "checkout";
 	public static final String MEETINGDATE = "meetingdate";
-
-
-
+	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
+	/**
+	 * 所长审核功能
+	 * 
+	 * @param mainUndertakeAcademicMeetings
+	 * @return
+	 */
+	public boolean updateCheckoutStatus(
+			List<MainUndertakeAcademicMeeting> mainUndertakeAcademicMeetings) {
+		Session session = this.getSession();
+		Transaction tx = null;
+		boolean updateFlag = false;
+		try {
+			for (int i = 0; i < mainUndertakeAcademicMeetings.size(); i++) {
+				session.update(mainUndertakeAcademicMeetings.get(i));
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			updateFlag = true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			tx.rollback();
+		}
+		return updateFlag;
+	}
+	/**
+	 * 如果项目没有通过那么项目里的所有成员都将不通过。
+	 * 
+	 * @param periodicalPaperList
+	 * @return
+	 */
+	public boolean cascadeUpdateCheckOutOfMembers(
+			List<MainUndertakeAcademicMeeting> mainUndertakeAcademicMeetings,String flag) {
+		boolean operationFlag=false;
+		Session session = this.getSession();
+		Transaction tx=null;
+		try{
+			for (MainUndertakeAcademicMeeting maum : mainUndertakeAcademicMeetings) {
+				session.createQuery(
+						"UPDATE TeacherAndmainUndertakeAcademicMeeting TAMUAM SET TAMUAM.checkOut="+flag
+						+ " WHERE TAMUAM.mainUndertakeAcademicMeeting.acaMeetingId='"+maum.getAcaMeetingId()+"'").executeUpdate();
+			}
+			tx=session.beginTransaction();
+			tx.commit();
+			operationFlag=true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			tx.rollback();
+		}
+		return operationFlag;
+	}
+	
+	/**
+	 * 获得符合查询条件的所有承担学术会议项目记录
+	 * 
+	 * @param transientInstance
+	 */
+	@SuppressWarnings("unchecked")
+	public List<MainUndertakeAcademicMeeting> getAllRecordsWithCondition(int pageIndex,
+			int pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut, boolean isDivided) {
+		List<MainUndertakeAcademicMeeting> mainUndtakAkdmicMetingList = new ArrayList<MainUndertakeAcademicMeeting>();
+		StringBuffer hql = new StringBuffer("FROM MainUndertakeAcademicMeeting MUAM WHERE MUAM.spareTire='1'"
+				+ " AND MUAM.mainUndertakeAcademicMeetingPlace.spareTire='1' "
+				+ " AND MUAM.mainUndertakeAcademicMeetingType.spareTire='1' "
+				+ " AND MUAM.researchLabId='"+researchLab.getResearchLabId()+"'");
+		if (checkOut != null && checkOut.length() != 0
+				&& !checkOut.trim().equals("4")) {
+			hql.append(" AND MUAM.checkout='" + checkOut + "'");
+		}
+		if (foredate != null && afterdate != null && foredate.length() != 0
+				&& afterdate.length() != 0) {
+			hql.append(" AND MUAM.meetingdate BETWEEN '"+foredate+"' AND '"+afterdate+"'");
+		}
+		Query query=this.getSession().createQuery(hql.toString());
+		if(!isDivided){
+			mainUndtakAkdmicMetingList=query.list();
+			int size=mainUndtakAkdmicMetingList.size();
+			session.put("pageCount_GTMUAM", size%pageSize==0?(size/pageSize):(size/pageSize+1));
+			session.put("recordNumber_GTMUAM", size);
+		}
+		mainUndtakAkdmicMetingList=query.setMaxResults(pageSize).setFirstResult((pageIndex-1)*pageSize).list();
+		return mainUndtakAkdmicMetingList;
+	}
     
     public void save(MainUndertakeAcademicMeeting transientInstance) {
         log.debug("saving MainUndertakeAcademicMeeting instance");

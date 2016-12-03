@@ -131,7 +131,7 @@
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-					<c:if test="${sessionScope.checkoutStatus_TARR=='0' }">
+				<c:if test="${sessionScope.checkoutStatus_TARR=='0' }">
 					<td><font color="blue">待所长审核项目</td>
 				</c:if>				
 				<c:if test="${sessionScope.checkoutStatus_TARR=='2' }">

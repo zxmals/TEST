@@ -27,7 +27,7 @@ public class TeacherAndmainUndertakeAcademicMeetingAuditAction implements
 				teacherAndUndertakeAcademicMeeting = this.TAUAacdemicMeetingDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(teacherAndUndertakeAcademicMeeting!=null){
-					teacherAndUndertakeAcademicMeeting.setCheckOut("1");
+					teacherAndUndertakeAcademicMeeting.setCheckOut("3");
 					checkoutList.add(teacherAndUndertakeAcademicMeeting);
 				}
 			}

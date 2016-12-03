@@ -87,10 +87,13 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 							+ " and TAUA.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingPlace.spareTire=1"
 							+ " and TAUA.teacher.spareTire=1 "
 							+ " and TAUA.selfUndertakeTask.spareTire=1 "
-							+ " and TAUA.checkOut='"
-							+ checkOut
-							+ "' and TAUA.teacher.researchLab.researchLabId='"
+//							+ " and TAUA.checkOut='"
+//							+ checkOut
+							+ " and TAUA.teacher.researchLab.researchLabId='"
 							+ researchLab.getResearchLabId() + "'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAUA.checkOut='"+checkOut+"'");
 		}
 		try {
 			String append = " and TAUA.mainUndertakeAcademicMeeting.meetingdate between ? and ? ";
@@ -143,9 +146,9 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 							+ " and TAUA.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingType.spareTire=1"
 							+ " and TAUA.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingPlace.spareTire=1"
 							+ " and TAUA.teacher.spareTire=1 "
-							+ " and TAUA.selfUndertakeTask.spareTire=1 "
-							+ " and TAUA.checkOut='"
-							+ checkOut+"'");
+							+ " and TAUA.selfUndertakeTask.spareTire=1 ");
+//							+ " and TAUA.checkOut='"
+//							+ checkOut+"'");
 		} else {
 			hql = new StringBuffer(
 					"from TeacherAndmainUndertakeAcademicMeeting TAUA  where"
@@ -155,10 +158,13 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 							+ " and TAUA.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingPlace.spareTire=1"
 							+ " and TAUA.teacher.spareTire=1 "
 							+ " and TAUA.selfUndertakeTask.spareTire=1 "
-							+ " and TAUA.checkOut='"
-							+ checkOut
-							+ "' and TAUA.teacher.researchLab.researchLabId=\'"
+//							+ " and TAUA.checkOut='"
+//							+ checkOut
+							+ " and TAUA.teacher.researchLab.researchLabId=\'"
 							+ researchLab.getResearchLabId() + "\'");
+		}
+		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+			hql.append(" AND TAUA.checkOut='"+checkOut+"'");
 		}
 		List<TeacherAndmainUndertakeAcademicMeeting> list = new ArrayList<TeacherAndmainUndertakeAcademicMeeting>();
 		String append = " and TAUA.mainUndertakeAcademicMeeting.meetingdate between ? and ? ";

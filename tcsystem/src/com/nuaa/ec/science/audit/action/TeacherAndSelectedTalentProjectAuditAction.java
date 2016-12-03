@@ -26,7 +26,7 @@ public class TeacherAndSelectedTalentProjectAuditAction implements RequestAware 
 				teacherAndSelectedTalentProject = this.TASTProjectDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(teacherAndSelectedTalentProject!=null){
-					teacherAndSelectedTalentProject.setCheckOut("1");
+					teacherAndSelectedTalentProject.setCheckOut("3");
 					checkoutList.add(teacherAndSelectedTalentProject);
 				}
 			}
