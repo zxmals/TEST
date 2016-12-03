@@ -92,7 +92,7 @@ public class academicworkAction implements RequestAware, SessionAware {
 			academicwk.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
 			academicwk.setPublishClub(publishdao.findById(academicwk.getPublishClub().getPublishClubId()));
 			academicwk.setWordsNumber(wordnumdao.findById(academicwk.getWordsNumber().getWordId()));
-			academicwk.setCheckout("1".equals(academicwk.getOtherAuthorJoin().trim())?"0":"1");
+			academicwk.setCheckout("1".equals(academicwk.getOtherAuthorJoin().trim())?"5":"0");
 			academicwk.setSpareTire("1");
 			AcademicWorkScore awscore = academicscoredao.findByWordNum(academicwk.getWordsNumber());
 			if(awscore!=null){

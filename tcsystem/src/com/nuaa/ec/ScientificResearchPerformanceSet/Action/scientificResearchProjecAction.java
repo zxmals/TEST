@@ -98,7 +98,7 @@ public class scientificResearchProjecAction implements RequestAware,
 			scienrhprojecscore = scienrhprojecscoredao.findByProType(projectype);
 			if(scienrhprojecscore!=null){
 				scienrhprojec.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-				scienrhprojec.setCheckout("0");
+				scienrhprojec.setCheckout("5");
 				scienrhprojec.setProjectType(projectypedao.findById(projectype.getProjectTypeId()));
 				scienrhprojec.setSpareTire("1");
 				scienrhprojec.setSrprojectId(pkmk.mkpk(EntityUtil.getPkColumnName(ScientificResearchProject.class), EntityUtil.getTableName(ScientificResearchProject.class), "Srp"));

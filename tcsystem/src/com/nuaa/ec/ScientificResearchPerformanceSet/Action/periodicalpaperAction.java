@@ -79,7 +79,7 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 			periopaper.setSecondAuthor("second".equals(ServletActionContext
 					.getRequest().getParameter("author")) ? ((Teacher) session
 					.get("teacher")).getTeacherId() : "");
-			periopaper.setCheckout("0");
+			periopaper.setCheckout("5");
 			periopaperdao.save(periopaper);
 			PeriodicalPapersScore ppsco = ppscoredao.findByPeriodicalType(periopaper.getPeriodical().getPeriodicalType());
 			if(ppsco!=null){

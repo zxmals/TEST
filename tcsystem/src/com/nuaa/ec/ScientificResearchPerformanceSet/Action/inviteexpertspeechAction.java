@@ -99,7 +99,7 @@ public class inviteexpertspeechAction implements RequestAware, SessionAware {
 			invitespeech.setExpertType(expertTypedao.findById(expertType.getExpertTypeId()));
 			invitespeech.setNationality(nationdao.findById(nation.getCountryId()));
 			invitespeech.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			invitespeech.setCheckout("0");
+			invitespeech.setCheckout("5");
 			InvitedExpertsSpeechScore iespeechcore = invitescoredao.checkexist(expertType);
 			if(iespeechcore!=null){
 				teacherandinvitespeech = new TeacherAndinvitedExpertsSpeech();

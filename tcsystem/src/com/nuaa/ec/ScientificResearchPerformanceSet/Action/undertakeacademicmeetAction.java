@@ -103,7 +103,7 @@ public class undertakeacademicmeetAction implements RequestAware, SessionAware {
 				undertakemeet.setMainUndertakeAcademicMeetingPlace(meetplacedao.findById(meetplace.getAcaMeetPlaceId()));
 				undertakemeet.setMainUndertakeAcademicMeetingType(meettypedao.findById(meettype.getAcaMeetTypeId()));
 				undertakemeet.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-				undertakemeet.setCheckout("0");
+				undertakemeet.setCheckout("5");
 				undertakemeetdao.save(undertakemeet);
 				teacherandudtmeet = new TeacherAndmainUndertakeAcademicMeeting();
 				teacherandudtmeet.setCheckOut("0");
