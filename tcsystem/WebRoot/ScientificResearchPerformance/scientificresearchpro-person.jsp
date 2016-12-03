@@ -107,11 +107,18 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 											<td>${teachermp[ebj.scientificResearchProject.chargePersonId] }</td>
 											<td>${ebj.finalScore }</td>
 											<c:if test="${ebj.checkOut==0 }"><td>待审核</td></c:if>
-											<c:if test="${ebj.checkOut==1 }"><td>已审核</td></c:if>
+											<c:if test="${ebj.checkOut==1 }"><td>待审核</td></c:if>
+											<c:if test="${ebj.checkOut==3 }"><td>已审核</td></c:if>
 											<c:if test="${ebj.checkOut==2 }"><td>审核未通过</td></c:if>
-											<c:if test="${ebj.checkOut==0 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
-											<c:if test="${ebj.checkOut==1 }"><td>&nbsp;&nbsp;&nbsp;√</td></c:if>
-											<c:if test="${ebj.checkOut==2 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
+											<c:if test="${ebj.scientificResearchProject.chargePersonId!=teacher.teacherId }">
+												<c:if test="${ebj.checkOut==0 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
+												<c:if test="${ebj.checkOut==1 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
+												<c:if test="${ebj.checkOut==3 }"><td>&nbsp;&nbsp;&nbsp;√</td></c:if>
+												<c:if test="${ebj.checkOut==2 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
+											</c:if>
+											<c:if test="${ebj.scientificResearchProject.chargePersonId==teacher.teacherId }">
+												<td><c:if test="${ebj.checkOut==3 }">&nbsp;&nbsp;&nbsp;√</c:if></td>
+											</c:if>
 										</tr>
 									</c:forEach>
 	                            </tbody>                           

@@ -42,6 +42,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				break;
 				default: break;
 			}
+			if(res=='1'){
+				window.location.replace('GTperiodicalpaper-paperset!getPeriodicalPaperINF');
+			}
 		}
     </script>
 </head>
@@ -113,11 +116,11 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										<td class="describe" title="${ebj.describe }"></td>
 										<td>${ebj.chargePersonId }</td>
 										<td>${teachermp[ebj.chargePersonId] }</td>
-										<td>
-											<c:if test="${ebj.checkout==0 }">待完善</c:if>
-											<c:if test="${ebj.checkout==1 }">已完善,待审核</c:if>
-											<c:if test="${ebj.checkout==2 }">已审核</c:if>
-											<c:if test="${ebj.checkout==3 }">审核未通过</c:if>
+										<td title="${ebj.checkout }">
+											<c:if test="${ebj.checkout==5 }">待完善</c:if>
+											<c:if test="${ebj.checkout==0 }">已完善,待审核</c:if>
+											<c:if test="${ebj.checkout==1 }">已审核</c:if>
+											<c:if test="${ebj.checkout==2 }">审核未通过</c:if>
 										</td>
 										<td>
 											<c:if test="${ebj.chargePersonId==teacher.teacherId}">
@@ -127,8 +130,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 												<a  class="btn btn-primary btn-sm searchmember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 											</c:if>
 											<c:if test="${ebj.chargePersonId!=teacher.teacherId}">
-												<c:if test="${ebj.checkout==0 }"><a  class="btn btn-primary btn-sm join">加入</a></c:if>
-												<c:if test="${ebj.checkout==1 }"><a  class="btn btn-primary btn-sm" style="background-color: #999999">加入</a></c:if>
+												<c:if test="${ebj.checkout==5 }"><a  class="btn btn-primary btn-sm join">加入</a></c:if>
+												<c:if test="${ebj.checkout==0 }"><a  class="btn btn-primary btn-sm" style="background-color: #999999">加入</a></c:if>
+												<c:if test="${ebj.checkout==1 }">  √ </c:if>
 											</c:if>
 										</td>
 										<td style="display: none">${ebj.firstAuthor }</td>
@@ -195,8 +199,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                    <label>项目人数:</label>
 	                                    <select id="upppcheck" class="form-control nullcheck upcheck" name="checkout">
 	                                    	<option></option>
-	                                    	<option value="1">人数已满</option>
-	                                    	<option value="0">人数未满</option>
+	                                    	<option value="0">人数已满</option>
+	                                    	<option value="5">人数未满</option>
 	                                    </select>
 	                                </div>  
 	                                <div class="form-group" style="display: none">                                
@@ -347,8 +351,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 			$('#upppfirst')[0].value = row[0].cells[13].innerHTML;
 			$('#upppsecond')[0].value = row[0].cells[14].innerHTML;
 			$('#upppptid')[0].value = row[0].cells[15].innerHTML;
-			var status = row[0].cells[11].innerHTML.trim()=="待完善"?"0":"1";
-			set_selected_option($('#upppcheck option'),status);
+// 			var status = row[0].cells[11].innerHTML.trim()=="待完善"?"5":"0";
+			set_selected_option($('#upppcheck option'),row[0].cells[11].title.trim());
 		}
 		if(e.target.className.indexOf("join")>=0){
 			if(confirm("确定加入该项目 ？")){
@@ -444,7 +448,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     				 "foredate":$('#date1').val().trim(),
     				 "afterdate":$('#date2').val().trim()},
     				function(data,status){
-    					alert(data);
+//     					alert(data);
         				var obj = JSON.parse(data);
     					if(status=="success"){
     						for(var i=0;i<obj.length;i++){

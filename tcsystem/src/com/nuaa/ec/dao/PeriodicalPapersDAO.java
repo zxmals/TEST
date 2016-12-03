@@ -280,8 +280,8 @@ public class PeriodicalPapersDAO extends BaseHibernateDAO  {
 			con = getConn();
 			ps = con.prepareStatement("select * from PeriodicalPapers,Periodical  where PeriodicalPapers.SpareTire = '1' and PeriodicalPapers.PeriodicalID=Periodical.PeriodicalID "+condition+" order by PeriodicalPapers.Year desc ",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rs = ps.executeQuery();
-			rs.absolute(currentrow+1);
-			do{
+			rs.absolute(currentrow);
+			while(rs.getRow()<currentrow+limit&&rs.next()){
 				periopaper = new PeriodicalPapers(
 						rs.getString("PPID"), 
 						rs.getString("FirstAuthor"), 
@@ -299,7 +299,7 @@ public class PeriodicalPapersDAO extends BaseHibernateDAO  {
 						rs.getString("PeriodicalName"),
 						rs.getInt("PeriodicalPid"));
 				pepali.add(periopaper);
-			}while(rs.getRow()<currentrow+limit&&rs.next());
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw e;

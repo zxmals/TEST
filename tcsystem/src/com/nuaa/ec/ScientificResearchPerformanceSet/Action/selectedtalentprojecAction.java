@@ -79,7 +79,7 @@ public class selectedtalentprojecAction implements RequestAware, SessionAware {
 		Transaction tx = null;
 		try {
 			talentp.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			talentp.setCheckout("0");
+			talentp.setCheckout("5");
 			talentp.setSpareTire("1");
 			talentp.setTalentProjectId(pkmk.mkpk(EntityUtil.getPkColumnName(TalentProject.class), EntityUtil.getTableName(TalentProject.class), "STP"));
 			talentpdao.save(talentp);

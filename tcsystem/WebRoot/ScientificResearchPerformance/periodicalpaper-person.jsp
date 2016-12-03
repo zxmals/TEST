@@ -106,11 +106,21 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 											<c:if test="${ebj.secondAuthor==teacher.teacherId }"><td>第二作者</td></c:if>
 											<td>${ebj.score }</td>
 											<c:if test="${ebj.checkOut==0 }"><td>待审核</td></c:if>
-											<c:if test="${ebj.checkOut==1 }"><td>已审核</td></c:if>
+											<c:if test="${ebj.checkOut==1 }"><td>待审核</td></c:if>
+											<c:if test="${ebj.checkOut==3 }"><td>已审核</td></c:if>
 											<c:if test="${ebj.checkOut==2 }"><td>审核未通过</td></c:if>
-											<c:if test="${ebj.checkOut==0 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
-											<c:if test="${ebj.checkOut==1 }"><td>&nbsp;&nbsp;&nbsp;√</td></c:if>
-											<c:if test="${ebj.checkOut==2 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
+											<c:if test="${ebj.chargePersonId!=teacher.teacherId }">
+												<c:if test="${ebj.checkOut==0 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
+												<c:if test="${ebj.checkOut==1 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
+												<c:if test="${ebj.checkOut==3 }"><td>&nbsp;&nbsp;&nbsp;√</td></c:if>
+												<c:if test="${ebj.checkOut==2 }"><td><a  class="btn btn-primary btn-sm quitpaper">退出</a></td></c:if>
+											</c:if>
+											<c:if test="${teacher.teacherId==ebj.chargePersonId }">
+												<c:if test="${ebj.checkOut==0 }"><td> </td></c:if>
+												<c:if test="${ebj.checkOut==1 }"><td> </td></c:if>
+												<c:if test="${ebj.checkOut==3 }"><td>&nbsp;&nbsp;&nbsp;√</td></c:if>
+												<c:if test="${ebj.checkOut==2 }"><td> </td></c:if>
+											</c:if>
 										</tr>
 									</c:forEach>
 	                            </tbody>                           
