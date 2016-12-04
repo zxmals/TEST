@@ -284,7 +284,7 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		}
 		list = new ArrayList<VaunJoinRecord>();
 		String append = " and VP.actDate between ? and ? ";
-		String rank = " order by UJ.unjoinId asc";
+		String rank = " order by UJ.unjoinId desc";
 		
 		if (foredate != null && afterdate != null && foredate.length() != 0
 				&& afterdate.length() != 0) {
@@ -334,7 +334,7 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		}
 		try {
 			String append = " and VP.actDate between ? and ? ";
-			String rank = " order by UJ.unjoinId asc";
+			String rank = " order by UJ.unjoinId desc";
 			/*
 			 * 不一定有日期，所以要判断
 			 */

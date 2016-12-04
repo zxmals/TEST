@@ -84,7 +84,7 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 		}
 		try {
 			String append = " and TAAW.academicWork.publishDate between ? and ? ";
-			String rank = "  order by TAAW.academicWork.acaworkId asc";
+			String rank = "  order by TAAW.academicWork.acaworkId desc";
 			/*
 			 * 不一定有日期，所以要判断
 			 */
@@ -150,7 +150,7 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 		}
 		list = new ArrayList<TeacherAndacademicWork>();
 		String append = " and TAAW.academicWork.publishDate between ? and ? ";
-		String rank = "  order by TAAW.academicWork.acaworkId asc";
+		String rank = "  order by TAAW.academicWork.acaworkId desc";
 		if (foredate != null && afterdate != null && foredate.length() != 0
 				&& afterdate.length() != 0) {
 			// 判断日期范围限制

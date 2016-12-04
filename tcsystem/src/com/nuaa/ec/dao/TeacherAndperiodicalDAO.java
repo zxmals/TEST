@@ -91,7 +91,7 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 		}
 		try {
 			String append = " and PP.year between ? and ? ";
-			String rank = "  order by PP.periodicalPid asc";
+			String rank = "  order by PP.periodicalPid desc";
 			/*
 			 * 不一定有日期，所以要判断
 			 */
@@ -156,7 +156,7 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 		}
 		List<TeacherAndperiodical> list = new ArrayList<TeacherAndperiodical>();
 		String append = " and PP.year between ? and ? ";
-		String rank = "  order by PP.periodicalPid asc";
+		String rank = "  order by PP.periodicalPid desc";
 		if (foredate != null && afterdate != null && foredate.length() != 0
 				&& afterdate.length() != 0) {
 			// 判断日期范围限制

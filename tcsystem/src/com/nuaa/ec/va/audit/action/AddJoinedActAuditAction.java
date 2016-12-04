@@ -15,8 +15,10 @@ import java.util.Map;
 
 
 
+
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.TeacherDAO;
@@ -28,7 +30,7 @@ import com.nuaa.ec.model.VateacherAndCollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveActId;
 import com.opensymphony.xwork2.ActionContext;
 
-public class AddJoinedActAuditAction implements RequestAware{
+public class AddJoinedActAuditAction implements RequestAware ,SessionAware{
 	public void doCheckOutTask(){
 		String[] ids = this.checkOutIDs.split(",");
 		String[] idsNot=this.checkOutIDsNot.split(",");
@@ -79,8 +81,6 @@ public class AddJoinedActAuditAction implements RequestAware{
 	}
 	
 	public String getAddJoinedActListAfterDivide(){
-		Transaction tx = this.vateacherAndCollectiveActDAO.getSession()
-				.beginTransaction();
 		if ((Department) session.get("department_CT") == null) {
 			session.put("department_CT", new Department());
 		}
@@ -97,13 +97,11 @@ public class AddJoinedActAuditAction implements RequestAware{
 							(Department) session.get("department_CT"),
 							(String)session.get("checkOutStatus_CT")
 							));
-			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			this.setOperstatus(-1);
-			tx.rollback();
 		}
 		
 		
@@ -111,7 +109,6 @@ public class AddJoinedActAuditAction implements RequestAware{
 	}
 	
 	public String getAddJoinedActList(){
-		Transaction tx = this.vateacherAndCollectiveActDAO.getSession().beginTransaction();
 		//判断是否分页
 		if ((Department) session.get("department_CT") == null) {
 			session.put("department_CT", new Department());
@@ -128,13 +125,11 @@ public class AddJoinedActAuditAction implements RequestAware{
 							(Department) session.get("department_CT"),
 							(String)session.get("checkOutStatus_CT")
 							));
-			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			this.setOperstatus(-1);
-			tx.rollback();
 		}
 		return "success";
 	}
@@ -145,8 +140,7 @@ public class AddJoinedActAuditAction implements RequestAware{
 	private ResearchLab researchLab_CT;
 	private Department department_CT;
 	private int operstatus;
-	private Map<String, Object> session = ActionContext.getContext()
-			.getSession();
+	private Map<String, Object> session ;
 	private Map<String, Object> request;
 	private String checkOutStatus_CT;
 	private String checkOutIDs;

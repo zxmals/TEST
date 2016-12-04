@@ -513,7 +513,29 @@
 		<action name="GT*Audit_*" class="com.nuaa.ec.science.rt_audit.action.GT{1}AuditAction_{2}">
 			<result>/Audit/GT_ScientificResearch/GT{1}_{2}.jsp</result>
 		</action>
+		
 	</package>
+	
+	<!-- 	系管理员的审核 -->
+	<package name="DepartmentAdminAudit" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="logincheckeInterceptor"
+				class="com.nuaa.ec.interceptor.LoginCheckInterceptor"></interceptor>
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="logincheckeInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myDefault"></default-interceptor-ref>
+		<global-results>
+			<result name="relogin">login.jsp</result>
+		</global-results>
+		<action name="GTTF*_*Audit11" class="com.nuaa.ec.teaching.GT_audit.action.Tf{1}_{2}Audit">
+			<result>/Audit/GT_Teaching/GTTf{1}_{2}.jsp</result>
+		</action>
+	</package>
+	
+	
 </struts>
 
 

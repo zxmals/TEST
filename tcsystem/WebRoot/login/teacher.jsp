@@ -383,7 +383,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                	<li><a class="J_menuItem" href="GTAcademicWorkAudit_project!getAllRecord">学术著作审核</a></li>
                       	   </ul>
                    	    </li>
-                       <li id="departAdmin"  style="display: none"> <a  class="J_menuItem"   href="#"><i class="fa fa-edit"></i> <span class="nav-label">系审核</span></a> </li>
+                   	    
+                       <li id="departAdmin"  style="display: none"> 
+                       		<a href="#">
+                            	<i class="fa fa-edit"></i>
+                            	<span class="nav-label">系审核</span>
+                            	<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level firstslide">
+	                            <li>
+	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">教学名师与教学团队审核</a>
+								</li>
+								<li>
+	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">教学研究审核</a>
+								</li>
+								<li>
+	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">教学论文审核</a>
+								</li>
+								<li>
+	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">教学成果奖审核</a>
+								</li>
+								<li>
+	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">教材建设审核</a>
+								</li>
+								<li>
+	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">精品课程审核</a>
+								</li>
+								<li>
+	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">专业建设项目申报审核</a>
+								</li>
+								<li>
+	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">企业工作站和联合培养基地建设审核</a>
+								</li>
+							</ul>
+                       </li>
+                       
                        <li id="vaadmin"  style="display: none">
                            	<a href="#">
                             	<i class="fa fa-edit"></i>

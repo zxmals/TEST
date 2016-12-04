@@ -165,33 +165,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					function(data,status){
 						if(status=="success"){
 							if(data.trim()=="succ"){
-								swal("Good job!","添加成功","success");
+								alert("添加成功");
 								window.location.replace("<%=basePath %>ATVaSetting2!entityList");
 							}else{
-								swal("Oops..","添加失败","error");
-								
+								alert("添加失败");
 							}
 						}else{
-							swal("Oops...","请求失败","error");
+							alert("请求失败");
 						}
 					});
 		}
 	});
 	$('.delinf').click(function() {
 		 var row = $(this).parent().parent();
-		 swal({
-			  title: "Are you sure?",
-			  text: "你将不能恢复这行数据!",
-			  type: "warning",
-			  showCancelButton: true,
-			  confirmButtonColor: "#DD6B55",
-			  confirmButtonText: "Yes, delete it!",
-			  cancelButtonText: "No, cancel plx!",
-			  closeOnConfirm: false,
-			  closeOnCancel: false
-			},
-			function(isConfirm){
-			  if (isConfirm) {
+		 var x = confirm("确认删除？");
+		 if(x){
 				  $.post("ATVaSetting2!deleteVaAdmin",
 							{"entity.teacherId":row[0].cells[0].innerHTML,
 							 "entity.teacherName":row[0].cells[1].innerHTML},
@@ -199,19 +187,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								if(status=="success"){
 									if(data.trim()=="succ"){
 									window.location.replace("<%=basePath %>ATVaSetting2!entityList");
-										swal("Deleted!", "删除成功.", "success");
+										alert("删除成功");
 										row.remove();
 									}else{
-										swal("Oops...","删除失败","error");
+										alert("删除失败");
 									}
 								}else{
-									swal("Oops...","请求失败","error");
+									alert("请求失败");
 								}
 							});
 				}  else {
-				    swal("Cancelled", "Your data is safe", "error");
+				    alert("管理员未删除");
 			  }
-			});
 	});
 	
 	$('#VaAdmin').keyup(function() {

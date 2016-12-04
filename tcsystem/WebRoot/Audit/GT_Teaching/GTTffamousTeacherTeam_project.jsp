@@ -14,6 +14,7 @@
 			+ path + "/";
 	request.setAttribute("departmentList",
 			StoreData.getDepartmentList());
+	request.setAttribute("termList", StoreData.getTftermList());
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -66,43 +67,49 @@
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
-		action="GTUnjoinedActAudit!getUnjoinedActList"
+		action="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project"
 		method="post" name="pickdate">
-		<div class="datepick" style="font-size:12px;">
-			<span>选择日期范围</span>
-			<div>
+<!-- 		<div class="datepick" style="font-size:12px;"> -->
+<!-- 			<span>选择日期范围</span> -->
+<!-- 			<div> -->
 
-				从:<input type="text" id="date1" class="Wdate" id="foredate"
-					onClick="WdatePicker()" value="${sessionScope.foredate_UA }"
-					name="foredate_UA"  />到:<input type="text"
-					id="date2" onClick="WdatePicker()" class="Wdate" id="afterdate"
-					value="${sessionScope.afterdate_UA }" name="afterdate_UA"
-					 /> &nbsp;&nbsp;<input type="submit" id="datep"
-					value="查询" title="点击查询">
-			</div>
-		</div>
-		<h3 style="padding:0px;margin-left: 10px;">活动缺席审核</h3>
+<!-- 				从:<input type="text" id="date1" class="Wdate" id="foredate" -->
+<!-- 					onClick="WdatePicker()" value="${sessionScope.foredate_TFTTPA }" -->
+<!-- 					name="foredate_TFTTPA"  />到:<input type="text" -->
+<!-- 					id="date2" onClick="WdatePicker()" class="Wdate" id="afterdate" -->
+<!-- 					value="${sessionScope.afterdate_TFTTPA }" name="afterdate_TFTTPA" -->
+<!-- 					 /> &nbsp;&nbsp;<input type="submit" id="datep" -->
+<!-- 					value="查询" title="点击查询"> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+		<h3 style="padding:0px;margin-left: 10px;">教学名师与教学团队审核</h3>
 		<hr>
-		<span style="margin-left:10px;">系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="department_UA.departmentId"
-			id="departmentSelection">
-				<c:forEach var="department" items="${departmentList }">
-					<option value="${department.departmentId }">${department.departmentName }</option>
-				</c:forEach>
+		<span style="margin-left:10px;">所审核系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
+		<span style="color:green;">${sessionScope.teacherDepartment }</span>
 		</select>
-		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select
-			name="pageSize_UA" id="pageSizeSelection">
+		</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		 <span>每页显示： <select
+			name="pageSize_TFTTPA" id="pageSizeSelection">
 				<c:forEach items="${pageSizeList }" var="pageSize">
 					<option value="${pageSize }">&nbsp;&nbsp;&nbsp;${pageSize }&nbsp;&nbsp;&nbsp;</option>
 				</c:forEach>
 		</select> 条记录
-		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
-			name="checkOutStatus_UA" id="checkoutStatus">
-				<option value="0">未审核</option>
-				<option value="1">审核通过</option>
-				<option value="2">未通过审核</option>
+		</span> 
+		<span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<select name="term_TFTTPA.termId" id="termSelection">
+			<c:forEach items="${termList }" var="term">
+				<option value="${term.termId }"/>${term.term }
+			</c:forEach>
+			</select>
+		</span>
+		<span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
+			name="checkOutStatus_TFTTPA" id="checkoutStatus">
+				<c:forEach items="${auditStatus }" var = "status" >
+					<option value="${status.key }"/>${status.value }
+				</c:forEach>
 		</select>
-		</span> <span style="margin-left:15px;"><button type="submit"
+		</span> 
+		<span style="margin-left:15px;"><button type="submit"
 				class="button_set" style="height:25px;">确认</button></span>
 	</form>
 	<hr />
@@ -112,68 +119,62 @@
 			style="border-collapse:collapse; font-size: 13px;">
 			<!--font-size:13px;border-bottom: 1px solid silver;  -->
 			<tr>
-				<td>活动编号</td>		
-				<td>活动名称</td>
-				<td>参与人员</td>
-				<td>活动日期</td>		
-				<td>未参与原因</td>
-				<td>是否请假</td>		
-				<td>教师编号</td>
-				<td>教师姓名</td>		
-				<td>最终得分</td>
-<!-- 				<c:if test="${sessionScope.checkOutStatus_UA=='0' }"> -->
+				<td>教学名师团队Id</td>		
+				<td>级别 </td>
+				<td>称号</td>
+				<td>项目总分</td>		
+				<td>学期</td>
+				<td>登记负责人Id</td>		
+				<td>登记负责人</td>
+<!-- 				<c:if test="${sessionScope.checkOutStatus_TFTTPA=='0' }"> -->
 <!-- 					<td>全通过&nbsp;<input type="checkbox" name="" id="allCheck" -->
 <!-- 						onchange="allAlowOrNot()" /></td> -->
 <!-- 				</c:if> -->
-				<c:if test="${sessionScope.checkOutStatus_UA=='0' }">
+				<c:if test="${sessionScope.checkOutStatus_TFTTPA=='0' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_UA=='1' }">
+				<c:if test="${sessionScope.checkOutStatus_TFTTPA=='1' }">
 					<td><font color="blue">通过</td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_UA=='2' }">
+				<c:if test="${sessionScope.checkOutStatus_TFTTPA=='2' }">
 					<td><font color="red">未通过</td>
 				</c:if>
 
 			</tr>
 			<c:forEach var="entity"
-				items="${UnjoinedActList }">
+				items="${TFfamousTeacherTeam }">
 				<tr>
-					<!-- 活动编号 -->
-					<td>${entity.actId }</td>
-					<!-- 活动名称-->
-					<td>${entity.actName }</td>
-					<!-- 参与人员 -->
-					<td>${entity.actAttendee }</td>
-					<!-- 活动日期 -->
-					<td>${entity.actDate }</td>
-					<!-- 未参与原因-->
-					<td>${entity.unjoinreason }</td>
-					<!-- 是否请假 -->
-					<td>${entity.leavereqobtain }</td>
-					<!-- 教师编号 -->
-					<td>${entity.teacherId }</td>
-					<!-- 教师姓名 -->
-					<td>${entity.teacherName }</td>
-					<!-- 最终分数 -->
-					<td>${entity.resultscore }</td>
-<!-- 					<c:if test="${sessionScope.checkOutStatus_UA=='0' }"> -->
+					<!-- 教学名师团队Id -->
+					<td>${entity.teacherTeamPerformanceId }</td>
+					<!-- 级别 -->
+					<td>${entity.name }</td>
+					<!-- 称号-->
+					<td>${entity.tffamousTeacherTeamRewadLevel.teachRewardLevelName }</td>
+					<!-- 项目总分 -->
+					<td>${entity.projectSumScore }</td>
+					<!-- 学期 -->
+					<td>${entity.tfterm.term }</td>
+					<!-- 登记负责人Id-->
+					<td>${entity.chargePersonId }</td>
+					<!-- 登记负责人 -->
+					<td>${entity.chargePersonName }</td>
+<!-- 					<c:if test="${sessionScope.checkOutStatus_TFTTPA=='0' }"> -->
 <!-- 						<td>通过&nbsp;<input type="checkbox" name="chooseWhichToAudit" -->
 <!-- 							value="${actId}" /></td> -->
 <!-- 					</c:if> -->
-					<c:if test="${sessionScope.checkOutStatus_UA=='0' }">
+					<c:if test="${sessionScope.checkOutStatus_TFTTPA=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox"
-							name="chooseWhichToAudit" value="${entity.unjoinId }"
+							name="chooseWhichToAudit" value="${entity.teacherTeamPerformanceId }"
 							class="check1" /></td>
 						<td class="c2">不通过<input
-							value="${entity.unjoinId }" type="checkbox"
+							value="${entity.teacherTeamPerformanceId }" type="checkbox"
 							name="notAudit" class="check2" /></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_UA=='1' }">
+					<c:if test="${sessionScope.checkOutStatus_TFTTPA=='1' }">
 						<td><font color="green"size:"3">√</td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_UA=='2' }">
+					<c:if test="${sessionScope.checkOutStatus_TFTTPA=='2' }">
 						<td><font color="red" size="3">×</td>
 					</c:if>
 				</tr>
@@ -183,30 +184,30 @@
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;"> 当前是第<font
-			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_UA }</font>页
+			style=" color:blue; font-weight: bold;">${pageIndex }/${sessionScope.pageCount_TFTTPA }</font>页
 		</span> <span> <c:if test="${pageIndex>1}">
 				<a
-					href="GTUnjoinedActAudit!getUnjoinedActListAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
+					href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_projectAfterDivide?pageIndex=${pageIndex-1 }">上一页</a>
 			</c:if>
 		</span>
 
 		<c:forEach begin="${pageIndex }" end="${pageIndex+4 }" var="index"
 			step="1">
-			<c:if test="${index<=pageCount_UA }">
+			<c:if test="${index<=pageCount_TFTTPA }">
 				<span> <a
-					href="GTUnjoinedActAudit!getUnjoinedActListAfterDivide?pageIndex=${index }">${index }</a>
+					href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_projectAfterDivide?pageIndex=${index }">${index }</a>
 				</span>
 			</c:if>
 		</c:forEach>
-		<span> <c:if test="${pageIndex<pageCount_UA }">
+		<span> <c:if test="${pageIndex<pageCount_TFTTPA }">
 				<a
-					href="GTUnjoinedActAudit!getUnjoinedActListAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
+					href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_projectAfterDivide?pageIndex=${pageIndex+1 }">下一页</a>
 			</c:if>
-		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_UA }</font>页
-		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_UA }</font>条记录
+		</span> <span> 共<font style="color:blue;">${sessionScope.pageCount_TFTTPA }</font>页
+		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_TFTTPA }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_UA=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_TFTTPA=='0'}">
 		<input type="button" value="提交" class="button_set"
 			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>
@@ -237,32 +238,15 @@
 	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pageSizeSelection option[value='${sessionScope.pageSize_UA}']").attr("selected",true);
-			$("#departmentSelection option[value='${sessionScope.department_UA.departmentId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_UA}']").attr("selected",true);
+			$("#pageSizeSelection option[value='${sessionScope.pageSize_TFTTPA}']").attr("selected",true);
+			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_TFTTPA}']").attr("selected",true);
+			$("#termSelection option[value='${sessionScope.term_TFTTPA.termId}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("GTUnjoinedActAudit!doCheckOutTask",
-					"GTUnjoinedActAudit!getUnjoinedActList");
+			submitAudit("GTTFfamousTeacherTeam_projectAudit11!doCheckOutTask",
+					"GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project");
 		});
-		$("#datep").click(function(){
-			if(($("#foredate").val().length!=0 && $("#afterdate").val().length==0) 
-					||($("#foredate").val().length==0 && $("#afterdate").val().length!=0)){
-				window.alert("请填写完整日期");
-				return false;
-			}else{
-				document.pickdate.submit();
-			}
-		});
-		$("#confirm").click(function(){
-			if(($("#foredate").val().length!=0 && $("#afterdate").val().length==0) 
-					||($("#foredate").val().length==0 && $("#afterdate").val().length!=0)){
-				window.alert("请填写完整日期");
-				return false;
-			}else{
-				document.pickdate.submit();
-			}
-		});
+		
 	</script>
 </body>
 </html>

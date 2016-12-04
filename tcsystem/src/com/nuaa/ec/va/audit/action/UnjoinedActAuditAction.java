@@ -7,16 +7,16 @@ import java.util.Map;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Transaction;
 
-import com.nuaa.ec.dao.TeacherAndacademicWorkDAO;
 import com.nuaa.ec.dao.VaunJoinRecordDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VaunJoinRecord;
 import com.opensymphony.xwork2.ActionContext;
 
-public class UnjoinedActAuditAction implements RequestAware{
+public class UnjoinedActAuditAction implements RequestAware,SessionAware{
 	public void doCheckOutTask(){
 		List<VaunJoinRecord> checkoutList = new ArrayList<VaunJoinRecord>();
 		String[] ids = this.checkOutIDs.split(",");
@@ -74,7 +74,9 @@ public class UnjoinedActAuditAction implements RequestAware{
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			this.setOperstatus(-1);
-			tx.rollback();
+			if (null != tx) {
+				tx.rollback();
+			}
 		}
 		return "success";
 	}
@@ -101,7 +103,9 @@ public class UnjoinedActAuditAction implements RequestAware{
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			this.setOperstatus(-1);
-			tx.rollback();
+			if (null != tx) {
+				tx.rollback();
+			}
 		}
 		return "success";
 	}
@@ -124,8 +128,7 @@ public class UnjoinedActAuditAction implements RequestAware{
 	private String checkOutIDs;
 	private String checkOutIDsNot;
 	private int operstatus;
-	private Map<String, Object> session = ActionContext.getContext()
-			.getSession();
+	private Map<String, Object> session;
 	private Map<String, Object> request;
 	private VaunJoinRecordDAO vaunJoinRecordDAO = new VaunJoinRecordDAO();
 	public int getPageIndex() {

@@ -83,7 +83,7 @@ public class TftextbookConstructionPerformanceDAO extends BaseHibernateDAO {
 								+ " and TBC.teacher.spareTire='1'"
 								+ " and TBC.teacher.department.spareTire='1'"
 								+ " and TBC.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " order by TBC.tftextbookConstructionProject.bookId asc");
+								+ " order by TBC.tftextbookConstructionProject.bookId desc");
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

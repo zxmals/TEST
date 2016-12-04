@@ -68,7 +68,7 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 		}
 		try {
 			String append = " and TAAM.joinAcademicMeeting.meetingdate between ? and ? ";
-			String rank = "  order by TAAM.joinAcademicMeeting.joinAcaMid asc";
+			String rank = "  order by TAAM.joinAcademicMeeting.joinAcaMid desc";
 			/*
 			 * 不一定有日期，所以要判断
 			 */
@@ -134,7 +134,7 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 		}
 		List<TeacherAndjoinAcademicMeeting> list = new ArrayList<TeacherAndjoinAcademicMeeting>();
 		String append = " and TAAM.joinAcademicMeeting.meetingdate between ? and ? ";
-		String rank = "  order by TAAM.joinAcademicMeeting.joinAcaMid asc";
+		String rank = "  order by TAAM.joinAcademicMeeting.joinAcaMid desc";
 		if (foredate != null && afterdate != null && foredate.length() != 0
 				&& afterdate.length() != 0) {
 			// 判断日期范围限制

@@ -219,13 +219,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$('.delinf').click(function() {
 		 var row = $(this).parent().parent();
 		 swal({
-			  title: "Are you sure?",
-			  text: "你将不能恢复这行数据!",
+			  title: "确定要删除吗?",
+			  text: "将不能恢复这行数据!",
 			  type: "warning",
 			  showCancelButton: true,
 			  confirmButtonColor: "#DD6B55",
-			  confirmButtonText: "Yes, delete it!",
-			  cancelButtonText: "No, cancel plx!",
+			  confirmButtonText: "是的, 删除!",
+			  cancelButtonText: "不, 取消!",
 			  closeOnConfirm: false,
 			  closeOnCancel: false
 			},

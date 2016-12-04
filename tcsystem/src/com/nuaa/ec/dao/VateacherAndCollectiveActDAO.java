@@ -250,7 +250,7 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 					);
 		}
 			String append = " and VACA.id.vacollectiveActivitiesPublish.actDate between ? and ? ";
-			String rank = " order by VACA.id.vacollectiveActivitiesPublish.actPubId asc";
+			String rank = " order by VACA.id.vacollectiveActivitiesPublish.actPubId desc";
 				/*
 				 * 不一定有日期 要判断
 				 */
@@ -301,7 +301,7 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		}
 		list = new ArrayList<VateacherAndCollectiveAct>();
 		String append = " and VACA.id.vacollectiveActivitiesPublish.actDate between ? and ? ";
-		String rank = " order by VACA.id.vacollectiveActivitiesPublish.actPubId asc";
+		String rank = " order by VACA.id.vacollectiveActivitiesPublish.actPubId desc";
 		
 		if (foredate != null && afterdate != null && foredate.length() != 0 && afterdate.length() != 0) {
 			hql.append(append).append(rank);
