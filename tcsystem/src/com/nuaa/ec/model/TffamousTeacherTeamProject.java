@@ -21,6 +21,7 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 	private String checkout;
 	private String name;
 	private String departmentId;
+	private String chargePersonName;
 	public TffamousTeacherTeamProject(String teacherTeamPerformanceId,
 			TffamousTeacherTeamRewadLevel tffamousTeacherTeamRewadLevel,
 			Double projectSumScore, Tfterm tfterm, String spareTire,
@@ -64,6 +65,24 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 		this.tffamousTeacherTeamPerformances = tffamousTeacherTeamPerformances;
 	}
 
+	
+	public TffamousTeacherTeamProject(String teacherTeamPerformanceId,
+			TffamousTeacherTeamRewadLevel tffamousTeacherTeamRewadLevel,
+			Double projectSumScore, Tfterm tfterm, String spareTire,
+			String chargePersonId, String checkout, String name,
+			String departmentId) {
+		super();
+		this.teacherTeamPerformanceId = teacherTeamPerformanceId;
+		this.tffamousTeacherTeamRewadLevel = tffamousTeacherTeamRewadLevel;
+		this.projectSumScore = projectSumScore;
+		this.tfterm = tfterm;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.checkout = checkout;
+		this.name = name;
+		this.departmentId = departmentId;
+	}
+
 	public TffamousTeacherTeamProject(String teacherTeamPerformanceId,
 			TffamousTeacherTeamRewadLevel tffamousTeacherTeamRewadLevel,
 			Double projectSumScore, Tfterm tfterm, String spareTire,
@@ -79,8 +98,26 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 		this.name = name;
 		this.tffamousTeacherTeamPerformances = tffamousTeacherTeamPerformances;
 	}
-
+	
 	// Property accessors
+
+	public TffamousTeacherTeamProject(String teacherTeamPerformanceId,
+			TffamousTeacherTeamRewadLevel tffamousTeacherTeamRewadLevel,
+			Double projectSumScore, Tfterm tfterm, String spareTire,
+			String chargePersonId, String checkout, String name,
+			String departmentId, String chargePersonName) {
+		super();
+		this.teacherTeamPerformanceId = teacherTeamPerformanceId;
+		this.tffamousTeacherTeamRewadLevel = tffamousTeacherTeamRewadLevel;
+		this.projectSumScore = projectSumScore;
+		this.tfterm = tfterm;
+		this.spareTire = spareTire;
+		this.chargePersonId = chargePersonId;
+		this.checkout = checkout;
+		this.name = name;
+		this.departmentId = departmentId;
+		this.chargePersonName = chargePersonName;
+	}
 
 	public String getTeacherTeamPerformanceId() {
 		return this.teacherTeamPerformanceId;
@@ -107,6 +144,14 @@ public class TffamousTeacherTeamProject implements java.io.Serializable {
 		this.projectSumScore = projectSumScore;
 	}
 
+
+	public String getChargePersonName() {
+		return chargePersonName;
+	}
+
+	public void setChargePersonName(String chargePersonName) {
+		this.chargePersonName = chargePersonName;
+	}
 
 	public String getSpareTire() {
 		return this.spareTire;

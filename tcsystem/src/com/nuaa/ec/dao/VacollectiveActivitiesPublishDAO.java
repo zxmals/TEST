@@ -263,7 +263,7 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 						+ " and VA.vacollectiveAct.teacher.spareTire='1' "
 						+ " and VA.vacollectiveAct.teacher.researchLab.researchLabId='" + researchLab.getResearchLabId() + "'"
 						+ " and VA.vacollectiveAct.teacher.researchLab.spareTire='1'"
-						+ " order by VA.actPubId asc"
+						+ " order by VA.actPubId desc"
 						);
 			}
 			if (!isDivided) {
@@ -308,7 +308,7 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 					);
 		}
 		String append = " and VA.actDate between ? and ? ";
-		String rankString = " order by VA.actPubId asc ";
+		String rankString = " order by VA.actPubId desc ";
 		
 		if (foredate != null && afterdate != null &&foredate.length()!= 0 && afterdate.length()!= 0) {
 			hql.append(append).append(rankString);
@@ -356,7 +356,7 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 					);
 		}
 		String append = " and VA.actDate between ? and ? ";
-		String rankString = " order by VA.actPubId asc ";
+		String rankString = " order by VA.actPubId desc ";
 		
 		list = new ArrayList<VacollectiveActivitiesPublish>();
 		if (foredate != null && afterdate != null &&foredate.length()!= 0 && afterdate.length()!= 0) {

@@ -77,7 +77,7 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 		}
 		try {
 			String append = " and TAST.tpselectedYear between ? and ? ";
-			String rank="  order by TAST.talentProject.talentProjectId asc,TAST.teacher.teacherId asc";
+			String rank="  order by TAST.talentProject.talentProjectId desc,TAST.teacher.teacherId asc";
 			/*
 			 * 不一定有日期，所以要判断
 			 */
@@ -132,7 +132,7 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 		}
 		List<TeacherAndselectedTalentProject> list = new ArrayList<TeacherAndselectedTalentProject>();
 		String append = " and TAST.tpselectedYear between ? and ? ";
-		String rank="  order by TAST.talentProject.talentProjectId asc,TAST.teacher.teacherId asc";
+		String rank="  order by TAST.talentProject.talentProjectId desc,TAST.teacher.teacherId asc";
 		if (foredate != null && afterdate != null && foredate.length() != 0
 				&& afterdate.length() != 0) {
 			// 判断日期范围限制

@@ -84,7 +84,7 @@ public class TeacherAndinvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 		}
 		try {
 			String append = " and TAES.invitedExpertsSpeech.speechDate between ? and ? ";
-			String rank = "  order by TAES.invitedExpertsSpeech.iespeechId asc";
+			String rank = "  order by TAES.invitedExpertsSpeech.iespeechId desc";
 			/*
 			 * 不一定有日期，所以要判断
 			 */
@@ -151,7 +151,7 @@ public class TeacherAndinvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 		}
 		list = new ArrayList<TeacherAndinvitedExpertsSpeech>();
 		String append = " and TAES.invitedExpertsSpeech.speechDate between ? and ? ";
-		String rank = "  order by TAES.invitedExpertsSpeech.iespeechId asc";
+		String rank = "  order by TAES.invitedExpertsSpeech.iespeechId desc";
 		if (foredate != null && afterdate != null && foredate.length() != 0
 				&& afterdate.length() != 0) {
 			// 判断日期范围限制

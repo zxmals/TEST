@@ -16,8 +16,7 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.opensymphony.xwork2.ActionContext;
 
-public class GTScientificResearchProjectAuditAction_project implements
-		RequestAware {
+public class GTScientificResearchProjectAuditAction_project implements RequestAware {
 	/**
 	 * 审核团队
 	 */

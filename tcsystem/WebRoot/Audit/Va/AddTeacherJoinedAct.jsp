@@ -67,17 +67,17 @@
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
 	<form
 		action="GTAddJoinedActAudit!getAddJoinedActList"
-		method="post" name="pickdate">
+		method="post" name="pickdate" id="conditionForm">
 		<div class="datepick" style="font-size:12px;">
 			<span>选择日期范围</span>
 			<div>
 
-				从:<input type="text" id="date1" class="Wdate"
+				从:<input type="text" class="Wdate" id="foredate"
 					onClick="WdatePicker()" value="${sessionScope.foredate_CT }"
-					name="foredate_CT" id="foredate" />到:<input type="text"
-					id="date2" onClick="WdatePicker()" class="Wdate"
+					name="foredate_CT"  />到:<input type="text"
+					onClick="WdatePicker()" class="Wdate" id="afterdate"
 					value="${sessionScope.afterdate_CT }" name="afterdate_CT"
-					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep"
+					 /> &nbsp;&nbsp;<input type="submit" id="datep"
 					value="查询" title="点击查询">
 			</div>
 		</div>
@@ -106,7 +106,7 @@
 				<option value="2">未通过审核</option>
 		</select>
 		</span> <span style="margin-left:15px;"><button type="submit"
-				class="button_set" style="height:25px;">确认</button></span>
+				class="button_set" style="height:25px;" id="confirm">确认</button></span>
 	</form>
 	<hr />
 	<form name="Audit" action="" method="post">
@@ -234,6 +234,33 @@
 		$("#doCheckout").click(function(){
 			submitAudit("GTAddJoinedActAudit!doCheckOutTask",
 					"GTAddJoinedActAudit!getAddJoinedActList");
+		});
+// 		$("#datep").click(function(){
+// 			if($("#foredate").val.length!=0 && $("#afterdate").val.length ==0 || $("#foredate").val.length ==0 && $("#afterdate").val.length !=0){
+// 				window.alert("请选择完整的日期");
+// 				return false;
+// 			}else{
+// 				document.pickdate.submit();
+// 			}	
+// 		});
+		
+		$("#datep").click(function(){
+			if(($("#foredate").val().length!=0 && $("#afterdate").val().length==0) 
+					||($("#foredate").val().length==0 && $("#afterdate").val().length!=0)){
+				window.alert("请填写完整日期");
+				return false;
+			}else{
+				document.pickdate.submit();
+			}
+		});
+		$("#confirm").click(function(){
+			if(($("#foredate").val().length!=0 && $("#afterdate").val().length==0) 
+					||($("#foredate").val().length==0 && $("#afterdate").val().length!=0)){
+				window.alert("请填写完整日期");
+				return false;
+			}else{
+				document.pickdate.submit();
+			}
 		});
 	</script>
 </body>

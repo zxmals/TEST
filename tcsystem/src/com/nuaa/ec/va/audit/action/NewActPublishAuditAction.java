@@ -6,18 +6,16 @@ import java.util.Map;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Transaction;
 
-import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.dao.VacollectiveActivitiesPublishDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
-import com.nuaa.ec.model.VateacherAndCollectiveAct;
-import com.nuaa.ec.model.VateacherAndCollectiveActId;
 import com.opensymphony.xwork2.ActionContext;
 
-public class NewActPublishAuditAction implements RequestAware{
+public class NewActPublishAuditAction implements RequestAware,SessionAware{
 	public void doCheckOutTask(){
 		String[] ids = this.checkOutIDs.split(",");
 		String[] idsNot=this.checkOutIDsNot.split(",");
@@ -124,8 +122,7 @@ public class NewActPublishAuditAction implements RequestAware{
 	private String foredate_CT;
 	private String afterdate_CT;
 	private int operstatus;
-	private Map<String, Object> session = ActionContext.getContext()
-			.getSession();
+	private Map<String, Object> session ;
 	private Map<String, Object> request;
 	private String checkOutStatus_CT;
 	private String checkOutIDs;

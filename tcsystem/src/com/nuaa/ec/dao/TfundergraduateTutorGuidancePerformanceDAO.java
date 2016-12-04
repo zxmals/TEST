@@ -181,7 +181,7 @@ public class TfundergraduateTutorGuidancePerformanceDAO extends BaseHibernateDAO
 								+ " and UTG.teacher.department.spareTire='1'"
 								+ " and UTG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
 								+ " and UTG.termId='"+termId+"'"
-								+ " order by UTG.tfundergraduateTutorGuidanceCache.guidanceId asc");
+								+ " order by UTG.tfundergraduateTutorGuidanceCache.guidanceId desc");
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

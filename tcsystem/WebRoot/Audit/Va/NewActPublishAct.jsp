@@ -72,12 +72,12 @@
 			<span>选择日期范围</span>
 			<div>
 
-				从:<input type="text" id="date1" class="Wdate"
+				从:<input type="text" id="foredate" class="Wdate"
 					onClick="WdatePicker()" value="${sessionScope.foredate_CT }"
-					name="foredate_CT" id="foredate" />到:<input type="text"
-					id="date2" onClick="WdatePicker()" class="Wdate"
+					name="foredate_CT"  />到:<input type="text"
+					id="afterdate"  onClick="WdatePicker()" class="Wdate"
 					value="${sessionScope.afterdate_CT }" name="afterdate_CT"
-					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep"
+					/> &nbsp;&nbsp;<input type="submit" id="datep"
 					value="查询" title="点击查询">
 			</div>
 		</div>
@@ -231,6 +231,24 @@
 		$("#doCheckout").click(function(){
 			submitAudit("GTNewActPublishActAudit!doCheckOutTask",
 					"GTNewActPublishActAudit!getNewActPublishList");
+		});
+		$("#datep").click(function(){
+			if(($("#foredate").val().length!=0 && $("#afterdate").val().length==0) 
+					||($("#foredate").val().length==0 && $("#afterdate").val().length!=0)){
+				window.alert("请填写完整日期");
+				return false;
+			}else{
+				document.pickdate.submit();
+			}
+		});
+		$("#confirm").click(function(){
+			if(($("#foredate").val().length!=0 && $("#afterdate").val().length==0) 
+					||($("#foredate").val().length==0 && $("#afterdate").val().length!=0)){
+				window.alert("请填写完整日期");
+				return false;
+			}else{
+				document.pickdate.submit();
+			}
 		});
 	</script>
 </body>

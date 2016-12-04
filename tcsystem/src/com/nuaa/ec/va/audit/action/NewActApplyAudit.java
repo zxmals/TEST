@@ -3,21 +3,18 @@ package com.nuaa.ec.va.audit.action;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.transaction.Transaction;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 
-import com.nuaa.ec.dao.DepartmentDAO;
 import com.nuaa.ec.dao.VacollectiveActDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.opensymphony.xwork2.ActionContext;
 
-public class NewActApplyAudit implements RequestAware{
+public class NewActApplyAudit implements RequestAware,SessionAware{
 	public void doCheckOutTask(){
 		String[] ids = this.checkOutIDs.split(",");
 		String[] idsNot=this.checkOutIDsNot.split(",");
@@ -124,8 +121,7 @@ public class NewActApplyAudit implements RequestAware{
 	private Department department_CT;
 	private String foredate_CT;
 	private String afterdate_CT;
-	private Map<String, Object> session = ActionContext.getContext()
-			.getSession();
+	private Map<String, Object> session ;
 	private Map<String, Object> request;
 	private String checkOutStatus_CT;
 	private String checkOutIDs;

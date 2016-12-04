@@ -204,6 +204,7 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 			updateFlag=true;
 		}catch(Exception ex){
 			ex.printStackTrace();
+			tx.rollback();
 		}
 		return updateFlag;
 	}
@@ -233,7 +234,7 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 						+ " and VA.teacher.spareTire='1' "
 						+ " and VA.teacher.department.departmentId='" + department.getDepartmentId() + "'"
 						+ " and VA.teacher.department.spareTire='1'"
-						+ " order by VA.actId asc"
+						+ " order by VA.actId desc"
 						);
 			}
 			if (!isDivided) {
@@ -282,7 +283,7 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 						);
 			}
 			String append = " and VAP.actDate between ? and ? ";
-			String rank = " order by VA.actId asc";
+			String rank = " order by VA.actId desc";
 			if (foredate !=null && afterdate != null && foredate.length() != 0 && afterdate.length() != 0) {
 				newActApplyList = this.getSession().createQuery(hqlBuffer.append(append).append(rank).toString()).setString(0, foredate).setString(1, afterdate).list();
 			}else {
@@ -328,7 +329,7 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 		}
 		list = new ArrayList<VacollectiveAct>();
 		String append = " and VAP.actDate between ? and ? ";
-		String rank = " order by VA.actId asc";
+		String rank = " order by VA.actId desc";
 		
 		if (foredate != null && afterdate != null && foredate.length() != 0 && afterdate.length() != 0) {
 			hql.append(append).append(rank);
