@@ -73,7 +73,7 @@ public class GTteachingprofeprojePerformanceSetAction implements RequestAware,
 		Transaction tx = null;
 		try {
 			profeprojeproject.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			profeprojeproject.setCheckOut("0");
+			profeprojeproject.setCheckOut("5");
 			profeprojeproject.setProjectId(pkmk.mkpk(EntityUtil.getPkColumnName(TfprofessionalProjectDeclareProject.class), EntityUtil.getTableName(TfprofessionalProjectDeclareProject.class), "TFPFPJ"));
 			this.setProfeprojelevel(profeprojeleveldao.findById(profeprojelevel.getProjectLevelId()));
 			profeprojeproject.setProjectSumScore(profeprojelevel.getScore());

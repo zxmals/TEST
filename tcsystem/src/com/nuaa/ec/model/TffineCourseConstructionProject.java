@@ -20,6 +20,7 @@ public class TffineCourseConstructionProject implements java.io.Serializable {
 	private String spareTire;
 	private String checkOut;
 	private String chargePersonId;
+	private String chargePersonName;
 	private Set tffineCourseConstructionPerformances = new HashSet(0);
 	private String departmentId;
 	public TffineCourseConstructionProject(String courseId,
@@ -87,6 +88,33 @@ public class TffineCourseConstructionProject implements java.io.Serializable {
 		this.checkOut = checkOut;
 		this.chargePersonId = chargePersonId;
 		this.tffineCourseConstructionPerformances = tffineCourseConstructionPerformances;
+	}
+	
+	public TffineCourseConstructionProject(String courseId,
+			TffineCourseConstructionLevel tffineCourseConstructionLevel,
+			Tfterm tfterm, String courseName, String cooperator,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, String chargePersonName, String departmentId) {
+		super();
+		this.courseId = courseId;
+		this.tffineCourseConstructionLevel = tffineCourseConstructionLevel;
+		this.tfterm = tfterm;
+		this.courseName = courseName;
+		this.cooperator = cooperator;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.chargePersonName = chargePersonName;
+		this.departmentId = departmentId;
+	}
+
+	public String getChargePersonName() {
+		return chargePersonName;
+	}
+
+	public void setChargePersonName(String chargePersonName) {
+		this.chargePersonName = chargePersonName;
 	}
 
 	public String getCourseId() {

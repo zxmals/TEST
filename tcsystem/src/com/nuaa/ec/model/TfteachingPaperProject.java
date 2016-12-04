@@ -20,6 +20,7 @@ public class TfteachingPaperProject implements java.io.Serializable {
 	private String spareTire;
 	private String checkOut;
 	private String chargePersonId;
+	private String chargePersonName;
 	private String departmentId;
 	private Set tfteachingPaperPerformances = new HashSet(0);
 
@@ -96,6 +97,28 @@ public class TfteachingPaperProject implements java.io.Serializable {
 		this.tfteachingPaperPerformances = tfteachingPaperPerformances;
 	}
 
+	
+	public TfteachingPaperProject(
+			String teachPaperId,
+			Tfterm tfterm,
+			TfteachingPaperRetrievalCondition tfteachingPaperRetrievalCondition,
+			String teachPaperName, String otherAuthorJoin,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, String chargePersonName, String departmentId) {
+		super();
+		this.teachPaperId = teachPaperId;
+		this.tfterm = tfterm;
+		this.tfteachingPaperRetrievalCondition = tfteachingPaperRetrievalCondition;
+		this.teachPaperName = teachPaperName;
+		this.otherAuthorJoin = otherAuthorJoin;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.chargePersonName = chargePersonName;
+		this.departmentId = departmentId;
+	}
+
 	public String getTeachPaperId() {
 		return this.teachPaperId;
 	}
@@ -151,6 +174,14 @@ public class TfteachingPaperProject implements java.io.Serializable {
 
 	public void setProjectSumScore(Double projectSumScore) {
 		this.projectSumScore = projectSumScore;
+	}
+
+	public String getChargePersonName() {
+		return chargePersonName;
+	}
+
+	public void setChargePersonName(String chargePersonName) {
+		this.chargePersonName = chargePersonName;
 	}
 
 	public String getSpareTire() {

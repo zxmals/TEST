@@ -75,7 +75,7 @@ public class GTteachingpaperPerformanceSetAction implements RequestAware,
 		Transaction tx = null;
 		try {
 			teachpaperproject.setSpareTire("1");
-			teachpaperproject.setCheckOut("0");
+			teachpaperproject.setCheckOut("5");
 			teachpaperproject.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
 			this.setTeachpaperretri(teachpaperretridao.findById(teachpaperretri.getThesisRetrivalId()));
 			teachpaperproject.setProjectSumScore(teachpaperretri.getScore());

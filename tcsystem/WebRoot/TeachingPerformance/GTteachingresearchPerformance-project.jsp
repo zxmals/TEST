@@ -119,36 +119,36 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 											<td>${ebj.chargePersonId }</td>
 											<td>${teachermp[ebj.chargePersonId] }</td>
 											<td title="${ebj.checkOut }">
-												<c:if test="${ebj.checkOut==0 }">待完善</c:if>
-												<c:if test="${ebj.checkOut==1 }">已完善,待审核</c:if>
-												<c:if test="${ebj.checkOut==2 }">已审核</c:if>
-												<c:if test="${ebj.checkOut==3 }">未通过</c:if>
+												<c:if test="${ebj.checkOut==5 }">待完善</c:if>
+												<c:if test="${ebj.checkOut==0 }">已完善,待审核</c:if>
+												<c:if test="${ebj.checkOut==1 }">已审核</c:if>
+												<c:if test="${ebj.checkOut==2 }">未通过</c:if>
 											</td>
 											<td>
 												<c:if test="${sessionScope.teacher.teacherId==ebj.chargePersonId }">
+													<c:if test="${ebj.checkOut==5 }">
+														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
+														&nbsp;&nbsp;
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+													</c:if>
+													
 													<c:if test="${ebj.checkOut==0 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 													
-													<c:if test="${ebj.checkOut==1 }">
-														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
-														&nbsp;&nbsp;
-														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
-													</c:if>
-													
-													<c:if test="${ebj.checkOut==3 }">
-														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
-														&nbsp;&nbsp;
-														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
-													</c:if>
 													<c:if test="${ebj.checkOut==2 }">
+														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
+														&nbsp;&nbsp;
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+													</c:if>
+													<c:if test="${ebj.checkOut==1 }">
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 												</c:if>
 												<c:if test="${sessionScope.teacher.teacherId!=ebj.chargePersonId }">
-													<c:if test="${ebj.checkOut==0 }">
+													<c:if test="${ebj.checkOut==5 }">
 														<a  class="btn btn-primary btn-sm joinProj" data-toggle="modal">加入</a>
 													</c:if>
 												</c:if>
@@ -219,9 +219,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                <div class="form-group" style="display: none" id="crystatus">
 	                                	<label>项目人数：</label>
 	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                                                                          已满:<input type="radio"  value="1" class="author checkattr"  name="proJpeople"> 
+	                                                                                          已满:<input type="radio"  value="0" class="author checkattr"  name="proJpeople"> 
 	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                                                                          未满:<input type="radio" value="0" class="author checkattr" name="proJpeople">
+	                                                                                          未满:<input type="radio" value="5" class="author checkattr" name="proJpeople">
 	                                </div>
 	                                <div>
 	                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>

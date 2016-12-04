@@ -73,7 +73,7 @@ public class GTteachingfirmbaseconPerformanceSetAction implements RequestAware,
 		Transaction tx = null;
 		try {
 			firmtrainproject.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			firmtrainproject.setCheckOut("0");
+			firmtrainproject.setCheckOut("5");
 			firmtrainproject.setProjectId(pkmk.mkpk(EntityUtil.getPkColumnName(TfenterpriseWorkstationTrainingBaseConstructionProject.class), EntityUtil.getTableName(TfenterpriseWorkstationTrainingBaseConstructionProject.class), "TFFT"));
 			this.setFirmtrainlevel(firmtrainleveldao.findById(firmtrainlevel.getTrainingConstruLevelId()));
 			double ratio = 1.0;

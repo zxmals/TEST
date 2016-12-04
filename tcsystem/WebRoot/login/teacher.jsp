@@ -395,25 +395,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">教学名师与教学团队审核</a>
 								</li>
 								<li>
-	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">教学研究审核</a>
+	                            	<a class="J_menuItem" href="GTTFteachingresearch_projectAudit11!getAllRecord_project">教学研究审核</a>
 								</li>
 								<li>
-	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">教学论文审核</a>
+	                            	<a class="J_menuItem" href="GTTFteachingpaper_projectAudit11!getAllRecord_project">教学论文审核</a>
 								</li>
 								<li>
-	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">教学成果奖审核</a>
+	                            	<a class="J_menuItem" href="GTTFteachingachievement_projectAudit11!getAllRecord_project">教学成果奖审核</a>
 								</li>
 								<li>
-	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">教材建设审核</a>
+	                            	<a class="J_menuItem" href="GTTFteachingtextbook_projectAudit11!getAllRecord_project">教材建设审核</a>
 								</li>
 								<li>
-	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">精品课程审核</a>
+	                            	<a class="J_menuItem" href="GTTFteachingfinecourse_projectAudit11!getAllRecord_project">精品课程审核</a>
 								</li>
 								<li>
-	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">专业建设项目申报审核</a>
+	                            	<a class="J_menuItem" href="GTTFteachingprofessional_projectAudit11!getAllRecord_project">专业建设项目申报审核</a>
 								</li>
 								<li>
-	                            	<a class="J_menuItem" href="GTTFfamousTeacherTeam_projectAudit11!getAllRecord_project">企业工作站和联合培养基地建设审核</a>
+	                            	<a class="J_menuItem" href="GTTFteachingfirmbasecon_projectAudit11!getAllRecord_project">企业工作站和联合培养基地建设审核</a>
 								</li>
 							</ul>
                        </li>

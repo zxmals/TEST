@@ -1,7 +1,11 @@
 package com.nuaa.ec.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  * TfteachingAchievementProject entity. @author MyEclipse Persistence Tools
@@ -20,6 +24,7 @@ public class TfteachingAchievementProject implements java.io.Serializable {
 	private String spareTire;
 	private String checkOut;
 	private String chargePersonId;
+	private String chargePersonName;
 	private Set tfteachingAchievementPerformances = new HashSet(0);
 	private String departmentId;
 
@@ -89,12 +94,39 @@ public class TfteachingAchievementProject implements java.io.Serializable {
 		this.tfteachingAchievementPerformances = tfteachingAchievementPerformances;
 	}
 
+	public TfteachingAchievementProject(String projectId,
+			TfteachingAchievementRewardLevel tfteachingAchievementRewardLevel,
+			Tfterm tfterm, String projectName, String cooperator,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, String chargePersonName, String departmentId) {
+		super();
+		this.projectId = projectId;
+		this.tfteachingAchievementRewardLevel = tfteachingAchievementRewardLevel;
+		this.tfterm = tfterm;
+		this.projectName = projectName;
+		this.cooperator = cooperator;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.chargePersonName = chargePersonName;
+		this.departmentId = departmentId;
+	}
+
 	public String getProjectId() {
 		return this.projectId;
 	}
 
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
+	}
+
+	public String getChargePersonName() {
+		return chargePersonName;
+	}
+
+	public void setChargePersonName(String chargePersonName) {
+		this.chargePersonName = chargePersonName;
 	}
 
 	public TfteachingAchievementRewardLevel getTfteachingAchievementRewardLevel() {

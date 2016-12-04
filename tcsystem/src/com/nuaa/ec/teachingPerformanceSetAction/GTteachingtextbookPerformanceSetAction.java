@@ -74,7 +74,7 @@ public class GTteachingtextbookPerformanceSetAction implements RequestAware,
 		try {
 			textbookproject.setBookId(pkmk.mkpk(EntityUtil.getPkColumnName(TftextbookConstructionProject.class), EntityUtil.getTableName(TftextbookConstructionProject.class), "TFTB"));
 			textbookproject.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			textbookproject.setCheckOut("0");
+			textbookproject.setCheckOut("5");
 			this.setTextbooklevel(textbookleveldao.findById(textbooklevel.getTblevelId()));
 			textbookproject.setProjectSumScore(textbooklevel.getScore());
 			textbookproject.setSpareTire("1");

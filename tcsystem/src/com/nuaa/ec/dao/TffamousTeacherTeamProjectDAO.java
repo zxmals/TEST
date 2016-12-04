@@ -224,6 +224,7 @@ public class TffamousTeacherTeamProjectDAO extends BaseHibernateDAO {
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			tx.rollback();
 		}
 		return updateFlag;
 	}
@@ -244,12 +245,15 @@ public class TffamousTeacherTeamProjectDAO extends BaseHibernateDAO {
 			}else {
 				if (checkout.trim().equals("4")) {
 					hql = new StringBuffer(
-							"from TffamousTeacherTeamProject TR where"
-							+ "TR.spareTire = '1' "
-							+ " and TR.tfterm.termId= '" +term.getTermId()  + "'"
+							"select new com.nuaa.ec.model.TffamousTeacherTeamProject(TR.teacherTeamPerformanceId,TR.tffamousTeacherTeamRewadLevel,TR.projectSumScore,TR.tfterm,TR.spareTire,teacher.teacherId,TR.checkout,TR.name,teacher.department.departmentId,teacher.teacherName)"
+							+ " from TffamousTeacherTeamProject TR,Teacher teacher where "
+							+ " TR.spareTire = '1' "
+							+ " and TR.tfterm.termId= '" + term.getTermId()  + "'"
 							+ " and TR.tfterm.spareTire = '1' "
-							+ " and TR.departmentId = '" + department.getDepartmentId() + "'"
-							+ ""
+							+ " and teacher.spareTire = '1' "
+							+ " and teacher.department.spareTire = '1' "
+							+ " and teacher.department.departmentId = '" + department.getDepartmentId() + "'"
+							+ " and TR.chargePersonId = teacher.teacherId "
 							
 							);
 				}else {
@@ -260,21 +264,23 @@ public class TffamousTeacherTeamProjectDAO extends BaseHibernateDAO {
 							+ " TR.spareTire = '1' "
 							+ " and TR.tfterm.termId= '" + term.getTermId()  + "'"
 							+ " and TR.tfterm.spareTire = '1' "
+							+ " and teacher.spareTire = '1' "
+							+ " and teacher.department.spareTire = '1' "
 							+ " and teacher.department.departmentId = '" + department.getDepartmentId() + "'"
 							+ " and TR.checkout = '" + checkout + "'"
 							+ " and TR.chargePersonId = teacher.teacherId "
 							
 							);
-					tffamousTeacherTeamProjectList = new ArrayList<TffamousTeacherTeamProject>();
-					if (!isDivided) {
-						tffamousTeacherTeamProjectList = this.getSession().createQuery(hql.toString()).list();
-						int recordNumber = tffamousTeacherTeamProjectList.size();
-						session.put("pageCount_TFTTPA", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
-						session.put("recordNumber_TFTTPA", tffamousTeacherTeamProjectList.size());
-					}
-					tffamousTeacherTeamProjectList = this.getSession().createQuery(hql.toString()).setFirstResult((pageIndex - 1) * pageSize).setMaxResults(pageSize).list();
-					
 				}
+				tffamousTeacherTeamProjectList = new ArrayList<TffamousTeacherTeamProject>();
+				if (!isDivided) {
+					tffamousTeacherTeamProjectList = this.getSession().createQuery(hql.toString()).list();
+					int recordNumber = tffamousTeacherTeamProjectList.size();
+					session.put("pageCount_TFTTPA", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize+1));
+					session.put("recordNumber_TFTTPA", tffamousTeacherTeamProjectList.size());
+				}
+				tffamousTeacherTeamProjectList = this.getSession().createQuery(hql.toString()).setFirstResult((pageIndex - 1) * pageSize).setMaxResults(pageSize).list();
+				
 						
 			}
 			

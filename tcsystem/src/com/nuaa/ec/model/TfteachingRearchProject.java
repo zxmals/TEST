@@ -20,6 +20,7 @@ public class TfteachingRearchProject implements java.io.Serializable {
 	private String checkOut;
 	private Double projetScore;
 	private String chargePersonId;
+	private String chargePersonName;
 	private String departmentId;
 	public TfteachingRearchProject(String projectId,
 			TfteachingRearchEvaluation tfteachingRearchEvaluation,
@@ -91,6 +92,27 @@ public class TfteachingRearchProject implements java.io.Serializable {
 		this.tfteachingRearchPerformances = tfteachingRearchPerformances;
 	}
 
+	
+	public TfteachingRearchProject(String projectId,
+			TfteachingRearchEvaluation tfteachingRearchEvaluation,
+			Tfterm tfterm, TfteachingRearchFundlevel tfteachingRearchFundlevel,
+			String project, String spareTire, String checkOut,
+			Double projetScore, String chargePersonId, String chargePersonName,
+			String departmentId) {
+		super();
+		this.projectId = projectId;
+		this.tfteachingRearchEvaluation = tfteachingRearchEvaluation;
+		this.tfterm = tfterm;
+		this.tfteachingRearchFundlevel = tfteachingRearchFundlevel;
+		this.project = project;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.projetScore = projetScore;
+		this.chargePersonId = chargePersonId;
+		this.chargePersonName = chargePersonName;
+		this.departmentId = departmentId;
+	}
+
 	public String getProjectId() {
 		return this.projectId;
 	}
@@ -105,6 +127,14 @@ public class TfteachingRearchProject implements java.io.Serializable {
 
 	public void setChargePersonId(String chargePersonId) {
 		this.chargePersonId = chargePersonId;
+	}
+	
+	public String getChargePersonName() {
+		return chargePersonName;
+	}
+
+	public void setChargePersonName(String chargePersonName) {
+		this.chargePersonName = chargePersonName;
 	}
 
 	public TfteachingRearchEvaluation getTfteachingRearchEvaluation() {

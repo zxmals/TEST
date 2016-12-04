@@ -98,9 +98,9 @@
 			审核状态：
 			<select name="checkout_GTAW" id="checkoutStatus" style="width:160px;">
 				<c:forEach var="status" items="${auditStatus }">
-					<c:if test="${status.key!='3' }">
+					<c:if test="${status.key !='3' }">
 						<c:choose>
-							<c:when test="${status.key=='1' }">
+							<c:when test="${status.key == '1' }">
 								<option value="${status.key }">审核通过</option>
 							</c:when>
 							<c:otherwise>

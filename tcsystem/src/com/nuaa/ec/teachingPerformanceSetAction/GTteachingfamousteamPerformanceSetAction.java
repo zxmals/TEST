@@ -96,7 +96,7 @@ public class GTteachingfamousteamPerformanceSetAction implements RequestAware,
 		try {
 			teachteamprojec.setSpareTire("1");
 			teachteamprojec.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			teachteamprojec.setCheckout("0");
+			teachteamprojec.setCheckout("5");
 			teachteamprojec.setTeacherTeamPerformanceId(pkmk.mkpk(EntityUtil.getPkColumnName(TffamousTeacherTeamProject.class), EntityUtil.getTableName(TffamousTeacherTeamProject.class), "TTE"));
 			this.setTeachteamrewardlevel(teachteamrewardleveldao.findById(teachteamrewardlevel.getTeachRewardLevelId()));
 			teachteamprojec.setTffamousTeacherTeamRewadLevel(teachteamrewardlevel);

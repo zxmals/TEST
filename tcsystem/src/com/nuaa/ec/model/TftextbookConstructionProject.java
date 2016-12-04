@@ -20,6 +20,7 @@ public class TftextbookConstructionProject implements java.io.Serializable {
 	private String spareTire;
 	private String checkOut;
 	private String chargePersonId;
+	private String chargePersonName;
 	private Set tftextbookConstructionPerformances = new HashSet(0);
     private String departmentId;
 	public TftextbookConstructionProject(String bookId,
@@ -87,6 +88,33 @@ public class TftextbookConstructionProject implements java.io.Serializable {
 		this.checkOut = checkOut;
 		this.chargePersonId = chargePersonId;
 		this.tftextbookConstructionPerformances = tftextbookConstructionPerformances;
+	}
+	
+	public TftextbookConstructionProject(String bookId,
+			TftextbookConstructionTblevel tftextbookConstructionTblevel,
+			Tfterm tfterm, String bookName, String cooperator,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, String chargePersonName, String departmentId) {
+		super();
+		this.bookId = bookId;
+		this.tftextbookConstructionTblevel = tftextbookConstructionTblevel;
+		this.tfterm = tfterm;
+		this.bookName = bookName;
+		this.cooperator = cooperator;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.chargePersonName = chargePersonName;
+		this.departmentId = departmentId;
+	}
+
+	public String getChargePersonName() {
+		return chargePersonName;
+	}
+
+	public void setChargePersonName(String chargePersonName) {
+		this.chargePersonName = chargePersonName;
 	}
 
 	public String getBookId() {

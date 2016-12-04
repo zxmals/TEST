@@ -22,6 +22,7 @@ public class TfenterpriseWorkstationTrainingBaseConstructionProject implements
 	private String spareTire;
 	private String checkOut;
 	private String chargePersonId;
+	private String chargePersonName;
 	private Set tfenterpriseWorkstationTrainingBaseConstructionPerformances = new HashSet(
 			0);
 	private String departmentId;
@@ -96,6 +97,34 @@ public class TfenterpriseWorkstationTrainingBaseConstructionProject implements
 		this.checkOut = checkOut;
 		this.chargePersonId = chargePersonId;
 		this.tfenterpriseWorkstationTrainingBaseConstructionPerformances = tfenterpriseWorkstationTrainingBaseConstructionPerformances;
+	}
+
+	public TfenterpriseWorkstationTrainingBaseConstructionProject(
+			String projectId,
+			TfenterpriseWorkstationTrainingbaseConstructionLevel tfenterpriseWorkstationTrainingbaseConstructionLevel,
+			Tfterm tfterm, String projectName, Double projectSumScore,
+			String quantityUnit, String spareTire, String checkOut,
+			String chargePersonId, String chargePersonName, String departmentId) {
+		super();
+		this.projectId = projectId;
+		this.tfenterpriseWorkstationTrainingbaseConstructionLevel = tfenterpriseWorkstationTrainingbaseConstructionLevel;
+		this.tfterm = tfterm;
+		this.projectName = projectName;
+		this.projectSumScore = projectSumScore;
+		this.quantityUnit = quantityUnit;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.chargePersonName = chargePersonName;
+		this.departmentId = departmentId;
+	}
+
+	public String getChargePersonName() {
+		return chargePersonName;
+	}
+
+	public void setChargePersonName(String chargePersonName) {
+		this.chargePersonName = chargePersonName;
 	}
 
 	public String getProjectId() {

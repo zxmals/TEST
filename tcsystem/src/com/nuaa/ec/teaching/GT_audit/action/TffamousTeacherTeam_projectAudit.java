@@ -36,7 +36,7 @@ public class TffamousTeacherTeam_projectAudit implements RequestAware,SessionAwa
 			if (idsNot[i] != null && idsNot[i].length() != 0) {
 				tffamousTeacherTeamProject = this.tffamousTeacherTeamProjectDAO.findById(idsNot[i]);
 				if (tffamousTeacherTeamProject!=null) {
-					tffamousTeacherTeamProject.setCheckout("1");
+					tffamousTeacherTeamProject.setCheckout("2");
 					checkoutList.add(tffamousTeacherTeamProject);
 				}
 			}
@@ -55,7 +55,7 @@ public class TffamousTeacherTeam_projectAudit implements RequestAware,SessionAwa
 	}
 	
 	public String getAllRecord_project() throws Exception{
-		Transaction tx =null;
+		Transaction tx = null;
 		if ((Integer)session.get("pageSize_TFTTPA") == null) {
 			session.put("pageSize_TFTTPA", 1);
 		}
@@ -95,7 +95,7 @@ public class TffamousTeacherTeam_projectAudit implements RequestAware,SessionAwa
 			this.request.put("TFfamousTeacherTeam", this.tffamousTeacherTeamProjectDAO.getTFfamousTeacherTeam(pageIndex,
 					(Integer) session.get("pageSize_TFTTPA"),
 					(Tfterm) session.get("term_TFTTPA"),
-					(String)session.get("checkOutStatus_CT"),
+					(String)session.get("checkOutStatus_TFTTPA"),
 					((Teacher)session.get("teacher")).getDepartment(),
 					true
 					));
