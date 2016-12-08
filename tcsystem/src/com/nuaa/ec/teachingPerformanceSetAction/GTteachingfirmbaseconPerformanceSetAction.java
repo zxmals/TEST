@@ -82,6 +82,8 @@ public class GTteachingfirmbaseconPerformanceSetAction implements RequestAware,
 			firmtrainproject.setSpareTire("1");
 			firmtrainproject.setTfenterpriseWorkstationTrainingbaseConstructionLevel(firmtrainlevel);
 			firmtrainproject.setTfterm(termdao.findById(term.getTermId()));
+			firmtrainproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					firmtrainprojectdao.getSession()));
 //
 			firmtrainperce = new TfenterpriseWorkstationTrainingBaseConstructionPerformance();
 			firmtrainperce.setCheckOut("0");

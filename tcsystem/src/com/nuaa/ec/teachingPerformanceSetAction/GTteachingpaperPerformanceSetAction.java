@@ -82,6 +82,8 @@ public class GTteachingpaperPerformanceSetAction implements RequestAware,
 			teachpaperproject.setTeachPaperId(pkmk.mkpk(EntityUtil.getPkColumnName(TfteachingPaperProject.class), EntityUtil.getTableName(TfteachingPaperProject.class), "TFTpaper"));
 			teachpaperproject.setTfteachingPaperRetrievalCondition(teachpaperretri);
 			teachpaperproject.setTfterm(termdao.findById(term.getTermId()));
+			teachpaperproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					teachpaperprojectdao.getSession()));
 			teachpaperprojectdao.save(teachpaperproject);
 			//
 			teachpaperpce = new TfteachingPaperPerformance();

@@ -22,6 +22,7 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
+import com.sun.xml.internal.stream.Entity;
 //负责人添加  参与人 只负责参与，适用全部
 public class academicworkAction implements RequestAware, SessionAware {
 
@@ -94,6 +95,7 @@ public class academicworkAction implements RequestAware, SessionAware {
 			academicwk.setWordsNumber(wordnumdao.findById(academicwk.getWordsNumber().getWordId()));
 			academicwk.setCheckout("1".equals(academicwk.getOtherAuthorJoin().trim())?"5":"0");
 			academicwk.setSpareTire("1");
+			academicwk.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(), academicscoredao.getSession()));
 			AcademicWorkScore awscore = academicscoredao.findByWordNum(academicwk.getWordsNumber());
 			if(awscore!=null){
 				teacherandaw = new TeacherAndacademicWork();

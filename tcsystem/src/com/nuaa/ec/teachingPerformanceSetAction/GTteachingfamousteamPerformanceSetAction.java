@@ -102,6 +102,8 @@ public class GTteachingfamousteamPerformanceSetAction implements RequestAware,
 			teachteamprojec.setTffamousTeacherTeamRewadLevel(teachteamrewardlevel);
 			teachteamprojec.setTfterm(termdao.findById(teachteamprojec.getTfterm().getTermId()));
 			teachteamprojec.setProjectSumScore(teachteamrewardlevel.getScore());
+			teachteamprojec.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					teachteamprojecdao.getSession()));
 			teachteam = new TffamousTeacherTeamPerformance();
 			teachteam.setCheckOut("0");
 			teachteam.setSelfUndertakeTask(selfdao.findByUndertakeTaskNameDim());

@@ -95,6 +95,8 @@ public class scienceResearchRewardAction implements RequestAware, SessionAware {
 			scienceReward.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
 			scienceReward.setRewardLevel(rewardleveldao.findById(rewardlevel.getRewardLevelId()));
 			scienceReward.setRewardType(rewardtypedao.findById(rewardtype.getRewardTypeId()));
+			scienceReward.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					sciencerewarddao.getSession()));
 			sciencerewarddao.save(scienceReward);
 			//teacher-and
 			teacherandsr = new TeacherAndscientificResearchReward();

@@ -80,6 +80,8 @@ public class GTteachingprofeprojePerformanceSetAction implements RequestAware,
 			profeprojeproject.setSpareTire("1");
 			profeprojeproject.setTfprofessionalProjectDeclareLevel(profeprojelevel);
 			profeprojeproject.setTfterm(termdao.findById(term.getTermId()));
+			profeprojeproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					profeprojeprojectdao.getSession()));
 //
 			profeprojeprece = new TfprofessionalProjectDeclarePerformance();
 			profeprojeprece.setCheckOut("0");

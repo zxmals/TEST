@@ -102,6 +102,8 @@ public class scientificResearchProjecAction implements RequestAware,
 				scienrhprojec.setProjectType(projectypedao.findById(projectype.getProjectTypeId()));
 				scienrhprojec.setSpareTire("1");
 				scienrhprojec.setSrprojectId(pkmk.mkpk(EntityUtil.getPkColumnName(ScientificResearchProject.class), EntityUtil.getTableName(ScientificResearchProject.class), "Srp"));
+				scienrhprojec.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+						scienrhprojecdao.getSession()));
 				scienrhprojecdao.save(scienrhprojec);
 			}else{
 				ServletActionContext.getResponse().setCharacterEncoding("utf-8");

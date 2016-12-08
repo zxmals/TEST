@@ -2,10 +2,13 @@ package com.nuaa.ec.utils;
 
 import javax.persistence.Entity;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.mapping.PersistentClass;
 
 import com.nuaa.ec.dao.SessionFactory;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.Tfterm;
 
 public class EntityUtil {
@@ -75,5 +78,35 @@ public class EntityUtil {
 				}
 			}
 			return condition.substring(0, condition.length()-3);
+		}
+		
+		public static String findReasearchLabIdByTeacherId(String teacherId,Session session){
+			 try {
+		         String queryString = "from Teacher where "
+		         		+ "teacherId=? "
+		         		+ "and spareTire='1' "; 
+		         Query queryObject = session.createQuery(queryString);
+				 queryObject.setParameter(0, teacherId);
+				 if(queryObject.list().size()>0){
+					 return ((Teacher)queryObject.list().get(0)).getResearchLab().getResearchLabId();
+				 }else return null;
+		      } catch (RuntimeException re) {
+		         throw re;
+		      }
+		}
+		
+		public static String findDepartIdByTeacherId(String teacherId,Session session){
+			 try {
+		         String queryString = "from Teacher where "
+		         		+ "teacherId=? "
+		         		+ "and spareTire='1' "; 
+		         Query queryObject = session.createQuery(queryString);
+				 queryObject.setParameter(0, teacherId);
+				 if(queryObject.list().size()>0){
+					 return ((Teacher)queryObject.list().get(0)).getDepartment().getDepartmentId();
+				 }else return null;
+		      } catch (RuntimeException re) {
+		         throw re;
+		      }
 		}
 }

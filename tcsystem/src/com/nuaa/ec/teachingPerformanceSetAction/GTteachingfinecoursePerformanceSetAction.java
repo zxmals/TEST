@@ -80,6 +80,8 @@ public class GTteachingfinecoursePerformanceSetAction implements RequestAware,
 			finecourseproject.setSpareTire("1");
 			finecourseproject.setTffineCourseConstructionLevel(finecourselevel);
 			finecourseproject.setTfterm(termdao.findById(term.getTermId()));
+			finecourseproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					finecourseprojectdao.getSession()));
 //			
 			finecourseperce = new TffineCourseConstructionPerformance();
 			finecourseperce.setCheckOut("0");

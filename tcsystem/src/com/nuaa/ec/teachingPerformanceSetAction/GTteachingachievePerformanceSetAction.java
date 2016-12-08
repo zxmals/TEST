@@ -88,6 +88,8 @@ public class GTteachingachievePerformanceSetAction implements RequestAware,
 			achieveproject.setSpareTire("1");
 			achieveproject.setTfteachingAchievementRewardLevel(achievelevel);
 			achieveproject.setTfterm(termdao.findById(term.getTermId()));
+			achieveproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					achieveprojectdao.getSession()));
 //			
 			achieveperce = new TfteachingAchievementPerformance();
 			achieveperce.setCheckOut("0");
