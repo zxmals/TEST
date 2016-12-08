@@ -2,8 +2,6 @@ package com.nuaa.ec.ScientificResearchPerformanceSet.Action;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import net.sf.json.JSONArray;
 
 import org.apache.struts2.ServletActionContext;
@@ -13,10 +11,15 @@ import org.hibernate.Transaction;
 
 
 
+
+
+
+
 import com.nuaa.ec.dao.PeriodicalDAO;
 import com.nuaa.ec.dao.PeriodicalPapersDAO;
 import com.nuaa.ec.dao.PeriodicalPapersScoreDAO;
 import com.nuaa.ec.dao.TeacherAndperiodicalDAO;
+import com.nuaa.ec.model.Periodical;
 import com.nuaa.ec.model.PeriodicalPapers;
 import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.Teacher;
@@ -25,13 +28,15 @@ import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class periodicalpaperAction implements RequestAware, SessionAware {
-	private Map<String, Object> request;
 	private Map<String, Object> session;
-	private Integer operstatus;
+	private Map<String, Object> request;
 	private String foredate;
 	private String afterdate;
-	private String currentrow;
+	private Integer operstatus;
 	private PeriodicalPapers periopaper;
+	private TeacherAndperiodical tap;
+	private PeriodicalPapersScore ppscore;
+	private Periodical periodical;
 
 	private PeriodicalPapersDAO periopaperdao = new PeriodicalPapersDAO();
 	private PeriodicalDAO periodao = new PeriodicalDAO();
@@ -49,9 +54,27 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 
 	// 获取信息
 	public String getPeriodicalPaperINF() throws Exception {
-		request.put("periodicalpaperli",
-				periopaperdao.findAll(generateQueryCondition(), 0, 100));
-		session.put("periodicalli", periodao.findTranslate());
+		try {
+			int pagenum = 0;
+			int limitrow = 0;
+			String limit = (String) ServletActionContext.getRequest().getParameter("limit");
+			String pagenumber = (String) ServletActionContext.getRequest().getParameter("pagenum");
+			pagenum = pagenumber != null?(pagenum = !"".equals(pagenumber.trim()) ? Integer.parseInt(pagenumber) : 1):1;
+			limitrow = limit != null?(!"".equals(limit.trim()) ? Integer.parseInt(limit) : 5):5;
+			request.put("periodicalpaper", periopaperdao.findPageing((pagenum-1)*limitrow,limitrow,EntityUtil.generateQueryCondition(foredate, afterdate, "year")));
+			request.put("periodicalli", periodao.findAll());
+			int li = periopaperdao.getRows(EntityUtil.generateQueryCondition(foredate, afterdate, "year"));
+			int sumpage = 0;
+			sumpage = li % limitrow == 0?li / limitrow:li / limitrow + 1;
+			request.put("sumrow", li);
+			request.put("sumpage", sumpage);
+			request.put("nextpage", pagenum < sumpage?1 + pagenum:pagenum);
+			request.put("prepage", pagenum > 1?pagenum - 1:1);
+			request.put("pagenum", pagenum);
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw e;
+		}
 		return "success";
 	}
 
@@ -61,47 +84,42 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 	 * @return
 	 * @throws Exception
 	 */
-	public String addPeriodicalPaper() throws Exception {
+	public void addPeriodicalPaper() throws Exception {
 		Transaction tx = null;
 		try {
-			periopaper.setPpid(pkmk.mkpk("PPID",
-					EntityUtil.getTableName(PeriodicalPapers.class), "PP"));
+			periopaper.setPpid(pkmk.mkpk("PPID",EntityUtil.getTableName(PeriodicalPapers.class), "PP"));
 			periopaper.setSpareTire("1");
-			periopaper.setChargePersonId(((Teacher) session.get("teacher"))
-					.getTeacherId());
-			periopaper.setChargePerson(((Teacher) session.get("teacher"))
-					.getTeacherName());
-			periopaper.setPeriodical(periodao.findById(periopaper
-					.getPeriodical().getPeriodicalId()));
-			periopaper.setFirstAuthor("first".equals(ServletActionContext
-					.getRequest().getParameter("author")) ? ((Teacher) session
-					.get("teacher")).getTeacherId() : "");
-			periopaper.setSecondAuthor("second".equals(ServletActionContext
-					.getRequest().getParameter("author")) ? ((Teacher) session
-					.get("teacher")).getTeacherId() : "");
+			periopaper.setChargePersonId(((Teacher) session.get("teacher")).getTeacherId());
+			periopaper.setPeriodical(periodao.findById(periodical.getPeriodicalId()));
+			periopaper.setFirstAuthor("first".equals(ServletActionContext.getRequest().getParameter("author")) ? ((Teacher) session.get("teacher")).getTeacherId() : "");
+			periopaper.setSecondAuthor("second".equals(ServletActionContext.getRequest().getParameter("author")) ? ((Teacher) session.get("teacher")).getTeacherId() : "");
 			periopaper.setCheckout("5");
-			periopaperdao.save(periopaper);
+			periopaper.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher) session.get("teacher")).getTeacherId(),
+					periopaperdao.getSession()));
 			PeriodicalPapersScore ppsco = ppscoredao.findByPeriodicalType(periopaper.getPeriodical().getPeriodicalType());
 			if(ppsco!=null){
 				TeacherAndperiodical tp = new TeacherAndperiodical(ppsco,
 						(Teacher) session.get("teacher"),
 						periopaper.getPeriodical(), (double) ppsco.getScore(), "1",
 						periopaper.getPpid(), "0");
+				periopaperdao.save(periopaper);
 				tpdao.save(tp);
 			}else{
+				ServletActionContext.getResponse().getWriter().write("对应期刊类型不存在对应评分项，请联系管理！");
 				this.setOperstatus(-1);
+				return;
 			}
 			tx = periopaperdao.getSession().beginTransaction();
 			tx.commit();
-			getPeriodicalPaperINF();
+			ServletActionContext.getResponse().getWriter().write("succ");
 			this.setOperstatus(1);
 		} catch (Exception e) {
 			// TODO: handle exception
 			this.setOperstatus(-1);
+			e.printStackTrace();
 			tx.rollback();
 			throw e;
 		}
-		return "success";
 	}
 
 	/***
@@ -109,16 +127,18 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 	 * 
 	 * @throws Exception
 	 */
-	public void updatesppaer() throws Exception {
+	public void updatePpaper()throws Exception{
 		Transaction tx = null;
 		try {
+			PeriodicalPapers tmppp =  (PeriodicalPapers) periopaperdao.findByPpid(periopaper.getPpid()).get(0);
 			periopaper.setSpareTire("1");
-			periopaper.setChargePersonId(((Teacher) session.get("teacher"))
-					.getTeacherId());
-			periopaper.setChargePerson(((Teacher) session.get("teacher"))
-					.getTeacherName());
-			periopaper.setPeriodical(periodao.findById(periopaper
-					.getPeriodical().getPeriodicalId()));
+			periopaper.setChargePersonId(tmppp.getChargePersonId());
+			periopaper.setPeriodical(periodao.findById(periodical.getPeriodicalId()));
+			periopaper.setPeriodicalPid(tmppp.getPeriodicalPid());
+			periopaper.setFirstAuthor(tmppp.getFirstAuthor());
+			periopaper.setSecondAuthor(tmppp.getSecondAuthor());
+			periopaper.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher) session.get("teacher")).getTeacherId(),
+					periopaperdao.getSession()));
 			periopaperdao.merge(periopaper);
 			PeriodicalPapersScore ppsco = ppscoredao.findByPeriodicalType(periopaper.getPeriodical().getPeriodicalType());
 			if(ppsco!=null){
@@ -126,13 +146,14 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 				ServletActionContext.getResponse().getWriter().write("succ");
 			}else{
 				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
-				ServletActionContext.getResponse().getWriter().write("对应期刊没有评分，请联系管理");
+				ServletActionContext.getResponse().getWriter().write("对应期刊没有评分");
 				return;
 			}
 			tx = periopaperdao.getSession().beginTransaction();
 			tx.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			tx.rollback();
 			throw e;
 		}
@@ -143,17 +164,10 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 	 * 
 	 * @throws Exception
 	 */
-	public void deleteppaer() throws Exception {
+	public void deletePpaper() throws Exception {
 		Transaction tx = null;
 		try {
-			periopaper.setSpareTire("0");
-			periopaper.setChargePersonId(((Teacher) session.get("teacher"))
-					.getTeacherId());
-			periopaper.setChargePerson(((Teacher) session.get("teacher"))
-					.getTeacherName());
-			periopaper.setPeriodical(periodao.findById(periopaper
-					.getPeriodical().getPeriodicalId()));
-			periopaperdao.merge(periopaper);
+			periopaperdao.deleteBylogic(periopaper.getPpid());
 			tpdao.deleteRefTeacher(periopaper.getPpid());
 			tx = periopaperdao.getSession().beginTransaction();
 			tx.commit();
@@ -164,7 +178,7 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 			throw e;
 		}
 	}
-
+	
 	/***
 	 * join periodicalPaper
 	 * 
@@ -206,16 +220,15 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 			tx.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			tx.rollback();
 			throw e;
 		}
 	}
 
-	public void getMember() throws Exception {
+	public void getMember()throws Exception{
 		try {
-//			JsonConfig config = new JsonConfig();
-//			config.setExcludes(new String[]{"teacher","periodicalPapersScore","periodical"});
-			JSONArray jary = JSONArray.fromObject(tpdao.findMember(periopaper.getPpid()));
+			JSONArray jary = JSONArray.fromObject(tpdao.findMembers(periopaper.getPpid()));
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 			ServletActionContext.getResponse().getWriter()
 					.write(jary.toString());
@@ -303,25 +316,6 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 		return condition.substring(0, condition.length() - 3);
 	}
 
-	// 添加数据（变向分页）
-	public void addRows() throws Exception {
-		int currentrows = 0;
-		if (currentrow != null) {
-			currentrows = "".equals(currentrow.trim()) ? 0 : Integer
-					.parseInt(currentrow.trim());
-		}
-		HttpServletResponse resp = ServletActionContext.getResponse();
-		JSONArray json = JSONArray.fromObject(periopaperdao.findAll(
-				generateQueryCondition(), currentrows, 100));
-		try {
-			resp.setCharacterEncoding("utf-8");
-			resp.getWriter().write(json.toString());
-		} catch (Exception e) {
-			// TODO: handle exception
-			throw e;
-		}
-	}
-
 	// Getter & Setter
 	public Integer getOperstatus() {
 		return operstatus;
@@ -363,19 +357,35 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 		this.afterdate = afterdate;
 	}
 
-	public String getCurrentrow() {
-		return currentrow;
-	}
-
-	public void setCurrentrow(String currentrow) {
-		this.currentrow = currentrow;
-	}
-
 	public Map<String, Object> getSession() {
 		return session;
 	}
 
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
+	}
+
+	public TeacherAndperiodical getTap() {
+		return tap;
+	}
+
+	public void setTap(TeacherAndperiodical tap) {
+		this.tap = tap;
+	}
+
+	public PeriodicalPapersScore getPpscore() {
+		return ppscore;
+	}
+
+	public void setPpscore(PeriodicalPapersScore ppscore) {
+		this.ppscore = ppscore;
+	}
+
+	public Periodical getPeriodical() {
+		return periodical;
+	}
+
+	public void setPeriodical(Periodical periodical) {
+		this.periodical = periodical;
 	}
 }

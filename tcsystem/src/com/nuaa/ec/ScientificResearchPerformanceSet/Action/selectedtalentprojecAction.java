@@ -100,6 +100,8 @@ public class selectedtalentprojecAction implements RequestAware, SessionAware {
 		try {
 			talentp.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
 			talentp.setSpareTire("1");
+			talentp.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					talentpdao.getSession()));
 			talentpdao.merge(talentp);
 			tx = talentpdao.getSession().beginTransaction();
 			tx.commit();

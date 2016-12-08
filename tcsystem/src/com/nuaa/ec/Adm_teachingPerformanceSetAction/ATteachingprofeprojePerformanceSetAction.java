@@ -76,6 +76,8 @@ public class ATteachingprofeprojePerformanceSetAction implements RequestAware,
 			profeprojeproject.setSpareTire("1");
 			profeprojeproject.setTfprofessionalProjectDeclareLevel(profeprojelevel);
 			profeprojeproject.setTfterm(termdao.findById(term.getTermId()));
+			profeprojeproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					profeprojeprojectdao.getSession()));
 			profeprojeprojectdao.merge(profeprojeproject);
 			tx = profeprojeprojectdao.getSession().beginTransaction();
 			tx.commit();

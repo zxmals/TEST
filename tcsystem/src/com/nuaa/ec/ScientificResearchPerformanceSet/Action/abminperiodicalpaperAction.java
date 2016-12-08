@@ -16,6 +16,7 @@ import com.nuaa.ec.dao.TeacherAndperiodicalDAO;
 import com.nuaa.ec.model.Periodical;
 import com.nuaa.ec.model.PeriodicalPapers;
 import com.nuaa.ec.model.PeriodicalPapersScore;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndperiodical;
 import com.nuaa.ec.utils.EntityUtil;
 
@@ -91,6 +92,8 @@ public class abminperiodicalpaperAction implements RequestAware, SessionAware {
 			periopaper.setPeriodicalPid(tmppp.getPeriodicalPid());
 			periopaper.setFirstAuthor(tmppp.getFirstAuthor());
 			periopaper.setSecondAuthor(tmppp.getSecondAuthor());
+			periopaper.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher) session.get("teacher")).getTeacherId(),
+					periopaperdao.getSession()));
 			periopaperdao.merge(periopaper);
 			PeriodicalPapersScore ppsco = ppscoredao.findByPeriodicalType(periopaper.getPeriodical().getPeriodicalType());
 			if(ppsco!=null){

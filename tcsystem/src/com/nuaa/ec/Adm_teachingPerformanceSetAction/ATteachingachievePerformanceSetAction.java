@@ -75,6 +75,8 @@ public class ATteachingachievePerformanceSetAction implements RequestAware,
 			achieveproject.setSpareTire("1");
 			achieveproject.setTfteachingAchievementRewardLevel(achievelevel);
 			achieveproject.setTfterm(termdao.findById(term.getTermId()));
+			achieveproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					achieveprojectdao.getSession()));
 			achieveprojectdao.merge(achieveproject);
 			tx = achieveprojectdao.getSession().beginTransaction();
 			tx.commit();

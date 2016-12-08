@@ -30,6 +30,18 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <link rel="stylesheet" href="css/mermberTab.css" >
+    <script  src="My97DatePicker/WdatePicker.js"></script>
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.5"></script>
+    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="js/content.min.js?v=1.0.0"></script>
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script  src="js/PublicCheck/PUB_SET.js"></script>
+    <!-- ISBN输入控制 -->
+    <script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+    <!-- sweet-alert -->
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script type="text/javascript">
     	var teacherIds = "${teacher.teacherId}"; 
     	function DoCheck() {
@@ -42,9 +54,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				break;
 				default: break;
 			}
-			if(res=='1'){
-				window.location.replace('GTperiodicalpaper-paperset!getPeriodicalPaperINF');
-			}
 		}
     </script>
 </head>
@@ -53,7 +62,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="GTperiodicalpaper-paperset!getPeriodicalPaperINF" method="post" name="pickdate">
+			<form action="GTperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate }" name="afterdate" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
@@ -66,184 +75,134 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
 	                        <h5>期刊论文管理<small></small></h5>
-	                        <div class="ibox-tools">
+	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
-	                    <div class="ibox-content">
-	                    
-	                    <div class="">
-	                         <button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#add">
-	                         <strong>新增期刊论文</strong>
-	                         </button>
-	                         <button class="btn  btn-primary addrows" style="margin-left: 90%;" type="submit">
-	                         <strong>数据 +100</strong>
-	                         </button>
+	                    <div class="ibox-content" style="height:540px;">
+	                    	<button class="btn  btn-primary openaddm" type="submit" data-backdrop="true" data-toggle="modal" data-target="#utdialog">
+	                        	 <strong>新增期刊论文</strong>
+	                         </button><br><br>
+	                    <div>
+	                    	<a>每页   
+	                    	<select id="changelength" style="width:45px">
+	                    		<option selected="selected"></option>
+	                    		<option>1</option>
+	                    		<option>2</option>
+	                    		<option>5</option>
+	                    		<option>10</option>
+	                    		<option>15</option>
+	                    		<option>20</option>
+	                    	</select>  条记录</a>
 	                    </div>
+	                    <br>
 	                        <div class="example">
 	                        <form method="post" name="f">
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-	                                	<td>序号</td>
 										<td>期刊论文Id</td>
 										<td>期刊论文标题</td>
-										<td style="display: none">期刊Id</td>
 										<td>期刊</td>
 										<td>年</td>
 										<td>卷</td>
 										<td>期</td>
-										<td class="addws">论文概述</td>
+										<td>论文概述</td>
 										<td>登记负责人ID</td>
 										<td>登记负责人</td>
 										<td>状态</td>
 										<td>操作</td>
 										<td style="display: none">第一作者</td>
 										<td style="display: none">第二作者</td>
-										<td style="display: none">期刊论文Idano</td>
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="ebj"  items="${periodicalpaperli }">
-									<tr>
-										<td></td>
-										<td>${ebj.ppid }</td>
-										<td>${ebj.thesisTitle }</td>
-										<td style="display: none">${ebj.periodicalId }</td>
-										<td>${periodicalli[ebj.periodicalId] }</td>
-										<td>${ebj.year }</td>
-										<td>${ebj.file }</td>
-										<td>${ebj.phase }</td>
-										<td class="describe" title="${ebj.describe }"></td>
-										<td>${ebj.chargePersonId }</td>
-										<td>${teachermp[ebj.chargePersonId] }</td>
-										<td title="${ebj.checkout }">
-											<c:if test="${ebj.checkout==5 }">待完善</c:if>
-											<c:if test="${ebj.checkout==0 }">已完善,待审核</c:if>
-											<c:if test="${ebj.checkout==1 }">已审核</c:if>
-											<c:if test="${ebj.checkout==2 }">审核未通过</c:if>
-										</td>
-										<td>
-											<c:if test="${ebj.chargePersonId==teacher.teacherId}">
-												<a  class="btn btn-primary btn-sm carrydata" data-toggle="modal" data-target="#update">编辑</a>
-											</c:if>
-											<c:if test="${ebj.chargePersonId==teacher.teacherId}">
-												<a  class="btn btn-primary btn-sm searchmember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
-											</c:if>
-											<c:if test="${ebj.chargePersonId!=teacher.teacherId}">
-												<c:if test="${ebj.checkout==5 }"><a  class="btn btn-primary btn-sm join">加入</a></c:if>
-												<c:if test="${ebj.checkout==0 }"><a  class="btn btn-primary btn-sm" style="background-color: #999999">加入</a></c:if>
-												<c:if test="${ebj.checkout==1 }">  √ </c:if>
-											</c:if>
-										</td>
-										<td style="display: none">${ebj.firstAuthor }</td>
-										<td style="display: none">${ebj.secondAuthor }</td>
-										<td style="display: none">${ebj.periodicalPid }</td>
-									</tr>
+									<c:forEach var="ebj" items="${periodicalpaper }">
+										<tr>
+											<td>${ebj.ppid }</td>
+											<td>${ebj.thesisTitle }</td>
+											<td title="${ebj.periodical.periodicalId }">${ebj.periodical.periodicalName }</td>
+											<td>${ebj.year }</td>
+											<td>${ebj.file }</td>
+											<td>${ebj.phase }</td>
+											<td title="${ebj.describe }" class="disp"></td>
+											<td>${ebj.chargePersonId }</td>
+											<td>${teachermp[ebj.chargePersonId] }</td>
+											<td title="${ebj.checkout }">
+												<c:if test="${ebj.checkout==5 }">待完善</c:if>
+												<c:if test="${ebj.checkout==0 }">已完善,待审核</c:if>
+												<c:if test="${ebj.checkout==1 }">已审核</c:if>
+												<c:if test="${ebj.checkout==2 }">未通过</c:if>
+											</td>
+											<td>
+												<c:if test="${sessionScope.teacher.teacherId==ebj.chargePersonId }">
+													<c:if test="${ebj.checkout==5 }">
+														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
+														&nbsp;&nbsp;
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+													</c:if>
+													
+													<c:if test="${ebj.checkout==0 }">
+														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
+														&nbsp;&nbsp;
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+													</c:if>
+													
+													<c:if test="${ebj.checkout==2 }">
+														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
+														&nbsp;&nbsp;
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+													</c:if>
+													<c:if test="${ebj.checkout==1 }">
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+													</c:if>
+												</c:if>
+												<c:if test="${sessionScope.teacher.teacherId!=ebj.chargePersonId }">
+													<c:if test="${ebj.checkout==5 }">
+														<a  class="btn btn-primary btn-sm joinProj" data-toggle="modal">加入</a>
+													</c:if>
+												</c:if>
+											</td>
+											<td style="display: none">${ebj.firstAuthor }</td>
+											<td style="display: none">${ebj.secondAuthor }</td>
+										</tr>
 									</c:forEach>
 	                            </tbody>                           
 	                        </table>
 	                        </form>
+	                        <div style="text-align: center;">
+	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
+	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=${sumpage }">尾页</a>
+	                        </div>
 	                   </div>
 	                </div>
 	            </div>
 	        </div>
 	    </div>   
-	   <div id="update" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+    </div>
+    
+     <div id="utdialog" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"  aria-labelledby="myModalLabel">
 	        <div class="modal-dialog">
 	            <div class="modal-content">
 	                <div class="modal-body">
 	                    <div class="row">
-	                            <h3 class="m-t-none m-b">修改</h3>
-	                            	<div class="form-group" style="display: none">                                
-	                                    <label>论文标题ID:</label>
-	                                    <input id="upppId" type="text"  class="form-control nullcheck upcheck" name=periopaper.  value="">
-	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>论文标题:</label>
-	                                    <input id="upppt" type="text"  class="form-control nullcheck upcheck" name=periopaper.thesisTitle  value="">
-	                                </div>
-<!-- 	                                <div class="form-group">                             -->
-<!-- 	                                    <label>登记人身份:</label> -->
-<!-- 	                                    <select id="upppI" class="form-control nullcheck upcheck" name="author"> -->
-<!-- 	                                    	<option></option> -->
-<!-- 	                                    	<option value="first">第一作者</option> -->
-<!-- 	                                    	<option value="second">第二作者</option> -->
-<!-- 	                                    </select> -->
-<!-- 	                                </div>  -->
-	                                <div class="form-group">                            
-	                                    <label>期刊:</label>
-	                                    <select id="upp" class="form-control nullcheck upcheck" name=periopaper.periodical.periodicalId >
-	                                    	<option></option>
-	                                    	<c:forEach items="${periodicalli }" var="obj">
-	                                    		<option value="${obj.key }">${obj.value }</option>
-	                                    	</c:forEach>
-	                                    </select>
-	                                </div>  
-	                                <div class="form-group">                                
-	                                    <label>年:</label>
-	                                    <input id="upppy" type="text"  class="form-control nullcheck upcheck" onClick="WdatePicker()" name=periopaper.year value="" readonly="readonly">
-	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>卷:</label>
-	                                    <input id="upppf" type="text"  class="form-control nullcheck upcheck" name=periopaper.file value="">
-	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>期:</label>
-	                                    <input type="text" id="uppph" class="form-control nullcheck upcheck" name=periopaper.phase value="">
-	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>论文概述:</label>
-	                                    <textarea  type="text" id="upppde" class="form-control nullcheck upcheck" name=periopaper.describe  value=""></textarea>
-	                                </div>
-	                                <div class="form-group">                                
-	                                    <label>项目人数:</label>
-	                                    <select id="upppcheck" class="form-control nullcheck upcheck" name="checkout">
-	                                    	<option></option>
-	                                    	<option value="0">人数已满</option>
-	                                    	<option value="5">人数未满</option>
-	                                    </select>
-	                                </div>  
-	                                <div class="form-group" style="display: none">                                
-	                                    <label>第一作者:</label>
-	                                    <textarea  type="text" id="upppfirst" class="form-control nullcheck " name=periopaper.describe  value=""></textarea>
-	                                </div>
-	                                <div class="form-group" style="display: none">                                
-	                                    <label>第二作者:</label>
-	                                    <textarea  type="text" id="upppsecond" class="form-control nullcheck " name=periopaper.describe  value=""></textarea>
-	                                </div>
-	                                <div class="form-group" style="display: none">                                
-	                                    <label>期刊论文Idano:</label>
-	                                    <textarea  type="text" id="upppptid" class="form-control nullcheck upcheck" name=periopaper.describe  value=""></textarea>
-	                                </div>                                                       
-	                                <div>
-	                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
-	                                    <button type="button"  id="subdel"  class="btn btn-primary meddle m-t-n-xs" style="margin-left: 28%">删除</button>
-	                                    <button id="subupdate"  class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="submit">
-	                                     <i class="fa fa-check"></i>
-	                                    <strong>保存</strong>
-	                                    </button	>
-	                               </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>              
-	    
-	    <div id="add" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
-	        <div class="modal-dialog">
-	            <div class="modal-content">
-	                <div class="modal-body">
-	                    <div class="row">
-	                            <h3 class="m-t-none m-b">添加期刊论文</h3>
+	                            <h3 class="m-t-none m-b" id="addmodaldialogTitle">新增期刊论文</h3>
+	                            <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改期刊论文</h3>
 	                            <hr >
-	                            <form role="form" id="onlyForm" name="adds" action="GTperiodicalpaper-paperset!addPeriodicalPaper" method="post">                            
+	                            	<div class="form-group" style="display: none">                                
+	                                    <label>论文ID:</label>
+	                                    <input id="periopaperId" type="text" class="form-control nullcheck upcheck">
+	                                </div>
 	                                <div class="form-group">                                
 	                                    <label>论文标题:</label>
-	                                    <input id="addinf" type="text"  class="form-control nullcheck addcheck" name=periopaper.thesisTitle  value="">
+	                                    <input id="papertitle" type="text"  class="form-control nullcheck addcheck" >
 	                                </div>
-	                                <div class="form-group">                            
+	                                <div class="form-group" id="add_author">                            
 	                                    <label>登记人身份:</label>
-	                                    <select class="form-control nullcheck addcheck" name="author" >
+	                                    <select class="form-control nullcheck" id="authors" >
 	                                    	<option></option>
 	                                    	<option value="first">第一作者</option>
 	                                    	<option value="second">第二作者</option>
@@ -251,44 +210,58 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                                </div> 
 	                                <div class="form-group">                            
 	                                    <label>期刊:</label>
-	                                    <select class="form-control nullcheck addcheck" name=periopaper.periodical.periodicalId >
+	                                    <select class="form-control nullcheck addcheck" id="periodicals" >
 	                                    	<option></option>
 	                                    	<c:forEach items="${periodicalli }" var="obj">
-	                                    		<option value="${obj.key }">${obj.value }</option>
+	                                    		<option value="${obj.periodicalId }">${obj.periodicalName }</option>
 	                                    	</c:forEach>
 	                                    </select>
 	                                </div>  
 	                                <div class="form-group">                                
 	                                    <label>年:</label>
-	                                    <input  type="text" name=periopaper.year class="form-control nullcheck addcheck" onClick="WdatePicker()" readonly="readonly">
+	                                    <input  type="text" id="years"  class="form-control nullcheck addcheck" onClick="WdatePicker()">
 	                                </div>
 	                                <div class="form-group">                                
 	                                    <label>卷:</label>
-	                                    <input  type="text" name=periopaper.file class="form-control nullcheck addcheck"  value="">
+	                                    <input  type="text"  id=files  class="form-control nullcheck addcheck"  value="">
 	                                </div>
 	                                <div class="form-group">                                
 	                                    <label>期:</label>
-	                                    <input type="text" name=periopaper.phase class="form-control nullcheck addcheck" value="">
+	                                    <input type="text" id="phase" class="form-control nullcheck addcheck" value="">
 	                                </div>
 	                                <div class="form-group">                                
 	                                    <label>论文概述:</label>
-	                                    <textarea  type="text" name=periopaper.describe  class="form-control nullcheck addcheck" value=""></textarea>
-	                                </div>                                               
-	                            </form>
+	                                    <textarea  type="text" id="descirbe" class="form-control nullcheck addcheck" value=""></textarea>
+	                                </div>
+	                                <div class="form-group" style="display: none" id="crystatus">
+	                                	<label>项目人数：</label>
+	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                                                                                          已满:<input type="radio"  value="0" class="author checkattr prostatus"  name="proJpeople"> 
+	                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                                                                                          未满:<input type="radio" value="5" class="author checkattr prostatus" name="proJpeople">
+	                                </div>
 	                                <div>
 	                                    <button type="button"   class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
 	                                    <button id="subadds" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="button">
-	                                     <i class="fa fa-check"></i>
-	                                    <strong>提交</strong>
+		                                     <i class="fa fa-check"></i>
+		                                     <strong>提交</strong>
+	                                    </button>
+	                                    <button id="subup" class="btn  btn-primary pull-left m-t-n-xs subcheck"  type="button" style="display: none">
+		                                     <i class="fa fa-check"></i>
+		                                     <strong>提交</strong>
 	                                    </button	>
+	                                    <button id="subdel"  class="btn  btn-primary pull-left m-t-n-xs"  type="button" style="display: none;margin-left: 30%;">
+		                                     <strong>删除</strong>
+	                                    </button>
 	                               </div>
 	                    </div>
 	                </div>
 	            </div>
 	        </div>
 	    </div> 
-	    
-	    <div id="checkmember" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
+    </div>
+    
+    <div id="checkmember" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"     aria-labelledby="myModalLabel">
 	        <div class="modal-dialog">
 	            <div class="modal-content">
 	                <div class="modal-body">
@@ -313,56 +286,237 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	        </div>
 	    </div>
 	    
-    </div>
-    </div>
-    <script src="js/jquery.min.js?v=2.1.4"></script>
-    <script src="js/bootstrap.min.js?v=3.3.5"></script>
-    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
-    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
-    <script src="js/content.min.js?v=1.0.0"></script>
-    <script src="js/plugins/iCheck/icheck.min.js"></script>
-    <!-- sweet-alert -->
-    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
-    <script  src="js/PublicCheck/PUB_SET.js"></script>
-    <script  src="My97DatePicker/WdatePicker.js"></script>
     <script>
-    $('#subadds').click(function() {
-    	if(checkadds()){
-    		document.adds.submit();
-    	}else{
-    		alert("是不是还有没填的？");
-    	}
-	});
-    
-    //事件监听处理
-    $('#tb').click(function(e) {
-		if(e.target.className.indexOf("carrydata")>=0){
-			initoper();
-			var row  = $(e.target).parent().parent();
-			$('#upppId')[0].value = row[0].cells[1].innerHTML;
-			$('#upppt')[0].value = row[0].cells[2].innerHTML;
-			//select upppI
-			set_selected_option($('#upp option'),row[0].cells[3].innerHTML);
-			$('#upppy')[0].value = row[0].cells[5].innerHTML;
-			$('#upppf')[0].value = row[0].cells[6].innerHTML;
-			$('#uppph')[0].value = row[0].cells[7].innerHTML;
-			$('#upppde')[0].value = row[0].cells[8].title;
-			$('#upppfirst')[0].value = row[0].cells[13].innerHTML;
-			$('#upppsecond')[0].value = row[0].cells[14].innerHTML;
-			$('#upppptid')[0].value = row[0].cells[15].innerHTML;
-// 			var status = row[0].cells[11].innerHTML.trim()=="待完善"?"5":"0";
-			set_selected_option($('#upppcheck option'),row[0].cells[11].title.trim());
+    //页面初始化处理
+    $(document).ready(function() {
+		var tds = $('.disp');
+		for(var i=0;i<tds.length;i++){
+			tds[i].innerHTML = tds[i].title.substring(0,5)+"...";
 		}
-		if(e.target.className.indexOf("join")>=0){
+	});
+    //
+	var limit = getParameters("limit");
+	comphref(limit);
+	set_selected_option($('#changelength option'), limit);
+	//对所有跳转链接加 limit字段
+	function comphref(limits) {
+		var hrefs = $('.comphref');
+		for(var i=0;i<hrefs.length;i++){
+			hrefs[i].href = hrefs[i].href+"&limit="+limits+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim();
+		}
+		$('#pickdates')[0].action = $('#pickdates')[0].action+"&limit="+limits;
+	}
+	//变更每页显示记录数
+    $('#changelength').change(function() {
+    	comphref($(this).val().trim());
+		window.location.replace("ATperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
+	});
+	
+    $('.openaddm').click(function() {
+    	$('#addmodaldialogTitle').css("display","");
+    	$('#updatemodaldialogTitle').css("display","none");
+    	$('#add_author').css("display","");
+    	$('#subadds').css("display","");
+    	$('#subup').css("display","none");
+    	$('#addhelp').css("display","");
+    	$('#crystatus').css("display","none");
+    	$('#subdel').css("display","none");
+	});
+  //adds 
+    $('#subadds').click(function() {
+		if(checkadds()&$('#authors').val().trim()!=''){
+			swal({   
+	    		title: "确定提交?",   
+	    		text: "",   
+	    		type: "warning",   
+	    		showCancelButton: true,   
+	    		confirmButtonColor: "#DD6B55",   
+	    		confirmButtonText: "确定",
+	    		cancelButtonText: "取消",   
+	    		closeOnConfirm: false,   
+	    		closeOnCancel: true }, 
+	    			function(isConfirm){   
+	    				if (isConfirm) {
+	    					$.post("GTperiodicalpaper-paperset!addPeriodicalPaper",
+	    							{ "periopaper.thesisTitle":$('#papertitle').val().trim(),
+		   							  "periopaper.year":$('#years').val().trim(),
+									  "periopaper.file":$('#files').val().trim(),
+								 	  "periopaper.phase":$('#phase').val().trim(),
+								 	  "author":$('#authors').val().trim(),
+									  "periopaper.describe":$('#descirbe').val().trim(),
+									  "periodical.periodicalId":$('#periodicals').val().trim()},
+	    							function(data,status){
+	    								 if(status=="success"){
+	    									 if(data=="succ"){
+	    										 swal("添加成功","","success");
+	    	    								 setTimeout(function() {
+	    	    									 window.location.replace("GTperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1");
+	    										}, 2000);
+	    									 }else{
+	    										 swal(data,"","warning");
+	    									 }
+	    								 }else{
+	    									 swal("请求失败");
+	    								 }
+	    							}
+	    					);
+	    					
+	    				}
+	    		});
+				
+		}else{
+				swal("是否还有没填的?","请完善所有信息后提交","warning");
+		}
+	});
+	</script>
+	<!-- carry-data -->
+	<script type="text/javascript">
+    $('.carrydata').click(function() {
+    	var row = $(this).parent().parent(); 
+    	$('#addmodaldialogTitle').css("display","none");
+    	$('#updatemodaldialogTitle').css("display","");
+    	$('#add_author').css("display","none");
+    	$('#cryisbn').css("display","");
+    	$('#subadds').css("display","none");
+    	$('#subup').css("display","");
+    	$('#crystatus').css("display","");
+    	$('#subdel').css("display","");
+		$('#periopaperId').prop("value",row[0].cells[0].innerHTML);
+		$('#papertitle').prop("value",row[0].cells[1].innerHTML);
+		set_selected_option($('#periodicals option'), row[0].cells[2].title.trim());
+		$('#years').prop("value",row[0].cells[3].innerHTML.trim());
+		$('#files').prop("value",row[0].cells[4].innerHTML.trim());
+		$('#phase').prop("value",row[0].cells[5].innerHTML.trim());
+		$('#descirbe').prop("value",row[0].cells[6].title.trim());
+		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[9].title.trim()=="0"?"0":"5")+'"]').prop("checked",true);
+		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[9].title.trim());
+	});
+    $('#subup').click(function() {
+    	if(checkadds()&&$('#periopaperId').val().trim()!=""){
+    			swal({   
+    	    		title: "确定提交?",   
+    	    		text: "",   
+    	    		type: "warning",   
+    	    		showCancelButton: true,   
+    	    		confirmButtonColor: "#DD6B55",   
+    	    		confirmButtonText: "确定",
+    	    		cancelButtonText: "取消",   
+    	    		closeOnConfirm: false,   
+    	    		closeOnCancel: true }, 
+    	    			function(isConfirm){   
+    	    				if (isConfirm) {
+    	    					$.post("GTperiodicalpaper-paperset!updatePpaper?pagenum=1",
+    	    						 	{"periopaper.ppid":$('#periopaperId').val().trim(),
+    	    	    					 "periopaper.thesisTitle":$('#papertitle').val().trim(),
+    	    							 "periopaper.year":$('#years').val().trim(),
+    	    							 "periopaper.file":$('#files').val().trim(),
+    	    							 "periopaper.phase":$('#phase').val().trim(),
+    	    							 "periopaper.describe":$('#descirbe').val().trim(),
+    	    							 "periopaper.checkout":$('input[type="radio"][name="proJpeople"]:checked').val().trim(),
+    	    							 "periodical.periodicalId":$('#periodicals').val().trim()},
+    	    	    					function(data,status){
+    	    	    						if(status=="success"){
+    	    	    							 if(data=="succ"){
+    	    	    								 swal("更新成功","","success");
+    	    	    								 setTimeout(function() {
+    	    	    									 window.location.replace("GTperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1");
+    	    										}, 2000);
+    	    	    							 }else{
+    	    	    								 swal("操作失败: "+data,"","error");
+    	    	    							 }
+    	    	    						}else{
+    	    	    							swal("请求失败");
+    	    	    						}
+    	    	    					}
+    	    	    			);
+    	    				}
+    	    			}
+    	    	);
+    	}else{
+				swal("是否还有没填的?","请完善所有信息后提交","error");
+		}
+	});
+    $('#subdel').click(function() {
+    	swal({   
+    		title: "确定删除?",   
+    		text: "",   
+    		type: "warning",   
+    		showCancelButton: true,   
+    		confirmButtonColor: "#DD6B55",   
+    		confirmButtonText: "删除",
+    		cancelButtonText: "取消",   
+    		closeOnConfirm: false,   
+    		closeOnCancel: true }, 
+    			function(isConfirm){   
+    				if (isConfirm) {
+    					$.post("GTperiodicalpaper-paperset!deletePpaper?pagenum=1",
+    							{"periopaper.ppid":$('#periopaperId').val().trim()},
+    							function(data,status){
+    								if(status=="success"){
+    									if(data=="succ"){
+    										swal("删除成功","","success");
+    										setTimeout(function() {
+    											window.location.replace("GTperiodicalpaper-paperset!getPeriodicalPaperINF?pagenum=1");
+											}, 2000);
+    									}else{
+    										swal("操作失败","","error");
+    									}
+    								}else{
+    									swal("请求失败","","error");
+    								}
+    							}
+    					);
+    				}
+    			}
+    	);
+	});
+    var pubsprojectId = "";
+    $('.getMember').click(function() {
+		var row = $(this).parent().parent();
+		$.post("GTperiodicalpaper-paperset!getMember",
+				{"periopaper.ppid":row[0].cells[0].innerHTML},
+				function(data,status){
+					var tabs = $('#membtab');
+					var trs = tabs.find("tr");
+					for(var i=1;i<trs.length;i++){
+						trs[i].remove();
+					}
+					var obj = JSON.parse(data);
+					if(status=="success"){
+						pubsprojectId = row[0].cells[0].innerHTML;
+						for(var i=0;i<obj.length;i++){
+							tabs.append("<tr>"
+									+"<td>"+obj[i].teacherId+"</td>"
+									+"<td>"+obj[i].teacherName+"</td>"
+									+"<td> </td>"
+									+"</tr>");
+						}
+						trs = tabs.find("tr");
+						for(var i=1;i<trs.length;i++){
+			                if(i%2==0){
+			                    trs[i].style.backgroundColor = "#e7cdfa";
+			                    trs[i].style.color = "#928FA3";
+			                }else{
+			                    trs[i].style.backgroundColor = "#B5A0C9";
+			                    trs[i].style.color = "#F4F4F6";
+			                }
+			            }
+					}else{
+						swal("请求失败");
+					}
+				}
+		);
+	});
+    $(document).click(function(e) {
+    	if(e.target.className.indexOf("join")>=0){
 			if(confirm("确定加入该项目 ？")){
 				var row = $(e.target).parent().parent();
-				if(!(row[0].cells[13].innerHTML.trim()!=""&row[0].cells[14].innerHTML.trim()!="")){
-					var authors = row[0].cells[13].innerHTML.trim()==""?"默认:第一作者":"默认:第二作者";
-					var ahs = row[0].cells[13].innerHTML.trim()==""?"f":"s";
+				if(!(row[0].cells[11].innerHTML.trim()!=""&&row[0].cells[12].innerHTML.trim()!="")){
+					var authors = row[0].cells[11].innerHTML.trim()==""?"默认:第一作者":"默认:第二作者";
+					var ahs = row[0].cells[11].innerHTML.trim()==""?"f":"s";
 					alert(authors);
 					$.post("GTperiodicalpaper-paperset!joinPeriodicalPaper",
-							{"periopaper.ppid":row[0].cells[1].innerHTML,
+							{"periopaper.ppid":row[0].cells[0].innerHTML,
 							 "author":ahs},
 							function(data,status){
 								if(status=="success"){
@@ -381,202 +535,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				}
 			}
 		}
-		//查看项目成员
-		if(e.target.className.indexOf("searchmember")>=0){
-			var row = $(e.target).parent().parent();
-			$.post("GTperiodicalpaper-paperset!getMember",
-					{"periopaper.ppid":row[0].cells[1].innerHTML},
-					function(data,status){
-						var tabs = $('#membtab');
-						var trs = tabs.find("tr");
-						for(var i=1;i<trs.length;i++){
-							trs[i].remove();
-						}
-						var obj = JSON.parse(data);
-						if(status=="success"){
-							for(var i=0;i<obj.length;i++){
-								tabs.append("<tr>"
-										+"<td>"+obj[i].teacherId+"</td>"
-										+"<td>"+obj[i].teacherName+"</td>"
-										+"<td> </td>"
-										+"</tr>");
-							}
-							trs = tabs.find("tr");
-							for(var i=1;i<trs.length;i++){
-				                if(i%2==0){
-				                    trs[i].style.backgroundColor = "#e7cdfa";
-				                    trs[i].style.color = "#928FA3";
-				                }else{
-				                    trs[i].style.backgroundColor = "#B5A0C9";
-				                    trs[i].style.color = "#F4F4F6";
-				                }
-				            }
-						}else{
-							alert("请求失败");
-						}
-					}
-			);
-		}
-	});
-    $('.openupdatem').on("click",function() {
-		$('#upinfID').attr("value",$(this).parent().parent()[0].cells[0].innerHTML);
-		$('#upinf')[0].value = $(this).parent().parent()[0].cells[1].innerHTML;
-	});
-    $(document).ready(function() {
-    	//加序号
-    	var t = $('#tb').DataTable( {
-            "columnDefs": [ {
-                "searchable": false,
-                "orderable": false,
-                "targets": 0
-            } ],
-            "order": [[ 1, 'asc' ]]
-        } );
-     
-        t.on( 'order.dt search.dt', function () {
-            t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-                cell.innerHTML = i+1;
-            } );
-        } ).draw();
-        t.column(3).visible( true, false );
-        t.columns.adjust().draw( true );
-        //加一百行
-        $('.addrows').click(function() {
-        	//alert($(t.row( ':last').node())[0].cells[0].innerHTML);
-    		$.post("GTperiodicalpaper-paperset!addRows",
-    				{"currentrow":parseInt($(t.row( ':last').node())[0].cells[0].innerHTML.trim()),
-    				 "foredate":$('#date1').val().trim(),
-    				 "afterdate":$('#date2').val().trim()},
-    				function(data,status){
-//     					alert(data);
-        				var obj = JSON.parse(data);
-    					if(status=="success"){
-    						for(var i=0;i<obj.length;i++){
-    							var status = "待完善";
-    							var choice = '<a class="btn btn-primary btn-sm join">加入</a>';
-    							if(obj[i].checkout!='0'){
-    								status = "已完善";
-    								choice = '<a class="btn btn-primary btn-sm" style="background-color: #999999">加入</a>';
-    							}
-    							if(obj[i].chargePersonId==teacherIds){
-    								choice = '<a  class="btn btn-primary btn-sm carrydata" data-toggle="modal" data-target="#update" >编辑</a> <a  class="btn btn-primary btn-sm searchmember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>';
-    							}
-    							var	rnode = t.row.add(["",
-    							           obj[i].ppid,
-    							           obj[i].thesisTitle,
-    							           obj[i].periodicalId,
-    							           obj[i].periodicalName,
-    							           obj[i].year,
-    							           obj[i].file,
-    							           obj[i].phase,
-    							           obj[i].describe.substring(0,5)+" . . . . .",
-    							           obj[i].chargePersonId,
-    							           obj[i].chargePerson,
-    							           status,
-    							           choice,
-    							           obj[i].firstAuthor,
-    							           obj[i].secondAuthor,
-    							           obj[i].periodicalPid
-    							           ]).draw().node();
-    							var w = $( rnode );
-    							w[0].cells[3].style.display = "none";
-    							w[0].cells[13].style.display = "none";
-    							w[0].cells[14].style.display = "none";
-    							w[0].cells[15].style.display = "none";
-    							w[0].cells[8].title = obj[i].describe;
-    						}
-    					}else{
-    						alert("请求失败");
-    					}
-    				});
-    	});
-     //省略处理论文概述
-     var tdes = $('.describe');
-     for(var i=0;i<tdes.length;i++){
-    	 tdes[i].innerHTML = tdes[i].title.substring(0,5)+" . . . . . .";
-     }
-	});
-  //更新
-  $('#subupdate').click(function() {
-		if(checkupdates()){
-			swal({   
-	    		title: "确定提交?",   
-	    		text: "",   
-	    		type: "warning",   
-	    		showCancelButton: true,   
-	    		confirmButtonColor: "#DD6B55",   
-	    		confirmButtonText: "确定",
-	    		cancelButtonText: "取消",   
-	    		closeOnConfirm: false,   
-	    		closeOnCancel: false }, 
-	    			function(isConfirm){   
-	    				if (isConfirm) {
-	    					$.post("GTperiodicalpaper-paperset!updatesppaer",
-	    							{"periopaper.ppid":$('#upppId').val().trim(),
-	    							 "periopaper.thesisTitle":$('#upppt').val().trim(),
-	    							 "periopaper.periodical.periodicalId":$('#upp').val().trim(),
-	    							 "periopaper.year":$('#upppy').val().trim(),
-	    							 "periopaper.file":$('#upppf').val().trim(),
-	    							 "periopaper.phase":$('#uppph').val().trim(),
-	    							 "periopaper.describe":$('#upppde').val().trim(),
-	    							 "periopaper.checkout":$('#upppcheck').val().trim(),
-	    							 "periopaper.periodicalPid":$('#upppptid').val().trim(),
-	    							 "periopaper.firstAuthor":$('#upppfirst').val().trim(),
-	    							 "periopaper.secondAuthor":$('#upppsecond').val().trim()},
-	    							function(data,status){
-	    								if(status=="success"){
-	    									if(data=="succ"){
-	    										swal("更新成功","","success");
-	    										setTimeout(function() {
-	    											window.location.replace("GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0");
-												}, 2000);
-	    									}else{
-	    										swal("更新失败: "+data);
-	    									}
-	    								}else{
-	    									swal("请求失败！");
-	    								}
-	    							});
-	    				}else{
-	    					swal("已取消");
-	    				}
-	    			}
-	    	);
-		}else{
-			alert("是不是还有没填的？");
-		}
-	});
-   //删除
-   $('#subdel').click(function() {
-		if(confirm("确定删除 ?")){
-			$.post("GTperiodicalpaper-paperset!deleteppaer",
-					{"periopaper.ppid":$('#upppId').val().trim(),
-					 "periopaper.thesisTitle":$('#upppt').val().trim(),
-					 "periopaper.periodical.periodicalId":$('#upp').val().trim(),
-					 "periopaper.year":$('#upppy').val().trim(),
-					 "periopaper.file":$('#upppf').val().trim(),
-					 "periopaper.phase":$('#uppph').val().trim(),
-					 "periopaper.describe":$('#upppde').val().trim(),
-					 "periopaper.checkout":$('#upppcheck').val().trim(),
-					 "periopaper.periodicalPid":$('#upppptid').val().trim(),
-					 "periopaper.firstAuthor":$('#upppfirst').val().trim(),
-					 "periopaper.secondAuthor":$('#upppsecond').val().trim()},
-					function(data,status){
-						if(status=="success"){
-							if(data=="succ"){
-								alert("删除成功");
-								window.location.replace("GTperiodicalpaper-paperset!getPeriodicalPaperINF?currentrow=0");
-							}else{
-								alert("更新失败");
-							}
-						}else{
-							alert("请求失败！");
-						}
-					});
-		}
-	});
-        $(document).ready(function(){$(".dataTables-example").dataTable();var oTable=$("#editable").dataTable();oTable.$("td").editable("../example_ajax.php",{"callback":function(sValue,y){var aPos=oTable.fnGetPosition(this);oTable.fnUpdate(sValue,aPos[0],aPos[1])},"submitdata":function(value,settings){return{"row_id":this.parentNode.getAttribute("id"),"column":oTable.fnGetPosition(this)[2]}},"width":"90%","height":"100%"})});function fnClickAddRow(){$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])};         
-        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+    });
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>

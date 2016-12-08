@@ -75,6 +75,8 @@ public class ATteachingtextbookPerformanceSetAction implements RequestAware,
 			textbookproject.setSpareTire("1");
 			textbookproject.setTfterm(termdao.findById(term.getTermId()));
 			textbookproject.setTftextbookConstructionTblevel(textbooklevel);
+			textbookproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					textbookprojectdao.getSession()));
 			textbookprojectdao.merge(textbookproject);
 			tx = textbookprojectdao.getSession().beginTransaction();
 			tx.commit();

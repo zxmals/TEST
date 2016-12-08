@@ -129,6 +129,8 @@ public class scientificResearchProjecAction implements RequestAware,
 				scienrhprojec.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
 				scienrhprojec.setProjectType(projectypedao.findById(projectype.getProjectTypeId()));
 				scienrhprojec.setSpareTire("1");
+				scienrhprojec.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+						scienrhprojecdao.getSession()));
 				scienrhprojecdao.merge(scienrhprojec);
 				teacherandsrpdao.updateRef(scienrhprojecscore, scienrhprojec);
 			}else{

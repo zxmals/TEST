@@ -15,7 +15,6 @@ import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Transaction;
 
-import com.nuaa.ec.dao.SelfUndertakeTaskDAO;
 import com.nuaa.ec.dao.TffamousTeacherTeamPerformanceDAO;
 import com.nuaa.ec.dao.TffamousTeacherTeamProjectDAO;
 import com.nuaa.ec.dao.TffamousTeacherTeamRewadLevelDAO;
@@ -26,7 +25,6 @@ import com.nuaa.ec.model.TffamousTeacherTeamProject;
 import com.nuaa.ec.model.TffamousTeacherTeamRewadLevel;
 import com.nuaa.ec.model.Tfterm;
 import com.nuaa.ec.utils.EntityUtil;
-import com.nuaa.ec.utils.PrimaryKMaker;
 
 public class ATteachingfamousteamPerformanceSetAction implements RequestAware,
 		SessionAware {
@@ -42,9 +40,7 @@ public class ATteachingfamousteamPerformanceSetAction implements RequestAware,
 	private TffamousTeacherTeamPerformanceDAO teachteamdao = new TffamousTeacherTeamPerformanceDAO();
 	private TffamousTeacherTeamProjectDAO teachteamprojecdao = new TffamousTeacherTeamProjectDAO();
 	private TffamousTeacherTeamRewadLevelDAO teachteamrewardleveldao = new TffamousTeacherTeamRewadLevelDAO();
-	private PrimaryKMaker pkmk = new PrimaryKMaker();
 	private TftermDAO termdao = new TftermDAO();
-	private SelfUndertakeTaskDAO selfdao = new SelfUndertakeTaskDAO();
 	//default method
 	public String execute(){
 		return "success";
@@ -100,6 +96,8 @@ public class ATteachingfamousteamPerformanceSetAction implements RequestAware,
 			teachteamprojec.setTffamousTeacherTeamRewadLevel(teachteamrewardlevel);
 			teachteamprojec.setTfterm(termdao.findById(teachteamprojec.getTfterm().getTermId()));
 			teachteamprojec.setProjectSumScore(teachteamrewardlevel.getScore());
+			teachteamprojec.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					teachteamprojecdao.getSession()));
 			teachteamprojecdao.merge(teachteamprojec);
 			tx = teachteamprojecdao.getSession().beginTransaction();
 			tx.commit();

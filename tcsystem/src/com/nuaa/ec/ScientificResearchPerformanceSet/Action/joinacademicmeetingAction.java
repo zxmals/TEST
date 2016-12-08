@@ -127,6 +127,7 @@ public class joinacademicmeetingAction implements RequestAware, SessionAware {
 			joinacademic.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
 			this.setMeettype(meettypedao.findById(meettype.getMeetingTypeId()));
 			joinacademic.setMeetingPlace(meetplacedao.findById(meetplace.getMeetingPlaceId()));
+			joinacademic.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(), joinacademicdao.getSession()));
 			if(joinacademicscoredao.findByMeetType(meettype)>0){
 				joinacademic.setMeetingType(meettype);
 				joinacademicdao.merge(joinacademic);

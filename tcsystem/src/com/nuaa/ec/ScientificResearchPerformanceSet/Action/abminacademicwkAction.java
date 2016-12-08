@@ -3,6 +3,7 @@ package com.nuaa.ec.ScientificResearchPerformanceSet.Action;
 import java.util.Map;
 
 
+
 import net.sf.json.JSONArray;
 
 import org.apache.struts2.ServletActionContext;
@@ -19,6 +20,7 @@ import com.nuaa.ec.dao.WordsNumberDAO;
 import com.nuaa.ec.model.AcademicWork;
 import com.nuaa.ec.model.AcademicWorkScore;
 import com.nuaa.ec.model.SelfUndertakeTask;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.utils.EntityUtil;
 
@@ -90,6 +92,7 @@ public class abminacademicwkAction implements RequestAware, SessionAware {
 				academicwk.setPublishClub(publishdao.findById(academicwk.getPublishClub().getPublishClubId()));
 				academicwk.setSpareTire("1");
 				academicwk.setWordsNumber(wordnumdao.findById(academicwk.getWordsNumber().getWordId()));
+				academicwk.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(), academicscoredao.getSession()));
 				AcademicWorkScore awscore = academicscoredao.findByWordNum(academicwk.getWordsNumber());
 				if(awscore!=null){
 					teacherandawdao.updateRefTeacher(academicwk, awscore, awscore.getScore());

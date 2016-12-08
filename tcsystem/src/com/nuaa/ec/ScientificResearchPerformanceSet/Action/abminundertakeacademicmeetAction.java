@@ -99,6 +99,8 @@ public class abminundertakeacademicmeetAction implements RequestAware, SessionAw
 				undertakemeet.setSpareTire("1");
 				undertakemeet.setMainUndertakeAcademicMeetingPlace(meetplacedao.findById(meetplace.getAcaMeetPlaceId()));
 				undertakemeet.setMainUndertakeAcademicMeetingType(meettypedao.findById(meettype.getAcaMeetTypeId()));
+				undertakemeet.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+						undertakemeetdao.getSession()));
 				undertakemeetdao.merge(undertakemeet);
 				teacherandudtmeetdao.updateRefMeeting((Teacher)session.get("teacher"), undertakemeet,undertakemeetscore);
 				ServletActionContext.getResponse().getWriter().write("succ");

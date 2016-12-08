@@ -18,6 +18,7 @@ import com.nuaa.ec.model.ProjectType;
 import com.nuaa.ec.model.ScientificResearchProject;
 import com.nuaa.ec.model.ScientificResearchProjectScore;
 import com.nuaa.ec.model.SelfUndertakeTask;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.nuaa.ec.utils.EntityUtil;
 
@@ -96,6 +97,8 @@ public class abminscientificresearchproAction implements RequestAware,
 			if(scienrhprojecscore!=null){
 				scienrhprojec.setProjectType(projectypedao.findById(projectype.getProjectTypeId()));
 				scienrhprojec.setSpareTire("1");
+				scienrhprojec.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+						scienrhprojecdao.getSession()));
 				scienrhprojecdao.merge(scienrhprojec);
 				teacherandsrpdao.updateRef(scienrhprojecscore, scienrhprojec);
 			}else{

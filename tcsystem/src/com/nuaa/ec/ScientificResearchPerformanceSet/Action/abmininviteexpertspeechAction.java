@@ -20,6 +20,7 @@ import com.nuaa.ec.model.InvitedExpertsSpeech;
 import com.nuaa.ec.model.InvitedExpertsSpeechScore;
 import com.nuaa.ec.model.Nationality;
 import com.nuaa.ec.model.SelfUndertakeTask;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndinvitedExpertsSpeech;
 import com.nuaa.ec.utils.EntityUtil;
 
@@ -94,6 +95,7 @@ public class abmininviteexpertspeechAction implements RequestAware, SessionAware
 			invitespeech.setSpareTire("1");
 			invitespeech.setExpertType(expertTypedao.findById(expertType.getExpertTypeId()));
 			invitespeech.setNationality(nationdao.findById(nation.getCountryId()));
+			invitespeech.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(), invitescoredao.getSession()));
 			InvitedExpertsSpeechScore iespeechcore = invitescoredao.checkexist(expertType);
 			if(iespeechcore!=null){
 				invitespeechdao.merge(invitespeech);

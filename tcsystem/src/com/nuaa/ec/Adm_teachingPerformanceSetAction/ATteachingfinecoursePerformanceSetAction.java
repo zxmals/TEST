@@ -74,6 +74,8 @@ public class ATteachingfinecoursePerformanceSetAction implements RequestAware,
 			finecourseproject.setSpareTire("1");
 			finecourseproject.setTffineCourseConstructionLevel(finecourselevel);
 			finecourseproject.setTfterm(termdao.findById(term.getTermId()));
+			finecourseproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					finecourseprojectdao.getSession()));
 			finecourseprojectdao.merge(finecourseproject);
 			tx = finecourseprojectdao.getSession().beginTransaction();
 			tx.commit();

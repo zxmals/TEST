@@ -13,6 +13,7 @@ import com.nuaa.ec.dao.TalentProjectDAO;
 import com.nuaa.ec.dao.TeacherAndselectedTalentProjectDAO;
 import com.nuaa.ec.model.SelectedTalentProjectScore;
 import com.nuaa.ec.model.TalentProject;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndselectedTalentProject;
 import com.nuaa.ec.utils.EntityUtil;
 
@@ -90,6 +91,8 @@ public class abminselectedtalentprojecAction implements RequestAware, SessionAwa
 		try {
 			this.setTalentp(talentpdao.findById(talentp.getTalentProjectId()));
 			talentp.setSpareTire("0");
+			talentp.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					talentpdao.getSession()));
 			talentpdao.merge(talentp);
 			teacherandtalentpdao.deleteBylogic(talentp);
 			tx = talentpdao.getSession().beginTransaction();

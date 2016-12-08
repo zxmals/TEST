@@ -18,6 +18,7 @@ import com.nuaa.ec.model.RewardLevel;
 import com.nuaa.ec.model.RewardType;
 import com.nuaa.ec.model.ScientificResearchReward;
 import com.nuaa.ec.model.ScientificResearchRewardScore;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
 import com.nuaa.ec.utils.EntityUtil;
 
@@ -89,6 +90,8 @@ public class abminscienceresearchredAction implements RequestAware, SessionAware
 			scienceReward.setSpareTire("1");
 			scienceReward.setRewardLevel(rewardleveldao.findById(rewardlevel.getRewardLevelId()));
 			scienceReward.setRewardType(rewardtypedao.findById(rewardtype.getRewardTypeId()));
+			scienceReward.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+					sciencerewarddao.getSession()));
 			ScientificResearchRewardScore sciencerewardscore = sciencerewardscoredao.findByLT(scienceReward.getRewardLevel(),scienceReward.getRewardType());
 			if(sciencerewardscore!=null){
 				sciencerewarddao.merge(scienceReward);

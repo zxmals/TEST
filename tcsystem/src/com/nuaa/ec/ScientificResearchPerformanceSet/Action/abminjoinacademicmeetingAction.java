@@ -20,6 +20,7 @@ import com.nuaa.ec.model.JoinAcademicMeetingScore;
 import com.nuaa.ec.model.MeetingPaper;
 import com.nuaa.ec.model.MeetingPlace;
 import com.nuaa.ec.model.MeetingType;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndjoinAcademicMeeting;
 import com.nuaa.ec.utils.EntityUtil;
 
@@ -94,6 +95,7 @@ public class abminjoinacademicmeetingAction implements RequestAware, SessionAwar
 			joinacademic.setSpareTire("1");
 			this.setMeettype(meettypedao.findById(meettype.getMeetingTypeId()));
 			joinacademic.setMeetingPlace(meetplacedao.findById(meetplace.getMeetingPlaceId()));
+			joinacademic.setResearchLabId(EntityUtil.findReasearchLabIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(), joinacademicdao.getSession()));
 			if(joinacademicscoredao.findByMeetType(meettype)>0){
 				joinacademic.setMeetingType(meettype);
 				joinacademicdao.merge(joinacademic);
