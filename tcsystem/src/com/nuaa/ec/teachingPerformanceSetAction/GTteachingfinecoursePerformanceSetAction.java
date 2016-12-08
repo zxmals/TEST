@@ -73,7 +73,7 @@ public class GTteachingfinecoursePerformanceSetAction implements RequestAware,
 		Transaction tx = null;
 		try {
 			finecourseproject.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			finecourseproject.setCheckOut("0");
+			finecourseproject.setCheckOut("5");
 			finecourseproject.setCourseId(pkmk.mkpk(EntityUtil.getPkColumnName(TffineCourseConstructionProject.class), EntityUtil.getTableName(TffineCourseConstructionProject.class), "TFCOURSE"));
 			this.setFinecourselevel(finecourseleveldao.findById(finecourselevel.getCourseLevelId()));
 			finecourseproject.setProjectSumScore(finecourselevel.getScore());

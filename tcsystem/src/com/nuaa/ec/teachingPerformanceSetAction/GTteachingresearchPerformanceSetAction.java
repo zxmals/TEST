@@ -79,7 +79,7 @@ public class GTteachingresearchPerformanceSetAction implements RequestAware,
 		try {
 			teachreachprojec.setSpareTire("1");
 			teachreachprojec.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			teachreachprojec.setCheckOut("0");
+			teachreachprojec.setCheckOut("5");
 			teachreachprojec.setProjectId(pkmk.mkpk(EntityUtil.getPkColumnName(TfteachingRearchProject.class), EntityUtil.getTableName(TfteachingRearchProject.class), "TFTR"));
 			this.setTeachreachevalute(teachreachevalutedao.findById(teachreachevalute.getEvaluationId()));
 			this.setTeachreachfundlevel(teachreachfundleveldao.findById(teachreachfundlevel.getFundLevelId()));

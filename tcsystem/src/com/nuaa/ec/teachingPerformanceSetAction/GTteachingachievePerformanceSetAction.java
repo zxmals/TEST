@@ -81,7 +81,7 @@ public class GTteachingachievePerformanceSetAction implements RequestAware,
 		Transaction tx = null;
 		try {
 			achieveproject.setChargePersonId(((Teacher)session.get("teacher")).getTeacherId());
-			achieveproject.setCheckOut("0");
+			achieveproject.setCheckOut("5");
 			achieveproject.setProjectId(pkmk.mkpk(EntityUtil.getPkColumnName(TfteachingAchievementProject.class), EntityUtil.getTableName(TfteachingAchievementProject.class), "TFACHI"));
 			this.setAchievelevel(achieveleveldao.findById(achievelevel.getRewardId()));
 			achieveproject.setProjectSumScore(achievelevel.getScore());
