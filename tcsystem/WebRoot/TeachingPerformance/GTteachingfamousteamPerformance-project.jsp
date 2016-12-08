@@ -146,7 +146,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 													</c:if>
 												</c:if>
 												<c:if test="${sessionScope.teacher.teacherId!=ebj.chargePersonId }">
-													<c:if test="${ebj.checkout==5 }">
+													<c:if test="${ebj.checkOut==5 }">
 														<a  class="btn btn-primary btn-sm joinProj" data-toggle="modal">加入</a>
 													</c:if>
 												</c:if>
@@ -359,7 +359,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 		set_selected_option($('#peojectlevel option'), row[0].cells[2].title.trim());
 		set_selected_option($('#aup_term option'), row[0].cells[4].title.trim());
 // 		$('#projectSumScore').prop("value",row[0].cells[3].innerHTML.trim());
-		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[7].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
+		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[7].title.trim()=="0"?"0":"5")+'"]').prop("checked",true);
 		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[7].title.trim());
 	});
     $('#subup').click(function() {

@@ -356,7 +356,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 		$('#gainName').prop("value",row[0].cells[1].innerHTML);
 		set_selected_option($('#level option'), row[0].cells[2].title.trim());
 		set_selected_option($('#aup_term option'), row[0].cells[4].title.trim());
-		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[7].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
+		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[7].title.trim()=="0"?"0":"5")+'"]').prop("checked",true);
 		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[7].title.trim());
 	});
     $('#subup').click(function() {

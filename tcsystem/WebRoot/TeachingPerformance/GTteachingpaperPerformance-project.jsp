@@ -369,7 +369,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 		set_selected_option($('#retricondition option'), row[0].cells[2].title.trim());
 		set_selected_option($('#otherAuthorJoin option'), row[0].cells[3].title.trim());
 		set_selected_option($('#aup_term option'), row[0].cells[5].title.trim());
-		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[8].title.trim()=="0"?"0":"1")+'"]').prop("checked",true);
+		$('input[type="radio"][name="proJpeople"][value="'+(row[0].cells[8].title.trim()=="0"?"0":"5")+'"]').prop("checked",true);
 		$('input[type="radio"][name="proJpeople"]:checked').prop("value",row[0].cells[8].title.trim());
 	});
     $('#subup').click(function() {
