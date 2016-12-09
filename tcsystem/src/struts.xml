@@ -179,6 +179,10 @@
 		<action name="AT*-*set" class="com.nuaa.ec.ScientificResearchPerformanceSet.Action.abmin{1}Action">
 			<result>/ScientificResearchPerformanceAdm/adm{1}-{2}.jsp</result>
 		</action>
+<!-- 科研数据导出-管理 -->
+		<action name="ATscientificresearchexportset" class="com.nuaa.ec.action.ScientificResearchDataExport">
+			<result>/ExportData/ExportScienresearchData.jsp</result>
+		</action>		
 	</package>
 
 

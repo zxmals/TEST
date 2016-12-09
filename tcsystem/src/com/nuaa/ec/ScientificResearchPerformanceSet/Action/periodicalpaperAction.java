@@ -130,7 +130,7 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 	public void updatePpaper()throws Exception{
 		Transaction tx = null;
 		try {
-			PeriodicalPapers tmppp =  (PeriodicalPapers) periopaperdao.findByPpid(periopaper.getPpid()).get(0);
+			PeriodicalPapers tmppp =  (PeriodicalPapers) periopaperdao.findByPpid(periopaper.getPpid());
 			periopaper.setSpareTire("1");
 			periopaper.setChargePersonId(tmppp.getChargePersonId());
 			periopaper.setPeriodical(periodao.findById(periodical.getPeriodicalId()));
@@ -188,7 +188,7 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 		Transaction tx = null;
 		try {
 			this.setPeriopaper((PeriodicalPapers) periopaperdao.findByPpid(
-					periopaper.getPpid()).get(0));
+					periopaper.getPpid()));
 			PeriodicalPapersScore ppsco = (PeriodicalPapersScore) (ppscoredao
 					.findByProperty("periodicalType", periopaper
 							.getPeriodical().getPeriodicalType())).get(0);
@@ -276,7 +276,7 @@ public class periodicalpaperAction implements RequestAware, SessionAware {
 	public void quitProject() throws Exception{
 		Transaction tx = null;
 		try {
-			this.setPeriopaper((PeriodicalPapers)periopaperdao.findByPpid(periopaper.getPpid()).get(0));
+			this.setPeriopaper((PeriodicalPapers)periopaperdao.findByPpid(periopaper.getPpid()));
 			String author = ServletActionContext.getRequest().getParameter("author");
 			if(author!=null){
 				periopaper.setFirstAuthor("1".equals(author.trim())?"":periopaper.getFirstAuthor());

@@ -33,6 +33,7 @@ public class Storebaseinfo implements Filter {
 		StoreData.setResearchLabList(new ResearchLabDAO().findAll());
 		StoreData.setTftermList(new TftermDAO().findAll());
 		StoreData.setDepartmentList(new DepartmentDAO().findAll());
+		StoreData.setScienexports();
 	}
 
 }

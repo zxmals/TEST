@@ -67,6 +67,7 @@
 	}
 	//for add 
 	function checkadds() {
+		nullcheck();
 		var readys = $('.addcheck');
 		var cout = 0;
 		for(var i=0;i<readys.length;i++){

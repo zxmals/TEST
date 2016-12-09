@@ -85,7 +85,7 @@ public class abminperiodicalpaperAction implements RequestAware, SessionAware {
 	public void updatePpaper()throws Exception{
 		Transaction tx = null;
 		try {
-			PeriodicalPapers tmppp =  (PeriodicalPapers) periopaperdao.findByPpid(periopaper.getPpid()).get(0);
+			PeriodicalPapers tmppp =  (PeriodicalPapers) periopaperdao.findByPpid(periopaper.getPpid());
 			periopaper.setSpareTire("1");
 			periopaper.setChargePersonId(tmppp.getChargePersonId());
 			periopaper.setPeriodical(periodao.findById(periodical.getPeriodicalId()));
@@ -144,7 +144,7 @@ public class abminperiodicalpaperAction implements RequestAware, SessionAware {
 	public void deleteMember()throws Exception{
 		Transaction tx = null;
 		try {
-			this.setPeriopaper((PeriodicalPapers) periopaperdao.findByPpid(tap.getPpid()).get(0));
+			this.setPeriopaper((PeriodicalPapers) periopaperdao.findByPpid(tap.getPpid()));
 			if(tap.getTeacher().getTeacherId().equals(periopaper.getFirstAuthor().trim())?false:true){
 				periopaper.setSecondAuthor("");
 				periopaperdao.merge(periopaper);
