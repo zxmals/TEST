@@ -51,6 +51,9 @@ public class ScientificResearchDataExport implements RequestAware, SessionAware 
 				out.write(bt,0,bt.length);
 				out.flush();
 				out.close();
+			}else{
+				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+				ServletActionContext.getResponse().getWriter().write(" 该区间暂时没有数据..... 请返回到上一页 ");
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
