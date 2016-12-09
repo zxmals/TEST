@@ -489,7 +489,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                              </li>
 <!--                             <li><a class="J_menuItem" href="">公益设置</a> -->
                             <li>
-                                <a href="user_get">用户管理</a>
+                                <a href="AT_user!get" class="J_menuItem" >用户管理</a>
                                <!--  <ul class="nav nav-third-level">
                                     <li><a class="J_menuItem" href="user_add">增加用户</a>
                                     </li>

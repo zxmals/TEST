@@ -540,7 +540,7 @@
 		<!-- test -->
 	</package>
 	<package name="userManager" namespace="/" extends="struts-default">
-		<action name="user_*" class="com.nuaa.ec.userManage.UserManageAction" method="{1}">
+		<action name="AT_user" class="com.nuaa.ec.userManage.UserManageAction">
 			<result name="success">/userManager/userCRUD.jsp</result>
 		</action>
 	</package>

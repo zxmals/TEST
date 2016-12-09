@@ -22,7 +22,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>课堂教学绩效管理</title>
+<title>用户管理</title>
 
 <link rel="shortcut icon" href="favicon.ico">
 <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
@@ -85,7 +85,7 @@
 						</button>
 						<br>
 						<br>
-						<form action="GTClassTeachPerformanceSet!getAllRecord">
+						<form action="AT_user!get">
 							<div>
 								<a>每页 <select id="changelength" style="width:80px;height:25px;border-radius:3px;" name="pageSize_user">
 										<c:forEach var="pageSize" items="${pageSizeList }">
@@ -93,7 +93,10 @@
 										</c:forEach>
 								</select>条记录
 								</a>
-								&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<font color="#337AB7">检索条件：</font><input type="text" placeholder="请输入要查询教师的工号" id="findCondition" name="findCondition"
+								 style="width:150px;height:25px;border-radius:3px;border:1px solid #A9A9A9;"/>
+								 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<button class="button_set" type="submit" id="AlterPageSize"
 								data-backdrop="true" data-toggle="modal">
 								<strong>确认</strong>
@@ -138,6 +141,9 @@
 												<c:if test="${Teacher.researchLabAdmin==1 }">
 													<td>研究所所长</td>
 												</c:if>
+												<c:if test="${Teacher.researchLabAdmin==0 && Teacher.vaadmin==0 && Teacher.departAdmin==0 }">
+													<td>普通教师</td>
+												</c:if>
 												<!-- 教师职位 -->
 												<td>${Teacher.teacherPost }</td>
 												<!-- 操作 -->
@@ -153,23 +159,23 @@
 							<div style="text-align: center;">
 								(共查询到${sessionScope.recordNumber_user }记录)&nbsp;&nbsp;&nbsp;&nbsp; 第${pageIndex }/${sessionScope.pageCount_user }页&nbsp;&nbsp;&nbsp;
 								<a class="comphref"
-									href="GTClassTeachPerformanceSet!getAllRecord">首页</a>&nbsp;&nbsp;&nbsp;
+									href="AT_user!get?isDivided=true&pageIndex=1">首页</a>&nbsp;&nbsp;&nbsp;
 								<c:if test="${pageIndex>1 }">
 									<a class="comphref"
-										href="GTClassTeachPerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
+										href="AT_user!get?isDivided=true&pageIndex=${pageIndex-1 }">上一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<c:forEach var="index" begin="${pageIndex }" end="${pageIndex+4 }" step="1">
 									<c:if test="${index<pageCount_user }">
 										<a class="comphref"
-										href="GTClassTeachPerformanceSet!getAllRecord?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
+										href="AT_user!get?isDivided=true&pageIndex=${index }">${index }</a>&nbsp;&nbsp;&nbsp;
 									</c:if>
 								</c:forEach>
 								<c:if test="${pageIndex<pageCount_user }">
 									<a class="comphref"
-										href="GTClassTeachPerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
+										href="AT_user!get?isDivided=true&pageIndex=${pageIndex+1 }">下一页</a>&nbsp;&nbsp;&nbsp;
 								</c:if>
 								<a class="comphref"
-									href="GTClassTeachPerformanceSet!getAllRecord?isDivided=true&pageIndex=${pageCount_user }">尾页</a>
+									href="AT_user!get?isDivided=true&pageIndex=${pageCount_user }">尾页</a>
 							</div>
 						</div>
 					</div>
@@ -183,50 +189,59 @@
 				<div class="modal-content">
 					<div class="modal-body">
 						<div class="row">
-							<h3 class="m-t-none m-b">修改用户信息</h3>
+							<h3 class="m-t-none m-b">修改教师信息</h3>
 							<form role="form" name="" id="updateInfoForm"
 								action=""
 								method="post">
 								<div class="form-group">
-									<label>绩效编号</label>&nbsp;<label></label> <input id="up_classPefromanceId"
-										type="text" class="form-control doCheck_update" name="classTeachPerformance.classPefromanceId"  
+									<label>教师编号</label>&nbsp;<label></label> <input id="up_teacherId"
+										type="text" class="form-control doCheck_update" name="teacher.teacherId"  
+										value="" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>教师姓名:</label>&nbsp;<label></label> 
+									 <input id="up_teacherName"
+										type="text" class="form-control doCheck_update" name="teacher.teacherName"  
 										value="">
 								</div>
 								<div class="form-group">
-									<label>学期:</label>&nbsp;<label></label> 
-									<select id="up_termSelection" name="classTeachPerformance.termId" class="form-control">
-										<c:forEach var="tfterm" items="${tftermList }">
-											<option value="${tfterm.termId }">${tfterm.term }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>教学时间类别:</label>&nbsp;<label></label> 
+									<label>研究所:</label>&nbsp;<label></label> 
 									<select
-										id="up_sumtimeId" class="form-control"
-										name="classTeachTime.sumtimeId">
-										<c:forEach var="classTeachTime"
-											items="${classTeachTimeList }">
-											<option value="${classTeachTime.sumtimeId }">${classTeachTime.sumtimeScope }</option>
+										id="up_researchLab" class="form-control"
+										name="researchLab.researchLabId">
+										<c:forEach var="researchLab"
+											items="${researchLabList }">
+											<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
 										</c:forEach>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>教学评估级别:</label>&nbsp;<label></label> 
+									<label>所在系:</label>&nbsp;<label></label> 
 									<select
-										id="up_evaluationId" class="form-control"
-										name="classTeachEvaluation.evaluationId">
-										<c:forEach var="classTeachEvaluation"
-											items="${classTeachEvaluationList }">
-											<option value="${classTeachEvaluation.evaluationId }">${classTeachEvaluation.evaluResult }</option>
+										id="up_department" class="form-control"
+										name="department.departmentId">
+										<c:forEach var="department"
+											items="${departmentList }">
+											<option value="${department.departmentId }">${department.departmentName }</option>
 										</c:forEach>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>总时长:</label>&nbsp;<label></label> <input
-										id="up_sumtime" type="text"
+									<label>教师身份</label>&nbsp;<label></label> 
+									<select
+										id="up_role" class="form-control"
+										name="role">
+										<option value="0">普通教师</option>
+										<option value="1">系主任</option>
+										<option value="2">研究所所长</option>
+										<option value="3">公益管理员</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>教师职位</label>&nbsp;<label></label> <input
+										id="up_position" type="text"
 										class="form-control doCheck_update"
-										name="classTeachPerformance.sumtime"
+										name="teacher.teacherPost"
 										value="">
 								</div>
 							</form>
@@ -252,45 +267,62 @@
 				<div class="modal-content">
 					<div class="modal-body">
 						<div class="row">
-							<h3 class="m-t-none m-b">添加课堂教学绩效</h3>
+							<h3 class="m-t-none m-b">添加教师信息</h3>
 							<form role="form" name="adds" id="addInfoForm"
 								action=""
 								method="post">
 								<div class="form-group">
-									<label>学期:</label>&nbsp;<label></label><br>
-									<select id="add_termSelection" name="classTeachPerformance.termId" class="form-control">
-										<c:forEach var="tfterm" items="${tftermList }">
-											<option value="${tfterm.termId }">${tfterm.term }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>教学时间类别:</label>&nbsp;<label></label> 
-									<select
-										id="add_sumtimeId" class="form-control"
-										name="classTeachTime.sumtimeId">
-										<c:forEach var="classTeachTime"
-											items="${classTeachTimeList }">
-											<option value="${classTeachTime.sumtimeId }">${classTeachTime.sumtimeScope }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>教学评估级别:</label>&nbsp;<label></label> 
-									<select
-										id="add_evaluationId" class="form-control"
-										name="classTeachEvaluation.evaluationId">
-										<c:forEach var="classTeachEvaluation"
-											items="${classTeachEvaluationList }">
-											<option value="${classTeachEvaluation.evaluationId }">${classTeachEvaluation.evaluResult }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>总时长:</label>&nbsp;<label></label> <input
-										id="add_sumtime" type="text"
+									<label>教师工号</label>&nbsp;<label></label> <input
+										id="add_teacherId" type="text"
 										class="form-control doCheck_add"
-										name="classTeachPerformance.sumtime"
+										name="teacher.teacherId"
+										value="">
+								</div>
+								<div class="form-group">
+									<label>教师姓名</label>&nbsp;<label></label> <input
+										id="add_teacherName" type="text"
+										class="form-control doCheck_add"
+										name="teacher.teacherName"
+										value="">
+								</div>
+								<div class="form-group">
+									<label>研究所:</label>&nbsp;<label></label> 
+									<select
+										id="add_researchLab" class="form-control"
+										name="researchLab.researchLabId">
+										<c:forEach var="researchLab"
+											items="${researchLabList }">
+											<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
+										</c:forEach>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>所在系:</label>&nbsp;<label></label> 
+									<select
+										id="add_department" class="form-control"
+										name="department.departmentId">
+										<c:forEach var="department"
+											items="${departmentList }">
+											<option value="${department.departmentId }">${department.departmentName }</option>
+										</c:forEach>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>教师身份</label>&nbsp;<label></label> 
+									<select
+										id="add_role" class="form-control"
+										name="role">
+										<option value="0">普通教师</option>
+										<option value="1">系主任</option>
+										<option value="2">研究所所长</option>
+										<option value="3">公益管理员</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>教师职位</label>&nbsp;<label></label> <input
+										id="add_position" type="text"
+										class="form-control doCheck_add"
+										name="teacher.teacherPost"
 										value="">
 								</div>
 							</form>
@@ -322,42 +354,44 @@
 	/* 说明：更新窗口的id前缀是add_，增加是add_ */
 	$().ready(function(){
 		$("#changelength option[value='${sessionScope.pageSize_user}']").attr("selected",true);
+		$("#findCondition").val('${sessionScope.findCondition}');
 	});
 	$("#submitAddInfo").click(function(){
 		//执行提交表单
-		submitAddedInfo("GTClassTeachPerformanceSet", "insertRecord", "getAllRecord");
+		submitAddedInfo("AT_user", "add", "get");
 	});
     $('#updateInfo').click(function() {
-    	submitUpdatedInfo("GTClassTeachPerformanceSet", "updateRecord", "getAllRecord");
+    	submitUpdatedInfo("AT_user", "update", "get");
 	});
     $('.update').click(function() {
-		$('#up_classPefromanceId').val($(this).parent().parent()[0].cells[0].innerHTML);
-		$('#up_sumtime').val($(this).parent().parent()[0].cells[6].innerHTML);
-		var temp=$(this).parent().parent()[0].cells[4].innerHTML;
-		$("#up_sumtimeId option").each(function(){
+		$('#up_teacherId').val($(this).parent().parent()[0].cells[0].innerHTML);
+		$('#up_teacherName').val($(this).parent().parent()[0].cells[1].innerHTML);
+		var temp=$(this).parent().parent()[0].cells[2].innerHTML;
+		$("#up_researchLab option").each(function(){
 			if($(this).text()==temp.trim()){
 				$(this).prop("selected",true);//这里用attr会有问题。
 			}
 		});
-		var temp1=$(this).parent().parent()[0].cells[5].innerHTML;
-		$("#up_evaluationId option").each(function(){
+		var temp1=$(this).parent().parent()[0].cells[3].innerHTML;
+		$("#up_department option").each(function(){
 			if($(this).text()==temp1.trim()){
 				$(this).prop("selected",true);//这里用attr会有问题。
 			}
 		});
-		var currentTerm=$(this).parent().parent()[0].cells[3].innerHTML;
-		$("#up_termSelection option").each(function(){
-			if($(this).text()==currentTerm){
-				$(this).prop("selected",true);
+		var temp2=$(this).parent().parent()[0].cells[4].innerHTML;
+		$("#up_role option").each(function(){
+			if($(this).text()==temp2.trim()){
+				$(this).prop("selected",true);//这里用attr会有问题。
 			}
 		});
+		$('#up_position').val($(this).parent().parent()[0].cells[5].innerHTML);
 	});
     $('.deleteInfo').click(function() {
-		var classPefromanceId = $(this).parent().parent()[0].cells[0].innerHTML;
+		var teacherId = $(this).parent().parent()[0].cells[0].innerHTML;
 		deleteRecord({
-			"classTeachPerformance.classPefromanceId":classPefromanceId
-		}, "GTClassTeachPerformanceSet", "deleteRecord",
-		"getAllRecord?isDivided=false");
+			"teacher.teacherId":teacherId
+		}, "AT_user", "delete",
+		"get?isDivided=false");
 	});
     </script>
 	<s:debug></s:debug>

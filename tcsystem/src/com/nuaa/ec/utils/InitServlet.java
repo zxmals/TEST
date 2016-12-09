@@ -10,6 +10,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+import com.nuaa.ec.dao.DepartmentDAO;
+import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.TfclassTeachEvaluationDAO;
 import com.nuaa.ec.dao.TfclassTeachTimeDAO;
 import com.nuaa.ec.dao.TfdegreeThesisGuidanceRewardLevelDAO;
@@ -110,6 +112,8 @@ public class InitServlet extends HttpServlet {
 		auditStatus.put("5", "待完善");
 		context.setAttribute("auditStatus", auditStatus);
 		
+		context.setAttribute("researchLabList", new ResearchLabDAO().findAll());
+		context.setAttribute("departmentList", new DepartmentDAO().findAll());
 	}
 
 }
