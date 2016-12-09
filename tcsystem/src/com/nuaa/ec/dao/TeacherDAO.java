@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  	* A data access object (DAO) providing persistence and search support for Teacher entities.
@@ -36,6 +37,23 @@ public class TeacherDAO extends BaseHibernateDAO  {
 	public static final String TEACHER_POST = "teacherPost";
 	public static final String VA_ADMIN = "vaadmin";
 
+	@SuppressWarnings("unchecked")
+	public List<Teacher> findAllByCondition(int pageIndex,int pageSize,String teacherId,boolean isDivided){
+		Map<String,Object> session=ActionContext.getContext().getSession();
+		//采用迫切做外连接查询的方式
+		StringBuffer hql=new StringBuffer("FROM Teacher t WHERE t.spareTire='1'");
+		if(teacherId!=null && teacherId.trim().length()!=0){
+			hql.append(" AND t.teacherId='"+teacherId+"'");
+		}
+		Query query=this.getSession().createQuery(hql.toString());
+		if(!isDivided){
+			int size=query.list().size();
+			session.put("recordNumber_user", size);
+			session.put("pageCount_user", size%pageSize==0?(size/pageSize):(size/pageSize+1));
+		}
+		return query.setMaxResults(pageSize).setFirstResult((pageIndex-1)*pageSize).list();
+	}
+	
 	public void updateDepartStatus(String teacherId,String departId){
 		String replace = "update Teacher set departAdmin = '0' where departAdmin= '1' and departmentId = ?";
 		String update = "update Teacher set departAdmin = '1' where teacherId=?";
