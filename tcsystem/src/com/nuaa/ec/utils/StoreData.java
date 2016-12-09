@@ -15,6 +15,8 @@ public class StoreData {
 	private static List<ResearchLab> researchLabList=new ArrayList<ResearchLab>();
 	private static List<Tfterm> TftermList=new ArrayList<Tfterm>();
 	private static List<Department> departmentList=new ArrayList<Department>();
+	private static Map<String, Object> scienexports;
+	
 	public static Map<String, Object> getTeachertranslate() {
 		return teachertranslate;
 	}
@@ -44,6 +46,22 @@ public class StoreData {
 
 	public static void setDepartmentList(List<Department> departmentList) {
 		StoreData.departmentList = departmentList;
+	}
+
+	public static Map<String, Object> getScienexports() {
+		return scienexports;
+	}
+
+	public static void setScienexports() {
+		scienexports = new HashMap<String, Object>();
+		scienexports.put("学术著作", "AcademicWork");
+		scienexports.put("邀请专家讲学", "InvitedExpertsSpeech");
+		scienexports.put("参加学术会议", "JoinAcademicMeeting");
+		scienexports.put("主承办学术会议", "MainUndertakeAcademicMeeting");
+		scienexports.put("期刊论文", "PeriodicalPapers");
+		scienexports.put("科研项目", "ScientificResearchProject");
+		scienexports.put("科研奖励", "ScientificResearchReward");
+		scienexports.put("入选人才工程", "TalentProject");
 	}
 
 }

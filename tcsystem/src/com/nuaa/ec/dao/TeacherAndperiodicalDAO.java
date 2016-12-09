@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +22,8 @@ import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndperiodical;
+import com.nuaa.ec.scienresearch.exportdata.PeriodicalPaperExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -322,35 +326,6 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
         }
     }    
     
-    public List findMember(String ppId) throws Exception{
-    	Connection con = null;
-    	PreparedStatement ps = null;
-    	ResultSet rs = null;
-    	List<Object> li = new ArrayList<Object>();
-    	Map<String, Object> mp = null;
-    	try {
-			con = getConn();
-			ps = con.prepareStatement("select Teacher.TeacherID ,Teacher.TeacherName from Teacher inner join TeacherANDPeriodical on Teacher.TeacherID = TeacherANDPeriodical.TeacherID and TeacherANDPeriodical.PPID = ? and TeacherANDPeriodical.SpareTire = '1'");
-			ps.setString(1, ppId);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				mp = new HashMap<String, Object>();
-				mp.put("teacherId", rs.getString(1));
-				mp.put("teacherName", rs.getString(2));
-				li.add(mp);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			throw e;
-		} finally {
-			closeSqlAttr(ps, rs);
-		}
-		if (li.size() > 0) {
-			return li;
-		} else {
-			return null;
-		}
-	}
 
     public List findMembers(String ppid){
     	try {
@@ -366,6 +341,35 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+    }
+    
+    public ByteArrayOutputStream findwithexport(ResearchLab research,String condition,String researchLabName,String foredate,String afterdate){
+    	try {
+	    	String queryString = "select new com.nuaa.ec.model.PeriodicalPaperInfoUnionModel(tap,pp) "
+	    			+ "from TeacherAndperiodical tap ,PeriodicalPapers pp "
+	    			+ "where tap.spareTire='1' "
+						+ " and tap.teacher.spareTire='1' "
+						+ " and pp.spareTire='1' "
+						+ " and tap.ppid=pp.ppid "
+						+condition
+						+ " and tap.teacher.researchLab=?";
+    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
+    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    	if(queryObject.list().size()>0){
+    		try {
+				PeriodicalPaperExcel.generateExcel(stringstore.peroidicalPaper, queryObject.list(), researchLabName, foredate, afterdate).write(baos);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		return baos;
+		}else{
+			return null;
+		}
+	} catch (RuntimeException re) {
+		log.error("find by property name failed", re);
+		throw re;
+	}
     }
     
 	public List findByProperty(String propertyName, Object value) {

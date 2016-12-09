@@ -194,31 +194,56 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </ul>
                     </li>
                     <li>
-                    <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">导出数据</span><span class="fa arrow"></span></a>
+	                    <a href="#">
+	                    	<i class="fa fa-edit"></i> 
+	                    	<span class="nav-label">导出数据</span>
+	                    	<span class="fa arrow"></span>
+	                    </a>
+				                      <ul class="nav nav-second-level">
+				                      <li>
+<!-- 				                      <a class="J_menuItem" href="">科研<span class="fa arrow"></span></a> -->
+				                      	<a href="#">
+			                                <i class="fa fa fa-bar-chart-o"></i>
+			                            	<span class="nav-label">科研 </span>
+			                            	<span class="fa arrow"></span>
+			                            </a>
 				                      <ul class="nav nav-third-level">
-				                      <li><a class="J_menuItem" href="">科研<span class="fa arrow"></span></a>
-				                      <ul class="nav nav-third-level">
-												<li><a  data-toggle="modal"  data-backdrop="true" class=""  data-target="#Resummary"   >汇总数据</a></li>
+												<li><a  data-toggle="modal"  data-backdrop="true" class=""  data-target="#Resummary"  >汇总数据</a></li>
 												 <li>
-				                                    <a href="">明细定制导出<span class="fa arrow"></span></a>
-				                                    	 <ul class="nav nav-third-level">
-															<li><a class="J_menuItem" href="periodicalcustomized">期刊论文</a></li>
-															<li><a class="J_menuItem" href="academicworkcustomized">学术著作</a></li>
-															<li><a class="J_menuItem" href="joinacademicmeetcustomized">参加学术会议</a></li>
-															<li><a class="J_menuItem" href="inviteExpertSpeechcustomized">邀请专家讲学</a></li>
-															<li><a class="J_menuItem" href="scientificResearchProjectcustomized">科研项目</a></li>
-															<li><a class="J_menuItem" href="scientificResearchRewardcustomized">科研奖励</a></li>
-															<li><a class="J_menuItem" href="selectedTalentProjectcustomized">人选人才工程</a></li>
-															<li><a class="J_menuItem" href="mainundertakeacademicmeetingcustomized">主承办学术会议</a></li>
-														</ul>
+				                                    <a class="J_menuItem" href="ExportData/ExportScienresearchData.jsp">
+<!-- 						                                <i class="fa fa fa-bar-chart-o"></i> -->
+						                            	<span class="nav-label">分模块导出 </span>
+<!-- 						                            	<span class="fa arrow"></span> -->
+						                            </a>
+<!-- 				                                    	 <ul class="nav nav-third-level controlslide"> -->
+<!-- 															<li><a class="J_menuItem" href="periodicalcustomized">期刊论文</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="academicworkcustomized">学术著作</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="joinacademicmeetcustomized">参加学术会议</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="inviteExpertSpeechcustomized">邀请专家讲学</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="scientificResearchProjectcustomized">科研项目</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="scientificResearchRewardcustomized">科研奖励</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="selectedTalentProjectcustomized">人选人才工程</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="mainundertakeacademicmeetingcustomized">主承办学术会议</a></li> -->
+<!-- 														</ul> -->
 												</li>
 											</ul>
 											</li>
-				                      <li><a class="J_menuItem" href="">教学<span class="fa arrow"></span></a>
+				                      <li>
+				                      	  	<a href="#">
+						                        <i class="fa fa fa-bar-chart-o"></i>
+						                           <span class="nav-label">教学 </span>
+						                           <span class="fa arrow"></span>
+						                    </a>
 				                      		<ul class="nav nav-third-level">
 	                                    		<li><a class="J_menuItem" href="downlaodVIEW!dataViewTeach">导出汇总数据</a></li>
-												<li><a href="">明细定制导出<span class="fa arrow"></span></a>
-													<ul class="nav nav-third-level">
+												<li>
+<!-- 													<a href="">分模块导出<span class="fa arrow"></span></a> -->
+													<a href="#">
+								                        <i class="fa fa fa-bar-chart-o"></i>
+								                           <span class="nav-label">分模块导出 </span>
+								                           <span class="fa arrow"></span>
+								                    </a>
+													<ul class="nav nav-third-level controlslide">
 														<li><a class="J_menuItem" href="">审核据定制</a></li>
 														<li><a class="J_menuItem" href="">审核据定制</a></li>
 														<li><a class="J_menuItem" href="">审核据定制</a></li>
@@ -241,20 +266,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</li>
 										</ul>
 				                      </li>
-				                      <li><a class="J_menuItem" href="">公益<span class="fa arrow"></span></a>
-				                     		<ul class="nav nav-third-level">
-												<li><a class="J_menuItem" href="downlaodVIEW!dataViewScience">汇总数据</a></li>
+				                      <li>
+				                      	<a href="#">
+						                    <i class="fa fa fa-bar-chart-o"></i>
+						                       <span class="nav-label">公益 </span>
+						                       <span class="fa arrow"></span>
+						                </a>
+				                     		<ul class="nav nav-third-level controlslide">
+												<li>
+												<a class="J_menuItem" href="downlaodVIEW!dataViewScience">汇总数据</a></li>
 												 <li>                                    
-				                                    <a href="">明细定制导出<span class="fa arrow"></span></a>
-				                                    	 <ul class="nav nav-third-level">
-															<li><a class="J_menuItem" href="">期刊论文</a></li>
-															<li><a class="J_menuItem" href="">审核据定制</a></li>
-															<li><a class="J_menuItem" href="">审核据定制</a></li>
-															<li><a class="J_menuItem" href="">审核据定制</a></li>
-															<li><a class="J_menuItem" href="">审核据定制</a></li>
-															<li><a class="J_menuItem" href="">审核据定制</a></li>
-															<li><a class="J_menuItem" href="">审核据定制</a></li>
-														</ul>
+<!-- 				                                    <a href="">明细定制导出<span class="fa arrow"></span></a> -->
+				                                    <a class="J_menuItem" href="">
+<!-- 								                        <i class="fa fa fa-bar-chart-o"></i> -->
+								                           <span class="nav-label">分模块导出 </span>
+<!-- 								                           <span class="fa arrow"></span> -->
+								                    </a>
+<!-- 				                                    	 <ul class="nav nav-third-level "> -->
+<!-- 															<li><a class="J_menuItem" href="">期刊论文</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="">审核据定制</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="">审核据定制</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="">审核据定制</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="">审核据定制</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="">审核据定制</a></li> -->
+<!-- 															<li><a class="J_menuItem" href="">审核据定制</a></li> -->
+<!-- 														</ul> -->
 												</li>
 											</ul> 
 				                     </li>
@@ -314,15 +350,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									
                                 </ul>
                             </li>
-                            <li>
-                                <a href="#">公益审核 <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">                                   
-                                    <li><a class="J_menuItem" href="">活动加入审核</a></li>
-                                    <li><a class="J_menuItem" href="">活动缺席审核</a></li>
-                                    <li><a class="J_menuItem" href="">活动发布审核</a></li>
-                                    <li><a class="J_menuItem" href="">活动申请添加审核</a></li>
-                                </ul>
-                             </li>
+<!--                             <li> -->
+<!--                                 <a href="#">公益审核 <span class="fa arrow"></span></a> -->
+<!--                                 <ul class="nav nav-third-level">                                    -->
+<!--                                     <li><a class="J_menuItem" href="">活动加入审核</a></li> -->
+<!--                                     <li><a class="J_menuItem" href="">活动缺席审核</a></li> -->
+<!--                                     <li><a class="J_menuItem" href="">活动发布审核</a></li> -->
+<!--                                     <li><a class="J_menuItem" href="">活动申请添加审核</a></li> -->
+<!--                                 </ul> -->
+<!--                              </li> -->
                         </ul>
                     </li>
                     <li>
@@ -451,7 +487,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                                      		 </li>																										
 	                                     </ul>
                              </li>
-                            <li><a class="J_menuItem" href="">公益设置</a>
+<!--                             <li><a class="J_menuItem" href="">公益设置</a> -->
                             <li>
                                 <a href="#">用户管理 <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">

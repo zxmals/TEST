@@ -188,7 +188,8 @@ public class PeriodicalPapersDAO extends BaseHibernateDAO  {
             + ", value: " + value);
       try {
          String queryString = "from PeriodicalPapers as model where model." 
-         						+ propertyName + "= ?";
+         						+ propertyName + "= ?"
+         						+ "and model.spareTire='1' ";
          Query queryObject = getSession().createQuery(queryString);
 		 queryObject.setParameter(0, value);
 		 return queryObject.list();
@@ -198,10 +199,20 @@ public class PeriodicalPapersDAO extends BaseHibernateDAO  {
       }
 	}
 
-	public List findByPpid(Object ppid
-	) {
-		return findByProperty(PPID, ppid
-		);
+	public PeriodicalPapers findByPpid(String ppid) {
+		try {
+	         String queryString = "from PeriodicalPapers as model where model." 
+	         						+ PPID + "= ? "
+	         								+ "and model.spareTire='1' ";
+	         Query queryObject = getSession().createQuery(queryString);
+			 queryObject.setParameter(0, ppid);
+			 if(queryObject.list().size()>0){
+				 return (PeriodicalPapers) queryObject.list().get(0);
+			 }else return null;
+	      } catch (RuntimeException re) {
+	         log.error("find by property name failed", re);
+	         throw re;
+	      }
 	}
 	
 	public List findByFirstAuthor(Object firstAuthor
