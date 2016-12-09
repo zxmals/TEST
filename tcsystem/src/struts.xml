@@ -533,6 +533,7 @@
 		<action name="GTTF*_*Audit11" class="com.nuaa.ec.teaching.GT_audit.action.Tf{1}_{2}Audit">
 			<result>/Audit/GT_Teaching/GTTf{1}_{2}.jsp</result>
 		</action>
+		<!-- test -->
 	</package>
 	
 	
