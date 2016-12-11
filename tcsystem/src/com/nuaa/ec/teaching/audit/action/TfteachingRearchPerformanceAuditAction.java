@@ -59,7 +59,7 @@ public class TfteachingRearchPerformanceAuditAction implements RequestAware{
 				TfteachingRearchPerfList = this.TfteachingRearchPerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(TfteachingRearchPerfList!=null){
-					TfteachingRearchPerfList.setCheckOut("1");
+					TfteachingRearchPerfList.setCheckOut("3");
 					checkoutList.add(TfteachingRearchPerfList);
 				}
 			}

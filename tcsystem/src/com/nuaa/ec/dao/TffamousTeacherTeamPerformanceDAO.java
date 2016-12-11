@@ -72,18 +72,34 @@ public class TffamousTeacherTeamPerformanceDAO extends BaseHibernateDAO {
 				session.put("recordNumber_FTT", 0);
 				return TFfamousTeacherTeamPefroList = new ArrayList<TffamousTeacherTeamPerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"from TffamousTeacherTeamPerformance FTT where FTT.spareTire='1'"
-								+ " and FTT.checkOut='" + checkOut + "'"
-								+ " and FTT.tffamousTeacherTeamProject.spareTire='1'"
-								+ " and FTT.selfUndertakeTask.spareTire='1'"
-								+ " and FTT.tffamousTeacherTeamProject.tffamousTeacherTeamRewadLevel.spareTire='1'"
-								+ " and FTT.tffamousTeacherTeamProject.tfterm.spareTire='1'"
-								+ " and FTT.tffamousTeacherTeamProject.tfterm.termId='"+termId+"'"
-								+ " and FTT.teacher.spareTire='1'"
-								+ " and FTT.teacher.department.spareTire='1'"
-								+ " and FTT.teacher.department.departmentId='"+department.getDepartmentId()+"'");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"from TffamousTeacherTeamPerformance FTT where FTT.spareTire='1'"
+									+ " and FTT.tffamousTeacherTeamProject.spareTire='1'"
+									+ " and FTT.selfUndertakeTask.spareTire='1'"
+									+ " and FTT.tffamousTeacherTeamProject.tffamousTeacherTeamRewadLevel.spareTire='1'"
+									+ " and FTT.tffamousTeacherTeamProject.tfterm.spareTire='1'"
+									+ " and FTT.tffamousTeacherTeamProject.tfterm.termId='"+termId+"'"
+									+ " and FTT.teacher.spareTire='1'"
+									+ " and FTT.teacher.department.spareTire='1'"
+									+ " and FTT.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by FTT.tffamousTeacherTeamProject.teacherTeamPerformanceId desc");
+				}else {
+					
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"from TffamousTeacherTeamPerformance FTT where FTT.spareTire='1'"
+									+ " and FTT.checkOut='" + checkOut + "'"
+									+ " and FTT.tffamousTeacherTeamProject.spareTire='1'"
+									+ " and FTT.selfUndertakeTask.spareTire='1'"
+									+ " and FTT.tffamousTeacherTeamProject.tffamousTeacherTeamRewadLevel.spareTire='1'"
+									+ " and FTT.tffamousTeacherTeamProject.tfterm.spareTire='1'"
+									+ " and FTT.tffamousTeacherTeamProject.tfterm.termId='"+termId+"'"
+									+ " and FTT.teacher.spareTire='1'"
+									+ " and FTT.teacher.department.spareTire='1'"
+									+ " and FTT.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by FTT.tffamousTeacherTeamProject.teacherTeamPerformanceId desc");
+				}
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

@@ -60,7 +60,7 @@ public class TfteachingAchievementPerformanceAuditAction implements RequestAware
 				TfteachingAchievementPerf = this.TfteachingAchievementPerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(TfteachingAchievementPerf!=null){
-					TfteachingAchievementPerf.setCheckOut("1");
+					TfteachingAchievementPerf.setCheckOut("3");
 					checkoutList.add(TfteachingAchievementPerf);
 				}
 			}

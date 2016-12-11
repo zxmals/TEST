@@ -71,19 +71,34 @@ public class TffineCourseConstructionPerformanceDAO extends BaseHibernateDAO {
 				session.put("recordNumber_FCC", 0);
 				return tfFineCourseConstructionPerformance = new ArrayList<TffineCourseConstructionPerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"from TffineCourseConstructionPerformance FCC where FCC.spareTire='1'"
-								+ " and FCC.checkOut='" + checkOut + "'"
-								+ " and FCC.tffineCourseConstructionProject.spareTire='1'"
-								+ " and FCC.tffineCourseConstructionProject.tffineCourseConstructionLevel.spareTire='1'"
-								+ " and FCC.tffineCourseConstructionProject.tfterm.spareTire='1'"
-								+ " and FCC.selfUndertakeTask.spareTire='1'"
-								+ " and FCC.tffineCourseConstructionProject.tfterm.termId='"+termId+"'"
-								+ " and FCC.teacher.spareTire='1'"
-								+ " and FCC.teacher.department.spareTire='1'"
-								+ " and FCC.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " order by FCC.tffineCourseConstructionProject.courseId asc");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"from TffineCourseConstructionPerformance FCC where FCC.spareTire='1'"
+									+ " and FCC.tffineCourseConstructionProject.spareTire='1'"
+									+ " and FCC.tffineCourseConstructionProject.tffineCourseConstructionLevel.spareTire='1'"
+									+ " and FCC.tffineCourseConstructionProject.tfterm.spareTire='1'"
+									+ " and FCC.selfUndertakeTask.spareTire='1'"
+									+ " and FCC.tffineCourseConstructionProject.tfterm.termId='"+termId+"'"
+									+ " and FCC.teacher.spareTire='1'"
+									+ " and FCC.teacher.department.spareTire='1'"
+									+ " and FCC.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by FCC.tffineCourseConstructionProject.courseId desc");
+				}else {
+					
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"from TffineCourseConstructionPerformance FCC where FCC.spareTire='1'"
+									+ " and FCC.checkOut='" + checkOut + "'"
+									+ " and FCC.tffineCourseConstructionProject.spareTire='1'"
+									+ " and FCC.tffineCourseConstructionProject.tffineCourseConstructionLevel.spareTire='1'"
+									+ " and FCC.tffineCourseConstructionProject.tfterm.spareTire='1'"
+									+ " and FCC.selfUndertakeTask.spareTire='1'"
+									+ " and FCC.tffineCourseConstructionProject.tfterm.termId='"+termId+"'"
+									+ " and FCC.teacher.spareTire='1'"
+									+ " and FCC.teacher.department.spareTire='1'"
+									+ " and FCC.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by FCC.tffineCourseConstructionProject.courseId desc");
+				}
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

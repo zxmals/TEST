@@ -72,19 +72,34 @@ public class TfprofessionalProjectDeclarePerformanceDAO extends
 				session.put("recordNumber_PPD", 0);
 				return tfProfessionalProjectDeclarePerformance = new ArrayList<TfprofessionalProjectDeclarePerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"from TfprofessionalProjectDeclarePerformance PPD where PPD.spareTire='1'"
-								+ " and PPD.checkOut='" + checkOut + "'"
-								+ " and PPD.tfprofessionalProjectDeclareProject.spareTire='1'"
-								+ " and PPD.tfprofessionalProjectDeclareProject.tfprofessionalProjectDeclareLevel.spareTire='1'"
-								+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.spareTire='1'"
-								+ " and PPD.selfUndertakeTask.spareTire='1'"
-								+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.termId='"+termId+"'"
-								+ " and PPD.teacher.spareTire='1'"
-								+ " and PPD.teacher.department.spareTire='1'"
-								+ " and PPD.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " order by PPD.tfprofessionalProjectDeclareProject.projectId asc");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"from TfprofessionalProjectDeclarePerformance PPD where PPD.spareTire='1'"
+									+ " and PPD.tfprofessionalProjectDeclareProject.spareTire='1'"
+									+ " and PPD.tfprofessionalProjectDeclareProject.tfprofessionalProjectDeclareLevel.spareTire='1'"
+									+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.spareTire='1'"
+									+ " and PPD.selfUndertakeTask.spareTire='1'"
+									+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.termId='"+termId+"'"
+									+ " and PPD.teacher.spareTire='1'"
+									+ " and PPD.teacher.department.spareTire='1'"
+									+ " and PPD.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by PPD.tfprofessionalProjectDeclareProject.projectId desc");
+				}else {
+					
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"from TfprofessionalProjectDeclarePerformance PPD where PPD.spareTire='1'"
+									+ " and PPD.checkOut='" + checkOut + "'"
+									+ " and PPD.tfprofessionalProjectDeclareProject.spareTire='1'"
+									+ " and PPD.tfprofessionalProjectDeclareProject.tfprofessionalProjectDeclareLevel.spareTire='1'"
+									+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.spareTire='1'"
+									+ " and PPD.selfUndertakeTask.spareTire='1'"
+									+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.termId='"+termId+"'"
+									+ " and PPD.teacher.spareTire='1'"
+									+ " and PPD.teacher.department.spareTire='1'"
+									+ " and PPD.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by PPD.tfprofessionalProjectDeclareProject.projectId desc");
+				}
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

@@ -299,4 +299,28 @@ public class TffineCourseConstructionProjectDAO extends BaseHibernateDAO {
 		
 		return tffineCourseConstructionProjectList;
 	}
+
+	public boolean cascadeUpdateProjectMembersCheckout(
+			List<TffineCourseConstructionProject> checkoutList, String checkout) {
+		// TODO Auto-generated method stub
+		Session session = this.getSession();
+		boolean flag = false;
+		Transaction txTransaction = null;
+		try {
+			for (TffineCourseConstructionProject tffineCourseConstructionProject : checkoutList) {
+				
+				String sqlString = "update TffineCourseConstructionPerformance TR set TR.checkOut='" + checkout +"' where TR.tffineCourseConstructionProject.courseId = '" + tffineCourseConstructionProject.getCourseId() + "'"; 
+				session.createQuery(sqlString).executeUpdate();
+				
+			}
+			txTransaction = session.beginTransaction();
+			txTransaction.commit();
+			flag = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			txTransaction.rollback();
+		}
+		return flag;
+	}
 }

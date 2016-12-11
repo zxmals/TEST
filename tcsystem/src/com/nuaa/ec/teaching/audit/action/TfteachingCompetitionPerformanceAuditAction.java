@@ -25,7 +25,7 @@ public class TfteachingCompetitionPerformanceAuditAction implements RequestAware
 				TfteachingCompetitionPerfList = this.TfteachingCompetitionPerfDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(TfteachingCompetitionPerfList!=null){
-					TfteachingCompetitionPerfList.setCheckOut("1");
+					TfteachingCompetitionPerfList.setCheckOut("3");
 					checkoutList.add(TfteachingCompetitionPerfList);
 				}
 			}

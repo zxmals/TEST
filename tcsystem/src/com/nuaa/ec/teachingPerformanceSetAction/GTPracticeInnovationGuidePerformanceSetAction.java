@@ -92,7 +92,7 @@ public class GTPracticeInnovationGuidePerformanceSetAction implements
 			 * 设置checkout和spireTire信息
 			 */
 			pracInnoGuidPerf.setSpareTire("1");
-			pracInnoGuidPerf.setCheckOut("0");
+			pracInnoGuidPerf.setCheckOut("1");
 			/**
 			 * 事务处理
 			 */
@@ -150,7 +150,7 @@ public class GTPracticeInnovationGuidePerformanceSetAction implements
 			 * 设置checkout和spareTire
 			 */
 			pracInnoGuidPerf.setSpareTire("1");
-			pracInnoGuidPerf.setCheckOut("0");
+			pracInnoGuidPerf.setCheckOut("1");
 			/**
 			 * 执行插入事务
 			 */

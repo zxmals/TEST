@@ -94,9 +94,18 @@
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
 			name="checkOutStatus_FCC" id="checkoutStatus">
-				<option value="0">未审核</option>
-				<option value="1">审核通过</option>
-				<option value="2">未通过审核</option>
+				<c:forEach var="status" items="${auditStatus }">
+					<c:if test="${status.key!='5' }">
+						<c:choose>
+							<c:when test="${status.key == '0' }">
+								<option value="${status.key }"/>待系主任审核
+							</c:when>
+							<c:otherwise>
+								<option value="${status.key }">${status.value }</option>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+				</c:forEach>
 		</select>
 		</span> <span style="margin-left:15px;"><button type="submit"
 				class="button_set" style="height:25px;">确认</button></span>
@@ -117,16 +126,22 @@
 				<td>教师姓名</td>
 				<td>项目总分</td>
 				<td>最终分数</td>
-				<c:if test="${sessionScope.checkOutStatus_FCC=='0' }">
+				<c:if test="${sessionScope.checkOutStatus_FCC=='1' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_FCC=='1' }">
-					<td><font color="blue">通过</td>
-				</c:if>
+				<c:if test="${sessionScope.checkOutStatus_FCC=='0' }">
+					<td><font color="blue">待系主任审核</td>
+				</c:if>				
 				<c:if test="${sessionScope.checkOutStatus_FCC=='2' }">
 					<td><font color="red">未通过</td>
-				</c:if>
+				</c:if>				
+				<c:if test="${sessionScope.checkOutStatus_FCC=='3' }">
+					<td><font color="green">管理员审核通过</td>
+				</c:if>				
+				<c:if test="${sessionScope.checkOutStatus_FCC=='4' }">
+					<td><font color="blue">查看全部记录</td>
+				</c:if>	
 
 			</tr>
 			<c:forEach var="TfFineCourseConstructionPerformance"
@@ -150,17 +165,34 @@
 					<td>${TfFineCourseConstructionPerformance.tffineCourseConstructionProject.projectSumScore }</td>
 					<!-- 最终分数 -->
 					<td>${TfFineCourseConstructionPerformance.singelScore }</td>
-					<c:if test="${sessionScope.checkOutStatus_FCC=='0' }">
+					<c:if test="${sessionScope.checkOutStatus_FCC=='1' }">
 						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
 							value="${TfFineCourseConstructionPerformance.upid}"   class="check1"/></td>
 						<td class="c2">不通过<input value="${TfFineCourseConstructionPerformance.upid}" type="checkbox"
 						 name="notAudit" class="check2"/></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_FCC=='1' }">
-						<td><font color="green"size:"3">√</td>
+					<c:if test="${sessionScope.checkOutStatus_FCC=='0' }">
+						<td><font color="blue" size:"3">待系主任审核项目</td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_FCC=='2' }">
 						<td><font color="red" size="3">×</td>
+					</c:if>
+					<c:if test="${sessionScope.checkOutStatus_FCC=='3' }">
+						<td><font color="green" size="2">管理员审核通过</td>
+					</c:if>
+					<c:if test="${sessionScope.checkOutStatus_FCC=='4' }">
+						<c:if test="${TfFineCourseConstructionPerformance.checkOut=='0' }">
+							<td><font color="orange" >等待系主任审核</td>
+						</c:if>
+						<c:if test="${TfFineCourseConstructionPerformance.checkOut=='1' }">
+							<td><font color="blue" >待管理员审核</td>
+						</c:if>
+						<c:if test="${TfFineCourseConstructionPerformance.checkOut=='2' }">
+							<td><font color="red">未通过</td>
+						</c:if>				
+						<c:if test="${TfFineCourseConstructionPerformance.checkOut=='3' }">
+							<td><font color="green">管理员审核通过</td>
+						</c:if>				
 					</c:if>
 				</tr>
 			</c:forEach>
@@ -192,7 +224,7 @@
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_FCC }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_FCC=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_FCC=='1'}">
 		<input type="button" value="审核" class="button_set"
 			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>

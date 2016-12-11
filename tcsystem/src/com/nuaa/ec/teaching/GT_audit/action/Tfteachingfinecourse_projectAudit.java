@@ -22,6 +22,8 @@ public class Tfteachingfinecourse_projectAudit implements RequestAware,SessionAw
 		String[] ids = this.checkOutIDs.split(",");
 		String[] idsNot=this.checkOutIDsNot.split(",");	
 		List<TffineCourseConstructionProject> checkoutList = new ArrayList<TffineCourseConstructionProject>();
+		List<TffineCourseConstructionProject> checkoutYESList = new ArrayList<TffineCourseConstructionProject>();
+		List<TffineCourseConstructionProject> checkoutNOTList = new ArrayList<TffineCourseConstructionProject>();
 		TffineCourseConstructionProject tffineCourseConstructionProject = null;
 		for (int i = 0; i < ids.length; i++) {
 			if (ids[i].length() != 0 && ids[i] != null) {
@@ -29,6 +31,7 @@ public class Tfteachingfinecourse_projectAudit implements RequestAware,SessionAw
 				if (tffineCourseConstructionProject!=null) {
 					tffineCourseConstructionProject.setCheckOut("1");;
 					checkoutList.add(tffineCourseConstructionProject);
+					checkoutYESList.add(tffineCourseConstructionProject);
 				}
 			}
 		}
@@ -38,12 +41,13 @@ public class Tfteachingfinecourse_projectAudit implements RequestAware,SessionAw
 				if (tffineCourseConstructionProject!=null) {
 					tffineCourseConstructionProject.setCheckOut("2");
 					checkoutList.add(tffineCourseConstructionProject);
+					checkoutNOTList.add(tffineCourseConstructionProject);
 				}
 			}
 		}
 		// 将待审核的项目传向后台
 		try {
-			if (tffineCourseConstructionProjectDAO.updateCheckOutStatus(checkoutList)) {
+			if (tffineCourseConstructionProjectDAO.updateCheckOutStatus(checkoutList) && tffineCourseConstructionProjectDAO.cascadeUpdateProjectMembersCheckout(checkoutYESList,"1")&&tffineCourseConstructionProjectDAO.cascadeUpdateProjectMembersCheckout(checkoutNOTList,"2")) {
 				ServletActionContext.getResponse().getWriter().write("succ");
 			}else {
 				ServletActionContext.getResponse().getWriter().write("error");

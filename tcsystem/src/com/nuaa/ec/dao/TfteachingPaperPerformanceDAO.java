@@ -71,19 +71,35 @@ public class TfteachingPaperPerformanceDAO extends BaseHibernateDAO {
 				session.put("recordNumber_TPP", 0);
 				return TfteachingPaperPerfList = new ArrayList<TfteachingPaperPerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"from TfteachingPaperPerformance TPP where TPP.spareTire='1'"
-								+ " and TPP.checkOut='" + checkOut + "'"
-								+ " and TPP.tfteachingPaperProject.spareTire='1'"
-								+ " and TPP.tfteachingPaperProject.tfteachingPaperRetrievalCondition.spareTire='1'"
-								+ " and TPP.tfteachingPaperProject.tfterm.spareTire='1'"
-								+ " and TPP.selfUndertakeTask.spareTire='1'"
-								+ " and TPP.tfteachingPaperProject.tfterm.termId='"+termId+"'"
-								+ " and TPP.teacher.spareTire='1'"
-								+ " and TPP.teacher.department.spareTire='1'"
-								+ " and TPP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " order by TPP.tfteachingPaperProject.teachPaperId asc");
+				if (checkOut.equals("4")) {
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"from TfteachingPaperPerformance TPP where TPP.spareTire='1'"
+									+ " and TPP.tfteachingPaperProject.spareTire='1'"
+									+ " and TPP.tfteachingPaperProject.tfteachingPaperRetrievalCondition.spareTire='1'"
+									+ " and TPP.tfteachingPaperProject.tfterm.spareTire='1'"
+									+ " and TPP.selfUndertakeTask.spareTire='1'"
+									+ " and TPP.tfteachingPaperProject.tfterm.termId='"+termId+"'"
+									+ " and TPP.teacher.spareTire='1'"
+									+ " and TPP.teacher.department.spareTire='1'"
+									+ " and TPP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by TPP.tfteachingPaperProject.teachPaperId desc");
+				}else {
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"from TfteachingPaperPerformance TPP where TPP.spareTire='1'"
+									+ " and TPP.checkOut='" + checkOut + "'"
+									+ " and TPP.tfteachingPaperProject.spareTire='1'"
+									+ " and TPP.tfteachingPaperProject.tfteachingPaperRetrievalCondition.spareTire='1'"
+									+ " and TPP.tfteachingPaperProject.tfterm.spareTire='1'"
+									+ " and TPP.selfUndertakeTask.spareTire='1'"
+									+ " and TPP.tfteachingPaperProject.tfterm.termId='"+termId+"'"
+									+ " and TPP.teacher.spareTire='1'"
+									+ " and TPP.teacher.department.spareTire='1'"
+									+ " and TPP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by TPP.tfteachingPaperProject.teachPaperId desc");
+				}
+				
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

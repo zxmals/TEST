@@ -26,7 +26,7 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformanceAuditActi
 				Tf_EN_WTB_CONS_PERF_List = this.TfEN_WTBC_PerformDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(Tf_EN_WTB_CONS_PERF_List!=null){
-					Tf_EN_WTB_CONS_PERF_List.setCheckOut("1");
+					Tf_EN_WTB_CONS_PERF_List.setCheckOut("3");
 					checkoutList.add(Tf_EN_WTB_CONS_PERF_List);
 				}
 			}

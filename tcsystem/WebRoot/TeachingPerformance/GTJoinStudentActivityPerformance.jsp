@@ -148,10 +148,10 @@
 												<!-- upid -->
 												<td style="display:none;">${joinStuActPerfUnionTfterm.joinStudentActivityPerformance.upid }</td>
 												<!-- 状态 -->
-												<c:if test="${joinStuActPerfUnionTfterm.joinStudentActivityPerformance.checkOut ==0 }">
+												<c:if test="${joinStuActPerfUnionTfterm.joinStudentActivityPerformance.checkOut ==1 }">
 													<td style="color:blue;">待审核</td>
 												</c:if>
-												<c:if test="${joinStuActPerfUnionTfterm.joinStudentActivityPerformance.checkOut ==1 }">
+												<c:if test="${joinStuActPerfUnionTfterm.joinStudentActivityPerformance.checkOut ==3 }">
 													<td style="color: green;">审核通过</td>
 												</c:if>
 												<c:if test="${joinStuActPerfUnionTfterm.joinStudentActivityPerformance.checkOut ==2 }">

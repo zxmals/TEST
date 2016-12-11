@@ -139,6 +139,7 @@ public class TfsummerCourseInternationalConstructionPerformanceDAO extends BaseH
 		}
 		return list;
 	}
+	
 	public boolean updateCheckoutStatus(List<TfsummerCourseInternationalConstructionPerformance> tfSummerAndInternationalConsrseConstructionPerfList){
 		Session session=this.getSession();
 		Transaction tx=null;
@@ -169,18 +170,32 @@ public class TfsummerCourseInternationalConstructionPerformanceDAO extends BaseH
 				session.put("recordNumber_SCI", 0);
 				return tfSummerAndInternationalCourseConstructionPerformanceList = new ArrayList<TfsummerCourseInternationalConstructionPerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"select SCI from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
-								+ " and SCI.spareTire='1'"
-								+ " and TERM.spareTire='1'"
-								+ " and SCI.checkOut='" + checkOut + "'"
-								+ " and SCI.tfsummerCourseInternationalConstructionLevel.spareTire='1'"
-								+ " and SCI.teacher.spareTire='1'"
-								+ " and SCI.teacher.department.spareTire='1'"
-								+ " and SCI.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " and SCI.termId='"+termId+"'"
-								+ " order by SCI.projectId asc");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"select SCI from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
+									+ " and SCI.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and SCI.tfsummerCourseInternationalConstructionLevel.spareTire='1'"
+									+ " and SCI.teacher.spareTire='1'"
+									+ " and SCI.teacher.department.spareTire='1'"
+									+ " and SCI.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and SCI.termId='"+termId+"'"
+									+ " order by SCI.projectId desc");
+				}else {
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"select SCI from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
+									+ " and SCI.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and SCI.checkOut='" + checkOut + "'"
+									+ " and SCI.tfsummerCourseInternationalConstructionLevel.spareTire='1'"
+									+ " and SCI.teacher.spareTire='1'"
+									+ " and SCI.teacher.department.spareTire='1'"
+									+ " and SCI.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and SCI.termId='"+termId+"'"
+									+ " order by SCI.projectId desc");
+					
+				}
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

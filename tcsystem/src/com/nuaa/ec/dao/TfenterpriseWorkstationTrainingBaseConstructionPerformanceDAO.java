@@ -81,19 +81,34 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO
 			session.put("recordNumber_EWTB", 0);
 			return Tf_EN_WTB_CONS_PERF_List = new ArrayList<TfenterpriseWorkstationTrainingBaseConstructionPerformance>();
 		} else {
-			// 查出符合条件的全部的记录
-			hqlBuffer = new StringBuffer(
-					"from TfenterpriseWorkstationTrainingBaseConstructionPerformance EWTB where EWTB.spareTire='1'"
-							+ " and EWTB.checkOut='" + checkOut + "'"
-							+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.spareTire='1'"
-							+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.spareTire='1'"
-							+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.termId='"+termId+"'"
-							+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfenterpriseWorkstationTrainingbaseConstructionLevel.spareTire='1'"
-							+ " and EWTB.selfUndertakeTask.spareTire='1'"
-							+ " and EWTB.teacher.spareTire='1'"
-							+ " and EWTB.teacher.department.spareTire='1'"
-							+ " and EWTB.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-							+ " order by EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.projectId asc ");
+			if (checkOut.equals("4")) {
+				hqlBuffer = new StringBuffer(
+						"from TfenterpriseWorkstationTrainingBaseConstructionPerformance EWTB where EWTB.spareTire='1'"
+								+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.spareTire='1'"
+								+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.spareTire='1'"
+								+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.termId='"+termId+"'"
+								+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfenterpriseWorkstationTrainingbaseConstructionLevel.spareTire='1'"
+								+ " and EWTB.selfUndertakeTask.spareTire='1'"
+								+ " and EWTB.teacher.spareTire='1'"
+								+ " and EWTB.teacher.department.spareTire='1'"
+								+ " and EWTB.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " order by EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.projectId desc ");
+			}else {
+				
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"from TfenterpriseWorkstationTrainingBaseConstructionPerformance EWTB where EWTB.spareTire='1'"
+								+ " and EWTB.checkOut='" + checkOut + "'"
+								+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.spareTire='1'"
+								+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.spareTire='1'"
+								+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.termId='"+termId+"'"
+								+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfenterpriseWorkstationTrainingbaseConstructionLevel.spareTire='1'"
+								+ " and EWTB.selfUndertakeTask.spareTire='1'"
+								+ " and EWTB.teacher.spareTire='1'"
+								+ " and EWTB.teacher.department.spareTire='1'"
+								+ " and EWTB.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " order by EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.projectId desc ");
+			}
 			// 判断是否为分页操作
 			if (!isDivided) {
 				//如果不是分页操作，取出所有符合条件的记录

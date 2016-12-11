@@ -25,7 +25,7 @@ public class TfteachingAbilityImprovePerformanceAuditAction implements RequestAw
 				TfteachingCompetitionPerfList = this.TfteachingAbilityImproProfDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(TfteachingCompetitionPerfList!=null){
-					TfteachingCompetitionPerfList.setCheckOut("1");
+					TfteachingCompetitionPerfList.setCheckOut("3");
 					checkoutList.add(TfteachingCompetitionPerfList);
 				}
 			}

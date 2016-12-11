@@ -151,10 +151,10 @@
 												<!-- upid -->
 												<td style="display:none;">${studCompetGuidPerfUnionTfterm.studentCompetGuidPerf.upid }</td>
 												<!-- 状态 -->
-												<c:if test="${studCompetGuidPerfUnionTfterm.studentCompetGuidPerf.checkOut ==0 }">
+												<c:if test="${studCompetGuidPerfUnionTfterm.studentCompetGuidPerf.checkOut ==1 }">
 													<td style="color:blue;">待审核</td>
 												</c:if>
-												<c:if test="${studCompetGuidPerfUnionTfterm.studentCompetGuidPerf.checkOut ==1 }">
+												<c:if test="${studCompetGuidPerfUnionTfterm.studentCompetGuidPerf.checkOut ==3 }">
 													<td style="color: green;">审核通过</td>
 												</c:if>
 												<c:if test="${studCompetGuidPerfUnionTfterm.studentCompetGuidPerf.checkOut ==2 }">

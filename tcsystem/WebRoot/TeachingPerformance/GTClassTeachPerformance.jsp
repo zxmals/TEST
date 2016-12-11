@@ -155,10 +155,10 @@
 												<!-- 得分 -->
 												<td>${classTeachPerformanceUnionTfterm.classTeachPerformance.finalScore }</td>
 												<!-- 状态 -->
-												<c:if test="${classTeachPerformanceUnionTfterm.classTeachPerformance.checkOut ==0 }">
+												<c:if test="${classTeachPerformanceUnionTfterm.classTeachPerformance.checkOut ==1 }">
 													<td style="color:blue;">待审核</td>
 												</c:if>
-												<c:if test="${classTeachPerformanceUnionTfterm.classTeachPerformance.checkOut ==1 }">
+												<c:if test="${classTeachPerformanceUnionTfterm.classTeachPerformance.checkOut ==3 }">
 													<td style="color: green;">审核通过</td>
 												</c:if>
 												<c:if test="${classTeachPerformanceUnionTfterm.classTeachPerformance.checkOut ==2 }">

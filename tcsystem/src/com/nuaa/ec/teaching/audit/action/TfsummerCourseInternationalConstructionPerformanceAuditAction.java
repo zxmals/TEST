@@ -58,7 +58,7 @@ public class TfsummerCourseInternationalConstructionPerformanceAuditAction imple
 				tfsummerCourseInternationalConstructionPerf = this.tfsummerCourseInternationalConstructionPerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(tfsummerCourseInternationalConstructionPerf!=null){
-					tfsummerCourseInternationalConstructionPerf.setCheckOut("1");
+					tfsummerCourseInternationalConstructionPerf.setCheckOut("3");
 					checkoutList.add(tfsummerCourseInternationalConstructionPerf);
 				}
 			}

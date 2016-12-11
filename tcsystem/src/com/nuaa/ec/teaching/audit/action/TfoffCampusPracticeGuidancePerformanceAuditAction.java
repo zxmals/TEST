@@ -58,7 +58,7 @@ public class TfoffCampusPracticeGuidancePerformanceAuditAction implements Reques
 				tfOffCampusPracticeGuidancePerformance = this.tfoffCampusPracticeGuidancePerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(tfOffCampusPracticeGuidancePerformance!=null){
-					tfOffCampusPracticeGuidancePerformance.setCheckOut("1");
+					tfOffCampusPracticeGuidancePerformance.setCheckOut("3");
 					checkoutList.add(tfOffCampusPracticeGuidancePerformance);
 				}
 			}

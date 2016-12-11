@@ -58,7 +58,7 @@ public class TfundergraduateTutorGuidancePerformanceAuditAction implements Reque
 				tfUndergraduateTutorGuidancePerformance = this.tfundergraduateTutorGuidancePerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(tfUndergraduateTutorGuidancePerformance!=null){
-					tfUndergraduateTutorGuidancePerformance.setCheckOut("1");
+					tfUndergraduateTutorGuidancePerformance.setCheckOut("3");
 					checkoutList.add(tfUndergraduateTutorGuidancePerformance);
 				}
 			}

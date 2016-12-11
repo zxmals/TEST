@@ -25,7 +25,7 @@ public class TfdegreeThesisGuidancePerformanceAuditAction implements
 			TfDegreeThesisGuidancePerf = this.TfdegreeThesisGuidancePerfDAO.findById(ids[i]);
 			// 修改checkout 标志
 			if(TfDegreeThesisGuidancePerf!=null){
-				TfDegreeThesisGuidancePerf.setCheckOut("1");
+				TfDegreeThesisGuidancePerf.setCheckOut("3");
 				checkoutList.add(TfDegreeThesisGuidancePerf);
 			}
 		}

@@ -178,18 +178,32 @@ public class TfoffCampusPracticeGuidancePerformanceDAO extends BaseHibernateDAO 
 				session.put("recordNumber_OCP", 0);
 				return tfOffCampusPracticeGuidancePerformanceList = new ArrayList<TfoffCampusPracticeGuidancePerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"select OCP from TfoffCampusPracticeGuidancePerformance OCP,Tfterm TERM where TERM.termId=OCP.termId"
-								+ " and OCP.spareTire='1'"
-								+ " and TERM.spareTire='1'"
-								+ " and OCP.checkOut='" + checkOut + "'"
-								+ " and OCP.tfoffCampusPracticeGuidanceLevel.spareTire='1'"
-								+ " and OCP.teacher.spareTire='1'"
-								+ " and OCP.teacher.department.spareTire='1'"
-								+ " and OCP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " and OCP.termId='"+termId+"'"
-								+ " order by OCP.offguidanceId desc");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"select OCP from TfoffCampusPracticeGuidancePerformance OCP,Tfterm TERM where TERM.termId=OCP.termId"
+									+ " and OCP.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and OCP.tfoffCampusPracticeGuidanceLevel.spareTire='1'"
+									+ " and OCP.teacher.spareTire='1'"
+									+ " and OCP.teacher.department.spareTire='1'"
+									+ " and OCP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and OCP.termId='"+termId+"'"
+									+ " order by OCP.offguidanceId desc");
+				}else {
+					
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"select OCP from TfoffCampusPracticeGuidancePerformance OCP,Tfterm TERM where TERM.termId=OCP.termId"
+									+ " and OCP.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and OCP.checkOut='" + checkOut + "'"
+									+ " and OCP.tfoffCampusPracticeGuidanceLevel.spareTire='1'"
+									+ " and OCP.teacher.spareTire='1'"
+									+ " and OCP.teacher.department.spareTire='1'"
+									+ " and OCP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and OCP.termId='"+termId+"'"
+									+ " order by OCP.offguidanceId desc");
+				}
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

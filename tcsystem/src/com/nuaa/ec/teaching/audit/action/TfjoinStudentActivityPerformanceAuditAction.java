@@ -58,7 +58,7 @@ public class TfjoinStudentActivityPerformanceAuditAction implements RequestAware
 				tfJoinStudentActivityPerformance = this.tfjoinStudentActivityPerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(tfJoinStudentActivityPerformance!=null){
-					tfJoinStudentActivityPerformance.setCheckOut("1");
+					tfJoinStudentActivityPerformance.setCheckOut("3");
 					checkoutList.add(tfJoinStudentActivityPerformance);
 				}
 			}

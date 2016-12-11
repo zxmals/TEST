@@ -170,17 +170,30 @@ public class TfteachingCompetitionPerformanceDAO extends BaseHibernateDAO  {
 			session.put("recordNumber_TCP", 0);
 			return TFteachingCompetitionPefroList = new ArrayList<TfteachingCompetitionPerformance>();
 		} else {
-			// 查出符合条件的全部的记录
-			hqlBuffer = new StringBuffer(
-					"select TCP from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
-							+ " and TCP.checkOut='" + checkOut + "'"
-							+ " and TERM.spareTire='1'"
-							+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
-							+ " and TCP.teacher.spareTire='1'"
-							+ " and TCP.teacher.department.spareTire='1'"
-							+ " and TCP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-							+ " and TCP.termId=TERM.termId"
-							+ " and TERM.termId='"+ termId+"'");
+			if (checkOut.equals("4")) {
+				hqlBuffer = new StringBuffer(
+						"select TCP from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+								+ " and TERM.spareTire='1'"
+								+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
+								+ " and TCP.teacher.spareTire='1'"
+								+ " and TCP.teacher.department.spareTire='1'"
+								+ " and TCP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " and TCP.termId=TERM.termId"
+								+ " and TERM.termId='"+ termId+"'");
+			}else {
+				
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"select TCP from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+								+ " and TCP.checkOut='" + checkOut + "'"
+								+ " and TERM.spareTire='1'"
+								+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
+								+ " and TCP.teacher.spareTire='1'"
+								+ " and TCP.teacher.department.spareTire='1'"
+								+ " and TCP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " and TCP.termId=TERM.termId"
+								+ " and TERM.termId='"+ termId+"'");
+			}
 			// 判断是否为分页操作
 			if (!isDivided) {
 				//如果不是分页操作，取出所有符合条件的记录

@@ -71,19 +71,35 @@ public class TfteachingAchievementPerformanceDAO extends BaseHibernateDAO {
 				session.put("recordNumber_TAP", 0);
 				return TfteachingAchievementPerfList = new ArrayList<TfteachingAchievementPerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"from TfteachingAchievementPerformance TAP where TAP.spareTire='1'"
-								+ " and TAP.checkOut='" + checkOut + "'"
-								+ " and TAP.tfteachingAchievementProject.spareTire='1'"
-								+ " and TAP.tfteachingAchievementProject.tfteachingAchievementRewardLevel.spareTire='1'"
-								+ " and TAP.tfteachingAchievementProject.tfterm.spareTire='1'"
-								+ " and TAP.selfUndertakeTask.spareTire='1'"
-								+ " and TAP.tfteachingAchievementProject.tfterm.termId='"+termId+"'"
-								+ " and TAP.teacher.spareTire='1'"
-								+ " and TAP.teacher.department.spareTire='1'"
-								+ " and TAP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " order by TAP.tfteachingAchievementProject.projectId asc");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"from TfteachingAchievementPerformance TAP where TAP.spareTire='1'"
+									+ " and TAP.checkOut='" + checkOut + "'"
+									+ " and TAP.tfteachingAchievementProject.spareTire='1'"
+									+ " and TAP.tfteachingAchievementProject.tfteachingAchievementRewardLevel.spareTire='1'"
+									+ " and TAP.tfteachingAchievementProject.tfterm.spareTire='1'"
+									+ " and TAP.selfUndertakeTask.spareTire='1'"
+									+ " and TAP.tfteachingAchievementProject.tfterm.termId='"+termId+"'"
+									+ " and TAP.teacher.spareTire='1'"
+									+ " and TAP.teacher.department.spareTire='1'"
+									+ " and TAP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by TAP.tfteachingAchievementProject.projectId desc");
+				}else {
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"from TfteachingAchievementPerformance TAP where TAP.spareTire='1'"
+									+ " and TAP.checkOut='" + checkOut + "'"
+									+ " and TAP.tfteachingAchievementProject.spareTire='1'"
+									+ " and TAP.tfteachingAchievementProject.tfteachingAchievementRewardLevel.spareTire='1'"
+									+ " and TAP.tfteachingAchievementProject.tfterm.spareTire='1'"
+									+ " and TAP.selfUndertakeTask.spareTire='1'"
+									+ " and TAP.tfteachingAchievementProject.tfterm.termId='"+termId+"'"
+									+ " and TAP.teacher.spareTire='1'"
+									+ " and TAP.teacher.department.spareTire='1'"
+									+ " and TAP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by TAP.tfteachingAchievementProject.projectId desc");
+				}
+				
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

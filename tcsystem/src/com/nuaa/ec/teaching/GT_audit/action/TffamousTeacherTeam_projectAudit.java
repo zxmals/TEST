@@ -22,6 +22,9 @@ public class TffamousTeacherTeam_projectAudit implements RequestAware,SessionAwa
 		String[] ids = this.checkOutIDs.split(",");
 		String[] idsNot=this.checkOutIDsNot.split(",");	
 		List<TffamousTeacherTeamProject> checkoutList = new ArrayList<TffamousTeacherTeamProject>();
+		List<TffamousTeacherTeamProject> checkoutYESList = new ArrayList<TffamousTeacherTeamProject>();
+		List<TffamousTeacherTeamProject> checkoutNOTList = new ArrayList<TffamousTeacherTeamProject>();
+		
 		TffamousTeacherTeamProject tffamousTeacherTeamProject = null;
 		for (int i = 0; i < ids.length; i++) {
 			if (ids[i].length() != 0 && ids[i] != null) {
@@ -29,6 +32,7 @@ public class TffamousTeacherTeam_projectAudit implements RequestAware,SessionAwa
 				if (tffamousTeacherTeamProject!=null) {
 					tffamousTeacherTeamProject.setCheckout("1");
 					checkoutList.add(tffamousTeacherTeamProject);
+					checkoutYESList.add(tffamousTeacherTeamProject);
 				}
 			}
 		}
@@ -38,12 +42,13 @@ public class TffamousTeacherTeam_projectAudit implements RequestAware,SessionAwa
 				if (tffamousTeacherTeamProject!=null) {
 					tffamousTeacherTeamProject.setCheckout("2");
 					checkoutList.add(tffamousTeacherTeamProject);
+					checkoutNOTList.add(tffamousTeacherTeamProject);
 				}
 			}
 		}
 		// 将待审核的项目传向后台
 		try {
-			if (tffamousTeacherTeamProjectDAO.updateCheckOutStatus(checkoutList)) {
+			if (tffamousTeacherTeamProjectDAO.updateCheckOutStatus(checkoutList) && tffamousTeacherTeamProjectDAO.cascadeUpdateProjectMembersCheckout(checkoutYESList,"1") && tffamousTeacherTeamProjectDAO.cascadeUpdateProjectMembersCheckout(checkoutNOTList, "2")) {
 				ServletActionContext.getResponse().getWriter().write("succ");
 			}else {
 				ServletActionContext.getResponse().getWriter().write("error");

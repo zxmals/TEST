@@ -59,7 +59,7 @@ public class TftextbookConstructionPerformanceAuditAction implements RequestAwar
 				TftextbookConstructionPerformance = this.tftextbookConstructionPerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(TftextbookConstructionPerformance!=null){
-					TftextbookConstructionPerformance.setCheckOut("1");
+					TftextbookConstructionPerformance.setCheckOut("3");
 					checkoutList.add(TftextbookConstructionPerformance);
 				}
 			}

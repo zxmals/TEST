@@ -306,4 +306,27 @@ public class TfenterpriseWorkstationTrainingBaseConstructionProjectDAO extends
 		}
 		return updateFlag;
 	}
+
+	public boolean cascadeUpdateProjectMembersCheckout(
+			List<TfenterpriseWorkstationTrainingBaseConstructionProject> checkoutList,
+			String checkout) {
+		// TODO Auto-generated method stub
+		boolean flag = false;
+		Session session = this.getSession();
+		Transaction tx = null;
+		try {
+			for (TfenterpriseWorkstationTrainingBaseConstructionProject tfenterpriseWorkstationTrainingBaseConstructionProject : checkoutList) {
+				String hqlString = "update TfenterpriseWorkstationTrainingBaseConstructionPerformance TR set TR.checkOut ='" + checkout + "' where TR.tfenterpriseWorkstationTrainingBaseConstructionProject.projectId = '" + tfenterpriseWorkstationTrainingBaseConstructionProject.getProjectId() + "'";
+				session.createQuery(hqlString).executeUpdate();
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			flag = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}
+		return flag;
+	}
 }

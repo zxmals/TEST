@@ -1,6 +1,7 @@
 package com.nuaa.ec.dao;
 
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.TffamousTeacherTeamProject;
 import com.nuaa.ec.model.TfteachingAchievementProject;
 import com.nuaa.ec.model.TfteachingPaperProject;
 import com.nuaa.ec.model.Tfterm;
@@ -301,5 +302,27 @@ public class TfteachingAchievementProjectDAO extends BaseHibernateDAO {
 		}
 		return tfteachingAchievementProjectList;
 		
+	}
+
+	public boolean cascadeUpdateProjectMembersCheckout(
+			List<TfteachingAchievementProject> checkoutList, String checkout) {
+		// TODO Auto-generated method stub
+		boolean returnFlag = false;
+		Session session = this.getSession();
+		Transaction tx = null;
+		try {
+			for (TfteachingAchievementProject tfteachingAchievementProject : checkoutList) {
+				String quesyString = "update TfteachingAchievementPerformance TR set TR.checkOut='" + checkout +"' where TR.tfteachingAchievementProject.projectId ='" + tfteachingAchievementProject.getProjectId() +"'";
+				session.createQuery(quesyString).executeUpdate();
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			returnFlag = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}
+		return returnFlag;
 	}
 }

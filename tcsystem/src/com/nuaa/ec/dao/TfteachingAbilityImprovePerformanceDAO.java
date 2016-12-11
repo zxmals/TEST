@@ -170,17 +170,30 @@ public class TfteachingAbilityImprovePerformanceDAO extends BaseHibernateDAO  {
 				session.put("recordNumber_TAI", 0);
 				return TFteachingAbilityImproPefroList = new ArrayList<TfteachingAbilityImprovePerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"select TAI from TfteachingAbilityImprovePerformance TAI,Tfterm TERM where TAI.spareTire='1'"
-								+ " and TAI.checkOut='" + checkOut + "'"
-								+ " and TERM.spareTire='1'"
-								+ " and TAI.tfteachingAbilityImproveLevel.spareTire='1'"
-								+ " and TAI.teacher.spareTire='1'"
-								+ " and TAI.teacher.department.spareTire='1'"
-								+ " and TAI.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " and TAI.termId=TERM.termId"
-								+ " and TERM.termId='"+ termId+"'");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"select TAI from TfteachingAbilityImprovePerformance TAI,Tfterm TERM where TAI.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and TAI.tfteachingAbilityImproveLevel.spareTire='1'"
+									+ " and TAI.teacher.spareTire='1'"
+									+ " and TAI.teacher.department.spareTire='1'"
+									+ " and TAI.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and TAI.termId=TERM.termId"
+									+ " and TERM.termId='"+ termId+"'");
+				}else {
+					
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"select TAI from TfteachingAbilityImprovePerformance TAI,Tfterm TERM where TAI.spareTire='1'"
+									+ " and TAI.checkOut='" + checkOut + "'"
+									+ " and TERM.spareTire='1'"
+									+ " and TAI.tfteachingAbilityImproveLevel.spareTire='1'"
+									+ " and TAI.teacher.spareTire='1'"
+									+ " and TAI.teacher.department.spareTire='1'"
+									+ " and TAI.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and TAI.termId=TERM.termId"
+									+ " and TERM.termId='"+ termId+"'");
+				}
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录
