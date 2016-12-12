@@ -215,16 +215,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						                            	<span class="nav-label">分模块导出 </span>
 <!-- 						                            	<span class="fa arrow"></span> -->
 						                            </a>
-<!-- 				                                    	 <ul class="nav nav-third-level controlslide"> -->
-<!-- 															<li><a class="J_menuItem" href="periodicalcustomized">期刊论文</a></li> -->
-<!-- 															<li><a class="J_menuItem" href="academicworkcustomized">学术著作</a></li> -->
-<!-- 															<li><a class="J_menuItem" href="joinacademicmeetcustomized">参加学术会议</a></li> -->
-<!-- 															<li><a class="J_menuItem" href="inviteExpertSpeechcustomized">邀请专家讲学</a></li> -->
-<!-- 															<li><a class="J_menuItem" href="scientificResearchProjectcustomized">科研项目</a></li> -->
-<!-- 															<li><a class="J_menuItem" href="scientificResearchRewardcustomized">科研奖励</a></li> -->
-<!-- 															<li><a class="J_menuItem" href="selectedTalentProjectcustomized">人选人才工程</a></li> -->
-<!-- 															<li><a class="J_menuItem" href="mainundertakeacademicmeetingcustomized">主承办学术会议</a></li> -->
-<!-- 														</ul> -->
 												</li>
 											</ul>
 											</li>
@@ -235,35 +225,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						                           <span class="fa arrow"></span>
 						                    </a>
 				                      		<ul class="nav nav-third-level">
-	                                    		<li><a class="J_menuItem" href="downlaodVIEW!dataViewTeach">导出汇总数据</a></li>
-												<li>
-<!-- 													<a href="">分模块导出<span class="fa arrow"></span></a> -->
-													<a href="#">
-								                        <i class="fa fa fa-bar-chart-o"></i>
-								                           <span class="nav-label">分模块导出 </span>
-								                           <span class="fa arrow"></span>
-								                    </a>
-													<ul class="nav nav-third-level controlslide">
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-														<li><a class="J_menuItem" href="">审核据定制</a></li>
-													</ul>
-												</li>
+	                                    		<li><a class="J_menuItem" href="downlaodVIEW!dataViewTeach">汇总数据</a></li>
+	                                    		<li><a class="J_menuItem" href="downlaodVIEW!dataViewTeach">分模块导出</a></li>
 										</ul>
 				                      </li>
 				                      <li>
