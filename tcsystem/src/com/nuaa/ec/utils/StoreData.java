@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
-import com.nuaa.ec.model.TfdegreeThesisGuidanceRewardLevel;
 import com.nuaa.ec.model.Tfterm;
 public class StoreData {
 
 	private static Map<String, Object> teachertranslate = new HashMap<String, Object>();
+	private static Map<String, String> filenameExported = new HashMap<String, String>();
 	private static List<ResearchLab> researchLabList=new ArrayList<ResearchLab>();
 	private static List<Tfterm> TftermList=new ArrayList<Tfterm>();
 	private static List<Department> departmentList=new ArrayList<Department>();
@@ -64,4 +67,29 @@ public class StoreData {
 		scienexports.put("入选人才工程", "TalentProject");
 	}
 
+	public static Map<String, String> getFilenameExported() {
+		/**
+		 * 存储导出数据的文件名
+		 */
+		 Map<String,String> filenameExported=new HashMap<String,String>();
+		 Set<Map.Entry<String,Object>> entrySet=StoreData.getScienexports().entrySet();
+		 for(Map.Entry<String,Object> entry:entrySet){
+			 filenameExported.put((String) entry.getValue(), entry.getKey());
+		 }
+		return filenameExported;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

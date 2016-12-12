@@ -1,8 +1,12 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+
 
 
 
@@ -19,6 +23,8 @@ import org.slf4j.LoggerFactory;
 
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.ScientificResearchReward;
+import com.nuaa.ec.scienresearch.exportdata.PeriodicalPaperExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -46,6 +52,7 @@ public class ScientificResearchRewardDAO extends BaseHibernateDAO {
 	public static final String CHARGE_PERSON = "chargePerson";
 	public static final String CHECKOUT = "checkout";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
 	
 	/**
 	 * 所长审核功能

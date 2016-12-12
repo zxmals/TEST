@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,9 @@ import com.nuaa.ec.model.AcademicWorkScore;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndacademicWork;
+import com.nuaa.ec.scienresearch.exportdata.AcademicWorkExcel;
+import com.nuaa.ec.scienresearch.exportdata.ScientificResearchRewardExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -35,6 +40,38 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 	
+	/**
+	 * 学术著作模块的数据导出
+	 */
+	 public ByteArrayOutputStream findwithexport(ResearchLab research,String condition,String researchLabName,String foredate,String afterdate){
+		 try{
+			String queryString = "FROM TeacherAndacademicWork TAAW "
+					+ " WHERE TAAW.spareTire='1' "
+					+ " AND TAAW.teacher.spareTire='1'"
+					+ " AND TAAW.academicWorkScore.spareTire='1' "
+					+ " AND TAAW.academicWork.spareTire='1' "
+					+ " AND TAAW.academicWork.publishClub.spareTire='1' "
+					+ " AND TAAW.selfUndertakeTask.spareTire='1' "
+					+condition
+					+ " AND TAAW.teacher.researchLab=? "
+					+ " ORDER by TAAW.academicWork.acaworkId desc ";
+	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
+	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    	if(queryObject.list().size()>0){
+	    		try {
+					AcademicWorkExcel.generateExcel(stringstore.academicwork, queryObject.list(), researchLabName, foredate, afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	    		return baos;
+			}else{
+				return null;
+			}
+		 }catch(RuntimeException re){
+			 log.error("find by property name failed", re);
+				throw re;
+		 }
+	 }
 	public boolean updateCheckoutStatus(List<TeacherAndacademicWork> TAAcademicWorkListToBeAudited){
 		Session session=this.getSession();
 		Transaction tx=null;
