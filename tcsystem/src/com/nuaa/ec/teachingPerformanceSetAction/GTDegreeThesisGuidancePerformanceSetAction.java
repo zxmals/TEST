@@ -34,7 +34,7 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 			degreeThesisGuidancePerformance.setFinalScore(this.getScore(degreeThsisGuidanceRewardLevel.getRewardLevelId()));
 			degreeThesisGuidancePerformance.setTeacher((Teacher) session.get("teacher"));
 			degreeThesisGuidancePerformance.setSpareTire("1");
-			degreeThesisGuidancePerformance.setCheckOut("0");
+			degreeThesisGuidancePerformance.setCheckOut("1");
 			this.degreeThesisGuidancePerformanceDAO.merge(degreeThesisGuidancePerformance);
 			tx.commit();
 			this.setOperstatus(1);
@@ -89,7 +89,7 @@ public class GTDegreeThesisGuidancePerformanceSetAction implements RequestAware 
 					"DT"));
 			degreeThesisGuidancePerformance.setFinalScore(this.getScore(this.degreeThsisGuidanceRewardLevel.getRewardLevelId().trim()));
 			degreeThesisGuidancePerformance.setSpareTire("1");
-			degreeThesisGuidancePerformance.setCheckOut("0");
+			degreeThesisGuidancePerformance.setCheckOut("1");
 			degreeThesisGuidancePerformance.setTeacher((Teacher) session.get("teacher"));
 			degreeThesisGuidancePerformance
 					.setTfdegreeThesisGuidanceRewardLevel(this.degreeGuidanceRewardLevelDAO

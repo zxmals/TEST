@@ -294,4 +294,28 @@ public class TfteachingPaperProjectDAO extends BaseHibernateDAO {
 		}
 		return tfteachingPaperProjectList;
 	}
+
+	public boolean cascadeUpdateProjectMembersCheckout(
+			List<TfteachingPaperProject> checkoutList, String checkout) {
+		// TODO Auto-generated method stub
+		boolean flag = false;
+		Session session = this.getSession();
+		Transaction tx = null;
+		try {
+			for (TfteachingPaperProject tfteachingPaperProject : checkoutList) {
+				session.createQuery("update TfteachingPaperPerformance TR set TR.checkOut = '" + 
+						checkout + "' where TR.tfteachingPaperProject.teachPaperId = '"+ tfteachingPaperProject.getTeachPaperId() + "'"
+						).executeUpdate();
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			flag = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}
+		return flag;
+		
+	}
 }

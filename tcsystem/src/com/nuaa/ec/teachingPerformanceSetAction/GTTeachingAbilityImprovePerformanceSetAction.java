@@ -61,7 +61,7 @@ public class GTTeachingAbilityImprovePerformanceSetAction implements
 			tfteachingAbilityImprovePerformance.setYearceiling(30);
 			tfteachingAbilityImprovePerformance.setFinalScore(score);
 			tfteachingAbilityImprovePerformance.setSpareTire("1");
-			tfteachingAbilityImprovePerformance.setCheckOut("0");
+			tfteachingAbilityImprovePerformance.setCheckOut("1");
 			this.tfteachingAbilityImprovePerformanceDAO.merge(tfteachingAbilityImprovePerformance);
 			tx=this.tfteachingAbilityImprovePerformanceDAO.getSession().beginTransaction();
 			tx.commit();
@@ -102,7 +102,7 @@ public class GTTeachingAbilityImprovePerformanceSetAction implements
 			tfteachingAbilityImprovePerformance.setYearceiling(30);
 			tfteachingAbilityImprovePerformance.setFinalScore(score);
 			tfteachingAbilityImprovePerformance.setSpareTire("1");
-			tfteachingAbilityImprovePerformance.setCheckOut("0");
+			tfteachingAbilityImprovePerformance.setCheckOut("1");
 			this.tfteachingAbilityImprovePerformanceDAO.save(tfteachingAbilityImprovePerformance);
 			tx=this.tfteachingAbilityImprovePerformanceDAO.getSession().beginTransaction();
 			tx.commit();

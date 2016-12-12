@@ -71,19 +71,35 @@ public class TftextbookConstructionPerformanceDAO extends BaseHibernateDAO {
 				session.put("recordNumber_TBC", 0);
 				return TftextbookConstructionPerformance = new ArrayList<TftextbookConstructionPerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"from TftextbookConstructionPerformance TBC where TBC.spareTire='1'"
-								+ " and TBC.checkOut='" + checkOut + "'"
-								+ " and TBC.tftextbookConstructionProject.spareTire='1'"
-								+ " and TBC.tftextbookConstructionProject.tftextbookConstructionTblevel.spareTire='1'"
-								+ " and TBC.tftextbookConstructionProject.tfterm.spareTire='1'"
-								+ " and TBC.selfUndertakeTask.spareTire='1'"
-								+ " and TBC.tftextbookConstructionProject.tfterm.termId='"+termId+"'"
-								+ " and TBC.teacher.spareTire='1'"
-								+ " and TBC.teacher.department.spareTire='1'"
-								+ " and TBC.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " order by TBC.tftextbookConstructionProject.bookId desc");
+				if (checkOut.equals("4")) {
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"from TftextbookConstructionPerformance TBC where TBC.spareTire='1'"
+									+ " and TBC.tftextbookConstructionProject.spareTire='1'"
+									+ " and TBC.tftextbookConstructionProject.tftextbookConstructionTblevel.spareTire='1'"
+									+ " and TBC.tftextbookConstructionProject.tfterm.spareTire='1'"
+									+ " and TBC.selfUndertakeTask.spareTire='1'"
+									+ " and TBC.tftextbookConstructionProject.tfterm.termId='"+termId+"'"
+									+ " and TBC.teacher.spareTire='1'"
+									+ " and TBC.teacher.department.spareTire='1'"
+									+ " and TBC.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by TBC.tftextbookConstructionProject.bookId desc");
+				}else {
+					
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"from TftextbookConstructionPerformance TBC where TBC.spareTire='1'"
+									+ " and TBC.checkOut='" + checkOut + "'"
+									+ " and TBC.tftextbookConstructionProject.spareTire='1'"
+									+ " and TBC.tftextbookConstructionProject.tftextbookConstructionTblevel.spareTire='1'"
+									+ " and TBC.tftextbookConstructionProject.tfterm.spareTire='1'"
+									+ " and TBC.selfUndertakeTask.spareTire='1'"
+									+ " and TBC.tftextbookConstructionProject.tfterm.termId='"+termId+"'"
+									+ " and TBC.teacher.spareTire='1'"
+									+ " and TBC.teacher.department.spareTire='1'"
+									+ " and TBC.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by TBC.tftextbookConstructionProject.bookId desc");
+				}
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

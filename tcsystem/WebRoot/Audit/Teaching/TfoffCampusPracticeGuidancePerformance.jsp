@@ -94,9 +94,18 @@
 		</select> 条记录
 		</span> <span>&nbsp;&nbsp;&nbsp;&nbsp; 审核状态： <select
 			name="checkOutStatus_OCP" id="checkoutStatus">
-				<option value="0">未审核</option>
-				<option value="1">审核通过</option>
-				<option value="2">未通过审核</option>
+				<c:forEach var="status" items="${auditStatus }">
+					<c:if test="${status.key!='5' and status.key!='0'}">
+						<c:choose>
+							<c:when test="${status.key == '1' }">
+								<option value="${status.key }"/>待审核
+							</c:when>
+							<c:otherwise>
+								<option value="${status.key }">${status.value }</option>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+				</c:forEach>
 		</select>
 		</span> <span style="margin-left:15px;"><button type="submit"
 				class="button_set" style="height:25px;">确认</button></span>
@@ -117,15 +126,18 @@
 				<td>教师编号</td>
 				<td>教师姓名</td>
 				<td>最终分数</td>
-				<c:if test="${sessionScope.checkOutStatus_OCP=='0' }">
+				<c:if test="${sessionScope.checkOutStatus_OCP=='1' }">
 					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
-				<c:if test="${sessionScope.checkOutStatus_OCP=='1' }">
-					<td><font color="blue">通过</td>
-				</c:if>
 				<c:if test="${sessionScope.checkOutStatus_OCP=='2' }">
 					<td><font color="red">未通过</td>
+				</c:if>
+				<c:if test="${sessionScope.checkOutStatus_OCP=='3' }">
+					<td><font color="blue">管理员审核通过</font></td>
+				</c:if>
+				<c:if test="${sessionScope.checkOutStatus_OCP=='4' }">
+					<td><font color="blue">审核状态</font></td>
 				</c:if>
 
 			</tr>
@@ -150,17 +162,28 @@
 					<td>${TfOffCampusPracticeGuidancePerformance.teacher.teacherName }</td>
 					<!-- 最终分数 -->
 					<td>${TfOffCampusPracticeGuidancePerformance.finalScore }</td>
-					<c:if test="${sessionScope.checkOutStatus_OCP=='0' }">
+					<c:if test="${sessionScope.checkOutStatus_OCP=='1' }">
 						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
 							value="${TfOffCampusPracticeGuidancePerformance.upid}"   class="check1"/></td>
 						<td class="c2">不通过<input value="${TfOffCampusPracticeGuidancePerformance.upid}" type="checkbox"
 						 name="notAudit" class="check2"/></td>
 					</c:if>
-					<c:if test="${sessionScope.checkOutStatus_OCP=='1' }">
-						<td><font color="green"size:"3">√</td>
-					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_OCP=='2' }">
-						<td><font color="red" size="3">×</td>
+					<td><font color="red">未通过</font></td>
+					</c:if>
+					<c:if test="${sessionScope.checkOutStatus_OCP=='3' }">
+					<td><font color="blue">管理员审核通过</font></td>
+					</c:if>
+					<c:if test="${sessionScope.checkOutStatus_OCP=='4' }">
+						<c:if test="${TfOffCampusPracticeGuidancePerformance.checkOut== '1' }">
+							<td><font color="orange" size="2">待审核</font></td>
+						</c:if>
+						<c:if test="${TfOffCampusPracticeGuidancePerformance.checkOut== '3' }">
+							<td><font color="green" size="2">审核通过</font></td>
+							</c:if>
+						<c:if test="${TfOffCampusPracticeGuidancePerformance.checkOut== '2' }">
+							<td><font color="red" size="2">不通过</font></td>
+						</c:if>
 					</c:if>
 				</tr>
 			</c:forEach>
@@ -192,7 +215,7 @@
 		</span> <span> 共<font style="color:blue;">${sessionScope.recordNumber_OCP }</font>条记录
 		</span>
 	</div>
-	<c:if test="${sessionScope.checkOutStatus_OCP=='0'}">
+	<c:if test="${sessionScope.checkOutStatus_OCP=='1'}">
 		<input type="button" value="审核" class="button_set"
 			style="margin-left:10px;" id="doCheckout"></input>
 	</c:if>

@@ -59,7 +59,7 @@ public class TffineCourseConstructionPerformanceAuditAction implements RequestAw
 				tfFineCourseConstructionPerformance = this.tffineCourseConstructionPerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(tfFineCourseConstructionPerformance!=null){
-					tfFineCourseConstructionPerformance.setCheckOut("1");
+					tfFineCourseConstructionPerformance.setCheckOut("3");
 					checkoutList.add(tfFineCourseConstructionPerformance);
 				}
 			}

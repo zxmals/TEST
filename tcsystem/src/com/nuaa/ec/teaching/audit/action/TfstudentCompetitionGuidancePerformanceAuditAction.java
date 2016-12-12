@@ -58,7 +58,7 @@ public class TfstudentCompetitionGuidancePerformanceAuditAction implements Reque
 				tfStudentCompetitionGuidancePerformance = this.tfstudentCompetitionGuidancePerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(tfStudentCompetitionGuidancePerformance!=null){
-					tfStudentCompetitionGuidancePerformance.setCheckOut("1");
+					tfStudentCompetitionGuidancePerformance.setCheckOut("3");
 					checkoutList.add(tfStudentCompetitionGuidancePerformance);
 				}
 			}

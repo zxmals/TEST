@@ -291,4 +291,32 @@ public class TffamousTeacherTeamProjectDAO extends BaseHibernateDAO {
 		
 		return tffamousTeacherTeamProjectList;
 	}
+	/**
+	 * 项目不通过 则所有成员不通过
+	 * 项目通过 则所有成员checkout==‘1’ 为待管理员审核
+	 * @param checkoutList
+	 * @param checkout
+	 * @return
+	 */
+	public boolean cascadeUpdateProjectMembersCheckout(
+			List<TffamousTeacherTeamProject> checkoutList, String checkout) {
+		// TODO Auto-generated method stub
+		boolean returnFlag = false;
+		Session session = this.getSession();
+		Transaction tx = null;
+		try {
+			for (TffamousTeacherTeamProject tffamousTeacherTeamProject : checkoutList) {
+				String quesyString = "update TffamousTeacherTeamPerformance TR set TR.checkOut='" + checkout +"' where TR.tffamousTeacherTeamProject.teacherTeamPerformanceId ='" + tffamousTeacherTeamProject.getTeacherTeamPerformanceId() +"'";
+				session.createQuery(quesyString).executeUpdate();
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			returnFlag = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}
+		return returnFlag;
+	}
 }

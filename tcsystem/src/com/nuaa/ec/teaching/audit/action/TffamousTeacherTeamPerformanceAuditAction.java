@@ -25,7 +25,7 @@ public class TffamousTeacherTeamPerformanceAuditAction implements RequestAware{
 				TfFamousTeacherTeamPerfList = this.TfFamousTeacherTeamPerfDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(TfFamousTeacherTeamPerfList!=null){
-					TfFamousTeacherTeamPerfList.setCheckOut("1");
+					TfFamousTeacherTeamPerfList.setCheckOut("3");
 					checkoutList.add(TfFamousTeacherTeamPerfList);
 				}
 			}

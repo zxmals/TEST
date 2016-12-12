@@ -59,7 +59,7 @@ public class TfprofessionalProjectDeclarePerformanceAuditAction implements Reque
 				TfprofessionalProjectDeclarePerformance = this.tfprofessionalProjectDeclarePerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(TfprofessionalProjectDeclarePerformance!=null){
-					TfprofessionalProjectDeclarePerformance.setCheckOut("1");
+					TfprofessionalProjectDeclarePerformance.setCheckOut("3");
 					checkoutList.add(TfprofessionalProjectDeclarePerformance);
 				}
 			}

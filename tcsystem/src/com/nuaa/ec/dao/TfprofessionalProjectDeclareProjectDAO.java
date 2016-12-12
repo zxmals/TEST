@@ -294,4 +294,29 @@ public class TfprofessionalProjectDeclareProjectDAO extends BaseHibernateDAO {
 		
 		return tfprofessionalProjectDeclareProjectList;
 	}
+
+	public boolean cascadeUpdateProjectMembersCheckout(
+			List<TfprofessionalProjectDeclareProject> checkoutList,
+			String checkout) {
+		// TODO Auto-generated method stub
+		boolean flag = false;
+		Session session = this.getSession();
+		Transaction tx = null;
+		try {
+			for (TfprofessionalProjectDeclareProject tfprofessionalProjectDeclareProject : checkoutList) {
+				session.createQuery("update TfprofessionalProjectDeclarePerformance TR set TR.checkOut='" + checkout +
+						"' where TR.tfprofessionalProjectDeclareProject.projectId = '" + tfprofessionalProjectDeclareProject.getProjectId() + "'"
+						).executeUpdate();
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			flag = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+			
+		}
+		return flag;
+	}
 }

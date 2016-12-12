@@ -302,4 +302,27 @@ public class TftextbookConstructionProjectDAO extends BaseHibernateDAO {
 		
 		return tftextbookConstructionProjectList;
 	}
+
+	public boolean cascadeUpdateProjectMembersCheckout(
+			List<TftextbookConstructionProject> checkoutYESList, String checkout) {
+		// TODO Auto-generated method stub
+		boolean flag = false;
+		Session session = this.getSession();
+		Transaction tx = null;
+		try {
+			for (TftextbookConstructionProject tftextbookConstructionProject : checkoutYESList) {
+				session.createQuery(""
+						+ "update TftextbookConstructionPerformance TR set TR.checkOut ='" + checkout +"'"
+						+ " where TR.tftextbookConstructionProject.bookId ='" + tftextbookConstructionProject.getBookId() + "'").executeUpdate();
+			}
+			tx = session.beginTransaction();
+			tx.commit();
+			flag = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			tx.rollback();
+		}
+		return flag;
+	}
 }

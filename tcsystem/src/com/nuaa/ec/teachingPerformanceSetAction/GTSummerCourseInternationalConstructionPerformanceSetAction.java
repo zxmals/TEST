@@ -68,7 +68,7 @@ public class GTSummerCourseInternationalConstructionPerformanceSetAction impleme
 			 * 设置其他信息:checkOut SpareTire;
 			 */
 			summerCourseInterConsPerf.setSpareTire("1");
-			summerCourseInterConsPerf.setCheckOut("0");;
+			summerCourseInterConsPerf.setCheckOut("1");;
 			/**
 			 * 保存记录
 			 */
@@ -118,7 +118,7 @@ public class GTSummerCourseInternationalConstructionPerformanceSetAction impleme
 			 * 设置其他信息:checkOut SpareTire;
 			 */
 			summerCourseInterConsPerf.setSpareTire("1");
-			summerCourseInterConsPerf.setCheckOut("0");;
+			summerCourseInterConsPerf.setCheckOut("1");;
 			/**
 			 * 保存记录
 			 */

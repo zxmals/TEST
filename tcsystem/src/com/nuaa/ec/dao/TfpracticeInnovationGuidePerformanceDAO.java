@@ -174,19 +174,33 @@ public class TfpracticeInnovationGuidePerformanceDAO extends BaseHibernateDAO  {
 				session.put("recordNumber_PIG", 0);
 				return tfPracticeInnovationGuidePerformanceList = new ArrayList<TfpracticeInnovationGuidePerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"select PIG from TfpracticeInnovationGuidePerformance PIG,Tfterm TERM where TERM.termId=PIG.termId"
-								+ " and PIG.spareTire='1'"
-								+ " and TERM.spareTire='1'"
-								+ " and PIG.checkOut='" + checkOut + "'"
-								+ " and PIG.tfpracticeInnovationGuideLevel.spareTire='1'"
-								+ " and PIG.tfpracticeInnovationGuideGraduationThesisGuideEvalution.spareTire='1'"
-								+ " and PIG.teacher.spareTire='1'"
-								+ " and PIG.teacher.department.spareTire='1'"
-								+ " and PIG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " and PIG.termId='"+termId+"'"
-								+ " order by PIG.projectId asc");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"select PIG from TfpracticeInnovationGuidePerformance PIG,Tfterm TERM where TERM.termId=PIG.termId"
+									+ " and PIG.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and PIG.tfpracticeInnovationGuideLevel.spareTire='1'"
+									+ " and PIG.tfpracticeInnovationGuideGraduationThesisGuideEvalution.spareTire='1'"
+									+ " and PIG.teacher.spareTire='1'"
+									+ " and PIG.teacher.department.spareTire='1'"
+									+ " and PIG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and PIG.termId='"+termId+"'"
+									+ " order by PIG.projectId asc");
+				}else {
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"select PIG from TfpracticeInnovationGuidePerformance PIG,Tfterm TERM where TERM.termId=PIG.termId"
+									+ " and PIG.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and PIG.checkOut='" + checkOut + "'"
+									+ " and PIG.tfpracticeInnovationGuideLevel.spareTire='1'"
+									+ " and PIG.tfpracticeInnovationGuideGraduationThesisGuideEvalution.spareTire='1'"
+									+ " and PIG.teacher.spareTire='1'"
+									+ " and PIG.teacher.department.spareTire='1'"
+									+ " and PIG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and PIG.termId='"+termId+"'"
+									+ " order by PIG.projectId asc");
+				}
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

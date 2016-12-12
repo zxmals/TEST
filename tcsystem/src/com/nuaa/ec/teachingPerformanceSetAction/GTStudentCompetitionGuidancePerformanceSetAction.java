@@ -83,7 +83,7 @@ public class GTStudentCompetitionGuidancePerformanceSetAction implements
 			/**
 			 * 设置checkout以及spareTire信息
 			 */
-			studentCompetGuidPerf.setCheckOut("0");
+			studentCompetGuidPerf.setCheckOut("1");
 			studentCompetGuidPerf.setSpareTire("1");
 			/**
 			 * 执行更新操作
@@ -143,7 +143,7 @@ public class GTStudentCompetitionGuidancePerformanceSetAction implements
 			/**
 			 * 设置checkout以及spareTire信息
 			 */
-			studentCompetGuidPerf.setCheckOut("0");
+			studentCompetGuidPerf.setCheckOut("1");
 			studentCompetGuidPerf.setSpareTire("1");
 			/**
 			 * 执行添加操作

@@ -170,18 +170,32 @@ public class TfundergraduateTutorGuidancePerformanceDAO extends BaseHibernateDAO
 				session.put("recordNumber_UTG", 0);
 				return tfUndergraduateTutorGuidancePerformanceList = new ArrayList<TfundergraduateTutorGuidancePerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"select UTG from TfundergraduateTutorGuidancePerformance UTG,Tfterm TERM where TERM.termId=UTG.termId"
-								+ " and UTG.spareTire='1'"
-								+ " and TERM.spareTire='1'"
-								+ " and UTG.checkOut='" + checkOut + "'"
-								+ " and UTG.tfundergraduateTutorGuidanceCache.spareTire='1'"
-								+ " and UTG.teacher.spareTire='1'"
-								+ " and UTG.teacher.department.spareTire='1'"
-								+ " and UTG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " and UTG.termId='"+termId+"'"
-								+ " order by UTG.tfundergraduateTutorGuidanceCache.guidanceId desc");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"select UTG from TfundergraduateTutorGuidancePerformance UTG,Tfterm TERM where TERM.termId=UTG.termId"
+									+ " and UTG.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and UTG.tfundergraduateTutorGuidanceCache.spareTire='1'"
+									+ " and UTG.teacher.spareTire='1'"
+									+ " and UTG.teacher.department.spareTire='1'"
+									+ " and UTG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and UTG.termId='"+termId+"'"
+									+ " order by UTG.tfundergraduateTutorGuidanceCache.guidanceId desc");
+				}else {
+					
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"select UTG from TfundergraduateTutorGuidancePerformance UTG,Tfterm TERM where TERM.termId=UTG.termId"
+									+ " and UTG.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and UTG.checkOut='" + checkOut + "'"
+									+ " and UTG.tfundergraduateTutorGuidanceCache.spareTire='1'"
+									+ " and UTG.teacher.spareTire='1'"
+									+ " and UTG.teacher.department.spareTire='1'"
+									+ " and UTG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and UTG.termId='"+termId+"'"
+									+ " order by UTG.tfundergraduateTutorGuidanceCache.guidanceId desc");
+				}
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

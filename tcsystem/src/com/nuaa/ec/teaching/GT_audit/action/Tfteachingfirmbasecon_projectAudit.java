@@ -23,6 +23,9 @@ public class Tfteachingfirmbasecon_projectAudit implements RequestAware,SessionA
 		String[] ids = this.checkOutIDs.split(",");
 		String[] idsNot=this.checkOutIDsNot.split(",");	
 		List<TfenterpriseWorkstationTrainingBaseConstructionProject> checkoutList = new ArrayList<TfenterpriseWorkstationTrainingBaseConstructionProject>();
+		List<TfenterpriseWorkstationTrainingBaseConstructionProject> checkoutYESList = new ArrayList<TfenterpriseWorkstationTrainingBaseConstructionProject>();
+		List<TfenterpriseWorkstationTrainingBaseConstructionProject> checkoutNOTList = new ArrayList<TfenterpriseWorkstationTrainingBaseConstructionProject>();
+
 		TfenterpriseWorkstationTrainingBaseConstructionProject tfenterpriseWorkstationTrainingBaseConstructionProject = null;
 		for (int i = 0; i < ids.length; i++) {
 			if (ids[i].length() != 0 && ids[i] != null) {
@@ -30,6 +33,7 @@ public class Tfteachingfirmbasecon_projectAudit implements RequestAware,SessionA
 				if (tfenterpriseWorkstationTrainingBaseConstructionProject!=null) {
 					tfenterpriseWorkstationTrainingBaseConstructionProject.setCheckOut("1");;
 					checkoutList.add(tfenterpriseWorkstationTrainingBaseConstructionProject);
+					checkoutYESList.add(tfenterpriseWorkstationTrainingBaseConstructionProject);
 				}
 			}
 		}
@@ -39,12 +43,13 @@ public class Tfteachingfirmbasecon_projectAudit implements RequestAware,SessionA
 				if (tfenterpriseWorkstationTrainingBaseConstructionProject!=null) {
 					tfenterpriseWorkstationTrainingBaseConstructionProject.setCheckOut("2");
 					checkoutList.add(tfenterpriseWorkstationTrainingBaseConstructionProject);
+					checkoutNOTList.add(tfenterpriseWorkstationTrainingBaseConstructionProject);
 				}
 			}
 		}
 		// 将待审核的项目传向后台
 		try {
-			if (tfenterpriseWorkstationTrainingBaseConstructionProjectDAO.updateCheckOutStatus(checkoutList)) {
+			if (tfenterpriseWorkstationTrainingBaseConstructionProjectDAO.updateCheckOutStatus(checkoutList) && tfenterpriseWorkstationTrainingBaseConstructionProjectDAO.cascadeUpdateProjectMembersCheckout(checkoutYESList,"1")&&tfenterpriseWorkstationTrainingBaseConstructionProjectDAO.cascadeUpdateProjectMembersCheckout(checkoutNOTList,"2")) {
 				ServletActionContext.getResponse().getWriter().write("succ");
 			}else {
 				ServletActionContext.getResponse().getWriter().write("error");

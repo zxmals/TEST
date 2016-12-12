@@ -67,7 +67,7 @@ public class GTUndergraduateTutorGuidancePerformanceSetAction implements Request
 			 * 设置其他信息
 			 */
 			undergraduateTutorGuidancePerformance.setYears(1.0);
-			undergraduateTutorGuidancePerformance.setCheckOut("0");
+			undergraduateTutorGuidancePerformance.setCheckOut("1");
 			undergraduateTutorGuidancePerformance.setSpareTire("1");
 			undergraduateTutorGuidancePerformance.setYearceiling(20);
 			undergraduateTutorGuidancePerformance.setFinalScore((double) this.getScore(undergraduateTutorGuidancePerformance));
@@ -111,7 +111,7 @@ public class GTUndergraduateTutorGuidancePerformanceSetAction implements Request
 			 * 设置其他信息
 			 */
 			undergraduateTutorGuidancePerformance.setYears(1.0);
-			undergraduateTutorGuidancePerformance.setCheckOut("0");
+			undergraduateTutorGuidancePerformance.setCheckOut("1");
 			undergraduateTutorGuidancePerformance.setSpareTire("1");
 			undergraduateTutorGuidancePerformance.setYearceiling(20);
 			undergraduateTutorGuidancePerformance.setFinalScore((double) this.getScore(undergraduateTutorGuidancePerformance));

@@ -359,6 +359,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--                                     <li><a class="J_menuItem" href="">活动申请添加审核</a></li> -->
 <!--                                 </ul> -->
 <!--                              </li> -->
+                            
                         </ul>
                     </li>
                     <li>

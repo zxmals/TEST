@@ -55,7 +55,7 @@ public class GTTeachingCompetitionPerformanceSetAction implements RequestAware {
 			tfTeachingCompetitionPerformance.setTfteachingCompetitionRewardLevel(tfTeachingCompetitionRewardLevel);
 			tfTeachingCompetitionPerformance.setTeacher((Teacher) session.get("teacher"));
 			tfTeachingCompetitionPerformance.setFinalScore(this.getScore(tfTeachingCompetitionRewardLevel.getCompetRewardLevelId().trim()));
-			tfTeachingCompetitionPerformance.setCheckOut("0");
+			tfTeachingCompetitionPerformance.setCheckOut("1");
 			tfTeachingCompetitionPerformance.setSpareTire("1");
 			tx=this.teachingCompetitionPerformanceDAO.getSession().beginTransaction();
 			this.teachingCompetitionPerformanceDAO.merge(tfTeachingCompetitionPerformance);
@@ -95,7 +95,7 @@ public class GTTeachingCompetitionPerformanceSetAction implements RequestAware {
 			tfTeachingCompetitionPerformance.setFinalScore(this.getScore(this.tfTeachingCompetitionRewardLevel.getCompetRewardLevelId()));
 			tfTeachingCompetitionPerformance.setCompetitionId(pkmk.mkpk("competitionID","TFTeachingCompetition_Performance", "cp"));
 			tfTeachingCompetitionPerformance.setSpareTire("1");
-			tfTeachingCompetitionPerformance.setCheckOut("0");
+			tfTeachingCompetitionPerformance.setCheckOut("1");
 			this.teachingCompetitionPerformanceDAO.save(tfTeachingCompetitionPerformance);
 			tx=this.teachingCompetitionPerformanceDAO.getSession().beginTransaction();
 			tx.commit();

@@ -189,22 +189,37 @@ public class TfdegreeThesisGuidancePerformanceDAO extends BaseHibernateDAO {
 			session.put("recordNumber_DTG", 0);
 			return TFdegreeThesisGuidancePefroList = new ArrayList<TfdegreeThesisGuidancePerformance>();
 		} else {
-			// 查出符合条件的全部的记录
-			hqlBuffer = new StringBuffer(
-					"select DTG from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
-							+ " and DTG.checkOut='"
-							+ checkOut
-							+ "'"
-							+ " and TERM.spareTire='1'"
-							+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
-							+ " and DTG.teacher.spareTire='1'"
-							+ " and DTG.teacher.department.spareTire='1'"
-							+ " and DTG.teacher.department.departmentId='"
-							+ department.getDepartmentId()
-							+ "'"
-							+ " and DTG.termId=TERM.termId"
-							+ ""
-							+ " and TERM.termId='" + termId + "'");
+			if (checkOut.equals("4")) {
+				hqlBuffer = new StringBuffer(
+						"select DTG from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
+								+ " and TERM.spareTire='1'"
+								+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
+								+ " and DTG.teacher.spareTire='1'"
+								+ " and DTG.teacher.department.spareTire='1'"
+								+ " and DTG.teacher.department.departmentId='"
+								+ department.getDepartmentId()
+								+ "'"
+								+ " and DTG.termId=TERM.termId"
+								+ ""
+								+ " and TERM.termId='" + termId + "'");
+			}else {
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"select DTG from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
+								+ " and DTG.checkOut='"
+								+ checkOut
+								+ "'"
+								+ " and TERM.spareTire='1'"
+								+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
+								+ " and DTG.teacher.spareTire='1'"
+								+ " and DTG.teacher.department.spareTire='1'"
+								+ " and DTG.teacher.department.departmentId='"
+								+ department.getDepartmentId()
+								+ "'"
+								+ " and DTG.termId=TERM.termId"
+								+ ""
+								+ " and TERM.termId='" + termId + "'");
+			}
 			// 判断是否为分页操作
 			if (!isDivided) {
 				// 如果不是分页操作，取出所有符合条件的记录

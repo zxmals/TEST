@@ -118,15 +118,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 											<td>${ebj.tffineCourseConstructionProject.chargePersonId }</td>
 											<td>${teachermp[ebj.tffineCourseConstructionProject.chargePersonId] }</td>
 											<td title="${ebj.checkOut }">
-												<c:if test="${ebj.checkOut==0 }">待审核</c:if>
 												<c:if test="${ebj.checkOut==1 }">待审核</c:if>
 												<c:if test="${ebj.checkOut==3 }">已审核</c:if>
 												<c:if test="${ebj.checkOut==2 }">未通过</c:if>
 											</td>
 											<td>
 												<c:if test="${teacher.teacherId!=ebj.tffineCourseConstructionProject.chargePersonId }">
-													<c:if test="${ebj.checkOut==0 }"><a  class="btn btn-primary btn-sm quitpaper">退出</a></c:if>
 													<c:if test="${ebj.checkOut==1 }"><a  class="btn btn-primary btn-sm quitpaper">退出</a></c:if>
+													<c:if test="${ebj.checkOut==3 }">&nbsp;&nbsp;&nbsp;√</c:if>
 													<c:if test="${ebj.checkOut==2 }"><a  class="btn btn-primary btn-sm quitpaper">退出</a></c:if>
 												</c:if>
 												<c:if test="${ebj.checkOut==3 }">&nbsp;&nbsp;&nbsp;√</c:if>

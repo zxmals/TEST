@@ -177,20 +177,37 @@ public class TfstudentCompetitionGuidancePerformanceDAO extends BaseHibernateDAO
 				session.put("recordNumber_SCG", 0);
 				return tfStudentCompetitionGuidancePerformanceList = new ArrayList<TfstudentCompetitionGuidancePerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"select SCG from TfstudentCompetitionGuidancePerformance SCG,Tfterm TERM where TERM.termId=SCG.termId"
-								+ " and SCG.spareTire='1'"
-								+ " and TERM.spareTire='1'"
-								+ " and SCG.checkOut='" + checkOut + "'"
-								+ " and SCG.tfstudentCompetitionGuidanceScore.spareTire='1'"
-								+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceCompetitionType.spareTire='1'"
-								+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceRewardLevel.spareTire='1'"
-								+ " and SCG.teacher.spareTire='1'"
-								+ " and SCG.teacher.department.spareTire='1'"
-								+ " and SCG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " and SCG.termId='"+termId+"'"
-								+ " order by SCG.competitionId asc");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"select SCG from TfstudentCompetitionGuidancePerformance SCG,Tfterm TERM where TERM.termId=SCG.termId"
+									+ " and SCG.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and SCG.tfstudentCompetitionGuidanceScore.spareTire='1'"
+									+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceCompetitionType.spareTire='1'"
+									+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceRewardLevel.spareTire='1'"
+									+ " and SCG.teacher.spareTire='1'"
+									+ " and SCG.teacher.department.spareTire='1'"
+									+ " and SCG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and SCG.termId='"+termId+"'"
+									+ " order by SCG.competitionId asc");
+				}else{
+					
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"select SCG from TfstudentCompetitionGuidancePerformance SCG,Tfterm TERM where TERM.termId=SCG.termId"
+									+ " and SCG.spareTire='1'"
+									+ " and TERM.spareTire='1'"
+									+ " and SCG.checkOut='" + checkOut + "'"
+									+ " and SCG.tfstudentCompetitionGuidanceScore.spareTire='1'"
+									+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceCompetitionType.spareTire='1'"
+									+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceRewardLevel.spareTire='1'"
+									+ " and SCG.teacher.spareTire='1'"
+									+ " and SCG.teacher.department.spareTire='1'"
+									+ " and SCG.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " and SCG.termId='"+termId+"'"
+									+ " order by SCG.competitionId asc");
+				}
+					
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录

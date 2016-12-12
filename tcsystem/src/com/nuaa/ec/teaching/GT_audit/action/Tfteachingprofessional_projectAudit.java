@@ -23,6 +23,9 @@ public class Tfteachingprofessional_projectAudit implements RequestAware,Session
 		String[] ids = this.checkOutIDs.split(",");
 		String[] idsNot=this.checkOutIDsNot.split(",");	
 		List<TfprofessionalProjectDeclareProject> checkoutList = new ArrayList<TfprofessionalProjectDeclareProject>();
+		List<TfprofessionalProjectDeclareProject> checkoutYESList = new ArrayList<TfprofessionalProjectDeclareProject>();
+		List<TfprofessionalProjectDeclareProject> checkoutNOTList = new ArrayList<TfprofessionalProjectDeclareProject>();
+		
 		TfprofessionalProjectDeclareProject tfprofessionalProjectDeclareProject = null;
 		for (int i = 0; i < ids.length; i++) {
 			if (ids[i].length() != 0 && ids[i] != null) {
@@ -30,6 +33,7 @@ public class Tfteachingprofessional_projectAudit implements RequestAware,Session
 				if (tfprofessionalProjectDeclareProject!=null) {
 					tfprofessionalProjectDeclareProject.setCheckOut("1");;
 					checkoutList.add(tfprofessionalProjectDeclareProject);
+					checkoutYESList.add(tfprofessionalProjectDeclareProject);
 				}
 			}
 		}
@@ -39,12 +43,16 @@ public class Tfteachingprofessional_projectAudit implements RequestAware,Session
 				if (tfprofessionalProjectDeclareProject!=null) {
 					tfprofessionalProjectDeclareProject.setCheckOut("2");
 					checkoutList.add(tfprofessionalProjectDeclareProject);
+					checkoutNOTList.add(tfprofessionalProjectDeclareProject);
 				}
 			}
 		}
 		// 将待审核的项目传向后台
 		try {
-			if (tfprofessionalProjectDeclareProjectDAO.updateCheckOutStatus(checkoutList)) {
+			if (tfprofessionalProjectDeclareProjectDAO.updateCheckOutStatus(checkoutList)
+					&&tfprofessionalProjectDeclareProjectDAO.cascadeUpdateProjectMembersCheckout(checkoutYESList,"1")
+					&&tfprofessionalProjectDeclareProjectDAO.cascadeUpdateProjectMembersCheckout(checkoutNOTList,"2")
+					) {
 				ServletActionContext.getResponse().getWriter().write("succ");
 			}else {
 				ServletActionContext.getResponse().getWriter().write("error");

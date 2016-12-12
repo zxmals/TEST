@@ -58,7 +58,7 @@ public class TfpracticeInnovationGuidePerformanceAuditAction implements RequestA
 				tfPraticeInnovationGuidePerformance = this.tfpracticeInnovationGuidePerformanceDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(tfPraticeInnovationGuidePerformance!=null){
-					tfPraticeInnovationGuidePerformance.setCheckOut("1");
+					tfPraticeInnovationGuidePerformance.setCheckOut("3");
 					checkoutList.add(tfPraticeInnovationGuidePerformance);
 				}
 			}

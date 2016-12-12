@@ -25,7 +25,7 @@ public class TfteachingPaperPerformanceAuditAction implements RequestAware{
 				TfteachingPaperPerformance = this.TfteachingPaperPerfDAO.findById(Integer.parseInt(ids[i]));
 				// 修改checkout 标志
 				if(TfteachingPaperPerformance!=null){
-					TfteachingPaperPerformance.setCheckOut("1");
+					TfteachingPaperPerformance.setCheckOut("3");
 					checkoutList.add(TfteachingPaperPerformance);
 				}
 			}

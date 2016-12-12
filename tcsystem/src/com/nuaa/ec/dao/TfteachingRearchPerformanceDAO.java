@@ -71,19 +71,33 @@ public class TfteachingRearchPerformanceDAO extends BaseHibernateDAO {
 				session.put("recordNumber_TRP", 0);
 				return TfteachingRearchPerformanceList = new ArrayList<TfteachingRearchPerformance>();
 			} else {
-				// 查出符合条件的全部的记录
-				hqlBuffer = new StringBuffer(
-						"from TfteachingRearchPerformance TRP where TRP.spareTire='1'"
-								+ " and TRP.checkOut='" + checkOut + "'"
-								+ " and TRP.tfteachingRearchProject.spareTire='1'"
-								+ " and TRP.tfteachingRearchProject.tfteachingRearchEvaluation.spareTire='1'"
-								+ " and TRP.tfteachingRearchProject.tfteachingRearchFundlevel.spareTire='1'"
-								+ " and TRP.tfteachingRearchProject.tfterm.spareTire='1'"
-								+ " and TRP.tfteachingRearchProject.tfterm.termId='"+termId+"'"
-								+ " and TRP.teacher.spareTire='1'"
-								+ " and TRP.teacher.department.spareTire='1'"
-								+ " and TRP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-								+ " order by TRP.tfteachingRearchProject.projectId asc");
+				if (checkOut.equals("4")) {
+					hqlBuffer = new StringBuffer(
+							"from TfteachingRearchPerformance TRP where TRP.spareTire='1'"
+									+ " and TRP.tfteachingRearchProject.spareTire='1'"
+									+ " and TRP.tfteachingRearchProject.tfteachingRearchEvaluation.spareTire='1'"
+									+ " and TRP.tfteachingRearchProject.tfteachingRearchFundlevel.spareTire='1'"
+									+ " and TRP.tfteachingRearchProject.tfterm.spareTire='1'"
+									+ " and TRP.tfteachingRearchProject.tfterm.termId='"+termId+"'"
+									+ " and TRP.teacher.spareTire='1'"
+									+ " and TRP.teacher.department.spareTire='1'"
+									+ " and TRP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by TRP.tfteachingRearchProject.projectId desc");
+				}else{
+					// 查出符合条件的全部的记录
+					hqlBuffer = new StringBuffer(
+							"from TfteachingRearchPerformance TRP where TRP.spareTire='1'"
+									+ " and TRP.checkOut='" + checkOut + "'"
+									+ " and TRP.tfteachingRearchProject.spareTire='1'"
+									+ " and TRP.tfteachingRearchProject.tfteachingRearchEvaluation.spareTire='1'"
+									+ " and TRP.tfteachingRearchProject.tfteachingRearchFundlevel.spareTire='1'"
+									+ " and TRP.tfteachingRearchProject.tfterm.spareTire='1'"
+									+ " and TRP.tfteachingRearchProject.tfterm.termId='"+termId+"'"
+									+ " and TRP.teacher.spareTire='1'"
+									+ " and TRP.teacher.department.spareTire='1'"
+									+ " and TRP.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+									+ " order by TRP.tfteachingRearchProject.projectId desc");
+				}
 				// 判断是否为分页操作
 				if (!isDivided) {
 					//如果不是分页操作，取出所有符合条件的记录
