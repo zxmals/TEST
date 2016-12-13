@@ -71,7 +71,7 @@ public class InviteExpertsSpeechExcel {
 				}
 /**
  * 导出字段：
- *{"专家讲学编号","国家","专家类型","专家姓名","讲座名称","当前教师编号","当前教师姓名","本人承担任务","当前教师绩效"};
+ *{"专家讲学编号","国家","专家类型","专家姓名","讲座名称","讲座时间","负责人ID","负责人姓名","当前教师编号","当前教师姓名","本人承担任务","当前教师绩效"};
 // */
 				cell[0].setCellValue(TAInvtdEkspchSpechList.get(i).getInvitedExpertsSpeech().getIespeechId());
 				cell[0].setCellStyle(cellStyle);
@@ -83,14 +83,20 @@ public class InviteExpertsSpeechExcel {
 				cell[3].setCellStyle(cellStyle);
 				cell[4].setCellValue(TAInvtdEkspchSpechList.get(i).getInvitedExpertsSpeech().getLectureName());
 				cell[4].setCellStyle(cellStyle);
-				cell[5].setCellValue(TAInvtdEkspchSpechList.get(i).getTeacher().getTeacherId());
+				cell[5].setCellValue(TAInvtdEkspchSpechList.get(i).getInvitedExpertsSpeech().getSpeechDate());
 				cell[5].setCellStyle(cellStyle);
-				cell[6].setCellValue(TAInvtdEkspchSpechList.get(i).getTeacher().getTeacherName());
+				cell[6].setCellValue(TAInvtdEkspchSpechList.get(i).getInvitedExpertsSpeech().getChargePersonId());
 				cell[6].setCellStyle(cellStyle);
-				cell[7].setCellValue(TAInvtdEkspchSpechList.get(i).getSelfUndertakeTask().getUndertakeTaskName());
+				cell[7].setCellValue(TAInvtdEkspchSpechList.get(i).getInvitedExpertsSpeech().getChargePerson());
 				cell[7].setCellStyle(cellStyle);
-				cell[8].setCellValue(TAInvtdEkspchSpechList.get(i).getFinalScore());
+				cell[8].setCellValue(TAInvtdEkspchSpechList.get(i).getTeacher().getTeacherId());
 				cell[8].setCellStyle(cellStyle);
+				cell[9].setCellValue(TAInvtdEkspchSpechList.get(i).getTeacher().getTeacherName());
+				cell[9].setCellStyle(cellStyle);
+				cell[10].setCellValue(TAInvtdEkspchSpechList.get(i).getSelfUndertakeTask().getUndertakeTaskName());
+				cell[10].setCellStyle(cellStyle);
+				cell[11].setCellValue(TAInvtdEkspchSpechList.get(i).getFinalScore());
+				cell[11].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

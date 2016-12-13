@@ -70,7 +70,7 @@ public class JoinAcademicMeetingExcel {
 				}
 /**
  * 导出字段：
- * {"学术会议编号","会议类型","会议地点","学术会议名称","会议论文编号","作者","作者身份","论文标题","检索情况","教师编号","教师姓名","基础分数"};
+ *{"学术会议编号","会议类型","会议地点","会议时间","学术会议名称","负责人ID","负责人姓名","会议论文编号","作者","作者身份","论文标题","检索情况","当前教师编号","当前教师姓名","当前教师绩效"};
  */
 				cell[0].setCellValue(TAJoinAkdmicMetinhList.get(i).getJoinAcademicMeeting().getJoinAcaMid());
 				cell[0].setCellStyle(cellStyle);
@@ -78,24 +78,30 @@ public class JoinAcademicMeetingExcel {
 				cell[1].setCellStyle(cellStyle);
 				cell[2].setCellValue(TAJoinAkdmicMetinhList.get(i).getJoinAcademicMeeting().getMeetingPlace().getMeetingPlace());
 				cell[2].setCellStyle(cellStyle);
-				cell[3].setCellValue(TAJoinAkdmicMetinhList.get(i).getJoinAcademicMeeting().getAcaMeetName());
+				cell[3].setCellValue(TAJoinAkdmicMetinhList.get(i).getJoinAcademicMeeting().getMeetingdate());
 				cell[3].setCellStyle(cellStyle);
-				cell[4].setCellValue(TAJoinAkdmicMetinhList.get(i).getMeetingPaper().getMeetingPaperId());
+				cell[4].setCellValue(TAJoinAkdmicMetinhList.get(i).getJoinAcademicMeeting().getAcaMeetName());
 				cell[4].setCellStyle(cellStyle);
-				cell[5].setCellValue(TAJoinAkdmicMetinhList.get(i).getMeetingPaper().getAuthorName());
+				cell[5].setCellValue(TAJoinAkdmicMetinhList.get(i).getJoinAcademicMeeting().getChargePersonId());
 				cell[5].setCellStyle(cellStyle);
-				cell[6].setCellValue(TAJoinAkdmicMetinhList.get(i).getMeetingPaper().getAuthorIdentity());
+				cell[6].setCellValue(TAJoinAkdmicMetinhList.get(i).getJoinAcademicMeeting().getChargePerson());
 				cell[6].setCellStyle(cellStyle);
-				cell[7].setCellValue(TAJoinAkdmicMetinhList.get(i).getMeetingPaper().getPaperTitle());
+				cell[7].setCellValue(TAJoinAkdmicMetinhList.get(i).getMeetingPaper().getMeetingPaperId());
 				cell[7].setCellStyle(cellStyle);
-				cell[8].setCellValue(TAJoinAkdmicMetinhList.get(i).getMeetingPaper().getPaperRetrievalCondition().getPrcondition());
+				cell[8].setCellValue(TAJoinAkdmicMetinhList.get(i).getMeetingPaper().getAuthorName());
 				cell[8].setCellStyle(cellStyle);
-				cell[9].setCellValue(TAJoinAkdmicMetinhList.get(i).getTeacher().getTeacherId());
+				cell[9].setCellValue(TAJoinAkdmicMetinhList.get(i).getMeetingPaper().getAuthorIdentity());
 				cell[9].setCellStyle(cellStyle);
-				cell[10].setCellValue(TAJoinAkdmicMetinhList.get(i).getTeacher().getTeacherName());
+				cell[10].setCellValue(TAJoinAkdmicMetinhList.get(i).getMeetingPaper().getPaperTitle());
 				cell[10].setCellStyle(cellStyle);
-				cell[11].setCellValue(TAJoinAkdmicMetinhList.get(i).getFinalScore());
+				cell[11].setCellValue(TAJoinAkdmicMetinhList.get(i).getMeetingPaper().getPaperRetrievalCondition().getPrcondition());
 				cell[11].setCellStyle(cellStyle);
+				cell[12].setCellValue(TAJoinAkdmicMetinhList.get(i).getTeacher().getTeacherId());
+				cell[12].setCellStyle(cellStyle);
+				cell[13].setCellValue(TAJoinAkdmicMetinhList.get(i).getTeacher().getTeacherName());
+				cell[13].setCellStyle(cellStyle);
+				cell[14].setCellValue(TAJoinAkdmicMetinhList.get(i).getFinalScore());
+				cell[14].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

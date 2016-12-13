@@ -70,20 +70,24 @@ public class SelectedTalenteProjectExcel {
 				}
 /**
  * 导出字段：
- *  {"人才工程编号","人才工程名称","教师编号","教师姓名","入选年份","基础分数"};
+ *  {"人才工程编号","人才工程名称","负责人ID","负责人姓名","当前教师编号","当前教师姓名","入选年份","当前教师绩效"};
  */
 				cell[0].setCellValue(TASelktTalntProjktList.get(i).getTalentProject().getTalentProjectId());
 				cell[0].setCellStyle(cellStyle);
 				cell[1].setCellValue(TASelktTalntProjktList.get(i).getTalentProject().getTalentProjectName());
 				cell[1].setCellStyle(cellStyle);
-				cell[2].setCellValue(TASelktTalntProjktList.get(i).getTeacher().getTeacherId());
+				cell[2].setCellValue(TASelktTalntProjktList.get(i).getTalentProject().getChargePersonId());
 				cell[2].setCellStyle(cellStyle);
-				cell[3].setCellValue(TASelktTalntProjktList.get(i).getTeacher().getTeacherName());
+				cell[3].setCellValue(TASelktTalntProjktList.get(i).getTalentProject().getChargePerson());
 				cell[3].setCellStyle(cellStyle);
-				cell[4].setCellValue(TASelktTalntProjktList.get(i).getTpselectedYear());
+				cell[4].setCellValue(TASelktTalntProjktList.get(i).getTeacher().getTeacherId());
 				cell[4].setCellStyle(cellStyle);
-				cell[5].setCellValue(TASelktTalntProjktList.get(i).getFinalScore());
+				cell[5].setCellValue(TASelktTalntProjktList.get(i).getTeacher().getTeacherName());
 				cell[5].setCellStyle(cellStyle);
+				cell[6].setCellValue(TASelktTalntProjktList.get(i).getTpselectedYear());
+				cell[6].setCellStyle(cellStyle);
+				cell[7].setCellValue(TASelktTalntProjktList.get(i).getFinalScore());
+				cell[7].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

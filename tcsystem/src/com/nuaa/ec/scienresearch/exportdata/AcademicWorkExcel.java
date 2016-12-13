@@ -70,7 +70,7 @@ public class AcademicWorkExcel {
 				}
 /**
  * 导出字段：
- * 	"出版社名称","学术著作编号","第一作者","学术著作名称","出版日期","ISBN","字数","是否其他作者参与","教师编号","教师姓名","本人承担任务","	基础分数"
+ * {"学术著作编号","第一作者","学术著作名称","出版日期","出版社名称","ISBN","字数","负责人ID","负责人姓名","是否其他作者参与","当前教师编号","当前教师姓名","本人承担任务","	当前教师绩效"};
  */
 				cell[0].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getAcaworkId());
 				cell[0].setCellStyle(cellStyle);
@@ -86,16 +86,20 @@ public class AcademicWorkExcel {
 				cell[5].setCellStyle(cellStyle);
 				cell[6].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getWordNumber());
 				cell[6].setCellStyle(cellStyle);
-				cell[7].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getOtherAuthorJoin());
+				cell[7].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getChargePersonId());
 				cell[7].setCellStyle(cellStyle);
-				cell[8].setCellValue(TAakdemicWorkList.get(i).getTeacher().getTeacherId());
+				cell[8].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getChargePerson());
 				cell[8].setCellStyle(cellStyle);
-				cell[9].setCellValue(TAakdemicWorkList.get(i).getTeacher().getTeacherName());
+				cell[9].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getOtherAuthorJoin());
 				cell[9].setCellStyle(cellStyle);
-				cell[10].setCellValue(TAakdemicWorkList.get(i).getSelfUndertakeTask().getUndertakeTaskName());
+				cell[10].setCellValue(TAakdemicWorkList.get(i).getTeacher().getTeacherId());
 				cell[10].setCellStyle(cellStyle);
-				cell[11].setCellValue(TAakdemicWorkList.get(i).getFinalScore());
+				cell[11].setCellValue(TAakdemicWorkList.get(i).getTeacher().getTeacherName());
 				cell[11].setCellStyle(cellStyle);
+				cell[12].setCellValue(TAakdemicWorkList.get(i).getSelfUndertakeTask().getUndertakeTaskName());
+				cell[12].setCellStyle(cellStyle);
+				cell[13].setCellValue(TAakdemicWorkList.get(i).getFinalScore());
+				cell[13].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

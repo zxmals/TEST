@@ -70,7 +70,7 @@ public class ScientificResearchRewardExcel {
 				}
 /**
  * 导出字段：
- * 	{"","科研奖励编号","获奖级别","获奖类别","科研奖励名称","授奖部门","获奖日期","获奖总人数","教师编号","教师姓名","本人排名","基础分数"};
+ * 	{"科研奖励编号","获奖级别","获奖类别","科研奖励名称","授奖部门","获奖日期","获奖总人数","负责人ID","负责人姓名","当前教师编号","当前教师姓名","本人排名","当前教师绩效"};
  */
 				cell[0].setCellValue(TAScienReschRewodList.get(i).getScientificResearchReward().getSrrewardId());
 				cell[0].setCellStyle(cellStyle);
@@ -86,14 +86,18 @@ public class ScientificResearchRewardExcel {
 				cell[5].setCellStyle(cellStyle);
 				cell[6].setCellValue(TAScienReschRewodList.get(i).getScientificResearchReward().getRewardTotalPeople());
 				cell[6].setCellStyle(cellStyle);
-				cell[7].setCellValue(TAScienReschRewodList.get(i).getTeacher().getTeacherId());
+				cell[7].setCellValue(TAScienReschRewodList.get(i).getScientificResearchReward().getChargePersonId());
 				cell[7].setCellStyle(cellStyle);
-				cell[8].setCellValue(TAScienReschRewodList.get(i).getTeacher().getTeacherName());
+				cell[8].setCellValue(TAScienReschRewodList.get(i).getScientificResearchReward().getChargePerson());
 				cell[8].setCellStyle(cellStyle);
-				cell[9].setCellValue(TAScienReschRewodList.get(i).getSelfRanking());
+				cell[9].setCellValue(TAScienReschRewodList.get(i).getTeacher().getTeacherId());
 				cell[9].setCellStyle(cellStyle);
-				cell[10].setCellValue(TAScienReschRewodList.get(i).getFinalScore());
+				cell[10].setCellValue(TAScienReschRewodList.get(i).getTeacher().getTeacherName());
 				cell[10].setCellStyle(cellStyle);
+				cell[11].setCellValue(TAScienReschRewodList.get(i).getSelfRanking());
+				cell[11].setCellStyle(cellStyle);
+				cell[12].setCellValue(TAScienReschRewodList.get(i).getFinalScore());
+				cell[12].setCellStyle(cellStyle);
 			}
 		}
 		return wb;
