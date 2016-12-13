@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,9 @@ import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndjoinAcademicMeeting;
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
+import com.nuaa.ec.scienresearch.exportdata.AcademicWorkExcel;
+import com.nuaa.ec.scienresearch.exportdata.JoinAcademicMeetingExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -35,6 +40,39 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 	
+	/**
+	 * 参加学术会议模块的数据导出
+	 */
+	 public ByteArrayOutputStream findwithexport(ResearchLab research,String condition,String researchLabName,String foredate,String afterdate){
+		 try{
+			String queryString = "FROM TeacherAndjoinAcademicMeeting TAJAM "
+					+ " WHERE TAJAM.spareTire='1' "
+					+ " AND TAJAM.teacher.spareTire='1'"
+					+ " AND TAJAM.meetingPaper.spareTire='1' "
+					+ " AND TAJAM.meetingPaper.paperRetrievalCondition.spareTire='1' "
+					+ " AND TAJAM.joinAcademicMeeting.spareTire='1' "
+					+ " AND TAJAM.joinAcademicMeeting.meetingPlace.spareTire='1' "
+					+ " AND TAJAM.joinAcademicMeeting.meetingType.spareTire='1' "
+					+condition
+					+ " AND TAJAM.teacher.researchLab=? "
+					+ " ORDER by TAJAM.joinAcademicMeeting.joinAcaMid desc ";
+	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
+	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    	if(queryObject.list().size()>0){
+	    		try {
+					JoinAcademicMeetingExcel.generateExcel(stringstore.joinacademicw, queryObject.list(), researchLabName, foredate, afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	    		return baos;
+			}else{
+				return null;
+			}
+		 }catch(RuntimeException re){
+			 log.error("find by property name failed", re);
+				throw re;
+		 }
+	 }
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List findAllWithCondition(int pageIndex, int pageSize,
 			String foredate, String afterdate, ResearchLab researchLab,

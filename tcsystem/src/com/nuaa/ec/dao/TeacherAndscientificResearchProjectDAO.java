@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,9 @@ import com.nuaa.ec.model.ScientificResearchProject;
 import com.nuaa.ec.model.ScientificResearchProjectScore;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
+import com.nuaa.ec.scienresearch.exportdata.MainUndertakeAcademicMeetingExcel;
+import com.nuaa.ec.scienresearch.exportdata.ScientificResearchProjectExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -41,6 +46,38 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+	/**
+	 * 科研项目模块的数据导出
+	 */
+	 @SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(ResearchLab research,String condition,String researchLabName,String foredate,String afterdate){
+		 try{
+			String queryString = "FROM TeacherAndscientificResearchProject TASRP "
+					+ " WHERE TASRP.spareTire='1' "
+					+ " AND TASRP.teacher.spareTire='1'"
+					+ " AND TASRP.selfUndertakeTask.spareTire='1' "
+					+ " AND TASRP.scientificResearchProject.spareTire='1' "
+					+ " AND TASRP.scientificResearchProject.projectType.spareTire='1' "
+					+condition
+					+ " AND TASRP.teacher.researchLab=? "
+					+ " ORDER by TASRP.scientificResearchProject.srprojectId desc ";
+	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
+	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    	if(queryObject.list().size()>0){
+	    		try {
+					ScientificResearchProjectExcel.generateExcel(stringstore.scientificResearchProject, queryObject.list(), researchLabName, foredate, afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	    		return baos;
+			}else{
+				return null;
+			}
+		 }catch(RuntimeException re){
+			 log.error("find by property name failed", re);
+				throw re;
+		 }
+	 }
 	/**
 	 * 所长审核需要的获取记录的方法
 	 * @param TARProList

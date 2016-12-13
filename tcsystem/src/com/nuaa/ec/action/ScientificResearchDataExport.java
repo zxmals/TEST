@@ -13,9 +13,15 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.dao.TeacherAndacademicWorkDAO;
+import com.nuaa.ec.dao.TeacherAndinvitedExpertsSpeechDAO;
+import com.nuaa.ec.dao.TeacherAndjoinAcademicMeetingDAO;
+import com.nuaa.ec.dao.TeacherAndmainUndertakeAcademicMeetingDAO;
 import com.nuaa.ec.dao.TeacherAndperiodicalDAO;
+import com.nuaa.ec.dao.TeacherAndscientificResearchProjectDAO;
 import com.nuaa.ec.dao.TeacherAndscientificResearchRewardDAO;
+import com.nuaa.ec.dao.TeacherAndselectedTalentProjectDAO;
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.StoreData;
 
@@ -32,6 +38,11 @@ public class ScientificResearchDataExport implements RequestAware, SessionAware 
 	private TeacherAndperiodicalDAO tapdao = new TeacherAndperiodicalDAO();
 	private TeacherAndscientificResearchRewardDAO techrAndScienReschRewdDAO=new TeacherAndscientificResearchRewardDAO();
 	private TeacherAndacademicWorkDAO academicdao = new TeacherAndacademicWorkDAO();
+	private TeacherAndjoinAcademicMeetingDAO TAJoinAkdmkMetingDAO=new TeacherAndjoinAcademicMeetingDAO();
+	private TeacherAndselectedTalentProjectDAO TASlktTalntProjktDAO=new TeacherAndselectedTalentProjectDAO();
+	private TeacherAndinvitedExpertsSpeechDAO TAInvtEksptSpechDAO = new TeacherAndinvitedExpertsSpeechDAO();
+	private TeacherAndmainUndertakeAcademicMeetingDAO TAMnUndrtkAkdmkMetingDAO=new TeacherAndmainUndertakeAcademicMeetingDAO();
+	private TeacherAndscientificResearchProjectDAO TAScienReschProjktDAO = new TeacherAndscientificResearchProjectDAO();
 	//default method
 	public String execute(){
 		return "success";
@@ -52,11 +63,30 @@ public class ScientificResearchDataExport implements RequestAware, SessionAware 
 				baos = academicdao.findwithexport(research, 
 						EntityUtil.generateQueryCondition(foredate, afterdate, "TAAW.academicWork.publishDate")
 						, (researchdao.findById(research.getResearchLabId())).getResearchLabName(), foredate, afterdate);
+			}else if("JoinAcademicMeeting".equals(entitys.trim())){
+				baos = TAJoinAkdmkMetingDAO.findwithexport(research, 
+						EntityUtil.generateQueryCondition(foredate, afterdate, "TAJAM.joinAcademicMeeting.meetingdate")
+						, (researchdao.findById(research.getResearchLabId())).getResearchLabName(), foredate, afterdate);
+			}else if("TalentProject".equals(entitys.trim())){
+				baos = TASlktTalntProjktDAO.findwithexport(research, 
+						EntityUtil.generateQueryCondition(foredate, afterdate, "TASTP.tpselectedYear")
+						, (researchdao.findById(research.getResearchLabId())).getResearchLabName(), foredate, afterdate);
+			}else if("InvitedExpertsSpeech".equals(entitys.trim())){
+				baos = TAInvtEksptSpechDAO.findwithexport(research, 
+						EntityUtil.generateQueryCondition(foredate, afterdate, "TAIES.invitedExpertsSpeech.speechDate")
+						, (researchdao.findById(research.getResearchLabId())).getResearchLabName(), foredate, afterdate);
+			}else if("MainUndertakeAcademicMeeting".equals(entitys.trim())){
+				baos = TAMnUndrtkAkdmkMetingDAO.findwithexport(research, 
+						EntityUtil.generateQueryCondition(foredate, afterdate, "TAMAM.mainUndertakeAcademicMeeting.meetingdate")
+						, (researchdao.findById(research.getResearchLabId())).getResearchLabName(), foredate, afterdate);
+			}else if("ScientificResearchProject".equals(entitys.trim())){
+				baos = TAScienReschProjktDAO.findwithexport(research, 
+						EntityUtil.generateQueryCondition(foredate, afterdate, "TASRP.scientificResearchProject.admitedProjectYear")
+						, (researchdao.findById(research.getResearchLabId())).getResearchLabName(), foredate, afterdate);
 			}
 			if(baos!=null){
 				HttpServletResponse resp = ServletActionContext.getResponse();
 				OutputStream out = resp.getOutputStream();
-//				System.out.println(filenameExported.get(entitys.trim()));
 				resp.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(filenameExported.get(entitys.trim()), "UTF-8")+".xls");
 				byte[] bt = baos.toByteArray();
 				out.write(bt,0,bt.length);

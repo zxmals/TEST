@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +19,8 @@ import com.nuaa.ec.model.MainUndertakeAcademicMeetingScore;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
-import com.nuaa.ec.model.TeacherAndperiodical;
-import com.nuaa.ec.model.TeacherAndscientificResearchReward;
+import com.nuaa.ec.scienresearch.exportdata.MainUndertakeAcademicMeetingExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -42,6 +44,39 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+	/**
+	 * 主承担学术会议模块的数据导出
+	 */
+	 @SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(ResearchLab research,String condition,String researchLabName,String foredate,String afterdate){
+		 try{
+			String queryString = "FROM TeacherAndmainUndertakeAcademicMeeting TAMAM "
+					+ " WHERE TAMAM.spareTire='1' "
+					+ " AND TAMAM.teacher.spareTire='1'"
+					+ " AND TAMAM.selfUndertakeTask.spareTire='1' "
+					+ " AND TAMAM.mainUndertakeAcademicMeeting.spareTire='1' "
+					+ " AND TAMAM.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingPlace.spareTire='1' "
+					+ " AND TAMAM.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingType.spareTire='1' "
+					+condition
+					+ " AND TAMAM.teacher.researchLab=? "
+					+ " ORDER by TAMAM.mainUndertakeAcademicMeeting.acaMeetingId desc ";
+	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
+	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    	if(queryObject.list().size()>0){
+	    		try {
+					MainUndertakeAcademicMeetingExcel.generateExcel(stringstore.mainundertakeacademicmeeting, queryObject.list(), researchLabName, foredate, afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	    		return baos;
+			}else{
+				return null;
+			}
+		 }catch(RuntimeException re){
+			 log.error("find by property name failed", re);
+				throw re;
+		 }
+	 }
 	/**
 	 * function:更新审核状态
 	 * @param TARRewardList

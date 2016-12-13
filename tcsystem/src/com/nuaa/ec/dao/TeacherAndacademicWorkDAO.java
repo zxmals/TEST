@@ -48,7 +48,6 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 			String queryString = "FROM TeacherAndacademicWork TAAW "
 					+ " WHERE TAAW.spareTire='1' "
 					+ " AND TAAW.teacher.spareTire='1'"
-					+ " AND TAAW.academicWorkScore.spareTire='1' "
 					+ " AND TAAW.academicWork.spareTire='1' "
 					+ " AND TAAW.academicWork.publishClub.spareTire='1' "
 					+ " AND TAAW.selfUndertakeTask.spareTire='1' "
