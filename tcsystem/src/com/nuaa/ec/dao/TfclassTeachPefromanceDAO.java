@@ -178,17 +178,29 @@ public class TfclassTeachPefromanceDAO extends BaseHibernateDAO {
 			session.put("recordNumber_CT", 0);
 			return TFClassTeachPefroList = new ArrayList<TfclassTeachPefromance>();
 		} else {
-			// 查出符合条件的全部的记录
-			hqlBuffer = new StringBuffer(
-					"select CT from TfclassTeachPefromance CT,Tfterm TERM where CT.spareTire='1'"
-							+ " and CT.checkOut='" + checkOut + "'"
-							+ " and TERM.spareTire='1'"
-							+ " and CT.tfclassTeachEvaluation.spareTire='1'"
-							+ " and CT.teacher.spareTire='1'"
-							+ " and CT.teacher.department.spareTire='1'"
-							+ " and CT.teacher.department.departmentId='"+department.getDepartmentId()+"'"
-							+ " and CT.termId=TERM.termId" + " and TERM.termId='"
-							+ termId+"'");
+			if (checkOut.equals("4")) {
+				hqlBuffer = new StringBuffer(
+						"select CT from TfclassTeachPefromance CT,Tfterm TERM where CT.spareTire='1'"
+								+ " and TERM.spareTire='1'"
+								+ " and CT.tfclassTeachEvaluation.spareTire='1'"
+								+ " and CT.teacher.spareTire='1'"
+								+ " and CT.teacher.department.spareTire='1'"
+								+ " and CT.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " and CT.termId=TERM.termId" + " and TERM.termId='"
+								+ termId+"'");
+			}else {
+				// 查出符合条件的全部的记录
+				hqlBuffer = new StringBuffer(
+						"select CT from TfclassTeachPefromance CT,Tfterm TERM where CT.spareTire='1'"
+								+ " and CT.checkOut='" + checkOut + "'"
+								+ " and TERM.spareTire='1'"
+								+ " and CT.tfclassTeachEvaluation.spareTire='1'"
+								+ " and CT.teacher.spareTire='1'"
+								+ " and CT.teacher.department.spareTire='1'"
+								+ " and CT.teacher.department.departmentId='"+department.getDepartmentId()+"'"
+								+ " and CT.termId=TERM.termId" + " and TERM.termId='"
+								+ termId+"'");
+			}
 			// 判断是否为分页操作
 			if (!isDivided) {
 				//如果不是分页操作，取出所有符合条件的记录

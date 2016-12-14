@@ -19,6 +19,7 @@ public class StoreData {
 	private static List<Tfterm> TftermList=new ArrayList<Tfterm>();
 	private static List<Department> departmentList=new ArrayList<Department>();
 	private static Map<String, Object> scienexports;
+	private static Map<String, Object> vaexporcts;
 	
 	public static Map<String, Object> getTeachertranslate() {
 		return teachertranslate;
@@ -78,6 +79,22 @@ public class StoreData {
 		 }
 		return filenameExported;
 	}
+
+	public static Map<String, Object> getVaexporcts() {
+		return vaexporcts;
+	}
+
+	public static void setVaexporcts() {
+		vaexporcts = new HashMap<String, Object>();
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 }
 
 

@@ -25,7 +25,7 @@ public class TfclassTeachPerformanceAuditAction implements RequestAware {
 				TfClassTeachPefromance = this.TFClassTeachPefroDAO.findById(ids[i]);
 				// 修改checkout 标志
 				if(TfClassTeachPefromance!=null){
-					TfClassTeachPefromance.setCheckOut("1");
+					TfClassTeachPefromance.setCheckOut("3");
 					checkoutList.add(TfClassTeachPefromance);
 				}
 			}

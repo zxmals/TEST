@@ -205,13 +205,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					function(data,status){
 						if(status=="success"){
 							if(data.trim()=="succ"){
-								swal("Good job!","更新成功","success");
+								swal("更新成功","","success");
 								window.location.replace("<%=basePath %>ATclassTeachRatioset!totalClassTimeRatio");
 							}else{
-								swal("Oops...","更新失败","error");
+								swal("更新失败","","error");
 							}
 						}else{
-							swal("Oops...","请求失败","error");
+							swal("请求失败","","error");
 						}
 					});
 		}
@@ -219,13 +219,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$('.delinf').click(function() {
 		 var row = $(this).parent().parent();
 		 swal({
-			  title: "Are you sure?",
-			  text: "你将不能恢复这行数据!",
+			  title: "确定要删除吗？",
+			  text: "你将不能恢复这行数据",
 			  type: "warning",
 			  showCancelButton: true,
 			  confirmButtonColor: "#DD6B55",
-			  confirmButtonText: "Yes, delete it!",
-			  cancelButtonText: "No, cancel plx!",
+			  confirmButtonText: "是，删除",
+			  cancelButtonText: "不, 我再想想",
 			  closeOnConfirm: false,
 			  closeOnCancel: false
 			},
@@ -238,17 +238,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							function(data,status){
 								if(status=="success"){
 									if(data.trim()=="succ"){
-										swal("Deleted!", "删除成功.", "success");
+										swal("删除成功", "", "success");
 										row.remove();
 									}else{
-										swal("Oops...","删除失败","error");
+										swal("删除失败","","error");
 									}
 								}else{
-									swal("Oops...","请求失败","error");
+									swal("请求失败","","error");
 								}
 							});
 				}  else {
-				    swal("Cancelled", "Your data is safe", "error");
+				    swal("数据存在", ":-P", "warning");
 			  }
 			});
 	});
