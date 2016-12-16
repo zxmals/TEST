@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,9 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfpracticeInnovationGuidePerformance;
 import com.nuaa.ec.model.TfpracticeInnovationGuidePerformanceUnionTfterm;
 import com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformance;
+import com.nuaa.ec.teachingData.exportData.PracticeInnovationGuidanceExcel;
+import com.nuaa.ec.teachingData.exportData.TeachingAbilityImprovingExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -39,6 +44,44 @@ public class TfpracticeInnovationGuidePerformanceDAO extends BaseHibernateDAO  {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfpracticeInnovationGuidePerformance> tfPracticeInnovationGuidePerformanceList = null;
+	/**
+	 * 实践创新指导模块的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="select new com.nuaa.ec.model.TfpracticeInnovationGuidePerformanceUnionTfterm(PIG,TERM) from TfpracticeInnovationGuidePerformance PIG,Tfterm TERM where TERM.termId=PIG.termId"
+					+ " and PIG.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and PIG.tfpracticeInnovationGuideLevel.spareTire='1'"
+					+ " and PIG.tfpracticeInnovationGuideGraduationThesisGuideEvalution.spareTire='1'"
+					+ " and PIG.teacher.spareTire='1'"
+					+ " and PIG.termId between ? and ?"
+					+ " and PIG.teacher.department=?"
+					+ " order by PIG.projectId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					PracticeInnovationGuidanceExcel.generateExcel(
+							stringstore.practiceInnovationGuidance,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	/**
 	 * 获得所有的记录信息 但是顺便实现了分页(管理员操作权限)
 	 * @return

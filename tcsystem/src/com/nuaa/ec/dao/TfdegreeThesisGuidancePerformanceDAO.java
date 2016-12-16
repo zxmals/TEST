@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,9 @@ import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfdegreeThesisGuidancePerformance;
 import com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm;
+import com.nuaa.ec.teachingData.exportData.ClassTeachExcel;
+import com.nuaa.ec.teachingData.exportData.DegreeThesisGuidanceExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -41,7 +46,45 @@ public class TfdegreeThesisGuidancePerformanceDAO extends BaseHibernateDAO {
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
 	private List<TfdegreeThesisGuidancePerformance> TFdegreeThesisGuidancePefroList = null;
-
+	/**
+	 * 学位论文指导模块的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString = "select new com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm(DTG,TERM) from TfdegreeThesisGuidancePerformance DTG,Tfterm TERM where DTG.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and DTG.tfdegreeThesisGuidanceRewardLevel.spareTire='1'"
+					+ " and DTG.teacher.spareTire='1'"
+					+ " and DTG.termId=TERM.termId"
+					+ " and TERM.termId between ? and ?"
+					+ " and DTG.teacher.department=?"
+					+ " order by DTG.degreeThesisId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					DegreeThesisGuidanceExcel.generateExcel(
+							stringstore.degreeThesisGuidance,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	
 	/**
 	 * （管理员操作）获得所有的记录信息 但是顺便实现了分页
 	 * 

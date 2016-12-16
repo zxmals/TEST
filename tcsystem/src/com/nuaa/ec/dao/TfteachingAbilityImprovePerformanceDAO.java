@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,9 @@ import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfteachingAbilityImprovePerformance;
 import com.nuaa.ec.model.TfteachingAbilityImprovePerformanceUnionTfterm;
+import com.nuaa.ec.teachingData.exportData.TeachingAbilityImprovingExcel;
+import com.nuaa.ec.teachingData.exportData.TeachingCompetitionExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -39,6 +44,43 @@ public class TfteachingAbilityImprovePerformanceDAO extends BaseHibernateDAO  {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfteachingAbilityImprovePerformance> TFteachingAbilityImproPefroList = null;
+	/**
+	 * 教学能力提升模块的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString = "select new com.nuaa.ec.model.TfteachingAbilityImprovePerformanceUnionTfterm(TAI,TERM) from TfteachingAbilityImprovePerformance TAI,Tfterm TERM where TAI.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and TAI.tfteachingAbilityImproveLevel.spareTire='1'"
+					+ " and TAI.teacher.spareTire='1'"
+					+ " and TAI.termId=TERM.termId"
+					+ " and TAI.termId between ? and ?"
+					+ " and TAI.teacher.department=?"
+					+ " order by TAI.eventId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					TeachingAbilityImprovingExcel.generateExcel(
+							stringstore.teachingAbilityImprove,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	/**
 	 * 获得所有的记录信息 但是顺便实现了分页
 	 * @return

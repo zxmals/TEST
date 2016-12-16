@@ -14,7 +14,6 @@ import com.nuaa.ec.model.Tfterm;
 public class StoreData {
 
 	private static Map<String, Object> teachertranslate = new HashMap<String, Object>();
-	private static Map<String, String> filenameExported = new HashMap<String, String>();
 	private static List<ResearchLab> researchLabList=new ArrayList<ResearchLab>();
 	private static List<Tfterm> TftermList=new ArrayList<Tfterm>();
 	private static List<Department> departmentList=new ArrayList<Department>();
@@ -51,7 +50,6 @@ public class StoreData {
 	public static void setDepartmentList(List<Department> departmentList) {
 		StoreData.departmentList = departmentList;
 	}
-
 	public static Map<String, Object> getScienexports() {
 		return scienexports;
 	}
@@ -68,7 +66,7 @@ public class StoreData {
 		scienexports.put("入选人才工程", "TalentProject");
 	}
 
-	public static Map<String, String> getFilenameExported() {
+	public static Map<String, String> getScienFilenameExported() {
 		/**
 		 * 存储导出数据的文件名
 		 */
@@ -79,7 +77,17 @@ public class StoreData {
 		 }
 		return filenameExported;
 	}
-
+	public static Map<String,String> getTeachingFilenameExported(){
+		/**
+		 * 存储导出数据的文件名
+		 */
+		 Map<String,String> filenameExported=new HashMap<String,String>();
+		 Set<Map.Entry<String,String>> entrySet=StoreData.getTeachingModule().entrySet();
+		 for(Map.Entry<String,String> entry:entrySet){
+			 filenameExported.put(entry.getValue(), entry.getKey());
+		 }
+		return filenameExported;
+	}
 	public static Map<String, Object> getVaexporcts() {
 		return vaexporcts;
 	}
@@ -87,6 +95,20 @@ public class StoreData {
 	public static void setVaexporcts() {
 		vaexporcts = new HashMap<String, Object>();
 		
+	}
+
+	public static Map<String,String> getTeachingModule() {
+		Map<String,String> teachingModule=new HashMap<String, String>();
+		teachingModule.put("课堂教学模块", "classTeaching");
+		teachingModule.put("学位论文指导模块", "degreeThesisGuidance");
+		teachingModule.put("教学竞赛模块", "teachingCompetition");
+		teachingModule.put("教学能力提升模块", "teachingAbilityImprove");
+		teachingModule.put("实践创新指导模块", "practiceInnovationGuidance");
+		teachingModule.put("学生竞赛指导模块", "studentCompetitionGuidance");
+		teachingModule.put("参与学生活动模块", "joinStudentActivity");
+		teachingModule.put("本科生导师指导模块", "undergraduateTutorGuidance");
+		teachingModule.put("校外活动指导模块", "offCampusPracticeGuidance");
+		return teachingModule;
 	}
 	
 	

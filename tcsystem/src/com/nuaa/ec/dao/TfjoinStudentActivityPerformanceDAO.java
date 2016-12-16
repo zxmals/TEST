@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,9 @@ import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfjoinStudentActivityPerformance;
 import com.nuaa.ec.model.TfjoinStudentActivityPerformanceUnionTfterm;
+import com.nuaa.ec.teachingData.exportData.JoinStudentActivityExcel;
+import com.nuaa.ec.teachingData.exportData.StudentCompetitionExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -47,6 +52,43 @@ public class TfjoinStudentActivityPerformanceDAO extends BaseHibernateDAO {
 
 	private List<TfjoinStudentActivityPerformance> tfJoinStudentActivityPerformanceList = null;
 
+	/**
+	 * 参与学生活动指导模块的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="select new com.nuaa.ec.model.TfjoinStudentActivityPerformanceUnionTfterm(JSA,TERM) from TfjoinStudentActivityPerformance JSA,Tfterm TERM where TERM.termId=JSA.termId"
+					+ " and JSA.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and JSA.tfjoinStudentActivityTime.spareTire='1'"
+					+ " and JSA.teacher.spareTire='1'"
+					+ " and JSA.termId between ? and ?"
+					+ " and JSA.teacher.department=?"
+					+ " order by JSA.activityId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					JoinStudentActivityExcel.generateExcel(
+							stringstore.joinStudentActivity,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	/**
 	 * 获得所有的记录信息 但是顺便实现了分页
 	 * 

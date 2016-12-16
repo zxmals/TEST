@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,9 @@ import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfstudentCompetitionGuidancePerformance;
 import com.nuaa.ec.model.TfstudentCompetitionGuidancePerformanceUnionTfterm;
+import com.nuaa.ec.teachingData.exportData.PracticeInnovationGuidanceExcel;
+import com.nuaa.ec.teachingData.exportData.StudentCompetitionExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -38,6 +43,45 @@ public class TfstudentCompetitionGuidancePerformanceDAO extends BaseHibernateDAO
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfstudentCompetitionGuidancePerformance> tfStudentCompetitionGuidancePerformanceList = null;
+	/**
+	 * 学生竞赛指导模块的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="select new com.nuaa.ec.model.TfstudentCompetitionGuidancePerformanceUnionTfterm(SCG,TERM) from TfstudentCompetitionGuidancePerformance SCG,Tfterm TERM where TERM.termId=SCG.termId"
+					+ " and SCG.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and SCG.tfstudentCompetitionGuidanceScore.spareTire='1'"
+					+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceCompetitionType.spareTire='1'"
+					+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceRewardLevel.spareTire='1'"
+					+ " and SCG.teacher.spareTire='1'"
+					+ " and SCG.termId between ? and ?"
+					+ " and SCG.teacher.department=?"
+					+ " order by SCG.competitionId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					StudentCompetitionExcel.generateExcel(
+							stringstore.studentCompetitionGuidance,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	/**
 	 * 获得所有的记录信息 但是顺便实现了分页
 	 * @return

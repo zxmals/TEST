@@ -226,7 +226,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						                    </a>
 				                      		<ul class="nav nav-third-level">
 	                                    		<li><a class="J_menuItem" href="downlaodVIEW!dataViewTeach">汇总数据</a></li>
-	                                    		<li><a class="J_menuItem" href="downlaodVIEW!dataViewTeach">分模块导出</a></li>
+	                                    		<li><a class="J_menuItem" href="ExportData/ExportTeachingPerformanceData.jsp">分模块导出</a></li>
 										</ul>
 				                      </li>
 				                      <li>

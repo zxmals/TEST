@@ -1,7 +1,27 @@
 package com.nuaa.ec.utils;
 
 public class stringstore {
-
+	/**
+	 * 教学绩效数据导出Excel字段名存储
+	 */
+	public static final String[] classTeaching={"课堂绩效编号","总课时","综合教学评估结果","当前教师工号","当前教师姓名","绩效成绩"};
+	public static final String[] degreeThesisGuidance={"学位论文编号","学位论文标题","获奖级别","当前教师工号","当前教师姓名","绩效成绩"};
+	public static final String[] teachingCompetition={"教学竞赛编号","竞赛名称","竞赛获奖等级","当前教师工号","当前教师姓名","教师绩效"};
+	public static final String[] teachingAbilityImprove={"能力提升项目编号","能力提升项目名称","参与总时间/h","提升等级","当前教师工号","当前教师姓名","教师绩效"};
+	public static final String[] practiceInnovationGuidance={"创新指导项目编号","项目名称","结题项目等级","成绩评估","当前教师工号","当前教师姓名","教师绩效"};
+	public static final String[] studentCompetitionGuidance={"指导竞赛编号","竞赛名称","竞赛等级","获奖级别","当前教师工号","当前教师姓名","教师绩效"};
+	public static final String[] joinStudentActivity={"参与活动编号","活动名称","参与时长/h","参与总时长","当前教师工号","当前教师姓名","教师绩效"};
+	public static final String[] undergraduateTutorGuidance={"指导编号","学生数量","指导年数","当前教师工号","当前教师姓名","教师绩效"};
+	public static final String[] offCampusPracticeGuidance={"指导项目编号","指导项目名称","项目类型","单位数量","数量30'/个","实习时长（2'/2h）","当前教师工号","当前教师姓名","教师绩效"};
+	///////////////
+	public static final String[] famousTeacherTeam={"教学名师与教学团队编号","获奖级别","项目总分","本人承担任务","负责人工号","负责人姓名","当前教师编号","当前教师姓名","教师绩效"};
+	
+	
+	
+	
+	
+	
+	
 	//FRO SCIENTIFICRESEARCH
 	/* periodical_paper parameter*/
 	public static final String[] peroidicalPaper = {"期刊论文编号","第一作者","第二作者","期刊论文标题","期刊名称","年份","卷","期","相关描述","当前教师Id","当前教师姓名","当前教师绩效"};

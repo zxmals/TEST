@@ -182,7 +182,7 @@
 <!-- 科研数据导出-管理 -->
 		<action name="ATscientificresearchexportset" class="com.nuaa.ec.action.ScientificResearchDataExport">
 			<result>/ExportData/ExportScienresearchData.jsp</result>
-		</action>		
+		</action>	
 	</package>
 
 
@@ -480,7 +480,7 @@
 		<!-- teaching project set -->	
 		<action name="GT*PerformanceSet-*" class="com.nuaa.ec.teachingPerformanceSetAction.GT{1}PerformanceSetAction">
 			<result>/TeachingPerformance/GT{1}Performance-{2}.jsp</result>
-		</action>		
+		</action>	
 	</package>
 	<!-- 管理员级别的教学绩效管理 -->
 	<package name="ATTeachingPeroformanceSet" extends="struts-default" namespace="/">
@@ -499,6 +499,10 @@
 		<action name="AT*PerformanceSet" class="com.nuaa.ec.Adm_teachingPerformanceSetAction.AT{1}PerformanceSetAction">
 			<result>/TeachingPerformanceAdm/AT{1}Performance.jsp</result>
 		</action>
+		<!-- 教学数据导出 -->
+		<action name="ATTeachingModuleDataExport" class="com.nuaa.ec.action.TeachingModuleDataExport">
+			<result>/ExportData/ExportTeachingPerformanceData.jsp</result>
+		</action>	
 	</package>
 	<!-- 所长级别的审核 -->
 	<package name="ResearchLabAdminAudit" extends="struts-default" namespace="/">

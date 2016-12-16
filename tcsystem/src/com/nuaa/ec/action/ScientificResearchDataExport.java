@@ -21,7 +21,6 @@ import com.nuaa.ec.dao.TeacherAndscientificResearchProjectDAO;
 import com.nuaa.ec.dao.TeacherAndscientificResearchRewardDAO;
 import com.nuaa.ec.dao.TeacherAndselectedTalentProjectDAO;
 import com.nuaa.ec.model.ResearchLab;
-import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.StoreData;
 
@@ -33,7 +32,7 @@ public class ScientificResearchDataExport implements RequestAware, SessionAware 
 	private String afterdate;
 	private ResearchLab research;
 	private String entitys;
-	private Map<String,String> filenameExported=StoreData.getFilenameExported();
+	private Map<String,String> filenameExported=StoreData.getScienFilenameExported();
 	private ResearchLabDAO researchdao = new ResearchLabDAO();
 	private TeacherAndperiodicalDAO tapdao = new TeacherAndperiodicalDAO();
 	private TeacherAndscientificResearchRewardDAO techrAndScienReschRewdDAO=new TeacherAndscientificResearchRewardDAO();
