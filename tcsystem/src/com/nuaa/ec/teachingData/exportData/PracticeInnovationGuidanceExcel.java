@@ -87,6 +87,8 @@ public class PracticeInnovationGuidanceExcel {
 				cell[5].setCellStyle(cellStyle);
 				cell[6].setCellValue(tfPracInnoGuidPerfList.get(i).getPracInnoGuidPerf().getFinalScore());
 				cell[6].setCellStyle(cellStyle);
+				cell[7].setCellValue(tfPracInnoGuidPerfList.get(i).getCurrentTerm().getTerm());
+				cell[7].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

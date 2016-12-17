@@ -12,11 +12,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.dao.TftermDAO;
-import com.nuaa.ec.model.Teacher;
-import com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm;
 import com.nuaa.ec.model.TffamousTeacherTeamPerformance;
-import com.nuaa.ec.model.TfundergraduateTutorGuidancePerformanceUnionTfterm;
-import com.nuaa.ec.model.TfundergraduateTutorGuidancePerformanceUnionTfterm;
 import com.nuaa.ec.utils.StoreData;
 
 public class FamousTeacherTeamExcel {
@@ -98,6 +94,8 @@ public class FamousTeacherTeamExcel {
 				cell[7].setCellStyle(cellStyle);
 				cell[8].setCellValue(tfFamousTeacherTeamPerfList.get(i).getSingelScore());
 				cell[8].setCellStyle(cellStyle);
+				cell[9].setCellValue(tfFamousTeacherTeamPerfList.get(i).getTffamousTeacherTeamProject().getTfterm().getTerm());
+				cell[9].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

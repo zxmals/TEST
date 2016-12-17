@@ -12,11 +12,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.dao.TftermDAO;
-import com.nuaa.ec.model.TffineCourseConstructionPerformance;
-import com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformance;
 import com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformanceUnionTfterm;
 import com.nuaa.ec.utils.EntityUtil;
-import com.nuaa.ec.utils.StoreData;
 
 public class SummerAndInternationCourseConstructionExcel {
 	/**

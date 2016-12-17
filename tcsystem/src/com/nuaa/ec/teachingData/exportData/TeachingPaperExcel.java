@@ -99,6 +99,8 @@ public class TeachingPaperExcel {
 				cell[10].setCellStyle(cellStyle);
 				cell[11].setCellValue(tfTchingPaperPerfList.get(i).getSingelScore());
 				cell[11].setCellStyle(cellStyle);
+				cell[12].setCellValue(tfTchingPaperPerfList.get(i).getTfteachingPaperProject().getTfterm().getTerm());
+				cell[12].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

@@ -86,6 +86,8 @@ public class DegreeThesisGuidanceExcel {
 				cell[4].setCellStyle(cellStyle);
 				cell[5].setCellValue(tfDegreeThesisGuidanceList.get(i).getDegreeThesisGuidancePerformance().getFinalScore());
 				cell[5].setCellStyle(cellStyle);
+				cell[6].setCellValue(tfDegreeThesisGuidanceList.get(i).getCurrentTerm().getTerm());
+				cell[6].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

@@ -11,9 +11,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.dao.TftermDAO;
-import com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm;
 import com.nuaa.ec.model.TfjoinStudentActivityPerformanceUnionTfterm;
-import com.nuaa.ec.model.TfteachingCompetitionPerformanceUnionTfterm;
 
 public class JoinStudentActivityExcel {
 	/**
@@ -89,6 +87,8 @@ public class JoinStudentActivityExcel {
 				cell[5].setCellStyle(cellStyle);
 				cell[6].setCellValue(tfJoinStudentActivityPerfList.get(i).getJoinStudentActivityPerformance().getFinalScore());
 				cell[6].setCellStyle(cellStyle);
+				cell[7].setCellValue(tfJoinStudentActivityPerfList.get(i).getCurrentTerm().getTerm());
+				cell[7].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

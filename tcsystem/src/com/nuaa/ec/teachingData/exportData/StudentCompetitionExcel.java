@@ -87,6 +87,8 @@ public class StudentCompetitionExcel {
 				cell[5].setCellStyle(cellStyle);
 				cell[6].setCellValue(tfStudntComptionPerfList.get(i).getStudentCompetGuidPerf().getFinalScore());
 				cell[6].setCellStyle(cellStyle);
+				cell[7].setCellValue(tfStudntComptionPerfList.get(i).getCurrentTerm().getTerm());
+				cell[7].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

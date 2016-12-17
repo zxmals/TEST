@@ -13,7 +13,6 @@ import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.dao.TftermDAO;
 import com.nuaa.ec.model.TfteachingAchievementPerformance;
-import com.nuaa.ec.model.TfteachingRearchPerformance;
 import com.nuaa.ec.utils.StoreData;
 
 public class TeachingAchievementExcel {
@@ -98,6 +97,8 @@ public class TeachingAchievementExcel {
 				cell[9].setCellStyle(cellStyle);
 				cell[10].setCellValue(tfTchingAcievementPerfList.get(i).getSingelScore());
 				cell[10].setCellStyle(cellStyle);
+				cell[11].setCellValue(tfTchingAcievementPerfList.get(i).getTfteachingAchievementProject().getTfterm().getTerm());
+				cell[11].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

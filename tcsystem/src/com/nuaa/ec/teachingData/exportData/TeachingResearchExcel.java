@@ -74,7 +74,7 @@ public class TeachingResearchExcel {
 				}
 /**
  * 导出字段：
- * {"研究项目编号 ","项目名称","当年项目到款等级","项目评估等级","结题成绩","项目总分","负责人工号","负责人姓名","当前教师工号","当前教师姓名","教师绩效"};
+ * {"研究项目编号 ","项目名称","当年项目到款等级","项目评估等级","项目总分","负责人工号","负责人姓名","当前教师工号","当前教师姓名","教师绩效"};
  */
 				cell[0].setCellValue(tfTeachingResearchPerformance.get(i).getTfteachingRearchProject().getProjectId());
 				cell[0].setCellStyle(cellStyle);
@@ -96,6 +96,8 @@ public class TeachingResearchExcel {
 				cell[8].setCellStyle(cellStyle);
 				cell[9].setCellValue(tfTeachingResearchPerformance.get(i).getFinalScore());
 				cell[9].setCellStyle(cellStyle);
+				cell[10].setCellValue(tfTeachingResearchPerformance.get(i).getTfteachingRearchProject().getTfterm().getTerm());
+				cell[10].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

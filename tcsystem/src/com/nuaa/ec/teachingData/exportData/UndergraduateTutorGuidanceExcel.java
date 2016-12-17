@@ -11,8 +11,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.dao.TftermDAO;
-import com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm;
-import com.nuaa.ec.model.TfundergraduateTutorGuidancePerformanceUnionTfterm;
 import com.nuaa.ec.model.TfundergraduateTutorGuidancePerformanceUnionTfterm;
 
 public class UndergraduateTutorGuidanceExcel {
@@ -87,6 +85,8 @@ public class UndergraduateTutorGuidanceExcel {
 				cell[4].setCellStyle(cellStyle);
 				cell[5].setCellValue(tfUndergraduateTutorGuidList.get(i).getUndergraduateTutorGuidancePerformance().getFinalScore());
 				cell[5].setCellStyle(cellStyle);
+				cell[6].setCellValue(tfUndergraduateTutorGuidList.get(i).getCurrentTerm().getTerm());
+				cell[6].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

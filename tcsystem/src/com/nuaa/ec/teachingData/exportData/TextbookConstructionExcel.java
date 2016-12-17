@@ -97,6 +97,8 @@ public class TextbookConstructionExcel {
 				cell[9].setCellStyle(cellStyle);
 				cell[10].setCellValue(tfTkstbokConsPerfList.get(i).getSingellScore());
 				cell[10].setCellStyle(cellStyle);
+				cell[11].setCellValue(tfTkstbokConsPerfList.get(i).getTftextbookConstructionProject().getTfterm().getTerm());
+				cell[11].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

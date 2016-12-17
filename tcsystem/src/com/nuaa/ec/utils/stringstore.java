@@ -15,7 +15,7 @@ public class stringstore {
 	public static final String[] offCampusPracticeGuidance={"指导项目编号","指导项目名称","项目类型","单位数量","数量30'/个","实习时长（2'/2h）","当前教师工号","当前教师姓名","教师绩效","学期"};
 	///////////////
 	public static final String[] famousTeacherTeam={"教学名师与教学团队编号","获奖级别","项目总分","本人承担任务","负责人工号","负责人姓名","当前教师编号","当前教师姓名","教师绩效","学期"};
-	public static final String[] teachingResearch={"研究项目编号 ","项目名称","当年项目到款等级","项目评估等级","结题成绩","项目总分","负责人工号","负责人姓名","当前教师工号","当前教师姓名","教师绩效","学期"};
+	public static final String[] teachingResearch={"研究项目编号 ","项目名称","当年项目到款等级","项目评估等级","项目总分","负责人工号","负责人姓名","当前教师工号","当前教师姓名","教师绩效","学期"};
 	public static final String[] teachingPaper={"教学论文编号","论文题目","论文检索情况","本人承担任务","是否其他作者参与","教师担任作者","项目总分","负责人工号","负责人姓名","当前教师工号","当前教师姓名","教师绩效","学期"};
 	public static final String[] teachingAchievement={"教学成果奖编号","教学成果奖名称","是否他人合作","获奖级别","项目总分","负责人工号","负责人姓名","当前教师工号","当前教师姓名","本人承担任务","教师绩效","学期"};
 	public static final String[] textbookConstruction={"教材建设编号","教材名称","是否合作","教材等级","项目总分","负责人工号","负责人姓名","当前教师工号","当前教师姓名","本人承担任务","教师绩效","学期"};

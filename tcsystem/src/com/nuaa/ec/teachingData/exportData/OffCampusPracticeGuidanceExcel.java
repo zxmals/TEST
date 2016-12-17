@@ -11,10 +11,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.dao.TftermDAO;
-import com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm;
 import com.nuaa.ec.model.TfoffCampusPracticeGuidancePerformanceUnionTfterm;
-import com.nuaa.ec.model.TfundergraduateTutorGuidancePerformanceUnionTfterm;
-import com.nuaa.ec.model.TfundergraduateTutorGuidancePerformanceUnionTfterm;
 
 public class OffCampusPracticeGuidanceExcel {
 	/**
@@ -94,6 +91,8 @@ public class OffCampusPracticeGuidanceExcel {
 				cell[7].setCellStyle(cellStyle);
 				cell[8].setCellValue(tfOffCampusPracGuidList.get(i).getOffCampusPracticeGuidancePerformance().getFinalScore());
 				cell[8].setCellStyle(cellStyle);
+				cell[9].setCellValue(tfOffCampusPracGuidList.get(i).getCurrentTerm().getTerm());
+				cell[9].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

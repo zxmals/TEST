@@ -11,7 +11,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.dao.TftermDAO;
-import com.nuaa.ec.model.TfdegreeThesisGuidancePerformanceUnionTfterm;
 import com.nuaa.ec.model.TfteachingCompetitionPerformanceUnionTfterm;
 
 public class TeachingCompetitionExcel {
@@ -87,6 +86,8 @@ public class TeachingCompetitionExcel {
 				cell[4].setCellStyle(cellStyle);
 				cell[5].setCellValue(tfTeachingCompetitionList.get(i).getTfTeachingCompetitionPerformance().getFinalScore());
 				cell[5].setCellStyle(cellStyle);
+				cell[6].setCellValue(tfTeachingCompetitionList.get(i).getCurrentTerm().getTerm());
+				cell[6].setCellStyle(cellStyle);
 			}
 		}
 		return wb;

@@ -72,7 +72,7 @@ public class ClassTeachExcel {
 				}
 /**
  * 导出字段：
- * {"课堂绩效编号","总课时","综合教学评估结果","当前教师工号","当前教师姓名","绩效成绩"};
+ * {"课堂绩效编号","总课时","综合教学评估结果","当前教师工号","当前教师姓名","绩效成绩","学期"};
  */
 				cell[0].setCellValue(tfClassTeachPfomsList.get(i).getClassTeachPerformance().getClassPefromanceId());
 				cell[0].setCellStyle(cellStyle);
@@ -86,6 +86,8 @@ public class ClassTeachExcel {
 				cell[4].setCellStyle(cellStyle);
 				cell[5].setCellValue(tfClassTeachPfomsList.get(i).getClassTeachPerformance().getFinalScore());
 				cell[5].setCellStyle(cellStyle);
+				cell[6].setCellValue(tfClassTeachPfomsList.get(i).getCurrentTerm().getTerm());
+				cell[6].setCellStyle(cellStyle);
 			}
 		}
 		return wb;
