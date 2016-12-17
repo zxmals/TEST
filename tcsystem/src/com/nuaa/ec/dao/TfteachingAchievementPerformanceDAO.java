@@ -5,8 +5,13 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfteachingAchievementPerformance;
 import com.nuaa.ec.model.TfteachingAchievementProject;
 import com.nuaa.ec.model.TfteachingPaperPerformance;
+import com.nuaa.ec.teachingData.exportData.TeachingAchievementExcel;
+import com.nuaa.ec.teachingData.exportData.TeachingPaperExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +46,45 @@ public class TfteachingAchievementPerformanceDAO extends BaseHibernateDAO {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfteachingAchievementPerformance> TfteachingAchievementPerfList = null;
+	/**
+	 *教学成果奖的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="from TfteachingAchievementPerformance TAP where TAP.spareTire='1'"
+					+ " and TAP.tfteachingAchievementProject.spareTire='1'"
+					+ " and TAP.tfteachingAchievementProject.tfteachingAchievementRewardLevel.spareTire='1'"
+					+ " and TAP.tfteachingAchievementProject.tfterm.spareTire='1'"
+					+ " and TAP.selfUndertakeTask.spareTire='1'"
+					+ " and TAP.tfteachingAchievementProject.tfterm.termId between ? and ?"
+					+ " and TAP.teacher.spareTire='1'"
+					+ " and TAP.teacher.department.spareTire='1'"
+					+ " and TAP.teacher.department=?"
+					+ " order by TAP.tfteachingAchievementProject.projectId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					TeachingAchievementExcel.generateExcel(
+							stringstore.teachingAchievement,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	public boolean updateCheckoutStatus(List<TfteachingAchievementPerformance> TfteachingAchievementPerformanceList){
 		Session session=this.getSession();
 		Transaction tx=null;

@@ -108,6 +108,15 @@ public class StoreData {
 		teachingModule.put("参与学生活动模块", "joinStudentActivity");
 		teachingModule.put("本科生导师指导模块", "undergraduateTutorGuidance");
 		teachingModule.put("校外活动指导模块", "offCampusPracticeGuidance");
+		teachingModule.put("教学名师与教学团队", "famousTeacherTeam");
+		teachingModule.put("教学研究项目", "teachingResearch");
+		teachingModule.put("教学论文", "teachingPaper");
+		teachingModule.put("教学成果奖", "teachingAchievement");
+		teachingModule.put("教材建设", "textbookConstruction");
+		teachingModule.put("精品课程建设", "fineCourseConstruction");
+		teachingModule.put("专业项目申报", "professionalProjectDeclare");
+		teachingModule.put("企业工作站和联合人才培养基地", "enterpriseWorkstation");
+		teachingModule.put("暑期课程与国际课程建设", "summerInternationalCourse");
 		return teachingModule;
 	}
 	

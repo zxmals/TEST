@@ -5,8 +5,13 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TffineCourseConstructionPerformance;
 import com.nuaa.ec.model.TffineCourseConstructionProject;
 import com.nuaa.ec.model.TftextbookConstructionPerformance;
+import com.nuaa.ec.teachingData.exportData.FineCourseConstructionExcel;
+import com.nuaa.ec.teachingData.exportData.TextbookConstructionExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +46,46 @@ public class TffineCourseConstructionPerformanceDAO extends BaseHibernateDAO {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TffineCourseConstructionPerformance> tfFineCourseConstructionPerformance = null;
+
+	/**
+	 *精品课程的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="from TffineCourseConstructionPerformance FCC where FCC.spareTire='1'"
+					+ " and FCC.tffineCourseConstructionProject.spareTire='1'"
+					+ " and FCC.tffineCourseConstructionProject.tffineCourseConstructionLevel.spareTire='1'"
+					+ " and FCC.tffineCourseConstructionProject.tfterm.spareTire='1'"
+					+ " and FCC.selfUndertakeTask.spareTire='1'"
+					+ " and FCC.tffineCourseConstructionProject.tfterm.termId between ? and ?"
+					+ " and FCC.teacher.spareTire='1'"
+					+ " and FCC.teacher.department.spareTire='1'"
+					+ " and FCC.teacher.department=?"
+					+ " order by FCC.tffineCourseConstructionProject.courseId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					FineCourseConstructionExcel.generateExcel(
+							stringstore.fineCourseConstruction,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	public boolean updateCheckoutStatus(List<TffineCourseConstructionPerformance> tfFineCourseConstructionPerformanceList){
 		Session session=this.getSession();
 		Transaction tx=null;

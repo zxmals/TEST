@@ -1,11 +1,17 @@
 package com.nuaa.ec.utils;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.Entity;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.mapping.PersistentClass;
+
+
 
 import com.nuaa.ec.dao.SessionFactory;
 import com.nuaa.ec.model.Teacher;
@@ -16,6 +22,14 @@ public class EntityUtil {
 	private static Configuration hibernateconfig = SessionFactory
 			.getConfiguration();
 
+	public static Map<String,String> getTermList(){
+		Map<String,String> termMap=new HashMap<String,String>();
+		List<Tfterm> terms=StoreData.getTftermList();
+		for(Tfterm term:terms){
+			termMap.put(term.getTermId(), term.getTerm());
+		}
+		return termMap;
+	}
 	private static PersistentClass getPersistentclass(Class clazz) {
 		synchronized (Entity.class) {
 			PersistentClass pc = hibernateconfig.getClassMapping(clazz

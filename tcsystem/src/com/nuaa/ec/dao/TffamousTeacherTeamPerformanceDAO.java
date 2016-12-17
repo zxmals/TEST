@@ -6,8 +6,13 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TffamousTeacherTeamPerformance;
 import com.nuaa.ec.model.TffamousTeacherTeamProject;
 import com.nuaa.ec.model.TfteachingAbilityImprovePerformance;
+import com.nuaa.ec.teachingData.exportData.FamousTeacherTeamExcel;
+import com.nuaa.ec.teachingData.exportData.OffCampusPracticeGuidanceExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +47,47 @@ public class TffamousTeacherTeamPerformanceDAO extends BaseHibernateDAO {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TffamousTeacherTeamPerformance> TFfamousTeacherTeamPefroList = null;
+
+	/**
+	 *教学名师和教学团队模块的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="from TffamousTeacherTeamPerformance FTT "
+					+ " where FTT.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.spareTire='1'"
+					+ " and FTT.selfUndertakeTask.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.tffamousTeacherTeamRewadLevel.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.tfterm.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.tfterm.termId between ? and ?"
+					+ " and FTT.teacher.spareTire='1'"
+					+ " and FTT.teacher.department.spareTire='1'"
+					+ " and FTT.teacher.department=?"
+					+ " order by FTT.tffamousTeacherTeamProject.teacherTeamPerformanceId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					FamousTeacherTeamExcel.generateExcel(
+							stringstore.famousTeacherTeam,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	public boolean updateCheckoutStatus(List<TffamousTeacherTeamPerformance> TffamousTeacherTeamPerfList){
 		Session session=this.getSession();
 		Transaction tx=null;

@@ -51,6 +51,29 @@ public class TfteachingPaperProject implements java.io.Serializable {
 		this.tfteachingPaperPerformances = tfteachingPaperPerformances;
 	}
 
+	
+	public TfteachingPaperProject(
+			String teachPaperId,
+			Tfterm tfterm,
+			TfteachingPaperRetrievalCondition tfteachingPaperRetrievalCondition,
+			String teachPaperName, String otherAuthorJoin,
+			Double projectSumScore, String spareTire, String checkOut,
+			String chargePersonId, String chargePersonName,
+			String departmentId, Set tfteachingPaperPerformances) {
+		this.teachPaperId = teachPaperId;
+		this.tfterm = tfterm;
+		this.tfteachingPaperRetrievalCondition = tfteachingPaperRetrievalCondition;
+		this.teachPaperName = teachPaperName;
+		this.otherAuthorJoin = otherAuthorJoin;
+		this.projectSumScore = projectSumScore;
+		this.spareTire = spareTire;
+		this.checkOut = checkOut;
+		this.chargePersonId = chargePersonId;
+		this.chargePersonName = chargePersonName;
+		this.departmentId = departmentId;
+		this.tfteachingPaperPerformances = tfteachingPaperPerformances;
+	}
+
 	/** minimal constructor */
 	public TfteachingPaperProject(String teachPaperId) {
 		this.teachPaperId = teachPaperId;

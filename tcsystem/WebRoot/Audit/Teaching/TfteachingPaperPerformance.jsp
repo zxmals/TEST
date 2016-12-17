@@ -68,7 +68,7 @@
 	<form
 		action="ATTfteachingPaperPerformanceAudit!getTfteachingPaperPerformanceList"
 		method="post" name="pickdate">
-		<h3 style="padding:0px;margin-left: 10px;">教学研究绩效审核</h3>
+		<h3 style="padding:0px;margin-left: 10px;">教学论文绩效审核</h3>
 		<hr>
 		<span style="margin-left:10px;">所在系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
 			<select name="department_TPP.departmentId"

@@ -5,8 +5,13 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfteachingPaperPerformance;
 import com.nuaa.ec.model.TfteachingPaperProject;
 import com.nuaa.ec.model.TfteachingRearchPerformance;
+import com.nuaa.ec.teachingData.exportData.TeachingPaperExcel;
+import com.nuaa.ec.teachingData.exportData.TeachingResearchExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +46,45 @@ public class TfteachingPaperPerformanceDAO extends BaseHibernateDAO {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfteachingPaperPerformance> TfteachingPaperPerfList = null;
+	/**
+	 *教学论文的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="from TfteachingPaperPerformance TPP where TPP.spareTire='1'"
+					+ " and TPP.tfteachingPaperProject.spareTire='1'"
+					+ " and TPP.tfteachingPaperProject.tfteachingPaperRetrievalCondition.spareTire='1'"
+					+ " and TPP.tfteachingPaperProject.tfterm.spareTire='1'"
+					+ " and TPP.selfUndertakeTask.spareTire='1'"
+					+ " and TPP.tfteachingPaperProject.tfterm.termId between ? and ?"
+					+ " and TPP.teacher.spareTire='1'"
+					+ " and TPP.teacher.department.spareTire='1'"
+					+ " and TPP.teacher.department=?"
+					+ " order by TPP.tfteachingPaperProject.teachPaperId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					TeachingPaperExcel.generateExcel(
+							stringstore.teachingPaper,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	public boolean updateCheckoutStatus(List<TfteachingPaperPerformance> TfteachingPaperPerformanceList){
 		Session session=this.getSession();
 		Transaction tx=null;

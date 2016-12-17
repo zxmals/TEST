@@ -5,8 +5,13 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfteachingAchievementPerformance;
 import com.nuaa.ec.model.TftextbookConstructionPerformance;
 import com.nuaa.ec.model.TftextbookConstructionProject;
+import com.nuaa.ec.teachingData.exportData.TeachingAchievementExcel;
+import com.nuaa.ec.teachingData.exportData.TextbookConstructionExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +46,46 @@ public class TftextbookConstructionPerformanceDAO extends BaseHibernateDAO {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TftextbookConstructionPerformance> TftextbookConstructionPerformance = null;
+	
+	/**
+	 *教材建设的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="from TftextbookConstructionPerformance TBC where TBC.spareTire='1'"
+					+ " and TBC.tftextbookConstructionProject.spareTire='1'"
+					+ " and TBC.tftextbookConstructionProject.tftextbookConstructionTblevel.spareTire='1'"
+					+ " and TBC.tftextbookConstructionProject.tfterm.spareTire='1'"
+					+ " and TBC.selfUndertakeTask.spareTire='1'"
+					+ " and TBC.tftextbookConstructionProject.tfterm.termId between ? and ?"
+					+ " and TBC.teacher.spareTire='1'"
+					+ " and TBC.teacher.department.spareTire='1'"
+					+ " and TBC.teacher.department=?"
+					+ " order by TBC.tftextbookConstructionProject.bookId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					TextbookConstructionExcel.generateExcel(
+							stringstore.textbookConstruction,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	public boolean updateCheckoutStatus(List<TftextbookConstructionPerformance> TftextbookConstructionPerformanceList){
 		Session session=this.getSession();
 		Transaction tx=null;

@@ -5,8 +5,13 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TffineCourseConstructionPerformance;
 import com.nuaa.ec.model.TfprofessionalProjectDeclarePerformance;
 import com.nuaa.ec.model.TfprofessionalProjectDeclareProject;
+import com.nuaa.ec.teachingData.exportData.FineCourseConstructionExcel;
+import com.nuaa.ec.teachingData.exportData.ProfessionalProjectDeclareExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +47,48 @@ public class TfprofessionalProjectDeclarePerformanceDAO extends
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfprofessionalProjectDeclarePerformance> tfProfessionalProjectDeclarePerformance = null;
+	
+
+	/**
+	 *专业项目申报的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="from TfprofessionalProjectDeclarePerformance PPD where PPD.spareTire='1'"
+					+ " and PPD.tfprofessionalProjectDeclareProject.spareTire='1'"
+					+ " and PPD.tfprofessionalProjectDeclareProject.tfprofessionalProjectDeclareLevel.spareTire='1'"
+					+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.spareTire='1'"
+					+ " and PPD.selfUndertakeTask.spareTire='1'"
+					+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.termId between ? and ?"
+					+ " and PPD.teacher.spareTire='1'"
+					+ " and PPD.teacher.department.spareTire='1'"
+					+ " and PPD.teacher.department=?"
+					+ " order by PPD.tfprofessionalProjectDeclareProject.projectId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					ProfessionalProjectDeclareExcel.generateExcel(
+							stringstore.professionalProjectDeclare,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	public boolean updateCheckoutStatus(List<TfprofessionalProjectDeclarePerformance> tfProfessionalProjectDeclarePerformanceList){
 		Session session=this.getSession();
 		Transaction tx=null;

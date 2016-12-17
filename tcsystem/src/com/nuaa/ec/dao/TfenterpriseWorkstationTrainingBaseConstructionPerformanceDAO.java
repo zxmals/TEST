@@ -1,5 +1,7 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,9 @@ import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfenterpriseWorkstationTrainingBaseConstructionPerformance;
 import com.nuaa.ec.model.TfenterpriseWorkstationTrainingBaseConstructionProject;
+import com.nuaa.ec.teachingData.exportData.EnterpriseWorkStationExcel;
+import com.nuaa.ec.teachingData.exportData.ProfessionalProjectDeclareExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -41,6 +46,45 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
 	private List<TfenterpriseWorkstationTrainingBaseConstructionPerformance> Tf_EN_WTB_CONS_PERF_List = null;
+	/**
+	 *企业工作站和联合培养基地的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="from TfenterpriseWorkstationTrainingBaseConstructionPerformance EWTB where EWTB.spareTire='1'"
+					+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.spareTire='1'"
+					+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.spareTire='1'"
+					+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.termId between ? and ?"
+					+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfenterpriseWorkstationTrainingbaseConstructionLevel.spareTire='1'"
+					+ " and EWTB.selfUndertakeTask.spareTire='1'"
+					+ " and EWTB.teacher.spareTire='1'"
+					+ " and EWTB.teacher.department.spareTire='1'"
+					+ " and EWTB.teacher.department=?"
+					+ " order by EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.projectId desc ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					EnterpriseWorkStationExcel.generateExcel(
+							stringstore.enterpriseWorkstation,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	/**
 	 * function:audit
 	 * @param TfDTGPerfoList

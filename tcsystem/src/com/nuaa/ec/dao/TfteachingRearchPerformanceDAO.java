@@ -2,11 +2,14 @@ package com.nuaa.ec.dao;
 
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
-import com.nuaa.ec.model.TfteachingAbilityImprovePerformance;
 import com.nuaa.ec.model.TfteachingRearchPerformance;
 import com.nuaa.ec.model.TfteachingRearchProject;
+import com.nuaa.ec.teachingData.exportData.TeachingResearchExcel;
+import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +44,46 @@ public class TfteachingRearchPerformanceDAO extends BaseHibernateDAO {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfteachingRearchPerformance> TfteachingRearchPerformanceList = null;
+	
+	/**
+	 *教学研究的数据导出
+	 */
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(Department department,
+			String foredate, String afterdate, String departmentName) {
+		try {
+			String queryString ="from TfteachingRearchPerformance TRP where TRP.spareTire='1'"
+					+ " and TRP.tfteachingRearchProject.spareTire='1'"
+					+ " and TRP.tfteachingRearchProject.tfteachingRearchEvaluation.spareTire='1'"
+					+ " and TRP.tfteachingRearchProject.tfteachingRearchFundlevel.spareTire='1'"
+					+ " and TRP.tfteachingRearchProject.tfterm.spareTire='1'"
+					+ " and TRP.tfteachingRearchProject.tfterm.termId between ? and ?"
+					+ " and TRP.teacher.spareTire='1'"
+					+ " and TRP.teacher.department.spareTire='1'"
+					+ " and TRP.teacher.department=?"
+					+ " order by TRP.tfteachingRearchProject.projectId desc";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foredate).setParameter(1, afterdate)
+					.setParameter(2, department);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					TeachingResearchExcel.generateExcel(
+							stringstore.teachingResearch,
+							queryObject.list(), departmentName, foredate,
+							afterdate).write(baos);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return baos;
+			} else {
+				return null;
+			}
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	public boolean updateCheckoutStatus(List<TfteachingRearchPerformance> TfteachingRearchPerfList){
 		Session session=this.getSession();
 		Transaction tx=null;

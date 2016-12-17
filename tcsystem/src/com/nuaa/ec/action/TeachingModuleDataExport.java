@@ -14,12 +14,21 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.nuaa.ec.dao.DepartmentDAO;
 import com.nuaa.ec.dao.TfclassTeachPefromanceDAO;
 import com.nuaa.ec.dao.TfdegreeThesisGuidancePerformanceDAO;
+import com.nuaa.ec.dao.TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO;
+import com.nuaa.ec.dao.TffamousTeacherTeamPerformanceDAO;
+import com.nuaa.ec.dao.TffineCourseConstructionPerformanceDAO;
 import com.nuaa.ec.dao.TfjoinStudentActivityPerformanceDAO;
 import com.nuaa.ec.dao.TfoffCampusPracticeGuidancePerformanceDAO;
 import com.nuaa.ec.dao.TfpracticeInnovationGuidePerformanceDAO;
+import com.nuaa.ec.dao.TfprofessionalProjectDeclarePerformanceDAO;
 import com.nuaa.ec.dao.TfstudentCompetitionGuidancePerformanceDAO;
+import com.nuaa.ec.dao.TfsummerCourseInternationalConstructionPerformanceDAO;
 import com.nuaa.ec.dao.TfteachingAbilityImprovePerformanceDAO;
+import com.nuaa.ec.dao.TfteachingAchievementPerformanceDAO;
 import com.nuaa.ec.dao.TfteachingCompetitionPerformanceDAO;
+import com.nuaa.ec.dao.TfteachingPaperPerformanceDAO;
+import com.nuaa.ec.dao.TfteachingRearchPerformanceDAO;
+import com.nuaa.ec.dao.TftextbookConstructionPerformanceDAO;
 import com.nuaa.ec.dao.TfundergraduateTutorGuidancePerformanceDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.utils.StoreData;
@@ -44,6 +53,15 @@ public class TeachingModuleDataExport implements RequestAware, SessionAware {
 	private TfjoinStudentActivityPerformanceDAO joinStudActPerfDAO = new TfjoinStudentActivityPerformanceDAO();
 	private TfundergraduateTutorGuidancePerformanceDAO tfUndergTutorGuidanceDAO = new TfundergraduateTutorGuidancePerformanceDAO();
 	private TfoffCampusPracticeGuidancePerformanceDAO tfOffCampusPracGuidPerfDAO = new TfoffCampusPracticeGuidancePerformanceDAO();
+	private TffamousTeacherTeamPerformanceDAO tfFamosTchrTmPerfDAO = new TffamousTeacherTeamPerformanceDAO();
+	private TfteachingRearchPerformanceDAO tfTchingReschPerfDAO = new TfteachingRearchPerformanceDAO();
+	private TfteachingPaperPerformanceDAO tfTchingPaperPerfDAO = new TfteachingPaperPerformanceDAO();
+	private TfteachingAchievementPerformanceDAO tfTchingAchivmtPerfDAO = new TfteachingAchievementPerformanceDAO();
+	private TftextbookConstructionPerformanceDAO tfTkstBukConstrucPerfDAO = new TftextbookConstructionPerformanceDAO();
+	private TffineCourseConstructionPerformanceDAO tfFineCourseConstPerfDAO = new TffineCourseConstructionPerformanceDAO();
+	private TfprofessionalProjectDeclarePerformanceDAO tfProProjectDeclarePerfDAO = new TfprofessionalProjectDeclarePerformanceDAO();
+	private TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO enterBaseConstructionPerformanceDAO=new TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO();
+	private TfsummerCourseInternationalConstructionPerformanceDAO tfsummerConstructionPerformanceDAO=new TfsummerCourseInternationalConstructionPerformanceDAO();
 	// default method
 	public String execute() {
 		return "success";
@@ -98,6 +116,60 @@ public class TeachingModuleDataExport implements RequestAware, SessionAware {
 			}
 			else if("offCampusPracticeGuidance".equals(entitys.trim())){
 				baos = tfOffCampusPracGuidPerfDAO.findwithexport(department, foredate,
+						afterdate,
+						departmentDAO.findById(department.getDepartmentId())
+						.getDepartmentName());
+			}
+			else if("famousTeacherTeam".equals(entitys.trim())){
+				baos = tfFamosTchrTmPerfDAO.findwithexport(department, foredate,
+						afterdate,
+						departmentDAO.findById(department.getDepartmentId())
+						.getDepartmentName());
+			}
+			else if("teachingResearch".equals(entitys.trim())){
+				baos = tfTchingReschPerfDAO.findwithexport(department, foredate,
+						afterdate,
+						departmentDAO.findById(department.getDepartmentId())
+						.getDepartmentName());
+			}
+			else if("teachingPaper".equals(entitys.trim())){
+				baos = tfTchingPaperPerfDAO.findwithexport(department, foredate,
+						afterdate,
+						departmentDAO.findById(department.getDepartmentId())
+						.getDepartmentName());
+			}
+			else if("teachingAchievement".equals(entitys.trim())){
+				baos = tfTchingAchivmtPerfDAO.findwithexport(department, foredate,
+						afterdate,
+						departmentDAO.findById(department.getDepartmentId())
+						.getDepartmentName());
+			}
+			else if("textbookConstruction".equals(entitys.trim())){
+				baos = tfTkstBukConstrucPerfDAO.findwithexport(department, foredate,
+						afterdate,
+						departmentDAO.findById(department.getDepartmentId())
+						.getDepartmentName());
+			}
+			else if("fineCourseConstruction".equals(entitys.trim())){
+				baos = tfFineCourseConstPerfDAO.findwithexport(department, foredate,
+						afterdate,
+						departmentDAO.findById(department.getDepartmentId())
+						.getDepartmentName());
+			}
+			else if("professionalProjectDeclare".equals(entitys.trim())){
+				baos = tfProProjectDeclarePerfDAO.findwithexport(department, foredate,
+						afterdate,
+						departmentDAO.findById(department.getDepartmentId())
+						.getDepartmentName());
+			}
+			else if("enterpriseWorkstation".equals(entitys.trim())){
+				baos = enterBaseConstructionPerformanceDAO.findwithexport(department, foredate,
+						afterdate,
+						departmentDAO.findById(department.getDepartmentId())
+						.getDepartmentName());
+			}
+			else if("summerInternationalCourse".equals(entitys.trim())){
+				baos = tfsummerConstructionPerformanceDAO.findwithexport(department, foredate,
 						afterdate,
 						departmentDAO.findById(department.getDepartmentId())
 						.getDepartmentName());
