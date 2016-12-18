@@ -1,6 +1,7 @@
 package com.nuaa.ec.scienresearch.exportdata;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -12,6 +13,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.model.PeriodicalPaperInfoUnionModel;
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
+import com.nuaa.ec.utils.StoreData;
 
 public class ScientificResearchRewardExcel {
 	/**
@@ -61,6 +63,7 @@ public class ScientificResearchRewardExcel {
 			cell[i].setCellValue(ths[i]);
 			cell[i].setCellStyle(cellStyle);
 		}
+		Map<String,Object> teachers =StoreData.getTeachertranslate();
 		if(TAScienReschRewodList!=null){
 			for(int i=0;i<TAScienReschRewodList.size();i++){
 				row = sheet.createRow(rownum++);
@@ -88,7 +91,7 @@ public class ScientificResearchRewardExcel {
 				cell[6].setCellStyle(cellStyle);
 				cell[7].setCellValue(TAScienReschRewodList.get(i).getScientificResearchReward().getChargePersonId());
 				cell[7].setCellStyle(cellStyle);
-				cell[8].setCellValue(TAScienReschRewodList.get(i).getScientificResearchReward().getChargePerson());
+				cell[8].setCellValue((String) teachers.get(TAScienReschRewodList.get(i).getScientificResearchReward().getChargePersonId()));
 				cell[8].setCellStyle(cellStyle);
 				cell[9].setCellValue(TAScienReschRewodList.get(i).getTeacher().getTeacherId());
 				cell[9].setCellStyle(cellStyle);

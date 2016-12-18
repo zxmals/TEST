@@ -1,6 +1,7 @@
 package com.nuaa.ec.scienresearch.exportdata;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -11,6 +12,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
+import com.nuaa.ec.utils.StoreData;
 
 public class MainUndertakeAcademicMeetingExcel {
 
@@ -53,6 +55,7 @@ public class MainUndertakeAcademicMeetingExcel {
 			cell[i].setCellValue(ths[i]);
 			cell[i].setCellStyle(cellStyle);
 		}
+		Map<String,Object> teachers=StoreData.getTeachertranslate();
 		if(TAMnUndrtkAkdmkMetingList!=null){
 			for(int i=0;i<TAMnUndrtkAkdmkMetingList.size();i++){
 				row = sheet.createRow(rownum++);
@@ -73,7 +76,7 @@ public class MainUndertakeAcademicMeetingExcel {
 				cell[4].setCellStyle(cellStyle);
 				cell[5].setCellValue(TAMnUndrtkAkdmkMetingList.get(i).getMainUndertakeAcademicMeeting().getChargePersonId());
 				cell[5].setCellStyle(cellStyle);
-				cell[6].setCellValue(TAMnUndrtkAkdmkMetingList.get(i).getMainUndertakeAcademicMeeting().getChargePerson());
+				cell[6].setCellValue((String)teachers.get(TAMnUndrtkAkdmkMetingList.get(i).getMainUndertakeAcademicMeeting().getChargePersonId()));
 				cell[6].setCellStyle(cellStyle);
 				cell[7].setCellValue(TAMnUndrtkAkdmkMetingList.get(i).getTeacher().getTeacherId());
 				cell[7].setCellStyle(cellStyle);
