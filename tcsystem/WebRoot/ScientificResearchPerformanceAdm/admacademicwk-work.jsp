@@ -74,7 +74,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>期刊论文管理<small></small></h5>
+	                        <h5>学术著作管理<small></small></h5>
 	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
