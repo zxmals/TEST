@@ -416,7 +416,11 @@
 			<result>/Audit/ScientificResearch/academicwork.jsp</result>
 		</action>
 		
-		
+		<!-- 公益活动列表导出 -->
+		<action name="ATVaActListExport"
+			class="com.nuaa.ec.va.exportdata.VaActListExport">
+			<result>/ExportData/ExportVaData.jsp</result>
+		</action>
 		
 		<!-- 公益活动审核 -->
 		<action name="GTAddJoinedActAudit"

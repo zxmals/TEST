@@ -4,8 +4,8 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 request.setAttribute("teachermp", StoreData.getTeachertranslate());
-request.setAttribute("researchLabList",StoreData.getResearchLabList());
-request.setAttribute("scienexports",StoreData.getScienexports());
+request.setAttribute("departmentList",StoreData.getDepartmentList());
+request.setAttribute("VAexports",StoreData.getVaexporcts());
 %>
   <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <%@taglib uri="/struts-tags" prefix="s" %>
@@ -49,31 +49,83 @@ request.setAttribute("scienexports",StoreData.getScienexports());
 	                    	 <br>
 	                         
 	                         <div>
+	                         	<p>导出活动列表</p>
 									<a>[时间范围]&nbsp;&nbsp;从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" style="width:120px;height:25px;border-radius:3px;" />
 									到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate addcheck nullcheck"  value="${afterdate }" name="afterdate" style="width:120px;height:25px;border-radius:3px;" />
 									&nbsp;&nbsp;</a>
-		                    	<a>[研究所]:
-			                    	<select style="width:120px;height:25px;border-radius:3px;" id="researchlabId" class="addcheck nullcheck" >
+		                    	<a>[系]:
+			                    	<select style="width:120px;height:25px;border-radius:3px;" id="departmentId" class="addcheck nullcheck" >
 			                    			<option selected="selected" value=""></option>
-											<c:forEach var="researchLab" items="${researchLabList }">
-												<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option>
+											<c:forEach var="department" items="${departmentList }">
+												<option value="${department.departmentId }">${department.departmentName }</option>
 											</c:forEach>
 									</select></a>&nbsp;&nbsp;&nbsp;&nbsp;
 									<a>
-										[科研模块]:<select style="width:120px;height:25px;border-radius:3px;" id="scienmodual" class="addcheck nullcheck" >
+										[活动类型]:<select style="width:120px;height:25px;border-radius:3px;" id="vaacttype" class="addcheck nullcheck" >
 			                    			<option selected="selected" value=""></option>
-											<c:forEach var="exp" items="${scienexports }">
-												<option value="${exp.value }">${exp.key }</option>
-											</c:forEach>
+<!-- 											<c:forEach var="exp" items="${VAexports }"> -->
+<!-- 												<option value="${exp.value }">${exp.key }</option> -->
+<!-- 											</c:forEach> -->
+											
+											<option value="1">规定性活动</option>
+											<option value="2">选择性活动</option>
+											<option value="3">其他活动</option>
+											<option value="0">全部活动</option>
+
 									</select></a>&nbsp;&nbsp;&nbsp;&nbsp;
 									</a>
-									<button class="btn  btn-primary" type="submit" id="subexports" data-backdrop="true">
-		                        	 <strong>导出</strong>
+									<button class="btn btn-primary" type="submit" id="searchvaList" data-backdrop="true"><strong>查找活动</strong></button>
+									<button class="btn  btn-primary" type="submit" id="vaListexports" data-backdrop="true">
+		                        	 <strong>导出活动列表</strong>
 		                         	</button>
 		                    </div>
+		                    	<div>
+		                    		<c:forEach var="vaact" items="${vaactList }">
+		                    			<p>${vaact.actName }&nbsp;${vaact.actdate }&nbsp;${vaact.acttype }&nbsp;<button class="button_set" type="submit" id="vaactexports" data-backdrop="true">导出该活动</button>
+<!-- 		                    			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> -->
+<!-- 										<div class="modal-dialog"> -->
+<!-- 											<div class="modal-content"> -->
+<!-- 											<div class="modal-header">${vaact.actId }&nbsp; &nbsp; &nbsp; ${vaact.actName } -->
+<!-- 											</div> -->
+<!-- 											<div class="modal-body">${vaact.acttype }</div> -->
+<!-- 											<div class="modal-footer"> -->
+<!-- 												<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> -->
+<!-- 											</div> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 										</div> -->
+		                    			</p>
+		                    		</c:forEach>
+		                    	</div>
+<!-- 		                    <div> -->
+<!-- 		                    	<p>导出活动信息</p> -->
+<!-- 									<a>[时间范围]&nbsp;&nbsp;从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" style="width:120px;height:25px;border-radius:3px;" /> -->
+<!-- 									到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate addcheck nullcheck"  value="${afterdate }" name="afterdate" style="width:120px;height:25px;border-radius:3px;" /> -->
+<!-- 									&nbsp;&nbsp;</a> -->
+<!-- 		                    	<a>[系]: -->
+<!-- 			                    	<select style="width:120px;height:25px;border-radius:3px;" id="researchlabId" class="addcheck nullcheck" > -->
+<!-- 			                    			<option selected="selected" value=""></option> -->
+<!-- 											<c:forEach var="researchLab" items="${researchLabList }"> -->
+<!-- 												<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option> -->
+<!-- 											</c:forEach> -->
+<!-- 									</select></a>&nbsp;&nbsp;&nbsp;&nbsp; -->
+<!-- 									<a> -->
+<!-- 										[科研模块]:<select style="width:120px;height:25px;border-radius:3px;" id="scienmodual" class="addcheck nullcheck" > -->
+<!-- 			                    			<option selected="selected" value=""></option> -->
+<!-- 											<c:forEach var="exp" items="${scienexports }"> -->
+<!-- 												<option value="${exp.value }">${exp.key }</option> -->
+<!-- 											</c:forEach> -->
+<!-- 									</select></a>&nbsp;&nbsp;&nbsp;&nbsp; -->
+<!-- 									</a> -->
+<!-- 									<button class="btn  btn-primary" type="submit" id="subexports" data-backdrop="true"> -->
+<!-- 		                        	 <strong>导出</strong> -->
+<!-- 		                         	</button> -->
+<!-- 		                    </div> -->
 	                    <br><hr>
 	                </div>
 	            </div>
+	            
+	            
 	        </div>
 	    </div>   
     </div>
@@ -88,6 +140,8 @@ request.setAttribute("scienexports",StoreData.getScienexports());
     <script src="../js/plugins/iCheck/icheck.min.js"></script>
     <script  src="../js/PublicCheck/PUB_SET.js"></script>
     <script  src="../My97DatePicker/WdatePicker.js"></script>
+    <script src="js/bootstrap-modal.js"></script>
+    
     <!-- ISBN输入控制 -->
     <script src="../js/plugins/jasny/jasny-bootstrap.min.js"></script>
     <!-- sweet-alert -->
