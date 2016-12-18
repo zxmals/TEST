@@ -1,6 +1,7 @@
 package com.nuaa.ec.scienresearch.exportdata;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -11,6 +12,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.model.TeacherAndacademicWork;
+import com.nuaa.ec.utils.StoreData;
 
 public class AcademicWorkExcel {
 	/**
@@ -61,6 +63,7 @@ public class AcademicWorkExcel {
 			cell[i].setCellValue(ths[i]);
 			cell[i].setCellStyle(cellStyle);
 		}
+		Map<String,Object> teachers=StoreData.getTeachertranslate();
 		if(TAakdemicWorkList!=null){
 			for(int i=0;i<TAakdemicWorkList.size();i++){
 				row = sheet.createRow(rownum++);
@@ -84,11 +87,11 @@ public class AcademicWorkExcel {
 				cell[4].setCellStyle(cellStyle);
 				cell[5].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getIsbn());
 				cell[5].setCellStyle(cellStyle);
-				cell[6].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getWordNumber());
+				cell[6].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getWordsNumber().getWordNumber());
 				cell[6].setCellStyle(cellStyle);
 				cell[7].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getChargePersonId());
 				cell[7].setCellStyle(cellStyle);
-				cell[8].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getChargePerson());
+				cell[8].setCellValue((String)teachers.get(TAakdemicWorkList.get(i).getAcademicWork().getChargePersonId()));
 				cell[8].setCellStyle(cellStyle);
 				cell[9].setCellValue(TAakdemicWorkList.get(i).getAcademicWork().getOtherAuthorJoin());
 				cell[9].setCellStyle(cellStyle);

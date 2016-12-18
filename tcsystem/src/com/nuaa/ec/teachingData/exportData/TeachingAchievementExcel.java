@@ -79,7 +79,7 @@ public class TeachingAchievementExcel {
 				cell[0].setCellStyle(cellStyle);
 				cell[1].setCellValue(tfTchingAcievementPerfList.get(i).getTfteachingAchievementProject().getProjectName());
 				cell[1].setCellStyle(cellStyle);
-				cell[2].setCellValue(tfTchingAcievementPerfList.get(i).getTfteachingAchievementProject().getCooperator());
+				cell[2].setCellValue(tfTchingAcievementPerfList.get(i).getTfteachingAchievementProject().getCooperator().trim().equals("0")?"否":"是");
 				cell[2].setCellStyle(cellStyle);
 				cell[3].setCellValue(tfTchingAcievementPerfList.get(i).getTfteachingAchievementProject().getTfteachingAchievementRewardLevel().getRewardName());
 				cell[3].setCellStyle(cellStyle);

@@ -81,7 +81,7 @@ public class FineCourseConstructionExcel {
 				cell[1].setCellStyle(cellStyle);
 				cell[2].setCellValue(tfFineCorsConsPerfList.get(i).getTffineCourseConstructionProject().getTffineCourseConstructionLevel().getCourseLevel());
 				cell[2].setCellStyle(cellStyle);
-				cell[3].setCellValue(tfFineCorsConsPerfList.get(i).getTffineCourseConstructionProject().getCooperator());
+				cell[3].setCellValue(tfFineCorsConsPerfList.get(i).getTffineCourseConstructionProject().getCooperator().trim().equals("0")?"否":"是");
 				cell[3].setCellStyle(cellStyle);
 				cell[4].setCellValue(tfFineCorsConsPerfList.get(i).getTffineCourseConstructionProject().getProjectSumScore());
 				cell[4].setCellStyle(cellStyle);

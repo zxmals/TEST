@@ -1,6 +1,7 @@
 package com.nuaa.ec.scienresearch.exportdata;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -12,6 +13,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.model.TeacherAndinvitedExpertsSpeech;
 import com.nuaa.ec.model.TeacherAndselectedTalentProject;
+import com.nuaa.ec.utils.StoreData;
 
 public class InviteExpertsSpeechExcel {
 	/**
@@ -62,6 +64,7 @@ public class InviteExpertsSpeechExcel {
 			cell[i].setCellValue(ths[i]);
 			cell[i].setCellStyle(cellStyle);
 		}
+		Map<String,Object> teachers=StoreData.getTeachertranslate();
 		if(TAInvtdEkspchSpechList!=null){
 			for(int i=0;i<TAInvtdEkspchSpechList.size();i++){
 				row = sheet.createRow(rownum++);
@@ -87,7 +90,7 @@ public class InviteExpertsSpeechExcel {
 				cell[5].setCellStyle(cellStyle);
 				cell[6].setCellValue(TAInvtdEkspchSpechList.get(i).getInvitedExpertsSpeech().getChargePersonId());
 				cell[6].setCellStyle(cellStyle);
-				cell[7].setCellValue(TAInvtdEkspchSpechList.get(i).getInvitedExpertsSpeech().getChargePerson());
+				cell[7].setCellValue((String)teachers.get(TAInvtdEkspchSpechList.get(i).getInvitedExpertsSpeech().getChargePersonId()));
 				cell[7].setCellStyle(cellStyle);
 				cell[8].setCellValue(TAInvtdEkspchSpechList.get(i).getTeacher().getTeacherId());
 				cell[8].setCellStyle(cellStyle);

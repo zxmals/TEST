@@ -79,7 +79,7 @@ public class TextbookConstructionExcel {
 				cell[0].setCellStyle(cellStyle);
 				cell[1].setCellValue(tfTkstbokConsPerfList.get(i).getTftextbookConstructionProject().getBookName());
 				cell[1].setCellStyle(cellStyle);
-				cell[2].setCellValue(tfTkstbokConsPerfList.get(i).getTftextbookConstructionProject().getCooperator());
+				cell[2].setCellValue(tfTkstbokConsPerfList.get(i).getTftextbookConstructionProject().getCooperator().trim().equals("0")?"否":"是");
 				cell[2].setCellStyle(cellStyle);
 				cell[3].setCellValue(tfTkstbokConsPerfList.get(i).getTftextbookConstructionProject().getTftextbookConstructionTblevel().getTblevel());
 				cell[3].setCellStyle(cellStyle);
