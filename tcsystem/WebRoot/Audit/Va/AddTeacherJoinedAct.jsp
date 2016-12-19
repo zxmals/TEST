@@ -158,8 +158,8 @@
 					<td>${VaAddJoinedAct.score }</td>
 					<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId}"   class="check1"/></td>
-						<td class="c2">不通过<input value="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId}" type="checkbox"
+							value="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId }-${VaAddJoinedAct.id.teacher.teacherId }"   class="check1"/></td>
+						<td class="c2">不通过<input value="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId }-${VaAddJoinedAct.id.teacher.teacherId }" type="checkbox"
 						 name="notAudit" class="check2"/></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_CT=='1' }">

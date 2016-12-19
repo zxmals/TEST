@@ -17,7 +17,7 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>EXPORT-SCIENTIFICRESEARCH-DATA</title>
+    <title>EXPORT-VaActivity-DATA</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="../css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -165,17 +165,11 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 // 		window.location.replace("GTacademicwork-workset!getWorkall?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
 // 	});
 	
-    $('#subexports').click(function() {
+    $('#vaListexports').click(function() {
 		if(checkadds()){
-// 			$.post("ATscientificresearchexportset!generateExportData",
-// 					{"foredate":$('#date1').val().trim(),
-// 					 "afterdate":$('#date2').val().trim(),
-// 					 "entitys":$('#scienmodual').val().trim(),
-// 					 "research.researchLabId":$('#researchlabId').val().trim()}
-// 			);
-			window.location.replace("ATscientificresearchexportset!generateExportData?foredate="+$('#date1').val().trim()
-					+"&afterdate="+$('#date2').val().trim()+"&entitys="+$('#scienmodual').val().trim()
-					+"&research.researchLabId="+$('#researchlabId').val().trim());
+			window.location.replace("ATVaActListExport!generateExportData?foredate="+$('#date1').val().trim()
+					+"&afterdate="+$('#date2').val().trim()+"&vaacttype="+$('#vaacttype').val().trim()
+					+"&department.departmentId="+$('#departmentId').val().trim());
 		}else{
 				swal("WARNING!","请完善所有信息后提交","warning");
 		}

@@ -5,8 +5,11 @@ import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveActId;
+import com.nuaa.ec.utils.stringstore;
+import com.nuaa.ec.va.exportdata.VaActListExcel;
 import com.opensymphony.xwork2.ActionContext;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -311,6 +314,38 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		}
 		
 		return list;
+	}
+
+	public ByteArrayOutputStream findwithexport(Department department,
+			String condition, String departmentName,
+			String foredate, String afterdate) {
+		// TODO Auto-generated method stub
+		try {
+			String query = "from VateacherAndCollectiveAct VA where VA.spareTire='1' "
+					+ " and VA.id.teacher.spareTire='1' "
+					+ " and VA.id.teacher.department.spareTire='1'"
+					+ " and VA.id.teacher.department='" + department +"'"
+					+ condition
+					+ " and VA.id.teacher.spareTire='1' "
+					+ " order by VA.id.vacollectiveActivitiesPublish.actPubId desc ";
+			Query query2 = getSession().createQuery(query);
+			ByteArrayOutputStream baosStream = new ByteArrayOutputStream();
+			if (query2.list().size() > 0) {
+				try {
+					VaActListExcel.generateExcel(stringstore.vaactList, query2.list(), departmentName, foredate, afterdate);
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+				return baosStream;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return null;
 	}
 	
 }

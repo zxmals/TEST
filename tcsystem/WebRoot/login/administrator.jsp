@@ -240,7 +240,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<a class="J_menuItem" href="downlaodVIEW!dataViewScience">汇总数据</a></li>
 												 <li>                                    
 <!-- 				                                    <a href="">明细定制导出<span class="fa arrow"></span></a> -->
-				                                    <a class="J_menuItem" href="">
+				                                    <a class="J_menuItem" href="ExportData/ExportVaData.jsp">
 <!-- 								                        <i class="fa fa fa-bar-chart-o"></i> -->
 								                           <span class="nav-label">分模块导出 </span>
 <!-- 								                           <span class="fa arrow"></span> -->
