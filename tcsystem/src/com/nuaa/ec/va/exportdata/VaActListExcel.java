@@ -57,8 +57,8 @@ public class VaActListExcel {
 			cell[i].setCellStyle(cellStyle);
 		}
 		if (list!=null) {
+			Map<String, Object> teachers = StoreData.getTeachertranslate();
 			for (int i = 0; i < list.size(); i++) {
-				Map<String, Object> teachers = StoreData.getTeachertranslate();
 				row = sheet.createRow(rownum++);
 				cell = new HSSFCell[ths.length];
 				for (int j = 0; j < ths.length; j++) {
@@ -76,7 +76,7 @@ public class VaActListExcel {
 				cell[4].setCellStyle(cellStyle);
 				cell[5].setCellValue(list.get(i).getTeacherId());
 				cell[5].setCellStyle(cellStyle);
-				cell[6].setCellValue((Teacher)teachers.get(list.get(i).getTeacherId()).);
+				cell[6].setCellValue((Teacher)teachers.get(list.get(i).getTeacherId()));
 				cell[6].setCellStyle(cellStyle);
 				cell[7].setCellValue(list.get(i).getVacollectiveAct().getScore());
 				cell[7].setCellStyle(cellStyle);
