@@ -1,6 +1,7 @@
 package com.nuaa.ec.va.exportdata;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -13,6 +14,7 @@ import org.apache.poi.hssf.util.Region;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
+import com.nuaa.ec.utils.StoreData;
 
 public class VaActListExcel {
 	public Teacher teachers = 
@@ -56,6 +58,7 @@ public class VaActListExcel {
 		}
 		if (list!=null) {
 			for (int i = 0; i < list.size(); i++) {
+				Map<String, Object> teachers = StoreData.getTeachertranslate();
 				row = sheet.createRow(rownum++);
 				cell = new HSSFCell[ths.length];
 				for (int j = 0; j < ths.length; j++) {
@@ -73,7 +76,7 @@ public class VaActListExcel {
 				cell[4].setCellStyle(cellStyle);
 				cell[5].setCellValue(list.get(i).getTeacherId());
 				cell[5].setCellStyle(cellStyle);
-				cell[6].setCellValue((Teacher));
+				cell[6].setCellValue((Teacher)teachers.get(list.get(i).getTeacherId()).);
 				cell[6].setCellStyle(cellStyle);
 				cell[7].setCellValue(list.get(i).getVacollectiveAct().getScore());
 				cell[7].setCellStyle(cellStyle);

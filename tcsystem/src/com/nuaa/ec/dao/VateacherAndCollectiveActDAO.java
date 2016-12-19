@@ -342,7 +342,6 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			throw e;
 		}
 		
 		return null;
