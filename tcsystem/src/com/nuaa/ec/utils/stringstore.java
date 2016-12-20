@@ -67,5 +67,5 @@ public class stringstore {
 	public final String[] teachingsum = {"系编号","系","均分","总分","年度"};
 	//FOR VA
 	/*VaActListSum*/
-	public final static String[] vaactList = {"活动发布编号","活动名称","活动类型","参与人员","活动日期","申请教师",""};
+	public final static String[] vaactList = {"活动发布编号","活动名称","活动类型","参与人员","活动日期","申请教师","申请教师ID","分数"};
 }

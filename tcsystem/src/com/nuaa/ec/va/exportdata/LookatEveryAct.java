@@ -1,13 +1,7 @@
 package com.nuaa.ec.va.exportdata;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.net.URLEncoder;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Transaction;
@@ -16,11 +10,8 @@ import com.nuaa.ec.dao.DepartmentDAO;
 import com.nuaa.ec.dao.VacollectiveActivitiesPublishDAO;
 import com.nuaa.ec.dao.VateacherAndCollectiveActDAO;
 import com.nuaa.ec.model.Department;
-import com.nuaa.ec.utils.EntityUtil;
-import com.nuaa.ec.utils.stringstore;
 
-public class VaActListExport implements SessionAware,RequestAware{
-
+public class LookatEveryAct implements SessionAware,RequestAware{
 	private String afterdate;
 	private String foredate;
 	private Map<String, Object> session ;
@@ -33,32 +24,7 @@ public class VaActListExport implements SessionAware,RequestAware{
 	public String execute(){
 		return "success";
 	}
-	
-	public void generateExportDataList() throws Exception{
-		try {
-			ByteArrayOutputStream baos = null;
-			baos = vacollectiveActivitiesPublishDAO.findwithexport(department,vaacttype,(departmentDAO.findById(department.getDepartmentId())).getDepartmentName(),foredate,afterdate);
-			if (baos!=null) {
-				HttpServletResponse resp = ServletActionContext.getResponse();
-				OutputStream outStream = resp.getOutputStream();
-//				System.out.println("1");
-				resp.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(foredate + "至" + afterdate + "活动信息", "utf-8")+".xls");
-				byte[] bt = baos.toByteArray();
-				outStream.write(bt, 0, bt.length);
-				outStream.flush();
-				outStream.close();
-			}else {
-				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
-				ServletActionContext.getResponse().getWriter().write("该时段区间没有数据");
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			throw e;
-		}
-	}
-	
-	public String lookateveryAct() throws Exception{
+	public void lookateveryAct() throws Exception{
 		Transaction tx = null;
 		try {
 			this.request.put("vaactList", this.vacollectiveActivitiesPublishDAO.getNewActPublishAct(department,
@@ -74,7 +40,6 @@ public class VaActListExport implements SessionAware,RequestAware{
 			e.printStackTrace();
 			tx.rollback();
 		}
-		return "success";
 	}
 	
 	public void setRequest(Map<String, Object> arg0) {
@@ -126,5 +91,4 @@ public class VaActListExport implements SessionAware,RequestAware{
 	public Map<String, Object> getSession() {
 		return session;
 	}
-	
 }

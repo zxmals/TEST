@@ -75,25 +75,11 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 									</select></a>&nbsp;&nbsp;&nbsp;&nbsp;
 									</a>
 									<button class="btn btn-primary" type="submit" id="searchvaList" data-backdrop="true"><strong>查找活动</strong></button>
-									<button class="btn  btn-primary" type="submit" id="vaListexports" data-backdrop="true">
-		                        	 <strong>导出活动列表</strong>
-		                         	</button>
+									<button class="btn btn-primary" type="submit" id="vaListexports" data-backdrop="true"><strong>导出活动列表</strong></button>
 		                    </div>
-		                    	<div>
+		                    	<div id="vaactlist">
 		                    		<c:forEach var="vaact" items="${vaactList }">
-		                    			<p>${vaact.actName }&nbsp;${vaact.actdate }&nbsp;${vaact.acttype }&nbsp;<button class="button_set" type="submit" id="vaactexports" data-backdrop="true">导出该活动</button>
-<!-- 		                    			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> -->
-<!-- 										<div class="modal-dialog"> -->
-<!-- 											<div class="modal-content"> -->
-<!-- 											<div class="modal-header">${vaact.actId }&nbsp; &nbsp; &nbsp; ${vaact.actName } -->
-<!-- 											</div> -->
-<!-- 											<div class="modal-body">${vaact.acttype }</div> -->
-<!-- 											<div class="modal-footer"> -->
-<!-- 												<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> -->
-<!-- 											</div> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
-<!-- 										</div> -->
+		                    			<p>${vaact.vacollectiveAct.actName }&nbsp;${vaact.actDate }&nbsp;${vaact.vacollectiveAct.actType }&nbsp;<button class="button_set" type="submit" id="vaactexports" data-backdrop="true" value="${vaact.actPubId }">导出该活动</button>
 		                    			</p>
 		                    		</c:forEach>
 		                    	</div>
@@ -167,13 +153,27 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 	
     $('#vaListexports').click(function() {
 		if(checkadds()){
-			window.location.replace("ATVaActListExport!generateExportData?foredate="+$('#date1').val().trim()
+			window.location.replace("ATVaActListExport!generateExportDataList?foredate="+$('#date1').val().trim()
 					+"&afterdate="+$('#date2').val().trim()+"&vaacttype="+$('#vaacttype').val().trim()
 					+"&department.departmentId="+$('#departmentId').val().trim());
 		}else{
 				swal("WARNING!","请完善所有信息后提交","warning");
 		}
 	});
+	$('#searchvaList').click(function(){
+		if(checkadds()){
+			window.location.replace("ATVaActListExport!lookateveryAct?foredate="+$('#date1').val().trim()
+					+"&afterdate="+$('#date2').val().trim()+"&vaacttype="+$('#vaacttype').val().trim()
+					+"&department.departmentId="+$('#departmentId').val().trim()
+			);
+		}else{
+				swal("WARNING!","请完善所有信息后提交","warning");		
+		}
+	});
+	$('#vaactexports').click(function(){
+		
+	});
+	
     
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>

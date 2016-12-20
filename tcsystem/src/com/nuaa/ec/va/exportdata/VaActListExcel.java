@@ -17,7 +17,6 @@ import com.nuaa.ec.model.VacollectiveActivitiesPublish;
 import com.nuaa.ec.utils.StoreData;
 
 public class VaActListExcel {
-	public Teacher teachers = 
 	public static HSSFWorkbook generateExcel(String[] ths,List<VacollectiveActivitiesPublish> list,String departmentName,String foredate,String afterdate){
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet(foredate + "-" + afterdate);
@@ -45,7 +44,7 @@ public class VaActListExcel {
 		HSSFRow row = sheet.createRow((short)rownum++);
 		HSSFCell cells[] = new HSSFCell[1];
 		cells[0] = row.createCell(0);
-		cells[0].setCellValue(foredate + "-"+ afterdate +"活动列表");
+		cells[0].setCellValue(departmentName +foredate + "至"+ afterdate +"活动列表");
 		//应用格式
 		cells[0].setCellStyle(cellStyleforFontStyle);
 		rownum++;
@@ -76,7 +75,7 @@ public class VaActListExcel {
 				cell[4].setCellStyle(cellStyle);
 				cell[5].setCellValue(list.get(i).getTeacherId());
 				cell[5].setCellStyle(cellStyle);
-				cell[6].setCellValue((Teacher)teachers.get(list.get(i).getTeacherId()));
+				cell[6].setCellValue((String)teachers.get(list.get(i).getTeacherId()));
 				cell[6].setCellStyle(cellStyle);
 				cell[7].setCellValue(list.get(i).getVacollectiveAct().getScore());
 				cell[7].setCellStyle(cellStyle);
