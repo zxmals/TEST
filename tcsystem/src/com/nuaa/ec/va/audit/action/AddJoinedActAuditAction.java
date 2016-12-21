@@ -16,6 +16,8 @@ import java.util.Map;
 
 
 
+
+
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
@@ -34,15 +36,37 @@ public class AddJoinedActAuditAction implements RequestAware ,SessionAware{
 	public void doCheckOutTask(){
 		String[] ids = this.checkOutIDs.split(",");
 		String[] idsNot=this.checkOutIDsNot.split(",");
+		String[] idsACTid = new String[ids.length];
+		String[] idsTeacherId = new String[ids.length];
+		String[] idsNotACTid = new String[idsNot.length];
+		String[] idsNotTeacherId = new String[idsNot.length];
+		if (ids.length != 0) {
+			for (int i = 0; i < ids.length; i++) {
+				String[] temp = ids[i].split("-");
+				idsACTid[i] = temp[0];
+				idsTeacherId[i] = temp[1];
+			}
+		}
+		
+		if (idsNot[0] != null && idsNot[0].length()!= 0) {
+			for (int i = 0; i < idsNot.length; i++) {
+				String[] temp = idsNot[i].split("-");
+				idsNotACTid[i] = temp[0];
+				idsNotTeacherId[i] = temp[1];
+			}
+		}
 		List<VateacherAndCollectiveAct> checkoutList = new ArrayList<VateacherAndCollectiveAct>();
 		VateacherAndCollectiveAct vateacherAndCollectiveAct = null;
 		for (int i = 0; i < ids.length; i++) {
-			if (ids[i]!=null && ids[i].length()!=0) {
+			if (ids[i]!=null && ids[i].length() != 0) {
+//				VateacherAndCollectiveActId vateacherAndCollectiveActId = new VateacherAndCollectiveActId(
+//						new VacollectiveActivitiesPublishDAO().findById(ids[i]),
+//						new TeacherDAO().findById(new VacollectiveActivitiesPublishDAO().findById(ids[i]).getTeacherId())
+//						);
 				VateacherAndCollectiveActId vateacherAndCollectiveActId = new VateacherAndCollectiveActId(
-						new VacollectiveActivitiesPublishDAO().findById(ids[i]),
-						new TeacherDAO().findById(new VacollectiveActivitiesPublishDAO().findById(ids[i]).getTeacherId())
+						new VacollectiveActivitiesPublishDAO().findById(idsACTid[i]),
+						new TeacherDAO().findById(idsTeacherId[i])
 						);
-				
 				vateacherAndCollectiveAct = this.vateacherAndCollectiveActDAO.findById(vateacherAndCollectiveActId);
 				// 修改checkout 标志
 				if (vateacherAndCollectiveAct!=null) {
@@ -52,13 +76,16 @@ public class AddJoinedActAuditAction implements RequestAware ,SessionAware{
 			}
 		}
 		for (int i = 0; i < idsNot.length; i++) {
-			if (idsNot[i]!=null && idsNot[i].length()!=0 ) {
+			if (idsNot[i]!=null && idsNot[i].length() != 0) {
 				
+//				VateacherAndCollectiveActId vateacherAndCollectiveActId = new VateacherAndCollectiveActId(
+//						new VacollectiveActivitiesPublishDAO().findById(idsNot[i]),
+//						new TeacherDAO().findById(new VacollectiveActivitiesPublishDAO().findById(idsNot[i]).getTeacherId())
+//						);
 				VateacherAndCollectiveActId vateacherAndCollectiveActId = new VateacherAndCollectiveActId(
-						new VacollectiveActivitiesPublishDAO().findById(idsNot[i]),
-						new TeacherDAO().findById(new VacollectiveActivitiesPublishDAO().findById(idsNot[i]).getTeacherId())
+						new VacollectiveActivitiesPublishDAO().findById(idsNotACTid[i]),
+						new TeacherDAO().findById(idsNotTeacherId[i])
 						);
-				
 				vateacherAndCollectiveAct=this.vateacherAndCollectiveActDAO.findById(vateacherAndCollectiveActId);
 				if(vateacherAndCollectiveAct!=null){
 					vateacherAndCollectiveAct.setAspareTire("2");
@@ -216,15 +243,20 @@ public class AddJoinedActAuditAction implements RequestAware ,SessionAware{
 		this.checkOutStatus_CT = checkOutStatus_CT;
 		session.put("checkOutStatus_CT", checkOutStatus_CT);
 	}
+	
+
 	public String getCheckOutIDs() {
 		return checkOutIDs;
 	}
+
 	public void setCheckOutIDs(String checkOutIDs) {
 		this.checkOutIDs = checkOutIDs;
 	}
+
 	public String getCheckOutIDsNot() {
 		return checkOutIDsNot;
 	}
+
 	public void setCheckOutIDsNot(String checkOutIDsNot) {
 		this.checkOutIDsNot = checkOutIDsNot;
 	}

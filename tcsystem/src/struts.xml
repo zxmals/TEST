@@ -416,6 +416,15 @@
 			<result>/Audit/ScientificResearch/academicwork.jsp</result>
 		</action>
 		
+		<!-- 公益活动列表导出 -->
+		<action name="ATVaActListExport"
+			class="com.nuaa.ec.va.exportdata.VaActListExport">
+			<result>/ExportData/ExportVaData.jsp</result>
+		</action>
+		<!-- 公益列表 -->
+		<action name="ATlookatEveryAct" class="com.nuaa.ec.va.exportdata.LookatEveryAct">
+			<result>/ExportData/LookatEveryAct.jsp</result>
+		</action>
 		
 		
 		<!-- 公益活动审核 -->
@@ -423,6 +432,7 @@
 			class="com.nuaa.ec.va.audit.action.AddJoinedActAuditAction">
 			<result>/Audit/Va/AddTeacherJoinedAct.jsp</result>
 		</action>
+		
 		
 		<action name="GTUnjoinedActAudit"
 			class="com.nuaa.ec.va.audit.action.UnjoinedActAuditAction">

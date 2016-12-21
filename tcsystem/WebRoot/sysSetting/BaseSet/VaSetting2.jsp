@@ -161,7 +161,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	nullcheck();
 		if($('#VaAdmin').val().trim()!=""){//$('#upinfscope').val().trim()!=""
 			$.post("ATVaSetting2!addVaAdmin",
-				{"entity.TeacherId":$('#VaAdmin').val().substring(0,9)},
+				{"entity.TeacherId":$('#VaAdmin').val().substring(0,$('#VaAdmin').val().lastIndexOf("-"))},
 					function(data,status){
 						if(status=="success"){
 							if(data.trim()=="succ"){

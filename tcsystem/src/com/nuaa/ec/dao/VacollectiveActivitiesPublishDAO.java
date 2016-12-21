@@ -5,8 +5,11 @@ import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
 import com.nuaa.ec.model.VateacherAndCollectiveAct;
+import com.nuaa.ec.utils.stringstore;
+import com.nuaa.ec.va.exportdata.VaActListExcel;
 import com.opensymphony.xwork2.ActionContext;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -341,7 +344,6 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 							+ " and VA.vacollectiveAct.spareTire='1'"
 							+ " and VA.vacollectiveAct.teacher.spareTire='1' "
 							+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
-//							+ " order by VA.actPubId asc"
 					);
 		}else {
 			hql = new StringBuffer(
@@ -352,7 +354,6 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 							+ " and VA.vacollectiveAct.teacher.spareTire='1' "
 							+ " and VA.vacollectiveAct.teacher.department.departmentId='" + department.getDepartmentId() + "'"
 							+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
-//							+ " order by VA.actPubId asc"
 					);
 		}
 		String append = " and VA.actDate between ? and ? ";
@@ -372,4 +373,84 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 		}
 		return list;
 	}
+	
+	public ByteArrayOutputStream findwithexport(Department department,
+			String actType, String departmentName,
+			String foredate, String afterdate) throws Exception {
+		// TODO Auto-generated method stub
+		String query ;
+		try {
+			if (actType.equals("0")) {
+				query = "from VacollectiveActivitiesPublish VA where VA.spareTire='1' "
+						+ " and VA.aspareTire='1' " 
+						+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
+						+ " and VA.vacollectiveAct.teacher.department.departmentId='" + department.getDepartmentId() +"'"
+						+ " and VA.vacollectiveAct.spareTire='1'"
+						+ " and VA.actDate >= '" + foredate +"'"
+						+ " and VA.actDate <= '" + afterdate + "'"
+						+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+						+ " order by VA.actPubId desc ";
+			}else {
+				query = "from VacollectiveActivitiesPublish VA where VA.spareTire='1' "
+						+ " and VA.aspareTire='1' " 
+						+ " and VA.vacollectiveAct.actType ='" + actType +"'"
+						+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
+						+ " and VA.vacollectiveAct.teacher.department.departmentId='" + department.getDepartmentId() +"'"
+						+ " and VA.vacollectiveAct.spareTire='1'"
+						+ " and VA.actDate >= '" + foredate +"'"
+						+ " and VA.actDate <= '" + afterdate + "'"
+						+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+						+ " order by VA.actPubId desc ";
+				
+			}
+			Query query2 = getSession().createQuery(query);
+			ByteArrayOutputStream baosStream = new ByteArrayOutputStream();
+			if (query2.list().size() > 0) {
+				try {
+					VaActListExcel.generateExcel(stringstore.vaactList, query2.list(), departmentName, foredate, afterdate).write(baosStream);;
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+				return baosStream;
+			}else {
+				return null;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw e;
+		}
+	}
+	public Object getNewActPublishAct(Department department, String vaacttype,
+			String foredate, String afterdate) {
+		// TODO Auto-generated method stub
+		List<VacollectiveActivitiesPublish> list = null;
+		String query ;
+		if (vaacttype.equals("0")) {
+			query = "from VacollectiveActivitiesPublish VA where VA.spareTire='1' "
+					+ " and VA.aspareTire='1' " 
+					+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
+					+ " and VA.vacollectiveAct.teacher.department.departmentId='" + department.getDepartmentId() +"'"
+					+ " and VA.vacollectiveAct.spareTire='1'"
+					+ " and VA.actDate >= '" + foredate +"'"
+					+ " and VA.actDate <= '" + afterdate + "'"
+					+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+					+ " order by VA.actPubId desc ";
+		}else {
+			query = "from VacollectiveActivitiesPublish VA where VA.spareTire='1' "
+					+ " and VA.aspareTire='1' " 
+					+ " and VA.vacollectiveAct.actType ='" + vaacttype +"'"
+					+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
+					+ " and VA.vacollectiveAct.teacher.department.departmentId='" + department.getDepartmentId() +"'"
+					+ " and VA.vacollectiveAct.spareTire='1'"
+					+ " and VA.actDate >= '" + foredate +"'"
+					+ " and VA.actDate <= '" + afterdate + "'"
+					+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+					+ " order by VA.actPubId desc ";
+		}
+		list = new ArrayList<VacollectiveActivitiesPublish>();
+		list = this.getSession().createQuery(query).list();
+		return list;
+	}
+	
 }
