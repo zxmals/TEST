@@ -79,34 +79,11 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 		                    </div>
 		                    	<div id="vaactlist">
 		                    		<c:forEach var="vaact" items="${vaactList }">
-		                    			<p>${vaact.vacollectiveAct.actName }&nbsp;${vaact.actDate }&nbsp;${vaact.vacollectiveAct.actType }&nbsp;<button class="button_set" type="submit" id="vaactexports" data-backdrop="true" value="${vaact.actPubId }">导出该活动</button>
+		                    			<p>${vaact.vacollectiveAct.actName }&nbsp;${vaact.actDate }&nbsp;${vaact.vacollectiveAct.actType }&nbsp;
+		                    			<button class="button_set" type="submit" id="vaactexports_${vaact.actPubId }" data-backdrop="true" onclick="exportAct('${vaact.actPubId}')">导出该活动</button>
 		                    			</p>
 		                    		</c:forEach>
 		                    	</div>
-<!-- 		                    <div> -->
-<!-- 		                    	<p>导出活动信息</p> -->
-<!-- 									<a>[时间范围]&nbsp;&nbsp;从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" style="width:120px;height:25px;border-radius:3px;" /> -->
-<!-- 									到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate addcheck nullcheck"  value="${afterdate }" name="afterdate" style="width:120px;height:25px;border-radius:3px;" /> -->
-<!-- 									&nbsp;&nbsp;</a> -->
-<!-- 		                    	<a>[系]: -->
-<!-- 			                    	<select style="width:120px;height:25px;border-radius:3px;" id="researchlabId" class="addcheck nullcheck" > -->
-<!-- 			                    			<option selected="selected" value=""></option> -->
-<!-- 											<c:forEach var="researchLab" items="${researchLabList }"> -->
-<!-- 												<option value="${researchLab.researchLabId }">${researchLab.researchLabName }</option> -->
-<!-- 											</c:forEach> -->
-<!-- 									</select></a>&nbsp;&nbsp;&nbsp;&nbsp; -->
-<!-- 									<a> -->
-<!-- 										[科研模块]:<select style="width:120px;height:25px;border-radius:3px;" id="scienmodual" class="addcheck nullcheck" > -->
-<!-- 			                    			<option selected="selected" value=""></option> -->
-<!-- 											<c:forEach var="exp" items="${scienexports }"> -->
-<!-- 												<option value="${exp.value }">${exp.key }</option> -->
-<!-- 											</c:forEach> -->
-<!-- 									</select></a>&nbsp;&nbsp;&nbsp;&nbsp; -->
-<!-- 									</a> -->
-<!-- 									<button class="btn  btn-primary" type="submit" id="subexports" data-backdrop="true"> -->
-<!-- 		                        	 <strong>导出</strong> -->
-<!-- 		                         	</button> -->
-<!-- 		                    </div> -->
 	                    <br><hr>
 	                </div>
 	            </div>
@@ -133,23 +110,6 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
     <!-- sweet-alert -->
     <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
-//    //页面初始化处理
-// 	var limit = getParameters("limit");
-// 	comphref(limit);
-// 	set_selected_option($('#changelength option'), limit);
-//	//对所有跳转链接加 limit字段
-// 	function comphref(limits) {
-// 		var hrefs = $('.comphref');
-// 		for(var i=0;i<hrefs.length;i++){
-// 			hrefs[i].href = hrefs[i].href+"&limit="+limits+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim();
-// 		}
-// 		$('#pickdates')[0].action = $('#pickdates')[0].action+"&limit="+limits;
-// 	}
-//	//变更每页显示记录数
-//     $('#changelength').change(function() {
-//     	comphref($(this).val().trim());
-// 		window.location.replace("GTacademicwork-workset!getWorkall?pagenum=1&limit="+$(this).val().trim()+"&foredate="+$('#date1').val().trim()+"&afterdate="+$('#date2').val().trim());
-// 	});
 	
     $('#vaListexports').click(function() {
 		if(checkadds()){
@@ -170,9 +130,13 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 				swal("WARNING!","请完善所有信息后提交","warning");		
 		}
 	});
-	$('#vaactexports').click(function(){
-		
-	});
+	function exportAct(actPubId){
+// 		var actPubId1 = document.getElementById("vaactexports_" + actPubId).value;
+		window.location.replace("ATVaActListExport!oneActExport?actPubId=" + actPubId);
+// 		window.href("ATVaActListExport!lookateveryAct?foredate="+$('#date1').val().trim()
+// 					+"&afterdate="+$('#date2').val().trim()+"&vaacttype="+$('#vaacttype').val().trim()
+// 					+"&department.departmentId="+$('#departmentId').val().trim());
+	}
 	
     
     </script>

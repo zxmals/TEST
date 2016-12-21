@@ -14,6 +14,7 @@ import org.apache.poi.hssf.util.Region;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
+import com.nuaa.ec.model.VateacherAndCollectiveAct;
 import com.nuaa.ec.utils.StoreData;
 
 public class VaActListExcel {
@@ -82,5 +83,68 @@ public class VaActListExcel {
 			}
 		}
 		return wb;
+	}
+
+	public static HSSFWorkbook generateJoinedExcel(String[] ths, List<VateacherAndCollectiveAct> list,
+			String actDate, String actName) {
+		// TODO Auto-generated method stub
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet(actName + "活动参与信息");
+		//设置列宽
+		for (int i = 0; i < ths.length; i++) {
+			sheet.setColumnWidth((short)i, 5000);
+		}
+		//合并单元格
+		Region region = new Region((short)0, (short)0, (short)1, (short)(ths.length - 1));
+		sheet.addMergedRegion(region);
+		//创建预备居中格式
+		HSSFCellStyle cellStyle = wb.createCellStyle();
+		//创建预备居中大字体格式
+		HSSFCellStyle cellStyleforFontStyle = wb.createCellStyle();
+		//设置格式居中
+		cellStyle.setAlignment(cellStyle.ALIGN_CENTER);
+		cellStyleforFontStyle.setAlignment(cellStyle.ALIGN_CENTER);
+		//创建字体
+		HSSFFont font = wb.createFont();
+		//设置字体大小
+		font.setFontHeightInPoints((short)14);
+		//合并字体到居中大字体格式
+		cellStyleforFontStyle.setFont(font);
+		int rownum = 0;
+		HSSFRow row = sheet.createRow((short)rownum++);
+		HSSFCell cells[] = new HSSFCell[1];
+		cells[0] = row.createCell(0);
+		cells[0].setCellValue(actDate + "  "+actName+"  " +"参与信息");
+		//应用格式		
+		cells[0].setCellStyle(cellStyleforFontStyle);
+		rownum++;
+		row = sheet.createRow((short)rownum++);
+		HSSFCell cell[] = new HSSFCell[ths.length];
+		for (int i = 0; i < cell.length; i++) {
+			cell[i] = row.createCell(i);
+			cell[i].setCellValue(ths[i]);
+			cell[i].setCellStyle(cellStyle);
+		}		
+		if (list!=null) {
+			Map<String, Object> teachers = StoreData.getTeachertranslate();
+			for (int i = 0; i < list.size(); i++) {
+				row = sheet.createRow(rownum++);
+				cell = new HSSFCell[ths.length];
+				for (int j = 0; j < ths.length; j++) {
+					cell[j] = row.createCell(j);
+				}
+				cell[0].setCellValue(list.get(i).getId().getVacollectiveActivitiesPublish().getActPubId());
+				cell[0].setCellStyle(cellStyle);
+				cell[1].setCellValue(list.get(i).getId().getVacollectiveActivitiesPublish().getVacollectiveAct().getActName());
+				cell[1].setCellStyle(cellStyle);
+				cell[2].setCellValue(list.get(i).getId().getTeacher().getTeacherId());
+				cell[2].setCellStyle(cellStyle);
+				cell[3].setCellValue((String)teachers.get(list.get(i).getId().getTeacher().getTeacherId()));
+				cell[3].setCellStyle(cellStyle);
+				cell[4].setCellValue(list.get(i).getScore());
+				cell[4].setCellStyle(cellStyle);
+			}
+		}
+		return wb;		
 	}
 }

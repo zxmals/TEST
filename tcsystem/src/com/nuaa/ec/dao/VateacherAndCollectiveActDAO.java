@@ -316,6 +316,36 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		return list;
 	}
 
+	public ByteArrayOutputStream findwithexport(String actPubId, String actDate, String actName) {
+		// TODO Auto-generated method stub
+		String query = "from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+				+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+				+ " and VACA.id.teacher.spareTire='1'"
+				+ " and VACA.id.teacher.department.spareTire='1'"
+				+ " and VACA.id.vacollectiveActivitiesPublish.actDate ='" + actDate +"'"
+				;
+		Query query2 = getSession().createQuery(query);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		if (query2.list().size() > 0) {
+			try {
+				VaActListExcel.generateJoinedExcel(stringstore.vaJoinedAct,query2.list(),actDate,actName).write(baos);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return baos;
+		}else {
+			return null;
+		}
+	}
+
+	public ByteArrayOutputStream findUnjoinedwithexport(String actPubId,
+			String actDate, String actName) {
+		// TODO Auto-generated method stub
+		String query = "from VaunJoinRecord VA where VA.spareTire='1'";
+		return null;
+	}
+
 	
 	
 }

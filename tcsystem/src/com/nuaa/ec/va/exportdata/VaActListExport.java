@@ -13,9 +13,11 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Transaction;
 
 import com.nuaa.ec.dao.DepartmentDAO;
+import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.dao.VacollectiveActivitiesPublishDAO;
 import com.nuaa.ec.dao.VateacherAndCollectiveActDAO;
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.VateacherAndCollectiveActId;
 import com.nuaa.ec.utils.EntityUtil;
 import com.nuaa.ec.utils.stringstore;
 
@@ -30,6 +32,7 @@ public class VaActListExport implements SessionAware,RequestAware{
 	private VacollectiveActivitiesPublishDAO vacollectiveActivitiesPublishDAO = new VacollectiveActivitiesPublishDAO();
 	private VateacherAndCollectiveActDAO vateacherAndCollectiveActDAO = new VateacherAndCollectiveActDAO();
 	private String vaacttype;
+	private String actPubId;
 	public String execute(){
 		return "success";
 	}
@@ -75,6 +78,42 @@ public class VaActListExport implements SessionAware,RequestAware{
 			tx.rollback();
 		}
 		return "success";
+	}
+	public void oneActExport() throws Exception{
+		System.out.println(actPubId);
+//		String actName = vateacherAndCollectiveActDAO.findById(new VateacherAndCollectiveActId(
+//				new VacollectiveActivitiesPublishDAO().findById(actPubId),
+//				new TeacherDAO().findById(new VacollectiveActivitiesPublishDAO().findById(actPubId).getTeacherId())
+//				)).getId().getVacollectiveActivitiesPublish().getVacollectiveAct().getActName();
+		String actName = vacollectiveActivitiesPublishDAO.findById(actPubId).getVacollectiveAct().getActName();
+//		String actDate =  vateacherAndCollectiveActDAO.findById(new VateacherAndCollectiveActId(
+//				new VacollectiveActivitiesPublishDAO().findById(actPubId),
+//				new TeacherDAO().findById(new VacollectiveActivitiesPublishDAO().findById(actPubId).getTeacherId())
+//				)).getId().getVacollectiveActivitiesPublish().getActDate();
+		String actDate = vacollectiveActivitiesPublishDAO.findById(actPubId).getActDate();
+		try {
+			ByteArrayOutputStream baos = null;
+			ByteArrayOutputStream baos1 = null;
+			baos = vateacherAndCollectiveActDAO.findwithexport(actPubId,actDate,actName);
+//			baos1 = vateacherAndCollectiveActDAO.findUnjoinedwithexport(actPubId,actDate,actName);
+			if (baos!=null) {
+				HttpServletResponse response = ServletActionContext.getResponse();
+				OutputStream outsStream = response.getOutputStream();
+				response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(actDate + "日" + actName + "活动参与信息.xls"));
+				byte[] bt = baos.toByteArray();
+				outsStream.write(bt,0,bt.length);
+				outsStream.flush();
+				outsStream.close();
+			}else {
+				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
+				ServletActionContext.getResponse().getWriter().write("该活动没有数据");
+			}
+					
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	
 	public void setRequest(Map<String, Object> arg0) {
@@ -125,6 +164,14 @@ public class VaActListExport implements SessionAware,RequestAware{
 
 	public Map<String, Object> getSession() {
 		return session;
+	}
+
+	public String getActPubId() {
+		return actPubId;
+	}
+
+	public void setActPubId(String actPubId) {
+		this.actPubId = actPubId;
 	}
 	
 }
