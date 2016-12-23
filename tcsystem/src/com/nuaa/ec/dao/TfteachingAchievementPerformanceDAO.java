@@ -7,6 +7,7 @@ import com.nuaa.ec.model.TfteachingAchievementProject;
 import com.nuaa.ec.model.TfteachingPaperPerformance;
 import com.nuaa.ec.teachingData.exportData.TeachingAchievementExcel;
 import com.nuaa.ec.teachingData.exportData.TeachingPaperExcel;
+import com.nuaa.ec.utils.Statistics_asist;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -21,6 +22,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +48,39 @@ public class TfteachingAchievementPerformanceDAO extends BaseHibernateDAO {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfteachingAchievementPerformance> TfteachingAchievementPerfList = null;
+	
+	/***
+	 * 获取 该 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSA(String foreterm,String afterterm,Department depart){
+		try {
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TAP.singelScore),0),ISNULL(avg(TAP.singelScore),0)) "
+					+ "from TfteachingAchievementPerformance TAP where TAP.spareTire='1'"
+					+ " and TAP.tfteachingAchievementProject.spareTire='1'"
+					+ " and TAP.tfteachingAchievementProject.tfteachingAchievementRewardLevel.spareTire='1'"
+					+ " and TAP.tfteachingAchievementProject.tfterm.spareTire='1'"
+					+ " and TAP.selfUndertakeTask.spareTire='1'"
+					+ " and TAP.tfteachingAchievementProject.tfterm.termId between ? and ?"
+					+ " and TAP.teacher.spareTire='1'"
+					+ " and TAP.checkOut='3'"
+					+ " and TAP.teacher.department.spareTire='1'"
+					+ " and TAP.teacher.department=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, depart);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 *教学成果奖的数据导出
 	 */

@@ -83,7 +83,7 @@ public class ATteachingresearchPerformanceSetAction implements RequestAware,
 			teachreachprojec.setTfteachingRearchFundlevel(teachreachfundlevel);
 			teachreachprojec.setProjetScore(teachreachevalute.getRatio()*teachreachfundlevel.getScore());
 			teachreachprojec.setTfterm(termdao.findById(term.getTermId()));
-			teachreachprojec.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+			teachreachprojec.setDepartmentId(EntityUtil.findDepartIdByTeacherId(teachreachprojec.getChargePersonId(),
 					teachreachprojecdao.getSession()));
 			teachreachprojecdao.merge(teachreachprojec);
 			tx = teachreachprojecdao.getSession().beginTransaction();

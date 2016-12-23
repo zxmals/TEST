@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +21,7 @@ import com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformance;
 import com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformanceUnionTfterm;
 import com.nuaa.ec.teachingData.exportData.EnterpriseWorkStationExcel;
 import com.nuaa.ec.teachingData.exportData.SummerAndInternationCourseConstructionExcel;
+import com.nuaa.ec.utils.Statistics_asist;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -43,6 +45,36 @@ public class TfsummerCourseInternationalConstructionPerformanceDAO extends BaseH
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfsummerCourseInternationalConstructionPerformance> tfSummerAndInternationalCourseConstructionPerformanceList = null;
+	
+	/***
+	 * 获取 该 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSA(String foreterm,String afterterm,Department depart){
+		try {
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(SCI.score),0),ISNULL(avg(SCI.score),0)) "
+					+ "from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
+					+ " and SCI.spareTire='1'"
+					+ " and SCI.checkOut='3'"
+					+ " and TERM.spareTire='1'"
+					+ " and SCI.tfsummerCourseInternationalConstructionLevel.spareTire='1'"
+					+ " and SCI.teacher.spareTire='1'"
+					+ " and SCI.termId between ? and ?"
+					+ " and SCI.teacher.department=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, depart);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	
 	/**
 	 *暑期课程与国际课程的建设数据导出

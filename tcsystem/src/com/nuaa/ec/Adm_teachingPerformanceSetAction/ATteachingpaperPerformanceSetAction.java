@@ -77,7 +77,7 @@ public class ATteachingpaperPerformanceSetAction implements RequestAware,
 			teachpaperproject.setProjectSumScore(teachpaperretri.getScore());
 			teachpaperproject.setTfteachingPaperRetrievalCondition(teachpaperretri);
 			teachpaperproject.setTfterm(termdao.findById(term.getTermId()));
-			teachpaperproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+			teachpaperproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(teachpaperproject.getChargePersonId(),
 					teachpaperprojectdao.getSession()));
 			teachpaperprojectdao.merge(teachpaperproject);
 			tx = teachpaperprojectdao.getSession().beginTransaction();

@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,7 @@ import com.nuaa.ec.model.TfteachingCompetitionPerformance;
 import com.nuaa.ec.model.TfteachingCompetitionPerformanceUnionTfterm;
 import com.nuaa.ec.teachingData.exportData.DegreeThesisGuidanceExcel;
 import com.nuaa.ec.teachingData.exportData.TeachingCompetitionExcel;
+import com.nuaa.ec.utils.Statistics_asist;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -43,6 +45,37 @@ public class TfteachingCompetitionPerformanceDAO extends BaseHibernateDAO  {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfteachingCompetitionPerformance> TFteachingCompetitionPefroList = null;
+	
+	/***
+	 * 获取 该 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSA(String foreterm,String afterterm,Department depart){
+		try {
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TCP.finalScore),0),ISNULL(avg(TCP.finalScore),0)) "
+					+ "from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
+					+ " and TCP.teacher.spareTire='1'"
+					+ " and TCP.checkOut='3'"
+					+ " and TCP.termId=TERM.termId"
+					+ " and TCP.termId between ? and ?"
+					+ " and TCP.teacher.department=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, depart);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 * 教学竞赛指导模块的数据导出
 	 */

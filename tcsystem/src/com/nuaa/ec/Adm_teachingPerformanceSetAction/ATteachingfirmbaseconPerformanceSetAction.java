@@ -78,7 +78,7 @@ public class ATteachingfirmbaseconPerformanceSetAction implements RequestAware,
 			firmtrainproject.setSpareTire("1");
 			firmtrainproject.setTfenterpriseWorkstationTrainingbaseConstructionLevel(firmtrainlevel);
 			firmtrainproject.setTfterm(termdao.findById(term.getTermId()));
-			firmtrainproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(((Teacher)session.get("teacher")).getTeacherId(),
+			firmtrainproject.setDepartmentId(EntityUtil.findDepartIdByTeacherId(firmtrainproject.getChargePersonId(),
 					firmtrainprojectdao.getSession()));
 			firmtrainprojectdao.merge(firmtrainproject);
 			tx = firmtrainprojectdao.getSession().beginTransaction();

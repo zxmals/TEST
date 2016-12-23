@@ -115,30 +115,30 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 											<td>${ebj.chargePersonId }</td>
 											<td>${teachermp[ebj.chargePersonId] }</td>
 											<td title="${ebj.checkout }">
-												<c:if test="${ebj.checkout==0 }">待完善</c:if>
-												<c:if test="${ebj.checkout==1 }">已完善,待审核</c:if>
-												<c:if test="${ebj.checkout==2 }">已审核</c:if>
-												<c:if test="${ebj.checkout==3 }">未通过</c:if>
+												<c:if test="${ebj.checkout==5 }">待完善</c:if>
+												<c:if test="${ebj.checkout==0 }">已完善,待审核</c:if>
+												<c:if test="${ebj.checkout==1 }">已审核</c:if>
+												<c:if test="${ebj.checkout==2 }">未通过</c:if>
 											</td>
 											<td>
+													<c:if test="${ebj.checkout==5 }">
+														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
+														&nbsp;&nbsp;
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+													</c:if>
+													
 													<c:if test="${ebj.checkout==0 }">
 														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
 														&nbsp;&nbsp;
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 													
-													<c:if test="${ebj.checkout==1 }">
-														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
-														&nbsp;&nbsp;
-														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
-													</c:if>
-													
-													<c:if test="${ebj.checkout==3 }">
-														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
-														&nbsp;&nbsp;
-														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
-													</c:if>
 													<c:if test="${ebj.checkout==2 }">
+														<a  class="btn btn-primary btn-sm openupdatem carrydata" data-toggle="modal" data-target="#utdialog">编辑</a>
+														&nbsp;&nbsp;
+														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
+													</c:if>
+													<c:if test="${ebj.checkout==1 }">
 														<a  class="btn btn-primary btn-sm getMember" data-toggle="modal" data-target="#checkmember">查看项目成员</a>
 													</c:if>
 											</td>

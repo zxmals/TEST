@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,7 @@ import com.nuaa.ec.model.TfpracticeInnovationGuidePerformanceUnionTfterm;
 import com.nuaa.ec.model.TfsummerCourseInternationalConstructionPerformance;
 import com.nuaa.ec.teachingData.exportData.PracticeInnovationGuidanceExcel;
 import com.nuaa.ec.teachingData.exportData.TeachingAbilityImprovingExcel;
+import com.nuaa.ec.utils.Statistics_asist;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -44,6 +46,38 @@ public class TfpracticeInnovationGuidePerformanceDAO extends BaseHibernateDAO  {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfpracticeInnovationGuidePerformance> tfPracticeInnovationGuidePerformanceList = null;
+	
+	/***
+	 * 获取 该 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSA(String foreterm,String afterterm,Department depart){
+		try {
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(PIG.finalScore),0),ISNULL(avg(PIG.finalScore),0)) "
+					+ "from TfpracticeInnovationGuidePerformance PIG,Tfterm TERM where TERM.termId=PIG.termId"
+					+ " and PIG.spareTire='1'"
+					+ " and PIG.checkOut='3'"
+					+ " and TERM.spareTire='1'"
+					+ " and PIG.tfpracticeInnovationGuideLevel.spareTire='1'"
+					+ " and PIG.tfpracticeInnovationGuideGraduationThesisGuideEvalution.spareTire='1'"
+					+ " and PIG.teacher.spareTire='1'"
+					+ " and PIG.termId between ? and ?"
+					+ " and PIG.teacher.department=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, depart);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 * 实践创新指导模块的数据导出
 	 */

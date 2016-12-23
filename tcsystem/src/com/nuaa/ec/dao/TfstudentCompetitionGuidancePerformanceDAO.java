@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +21,7 @@ import com.nuaa.ec.model.TfstudentCompetitionGuidancePerformance;
 import com.nuaa.ec.model.TfstudentCompetitionGuidancePerformanceUnionTfterm;
 import com.nuaa.ec.teachingData.exportData.PracticeInnovationGuidanceExcel;
 import com.nuaa.ec.teachingData.exportData.StudentCompetitionExcel;
+import com.nuaa.ec.utils.Statistics_asist;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -43,6 +45,39 @@ public class TfstudentCompetitionGuidancePerformanceDAO extends BaseHibernateDAO
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TfstudentCompetitionGuidancePerformance> tfStudentCompetitionGuidancePerformanceList = null;
+	
+	/***
+	 * 获取 该 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSA(String foreterm,String afterterm,Department depart){
+		try {
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(SCG.finalScore),0),ISNULL(avg(SCG.finalScore),0)) "
+					+ "from TfstudentCompetitionGuidancePerformance SCG,Tfterm TERM where TERM.termId=SCG.termId"
+					+ " and SCG.spareTire='1'"
+					+ " and SCG.checkOut='3'"
+					+ " and TERM.spareTire='1'"
+					+ " and SCG.tfstudentCompetitionGuidanceScore.spareTire='1'"
+					+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceCompetitionType.spareTire='1'"
+					+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceRewardLevel.spareTire='1'"
+					+ " and SCG.teacher.spareTire='1'"
+					+ " and SCG.termId between ? and ?"
+					+ " and SCG.teacher.department=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, depart);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 * 学生竞赛指导模块的数据导出
 	 */

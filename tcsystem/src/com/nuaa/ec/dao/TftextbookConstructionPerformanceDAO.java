@@ -7,6 +7,7 @@ import com.nuaa.ec.model.TftextbookConstructionPerformance;
 import com.nuaa.ec.model.TftextbookConstructionProject;
 import com.nuaa.ec.teachingData.exportData.TeachingAchievementExcel;
 import com.nuaa.ec.teachingData.exportData.TextbookConstructionExcel;
+import com.nuaa.ec.utils.Statistics_asist;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -21,6 +22,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +48,38 @@ public class TftextbookConstructionPerformanceDAO extends BaseHibernateDAO {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TftextbookConstructionPerformance> TftextbookConstructionPerformance = null;
+	
+	/***
+	 * 获取 该 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSA(String foreterm,String afterterm,Department depart){
+		try {
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TBC.singellScore),0),ISNULL(avg(TBC.singellScore),0)) "
+					+ "from TftextbookConstructionPerformance TBC where TBC.spareTire='1'"
+					+ " and TBC.tftextbookConstructionProject.spareTire='1'"
+					+ " and TBC.tftextbookConstructionProject.tftextbookConstructionTblevel.spareTire='1'"
+					+ " and TBC.tftextbookConstructionProject.tfterm.spareTire='1'"
+					+ " and TBC.selfUndertakeTask.spareTire='1'"
+					+ " and TBC.tftextbookConstructionProject.tfterm.termId between ? and ?"
+					+ " and TBC.teacher.spareTire='1'"
+					+ " and TBC.checkOut='3'"
+					+ " and TBC.teacher.department.spareTire='1'"
+					+ " and TBC.teacher.department=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, depart);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	
 	/**
 	 *教材建设的数据导出
