@@ -351,7 +351,7 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 						+ " and tap.teacher.spareTire='1' "
 						+ " and pp.spareTire='1' "
 						+ " and tap.ppid=pp.ppid "
-						+condition
+						+ condition
 						+ " and tap.teacher.researchLab=? "
 						+ " ORDER BY tap.periodical.periodicalId ";
     	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);

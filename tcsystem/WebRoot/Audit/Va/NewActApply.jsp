@@ -144,7 +144,9 @@
 					<!-- 参与人员 -->
 					<td>${VaAddJoinedAct.attendee }</td>
 					<!-- 活动类型 -->
-					<td>${VaAddJoinedAct.actType }</td>
+					<c:if test="${VaAddJoinedAct.actType==1 }"><td>规定性活动</td></c:if>
+					<c:if test="${VaAddJoinedAct.actType==2 }"><td>选择性活动</td></c:if>
+					<c:if test="${VaAddJoinedAct.actType==3 }"><td>其他活动</td></c:if>
 					<!-- 说明 -->
 <!-- 					<td>${VaAddJoinedAct.actapplyfile }</td> -->
 <!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->

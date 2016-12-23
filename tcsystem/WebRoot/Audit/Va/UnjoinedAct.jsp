@@ -151,7 +151,8 @@
 					<!-- 未参与原因-->
 					<td>${entity.unjoinreason }</td>
 					<!-- 是否请假 -->
-					<td>${entity.leavereqobtain }</td>
+					<c:if test="${entity.leavereqobtain=='1' }"><td>是</td></c:if>
+					<c:if test="${entity.leavereqobtain=='0' }"><td>否</td></c:if>
 					<!-- 教师编号 -->
 					<td>${entity.teacherId }</td>
 					<!-- 教师姓名 -->
