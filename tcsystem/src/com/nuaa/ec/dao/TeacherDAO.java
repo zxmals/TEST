@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -14,7 +13,6 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -43,7 +41,7 @@ public class TeacherDAO extends BaseHibernateDAO  {
 		//采用迫切做外连接查询的方式
 		StringBuffer hql=new StringBuffer("FROM Teacher t WHERE t.spareTire='1'");
 		if(teacherId!=null && teacherId.trim().length()!=0){
-			hql.append(" AND t.teacherId='"+teacherId+"'");
+			hql.append(" AND t.teacherId like'%"+teacherId+"%'");
 		}
 		Query query=this.getSession().createQuery(hql.toString());
 		if(!isDivided){
