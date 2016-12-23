@@ -87,5 +87,9 @@ public class stringstore {
 	//FOR TEACHING
 	/*TeachingDataSummary*/
 	public final String[] teachingsum = {"系编号","系","均分","总分","年度"};
-	//FOR ...				
+	//FOR VA
+	/*VaActListSum*/
+	public final static String[] vaactList = {"活动发布编号","活动名称","活动类型","参与人员","活动日期","申请教师","申请教师ID","分数"};
+	
+	public final static String[] vaJoinedAct = {"活动发布编号","活动名称","参与教师ID","教师姓名","分数"};
 }

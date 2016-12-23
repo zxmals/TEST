@@ -147,7 +147,9 @@
 					<!-- 活动日期 -->
 					<td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actDate}</td>
 					<!-- 活动类型 -->
-					<td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.vacollectiveAct.actType }</td>
+					<c:if test="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.vacollectiveAct.actType==1 }"><td>规定性活动</td></c:if>
+					<c:if test="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.vacollectiveAct.actType==2 }"><td>选择性活动</td></c:if>
+					<c:if test="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.vacollectiveAct.actType==3 }"><td>其他活动</td></c:if>
 					<!-- 教师编号 -->
 					<td>${VaAddJoinedAct.id.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
@@ -156,8 +158,8 @@
 					<td>${VaAddJoinedAct.score }</td>
 					<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
 						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId}"   class="check1"/></td>
-						<td class="c2">不通过<input value="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId}" type="checkbox"
+							value="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId }-${VaAddJoinedAct.id.teacher.teacherId }"   class="check1"/></td>
+						<td class="c2">不通过<input value="${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId }-${VaAddJoinedAct.id.teacher.teacherId }" type="checkbox"
 						 name="notAudit" class="check2"/></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_CT=='1' }">

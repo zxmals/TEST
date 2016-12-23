@@ -94,7 +94,9 @@ public class StoreData {
 
 	public static void setVaexporcts() {
 		vaexporcts = new HashMap<String, Object>();
-		
+		vaexporcts.put("活动参与情况", "TeacherANDActivity");
+		vaexporcts.put("活动缺席情况", "UnjoinedRecord");
+//		vaexporcts.put("规定性活动", "ActType1");
 	}
 
 	public static Map<String,String> getTeachingModule() {
