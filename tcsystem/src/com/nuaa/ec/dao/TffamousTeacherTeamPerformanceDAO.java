@@ -8,6 +8,7 @@ import com.nuaa.ec.model.TffamousTeacherTeamProject;
 import com.nuaa.ec.model.TfteachingAbilityImprovePerformance;
 import com.nuaa.ec.teachingData.exportData.FamousTeacherTeamExcel;
 import com.nuaa.ec.teachingData.exportData.OffCampusPracticeGuidanceExcel;
+import com.nuaa.ec.utils.Statistics_asist;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -22,6 +23,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +49,39 @@ public class TffamousTeacherTeamPerformanceDAO extends BaseHibernateDAO {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 
 	private List<TffamousTeacherTeamPerformance> TFfamousTeacherTeamPefroList = null;
-
+	/***
+	 * 获取 该 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSA(String foreterm,String afterterm,Department depart){
+		try {
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(FTT.singelScore),0),ISNULL(avg(FTT.singelScore),0)) "
+					+ "from TffamousTeacherTeamPerformance FTT "
+					+ " where FTT.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.spareTire='1'"
+					+ " and FTT.selfUndertakeTask.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.tffamousTeacherTeamRewadLevel.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.tfterm.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.tfterm.termId between ? and ?"
+					+ " and FTT.teacher.spareTire='1'"
+					+ " and FTT.checkOut='3'"
+					+ " and FTT.teacher.department.spareTire='1'"
+					+ " and FTT.teacher.department=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, depart);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 *教学名师和教学团队模块的数据导出
 	 */

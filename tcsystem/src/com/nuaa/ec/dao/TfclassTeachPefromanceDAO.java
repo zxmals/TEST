@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +19,9 @@ import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TfclassTeachPefromance;
 import com.nuaa.ec.model.TfclassTeachPefromanceUnionTfterm;
+import com.nuaa.ec.model.Tfterm;
 import com.nuaa.ec.teachingData.exportData.ClassTeachExcel;
+import com.nuaa.ec.utils.Statistics_asist;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -45,6 +48,47 @@ public class TfclassTeachPefromanceDAO extends BaseHibernateDAO {
 			.getSession();
 	private List<TfclassTeachPefromance> TFClassTeachPefroList = null;
 
+	@Test
+	public void test(){
+		String foreterm = "Term000000001";
+		String afterterm = "Term000000010";
+		Department depart = new Department("D000000001");
+		Statistics_asist e = new TfclassTeachPefromanceDAO().getSA(foreterm, afterterm, depart);
+		System.out.println("sum: "+e.getSum()+"||||  avg: "+e.getAvg());
+	}
+	
+	/***
+	 * 获取 该 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSA(String foreterm,String afterterm,Department depart){
+		try {
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(ct.finalScore),0),ISNULL(avg(ct.finalScore),0)) "
+					+ "from TfclassTeachPefromance ct,Tfterm term "
+					+ "where term.termId=ct.termId"
+					+ " and ct.spareTire='1'"
+					+ " and ct.checkOut='3'"
+					+ " and term.spareTire='1'"
+					+ " and ct.tfclassTeachEvaluation.spareTire='1'"
+					+ " and ct.tfclassTeachTime.spareTire='1'"
+					+ " and ct.teacher.spareTire='1'"
+					+ " and ct.termId BETWEEN ? and ? "
+					+ " and ct.teacher.department=? ";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, depart);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 * 课堂教学模块的数据导出
 	 */

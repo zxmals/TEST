@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,7 @@ import com.nuaa.ec.model.TfoffCampusPracticeGuidancePerformanceUnionTfterm;
 import com.nuaa.ec.model.TfstudentCompetitionGuidancePerformanceUnionTfterm;
 import com.nuaa.ec.teachingData.exportData.OffCampusPracticeGuidanceExcel;
 import com.nuaa.ec.teachingData.exportData.UndergraduateTutorGuidanceExcel;
+import com.nuaa.ec.utils.Statistics_asist;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -50,6 +52,35 @@ public class TfoffCampusPracticeGuidancePerformanceDAO extends BaseHibernateDAO 
 
 	private List<TfoffCampusPracticeGuidancePerformance> tfOffCampusPracticeGuidancePerformanceList = null;
 	
+	/***
+	 * 获取 该 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSA(String foreterm,String afterterm,Department depart){
+		try {
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(OCP.finalScore),0),ISNULL(avg(OCP.finalScore),0)) "
+					+ "from TfoffCampusPracticeGuidancePerformance OCP,Tfterm TERM where TERM.termId=OCP.termId"
+					+ " and OCP.spareTire='1'"
+					+ " and OCP.checkOut='3'"
+					+ " and TERM.spareTire='1'"
+					+ " and OCP.tfoffCampusPracticeGuidanceLevel.spareTire='1'"
+					+ " and OCP.teacher.spareTire='1'"
+					+ " and OCP.termId between ? and ?"
+					+ " and OCP.teacher.department=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, depart);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 
 	/**
 	 * 校外实践指导模块的数据导出
