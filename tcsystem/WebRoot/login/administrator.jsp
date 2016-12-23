@@ -188,9 +188,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <li>
                                 <a class="J_menuItem" href="">公益绩效管理</a>
                             </li>
-                             <li>
-                                <a class="J_menuItem" href="">绩效总览</a>
-                            </li>
+<!--                              <li> -->
+<!--                                 <a class="J_menuItem" href="">绩效总览</a> -->
+<!--                             </li> -->
                         </ul>
                     </li>
                     <li>
