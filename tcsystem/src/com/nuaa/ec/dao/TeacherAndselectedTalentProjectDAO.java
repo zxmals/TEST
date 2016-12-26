@@ -50,6 +50,7 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 					+ " AND TASTP.talentProject.spareTire='1' "
 					+condition
 					+ " AND TASTP.teacher.researchLab=? "
+					+ " AND TASTP.checkOut='3'"
 					+ " ORDER by TASTP.talentProject.talentProjectId desc ";
 	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
 	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();

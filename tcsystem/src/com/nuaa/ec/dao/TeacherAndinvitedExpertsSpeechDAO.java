@@ -55,6 +55,7 @@ public class TeacherAndinvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 					+ " AND TAIES.invitedExpertsSpeech.nationality.spareTire='1' "
 					+condition
 					+ " AND TAIES.teacher.researchLab=? "
+					+ " AND TAIES.checkOut='3'"
 					+ " ORDER by TAIES.invitedExpertsSpeech.iespeechId desc ";
 	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
 	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();

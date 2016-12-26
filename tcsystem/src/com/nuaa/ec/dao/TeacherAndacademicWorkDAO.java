@@ -53,6 +53,7 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 					+ " AND TAAW.selfUndertakeTask.spareTire='1' "
 					+condition
 					+ " AND TAAW.teacher.researchLab=? "
+					+ " AND TAAW.checkOut='3'"
 					+ " ORDER by TAAW.academicWork.acaworkId desc ";
 	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
 	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();

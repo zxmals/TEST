@@ -60,6 +60,7 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 					+ " AND TASRP.scientificResearchProject.projectType.spareTire='1' "
 					+condition
 					+ " AND TASRP.teacher.researchLab=? "
+					+ " AND TASRP.checkOut='3'"
 					+ " ORDER by TASRP.scientificResearchProject.srprojectId desc ";
 	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
 	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
