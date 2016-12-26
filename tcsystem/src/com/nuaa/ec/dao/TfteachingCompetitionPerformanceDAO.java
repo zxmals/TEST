@@ -90,6 +90,7 @@ public class TfteachingCompetitionPerformanceDAO extends BaseHibernateDAO  {
 					+ " and TCP.termId=TERM.termId"
 					+ " and TCP.termId between ? and ?"
 					+ " and TCP.teacher.department=?"
+					+"  and TCP.checkOut='3' "
 					+ " order by TCP.competitionId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

@@ -89,6 +89,7 @@ public class TfundergraduateTutorGuidancePerformanceDAO extends BaseHibernateDAO
 					+ " and UTG.teacher.spareTire='1'"
 					+ " and UTG.termId between ? and ?"
 					+ " and UTG.teacher.department=?"
+					+ " and UTG.checkOut='3'"
 					+ " order by UTG.upid desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

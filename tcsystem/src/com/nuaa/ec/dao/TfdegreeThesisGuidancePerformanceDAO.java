@@ -94,6 +94,7 @@ public class TfdegreeThesisGuidancePerformanceDAO extends BaseHibernateDAO {
 					+ " and DTG.termId=TERM.termId"
 					+ " and TERM.termId between ? and ?"
 					+ " and DTG.teacher.department=?"
+					+"  and DTG.checkOut='3' "
 					+ " order by DTG.degreeThesisId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

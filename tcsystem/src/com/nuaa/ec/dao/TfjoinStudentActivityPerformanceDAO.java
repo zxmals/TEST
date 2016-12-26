@@ -98,6 +98,7 @@ public class TfjoinStudentActivityPerformanceDAO extends BaseHibernateDAO {
 					+ " and JSA.teacher.spareTire='1'"
 					+ " and JSA.termId between ? and ?"
 					+ " and JSA.teacher.department=?"
+					+"  and JSA.checkOut='3' "
 					+ " order by JSA.activityId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

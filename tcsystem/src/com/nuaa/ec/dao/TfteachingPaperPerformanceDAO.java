@@ -97,6 +97,7 @@ public class TfteachingPaperPerformanceDAO extends BaseHibernateDAO {
 					+ " and TPP.teacher.spareTire='1'"
 					+ " and TPP.teacher.department.spareTire='1'"
 					+ " and TPP.teacher.department=?"
+					+"  and TPP.checkOut='3' "
 					+ " order by TPP.tfteachingPaperProject.teachPaperId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

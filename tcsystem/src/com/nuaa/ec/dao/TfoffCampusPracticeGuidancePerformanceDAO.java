@@ -69,6 +69,7 @@ public class TfoffCampusPracticeGuidancePerformanceDAO extends BaseHibernateDAO 
 					+ " and OCP.tfoffCampusPracticeGuidanceLevel.spareTire='1'"
 					+ " and OCP.teacher.spareTire='1'"
 					+ " and OCP.termId between ? and ?"
+					+"  and OCP.checkOut='3' "
 					+ " and OCP.teacher.department=?";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foreterm).setParameter(1, afterterm)

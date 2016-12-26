@@ -97,6 +97,7 @@ public class TffineCourseConstructionPerformanceDAO extends BaseHibernateDAO {
 					+ " and FCC.teacher.spareTire='1'"
 					+ " and FCC.teacher.department.spareTire='1'"
 					+ " and FCC.teacher.department=?"
+					+"  and FCC.checkOut='3' "
 					+ " order by FCC.tffineCourseConstructionProject.courseId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

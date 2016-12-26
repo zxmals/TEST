@@ -65,7 +65,8 @@ public class TfstudentCompetitionGuidancePerformanceDAO extends BaseHibernateDAO
 					+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceRewardLevel.spareTire='1'"
 					+ " and SCG.teacher.spareTire='1'"
 					+ " and SCG.termId between ? and ?"
-					+ " and SCG.teacher.department=?";
+					+ " and SCG.teacher.department=?"
+					+"  and SCG.checkOut='3' ";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foreterm).setParameter(1, afterterm)
 					.setParameter(2, depart);

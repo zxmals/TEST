@@ -99,6 +99,7 @@ public class TffamousTeacherTeamPerformanceDAO extends BaseHibernateDAO {
 					+ " and FTT.teacher.spareTire='1'"
 					+ " and FTT.teacher.department.spareTire='1'"
 					+ " and FTT.teacher.department=?"
+					+"  and FTT.checkOut='3' "
 					+ " order by FTT.tffamousTeacherTeamProject.teacherTeamPerformanceId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

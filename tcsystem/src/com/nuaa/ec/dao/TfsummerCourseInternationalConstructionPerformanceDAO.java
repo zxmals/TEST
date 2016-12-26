@@ -62,6 +62,7 @@ public class TfsummerCourseInternationalConstructionPerformanceDAO extends BaseH
 					+ " and TERM.spareTire='1'"
 					+ " and SCI.tfsummerCourseInternationalConstructionLevel.spareTire='1'"
 					+ " and SCI.teacher.spareTire='1'"
+					+"  and SCI.checkOut='3' "
 					+ " and SCI.termId between ? and ?"
 					+ " and SCI.teacher.department=?";
 			Query queryObject = getSession().createQuery(queryString)

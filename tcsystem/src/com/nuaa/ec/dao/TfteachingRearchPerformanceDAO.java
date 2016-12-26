@@ -95,6 +95,7 @@ public class TfteachingRearchPerformanceDAO extends BaseHibernateDAO {
 					+ " and TRP.teacher.spareTire='1'"
 					+ " and TRP.teacher.department.spareTire='1'"
 					+ " and TRP.teacher.department=?"
+					+"  and TRP.checkOut='3' "
 					+ " order by TRP.tfteachingRearchProject.projectId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

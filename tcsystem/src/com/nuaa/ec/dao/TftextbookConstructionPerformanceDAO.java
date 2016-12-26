@@ -97,6 +97,7 @@ public class TftextbookConstructionPerformanceDAO extends BaseHibernateDAO {
 					+ " and TBC.teacher.spareTire='1'"
 					+ " and TBC.teacher.department.spareTire='1'"
 					+ " and TBC.teacher.department=?"
+					+ " and TBC.checkOut='3'"
 					+ " order by TBC.tftextbookConstructionProject.bookId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

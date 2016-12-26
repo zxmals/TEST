@@ -97,6 +97,7 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO
 					+ " and EWTB.teacher.spareTire='1'"
 					+ " and EWTB.teacher.department.spareTire='1'"
 					+ " and EWTB.teacher.department=?"
+					+"  and EWTB.checkOut='3' "
 					+ " order by EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.projectId desc ";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

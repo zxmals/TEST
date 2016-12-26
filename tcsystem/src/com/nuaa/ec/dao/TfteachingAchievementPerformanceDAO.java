@@ -97,6 +97,7 @@ public class TfteachingAchievementPerformanceDAO extends BaseHibernateDAO {
 					+ " and TAP.teacher.spareTire='1'"
 					+ " and TAP.teacher.department.spareTire='1'"
 					+ " and TAP.teacher.department=?"
+					+"  and TAP.checkOut='3' "
 					+ " order by TAP.tfteachingAchievementProject.projectId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

@@ -98,6 +98,7 @@ public class TfprofessionalProjectDeclarePerformanceDAO extends
 					+ " and PPD.teacher.spareTire='1'"
 					+ " and PPD.teacher.department.spareTire='1'"
 					+ " and PPD.teacher.department=?"
+					+"  and PPD.checkOut='3' "
 					+ " order by PPD.tfprofessionalProjectDeclareProject.projectId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

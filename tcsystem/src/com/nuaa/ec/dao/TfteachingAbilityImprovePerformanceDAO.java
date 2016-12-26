@@ -64,6 +64,7 @@ public class TfteachingAbilityImprovePerformanceDAO extends BaseHibernateDAO  {
 					+ " and TAI.checkOut='3'"
 					+ " and TAI.termId=TERM.termId"
 					+ " and TAI.termId between ? and ?"
+					+"  and TAI.checkOut='3' "
 					+ " and TAI.teacher.department=?";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foreterm).setParameter(1, afterterm)

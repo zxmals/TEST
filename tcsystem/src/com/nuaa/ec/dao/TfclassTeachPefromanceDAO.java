@@ -104,6 +104,7 @@ public class TfclassTeachPefromanceDAO extends BaseHibernateDAO {
 					+ " and CT.teacher.spareTire='1'"
 					+ " and CT.termId BETWEEN ? and ? "
 					+ " and CT.teacher.department=? "
+					+"  and CT.checkOut='3' "
 					+ " order by CT.classPefromanceId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)

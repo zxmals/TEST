@@ -93,6 +93,7 @@ public class TfpracticeInnovationGuidePerformanceDAO extends BaseHibernateDAO  {
 					+ " and PIG.teacher.spareTire='1'"
 					+ " and PIG.termId between ? and ?"
 					+ " and PIG.teacher.department=?"
+					+"  and PIG.checkOut='3' "
 					+ " order by PIG.projectId desc";
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foredate).setParameter(1, afterdate)
