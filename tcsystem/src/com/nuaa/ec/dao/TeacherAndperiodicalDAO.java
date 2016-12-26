@@ -353,6 +353,7 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 						+ " and tap.ppid=pp.ppid "
 						+ condition
 						+ " and tap.teacher.researchLab=? "
+						+ " and tap.checkOut='3'"
 						+ " ORDER BY tap.periodical.periodicalId ";
     	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();

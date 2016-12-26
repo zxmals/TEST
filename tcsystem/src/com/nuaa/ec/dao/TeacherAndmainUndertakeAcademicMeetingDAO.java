@@ -59,6 +59,7 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 					+ " AND TAMAM.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingType.spareTire='1' "
 					+condition
 					+ " AND TAMAM.teacher.researchLab=? "
+					+ " AND TAMAM.checkOut='3'"
 					+ " ORDER by TAMAM.mainUndertakeAcademicMeeting.acaMeetingId desc ";
 	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
 	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();

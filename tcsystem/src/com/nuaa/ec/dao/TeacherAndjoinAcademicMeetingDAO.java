@@ -55,6 +55,7 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 					+ " AND TAJAM.joinAcademicMeeting.meetingType.spareTire='1' "
 					+condition
 					+ " AND TAJAM.teacher.researchLab=? "
+					+ " AND TAJAM.checkOut='3' "
 					+ " ORDER by TAJAM.joinAcademicMeeting.joinAcaMid desc ";
 	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
 	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();

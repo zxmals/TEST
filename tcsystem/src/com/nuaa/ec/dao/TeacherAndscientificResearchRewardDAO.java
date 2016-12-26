@@ -64,6 +64,7 @@ public class TeacherAndscientificResearchRewardDAO extends BaseHibernateDAO {
 					+ " AND TASRR.scientificResearchReward.rewardType.spareTire='1' "
 					+condition
 					+ " AND TASRR.teacher.researchLab=? "
+					+ " AND TASRR.checkOut='3'"
 					+ " ORDER by TASRR.scientificResearchReward.srrewardId desc ";
 	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
 	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
