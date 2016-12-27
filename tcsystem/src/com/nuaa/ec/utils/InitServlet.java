@@ -27,6 +27,7 @@ import com.nuaa.ec.dao.TfstudentCompetitionGuidanceRewardLevelDAO;
 import com.nuaa.ec.dao.TfsummerCourseInternationalConstructionLevelDAO;
 import com.nuaa.ec.dao.TfteachingAbilityImproveLevelDAO;
 import com.nuaa.ec.dao.TfteachingCompetitionRewardLevelDAO;
+import com.nuaa.ec.dao.TftermDAO;
 
 @SuppressWarnings("serial")
 public class InitServlet extends HttpServlet {
@@ -118,6 +119,7 @@ public class InitServlet extends HttpServlet {
 		
 		context.setAttribute("researchLabList", new ResearchLabDAO().findAll());
 		context.setAttribute("departmentList", new DepartmentDAO().findAll());
+		context.setAttribute("termList", new TftermDAO().findAll());
 	}
 
 }
