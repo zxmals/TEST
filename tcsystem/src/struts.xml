@@ -512,7 +512,11 @@
 		<!-- 教学数据导出 -->
 		<action name="ATTeachingModuleDataExport" class="com.nuaa.ec.action.TeachingModuleDataExport">
 			<result>/ExportData/ExportTeachingPerformanceData.jsp</result>
-		</action>	
+		</action>
+		<!-- 教学数据汇总 -->	
+		<action name="ATTeachingDataSUM_*" class="com.nuaa.ec.action.TeachingDataSummaryAction">
+			<result>/ExportData/summaryData/TeachingDataSummary_{1}.jsp</result>
+		</action>
 	</package>
 	<!-- 所长级别的审核 -->
 	<package name="ResearchLabAdminAudit" extends="struts-default" namespace="/">

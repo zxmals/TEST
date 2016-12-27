@@ -224,8 +224,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						                           <span class="nav-label">教学 </span>
 						                           <span class="fa arrow"></span>
 						                    </a>
-				                      		<ul class="nav nav-third-level">
-	                                    		<li><a class="J_menuItem" href="downlaodVIEW!dataViewTeach">汇总数据</a></li>
+				                      		<ul class="nav nav-second-level controlslide">
+<!-- 	                                    		<li><a class="J_menuItem" href="downlaodVIEW!dataViewTeach">汇总数据</a></li> -->
+	                                    		<li>
+													<a href="#">
+								                        <i class="fa fa fa-bar-chart-o"></i>
+								                           <span class="nav-label">汇总数据 </span>
+								                           <span class="fa arrow"></span>
+								                    </a>
+								                    	<ul class="nav nav-third-level">
+				                                    		<li><a class="J_menuItem" href="ATTeachingDataSUM_Depart">按系汇总</a></li>
+				                                    		<li><a class="J_menuItem" href="ExportData/ExportTeachingPerformanceData.jsp">按教师汇总</a></li>
+														</ul>
+												</li>
 	                                    		<li><a class="J_menuItem" href="ExportData/ExportTeachingPerformanceData.jsp">分模块导出</a></li>
 										</ul>
 				                      </li>
@@ -237,7 +248,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						                </a>
 				                     		<ul class="nav nav-third-level controlslide">
 												<li>
-												<a class="J_menuItem" href="downlaodVIEW!dataViewScience">汇总数据</a></li>
+													<a href="#">
+								                        <i class="fa fa fa-bar-chart-o"></i>
+								                           <span class="nav-label">汇总数据 </span>
+								                           <span class="fa arrow"></span>
+								                    </a>
+								                    	<ul class="nav nav-third-level">
+				                                    		<li><a class="J_menuItem" href="ExportData/summaryData/TeachingDataSummary_Depart.jsp">按系汇总</a></li>
+				                                    		<li><a class="J_menuItem" href="ExportData/ExportTeachingPerformanceData.jsp">按教师汇总</a></li>
+														</ul>
+												</li>
 												 <li>                                    
 <!-- 				                                    <a href="">明细定制导出<span class="fa arrow"></span></a> -->
 				                                    <a class="J_menuItem" href="ExportData/ExportVaData.jsp">
