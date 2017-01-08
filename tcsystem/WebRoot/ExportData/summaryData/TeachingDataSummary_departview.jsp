@@ -126,16 +126,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                </div>
     
     
-    <script>
-    //页面初始化处理
-    $(document).ready(function() {
-		var tds = $('.disp');
-		for(var i=0;i<tds.length;i++){
-			tds[i].innerHTML = tds[i].title.substring(0,5)+"...";
-		}
-	});
-	</script>
-	<!-- carry-data -->
 	<script type="text/javascript">
 	
     $(document).click(function(e) {
