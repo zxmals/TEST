@@ -83,7 +83,8 @@ public class ATClassTeachPerformanceSetAction implements RequestAware{
 			/*
 			 * 设置其他信息 checkout spareTire 
 			 */
-			classTeachPerformance.setCheckOut("0");
+//			classTeachPerformance.setCheckOut("0");
+			classTeachPerformance.setCheckOut("1");
 			classTeachPerformance.setSpareTire("1");
 			/*
 			 * 执行save
