@@ -41,13 +41,12 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>科研数据导出<small></small></h5>
+	                        <h5>公益数据导出<small></small></h5>
 	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
 	                    <div class="ibox-content" style="height:540px;">
 	                    	 <br>
-	                         
 	                         <div>
 	                         	<p>导出活动列表</p>
 									<a>[时间范围]&nbsp;&nbsp;从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" style="width:120px;height:25px;border-radius:3px;" />
@@ -84,8 +83,12 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 		                    			</p>
 		                    		</c:forEach>
 		                    	</div>
+		                    	<Iframe src="/ExportData/test.jsp" width="1000" height="400" scrolling="auto" frameborder="x" name="test"></iframe> 
+		                    	</div>
+		                    	
 	                    <br><hr>
 	                </div>
+	                
 	            </div>
 	            
 	            

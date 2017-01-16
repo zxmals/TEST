@@ -69,6 +69,13 @@ public class VaActListExcel {
 				cell[1].setCellValue(list.get(i).getVacollectiveAct().getActName());
 				cell[1].setCellStyle(cellStyle);
 				cell[2].setCellValue(list.get(i).getVacollectiveAct().getActType());
+				if (list.get(i).getVacollectiveAct().getActType().equals("1")) {
+					cell[2].setCellValue("规定性活动");
+				}else if (list.get(i).getVacollectiveAct().getActType().equals("2")) {
+					cell[2].setCellValue("选择性活动");
+				}else if (list.get(i).getVacollectiveAct().getActType().equals("3")) {
+					cell[2].setCellValue("其他活动");
+				}
 				cell[2].setCellStyle(cellStyle);
 				cell[3].setCellValue(list.get(i).getVacollectiveAct().getAttendee());
 				cell[3].setCellStyle(cellStyle);
