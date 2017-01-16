@@ -56,7 +56,7 @@ public class ATTeachingCompetitionPerformanceSetAction implements RequestAware{
 			tfTeachingCompetitionPerformance.setTfteachingCompetitionRewardLevel(tfTeachingCompetitionRewardLevel);
 			tfTeachingCompetitionPerformance.setTeacher(teacherDAO.findById(teacher.getTeacherId()));
 			tfTeachingCompetitionPerformance.setFinalScore(this.getScore(tfTeachingCompetitionRewardLevel.getCompetRewardLevelId().trim()));
-			tfTeachingCompetitionPerformance.setCheckOut("0");
+			tfTeachingCompetitionPerformance.setCheckOut("1");
 			tfTeachingCompetitionPerformance.setSpareTire("1");
 			tx=this.teachingCompetitionPerformanceDAO.getSession().beginTransaction();
 			this.teachingCompetitionPerformanceDAO.merge(tfTeachingCompetitionPerformance);

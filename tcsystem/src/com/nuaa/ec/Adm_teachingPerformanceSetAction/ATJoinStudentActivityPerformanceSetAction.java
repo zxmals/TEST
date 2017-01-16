@@ -75,7 +75,7 @@ public class ATJoinStudentActivityPerformanceSetAction implements RequestAware{
 			/*
 			 * 设置checkout和spareTire
 			 */
-			joinStudentActivityPerformance.setCheckOut("0");
+			joinStudentActivityPerformance.setCheckOut("1");
 			joinStudentActivityPerformance.setSpareTire("1");
 			/*
 			 * 执行保存操作

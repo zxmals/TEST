@@ -77,7 +77,7 @@ public class ATOffCampusPracticeGuidancePerformanceSetAction implements RequestA
 			/*
 			 * 设置其他信息 checkout spareTire YearCeiling
 			 */
-			offCampusPracticeGuidancePerformance.setCheckOut("0");
+			offCampusPracticeGuidancePerformance.setCheckOut("1");
 			offCampusPracticeGuidancePerformance.setSpareTire("1");
 			offCampusPracticeGuidancePerformance.setYearCeiling(50);
 			/*

@@ -149,13 +149,13 @@
 												<!-- upid -->
 												<td style="display:none;">${tfTeachingAbilityImprovePerfUnionTferm.tfteachingAbilityImprovePerformance.puid }</td>
 												<!-- 状态 -->
-												<c:if test="${tfTeachingAbilityImprovePerfUnionTferm.tfteachingAbilityImprovePerformance.checkOut ==0 }">
+												<c:if test="${tfTeachingAbilityImprovePerfUnionTferm.tfteachingAbilityImprovePerformance.checkOut =='0' }">
 													<td style="color:blue;">待审核</td>
 												</c:if>
-												<c:if test="${tfTeachingAbilityImprovePerfUnionTferm.tfteachingAbilityImprovePerformance.checkOut ==1 }">
+												<c:if test="${tfTeachingAbilityImprovePerfUnionTferm.tfteachingAbilityImprovePerformance.checkOut =='3' }">
 													<td style="color: green;">审核通过</td>
 												</c:if>
-												<c:if test="${tfTeachingAbilityImprovePerfUnionTferm.tfteachingAbilityImprovePerformance.checkOut ==2 }">
+												<c:if test="${tfTeachingAbilityImprovePerfUnionTferm.tfteachingAbilityImprovePerformance.checkOut =='2' }">
 													<td style="color: red;">审核未通过</td>
 												</c:if>
 												<!-- 操作 -->

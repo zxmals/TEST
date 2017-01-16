@@ -92,7 +92,7 @@ public class ATPracticeInnovationGuidePerformanceSetAction implements RequestAwa
 			 * 设置checkout和spireTire信息
 			 */
 			pracInnoGuidPerf.setSpareTire("1");
-			pracInnoGuidPerf.setCheckOut("0");
+			pracInnoGuidPerf.setCheckOut("1");
 			/**
 			 * 事务处理
 			 */
