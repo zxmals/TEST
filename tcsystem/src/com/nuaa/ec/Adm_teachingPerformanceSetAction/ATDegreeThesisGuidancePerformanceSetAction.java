@@ -60,7 +60,7 @@ public class ATDegreeThesisGuidancePerformanceSetAction implements RequestAware{
 			degreeThesisGuidancePerformance.setTeacher(teacherDAO.findById(teacher.getTeacherId()));
 			degreeThesisGuidancePerformance.setFinalScore(this.getScore(degreeThsisGuidanceRewardLevel.getRewardLevelId()));
 			degreeThesisGuidancePerformance.setSpareTire("1");
-			degreeThesisGuidancePerformance.setCheckOut("0");
+			degreeThesisGuidancePerformance.setCheckOut("1");
 			this.degreeThesisGuidancePerformanceDAO.merge(degreeThesisGuidancePerformance);
 			tx.commit();
 			this.setOperstatus(1);

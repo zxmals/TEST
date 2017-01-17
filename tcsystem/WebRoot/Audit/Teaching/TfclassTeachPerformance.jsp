@@ -245,8 +245,8 @@
 			$("#termSelection option[value='${sessionScope.termId_CT}']").attr("selected",true);
 		});
 		$("#doCheckout").click(function(){
-			submitAudit("TfclassTeachPerformanceAudit!doCheckOutTask",
-					"TfclassTeachPerformanceAudit!getTF_classTeachPerformanceList");
+			submitAudit("ATTfclassTeachPerformanceAudit!doCheckOutTask",
+					"ATTfclassTeachPerformanceAudit!getTF_classTeachPerformanceList");
 		});
 	</script>
 </body>
