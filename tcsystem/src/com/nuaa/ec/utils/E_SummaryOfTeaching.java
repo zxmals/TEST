@@ -3,7 +3,11 @@ package com.nuaa.ec.utils;
 import com.nuaa.ec.model.Department;
 
 //便于 统计教学数据 的一个实体工具类
-public class E_SummaryOfTeaching {
+public class E_SummaryOfTeaching implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Department departs;
 	private Statistics_asist classTeaching;
 	private Statistics_asist degreeGuidance;
