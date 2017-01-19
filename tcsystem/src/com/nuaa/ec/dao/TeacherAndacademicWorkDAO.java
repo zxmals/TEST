@@ -21,6 +21,8 @@ import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.scienresearch.exportdata.AcademicWorkExcel;
 import com.nuaa.ec.scienresearch.exportdata.ScientificResearchRewardExcel;
+import com.nuaa.ec.summaryDataModel.AcademicWorkData;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -39,6 +41,38 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
+	/**
+	 * 学术著作模块的数据汇总
+	 */
+	public AcademicWorkData getSummaryDataByResearchLab(
+			String researchLabId, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TAAW.finalScore),AVG(TAAW.finalScore) FROM TeacherAndacademicWork TAAW "
+						+ "WHERE "
+						+ " TAAW.academicWork.publishDate between ? and ?"
+						+ " AND TAAW.spareTire='1'"
+						+ " AND TAAW.checkOut='3'"
+						+ " AND TAAW.teacher.researchLab.researchLabId=?");
+		AcademicWorkData academicWorkData = new AcademicWorkData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, researchLabId)
+				.uniqueResult();
+		if(datas[0]!=null){
+			academicWorkData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			academicWorkData.setSum(0);
+		}
+		if(datas[1]!=null){
+			academicWorkData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			academicWorkData.setAvg(0);
+		}
+		return academicWorkData;
+	}
+	
 	
 	/**
 	 * 学术著作模块的数据导出

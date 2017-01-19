@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Tfterm;
@@ -15,10 +16,20 @@ public class StoreData {
 
 	private static Map<String, Object> teachertranslate = new HashMap<String, Object>();
 	private static List<ResearchLab> researchLabList=new ArrayList<ResearchLab>();
+	private static Map<String,String> researchLabMap = new HashMap<String,String>(5);
 	private static List<Tfterm> TftermList=new ArrayList<Tfterm>();
 	private static List<Department> departmentList=new ArrayList<Department>();
 	private static Map<String, Object> scienexports;
 	private static Map<String, Object> vaexporcts;
+	static {
+		ResearchLabDAO researchLabDAO = new ResearchLabDAO();
+		@SuppressWarnings("unchecked")
+		List<ResearchLab> researchLabs = researchLabDAO.findAll();
+		for(ResearchLab researchLab:researchLabs){
+			researchLabMap.put(researchLab.getResearchLabId(), researchLab.getResearchLabName());
+		}
+	}
+	
 	
 	public static Map<String, Object> getTeachertranslate() {
 		return teachertranslate;
@@ -122,11 +133,9 @@ public class StoreData {
 		return teachingModule;
 	}
 	
-	
-	
-	
-	
-	
+	public static Map<String,String> getResearchLabMap(){
+		return researchLabMap;
+	}
 	
 }
 

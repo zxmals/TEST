@@ -21,6 +21,8 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.nuaa.ec.scienresearch.exportdata.MainUndertakeAcademicMeetingExcel;
 import com.nuaa.ec.scienresearch.exportdata.ScientificResearchProjectExcel;
+import com.nuaa.ec.summaryDataModel.ScientificResearchProData;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -46,6 +48,39 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+
+	/**
+	 * 科研项目模块的数据汇总
+	 */
+	public ScientificResearchProData getSummaryDataByResearchLab(
+			String researchLabId, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TASRP.finalScore),AVG(TASRP.finalScore) FROM TeacherAndscientificResearchProject TASRP "
+						+ "WHERE "
+						+ " TASRP.scientificResearchProject.admitedProjectYear between ? and ?"
+						+ " AND TASRP.spareTire='1'"
+						+ " AND TASRP.checkOut='3'"
+						+ " AND TASRP.teacher.researchLab.researchLabId=?");
+		ScientificResearchProData scienReschProData = new ScientificResearchProData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, researchLabId)
+				.uniqueResult();
+		if(datas[0]!=null){
+			scienReschProData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			scienReschProData.setSum(0);
+		}
+		if(datas[1]!=null){
+			scienReschProData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			scienReschProData.setAvg(0);
+		}
+		return scienReschProData;
+	}
+
+	
 	/**
 	 * 科研项目模块的数据导出
 	 */

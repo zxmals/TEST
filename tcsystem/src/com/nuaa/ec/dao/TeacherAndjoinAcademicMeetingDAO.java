@@ -21,6 +21,8 @@ import com.nuaa.ec.model.TeacherAndjoinAcademicMeeting;
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
 import com.nuaa.ec.scienresearch.exportdata.AcademicWorkExcel;
 import com.nuaa.ec.scienresearch.exportdata.JoinAcademicMeetingExcel;
+import com.nuaa.ec.summaryDataModel.JoinAcademicMeetingData;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -39,6 +41,39 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
+
+	/**
+	 * 参加学术会议的数据汇总
+	 */
+	public JoinAcademicMeetingData getSummaryDataByResearchLab(
+			String researchLabId, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TAJAM.finalScore),AVG(TAJAM.finalScore) FROM TeacherAndjoinAcademicMeeting TAJAM "
+						+ "WHERE "
+						+ " TAJAM.joinAcademicMeeting.meetingdate between ? and ?"
+						+ " AND TAJAM.spareTire='1'"
+						+ " AND TAJAM.checkOut='3'"
+						+ " AND TAJAM.teacher.researchLab.researchLabId=?");
+		JoinAcademicMeetingData joinAcademicMeetingData = new JoinAcademicMeetingData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, researchLabId)
+				.uniqueResult();
+		if(datas[0]!=null){
+			joinAcademicMeetingData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			joinAcademicMeetingData.setSum(0);
+		}
+		if(datas[1]!=null){
+			joinAcademicMeetingData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			joinAcademicMeetingData.setAvg(0);
+		}
+		return joinAcademicMeetingData;
+	}
+	
 	
 	/**
 	 * 参加学术会议模块的数据导出

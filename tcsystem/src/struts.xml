@@ -182,7 +182,11 @@
 <!-- 科研数据导出-管理 -->
 		<action name="ATscientificresearchexportset" class="com.nuaa.ec.action.ScientificResearchDataExport">
 			<result>/ExportData/ExportScienresearchData.jsp</result>
-		</action>	
+		</action>
+		<!-- 科研模块数据汇总 -->
+		<action name="ATScientificResearchDataSummary_*" class="com.nuaa.ec.action.ScienResearchDataSummaryAction">
+			<result>/ExportData/summaryData/ScientificResearchDataSummary_{1}.jsp</result>
+		</action>		
 	</package>
 
 

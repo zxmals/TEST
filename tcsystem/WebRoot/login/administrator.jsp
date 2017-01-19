@@ -208,7 +208,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                            	<span class="fa arrow"></span>
 			                            </a>
 				                      <ul class="nav nav-third-level">
-												<li><a  data-toggle="modal"  data-backdrop="true" class=""  data-target="#Resummary"  >汇总数据</a></li>
+<!-- 												<li><a  data-toggle="modal"  data-backdrop="true" class=""  data-target="#Resummary"  >汇总数据</a></li> -->
+												<li>
+													<a href="#">
+								                        <i class="fa fa fa-bar-chart-o"></i>
+								                           <span class="nav-label">汇总数据 </span>
+								                           <span class="fa arrow"></span>
+								                    </a>
+								                    	<ul class="nav nav-third-level">
+				                                    		<li><a class="J_menuItem" href="ATScientificResearchDataSummary_resch">按研究所汇总</a></li>
+				                                    		<li><a class="J_menuItem" href="ExportData/ExportTeachingPerformanceData.jsp">按教师汇总</a></li>
+														</ul>
+												</li>
 												 <li>
 				                                    <a class="J_menuItem" href="ExportData/ExportScienresearchData.jsp">
 <!-- 						                                <i class="fa fa fa-bar-chart-o"></i> -->

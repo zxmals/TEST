@@ -23,6 +23,8 @@ import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndperiodical;
 import com.nuaa.ec.scienresearch.exportdata.PeriodicalPaperExcel;
+import com.nuaa.ec.summaryDataModel.PeriodicalData;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -47,6 +49,40 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+	
+	/**
+	 * 期刊论文的数据汇总
+	 */
+	public PeriodicalData getSummaryDataByResearchLab(
+			String researchLabId, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TAPA.finalScore),AVG(TAPA.finalScore) FROM TeacherAndperiodical TAPA , PeriodicalPapers PP "
+						+ "WHERE "
+						+ " PP.year between ? and ?"
+						+ " AND TAPA.ppid=PP.ppid"
+						+ " AND TAPA.spareTire='1'"
+						+ " AND PP.spareTire='1'"
+						+ " AND TAPA.checkOut='3'"
+						+ " AND TAPA.teacher.researchLab.researchLabId=?");
+		PeriodicalData periodicalData = new PeriodicalData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, researchLabId)
+				.uniqueResult();
+		if(datas[0]!=null){
+			periodicalData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			periodicalData.setSum(0);
+		}
+		if(datas[1]!=null){
+			periodicalData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			periodicalData.setAvg(0);
+		}
+		return periodicalData;
+	}
+	
 	
 	public boolean updateCheckoutStatus(List<TeacherAndperiodical> TAPeriodical){
 		Session session=this.getSession();
