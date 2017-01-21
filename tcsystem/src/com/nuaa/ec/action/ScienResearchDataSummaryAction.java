@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.struts2.interceptor.RequestAware;
 
 import com.nuaa.ec.model.ResearchLab;
-import com.nuaa.ec.summaryDataDao.ScientificResearchSummaryDataDao;
+import com.nuaa.ec.dao.ScientificResearchSummaryDataDao;
 import com.nuaa.ec.summaryDataModel.ScientificResearchModuleData;
 import com.nuaa.ec.utils.StoreData;
 import com.opensymphony.xwork2.ActionSupport;

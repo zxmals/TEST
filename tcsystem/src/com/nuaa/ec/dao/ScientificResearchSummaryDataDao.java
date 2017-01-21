@@ -1,4 +1,4 @@
-package com.nuaa.ec.summaryDataDao;
+package com.nuaa.ec.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,20 @@ public class ScientificResearchSummaryDataDao {
 	private static TeacherAndmainUndertakeAcademicMeetingDAO tAMainUndrtkAcademicMeetingDao = new TeacherAndmainUndertakeAcademicMeetingDAO();
 	private static Map<String, String> researchLabMap = StoreData
 			.getResearchLabMap();
-
+	/**
+	 * function：按照教师进行科研模块的数据汇总
+	 */
+	
+	public static List<ScientificResearchModuleData> summaryScienReschModuleDataByPerson() throws Exception{
+		
+		return null;
+	}
+	
+	/**
+	 * 获得每一个模块的所有研究所的汇总情况
+	 * @param scienResearchModlDataList
+	 * @throws Exception
+	 */
 	public static void getEachModuleAllResearchLab(
 			List<ScientificResearchModuleData> scienResearchModlDataList)
 			throws Exception {
@@ -191,8 +204,6 @@ public class ScientificResearchSummaryDataDao {
 			scienReschModuleDataList.add(scienReschModuleData);
 		}
 		getEachModuleAllResearchLab(scienReschModuleDataList);
-		System.out.println("***************************"+scienReschModuleDataList.size());
-		System.out.println("******************************");
 		return scienReschModuleDataList;
 	}
 }
