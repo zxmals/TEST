@@ -51,11 +51,43 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 			.getSession();
 	
 	/**
-	 * 期刊论文的数据汇总
+	 * 期刊论文的数据汇总(按照教师)
+	 */
+	public PeriodicalData getSummaryDataByTeacher(
+			Teacher teacher, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TAPA.finalScore),AVG(TAPA.finalScore) FROM TeacherAndperiodical TAPA , PeriodicalPapers PP "
+						+ "WHERE "
+						+ " PP.year between ? and ?"
+						+ " AND TAPA.ppid=PP.ppid"
+						+ " AND TAPA.spareTire='1'"
+						+ " AND PP.spareTire='1'"
+						+ " AND TAPA.checkOut='3'"
+						+ " AND TAPA.teacher=?");
+		PeriodicalData periodicalData = new PeriodicalData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if(datas[0]!=null){
+			periodicalData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			periodicalData.setSum(0);
+		}
+		if(datas[1]!=null){
+			periodicalData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			periodicalData.setAvg(0);
+		}
+		return periodicalData;
+	}
+	/**
+	 * 期刊论文的数据汇总（按照研究所）
 	 */
 	public PeriodicalData getSummaryDataByResearchLab(
 			String researchLabId, String foredate, String afterdate)
-			throws Exception {
+					throws Exception {
 		StringBuffer hql = new StringBuffer(
 				"SELECT SUM(TAPA.finalScore),AVG(TAPA.finalScore) FROM TeacherAndperiodical TAPA , PeriodicalPapers PP "
 						+ "WHERE "

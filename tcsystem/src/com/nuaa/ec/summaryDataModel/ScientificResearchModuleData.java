@@ -3,6 +3,8 @@ package com.nuaa.ec.summaryDataModel;
 public class ScientificResearchModuleData {
 	private String researchLabId;
 	private String researchLabName;
+	private String teacherId;
+	private String teacherName;
 	private AcademicWorkData academicWorkData;
 	private InviteExpertSpeechData inviteExpertSpeechData;
 	private JoinAcademicMeetingData joinAcademicMeetingData;
@@ -88,5 +90,17 @@ public class ScientificResearchModuleData {
 	}
 	public void setAvg(float avg) {
 		this.avg = avg;
+	}
+	public String getTeacherId() {
+		return teacherId;
+	}
+	public void setTeacherId(String teacherId) {
+		this.teacherId = teacherId;
+	}
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
 	}
 }

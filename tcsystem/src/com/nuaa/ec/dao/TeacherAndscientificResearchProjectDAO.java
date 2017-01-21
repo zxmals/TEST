@@ -50,11 +50,41 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 			.getSession();
 
 	/**
-	 * 科研项目模块的数据汇总
+	 * 科研项目模块的数据汇总(按照教师个人)
+	 */
+	public ScientificResearchProData getSummaryDataByTeacher(
+			Teacher teacher, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TASRP.finalScore),AVG(TASRP.finalScore) FROM TeacherAndscientificResearchProject TASRP "
+						+ "WHERE "
+						+ " TASRP.scientificResearchProject.admitedProjectYear between ? and ?"
+						+ " AND TASRP.spareTire='1'"
+						+ " AND TASRP.checkOut='3'"
+						+ " AND TASRP.teacher=?");
+		ScientificResearchProData scienReschProData = new ScientificResearchProData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if(datas[0]!=null){
+			scienReschProData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			scienReschProData.setSum(0);
+		}
+		if(datas[1]!=null){
+			scienReschProData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			scienReschProData.setAvg(0);
+		}
+		return scienReschProData;
+	}
+	/**
+	 * 科研项目模块的数据汇总（按照研究所）
 	 */
 	public ScientificResearchProData getSummaryDataByResearchLab(
 			String researchLabId, String foredate, String afterdate)
-			throws Exception {
+					throws Exception {
 		StringBuffer hql = new StringBuffer(
 				"SELECT SUM(TASRP.finalScore),AVG(TASRP.finalScore) FROM TeacherAndscientificResearchProject TASRP "
 						+ "WHERE "

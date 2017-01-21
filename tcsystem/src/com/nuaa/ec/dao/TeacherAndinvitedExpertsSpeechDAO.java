@@ -44,10 +44,37 @@ public class TeacherAndinvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
-	
+	/**
+	 * 邀请专家讲学的数据汇总（按照教师个人汇总）
+	 */
+	public InviteExpertSpeechData getSummaryDataByTeacher(Teacher teacher,String foredate,String afterdate) throws Exception{
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TAIES.finalScore),AVG(TAIES.finalScore) FROM TeacherAndinvitedExpertsSpeech TAIES "
+						+ "WHERE "
+						+ " TAIES.invitedExpertsSpeech.speechDate between ? and ?"
+						+ " AND TAIES.spareTire='1'"
+						+ " AND TAIES.checkOut='3'"
+						+ " AND TAIES.teacher=?");
+		InviteExpertSpeechData inviteExpertSpeechData = new InviteExpertSpeechData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if(datas[0]!=null){
+			inviteExpertSpeechData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			inviteExpertSpeechData.setSum(0);
+		}
+		if(datas[1]!=null){
+			inviteExpertSpeechData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			inviteExpertSpeechData.setAvg(0);
+		}
+		return inviteExpertSpeechData;
+	}
 	
 	/**
-	 * 邀请专家讲学的数据汇总
+	 * 邀请专家讲学的数据汇总（按照研究所进行汇总）
 	 */
 	public InviteExpertSpeechData getSummaryDataByResearchLab(
 			String researchLabId, String foredate, String afterdate)

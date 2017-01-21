@@ -41,9 +41,37 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
+	/**
+	 * 学术著作的数据汇总（教师个人）
+	 */
+	public AcademicWorkData getSummaryDataByTeacher(Teacher teacher,String foredate,String afterdate) throws Exception{
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TAAW.finalScore),AVG(TAAW.finalScore) FROM TeacherAndacademicWork TAAW "
+						+ "WHERE "
+						+ " TAAW.academicWork.publishDate between ? and ?"
+						+ " AND TAAW.spareTire='1'"
+						+ " AND TAAW.checkOut='3'"
+						+ " AND TAAW.teacher=?");
+		AcademicWorkData academicWorkData = new AcademicWorkData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if(datas[0]!=null){
+			academicWorkData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			academicWorkData.setSum(0);
+		}
+		if(datas[1]!=null){
+			academicWorkData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			academicWorkData.setAvg(0);
+		}
+		return academicWorkData;
+	}
 	
 	/**
-	 * 学术著作模块的数据汇总
+	 * 学术著作模块的数据汇总(研究所)
 	 */
 	public AcademicWorkData getSummaryDataByResearchLab(
 			String researchLabId, String foredate, String afterdate)

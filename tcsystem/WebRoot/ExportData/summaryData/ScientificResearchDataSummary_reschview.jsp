@@ -46,7 +46,8 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 
 <body class="gray-bg">
 	                    <div class="ibox-content" style="height:540px;">
-	                    <button class="btn  btn-primary openaddm" type="button" data-backdrop="true">
+	                    <button class="btn  btn-primary openaddm" type="button" data-backdrop="true"
+	                    onclick="exportData();">
 	                        	 <strong>导出</strong>
 	                         </button>
 	                    <br>
@@ -93,6 +94,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 			tds[i].innerHTML = tds[i].title.substring(0,5)+"...";
 		}
 	});
+    function exportData(){
+    	window.open("ATScientificResearchDataSummary_resch!getSummaryDataExcel");
+    }
 	</script>
 	<!-- carry-data -->
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>

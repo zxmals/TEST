@@ -46,14 +46,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 
 <body class="gray-bg">
 	                    <div class="ibox-content" style="height:540px;">
-	                    <button class="btn  btn-primary openaddm" type="button" data-backdrop="true">
-	                        	 <strong>导出</strong>
-	                         </button>
+<!-- 	                    <button class="btn  btn-primary openaddm" type="button" data-backdrop="true"> -->
+<!-- 	                        	 <strong>导出</strong> -->
+<!-- 	                         </button> -->
 	                    <br>
 	                        <div class="example" style="overflow: auto">
 	                       <table id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 									<tr class="info">
-										<td>研究所</td>
+										<td>教师姓名</td>
 										<td>科研项目</td>
 										<td>科研奖励</td>
 										<td>学术著作</td>
@@ -65,9 +65,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										<td>总计(总/均)</td>
 									</tr>
 	                            <tbody>
-									<c:forEach var="entity" items="${scienReschModlSumryData }">
+									<c:forEach var="entity" items="${scienReschModlSumryDataPerson }">
 										<tr>
-											<td>${entity.researchLabName }</td>
+											<td>${entity.teacherName }</td>
 											<td>${entity.scientificResearchProData.sum }/${entity.scientificResearchProData.avg }</td>
 											<td>${entity.scientificRewardData.sum }/${entity.scientificRewardData.avg }</td>
 											<td>${entity.academicWorkData.sum }/${entity.academicWorkData.avg }</td>

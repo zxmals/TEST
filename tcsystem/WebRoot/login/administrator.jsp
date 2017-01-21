@@ -217,7 +217,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								                    </a>
 								                    	<ul class="nav nav-third-level controlslide">
 				                                    		<li><a class="J_menuItem" href="ATScientificResearchDataSummary_resch">按研究所汇总</a></li>
-				                                    		<li><a class="J_menuItem" href="ATScientificResearchDataSummary_person">按教师汇总</a></li>
+				                                    		<li><a class="J_menuItem" href="ATScientificResearchDataSummaryOfPerson_person">按教师汇总</a></li>
 														</ul>
 												</li>
 												 <li>

@@ -48,7 +48,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                    	 <br>
 	                         
 	                         <div>
-	                         	<form name="sumf" action="ATScientificResearchDataSummary_reschview!getScienResrchSummaryDateByReschlab" method="post">
+	                         	<form name="sumf" action="ATScientificResearchDataSummaryOfPerson_personView!getScienReschSummaryDataByTeacher" method="post">
 	                         		<a>[日期范围]&nbsp;&nbsp;从:
 <!-- 										<select style="width:120px;height:25px;border-radius:3px;" id="date1" class="addcheck nullcheck" name="foredate"> -->
 <!-- 											<option selected="selected"></option> -->

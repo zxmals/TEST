@@ -41,10 +41,38 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
-	
-
 	/**
-	 * 参加学术会议的数据汇总
+	 * 参加学术会议的数据汇总（按照教师个人进行汇总）
+	 */
+	public JoinAcademicMeetingData getSummaryDataByTeacher(
+			Teacher teacher, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TAJAM.finalScore),AVG(TAJAM.finalScore) FROM TeacherAndjoinAcademicMeeting TAJAM "
+						+ "WHERE "
+						+ " TAJAM.joinAcademicMeeting.meetingdate between ? and ?"
+						+ " AND TAJAM.spareTire='1'"
+						+ " AND TAJAM.checkOut='3'"
+						+ " AND TAJAM.teacher=?");
+		JoinAcademicMeetingData joinAcademicMeetingData = new JoinAcademicMeetingData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if(datas[0]!=null){
+			joinAcademicMeetingData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			joinAcademicMeetingData.setSum(0);
+		}
+		if(datas[1]!=null){
+			joinAcademicMeetingData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			joinAcademicMeetingData.setAvg(0);
+		}
+		return joinAcademicMeetingData;
+	}
+	/**
+	 * 参加学术会议的数据汇总（按照研究所进行汇总）
 	 */
 	public JoinAcademicMeetingData getSummaryDataByResearchLab(
 			String researchLabId, String foredate, String afterdate)

@@ -43,11 +43,41 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 	private Map<String,Object> session=ActionContext.getContext().getSession();
 	
 	/**
-	 * 入选人才工程的数据汇总
+	 * 入选人才工程的数据汇总(按照个人)
+	 */
+	public SelectTalentProData getSummaryDataByTeacher(
+			Teacher teacher, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TASTP.finalScore),AVG(TASTP.finalScore) FROM TeacherAndselectedTalentProject TASTP "
+						+ "WHERE "
+						+ " TASTP.talentProject.selectedDate between ? and ?"
+						+ " AND TASTP.spareTire='1'"
+						+ " AND TASTP.checkOut='3'"
+						+ " AND TASTP.teacher=?");
+		SelectTalentProData selectTalentProData = new SelectTalentProData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if(datas[0]!=null){
+			selectTalentProData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			selectTalentProData.setSum(0);
+		}
+		if(datas[1]!=null){
+			selectTalentProData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			selectTalentProData.setAvg(0);
+		}
+		return selectTalentProData;
+	}
+	/**
+	 * 入选人才工程的数据汇总（按照研究所）
 	 */
 	public SelectTalentProData getSummaryDataByResearchLab(
 			String researchLabId, String foredate, String afterdate)
-			throws Exception {
+					throws Exception {
 		StringBuffer hql = new StringBuffer(
 				"SELECT SUM(TASTP.finalScore),AVG(TASTP.finalScore) FROM TeacherAndselectedTalentProject TASTP "
 						+ "WHERE "
