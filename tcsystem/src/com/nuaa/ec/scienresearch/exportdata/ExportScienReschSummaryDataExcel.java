@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import com.nuaa.ec.summaryDataModel.ScientificResearchModuleData;
 import com.nuaa.ec.utils.StoreData;
 import com.nuaa.ec.utils.stringstore;
+import com.opensymphony.xwork2.ActionContext;
 
 @SuppressWarnings("deprecation")
 public class ExportScienReschSummaryDataExcel {
@@ -120,6 +121,7 @@ public class ExportScienReschSummaryDataExcel {
 				cell[18].setCellStyle(cellStyle);
 			}
 		}
+		ActionContext.getContext().getSession().remove("scienReschModlSumryData");//释放内存
 		return wb;
 	}
 }

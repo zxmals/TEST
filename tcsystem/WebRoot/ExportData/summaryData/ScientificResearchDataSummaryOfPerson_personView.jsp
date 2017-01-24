@@ -30,6 +30,12 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
     <link rel="stylesheet" href="css/mermberTab.css" >
+    <style>
+    	#tb td a:hover{
+			color:deeppink;
+			font-weight:bold;
+		}
+    </style>
     <script  src="My97DatePicker/WdatePicker.js"></script>
     <script src="js/jquery.min.js?v=2.1.4"></script>
     <script src="js/bootstrap.min.js?v=3.3.5"></script>
@@ -45,44 +51,84 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 </head>
 
 <body class="gray-bg">
-	                    <div class="ibox-content" style="height:540px;">
-<!-- 	                    <button class="btn  btn-primary openaddm" type="button" data-backdrop="true"> -->
-<!-- 	                        	 <strong>导出</strong> -->
-<!-- 	                         </button> -->
-	                    <br>
-	                        <div class="example" style="overflow: auto">
-	                       <table id="tb" class="table table-striped table-bordered table-hover dataTables-example">
-									<tr class="info">
-										<td>教师姓名</td>
-										<td>科研项目</td>
-										<td>科研奖励</td>
-										<td>学术著作</td>
-										<td>参加学术会议</td>
-										<td>入选人才工程</td>
-										<td>邀请专家讲学</td>
-										<td>期刊论文</td>
-										<td>主承办学术会议</td>
-										<td>总计(总/均)</td>
-									</tr>
-	                            <tbody>
-									<c:forEach var="entity" items="${scienReschModlSumryDataPerson }">
-										<tr>
-											<td>${entity.teacherName }</td>
-											<td>${entity.scientificResearchProData.sum }/${entity.scientificResearchProData.avg }</td>
-											<td>${entity.scientificRewardData.sum }/${entity.scientificRewardData.avg }</td>
-											<td>${entity.academicWorkData.sum }/${entity.academicWorkData.avg }</td>
-											<td>${entity.joinAcademicMeetingData.sum }/${entity.joinAcademicMeetingData.avg }</td>
-											<td>${entity.talentProData.sum }/${entity.talentProData.avg }</td>
-											<td>${entity.inviteExpertSpeechData.sum }/${entity.inviteExpertSpeechData.avg }</td>
-											<td>${entity.periodicalData.sum }/${entity.periodicalData.avg }</td>
-											<td>${entity.undertakeAcademicMeetingData.sum }/${entity.undertakeAcademicMeetingData.avg }</td>
-											<td>${entity.sum }/${entity.avg }</td>
-										</tr>
-									</c:forEach>
-	                            </tbody>                           
-	                        </table>
-	                   </div>
+     <div class="ibox-content" style="height:540px;">
+     <button class="btn  btn-primary openaddm" type="button" data-backdrop="true" data-target="#test" data-toggle="modal">
+         	 <strong>导出</strong>
+          </button>
+     <br>
+     <!--  -->
+     <div id="test" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"  aria-labelledby="myModalLabel">
+      	 <div class="modal-dialog" style="width:800px;">
+ 			<div class="modal-content">
+		     	<div class="modal-body">
+		        	 <div class="row">
+		        	   <h3>正在查询数据，请稍后......</h3>
+		               <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改科研奖励</h3>
+		               <table border="1px" style="cellspacing:0px;cellpadding:0px;width:750px;margin:0 auto;">
+		               		<tr>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               		</tr>
+		               		<tr>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               			<td>data</td>
+		               		</tr>
+		               </table>
+	                   <div>
+	                       <button type="button" style="margin-top:15px;" class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
+	                  </div>
 	                </div>
+   		     	</div>
+        	</div>
+		</div>
+             </div>
+                <div class="example" style="overflow: auto">
+               <table id="tb" class="table table-striped table-bordered table-hover dataTables-example">
+					<tr class="info">
+						<td>教师姓名</td>
+						<td>教师工号</td>
+						<td>科研项目</td>
+						<td>科研奖励</td>
+						<td>学术著作</td>
+						<td>参加学术会议</td>
+						<td>入选人才工程</td>
+						<td>邀请专家讲学</td>
+						<td>期刊论文</td>
+						<td>主承办学术会议</td>
+						<td>总计(总/均)</td>
+					</tr>
+                    <tbody>
+						<c:forEach var="entity" items="${scienReschModlSumryDataPerson }">
+						<tr>
+							<td>${entity.teacherName }</td>
+							<td>${entity.teacherId }</td>
+							<td><a href="#">${entity.scientificResearchProData.sum }/${entity.scientificResearchProData.avg }</a></td>
+							<td><a href="#">${entity.scientificRewardData.sum }/${entity.scientificRewardData.avg }</a></td>
+							<td><a href="#">${entity.academicWorkData.sum }/${entity.academicWorkData.avg }</a></td>
+							<td><a href="#">${entity.joinAcademicMeetingData.sum }/${entity.joinAcademicMeetingData.avg }</a></td>
+							<td><a href="#">${entity.talentProData.sum }/${entity.talentProData.avg }</a></td>
+							<td><a href="#">${entity.inviteExpertSpeechData.sum }/${entity.inviteExpertSpeechData.avg }</a></td>
+							<td><a href="#">${entity.periodicalData.sum }/${entity.periodicalData.avg }</a></td>
+							<td><a href="#">${entity.undertakeAcademicMeetingData.sum }/${entity.undertakeAcademicMeetingData.avg }</a></td>
+							<td><a href="#">${entity.sum }/${entity.avg }</td>
+						</tr>
+						</c:forEach>
+           		 </tbody>                           
+         	</table>
+    </div>
+ </div>
     
     
     <script>
