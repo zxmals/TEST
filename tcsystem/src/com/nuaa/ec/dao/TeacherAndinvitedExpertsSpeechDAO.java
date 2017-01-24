@@ -44,6 +44,28 @@ public class TeacherAndinvitedExpertsSpeechDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndinvitedExpertsSpeech> getPersonDetailsOfInvtEksptSpch(String teacherId,String foredate,String afterdate) throws Exception{
+		List<TeacherAndinvitedExpertsSpeech> tAInviteExpertSpeechList = new ArrayList<TeacherAndinvitedExpertsSpeech>();
+		String hql = "from TeacherAndinvitedExpertsSpeech TAES where "
+				+ " TAES.spareTire='1'"
+				+ " and TAES.invitedExpertsSpeech.spareTire='1'"
+				+ " and TAES.invitedExpertsSpeech.expertType.spareTire='1'"
+				+ " and TAES.invitedExpertsSpeech.nationality.spareTire='1'"
+				+ " and TAES.invitedExpertsSpeechScore.spareTire='1'"
+				+ " and TAES.selfUndertakeTask.spareTire='1'"
+				+ " and TAES.teacher.spareTire='1' "
+				+ " and TAES.teacher.teacherId=?"
+				+ " and TAES.invitedExpertsSpeech.speechDate between ? and ?"
+				+ " and TAES.checkOut='3'";
+		Session session = this.getSession();
+		tAInviteExpertSpeechList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+		return tAInviteExpertSpeechList;
+	}
+	
 	/**
 	 * 邀请专家讲学的数据汇总（按照教师个人汇总）
 	 */

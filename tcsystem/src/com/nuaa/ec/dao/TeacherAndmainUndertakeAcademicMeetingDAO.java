@@ -46,6 +46,27 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndmainUndertakeAcademicMeeting> getPersonDetailsOfScienReschRewd(String teacherId,String foredate,String afterdate) throws Exception{
+		List<TeacherAndmainUndertakeAcademicMeeting> tAMainUndtakAkdmkMeetingList = new ArrayList<TeacherAndmainUndertakeAcademicMeeting>();
+		String hql="from TeacherAndmainUndertakeAcademicMeeting TAUA where "
+				+ " TAUA.spareTire=1"
+				+ " and TAUA.mainUndertakeAcademicMeeting.spareTire=1"
+				+ " and TAUA.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingType.spareTire=1"
+				+ " and TAUA.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingPlace.spareTire=1"
+				+ " and TAUA.teacher.spareTire=1 "
+				+ " and TAUA.selfUndertakeTask.spareTire=1 "
+				+ " and TAUA.checkOut='3'"
+				+ " and TAUA.teacher.teacherId=?"
+				+ " and TAUA.mainUndertakeAcademicMeeting.meetingdate between ? and ?";
+		Session session = this.getSession();
+		tAMainUndtakAkdmkMeetingList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+		return tAMainUndtakAkdmkMeetingList;
+	}
+	
+	
 	/**
 	 * 主承办学术会议的数据汇总（按照教师个人）
 	 */

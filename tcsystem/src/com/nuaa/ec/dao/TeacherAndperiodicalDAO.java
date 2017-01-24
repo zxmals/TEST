@@ -18,6 +18,7 @@ import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nuaa.ec.model.PeriodicalPaperInfoUnionModel;
 import com.nuaa.ec.model.PeriodicalPapersScore;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
@@ -49,6 +50,26 @@ public class TeacherAndperiodicalDAO extends BaseHibernateDAO {
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+	
+	@SuppressWarnings("unchecked")
+	public List<PeriodicalPaperInfoUnionModel> getPersonDetailsOfPeriodical(String teacherId,String foredate,String afterdate) throws Exception{
+		List<PeriodicalPaperInfoUnionModel> periodicalPaperList = new ArrayList<PeriodicalPaperInfoUnionModel>();
+		String hql = "select new com.nuaa.ec.model.PeriodicalPaperInfoUnionModel(TAPA,PP) from TeacherAndperiodical TAPA "
+				+ " , PeriodicalPapers PP where TAPA.spareTire='1'"
+				+ " and TAPA.periodical.spareTire='1'"
+				+ " and TAPA.teacher.spareTire='1'"
+				+ " and PP.spareTire='1'"
+				+ " and TAPA.ppid=PP.ppid"
+				+ " and TAPA.checkOut='3'"
+				+ " and TAPA.teacher.teacherId=?"
+				+ " and PP.year between ? and ?";
+		Session session = this.getSession();
+		periodicalPaperList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+		return periodicalPaperList;
+	}
+	
 	
 	/**
 	 * 期刊论文的数据汇总(按照教师)

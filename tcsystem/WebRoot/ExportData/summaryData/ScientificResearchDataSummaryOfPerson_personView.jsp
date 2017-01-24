@@ -52,39 +52,20 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 
 <body class="gray-bg">
      <div class="ibox-content" style="height:540px;">
-     <button class="btn  btn-primary openaddm" type="button" data-backdrop="true" data-target="#test" data-toggle="modal">
-         	 <strong>导出</strong>
-          </button>
+<!--      <button class="btn  btn-primary openaddm" type="button" data-backdrop="true" data-target="#dataDiv" data-toggle="modal"> -->
+<!--          	 <strong>导出</strong> -->
+<!--           </button> -->
      <br>
      <!--  -->
-     <div id="test" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"  aria-labelledby="myModalLabel">
-      	 <div class="modal-dialog" style="width:800px;">
+     <div id="dataDiv" class="modal fade" aria-hidden="true"tabindex="-1" role="dialog"  aria-labelledby="myModalLabel">
+      	 <div class="modal-dialog" style="width:1100px;">
  			<div class="modal-content">
 		     	<div class="modal-body">
 		        	 <div class="row">
-		        	   <h3>正在查询数据，请稍后......</h3>
-		               <h3 class="m-t-none m-b" id="updatemodaldialogTitle">修改科研奖励</h3>
-		               <table border="1px" style="cellspacing:0px;cellpadding:0px;width:750px;margin:0 auto;">
-		               		<tr>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               		</tr>
-		               		<tr>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               			<td>data</td>
-		               		</tr>
+		        	   <h3 id="tableCaption" style="text-align:center;">无对应记录...</h3>
+<!-- 		               <h3 class="m-t-none m-b" id="updatemodaldialogTitle">${sessionScope.moduleName_person }</h3> -->
+		               <table id="dataTable" border="1px" style="cellspacing:0px;cellpadding:0px;width:1050px;margin:0 auto;font-size: 11px;"
+		                class="table table-striped table-bordered table-hover dataTables-example">
 		               </table>
 	                   <div>
 	                       <button type="button" style="margin-top:15px;" class="btn btn-outline btn-primary pull-right m-t-n-xs" data-dismiss="modal">关闭</button>
@@ -114,15 +95,15 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 						<tr>
 							<td>${entity.teacherName }</td>
 							<td>${entity.teacherId }</td>
-							<td><a href="#">${entity.scientificResearchProData.sum }/${entity.scientificResearchProData.avg }</a></td>
-							<td><a href="#">${entity.scientificRewardData.sum }/${entity.scientificRewardData.avg }</a></td>
-							<td><a href="#">${entity.academicWorkData.sum }/${entity.academicWorkData.avg }</a></td>
-							<td><a href="#">${entity.joinAcademicMeetingData.sum }/${entity.joinAcademicMeetingData.avg }</a></td>
-							<td><a href="#">${entity.talentProData.sum }/${entity.talentProData.avg }</a></td>
-							<td><a href="#">${entity.inviteExpertSpeechData.sum }/${entity.inviteExpertSpeechData.avg }</a></td>
-							<td><a href="#">${entity.periodicalData.sum }/${entity.periodicalData.avg }</a></td>
-							<td><a href="#">${entity.undertakeAcademicMeetingData.sum }/${entity.undertakeAcademicMeetingData.avg }</a></td>
-							<td><a href="#">${entity.sum }/${entity.avg }</td>
+							<td><a onclick="showDetail('${entity.teacherId }','scienReschPro');" data-backdrop="true" data-target="#dataDiv" data-toggle="modal">${entity.scientificResearchProData.sum }/${entity.scientificResearchProData.avg }</a></td>
+							<td><a onclick="showDetail('${entity.teacherId }','scienReschRewd');" data-backdrop="true" data-target="#dataDiv" data-toggle="modal">${entity.scientificRewardData.sum }/${entity.scientificRewardData.avg }</a></td>
+							<td><a onclick="showDetail('${entity.teacherId}','AkdmkWork');" data-backdrop="true" data-target="#dataDiv" data-toggle="modal">${entity.academicWorkData.sum }/${entity.academicWorkData.avg }</a></td>
+							<td><a onclick="showDetail('${entity.teacherId}','JoinAkdmkMeeting');" data-backdrop="true" data-target="#dataDiv" data-toggle="modal">${entity.joinAcademicMeetingData.sum }/${entity.joinAcademicMeetingData.avg }</a></td>
+							<td><a onclick="showDetail('${entity.teacherId}','SelectTalentkPro');" data-backdrop="true" data-target="#dataDiv" data-toggle="modal">${entity.talentProData.sum }/${entity.talentProData.avg }</a></td>
+							<td><a onclick="showDetail('${entity.teacherId}','InviteExpertSpeech');" data-backdrop="true" data-target="#dataDiv" data-toggle="modal">${entity.inviteExpertSpeechData.sum }/${entity.inviteExpertSpeechData.avg }</a></td>
+							<td><a onclick="showDetail('${entity.teacherId}','periodicalPaper');" data-backdrop="true" data-target="#dataDiv" data-toggle="modal">${entity.periodicalData.sum }/${entity.periodicalData.avg }</a></td>
+							<td><a onclick="showDetail('${entity.teacherId}','mainUndertkAkdmkMeeting');" data-backdrop="true" data-target="#dataDiv" data-toggle="modal">${entity.undertakeAcademicMeetingData.sum }/${entity.undertakeAcademicMeetingData.avg }</a></td>
+							<td>${entity.sum }/${entity.avg }</td>
 						</tr>
 						</c:forEach>
            		 </tbody>                           
@@ -139,8 +120,30 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 			tds[i].innerHTML = tds[i].title.substring(0,5)+"...";
 		}
 	});
+    function showDetail(teacherId,moduleName){
+    	clear();
+    	$.post("ATScientificResearchDataSummaryOfPerson_detail!getDetailDataInfoJson",
+			{
+   				teacherId:teacherId,
+   				moduleName:moduleName,
+   				foredate:'${sessionScope.foredate_person}',
+   				afterdate:'${sessionScope.afterdate_person}'
+   			},
+   			function(data,status){
+    			if(status=="success"){
+//     				window.alert("heloo");
+    				var d = eval("("+data+")")
+//     				window.alert(d.field.length);
+//     				window.alert(d.dataArray[0].length);
+//     				window.alert(d.dataArray.length);
+					create(d);
+    			}
+    		});
+    }
+    
 	</script>
 	<!-- carry-data -->
+	<script type="text/javascript" src="js/createTable.js"></script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>
      

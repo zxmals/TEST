@@ -18,8 +18,6 @@ import com.nuaa.ec.model.JoinAcademicMeeting;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndjoinAcademicMeeting;
-import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
-import com.nuaa.ec.scienresearch.exportdata.AcademicWorkExcel;
 import com.nuaa.ec.scienresearch.exportdata.JoinAcademicMeetingExcel;
 import com.nuaa.ec.summaryDataModel.JoinAcademicMeetingData;
 import com.nuaa.ec.utils.NumberFormatUtil;
@@ -41,6 +39,26 @@ public class TeacherAndjoinAcademicMeetingDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndjoinAcademicMeeting> getPersonDetailsOfJoinAkdmkMeetin(String teacherId,String foredate,String afterdate) throws Exception{
+		List<TeacherAndjoinAcademicMeeting> tAJoinAkdmkMeetingList = new ArrayList<TeacherAndjoinAcademicMeeting>();
+		String hql = "from TeacherAndjoinAcademicMeeting TAAM where "
+				+ " TAAM.spareTire='1'"
+				+ " and TAAM.meetingPaper.spareTire='1'"
+				+ " and TAAM.joinAcademicMeetingScore.spareTire='1'"
+				+ " and TAAM.joinAcademicMeeting.spareTire='1'"
+				+ " and TAAM.teacher.spareTire='1' "
+				+ " and TAAM.checkOut='3'"
+				+ " and TAAM.teacher.teacherId=?"
+				+ " and TAAM.joinAcademicMeeting.meetingdate between ? and ?";
+		Session session = this.getSession();
+		tAJoinAkdmkMeetingList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+		return tAJoinAkdmkMeetingList;
+	}
+	
 	/**
 	 * 参加学术会议的数据汇总（按照教师个人进行汇总）
 	 */

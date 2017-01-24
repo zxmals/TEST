@@ -53,7 +53,21 @@ public class TeacherAndscientificResearchRewardDAO extends BaseHibernateDAO {
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
 	
-	
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndscientificResearchReward> getPersonDetailsOfScienReschRewd(String teacherId,String foredate,String afterdate) throws Exception{
+		List<TeacherAndscientificResearchReward> tAScienReschRewdList = new ArrayList<TeacherAndscientificResearchReward>();
+		String hql="from TeacherAndscientificResearchReward TARR where TARR.spareTire='1'"
+							+ " and TARR.scientificResearchReward.spareTire='1'"
+							+ " and TARR.teacher.spareTire='1'"
+							+ " and TARR.checkOut='3'"
+							+ " and TARR.teacher.teacherId=?"
+							+ " and TARR.scientificResearchReward.rewardDate between ? and ?";
+		Session session = this.getSession();
+		tAScienReschRewdList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+		return tAScienReschRewdList;
+	}
 	/**
 	 * 科研奖励模块的数据汇总（按照个人）
 	 */

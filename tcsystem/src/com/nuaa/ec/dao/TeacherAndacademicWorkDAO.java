@@ -41,6 +41,26 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndacademicWork> getPersonDetailsOfAkdmkWork(String teacherId,String foredate,String afterdate) throws Exception{
+		List<TeacherAndacademicWork> tAAkdmkWookList = new ArrayList<TeacherAndacademicWork>();
+		String hql="from TeacherAndacademicWork TAAW where "
+				+ " TAAW.spareTire='1'"
+				+ " and TAAW.academicWork.spareTire='1'"
+				+ " and TAAW.academicWork.publishClub.spareTire='1'"
+				+ " and TAAW.selfUndertakeTask.spareTire='1'"
+				+ " and TAAW.teacher.spareTire='1' "
+				+ " and TAAW.checkOut='3'"
+				+ " and TAAW.teacher.teacherId=?"
+				+ " and TAAW.academicWork.publishDate between ? and ?";
+		Session session = this.getSession();
+		tAAkdmkWookList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+		return tAAkdmkWookList;
+	}
+	
 	/**
 	 * 学术著作的数据汇总（教师个人）
 	 */
