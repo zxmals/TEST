@@ -92,4 +92,6 @@ public class stringstore {
 	public final static String[] vaactList = {"活动发布编号","活动名称","活动类型","参与人员","活动日期","申请教师","申请教师ID","分数"};
 	
 	public final static String[] vaJoinedAct = {"活动发布编号","活动名称","参与教师ID","教师姓名","分数"};
+	public final static String[] scienReschModules={"科研项目（总/均）","科研奖励（总/均）","学术著作（总/均）","参加学术会议（总/均）","入选人才工程（总/均）","邀请专家讲学（总/均）","期刊论文（总/均）","主承办学术会议（总/均）","总计（总/均）"};
+	
 }

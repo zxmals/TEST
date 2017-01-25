@@ -24,6 +24,8 @@ import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
 import com.nuaa.ec.scienresearch.exportdata.PeriodicalPaperExcel;
 import com.nuaa.ec.scienresearch.exportdata.ScientificResearchRewardExcel;
+import com.nuaa.ec.summaryDataModel.ScientificResearchRewardData;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -50,6 +52,86 @@ public class TeacherAndscientificResearchRewardDAO extends BaseHibernateDAO {
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+	
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndscientificResearchReward> getPersonDetailsOfScienReschRewd(String teacherId,String foredate,String afterdate) throws Exception{
+		List<TeacherAndscientificResearchReward> tAScienReschRewdList = new ArrayList<TeacherAndscientificResearchReward>();
+		String hql="from TeacherAndscientificResearchReward TARR where TARR.spareTire='1'"
+							+ " and TARR.scientificResearchReward.spareTire='1'"
+							+ " and TARR.teacher.spareTire='1'"
+							+ " and TARR.checkOut='3'"
+							+ " and TARR.teacher.teacherId=?"
+							+ " and TARR.scientificResearchReward.rewardDate between ? and ?";
+		Session session = this.getSession();
+		tAScienReschRewdList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+		return tAScienReschRewdList;
+	}
+	/**
+	 * 科研奖励模块的数据汇总（按照个人）
+	 */
+	public ScientificResearchRewardData getSummaryDataByTeacher(
+			Teacher teacher, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TASRR.finalScore),AVG(TASRR.finalScore) FROM TeacherAndscientificResearchReward TASRR "
+						+ "WHERE "
+						+ " TASRR.scientificResearchReward.rewardDate between ? and ?"
+						+ " AND TASRR.spareTire='1'"
+						+ " AND TASRR.checkOut='3'"
+						+ " AND TASRR.teacher=?");
+		ScientificResearchRewardData scienReschRewardData = new ScientificResearchRewardData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if(datas[0]!=null){
+			scienReschRewardData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			scienReschRewardData.setSum(0);
+		}
+		if(datas[1]!=null){
+			scienReschRewardData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			scienReschRewardData.setAvg(0);
+		}
+		return scienReschRewardData;
+	}
+	/**
+	 * 科研奖励模块的数据汇总（按照研究所）
+	 */
+	public ScientificResearchRewardData getSummaryDataByResearchLab(
+			String researchLabId, String foredate, String afterdate)
+					throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TASRR.finalScore),AVG(TASRR.finalScore) FROM TeacherAndscientificResearchReward TASRR "
+						+ "WHERE "
+						+ " TASRR.scientificResearchReward.rewardDate between ? and ?"
+						+ " AND TASRR.spareTire='1'"
+						+ " AND TASRR.checkOut='3'"
+						+ " AND TASRR.teacher.researchLab.researchLabId=?");
+		ScientificResearchRewardData scienReschRewardData = new ScientificResearchRewardData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, researchLabId)
+				.uniqueResult();
+		if(datas[0]!=null){
+			scienReschRewardData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			scienReschRewardData.setSum(0);
+		}
+		if(datas[1]!=null){
+			scienReschRewardData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			scienReschRewardData.setAvg(0);
+		}
+		return scienReschRewardData;
+	}
+	
+	
+	
+	
 	/**
 	 * 科研项目奖励模块的数据导出
 	 */

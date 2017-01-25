@@ -34,11 +34,20 @@ public class TeacherDAO extends BaseHibernateDAO  {
 	public static final String TEACHERPRIMARYID = "teacherprimaryid";
 	public static final String TEACHER_POST = "teacherPost";
 	public static final String VA_ADMIN = "vaadmin";
-
+	
+	@SuppressWarnings("unchecked")
+	public List<Teacher> findTeacherByFuzzyQuery(String queryString){
+		List<Teacher> teachers = new ArrayList<Teacher>();
+		String hql = "FROM Teacher tchr WHERE tchr.teacherId like '%"+queryString+"%'";
+		Session session = this.getSession();
+		teachers = session.createQuery(hql).list();
+		session.close();
+		return teachers;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Teacher> findAllByCondition(int pageIndex,int pageSize,String teacherId,boolean isDivided){
 		Map<String,Object> session=ActionContext.getContext().getSession();
-		//采用迫切做外连接查询的方式
 		StringBuffer hql=new StringBuffer("FROM Teacher t WHERE t.spareTire='1'");
 		if(teacherId!=null && teacherId.trim().length()!=0){
 			hql.append(" AND t.teacherId like'%"+teacherId+"%'");
