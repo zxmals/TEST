@@ -96,7 +96,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										<td>总计(总/均)</td>
 									</tr>
 	                            <tbody>
-									<c:forEach var="ebj" items="${alldepartsumdata }">
+									<c:forEach var="ebj" items="${departsumdata }">
 										<tr>
 											<td title="${ebj.departs.departmentId }">${ebj.departs.departmentName }</td>
 											<td>${ebj.classTeaching.sum }/${ebj.classTeaching.avg }</td>

@@ -49,9 +49,9 @@ public class TeachingDataSummaryAction implements RequestAware, SessionAware {
 	public String getDepartSummaryData() throws Exception{
 		try {
 			if("alldepart".equals(depart.getDepartmentId().trim())){
-				session.put("alldepartsumdata", teachsumdao.getAllSum(foreterm,afterterm));
+				session.put("departsumdata", teachsumdao.getAllSum(foreterm,afterterm));
 			}else{
-				
+				session.put("departsumdata", teachsumdao.getSingleSum(foreterm, afterterm, depart));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

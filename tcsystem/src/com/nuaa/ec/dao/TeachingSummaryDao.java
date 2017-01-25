@@ -27,7 +27,9 @@ public class TeachingSummaryDao {
 	private TfjoinStudentActivityPerformanceDAO studentactivitydao = new TfjoinStudentActivityPerformanceDAO();
 	private TfundergraduateTutorGuidancePerformanceDAO undergraduateguidancedao = new TfundergraduateTutorGuidancePerformanceDAO();
 	private TfoffCampusPracticeGuidancePerformanceDAO offcampusdao = new TfoffCampusPracticeGuidancePerformanceDAO();
-	
+	/*
+	 * 根据所有系获取汇总信息
+	 */
 	public List<E_SummaryOfTeaching> getAllSum(String foreterm,String afterterm){
 		@SuppressWarnings("unchecked")
 		List<Department> departsli = new DepartmentDAO().findAll();
@@ -157,13 +159,16 @@ public class TeachingSummaryDao {
 		esotli.add(eso);
 		return esotli;
 	}
-	
+	/*
+	 * 根据单个系获取汇总信息
+	 */
 	public List<E_SummaryOfTeaching> getSingleSum(String foreterm,String afterterm,Department depart){
 		List<E_SummaryOfTeaching> esotli = new ArrayList<E_SummaryOfTeaching>();
+		DepartmentDAO departsdao = new DepartmentDAO();
 		E_SummaryOfTeaching es = null;
 			double sum = 0;
 			es = new E_SummaryOfTeaching();
-			es.setDeparts(depart);
+			es.setDeparts(departsdao.findById(depart.getDepartmentId()));
 			
 			es.setClassTeaching(classteachdao.getSA(foreterm, afterterm, depart));
 			sum += es.getClassTeaching().getSum();
