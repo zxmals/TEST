@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AcademicWork --work-Set</title>
+    <title>UnjoinedAct-Set</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -205,7 +205,15 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				    alert("未删除");
 			  }
 	});
-    
+    $("#datep").click(function(){
+			if(($("#date1").val().length!=0 && $("#date2").val().length==0) 
+					||($("#date1").val().length==0 && $("#date2").val().length!=0)){
+				window.alert("请填写完整日期");
+				return false;
+			}else{
+				$("#conditionForm").submit();
+			}
+		});
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>

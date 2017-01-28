@@ -197,8 +197,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                            <ul class="nav nav-second-level firstslide">
 										<li><a class="J_menuItem" href="ATva_actManage!getWorkall">活动参与</a></li>
 										<li><a class="J_menuItem" href="ATva_unjoinedactManage!getWorkall">活动缺席</a></li>
-										<li><a class="J_menuItem" href="#">活动发布管理</a></li>
-										<li><a class="J_menuItem" href="#">活动新增管理</a></li>
+										<li><a class="J_menuItem" href="ATva_newactpublishManage!getWorkall">活动发布管理</a></li>
+										<li><a class="J_menuItem" href="ATva_newactapplyManage!getWorkall">活动新增管理</a></li>
 								</ul>
 <!--                              <li> -->
 <!--                                 <a class="J_menuItem" href="">绩效总览</a> -->

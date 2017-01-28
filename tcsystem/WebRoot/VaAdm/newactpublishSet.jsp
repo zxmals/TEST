@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AcademicWork --work-Set</title>
+    <title>newactpublishSet</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -48,7 +48,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     		var res = '${operstatus}';
     		//alert(addres);
 			switch (res){
-				case '-1':alert("操作失败 fail !!!");
+				case '-1':alert("操作失败!!!");
 				break;
 				case '1':alert("添加成功!");
 				break;
@@ -62,7 +62,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	<div class="datepick">
 		<span>选择日期范围</span>
 		<div>
-			<form action="ATva_actManage!getWorkall?pagenum=1" method="post" name="pickdate" id="pickdates">
+			<form action="ATva_newactpublishManage!getWorkall?pagenum=1" method="post" name="pickdate" id="pickdates">
 				从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate_CT }" name="foredate_CT" />到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate"  value="${afterdate_CT }" name="afterdate_CT" />
 				&nbsp;&nbsp;<input type="submit" id="datep" value="查寻" title="点击查询" >
 			</form>
@@ -74,7 +74,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>活动参与管理<small></small></h5>
+	                        <h5>活动发布管理<small></small></h5>
 	                        <div class="ibox-tools" >
 	                        </div>
 	                    </div>
@@ -97,10 +97,11 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                       <table  id="tb" class="table table-striped table-bordered table-hover dataTables-example">
 	                            <thead>
 	                                <tr>
-										<td>公益活动编号</td>
+										<td>活动发布编号</td>
                                         <td>活动名称</td>
                                         <td>参与人员</td>
                                         <td>活动日期</td>
+                                        <td>活动类型</td>
                                         <td>教师编号</td>
                                         <td>教师姓名</td>
                                         <td>状态</td>
@@ -108,21 +109,21 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 									</tr>
 	                            </thead>
 	                            <tbody>
-									<c:forEach var="VaAddJoinedAct" items="${List }">
+									<c:forEach var="entity" items="${List }">
 										<tr>
-											<td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actPubId }</td>
-                                            <td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.vacollectiveAct.actName }</td>
-                                            <td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.vacollectiveAct.attendee }</td>
-                                            <td>${VaAddJoinedAct.id.vacollectiveActivitiesPublish.actDate}</td>
-                                            <td>${VaAddJoinedAct.id.teacher.teacherId }</td>
-                                            <td>${VaAddJoinedAct.id.teacher.teacherName }</td>
+											<td>${entity.actPubId  }</td>
+                                            <td>${entity.vacollectiveAct.actName }</td>
+                                            <td>${entity.vacollectiveAct.attendee }</td>
+                                            <td>${entity.actDate}</td>
+                                            <td>${entity.vacollectiveAct.teacher.teacherId }</td>
+                                            <td>${entity.vacollectiveAct.teacher.teacherName }</td>
                                             <td>
-                                            <c:if test="${VaAddJoinedAct.aspareTire == '0'}">待审核</c:if>
-                                            <c:if test="${VaAddJoinedAct.aspareTire == '1'}">审核通过</c:if>
-                                            <c:if test="${VaAddJoinedAct.aspareTire == '2'}">不通过</c:if>
+                                            <c:if test="${entity.aspareTire == '0'}">待审核</c:if>
+                                            <c:if test="${entity.aspareTire == '1'}">审核通过</c:if>
+                                            <c:if test="${entity.aspareTire == '2'}">不通过</c:if>
                                             </td>
 											<td>
-													<c:if test="${VaAddJoinedAct.aspareTire == '0' }">
+													<c:if test="${entity.aspareTire == '0' }">
 														<a class="btn btn-primary btn-sm delwords delinf" data-toggle="modal">删除</a>
 													</c:if>
 											</td>
@@ -134,10 +135,10 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                        <div style="text-align: center;">
 	                        	(共查询到${sumrow }条记录)&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	第${pagenum }/${sumpage }页&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATva_actManage!getWorkall?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATva_actManage!getWorkall?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATva_actManage!getWorkall?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
-	                        	<a class="comphref" href="ATva_actManage!getWorkall?pagenum=${sumpage }">尾页</a>
+	                        	<a class="comphref" href="ATva_newactpublishManage!getWorkall?pagenum=1">首页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATva_newactpublishManage!getWorkall?pagenum=${prepage }">上一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATva_newactpublishManage!getWorkall?pagenum=${nextpage }">下一页</a>&nbsp;&nbsp;&nbsp;
+	                        	<a class="comphref" href="ATva_newactpublishManage!getWorkall?pagenum=${sumpage }">尾页</a>
 	                        </div>
 	                   </div>
 	                </div>
@@ -177,15 +178,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 		 var row = $(this).parent().parent();
 		 var x = confirm("确认删除？");
 		 if(x){
-				  $.post("ATva_actManage!deleteRecord?pagenum=1",
-    							{"actPubId":row[0].cells[0].innerHTML,
-    							 "teacherId":row[0].cells[4].innerHTML},
+				  $.post("ATva_newactpublishManage!deleteRecord?pagenum=1",
+    							{"id":row[0].cells[0].innerHTML},
     							function(data,status){
     								if(status=="success"){
     									if(data=="succ"){
     										swal("删除成功","","success");
     										setTimeout(function() {
-    											window.location.replace("ATva_actManage!getWorkall?pagenum=1");
+    											window.location.replace("ATva_newactpublishManage!getWorkall?pagenum=1");
 											}, 2000);
     									}else{
     										swal("操作失败",data,"error");
@@ -199,7 +199,15 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				    alert("未删除");
 			  }
 	});
-    
+    $("#datep").click(function(){
+			if(($("#date1").val().length!=0 && $("#date2").val().length==0) 
+					||($("#date1").val().length==0 && $("#date2").val().length!=0)){
+				window.alert("请填写完整日期");
+				return false;
+			}else{
+				$("#conditionForm").submit();
+			}
+		});
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>

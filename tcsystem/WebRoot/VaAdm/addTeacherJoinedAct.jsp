@@ -199,7 +199,15 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 				    alert("未删除");
 			  }
 	});
-    
+    $("#datep").click(function(){
+			if(($("#date1").val().length!=0 && $("#date2").val().length==0) 
+					||($("#date1").val().length==0 && $("#date2").val().length!=0)){
+				window.alert("请填写完整日期");
+				return false;
+			}else{
+				$("#conditionForm").submit();
+			}
+		});
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>
