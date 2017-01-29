@@ -452,5 +452,29 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 		list = this.getSession().createQuery(query).list();
 		return list;
 	}
+	public List findAll(int currentrow, int pagesize, String generateQueryCondition) {
+		// TODO Auto-generated method stub
+		String queryString = "from VacollectiveActivitiesPublish VA where VA.spareTire='1' "
+				+ " and VA.aspareTire='1' " 
+				+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
+				+ " and VA.vacollectiveAct.spareTire='1'"
+				+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+				+ generateQueryCondition
+				+ " order by VA.actPubId desc ";
+		Query query = getSession().createQuery(queryString).setFirstResult(currentrow).setMaxResults(pagesize);
+		return query.list();
+	}
+	public int getRows(String generateQueryCondition) {
+		// TODO Auto-generated method stub
+		String queryString = "from VacollectiveActivitiesPublish VA where VA.spareTire='1' "
+				+ " and VA.aspareTire='1' " 
+				+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
+				+ " and VA.vacollectiveAct.spareTire='1'"
+				+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+				+ generateQueryCondition
+				+ " order by VA.actPubId desc ";
+		Query query = getSession().createQuery(queryString);
+		return query.list().size();
+	}
 	
 }

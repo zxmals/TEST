@@ -88,6 +88,7 @@
 											<tr>
 												<td>${var.actName }</td>
 												<td>${var.attendee }</td>
+												<c:if test="${var.actType==0 }"><td>尚未选择活动类型</td></c:if>
 												<c:if test="${var.actType==1 }"><td>规定性活动</td></c:if>
 												<c:if test="${var.actType==2 }"><td>选择性活动</td></c:if>
 												<c:if test="${var.actType==3 }"><td>其他活动</td></c:if>

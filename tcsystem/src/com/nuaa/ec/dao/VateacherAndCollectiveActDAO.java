@@ -346,6 +346,60 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		return null;
 	}
 
+	public List findAllWithDivided(int pageIndex, Integer pageSize,
+			String foredate, String afterdate, boolean isDivided) {
+		// TODO Auto-generated method stub
+		List<VateacherAndCollectiveAct> list = null;
+		String sqlString = "from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+				+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+				+ " and VACA.id.teacher.spareTire='1'";
+		list = new ArrayList<VateacherAndCollectiveAct>();
+		String appendforedate = " and VACA.id.vacollectiveActivitiesPublish.actDate >= '" + foredate +"'";
+		String appendaferdateString = " and VACA.id.vacollectiveActivitiesPublish.actDate <= '" + afterdate + "'";
+		String rank = " order by VACA.id.vacollectiveActivitiesPublish.actPubId desc";
+		
+		if (!isDivided) {
+			//如果不是分页操作，取出所有符合条件的记录
+			if (foredate!=null && afterdate!=null && foredate.length()!=0 && afterdate.length()!=0) {
+				list = this.getSession().createQuery(sqlString+appendaferdateString+appendforedate+rank).list();
+			}else {
+				list = this.getSession().createQuery(sqlString+rank).list();
+			}
+
+			int recordNumber = list.size();
+			session.put("recordNumer_CT", list.size());
+			session.put("pageCount_CT", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize + 1));
+		}
+		if (foredate != null && afterdate != null && foredate.length() != 0 && afterdate.length() != 0) {
+			list = this.getSession().createQuery(sqlString+appendaferdateString+appendforedate+rank).setFirstResult((pageIndex-1)*pageSize).setMaxResults(pageSize).list();
+		}else {
+			list = this.getSession().createQuery(sqlString+rank).setFirstResult((pageIndex-1)*pageSize).setMaxResults(pageSize).list();
+		}
+		return list;
+	}
+
+	public List findAll(int currentRow, int pagesize, String generateQueryCondition) throws Exception{
+		// TODO Auto-generated method stub
+			String query = "from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+					+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+					+ " and VACA.id.teacher.spareTire='1'"
+					+ " and VACA.spareTire = '1' "
+					+ generateQueryCondition + "order by VACA.id.vacollectiveActivitiesPublish.actPubId desc";
+			Query query2 = getSession().createQuery(query).setFirstResult(currentRow).setMaxResults(pagesize);
+			return query2.list();
+	}
+
+	public int getRows(String generateQueryCondition) {
+		// TODO Auto-generated method stub
+		String query =  "from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+				+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+				+ " and VACA.id.teacher.spareTire='1'"
+				+ " and VACA.spareTire = '1'"
+				+ generateQueryCondition ;
+		Query query2 = getSession().createQuery(query);
+		return query2.list().size();
+	}
+
 	
 	
 }

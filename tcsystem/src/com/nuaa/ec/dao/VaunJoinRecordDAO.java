@@ -368,4 +368,34 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		
 	}
 
+	public List findAll(int currentRow, int pagesize, String generateQueryCondition) {
+		// TODO Auto-generated method stub
+		String queryString=" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,VA.teacher.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
+				+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP "
+				+ " where VA.spareTire='1' and UJ.sparetire='1' and VP.spareTire='1' "
+				+ " and VA.actId = UJ.actId "
+				+ " and UJ.actId = VP.vacollectiveAct.actId "
+				+ " and VA.teacher.spareTire='1'"
+				+ generateQueryCondition
+				+ "order by UJ.unjoinId desc"
+				;
+		Query query2 = getSession().createQuery(queryString).setFirstResult(currentRow).setMaxResults(pagesize);
+		return query2.list();
+	}
+
+	public int getRows(String generateQueryCondition) {
+		// TODO Auto-generated method stub
+		String queryString=" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,VA.teacher.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
+				+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP "
+				+ " where VA.spareTire='1' and UJ.sparetire='1' and VP.spareTire='1' "
+				+ " and VA.actId = UJ.actId "
+				+ " and UJ.actId = VP.vacollectiveAct.actId "
+				+ " and VA.teacher.spareTire='1'"
+				+ generateQueryCondition
+				+ "order by UJ.unjoinId desc"
+				;
+		Query query2 = getSession().createQuery(queryString);
+		return query2.list().size();
+	}
+
 }
