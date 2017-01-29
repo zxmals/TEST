@@ -451,8 +451,12 @@
 			<result>/ExportData/ExportVaData.jsp</result>
 		</action>
 		<!-- 公益列表 -->
-		<action name="ATlookatEveryAct" class="com.nuaa.ec.va.exportdata.LookatEveryAct">
-			<result>/ExportData/LookatEveryAct.jsp</result>
+<!-- 		<action name="ATlookatEveryAct" class="com.nuaa.ec.va.exportdata.LookatEveryAct"> -->
+<!-- 			<result>/ExportData/LookatEveryAct.jsp</result> -->
+<!-- 		</action> -->
+		<!-- 公益列表iframe -->
+		<action name="ATlookatEveryActIFRAME" class="com.nuaa.ec.va.exportdata.VaActListExport">
+			<result>/ExportData/ExportVaDataIframe.jsp</result>
 		</action>
 		
 		

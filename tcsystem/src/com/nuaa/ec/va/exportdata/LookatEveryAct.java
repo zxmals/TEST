@@ -14,6 +14,7 @@ import com.nuaa.ec.model.Department;
 public class LookatEveryAct implements SessionAware,RequestAware{
 	private String afterdate;
 	private String foredate;
+	private String departmentId;
 	private Map<String, Object> session ;
 	private Map<String, Object> request;
 	private Department department;
@@ -27,6 +28,7 @@ public class LookatEveryAct implements SessionAware,RequestAware{
 	public void lookateveryAct() throws Exception{
 		Transaction tx = null;
 		try {
+			department = departmentDAO.findById(departmentId);
 			this.request.put("vaactList", this.vacollectiveActivitiesPublishDAO.getNewActPublishAct(department,
 					vaacttype,
 					foredate,
@@ -34,7 +36,6 @@ public class LookatEveryAct implements SessionAware,RequestAware{
 					));
 			tx = this.vacollectiveActivitiesPublishDAO.getSession().beginTransaction();
 			tx.commit();
-					
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -52,6 +53,32 @@ public class LookatEveryAct implements SessionAware,RequestAware{
 		this.session = arg0;
 	}
 
+	public String getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
+	public DepartmentDAO getDepartmentDAO() {
+		return departmentDAO;
+	}
+	public void setDepartmentDAO(DepartmentDAO departmentDAO) {
+		this.departmentDAO = departmentDAO;
+	}
+	public VacollectiveActivitiesPublishDAO getVacollectiveActivitiesPublishDAO() {
+		return vacollectiveActivitiesPublishDAO;
+	}
+	public void setVacollectiveActivitiesPublishDAO(
+			VacollectiveActivitiesPublishDAO vacollectiveActivitiesPublishDAO) {
+		this.vacollectiveActivitiesPublishDAO = vacollectiveActivitiesPublishDAO;
+	}
+	public VateacherAndCollectiveActDAO getVateacherAndCollectiveActDAO() {
+		return vateacherAndCollectiveActDAO;
+	}
+	public void setVateacherAndCollectiveActDAO(
+			VateacherAndCollectiveActDAO vateacherAndCollectiveActDAO) {
+		this.vateacherAndCollectiveActDAO = vateacherAndCollectiveActDAO;
+	}
 	public String getAfterdate() {
 		return afterdate;
 	}

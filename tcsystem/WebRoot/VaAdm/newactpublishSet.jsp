@@ -115,6 +115,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
                                             <td>${entity.vacollectiveAct.actName }</td>
                                             <td>${entity.vacollectiveAct.attendee }</td>
                                             <td>${entity.actDate}</td>
+                                            <c:if test="${entity.vacollectiveAct.actType==1 }"><td>规定性活动</td></c:if>
+											<c:if test="${entity.vacollectiveAct.actType==2 }"><td>选择性活动</td></c:if>
+											<c:if test="${entity.vacollectiveAct.actType==3 }"><td>其他活动</td></c:if>
                                             <td>${entity.vacollectiveAct.teacher.teacherId }</td>
                                             <td>${entity.vacollectiveAct.teacher.teacherName }</td>
                                             <td>

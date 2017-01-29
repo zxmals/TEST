@@ -7,13 +7,14 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 request.setAttribute("departmentList",StoreData.getDepartmentList());
 request.setAttribute("VAexports",StoreData.getVaexporcts());
 %>
-  <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <%@taglib uri="/struts-tags" prefix="s" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
-  <base target="_self"> 
+  <base> 
     </head>
+    <base target="result">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -48,19 +49,20 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 	                    <div class="ibox-content" style="height:540px;">
 	                    	 <br>
 	                         <div>
+	                         	<form name="vatest" action="ATlookatEveryActIFRAME!lookateveryAct" method="post">
 	                         	<p>导出活动列表</p>
 									<a>[时间范围]&nbsp;&nbsp;从:<input type="text" id="date1" class="Wdate" onClick="WdatePicker()"  value="${foredate }" name="foredate" style="width:120px;height:25px;border-radius:3px;" />
 									到:<input type="text" id="date2" onClick="WdatePicker()" class="Wdate addcheck nullcheck"  value="${afterdate }" name="afterdate" style="width:120px;height:25px;border-radius:3px;" />
 									&nbsp;&nbsp;</a>
 		                    	<a>[系]:
-			                    	<select style="width:120px;height:25px;border-radius:3px;" id="departmentId" class="addcheck nullcheck" >
+			                    	<select style="width:120px;height:25px;border-radius:3px;" name="departmentId" id="departmentId" class="addcheck nullcheck" >
 			                    			<option selected="selected" value=""></option>
 											<c:forEach var="department" items="${departmentList }">
 												<option value="${department.departmentId }">${department.departmentName }</option>
 											</c:forEach>
 									</select></a>&nbsp;&nbsp;&nbsp;&nbsp;
 									<a>
-										[活动类型]:<select style="width:120px;height:25px;border-radius:3px;" id="vaacttype" class="addcheck nullcheck" >
+										[活动类型]:<select style="width:120px;height:25px;border-radius:3px;" id="vaacttype" name="vaacttype" class="addcheck nullcheck" >
 			                    			<option selected="selected" value=""></option>
 <!-- 											<c:forEach var="exp" items="${VAexports }"> -->
 <!-- 												<option value="${exp.value }">${exp.key }</option> -->
@@ -75,23 +77,13 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 									</a>
 									<button class="btn btn-primary" type="submit" id="searchvaList" data-backdrop="true"><strong>查找活动</strong></button>
 									<button class="btn btn-primary" type="submit" id="vaListexports" data-backdrop="true"><strong>导出活动列表</strong></button>
+		                    	</form>
 		                    </div>
-		                    	<div id="vaactlist">
-		                    		<c:forEach var="vaact" items="${vaactList }">
-		                    			<p>${vaact.vacollectiveAct.actName }&nbsp;${vaact.actDate }&nbsp;${vaact.vacollectiveAct.actType }&nbsp;
-		                    			<button class="button_set" type="submit" id="vaactexports_${vaact.actPubId }" data-backdrop="true" onclick="exportAct('${vaact.actPubId}')">导出该活动</button>
-		                    			</p>
-		                    		</c:forEach>
-		                    	</div>
-		                    	<Iframe src="/ExportData/test.jsp" width="1000" height="400" scrolling="auto" frameborder="x" name="test"></iframe> 
-		                    	</div>
-		                    	
+<!-- 		   		                    <iframe style="border: none;width: 100%;height: 400px" name="result" src=""></iframe> -->
 	                    <br><hr>
+	                    <iframe style="border: none;width: 100%;height: 400px" name="result" src=""></iframe>
 	                </div>
-	                
 	            </div>
-	            
-	            
 	        </div>
 	    </div>   
     </div>
@@ -106,8 +98,6 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
     <script src="../js/plugins/iCheck/icheck.min.js"></script>
     <script  src="../js/PublicCheck/PUB_SET.js"></script>
     <script  src="../My97DatePicker/WdatePicker.js"></script>
-    <script src="js/bootstrap-modal.js"></script>
-    
     <!-- ISBN输入控制 -->
     <script src="../js/plugins/jasny/jasny-bootstrap.min.js"></script>
     <!-- sweet-alert -->
@@ -125,10 +115,11 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 	});
 	$('#searchvaList').click(function(){
 		if(checkadds()){
-			window.location.replace("ATVaActListExport!lookateveryAct?foredate="+$('#date1').val().trim()
-					+"&afterdate="+$('#date2').val().trim()+"&vaacttype="+$('#vaacttype').val().trim()
-					+"&department.departmentId="+$('#departmentId').val().trim()
-			);
+// 			window.location.replace("ATVaActListExport!lookateveryAct?foredate="+$('#date1').val().trim()
+// 					+"&afterdate="+$('#date2').val().trim()+"&vaacttype="+$('#vaacttype').val().trim()
+// 					+"&department.departmentId="+$('#departmentId').val().trim()
+// 			);
+			document.vatest.submit();
 		}else{
 				swal("WARNING!","请完善所有信息后提交","warning");		
 		}
@@ -140,8 +131,6 @@ request.setAttribute("VAexports",StoreData.getVaexporcts());
 // 					+"&afterdate="+$('#date2').val().trim()+"&vaacttype="+$('#vaacttype').val().trim()
 // 					+"&department.departmentId="+$('#departmentId').val().trim());
 	}
-	
-    
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>

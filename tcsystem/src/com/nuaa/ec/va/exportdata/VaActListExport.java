@@ -33,6 +33,41 @@ public class VaActListExport implements SessionAware,RequestAware{
 	private VateacherAndCollectiveActDAO vateacherAndCollectiveActDAO = new VateacherAndCollectiveActDAO();
 	private String vaacttype;
 	private String actPubId;
+	private String departmentId;
+	public DepartmentDAO getDepartmentDAO() {
+		return departmentDAO;
+	}
+
+	public void setDepartmentDAO(DepartmentDAO departmentDAO) {
+		this.departmentDAO = departmentDAO;
+	}
+
+	public VacollectiveActivitiesPublishDAO getVacollectiveActivitiesPublishDAO() {
+		return vacollectiveActivitiesPublishDAO;
+	}
+
+	public void setVacollectiveActivitiesPublishDAO(
+			VacollectiveActivitiesPublishDAO vacollectiveActivitiesPublishDAO) {
+		this.vacollectiveActivitiesPublishDAO = vacollectiveActivitiesPublishDAO;
+	}
+
+	public VateacherAndCollectiveActDAO getVateacherAndCollectiveActDAO() {
+		return vateacherAndCollectiveActDAO;
+	}
+
+	public void setVateacherAndCollectiveActDAO(
+			VateacherAndCollectiveActDAO vateacherAndCollectiveActDAO) {
+		this.vateacherAndCollectiveActDAO = vateacherAndCollectiveActDAO;
+	}
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
+
 	public String execute(){
 		return "success";
 	}
@@ -64,6 +99,7 @@ public class VaActListExport implements SessionAware,RequestAware{
 	public String lookateveryAct() throws Exception{
 		Transaction tx = null;
 		try {
+			department = departmentDAO.findById(departmentId);
 			this.request.put("vaactList", this.vacollectiveActivitiesPublishDAO.getNewActPublishAct(department,
 					vaacttype,
 					foredate,
