@@ -125,7 +125,7 @@
 <!-- 													data-toggle="modal" -->
 <!-- 														data-target="#myModal" >查看</button> -->
 														<button onclick="tanchu('${entity.actapplyfile }')">查看</button>
-														<button onclick="modal('${entity.actapplyfile }')">chakan</button>
+<!-- 														<button onclick="modal('${entity.actapplyfile }')">chakan</button> -->
 												</td>
 									
 												
