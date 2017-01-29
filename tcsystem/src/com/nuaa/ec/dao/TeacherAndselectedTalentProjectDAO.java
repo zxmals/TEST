@@ -20,6 +20,8 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndselectedTalentProject;
 import com.nuaa.ec.scienresearch.exportdata.JoinAcademicMeetingExcel;
 import com.nuaa.ec.scienresearch.exportdata.SelectedTalenteProjectExcel;
+import com.nuaa.ec.summaryDataModel.SelectTalentProData;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -39,6 +41,85 @@ public class TeacherAndselectedTalentProjectDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndselectedTalentProject> getPersonDetailsOfSlktTlntPro(String teacherId,String foredate,String afterdate) throws Exception{
+		List<TeacherAndselectedTalentProject> tASlktTlntProList = new ArrayList<TeacherAndselectedTalentProject>();
+		String hql = "from TeacherAndselectedTalentProject TAST where TAST.spareTire=1"
+				+ " and TAST.talentProject.spareTire='1'"
+				+ " and TAST.teacher.spareTire='1'"
+				+ " and TAST.checkOut='3'"
+				+ " and TAST.teacher.teacherId=?"
+				+ " and TAST.talentProject.selectedDate between ? and ?";
+		Session session = this.getSession();
+		tASlktTlntProList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+		return tASlktTlntProList;
+	}
+	
+	/**
+	 * 入选人才工程的数据汇总(按照个人)
+	 */
+	public SelectTalentProData getSummaryDataByTeacher(
+			Teacher teacher, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TASTP.finalScore),AVG(TASTP.finalScore) FROM TeacherAndselectedTalentProject TASTP "
+						+ "WHERE "
+						+ " TASTP.talentProject.selectedDate between ? and ?"
+						+ " AND TASTP.spareTire='1'"
+						+ " AND TASTP.checkOut='3'"
+						+ " AND TASTP.teacher=?");
+		SelectTalentProData selectTalentProData = new SelectTalentProData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if(datas[0]!=null){
+			selectTalentProData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			selectTalentProData.setSum(0);
+		}
+		if(datas[1]!=null){
+			selectTalentProData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			selectTalentProData.setAvg(0);
+		}
+		return selectTalentProData;
+	}
+	/**
+	 * 入选人才工程的数据汇总（按照研究所）
+	 */
+	public SelectTalentProData getSummaryDataByResearchLab(
+			String researchLabId, String foredate, String afterdate)
+					throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TASTP.finalScore),AVG(TASTP.finalScore) FROM TeacherAndselectedTalentProject TASTP "
+						+ "WHERE "
+						+ " TASTP.talentProject.selectedDate between ? and ?"
+						+ " AND TASTP.spareTire='1'"
+						+ " AND TASTP.checkOut='3'"
+						+ " AND TASTP.teacher.researchLab.researchLabId=?");
+		SelectTalentProData selectTalentProData = new SelectTalentProData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, researchLabId)
+				.uniqueResult();
+		if(datas[0]!=null){
+			selectTalentProData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			selectTalentProData.setSum(0);
+		}
+		if(datas[1]!=null){
+			selectTalentProData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			selectTalentProData.setAvg(0);
+		}
+		return selectTalentProData;
+	}
+	
+	
 	/**
 	 * 入选人才工程模块的数据导出
 	 */

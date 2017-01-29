@@ -182,7 +182,23 @@
 <!-- 科研数据导出-管理 -->
 		<action name="ATscientificresearchexportset" class="com.nuaa.ec.action.ScientificResearchDataExport">
 			<result>/ExportData/ExportScienresearchData.jsp</result>
-		</action>	
+		</action>
+<!-- 		<action name="ATExportScienReschSummaryData" class="com.nuaa.ec.action.ScienResearchDataSummaryAction"> -->
+<!-- 			<result type="stream"> -->
+<!-- 				<param name="contentType">application/vnd.ms-excel</param> -->
+<!-- 				<param name="contentDisposition"> -->
+<!-- 					attachment;filename="科研汇总数据" -->
+<!-- 				</param> -->
+<!-- 				<param name="inputName">summaryDataExcel</param> -->
+<!-- 			</result> -->
+<!-- 		</action> -->
+		<!-- 科研模块数据汇总研究所 -->
+		<action name="ATScientificResearchDataSummary_*" class="com.nuaa.ec.action.ScienResearchDataSummaryAction">
+			<result>/ExportData/summaryData/ScientificResearchDataSummary_{1}.jsp</result>
+		</action>
+		<action name="ATScientificResearchDataSummaryOfPerson_*" class="com.nuaa.ec.action.ScienResearchDataSummaryAction_person">
+			<result>/ExportData/summaryData/ScientificResearchDataSummaryOfPerson_{1}.jsp</result>
+		</action>		
 	</package>
 
 

@@ -60,7 +60,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 
 <body class="gray-bg">
 	                    <div class="ibox-content" style="height:540px;">
-	                    <button class="btn  btn-primary openaddm" type="button" data-backdrop="true">
+	                    <button class="btn  btn-primary exportsumd" type="button" data-backdrop="true">
 	                        	 <strong>导出</strong>
 	                         </button>
 	                    <br>
@@ -126,16 +126,6 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                </div>
     
     
-    <script>
-    //页面初始化处理
-    $(document).ready(function() {
-		var tds = $('.disp');
-		for(var i=0;i<tds.length;i++){
-			tds[i].innerHTML = tds[i].title.substring(0,5)+"...";
-		}
-	});
-	</script>
-	<!-- carry-data -->
 	<script type="text/javascript">
 	
     $(document).click(function(e) {
@@ -178,6 +168,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
         	);
     	}
     });
+    $('.exportsumd').click(function() {
+		swal("正在导出 . . . ");
+	});
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	<s:debug></s:debug>

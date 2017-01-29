@@ -20,6 +20,8 @@ import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
 import com.nuaa.ec.scienresearch.exportdata.MainUndertakeAcademicMeetingExcel;
+import com.nuaa.ec.summaryDataModel.UndertakeAcademicMeetingData;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -44,6 +46,88 @@ public class TeacherAndmainUndertakeAcademicMeetingDAO extends BaseHibernateDAO 
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndmainUndertakeAcademicMeeting> getPersonDetailsOfScienReschRewd(String teacherId,String foredate,String afterdate) throws Exception{
+		List<TeacherAndmainUndertakeAcademicMeeting> tAMainUndtakAkdmkMeetingList = new ArrayList<TeacherAndmainUndertakeAcademicMeeting>();
+		String hql="from TeacherAndmainUndertakeAcademicMeeting TAUA where "
+				+ " TAUA.spareTire=1"
+				+ " and TAUA.mainUndertakeAcademicMeeting.spareTire=1"
+				+ " and TAUA.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingType.spareTire=1"
+				+ " and TAUA.mainUndertakeAcademicMeeting.mainUndertakeAcademicMeetingPlace.spareTire=1"
+				+ " and TAUA.teacher.spareTire=1 "
+				+ " and TAUA.selfUndertakeTask.spareTire=1 "
+				+ " and TAUA.checkOut='3'"
+				+ " and TAUA.teacher.teacherId=?"
+				+ " and TAUA.mainUndertakeAcademicMeeting.meetingdate between ? and ?";
+		Session session = this.getSession();
+		tAMainUndtakAkdmkMeetingList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+		return tAMainUndtakAkdmkMeetingList;
+	}
+	
+	
+	/**
+	 * 主承办学术会议的数据汇总（按照教师个人）
+	 */
+	public UndertakeAcademicMeetingData getSummaryDataByTeacher(
+			Teacher teacher, String foredate, String afterdate)
+					throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(UAM.finalScore),AVG(UAM.finalScore) FROM TeacherAndmainUndertakeAcademicMeeting UAM  "
+						+ "WHERE "
+						+ " UAM.mainUndertakeAcademicMeeting.meetingdate between ? and ?"
+						+ " AND UAM.spareTire='1'"
+						+ " AND UAM.checkOut='3'"
+						+ " AND UAM.teacher=?");
+		UndertakeAcademicMeetingData undertakeAcademicMeetingData = new UndertakeAcademicMeetingData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if(datas[0]!=null){
+			undertakeAcademicMeetingData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			undertakeAcademicMeetingData.setSum(0);
+		}
+		if(datas[1]!=null){
+			undertakeAcademicMeetingData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			undertakeAcademicMeetingData.setAvg(0);
+		}
+		return undertakeAcademicMeetingData;
+	}
+	/**
+	 * 主承办学术会议的数据汇总(按照研究所)
+	 */
+	public UndertakeAcademicMeetingData getSummaryDataByResearchLab(
+			String researchLabId, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(UAM.finalScore),AVG(UAM.finalScore) FROM TeacherAndmainUndertakeAcademicMeeting UAM  "
+						+ "WHERE "
+						+ " UAM.mainUndertakeAcademicMeeting.meetingdate between ? and ?"
+						+ " AND UAM.spareTire='1'"
+						+ " AND UAM.checkOut='3'"
+						+ " AND UAM.teacher.researchLab.researchLabId=?");
+		UndertakeAcademicMeetingData undertakeAcademicMeetingData = new UndertakeAcademicMeetingData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, researchLabId)
+				.uniqueResult();
+		if(datas[0]!=null){
+			undertakeAcademicMeetingData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			undertakeAcademicMeetingData.setSum(0);
+		}
+		if(datas[1]!=null){
+			undertakeAcademicMeetingData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			undertakeAcademicMeetingData.setAvg(0);
+		}
+		return undertakeAcademicMeetingData;
+	}
+	
 	/**
 	 * 主承担学术会议模块的数据导出
 	 */

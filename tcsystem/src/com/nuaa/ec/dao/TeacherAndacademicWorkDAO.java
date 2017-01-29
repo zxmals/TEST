@@ -21,6 +21,8 @@ import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.scienresearch.exportdata.AcademicWorkExcel;
 import com.nuaa.ec.scienresearch.exportdata.ScientificResearchRewardExcel;
+import com.nuaa.ec.summaryDataModel.AcademicWorkData;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -39,6 +41,86 @@ public class TeacherAndacademicWorkDAO extends BaseHibernateDAO  {
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String,Object> session=ActionContext.getContext().getSession();
+	
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndacademicWork> getPersonDetailsOfAkdmkWork(String teacherId,String foredate,String afterdate) throws Exception{
+		List<TeacherAndacademicWork> tAAkdmkWookList = new ArrayList<TeacherAndacademicWork>();
+		String hql="from TeacherAndacademicWork TAAW where "
+				+ " TAAW.spareTire='1'"
+				+ " and TAAW.academicWork.spareTire='1'"
+				+ " and TAAW.academicWork.publishClub.spareTire='1'"
+				+ " and TAAW.selfUndertakeTask.spareTire='1'"
+				+ " and TAAW.teacher.spareTire='1' "
+				+ " and TAAW.checkOut='3'"
+				+ " and TAAW.teacher.teacherId=?"
+				+ " and TAAW.academicWork.publishDate between ? and ?";
+		Session session = this.getSession();
+		tAAkdmkWookList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+		return tAAkdmkWookList;
+	}
+	
+	/**
+	 * 学术著作的数据汇总（教师个人）
+	 */
+	public AcademicWorkData getSummaryDataByTeacher(Teacher teacher,String foredate,String afterdate) throws Exception{
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TAAW.finalScore),AVG(TAAW.finalScore) FROM TeacherAndacademicWork TAAW "
+						+ "WHERE "
+						+ " TAAW.academicWork.publishDate between ? and ?"
+						+ " AND TAAW.spareTire='1'"
+						+ " AND TAAW.checkOut='3'"
+						+ " AND TAAW.teacher=?");
+		AcademicWorkData academicWorkData = new AcademicWorkData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if(datas[0]!=null){
+			academicWorkData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			academicWorkData.setSum(0);
+		}
+		if(datas[1]!=null){
+			academicWorkData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			academicWorkData.setAvg(0);
+		}
+		return academicWorkData;
+	}
+	
+	/**
+	 * 学术著作模块的数据汇总(研究所)
+	 */
+	public AcademicWorkData getSummaryDataByResearchLab(
+			String researchLabId, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TAAW.finalScore),AVG(TAAW.finalScore) FROM TeacherAndacademicWork TAAW "
+						+ "WHERE "
+						+ " TAAW.academicWork.publishDate between ? and ?"
+						+ " AND TAAW.spareTire='1'"
+						+ " AND TAAW.checkOut='3'"
+						+ " AND TAAW.teacher.researchLab.researchLabId=?");
+		AcademicWorkData academicWorkData = new AcademicWorkData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, researchLabId)
+				.uniqueResult();
+		if(datas[0]!=null){
+			academicWorkData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else{
+			academicWorkData.setSum(0);
+		}
+		if(datas[1]!=null){
+			academicWorkData.setAvg(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else{
+			academicWorkData.setAvg(0);
+		}
+		return academicWorkData;
+	}
+	
 	
 	/**
 	 * 学术著作模块的数据导出

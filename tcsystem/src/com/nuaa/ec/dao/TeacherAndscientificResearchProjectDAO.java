@@ -19,8 +19,9 @@ import com.nuaa.ec.model.ScientificResearchProject;
 import com.nuaa.ec.model.ScientificResearchProjectScore;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
-import com.nuaa.ec.scienresearch.exportdata.MainUndertakeAcademicMeetingExcel;
 import com.nuaa.ec.scienresearch.exportdata.ScientificResearchProjectExcel;
+import com.nuaa.ec.summaryDataModel.ScientificResearchProData;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -46,66 +47,170 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 	public static final String CHECK_OUT = "checkOut";
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
+
+	/**
+	 * 获取个人科研模块明细数据信息
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TeacherAndscientificResearchProject> getPersonDetailsOfScienRescPro(
+			String teacherId, String foredate, String afterdate)
+			throws Exception {
+		List<TeacherAndscientificResearchProject> tAScienReschProList = new ArrayList<TeacherAndscientificResearchProject>();
+		String hql = "FROM TeacherAndscientificResearchProject TASRP"
+				+ " WHERE TASRP.scientificResearchProjectScore.spareTire='1'"
+				+ " AND TASRP.scientificResearchProject.spareTire='1'"
+				+ " AND TASRP.teacher.spareTire='1'"
+				+ " AND TASRP.selfUndertakeTask.spareTire='1'"
+				+ " AND TASRP.checkOut='3'"
+				+ " AND TASRP.teacher.teacherId=?"
+				+ " AND TASRP.scientificResearchProject.admitedProjectYear between ? and ?";
+		Session session = this.getSession();
+		tAScienReschProList = session.createQuery(hql)
+				.setParameter(0, teacherId).setParameter(1, foredate)
+				.setParameter(2, afterdate).list();
+//		session.close();
+		return tAScienReschProList;
+	}
+
+	/**
+	 * 科研项目模块的数据汇总(按照教师个人)
+	 */
+	public ScientificResearchProData getSummaryDataByTeacher(Teacher teacher,
+			String foredate, String afterdate) throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TASRP.finalScore),AVG(TASRP.finalScore) FROM TeacherAndscientificResearchProject TASRP "
+						+ "WHERE "
+						+ " TASRP.scientificResearchProject.admitedProjectYear between ? and ?"
+						+ " AND TASRP.spareTire='1'"
+						+ " AND TASRP.checkOut='3'" + " AND TASRP.teacher=?");
+		ScientificResearchProData scienReschProData = new ScientificResearchProData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, teacher)
+				.uniqueResult();
+		if (datas[0] != null) {
+			scienReschProData.setSum(NumberFormatUtil
+					.getNumberAfterTransferPrecision((Double) datas[0]));
+		} else {
+			scienReschProData.setSum(0);
+		}
+		if (datas[1] != null) {
+			scienReschProData.setAvg(NumberFormatUtil
+					.getNumberAfterTransferPrecision((Double) datas[1]));
+		} else {
+			scienReschProData.setAvg(0);
+		}
+		return scienReschProData;
+	}
+
+	/**
+	 * 科研项目模块的数据汇总（按照研究所）
+	 */
+	public ScientificResearchProData getSummaryDataByResearchLab(
+			String researchLabId, String foredate, String afterdate)
+			throws Exception {
+		StringBuffer hql = new StringBuffer(
+				"SELECT SUM(TASRP.finalScore),AVG(TASRP.finalScore) FROM TeacherAndscientificResearchProject TASRP "
+						+ "WHERE "
+						+ " TASRP.scientificResearchProject.admitedProjectYear between ? and ?"
+						+ " AND TASRP.spareTire='1'"
+						+ " AND TASRP.checkOut='3'"
+						+ " AND TASRP.teacher.researchLab.researchLabId=?");
+		ScientificResearchProData scienReschProData = new ScientificResearchProData();
+		Object[] datas = (Object[]) this.getSession()
+				.createQuery(hql.toString()).setParameter(0, foredate)
+				.setParameter(1, afterdate).setParameter(2, researchLabId)
+				.uniqueResult();
+		if (datas[0] != null) {
+			scienReschProData.setSum(NumberFormatUtil
+					.getNumberAfterTransferPrecision((Double) datas[0]));
+		} else {
+			scienReschProData.setSum(0);
+		}
+		if (datas[1] != null) {
+			scienReschProData.setAvg(NumberFormatUtil
+					.getNumberAfterTransferPrecision((Double) datas[1]));
+		} else {
+			scienReschProData.setAvg(0);
+		}
+		return scienReschProData;
+	}
+
 	/**
 	 * 科研项目模块的数据导出
 	 */
-	 @SuppressWarnings("unchecked")
-	public ByteArrayOutputStream findwithexport(ResearchLab research,String condition,String researchLabName,String foredate,String afterdate){
-		 try{
+	@SuppressWarnings("unchecked")
+	public ByteArrayOutputStream findwithexport(ResearchLab research,
+			String condition, String researchLabName, String foredate,
+			String afterdate) {
+		try {
 			String queryString = "FROM TeacherAndscientificResearchProject TASRP "
 					+ " WHERE TASRP.spareTire='1' "
 					+ " AND TASRP.teacher.spareTire='1'"
 					+ " AND TASRP.selfUndertakeTask.spareTire='1' "
 					+ " AND TASRP.scientificResearchProject.spareTire='1' "
 					+ " AND TASRP.scientificResearchProject.projectType.spareTire='1' "
-					+condition
+					+ condition
 					+ " AND TASRP.teacher.researchLab=? "
 					+ " AND TASRP.checkOut='3'"
 					+ " ORDER by TASRP.scientificResearchProject.srprojectId desc ";
-	    	Query queryObject = getSession().createQuery(queryString).setParameter(0, research);
-	    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	    	if(queryObject.list().size()>0){
-	    		try {
-					ScientificResearchProjectExcel.generateExcel(stringstore.scientificResearchProject, queryObject.list(), researchLabName, foredate, afterdate).write(baos);
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, research);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			if (queryObject.list().size() > 0) {
+				try {
+					ScientificResearchProjectExcel.generateExcel(
+							stringstore.scientificResearchProject,
+							queryObject.list(), researchLabName, foredate,
+							afterdate).write(baos);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-	    		return baos;
-			}else{
+				return baos;
+			} else {
 				return null;
 			}
-		 }catch(RuntimeException re){
-			 log.error("find by property name failed", re);
-				throw re;
-		 }
-	 }
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+
 	/**
 	 * 所长审核需要的获取记录的方法
+	 * 
 	 * @param TARProList
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<TeacherAndscientificResearchProject> getAllMembersOfProject(int pageIndex, int pageSize, String foredate, String afterdate,
-			ResearchLab researchLab, String checkOut,boolean isDivided){
-		List<TeacherAndscientificResearchProject> TeacherAndScienResProList=null;
+	public List<TeacherAndscientificResearchProject> getAllMembersOfProject(
+			int pageIndex, int pageSize, String foredate, String afterdate,
+			ResearchLab researchLab, String checkOut, boolean isDivided) {
+		List<TeacherAndscientificResearchProject> TeacherAndScienResProList = null;
 		// 获取当前登录的教师的研究所
 		ResearchLab currentResearchLab = ((Teacher) session.get("teacher"))
 				.getResearchLab();
 		/*
 		 * 提取查询语句的公共部分
 		 */
-		StringBuffer hql=new StringBuffer("FROM TeacherAndscientificResearchProject TASRP"
-				+ " WHERE TASRP.scientificResearchProjectScore.spareTire='1'"
-				+ " AND TASRP.scientificResearchProject.spareTire='1'"
-				+ " AND TASRP.teacher.spareTire='1'"
-				+ " AND TASRP.selfUndertakeTask.spareTire='1'"
-				+ " AND TASRP.scientificResearchProject.researchLabId='"+researchLab.getResearchLabId()+"'");//指明研究所
+		StringBuffer hql = new StringBuffer(
+				"FROM TeacherAndscientificResearchProject TASRP"
+						+ " WHERE TASRP.scientificResearchProjectScore.spareTire='1'"
+						+ " AND TASRP.scientificResearchProject.spareTire='1'"
+						+ " AND TASRP.teacher.spareTire='1'"
+						+ " AND TASRP.selfUndertakeTask.spareTire='1'"
+						+ " AND TASRP.scientificResearchProject.researchLabId='"
+						+ researchLab.getResearchLabId() + "'");// 指明研究所
 		/*
 		 * 利用审核状态是否是NULL来判断是否是第一次登陆 如果checkout是NULL，那么说明是第一次登陆
 		 */
-		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
-			hql=hql.append("AND TASRP.checkOut='"+checkOut+"'");//checkOut这个条件可以确定了
-		}else{
+		if (checkOut != null && checkOut.length() != 0
+				&& !checkOut.trim().equals("4")) {
+			hql = hql.append("AND TASRP.checkOut='" + checkOut + "'");// checkOut这个条件可以确定了
+		} else {
 			/**
 			 * checkout为4，代表选择查看全部记录，首次进入界面默认取出所有记录
 			 * 所以两个状态操作是一样的，因而这里没有代码，只是为了逻辑的顺畅
@@ -114,8 +219,10 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 		/**
 		 * 判断日期的条件
 		 */
-		if(afterdate!=null && afterdate.length()!=0 && foredate!=null && foredate.length()!=0){
-			hql.append(" AND TASRP.scientificResearchProject.admitedProjectYear between '"+foredate+"' and '"+afterdate+"'");
+		if (afterdate != null && afterdate.length() != 0 && foredate != null
+				&& foredate.length() != 0) {
+			hql.append(" AND TASRP.scientificResearchProject.admitedProjectYear between '"
+					+ foredate + "' and '" + afterdate + "'");
 		}
 		/**
 		 * 将项目成员进行分组,并且排序
@@ -124,19 +231,23 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 		/**
 		 * 判断是否为分页操作
 		 */
-		Query query=this.getSession().createQuery(hql.toString());
-		if(!isDivided){
-			TeacherAndScienResProList=query.list();
-			int size=TeacherAndScienResProList.size();
-			session.put("pageCount_GTTASRP", size%pageSize==0?(size/pageSize):(size/pageSize+1));
+		Query query = this.getSession().createQuery(hql.toString());
+		if (!isDivided) {
+			TeacherAndScienResProList = query.list();
+			int size = TeacherAndScienResProList.size();
+			session.put("pageCount_GTTASRP",
+					size % pageSize == 0 ? (size / pageSize)
+							: (size / pageSize + 1));
 			session.put("recordNumber_GTTASRP", size);
 		}
 		/**
 		 * 无论如何都要进行分页操作
 		 */
-		TeacherAndScienResProList=query.setMaxResults(pageSize).setFirstResult((pageIndex-1)*pageSize).list();
+		TeacherAndScienResProList = query.setMaxResults(pageSize)
+				.setFirstResult((pageIndex - 1) * pageSize).list();
 		return TeacherAndScienResProList;
 	}
+
 	public boolean updateCheckoutStatus(
 			List<TeacherAndscientificResearchProject> TARProList) {
 		Session session = this.getSession();
@@ -172,18 +283,19 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 							+ " and TARP.scientificResearchProject.spareTire='1'"
 							+ " and TARP.teacher.spareTire='1'"
 							+ " and TARP.selfUndertakeTask.spareTire='1'");
-//							+ " and TARP.checkOut='" + checkOut + "'");
+			// + " and TARP.checkOut='" + checkOut + "'");
 		} else {
 			hql = new StringBuffer(
 					"from TeacherAndscientificResearchProject TARP where spareTire='1' "
 							+ " and TARP.scientificResearchProject.spareTire='1'"
 							+ " and TARP.teacher.spareTire='1'"
 							+ " and TARP.selfUndertakeTask.spareTire='1'"
-//							+ " and TARP.checkOut='" + checkOut + "'"
+							// + " and TARP.checkOut='" + checkOut + "'"
 							+ " and TARP.teacher.researchLab.researchLabId=\'"
 							+ researchLab.getResearchLabId() + "\'");
 		}
-		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+		if (checkOut != null && checkOut.length() != 0
+				&& !checkOut.trim().equals("4")) {
 			hql.append(" AND TARP.checkOut='" + checkOut + "'");
 		}
 		List<TeacherAndscientificResearchProject> list = new ArrayList<TeacherAndscientificResearchProject>();
@@ -226,11 +338,12 @@ public class TeacherAndscientificResearchProjectDAO extends BaseHibernateDAO {
 							+ " and TARP.scientificResearchProject.spareTire='1'"
 							+ " and TARP.teacher.spareTire='1'"
 							+ " and TARP.selfUndertakeTask.spareTire='1'"
-//							+ " and TARP.checkOut='" + checkOut + "'"
+							// + " and TARP.checkOut='" + checkOut + "'"
 							+ " and TARP.teacher.researchLab.researchLabId='"
 							+ researchLab.getResearchLabId() + "'");
 		}
-		if(checkOut!=null && checkOut.length()!=0 && !checkOut.trim().equals("4")){
+		if (checkOut != null && checkOut.length() != 0
+				&& !checkOut.trim().equals("4")) {
 			hql.append(" AND TARP.checkOut='" + checkOut + "'");
 		}
 		try {
