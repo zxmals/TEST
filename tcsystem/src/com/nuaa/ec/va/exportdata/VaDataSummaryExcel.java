@@ -24,11 +24,10 @@ public class VaDataSummaryExcel {
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet(foredate + "-" + afterdate);
 		String[] modules = stringstore.vasummary;
-		int moduleCount = modules.length;
 		for (int i = 0; i <= modules.length * 2; i++) {
 			sheet.setColumnWidth(i, 4000);
 		}
-		for (int i = 0; i <= modules.length * 2 - 1; i += 2) {
+		for (int i = 1; i <= modules.length * 2 - 1; i += 2) {
 			CellRangeAddress cellRangeAddress = new CellRangeAddress(2, 2, i, i + 1);
 			sheet.addMergedRegion(cellRangeAddress);
 		}
@@ -51,7 +50,7 @@ public class VaDataSummaryExcel {
 		HSSFRow row = sheet.createRow((short) rownum++);
 		HSSFCell cells[] = new HSSFCell[1];
 		cells[0] = row.createCell(0);
-		if (departmentId.trim().equals("allDepatment")) {
+		if (departmentId.trim().equals("allDepartment")) {
 			cells[0].setCellValue("所有系");
 		} else {
 			cells[0].setCellValue(StoreData.getDepartmentMap().get(departmentId));

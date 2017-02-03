@@ -37,25 +37,25 @@ public class VaDataSummaryAction extends ActionSupport implements RequestAware {
 	 * 
 	 * @throws Exception
 	 */
-//	public String getVaSummaryDataByDepartment() throws Exception {
-//		List<VaActDataSum> vaActDataSumList = new ArrayList<VaActDataSum>();
-//		if (departmentId.trim().equals("allDepartment")) {
-//			vaActDataSumList = VaDataSumActDAO.vaActDataSummaryByDepartment(
-//					departmentIds, foredate, afterdate);
-//		} else {
-//			List<String> departmentIds = new ArrayList<String>();
-//			departmentIds.add(departmentId);
-//			vaActDataSumList = VaDataSumActDAO.vaActDataSummaryByDepartment(
-//					departmentIds, foredate, afterdate);
-//		}
-//		this.request.put("vaActSummaryDataByDepartment", vaActDataSumList);
-//		/**
-//		 * 用于导出汇总数据时候不用重新查询，直接从缓存中取出数据，导出以后 清掉session对应的项
-//		 * session保存的总是最近一次查询的汇总结果
-//		 */
-//		session.put("vaActSummaryDataByDepartment", vaActDataSumList);
-//		return "success";
-//	}
+	public String getVaSummaryDataByDepartment() throws Exception {
+		List<VaActDataSum> vaActDataSumList = new ArrayList<VaActDataSum>();
+		if (departmentId.trim().equals("allDepartment")) {
+			vaActDataSumList = VaDataSumActDAO.vaActDataSummaryByDepartment(
+					departmentIds, foredate, afterdate);
+		} else {
+			List<String> departmentIds = new ArrayList<String>();
+			departmentIds.add(departmentId);
+			vaActDataSumList = VaDataSumActDAO.vaActDataSummaryByDepartment(
+					departmentIds, foredate, afterdate);
+		}
+		this.request.put("vaActSummaryDataByDepartment", vaActDataSumList);
+		/**
+		 * 用于导出汇总数据时候不用重新查询，直接从缓存中取出数据，导出以后 清掉session对应的项
+		 * session保存的总是最近一次查询的汇总结果
+		 */
+		session.put("vaActSummaryDataByDepartment", vaActDataSumList);
+		return "success";
+	}
 
 	/**
 	 * 根据TeacherId得到数据
@@ -73,9 +73,9 @@ public class VaDataSummaryAction extends ActionSupport implements RequestAware {
 	 */
 	public void getSummaryDataExcel() throws Exception {
 		ByteArrayOutputStream baos = VaDataSumActDAO.getExcelOutputStream(
-				(String) session.get("departmentId_sum"),
-				(String) session.get("foredate_sum"),
-				(String) session.put("afterdate_sum", afterdate));
+				(String) session.get("department_summary1"),
+				(String) session.get("foredate_summary1"),
+				(String) session.put("afterdate_summary1", afterdate));
 		HttpServletResponse response = ServletActionContext.getResponse();
 		OutputStream outputStream = response.getOutputStream();
 		response.setHeader("Content-Disposition", "attachment;filename="
@@ -139,6 +139,7 @@ public class VaDataSummaryAction extends ActionSupport implements RequestAware {
 
 	public void setDepartmentId(String departmentId) {
 		this.departmentId = departmentId;
+		session.put("department_summary1", departmentId);
 	}
 
 	public String getModulename() {
@@ -155,6 +156,7 @@ public class VaDataSummaryAction extends ActionSupport implements RequestAware {
 
 	public void setForedate(String foredate) {
 		this.foredate = foredate;
+		session.put("foredate_summary1", foredate);
 	}
 
 	public String getAfterdate() {
@@ -163,6 +165,7 @@ public class VaDataSummaryAction extends ActionSupport implements RequestAware {
 
 	public void setAfterdate(String afterdate) {
 		this.afterdate = afterdate;
+		session.put("afterdate_summary1", afterdate);
 	}
 
 	public String getTeacherId() {

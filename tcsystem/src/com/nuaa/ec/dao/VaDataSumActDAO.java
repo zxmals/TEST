@@ -37,7 +37,7 @@ public class VaDataSumActDAO {
 			throws Exception {
 		@SuppressWarnings("unchecked")
 		List<VaActDataSum> vaActDataSumList = (List<VaActDataSum>) ActionContext
-				.getContext().getSession().get("VaActSummaryData");
+				.getContext().getSession().get("vaActSummaryDataByDepartment");
 		ByteArrayOutputStream baosArrayOutputStream = new ByteArrayOutputStream();
 		VaDataSummaryExcel.genereateVasummaryDataExcel(vaActDataSumList,
 				departmentId, foredate, afterdate).write(baosArrayOutputStream);

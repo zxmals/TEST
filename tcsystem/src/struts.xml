@@ -455,6 +455,14 @@
 			class="com.nuaa.ec.action.VaDataSummaryAction">
 			<result>/ExportData/summaryData/VaDataSummary_teacherIframe.jsp</result>
 		</action>
+		<action name="ATVaActDataSummary_departmentIframe"
+			class="com.nuaa.ec.action.VaDataSummaryAction">
+			<result>/ExportData/summaryData/VaDataSummary_departmentIframe.jsp</result>
+		</action>
+		<action name="ATVaActDataSummary_department"
+			class="com.nuaa.ec.action.VaDataSummaryAction">
+			<result>/ExportData/summaryData/VaDataSummary_departmentIframe.jsp</result>
+		</action>
 		
 		<!-- 公益列表 -->
 <!-- 		<action name="ATlookatEveryAct" class="com.nuaa.ec.va.exportdata.LookatEveryAct"> -->
@@ -601,8 +609,4 @@
 			<result name="success">/userManager/userCRUD.jsp</result>
 		</action>
 	</package>
-	
 </struts>
-
-
-

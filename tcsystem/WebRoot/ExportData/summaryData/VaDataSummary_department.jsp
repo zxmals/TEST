@@ -47,7 +47,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                    <div class="ibox-content" style="height:540px;">
 	                    	 <br>
 	                         <div>
-	                         	<form name="sumf" action="ATVaActDataSummary_researchIframe!getVaSummaryDataByDepartment" method="post">
+	                         	<form name="sumf" action="ATVaActDataSummary_departmentIframe!getVaSummaryDataByDepartment" method="post">
 	                         		<a>[日期范围]&nbsp;&nbsp;从:
 										<input type="text" style="width:120px;height:25px;border-radius:3px;border:1px solid silver;" onClick="WdatePicker()" id="date1" class="Wdate addcheck nullcheck" name="foredate">									
 										到:
