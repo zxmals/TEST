@@ -431,10 +431,10 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 					+ " and VA.aspareTire='1' " 
 					+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
 					+ " and VA.vacollectiveAct.teacher.department.departmentId='" + department.getDepartmentId() +"'"
-					+ " and VA.vacollectiveAct.spareTire='1'"
+//					+ " and VA.vacollectiveAct.spareTire='1'"
 					+ " and VA.actDate >= '" + foredate +"'"
 					+ " and VA.actDate <= '" + afterdate + "'"
-					+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+//					+ " and VA.vacollectiveAct.teacher.spareTire='1' "
 					+ " order by VA.actPubId desc ";
 		}else {
 			query = "from VacollectiveActivitiesPublish VA where VA.spareTire='1' "
@@ -442,10 +442,10 @@ public class VacollectiveActivitiesPublishDAO extends BaseHibernateDAO {
 					+ " and VA.vacollectiveAct.actType ='" + vaacttype +"'"
 					+ " and VA.vacollectiveAct.teacher.department.spareTire='1'"
 					+ " and VA.vacollectiveAct.teacher.department.departmentId='" + department.getDepartmentId() +"'"
-					+ " and VA.vacollectiveAct.spareTire='1'"
+//					+ " and VA.vacollectiveAct.spareTire='1'"
 					+ " and VA.actDate >= '" + foredate +"'"
 					+ " and VA.actDate <= '" + afterdate + "'"
-					+ " and VA.vacollectiveAct.teacher.spareTire='1' "
+//					+ " and VA.vacollectiveAct.teacher.spareTire='1' "
 					+ " order by VA.actPubId desc ";
 		}
 		list = new ArrayList<VacollectiveActivitiesPublish>();

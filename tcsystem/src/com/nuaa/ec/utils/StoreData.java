@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.nuaa.ec.dao.DepartmentDAO;
 import com.nuaa.ec.dao.ResearchLabDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
@@ -21,6 +22,7 @@ public class StoreData {
 	private static List<Department> departmentList=new ArrayList<Department>();
 	private static Map<String, Object> scienexports;
 	private static Map<String, Object> vaexporcts;
+	private static Map<String, String> departmentMap = new HashMap<String, String>(5);
 	static {
 		ResearchLabDAO researchLabDAO = new ResearchLabDAO();
 		@SuppressWarnings("unchecked")
@@ -30,7 +32,14 @@ public class StoreData {
 		}
 	}
 	
-	
+	static {
+		DepartmentDAO departmentDAO = new DepartmentDAO();
+		@SuppressWarnings("unchecked")
+		List<Department> departments = departmentDAO.findAll();
+		for (Department department : departments) {
+			departmentMap.put(department.getDepartmentId(), department.getDepartmentName());
+		}
+	}
 	public static Map<String, Object> getTeachertranslate() {
 		return teachertranslate;
 	}
@@ -135,6 +144,18 @@ public class StoreData {
 	
 	public static Map<String,String> getResearchLabMap(){
 		return researchLabMap;
+	}
+
+	public static Map<String, String> getDepartmentMap() {
+		return departmentMap;
+	}
+
+	public static void setDepartmentMap(Map<String, String> departmentMap) {
+		StoreData.departmentMap = departmentMap;
+	}
+
+	public static void setResearchLabMap(Map<String, String> researchLabMap) {
+		StoreData.researchLabMap = researchLabMap;
 	}
 	
 }

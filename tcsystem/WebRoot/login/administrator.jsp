@@ -277,8 +277,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								                           <span class="fa arrow"></span>
 								                    </a>
 								                    	<ul class="nav nav-third-level">
-				                                    		<li><a class="J_menuItem" href="ExportData/summaryData/TeachingDataSummary_Depart.jsp">按系汇总</a></li>
-				                                    		<li><a class="J_menuItem" href="ExportData/ExportTeachingPerformanceData.jsp">按教师汇总</a></li>
+				                                    		<li><a class="J_menuItem" href="ExportData/summaryData/VaDataSummary_department.jsp">按系汇总</a></li>
+				                                    		<li><a class="J_menuItem" href="ExportData/summaryData/VaDataSummary_teacher.jsp">按教师汇总</a></li>
 														</ul>
 												</li>
 												 <li>                                    

@@ -93,6 +93,7 @@ public class ScientificResearchSummaryDataDao {
 			// mainUndertakeAcademicMeeting
 			UndertakeAcademicMeetingData undertakeAcademicMeetingData = tAMainUndrtkAcademicMeetingDao
 					.getSummaryDataByTeacher(teacher, foredate, afterdate);
+			
 			scienReschModuleData
 					.setScientificResearchProData(scienReschProData);
 			scienReschModuleData.setScientificRewardData(scienReschRewardData);

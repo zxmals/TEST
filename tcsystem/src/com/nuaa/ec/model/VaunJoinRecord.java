@@ -40,10 +40,6 @@ public class VaunJoinRecord implements java.io.Serializable {
 		this.leavereqobtain = leavereqobtain;
 	}
 
-	
-	
-	
-	
 	public VaunJoinRecord(String unjoinId, String teacherId, String actId,
 			String actName, String actDate, String actAttendee,
 			String unjoinreason, String leavereqobtain, Double resultscore,

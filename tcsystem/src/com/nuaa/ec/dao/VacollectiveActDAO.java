@@ -348,12 +348,15 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 		// TODO Auto-generated method stub
 		String queryString = "select VA from VacollectiveAct VA, VacollectiveActivitiesPublish VAP"
 				+ " where VA.spareTire = '1' "
-				+ " and VA.teacher.spareTire='1' "
-				+ " and VA.teacher.department.spareTire='1'"
+//				+ " and VA.teacher.spareTire='1' "
+//				+ " and VA.teacher.department.spareTire='1'"
 				+ " and VA.actId = VAP.vacollectiveAct.actId "
 				+ generateQueryCondition
 				+ " order by VA.actId desc";
-		Query query = getSession().createQuery(queryString).setFirstResult(currentrow).setMaxResults(pagesize);
+		
+		String query1 = "from VacollectiveAct VA where VA.spareTire = '1' "
+				+ " order by VA.actId desc";
+		Query query = getSession().createQuery(query1).setFirstResult(currentrow).setMaxResults(pagesize);
 		return query.list();
 	}
 
@@ -361,12 +364,15 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 		// TODO Auto-generated method stub
 		String queryString = "from VacollectiveAct VA, VacollectiveActivitiesPublish VAP"
 				+ " where VA.spareTire = '1' "
-				+ " and VA.teacher.spareTire='1' "
-				+ " and VA.teacher.department.spareTire='1'"
+//				+ " and VA.teacher.spareTire='1' "
+//				+ " and VA.teacher.department.spareTire='1'"
 				+ " and VA.actId = VAP.vacollectiveAct.actId "
 				+ generateQueryCondition
 				+ " order by VA.actId desc";
-		Query query = getSession().createQuery(queryString);
+		
+		String query1 = "from VacollectiveAct VA where VA.spareTire = '1' "
+				+ " order by VA.actId desc";
+		Query query = getSession().createQuery(query1);
 		return query.list().size();
 	}
 }

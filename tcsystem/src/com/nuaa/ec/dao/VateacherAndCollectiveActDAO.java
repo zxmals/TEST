@@ -2,10 +2,13 @@ package com.nuaa.ec.dao;
 
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveActId;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
+import com.nuaa.ec.va.exportdata.TeacherJoinedData;
 import com.nuaa.ec.va.exportdata.VaActListExcel;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -400,7 +403,76 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		return query2.list().size();
 	}
 
+	public List<VateacherAndCollectiveAct> findByActId(String actapplynumber) {
+		// TODO Auto-generated method stub
+		String query1 = "from VateacherAndCollectiveAct VACA where"
+				+ "  VACA.id.vacollectiveActivitiesPublish.vacollectiveAct.actId='" + actapplynumber +"'";
+		Query query = getSession().createQuery(query1);
+		return query.list();
+	}
+
+	public TeacherJoinedData getSummaryDataByTeacher(Teacher teacher,
+			String foredate, String afterdate) throws Exception{
+		// TODO Auto-generated method stub
+		String hql = "select sum(VA.id.vacollectiveActivitiesPublish.vacollectiveAct.score),avg(VA.id.vacollectiveActivitiesPublish.vacollectiveAct.score) from VateacherAndCollectiveAct VA "
+				+ " where VA.spareTire='1' "
+				+ " and VA.aspareTire = '1'"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate >= '" + foredate +"'"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate <= '" + afterdate +"'"
+				+ " and  VA.id.teacher.teacherId ='" + teacher.getTeacherId() +"'"
+				;
+		TeacherJoinedData teacherJoinedData = new TeacherJoinedData();
+		Object[] datas = (Object[]) this.getSession().createQuery(hql).uniqueResult();
+		if (datas[0]!=null) {
+			teacherJoinedData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else {
+			teacherJoinedData.setSum(0);
+		}
+		if (datas[1]!=null) {
+			teacherJoinedData.setAverage(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else {
+			teacherJoinedData.setAverage(0);
+		}
+		return teacherJoinedData;
+	}
 	
-	
+	public TeacherJoinedData getSummaryDataByDepartment(String departmentId,
+			String foredate, String afterdate) throws Exception{
+		// TODO Auto-generated method stub
+		String hql = "select sum(VA.id.vacollectiveActivitiesPublish.vacollectiveAct.score),avg(VA.id.vacollectiveActivitiesPublish.vacollectiveAct.score) from VateacherAndCollectiveAct VA where"
+				+ " VA.spareTire='1' "
+				+ " and VA.aspareTire = '1'"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate >= '" + foredate +"'"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate <= '" + afterdate +"'"
+				+ " and VA.id.teacher.department.departmentId ='" + departmentId +"'";
+		TeacherJoinedData teacherJoinedData = new TeacherJoinedData();
+		Object[] datas = (Object[]) this.getSession().createQuery(hql).uniqueResult();
+		if (datas[0]!=null) {
+			teacherJoinedData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else {
+			teacherJoinedData.setSum(0);
+		}
+		if (datas[1]!=null) {
+			teacherJoinedData.setAverage(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else {
+			teacherJoinedData.setAverage(0);
+		}
+		return teacherJoinedData;
+	}
+
+	public List<VateacherAndCollectiveAct> getPersonDetailsOfJoinedAct(String teacherId, String foredate,
+			String afterdate) throws Exception{
+		// TODO Auto-generated method stub
+		List<VateacherAndCollectiveAct> vateacherAndCollectiveActs = new ArrayList<VateacherAndCollectiveAct>();
+		String hqlString = " from VateacherAndCollectiveAct VA "
+				+ " where VA.spareTire = '1'"
+				+ " and VA.aspareTire = '1'"
+				+ " and VA.id.teacher.teacherId = ?"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate >= '" + foredate +"'"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate <= '" + afterdate +"'"
+				+ " ";
+		vateacherAndCollectiveActs = this.getSession().createQuery(hqlString).setParameter(0, teacherId).list();
+		return vateacherAndCollectiveActs;
+	}
 }
 	

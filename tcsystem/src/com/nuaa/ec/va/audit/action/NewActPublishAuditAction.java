@@ -15,38 +15,38 @@ import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
 import com.opensymphony.xwork2.ActionContext;
 
-public class NewActPublishAuditAction implements RequestAware,SessionAware{
-	public void doCheckOutTask(){
+public class NewActPublishAuditAction implements RequestAware, SessionAware {
+	public void doCheckOutTask() {
 		String[] ids = this.checkOutIDs.split(",");
-		String[] idsNot=this.checkOutIDsNot.split(",");
+		String[] idsNot = this.checkOutIDsNot.split(",");
 		List<VacollectiveActivitiesPublish> checkoutList = new ArrayList<VacollectiveActivitiesPublish>();
 		VacollectiveActivitiesPublish vacollectiveActivitiesPublish = null;
 		for (int i = 0; i < ids.length; i++) {
-			if (ids[i]!=null && ids[i].length()!=0) {
+			if (ids[i] != null && ids[i].length() != 0) {
 				vacollectiveActivitiesPublish = this.vacollectiveActivitiesPublishDAO.findById(ids[i]);
-				
+
 				// 修改checkout 标志
-				if (vacollectiveActivitiesPublish!=null) {
+				if (vacollectiveActivitiesPublish != null) {
 					vacollectiveActivitiesPublish.setAspareTire("1");
 					checkoutList.add(vacollectiveActivitiesPublish);
 				}
 			}
 		}
 		for (int i = 0; i < idsNot.length; i++) {
-			if (idsNot[i]!=null && idsNot[i].length()!=0 ) {
-				
-				vacollectiveActivitiesPublish=this.vacollectiveActivitiesPublishDAO.findById(idsNot[i]);
-				if(vacollectiveActivitiesPublish!=null){
+			if (idsNot[i] != null && idsNot[i].length() != 0) {
+
+				vacollectiveActivitiesPublish = this.vacollectiveActivitiesPublishDAO.findById(idsNot[i]);
+				if (vacollectiveActivitiesPublish != null) {
 					vacollectiveActivitiesPublish.setAspareTire("2");
 					checkoutList.add(vacollectiveActivitiesPublish);
+				}
 			}
+
 		}
-		
-	}
 		try {
 			if (vacollectiveActivitiesPublishDAO.updateASparetire(checkoutList)) {
 				ServletActionContext.getResponse().getWriter().write("succ");
-			}else {
+			} else {
 				ServletActionContext.getResponse().getWriter().write("error");
 			}
 		} catch (Exception e) {
@@ -54,26 +54,21 @@ public class NewActPublishAuditAction implements RequestAware,SessionAware{
 			e.printStackTrace();
 		}
 	}
-	
-	public String getNewActPublishList(){
-		Transaction tx = this.vacollectiveActivitiesPublishDAO.getSession()
-				.beginTransaction();
+
+	public String getNewActPublishList() {
+		Transaction tx = this.vacollectiveActivitiesPublishDAO.getSession().beginTransaction();
 		if ((Department) session.get("department_CT") == null) {
 			session.put("department_CT", new Department());
 		}
 		if ((Integer) session.get("pageSize_CT") == null) {
 			session.put("pageSize_CT", 1);
 		}
-		
+
 		try {
-			this.request.put("newActPulishList", this.vacollectiveActivitiesPublishDAO
-					.getNewActPublishAct(pageIndex,
-							(Integer) session.get("pageSize_CT"),
-							(Department) session.get("department_CT"),
-							(String)session.get("checkOutStatus_CT"),
-							(String)session.get("foredate_CT"),
-							(String)session.get("afterdate_CT")
-							));
+			this.request.put("newActPulishList", this.vacollectiveActivitiesPublishDAO.getNewActPublishAct(pageIndex,
+					(Integer) session.get("pageSize_CT"), (Department) session.get("department_CT"),
+					(String) session.get("checkOutStatus_CT"), (String) session.get("foredate_CT"),
+					(String) session.get("afterdate_CT")));
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception e) {
@@ -84,26 +79,21 @@ public class NewActPublishAuditAction implements RequestAware,SessionAware{
 		}
 		return "success";
 	}
-	
-	public String getNewActPublishListAfterDivided(){
-		Transaction tx = this.vacollectiveActivitiesPublishDAO.getSession()
-				.beginTransaction();
+
+	public String getNewActPublishListAfterDivided() {
+		Transaction tx = this.vacollectiveActivitiesPublishDAO.getSession().beginTransaction();
 		if ((Department) session.get("researchLab_CT") == null) {
 			session.put("researchLab_CT", new Department());
 		}
 		if ((Integer) session.get("pageSize_CT") == null) {
 			session.put("pageSize_CT", 1);
 		}
-		
+
 		try {
-			this.request.put("newActPulishList", this.vacollectiveActivitiesPublishDAO
-					.getNewActPublishActAfterDivide(pageIndex,
-							(Integer) session.get("pageSize_CT"),
-							(Department) session.get("department_CT"),
-							(String)session.get("checkOutStatus_CT"),
-							(String)session.get("foredate_CT"),
-							(String)session.get("afterdate_CT")
-							));
+			this.request.put("newActPulishList", this.vacollectiveActivitiesPublishDAO.getNewActPublishActAfterDivide(
+					pageIndex, (Integer) session.get("pageSize_CT"), (Department) session.get("department_CT"),
+					(String) session.get("checkOutStatus_CT"), (String) session.get("foredate_CT"),
+					(String) session.get("afterdate_CT")));
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception e) {
@@ -114,7 +104,7 @@ public class NewActPublishAuditAction implements RequestAware,SessionAware{
 		}
 		return "success";
 	}
-	
+
 	private int pageIndex = 1;
 	private int pageSize_CT;
 	private ResearchLab researchLab_CT;
@@ -122,13 +112,13 @@ public class NewActPublishAuditAction implements RequestAware,SessionAware{
 	private String foredate_CT;
 	private String afterdate_CT;
 	private int operstatus;
-	private Map<String, Object> session ;
+	private Map<String, Object> session;
 	private Map<String, Object> request;
 	private String checkOutStatus_CT;
 	private String checkOutIDs;
 	private String checkOutIDsNot;
 	private VacollectiveActivitiesPublishDAO vacollectiveActivitiesPublishDAO = new VacollectiveActivitiesPublishDAO();
-	
+
 	public void setRequest(Map<String, Object> request) {
 		// TODO Auto-generated method stub
 		this.request = request;
@@ -205,19 +195,18 @@ public class NewActPublishAuditAction implements RequestAware,SessionAware{
 		return vacollectiveActivitiesPublishDAO;
 	}
 
-	public void setVacollectiveActivitiesPublishDAO(
-			VacollectiveActivitiesPublishDAO vacollectiveActivitiesPublishDAO) {
+	public void setVacollectiveActivitiesPublishDAO(VacollectiveActivitiesPublishDAO vacollectiveActivitiesPublishDAO) {
 		this.vacollectiveActivitiesPublishDAO = vacollectiveActivitiesPublishDAO;
 	}
 
 	public Map<String, Object> getRequest() {
 		return request;
 	}
-	
+
 	public Department getDepartment_CT() {
 		return department_CT;
 	}
-	
+
 	public void setDepartment_CT(Department department_CT) {
 		this.department_CT = department_CT;
 		session.put("department_CT", department_CT);
@@ -240,6 +229,5 @@ public class NewActPublishAuditAction implements RequestAware,SessionAware{
 		this.afterdate_CT = afterdate_CT;
 		session.put("afterdate_CT", afterdate_CT);
 	}
-	
-	
+
 }

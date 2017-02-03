@@ -11,25 +11,27 @@ import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
 import com.nuaa.ec.utils.PrimaryKMaker;
 
-public class ActPublishManage implements SessionAware{
+public class ActPublishManage implements SessionAware {
 
-	private Map<String , Object> session;
+	private Map<String, Object> session;
 	private String foredate;
 	private String afterdate;
 	private VacollectiveActivitiesPublish foreact;
 	private VacollectiveActDAO vacollectdao = new VacollectiveActDAO();
 	private VacollectiveActivitiesPublishDAO vapdao = new VacollectiveActivitiesPublishDAO();
 	private PrimaryKMaker pkdao = new PrimaryKMaker();
-	//default method
-	public String execute(){
+
+	// default method
+	public String execute() {
 		return "success";
 	}
-/***
- * get -Acts -of-ready-to publish
- * 获取可以发布的活动 
- * @return
- */
-	public String getReadyAct(){
+
+	/***
+	 * get -Acts -of-ready-to publish 获取可以发布的活动
+	 * 
+	 * @return
+	 */
+	public String getReadyAct() {
 		try {
 			session.put("readyactli", vacollectdao.findByAspareTire("1"));
 		} catch (Exception e) {
@@ -38,18 +40,19 @@ public class ActPublishManage implements SessionAware{
 		}
 		return "success";
 	}
+
 	/***
-	 * apply/add - a - ready - to - publish -Act
-	 * 增加或申请一项活动发布
+	 * apply/add - a - ready - to - publish -Act 增加或申请一项活动发布
+	 * 
 	 * @return
 	 */
-	public String addPublishApply(){
+	public String addPublishApply() {
 		try {
-			/*    初始化预备插入的数据  /  init-data-for-insert  */
+			/* 初始化预备插入的数据 / init-data-for-insert */
 			foreact.setActPubId(pkdao.mkpk("ActPubID", "VACollectiveActivitiesPublish", "acp"));
 			foreact.setSpareTire("1");
 			foreact.setAspareTire("0");
-			foreact.setTeacherId(((Teacher)session.get("teacher")).getTeacherId());
+			foreact.setTeacherId(((Teacher) session.get("teacher")).getTeacherId());
 			vapdao.save(foreact);
 			vapdao.getSession().beginTransaction().commit();
 			ServletActionContext.getRequest().setAttribute("applystatus", "申请成功,等待审核");
@@ -61,7 +64,7 @@ public class ActPublishManage implements SessionAware{
 		}
 		return "success";
 	}
-	
+
 	public Map<String, Object> getSession() {
 		return session;
 	}
@@ -93,5 +96,5 @@ public class ActPublishManage implements SessionAware{
 	public void setForeact(VacollectiveActivitiesPublish foreact) {
 		this.foreact = foreact;
 	}
-	 
+
 }

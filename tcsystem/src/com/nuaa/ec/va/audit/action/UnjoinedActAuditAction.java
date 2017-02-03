@@ -16,31 +16,31 @@ import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VaunJoinRecord;
 import com.opensymphony.xwork2.ActionContext;
 
-public class UnjoinedActAuditAction implements RequestAware,SessionAware{
-	public void doCheckOutTask(){
+public class UnjoinedActAuditAction implements RequestAware, SessionAware {
+	public void doCheckOutTask() {
 		List<VaunJoinRecord> checkoutList = new ArrayList<VaunJoinRecord>();
 		String[] ids = this.checkOutIDs.split(",");
-		String[] idsNot=this.checkOutIDsNot.split(",");
+		String[] idsNot = this.checkOutIDsNot.split(",");
 		VaunJoinRecord vaunJoinRecord = null;
 		for (int i = 0; i < ids.length; i++) {
 			vaunJoinRecord = this.vaunJoinRecordDAO.findById(ids[i]);
 			// 修改checkout 标志
-			if(vaunJoinRecord!=null){
+			if (vaunJoinRecord != null) {
 				vaunJoinRecord.setAsparetire("1");
 				checkoutList.add(vaunJoinRecord);
 			}
 		}
-		
-		for(int i=0;i<idsNot.length;i++){
-			if(idsNot[i]!=null && idsNot[i].length()!=0){
-				vaunJoinRecord=this.vaunJoinRecordDAO.findById(idsNot[i]);
-				if(vaunJoinRecord!=null){
+
+		for (int i = 0; i < idsNot.length; i++) {
+			if (idsNot[i] != null && idsNot[i].length() != 0) {
+				vaunJoinRecord = this.vaunJoinRecordDAO.findById(idsNot[i]);
+				if (vaunJoinRecord != null) {
 					vaunJoinRecord.setAsparetire("2");
 					checkoutList.add(vaunJoinRecord);
 				}
 			}
 		}
-		
+
 		try {
 			if (vaunJoinRecordDAO.updateCheckoutStatus(checkoutList)) {
 				// 前端显示乱码解决
@@ -52,8 +52,8 @@ public class UnjoinedActAuditAction implements RequestAware,SessionAware{
 			e.printStackTrace();
 		}
 	}
-	
-	public String getUnjoinedActListAfterDivide(){
+
+	public String getUnjoinedActListAfterDivide() {
 		Transaction tx = this.vaunJoinRecordDAO.getSession().beginTransaction();
 		if ((Department) session.get("department_UA") == null) {
 			session.put("department_UA", new Department());
@@ -62,13 +62,10 @@ public class UnjoinedActAuditAction implements RequestAware,SessionAware{
 			session.put("pageSize_UA", 1);
 		}
 		try {
-			this.request.put("UnjoinedActList",  this.vaunJoinRecordDAO
-					.getUnjoinedActListAfterDivide(pageIndex,
-							(Integer) session.get("pageSize_UA"),
-							(String) session.get("foredate_UA"),
-							(String) session.get("afterdate_UA"),
-							(Department) session.get("department_UA"),
-							(String) session.get("checkOutStatus_UA")));
+			this.request.put("UnjoinedActList", this.vaunJoinRecordDAO.getUnjoinedActListAfterDivide(pageIndex,
+					(Integer) session.get("pageSize_UA"), (String) session.get("foredate_UA"),
+					(String) session.get("afterdate_UA"), (Department) session.get("department_UA"),
+					(String) session.get("checkOutStatus_UA")));
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
@@ -80,24 +77,21 @@ public class UnjoinedActAuditAction implements RequestAware,SessionAware{
 		}
 		return "success";
 	}
-	
-	public String getUnjoinedActList(){
-		Transaction tx = this.vaunJoinRecordDAO.getSession()
-				.beginTransaction();
+
+	public String getUnjoinedActList() {
+		Transaction tx = this.vaunJoinRecordDAO.getSession().beginTransaction();
 		if ((Department) session.get("department_UA") == null) {
 			session.put("department_UA", new Department());
 		}
 		if ((Integer) session.get("pageSize_UA") == null) {
 			session.put("pageSize_UA", 1);
-		}try {
-			
-			this.request.put("UnjoinedActList",  this.vaunJoinRecordDAO
-					.findAllWithCondition(pageIndex,
-							(Integer) session.get("pageSize_UA"),
-							(String) session.get("foredate_UA"),
-							(String) session.get("afterdate_UA"),
-							(Department) session.get("department_UA"),
-							(String) session.get("checkOutStatus_UA")));
+		}
+		try {
+
+			this.request.put("UnjoinedActList", this.vaunJoinRecordDAO.findAllWithCondition(pageIndex,
+					(Integer) session.get("pageSize_UA"), (String) session.get("foredate_UA"),
+					(String) session.get("afterdate_UA"), (Department) session.get("department_UA"),
+					(String) session.get("checkOutStatus_UA")));
 			tx.commit();
 			this.setOperstatus(1);
 		} catch (Exception ex) {
@@ -109,15 +103,16 @@ public class UnjoinedActAuditAction implements RequestAware,SessionAware{
 		}
 		return "success";
 	}
-	public String execute()throws Exception{
+
+	public String execute() throws Exception {
 		return "success";
 	}
-	
+
 	public void setRequest(Map<String, Object> request) {
 		// TODO Auto-generated method stub
 		this.request = request;
 	}
-	
+
 	private int pageIndex = 1;
 	private int pageSize_UA;
 	private String foredate_UA;
@@ -131,6 +126,7 @@ public class UnjoinedActAuditAction implements RequestAware,SessionAware{
 	private Map<String, Object> session;
 	private Map<String, Object> request;
 	private VaunJoinRecordDAO vaunJoinRecordDAO = new VaunJoinRecordDAO();
+
 	public int getPageIndex() {
 		return pageIndex;
 	}
@@ -227,14 +223,14 @@ public class UnjoinedActAuditAction implements RequestAware,SessionAware{
 	public Map<String, Object> getRequest() {
 		return request;
 	}
-	
+
 	public Department getDepartment_UA() {
 		return department_UA;
 	}
+
 	public void setDepartment_UA(Department department_UA) {
 		this.department_UA = department_UA;
 		session.put("department_UA", department_UA);
 	}
-	
-	
+
 }

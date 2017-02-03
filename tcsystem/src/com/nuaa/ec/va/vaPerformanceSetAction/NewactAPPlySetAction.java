@@ -1,5 +1,6 @@
 package com.nuaa.ec.va.vaPerformanceSetAction;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -8,9 +9,11 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 
 import com.nuaa.ec.dao.VacollectiveActDAO;
+import com.nuaa.ec.dao.VateacherAndCollectiveActDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
 import com.nuaa.ec.model.VacollectiveAct;
+import com.nuaa.ec.model.VateacherAndCollectiveAct;
 import com.nuaa.ec.utils.EntityUtil;
 
 public class NewactAPPlySetAction implements RequestAware{
@@ -67,9 +70,6 @@ public class NewactAPPlySetAction implements RequestAware{
 	
 	public void updateRecord(){
 		try {
-			System.out.println(actapplyname);
-			System.out.println(actapplytype);
-			System.out.println(actapplyscore);
 			vacollectiveAct = vacollectiveActDAO.findById(actapplynumber);
 			vacollectiveAct.setActName(actapplyname);
 			vacollectiveAct.setActType(actapplytype);
@@ -77,6 +77,14 @@ public class NewactAPPlySetAction implements RequestAware{
 			vacollectiveAct.setSpareTire("1");
 			vacollectiveAct.setAspareTire("1");
 			vacollectiveActDAO.merge(vacollectiveAct);
+			
+//			vateacherAndCollectiveAct = vateacherAndCollectiveActDAO.findByProperty("id.vacollectiveActivitiesPublish.vacollectiveAct.actId", actapplynumber);
+			vateacherAndCollectiveAct = vateacherAndCollectiveActDAO.findByActId(actapplynumber);
+			for (VateacherAndCollectiveAct vateacherAndCollectiveAct2 : vateacherAndCollectiveAct) {
+				vateacherAndCollectiveAct2.setScore(Double.parseDouble(actapplyscore));
+				vateacherAndCollectiveActDAO.merge(vateacherAndCollectiveAct2);
+			}
+			
 			vacollectiveActDAO.getSession().beginTransaction().commit();
 			this.setOperstatus(1);
 			this.response.getWriter().write("succ");
@@ -121,13 +129,35 @@ public class NewactAPPlySetAction implements RequestAware{
 	private String checkOutIDsNot;
 	private VacollectiveAct vacollectiveAct = new VacollectiveAct();
 	private VacollectiveActDAO vacollectiveActDAO = new VacollectiveActDAO();
+	private List<VateacherAndCollectiveAct> vateacherAndCollectiveAct;
+	private VateacherAndCollectiveActDAO vateacherAndCollectiveActDAO = new VateacherAndCollectiveActDAO();
 	private HttpServletResponse response = ServletActionContext.getResponse();
 	public int getPageIndex() {
 		return pageIndex;
 	}
 	
+	public List<VateacherAndCollectiveAct> getVateacherAndCollectiveAct() {
+		return vateacherAndCollectiveAct;
+	}
+
 	public String getId() {
 		return id;
+	}
+
+
+	public void setVateacherAndCollectiveAct(
+			List<VateacherAndCollectiveAct> vateacherAndCollectiveAct) {
+		this.vateacherAndCollectiveAct = vateacherAndCollectiveAct;
+	}
+
+
+	public VateacherAndCollectiveActDAO getVateacherAndCollectiveActDAO() {
+		return vateacherAndCollectiveActDAO;
+	}
+
+	public void setVateacherAndCollectiveActDAO(
+			VateacherAndCollectiveActDAO vateacherAndCollectiveActDAO) {
+		this.vateacherAndCollectiveActDAO = vateacherAndCollectiveActDAO;
 	}
 
 	public void setId(String id) {

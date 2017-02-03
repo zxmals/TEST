@@ -34,7 +34,11 @@ public class UnjoinedRuledActManage implements SessionAware {
 	 */
 	public String getUnjoinedRuledAct() {
 		try {
-			ServletActionContext.getRequest().setAttribute("vaunjoinedli", vaunjoindao.findByTimeLimted(foredate, afterdate, ((Teacher) session.get("teacher")).getTeacherId()));
+			ServletActionContext.getRequest()
+					.setAttribute(
+							"vaunjoinedli",
+							vaunjoindao.findByTimeLimted(foredate, afterdate,
+									((Teacher) session.get("teacher")).getTeacherId()));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -42,20 +46,20 @@ public class UnjoinedRuledActManage implements SessionAware {
 		return "success";
 	}
 
-	public String addOrUpdateUNjoinreason(){
+	public String addOrUpdateUNjoinreason() {
 		try {
 			List<VaunJoinRecord> unjoinli = vaunjoindao.findByActId(unjoinact.getActId());
-			if(unjoinli.size()!=0){
+			if (unjoinli.size() != 0) {
 				unjoinact.setAsparetire("0");
 				unjoinact.setSparetire("1");
-				unjoinact.setTeacherId(((Teacher)session.get("teacher")).getTeacherId());
+				unjoinact.setTeacherId(((Teacher) session.get("teacher")).getTeacherId());
 				unjoinact.setResultscore(0.0);
 				vaunjoindao.merge(unjoinact);
 				this.setSubmitstatus("提交成功");
-			}else{
+			} else {
 				unjoinact.setAsparetire("0");
 				unjoinact.setSparetire("1");
-				unjoinact.setTeacherId(((Teacher)session.get("teacher")).getTeacherId());
+				unjoinact.setTeacherId(((Teacher) session.get("teacher")).getTeacherId());
 				unjoinact.setUnjoinId(pk.mkpk("unjoinID", "VAUnjoinRecord", "UNJ"));
 				unjoinact.setResultscore(0.0);
 				vaunjoindao.save(unjoinact);
@@ -67,12 +71,12 @@ public class UnjoinedRuledActManage implements SessionAware {
 			e.printStackTrace();
 			this.setSubmitstatus("提交失败");
 			vaunjoindao.getSession().beginTransaction().rollback();
-		}finally{
+		} finally {
 			vaunjoindao.closeSession();
 		}
 		return "success";
 	}
-	
+
 	public String getForedate() {
 		return foredate;
 	}
@@ -112,5 +116,5 @@ public class UnjoinedRuledActManage implements SessionAware {
 	public void setSubmitstatus(String submitstatus) {
 		this.submitstatus = submitstatus;
 	}
-	
+
 }
