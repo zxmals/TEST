@@ -323,7 +323,7 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		// TODO Auto-generated method stub
 		String query = "from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
 				+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
-				+ " and VACA.id.teacher.spareTire='1'"
+//				+ " and VACA.id.teacher.spareTire='1'"
 				+ " and VACA.id.teacher.department.spareTire='1'"
 				+ " and VACA.id.vacollectiveActivitiesPublish.actDate ='" + actDate +"'"
 				;

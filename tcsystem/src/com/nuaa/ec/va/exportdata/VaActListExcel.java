@@ -11,10 +11,12 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.Region;
 
+import com.nuaa.ec.dao.VacollectiveActDAO;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VacollectiveActivitiesPublish;
 import com.nuaa.ec.model.VateacherAndCollectiveAct;
+import com.nuaa.ec.model.VaunJoinRecord;
 import com.nuaa.ec.utils.StoreData;
 
 public class VaActListExcel {
@@ -152,14 +154,24 @@ public class VaActListExcel {
 				cell[3].setCellStyle(cellStyle);
 				cell[4].setCellValue(list.get(i).getScore());
 				cell[4].setCellStyle(cellStyle);
+				if (list.get(i).getAspareTire().equals("0")) {
+					cell[5].setCellValue("待审核");
+				}else if (list.get(i).getAspareTire().equals("1")) {
+					cell[5].setCellValue("审核通过");
+				}else if (list.get(i).getAspareTire().equals("2")) {
+					cell[5].setCellValue("审核不通过");
+				}
+				cell[5].setCellStyle(cellStyle);
+				;
 			}
 		}
 		return wb;
 	}
 
-	public static HSSFWorkbook generateTeacherUnJoinedExcel(String[] ths, List<VateacherAndCollectiveAct> list,
+	public static HSSFWorkbook generateTeacherUnJoinedExcel(String[] ths, List<VaunJoinRecord> list,
 			String actDate, String actName) {
 		// TODO Auto-generated method stub
+		VacollectiveActDAO vacollectiveActDAO = new VacollectiveActDAO();
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet(actName + "活动缺席信息");
 		// 设置列宽
@@ -205,17 +217,24 @@ public class VaActListExcel {
 				for (int j = 0; j < ths.length; j++) {
 					cell[j] = row.createCell(j);
 				}
-				cell[0].setCellValue(list.get(i).getId().getVacollectiveActivitiesPublish().getActPubId());
+				cell[0].setCellValue(list.get(i).getActId());
 				cell[0].setCellStyle(cellStyle);
-				cell[1].setCellValue(list.get(i).getId().getVacollectiveActivitiesPublish().getVacollectiveAct()
-						.getActName());
+				cell[1].setCellValue(vacollectiveActDAO.findById(list.get(i).getActId()).getActName());
 				cell[1].setCellStyle(cellStyle);
-				cell[2].setCellValue(list.get(i).getId().getTeacher().getTeacherId());
+				cell[2].setCellValue(list.get(i).getTeacherId());
 				cell[2].setCellStyle(cellStyle);
-				cell[3].setCellValue((String) teachers.get(list.get(i).getId().getTeacher().getTeacherId()));
+				cell[3].setCellValue((String) teachers.get(list.get(i).getTeacherId()));
 				cell[3].setCellStyle(cellStyle);
-				cell[4].setCellValue(list.get(i).getScore());
+				cell[4].setCellValue(list.get(i).getResultscore());
 				cell[4].setCellStyle(cellStyle);
+				if (list.get(i).getAsparetire().equals("0")) {
+					cell[5].setCellValue("待审核");
+				}else if (list.get(i).getAsparetire().equals("1")) {
+					cell[5].setCellValue("审核通过");
+				}else if (list.get(i).getAsparetire().equals("2")) {
+					cell[5].setCellValue("审核不通过");
+				}
+				cell[5].setCellStyle(cellStyle);
 			}
 		}
 		return wb;
