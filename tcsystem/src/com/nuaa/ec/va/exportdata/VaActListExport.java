@@ -135,32 +135,42 @@ public class VaActListExport implements SessionAware, RequestAware {
 		try {
 			ByteArrayOutputStream baos = null;
 			ByteArrayOutputStream baos1 = null;
-			baos = vateacherAndCollectiveActDAO.findwithexport(actPubId, actDate, actName);
-			baos1 = vaunJoinRecordDAO.findwithexport(vacollectiveActivitiesPublishDAO.findById(actPubId).getVacollectiveAct().getActId(),actDate,actName);
+			ByteArrayOutputStream byteArrayOutputStream = null;
+			byteArrayOutputStream = vateacherAndCollectiveActDAO.findwithexport(actDate, vacollectiveActivitiesPublishDAO.findById(actPubId).getVacollectiveAct().getActId(), actDate, actName);
+//			baos = vateacherAndCollectiveActDAO.findwithexport(actPubId, actDate, actName);
+//			baos1 = vaunJoinRecordDAO.findwithexport(vacollectiveActivitiesPublishDAO.findById(actPubId).getVacollectiveAct().getActId(),actDate,actName);
 //			 vateacherAndCollectiveActDAO.findUnjoinedwithexport(actPubId,actDate,actName);
-			if (baos!=null || baos1!=null) {
-				if (baos != null) {
-					HttpServletResponse response = ServletActionContext.getResponse();
-					OutputStream outsStream = response.getOutputStream();
-					response.setHeader("Content-Disposition",
-							"attachment;filename=" + URLEncoder.encode(actDate + "活动" + actName + "参与信息.xls"));
-					byte[] bt = baos.toByteArray();
-					outsStream.write(bt, 0, bt.length);
-					outsStream.flush();
-					outsStream.close();
-				}
-				if (baos1 != null) {
-					HttpServletResponse response = ServletActionContext.getResponse();
-					OutputStream outsStream = response.getOutputStream();
-					response.setHeader("Content-Disposition",
-							"attachment;filename=" + URLEncoder.encode(actDate + "活动" + actName + "缺席信息.xls"));
-					byte[] bt = baos1.toByteArray();
-					outsStream.write(bt, 0, bt.length);
-					outsStream.flush();
-					outsStream.close();
-				} 
-			}
-			else {
+//			if (baos!=null || baos1!=null) {
+//				if (baos != null) {
+//					HttpServletResponse response = ServletActionContext.getResponse();
+//					OutputStream outsStream = response.getOutputStream();
+//					response.setHeader("Content-Disposition",
+//							"attachment;filename=" + URLEncoder.encode(actDate + "活动" + actName + "参与信息.xls"));
+//					byte[] bt = baos.toByteArray();
+//					outsStream.write(bt, 0, bt.length);
+//					outsStream.flush();
+//					outsStream.close();
+//				}
+//				if (baos1 != null) {
+//					HttpServletResponse response = ServletActionContext.getResponse();
+//					OutputStream outsStream = response.getOutputStream();
+//					response.setHeader("Content-Disposition",
+//							"attachment;filename=" + URLEncoder.encode(actDate + "活动" + actName + "缺席信息.xls"));
+//					byte[] bt = baos1.toByteArray();
+//					outsStream.write(bt, 0, bt.length);
+//					outsStream.flush();
+//					outsStream.close();
+//				} 
+			if (byteArrayOutputStream != null) {
+				HttpServletResponse response = ServletActionContext.getResponse();
+				OutputStream outsStream = response.getOutputStream();
+				response.setHeader("Content-Disposition",
+						"attachment;filename=" + URLEncoder.encode(actDate + "活动" + actName + "参与信息.xls"));
+				byte[] bt = byteArrayOutputStream.toByteArray();
+				outsStream.write(bt, 0, bt.length);
+				outsStream.flush();
+				outsStream.close();
+			}else {
 				ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 				ServletActionContext.getResponse().getWriter().write("该活动没有数据");
 			}

@@ -474,5 +474,32 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		vateacherAndCollectiveActs = this.getSession().createQuery(hqlString).setParameter(0, teacherId).list();
 		return vateacherAndCollectiveActs;
 	}
+
+	public ByteArrayOutputStream findwithexport(String actDate, String actId, String actDate2, String actName) {
+		// TODO Auto-generated method stub
+		String queryJoinedActString = "from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+				+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+//				+ " and VACA.id.teacher.spareTire='1'"
+				+ " and VACA.id.teacher.department.spareTire='1'"
+				+ " and VACA.id.vacollectiveActivitiesPublish.actDate ='" + actDate +"'"
+				;
+		String queryUnjoinedActString = "from VaunJoinRecord VA"
+				+ " where VA.sparetire = '1'"
+				+ " and VA.actDate = '" + actDate +"'";
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		Query query1 = this.getSession().createQuery(queryJoinedActString);
+		Query query2 = this.getSession().createQuery(queryUnjoinedActString);
+		if (query1.list().size() > 0 || query2.list().size() > 0) {
+			try {
+				VaActListExcel.generateExcel(stringstore.vaJoinedAct,stringstore.vaUnjoinedAct, query1.list(),query2.list(), actDate, actName).write(baos);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return baos;
+		}else {
+			return null;
+		}
+	}
 }
 	
