@@ -3,6 +3,7 @@ package com.nuaa.ec.dao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -272,7 +273,7 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 				return newActApplyList = new ArrayList<VacollectiveAct>();
 			}else {
 				hqlBuffer = new StringBuffer(
-						"from VacollectiveAct VA"
+						"from VacollectiveAct VA, VacollectiveActivitiesPublish VAP"
 						+ " where VA.aspareTire='" + checkout +"'"
 						+ " and VA.spareTire = '1' "
 						+ " and VA.teacher.spareTire='1' "
@@ -343,4 +344,35 @@ public class VacollectiveActDAO extends BaseHibernateDAO  {
 		return list;
 	}
 
+	public List findAll(int currentrow, int pagesize, String generateQueryCondition) {
+		// TODO Auto-generated method stub
+		String queryString = "select VA from VacollectiveAct VA, VacollectiveActivitiesPublish VAP"
+				+ " where VA.spareTire = '1' "
+//				+ " and VA.teacher.spareTire='1' "
+//				+ " and VA.teacher.department.spareTire='1'"
+				+ " and VA.actId = VAP.vacollectiveAct.actId "
+				+ generateQueryCondition
+				+ " order by VA.actId desc";
+		
+		String query1 = "from VacollectiveAct VA where VA.spareTire = '1' "
+				+ " order by VA.actId desc";
+		Query query = getSession().createQuery(query1).setFirstResult(currentrow).setMaxResults(pagesize);
+		return query.list();
+	}
+
+	public int getRows(String generateQueryCondition) {
+		// TODO Auto-generated method stub
+		String queryString = "from VacollectiveAct VA, VacollectiveActivitiesPublish VAP"
+				+ " where VA.spareTire = '1' "
+//				+ " and VA.teacher.spareTire='1' "
+//				+ " and VA.teacher.department.spareTire='1'"
+				+ " and VA.actId = VAP.vacollectiveAct.actId "
+				+ generateQueryCondition
+				+ " order by VA.actId desc";
+		
+		String query1 = "from VacollectiveAct VA where VA.spareTire = '1' "
+				+ " order by VA.actId desc";
+		Query query = getSession().createQuery(query1);
+		return query.list().size();
+	}
 }

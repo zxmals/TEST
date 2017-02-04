@@ -185,9 +185,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</li>
 								</ul>
                             </li>
+<!--                             <li> -->
+<!--                                 <a class="J_menuItem" href="">公益绩效管理</a> -->
+<!--                             </li> -->
                             <li>
-                                <a class="J_menuItem" href="">公益绩效管理</a>
-                            </li>
+	                            <a href="#">
+	                                <i class="fa fa fa-bar-chart-o"></i>
+	                            	<span class="nav-label">公益绩效管理</span>
+	                            	<span class="fa arrow"></span>
+	                            </a>
+	                            <ul class="nav nav-second-level firstslide">
+										<li><a class="J_menuItem" href="ATva_actManage!getWorkall">活动参与</a></li>
+										<li><a class="J_menuItem" href="ATva_unjoinedactManage!getWorkall">活动缺席</a></li>
+										<li><a class="J_menuItem" href="ATva_newactpublishManage!getWorkall">活动发布管理</a></li>
+										<li><a class="J_menuItem" href="ATva_newactapplyManage!getWorkall">活动新增管理</a></li>
+								</ul>
 <!--                              <li> -->
 <!--                                 <a class="J_menuItem" href="">绩效总览</a> -->
 <!--                             </li> -->
@@ -265,8 +277,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								                           <span class="fa arrow"></span>
 								                    </a>
 								                    	<ul class="nav nav-third-level">
-				                                    		<li><a class="J_menuItem" href="ExportData/summaryData/TeachingDataSummary_Depart.jsp">按系汇总</a></li>
-				                                    		<li><a class="J_menuItem" href="ExportData/ExportTeachingPerformanceData.jsp">按教师汇总</a></li>
+				                                    		<li><a class="J_menuItem" href="ExportData/summaryData/VaDataSummary_department.jsp">按系汇总</a></li>
+				                                    		<li><a class="J_menuItem" href="ExportData/summaryData/VaDataSummary_teacher.jsp">按教师汇总</a></li>
 														</ul>
 												</li>
 												 <li>                                    

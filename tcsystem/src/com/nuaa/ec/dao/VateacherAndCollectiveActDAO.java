@@ -2,10 +2,13 @@ package com.nuaa.ec.dao;
 
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.model.ResearchLab;
+import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveAct;
 import com.nuaa.ec.model.VateacherAndCollectiveActId;
+import com.nuaa.ec.utils.NumberFormatUtil;
 import com.nuaa.ec.utils.stringstore;
+import com.nuaa.ec.va.exportdata.TeacherJoinedData;
 import com.nuaa.ec.va.exportdata.VaActListExcel;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -346,7 +349,130 @@ public class VateacherAndCollectiveActDAO extends BaseHibernateDAO {
 		return null;
 	}
 
+	public List findAllWithDivided(int pageIndex, Integer pageSize,
+			String foredate, String afterdate, boolean isDivided) {
+		// TODO Auto-generated method stub
+		List<VateacherAndCollectiveAct> list = null;
+		String sqlString = "from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+				+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+				+ " and VACA.id.teacher.spareTire='1'";
+		list = new ArrayList<VateacherAndCollectiveAct>();
+		String appendforedate = " and VACA.id.vacollectiveActivitiesPublish.actDate >= '" + foredate +"'";
+		String appendaferdateString = " and VACA.id.vacollectiveActivitiesPublish.actDate <= '" + afterdate + "'";
+		String rank = " order by VACA.id.vacollectiveActivitiesPublish.actPubId desc";
+		
+		if (!isDivided) {
+			//如果不是分页操作，取出所有符合条件的记录
+			if (foredate!=null && afterdate!=null && foredate.length()!=0 && afterdate.length()!=0) {
+				list = this.getSession().createQuery(sqlString+appendaferdateString+appendforedate+rank).list();
+			}else {
+				list = this.getSession().createQuery(sqlString+rank).list();
+			}
+
+			int recordNumber = list.size();
+			session.put("recordNumer_CT", list.size());
+			session.put("pageCount_CT", recordNumber%pageSize==0?(recordNumber/pageSize):(recordNumber/pageSize + 1));
+		}
+		if (foredate != null && afterdate != null && foredate.length() != 0 && afterdate.length() != 0) {
+			list = this.getSession().createQuery(sqlString+appendaferdateString+appendforedate+rank).setFirstResult((pageIndex-1)*pageSize).setMaxResults(pageSize).list();
+		}else {
+			list = this.getSession().createQuery(sqlString+rank).setFirstResult((pageIndex-1)*pageSize).setMaxResults(pageSize).list();
+		}
+		return list;
+	}
+
+	public List findAll(int currentRow, int pagesize, String generateQueryCondition) throws Exception{
+		// TODO Auto-generated method stub
+			String query = "from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+					+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+					+ " and VACA.id.teacher.spareTire='1'"
+					+ " and VACA.spareTire = '1' "
+					+ generateQueryCondition + "order by VACA.id.vacollectiveActivitiesPublish.actPubId desc";
+			Query query2 = getSession().createQuery(query).setFirstResult(currentRow).setMaxResults(pagesize);
+			return query2.list();
+	}
+
+	public int getRows(String generateQueryCondition) {
+		// TODO Auto-generated method stub
+		String query =  "from VateacherAndCollectiveAct VACA where VACA.spareTire='1'"
+				+ " and VACA.id.vacollectiveActivitiesPublish.spareTire='1'"
+				+ " and VACA.id.teacher.spareTire='1'"
+				+ " and VACA.spareTire = '1'"
+				+ generateQueryCondition ;
+		Query query2 = getSession().createQuery(query);
+		return query2.list().size();
+	}
+
+	public List<VateacherAndCollectiveAct> findByActId(String actapplynumber) {
+		// TODO Auto-generated method stub
+		String query1 = "from VateacherAndCollectiveAct VACA where"
+				+ "  VACA.id.vacollectiveActivitiesPublish.vacollectiveAct.actId='" + actapplynumber +"'";
+		Query query = getSession().createQuery(query1);
+		return query.list();
+	}
+
+	public TeacherJoinedData getSummaryDataByTeacher(Teacher teacher,
+			String foredate, String afterdate) throws Exception{
+		// TODO Auto-generated method stub
+		String hql = "select sum(VA.id.vacollectiveActivitiesPublish.vacollectiveAct.score),avg(VA.id.vacollectiveActivitiesPublish.vacollectiveAct.score) from VateacherAndCollectiveAct VA "
+				+ " where VA.spareTire='1' "
+				+ " and VA.aspareTire = '1'"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate >= '" + foredate +"'"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate <= '" + afterdate +"'"
+				+ " and  VA.id.teacher.teacherId ='" + teacher.getTeacherId() +"'"
+				;
+		TeacherJoinedData teacherJoinedData = new TeacherJoinedData();
+		Object[] datas = (Object[]) this.getSession().createQuery(hql).uniqueResult();
+		if (datas[0]!=null) {
+			teacherJoinedData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else {
+			teacherJoinedData.setSum(0);
+		}
+		if (datas[1]!=null) {
+			teacherJoinedData.setAverage(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else {
+			teacherJoinedData.setAverage(0);
+		}
+		return teacherJoinedData;
+	}
 	
-	
+	public TeacherJoinedData getSummaryDataByDepartment(String departmentId,
+			String foredate, String afterdate) throws Exception{
+		// TODO Auto-generated method stub
+		String hql = "select sum(VA.id.vacollectiveActivitiesPublish.vacollectiveAct.score),avg(VA.id.vacollectiveActivitiesPublish.vacollectiveAct.score) from VateacherAndCollectiveAct VA where"
+				+ " VA.spareTire='1' "
+				+ " and VA.aspareTire = '1'"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate >= '" + foredate +"'"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate <= '" + afterdate +"'"
+				+ " and VA.id.teacher.department.departmentId ='" + departmentId +"'";
+		TeacherJoinedData teacherJoinedData = new TeacherJoinedData();
+		Object[] datas = (Object[]) this.getSession().createQuery(hql).uniqueResult();
+		if (datas[0]!=null) {
+			teacherJoinedData.setSum(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[0]));
+		}else {
+			teacherJoinedData.setSum(0);
+		}
+		if (datas[1]!=null) {
+			teacherJoinedData.setAverage(NumberFormatUtil.getNumberAfterTransferPrecision((Double) datas[1]));
+		}else {
+			teacherJoinedData.setAverage(0);
+		}
+		return teacherJoinedData;
+	}
+
+	public List<VateacherAndCollectiveAct> getPersonDetailsOfJoinedAct(String teacherId, String foredate,
+			String afterdate) throws Exception{
+		// TODO Auto-generated method stub
+		List<VateacherAndCollectiveAct> vateacherAndCollectiveActs = new ArrayList<VateacherAndCollectiveAct>();
+		String hqlString = " from VateacherAndCollectiveAct VA "
+				+ " where VA.spareTire = '1'"
+				+ " and VA.aspareTire = '1'"
+				+ " and VA.id.teacher.teacherId = ?"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate >= '" + foredate +"'"
+				+ " and VA.id.vacollectiveActivitiesPublish.actDate <= '" + afterdate +"'"
+				+ " ";
+		vateacherAndCollectiveActs = this.getSession().createQuery(hqlString).setParameter(0, teacherId).list();
+		return vateacherAndCollectiveActs;
+	}
 }
 	

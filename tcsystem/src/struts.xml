@@ -51,6 +51,19 @@
 		<action name="GT*_actpublish" class="com.nuaa.ec.va.personal.action.ActPublishManage">
 			<result>/VA/{1}_actpublish.jsp</result>
 		</action>
+		<!-- 公益绩效管理 -->
+		<action name="ATva_actManage" class="com.nuaa.ec.va.vaPerformanceSetAction.JoinedActSetAction">
+			<result>/VaAdm/addTeacherJoinedAct.jsp</result>
+		</action>
+		<action name="ATva_unjoinedactManage" class="com.nuaa.ec.va.vaPerformanceSetAction.UnjoinedActSetAction">
+			<result>/VaAdm/UnjoinedActSet.jsp</result>
+		</action>
+		<action name="ATva_newactpublishManage" class="com.nuaa.ec.va.vaPerformanceSetAction.NewactpublishSetAction">
+			<result>/VaAdm/newactpublishSet.jsp</result>
+		</action>
+		<action name="ATva_newactapplyManage" class="com.nuaa.ec.va.vaPerformanceSetAction.NewactAPPlySetAction">
+			<result>/VaAdm/newactAPPLYSet.jsp</result>
+		</action>
 	</package>
 	<!-- 系统设置 -->
 	<package name="SystemSet" extends="struts-default" namespace="/">
@@ -437,9 +450,27 @@
 			class="com.nuaa.ec.va.exportdata.VaActListExport">
 			<result>/ExportData/ExportVaData.jsp</result>
 		</action>
+		<!-- 公益活动汇总 -->
+		<action name="ATVaActDataSummary_teacherIframe"
+			class="com.nuaa.ec.action.VaDataSummaryAction">
+			<result>/ExportData/summaryData/VaDataSummary_teacherIframe.jsp</result>
+		</action>
+		<action name="ATVaActDataSummary_departmentIframe"
+			class="com.nuaa.ec.action.VaDataSummaryAction">
+			<result>/ExportData/summaryData/VaDataSummary_departmentIframe.jsp</result>
+		</action>
+		<action name="ATVaActDataSummary_department"
+			class="com.nuaa.ec.action.VaDataSummaryAction">
+			<result>/ExportData/summaryData/VaDataSummary_departmentIframe.jsp</result>
+		</action>
+		
 		<!-- 公益列表 -->
-		<action name="ATlookatEveryAct" class="com.nuaa.ec.va.exportdata.LookatEveryAct">
-			<result>/ExportData/LookatEveryAct.jsp</result>
+<!-- 		<action name="ATlookatEveryAct" class="com.nuaa.ec.va.exportdata.LookatEveryAct"> -->
+<!-- 			<result>/ExportData/LookatEveryAct.jsp</result> -->
+<!-- 		</action> -->
+		<!-- 公益列表iframe -->
+		<action name="ATlookatEveryActIFRAME" class="com.nuaa.ec.va.exportdata.VaActListExport">
+			<result>/ExportData/ExportVaDataIframe.jsp</result>
 		</action>
 		
 		
@@ -578,8 +609,4 @@
 			<result name="success">/userManager/userCRUD.jsp</result>
 		</action>
 	</package>
-	
 </struts>
-
-
-

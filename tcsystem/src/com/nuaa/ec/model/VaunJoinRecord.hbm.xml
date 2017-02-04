@@ -31,5 +31,10 @@
         <property name="asparetire" type="java.lang.String">
             <column name="Asparetire" length="50" />
         </property>
+        
+<!--         //之后添加的时间字段  有问题可删除 -->
+        <property name="actDate" type="java.lang.String">
+            <column name="actDate" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

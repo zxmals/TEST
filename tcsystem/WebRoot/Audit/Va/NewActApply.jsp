@@ -22,7 +22,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 <meta name="description" content="">
 <meta name="author" content="">
 <title>管理员界面</title>
@@ -33,10 +33,10 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
 
-<!-- Sweet Alert -->
+	<!-- Sweet Alert -->
 <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
-<!-- Data Tables -->
+	<!-- Data Tables -->
 <link href="css/plugins/dataTables/dataTables.bootstrap.css"
 	rel="stylesheet">
 <link href="css/animate.min.css" rel="stylesheet">
@@ -44,13 +44,13 @@
 <base target="_blank">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Custom styles for this template -->
+	<!-- Custom styles for this template -->
 <link href="css/dashboard.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/zxma.css">
 <link rel="stylesheet" type="text/css"
 	href="css/Audit_CSS/scientific.css">
-<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 <script src="js/ie-emulation-modes-warning.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -65,34 +65,31 @@
 
 <body style="padding-top:0px;margin-top:0px;">
 	<!-- <h1 class="page-header" style="margin-top:0px;">审核</h1> -->
-	<form
-		action="GTNewActApplyAudit!getNewActApplyList"
-		method="post" name="pickdate">
-<!-- 		<div class="datepick" style="font-size:12px;"> -->
-<!-- 			<span>选择日期范围</span> -->
-<!-- 			<div> -->
+	<form action="GTNewActApplyAudit!getNewActApplyList" method="post"
+		name="pickdate">
+		<!-- 		<div class="datepick" style="font-size:12px;"> -->
+		<!-- 			<span>选择日期范围</span> -->
+		<!-- 			<div> -->
 
-<!-- 				从:<input type="text" id="date1" class="Wdate" -->
-<!-- 					onClick="WdatePicker()" value="${sessionScope.foredate_CT }" -->
-<!-- 					name="foredate_CT" id="foredate" />到:<input type="text" -->
-<!-- 					id="date2" onClick="WdatePicker()" class="Wdate" -->
-<!-- 					value="${sessionScope.afterdate_CT }" name="afterdate_CT" -->
-<!-- 					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep" -->
-<!-- 					value="查询" title="点击查询"> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
+		<!-- 				从:<input type="text" id="date1" class="Wdate" -->
+		<!-- 					onClick="WdatePicker()" value="${sessionScope.foredate_CT }" -->
+		<!-- 					name="foredate_CT" id="foredate" />到:<input type="text" -->
+		<!-- 					id="date2" onClick="WdatePicker()" class="Wdate" -->
+		<!-- 					value="${sessionScope.afterdate_CT }" name="afterdate_CT" -->
+		<!-- 					id="afterdate" /> &nbsp;&nbsp;<input type="submit" id="datep" -->
+		<!-- 					value="查询" title="点击查询"> -->
+		<!-- 			</div> -->
+		<!-- 		</div> -->
 		<h3 style="padding:0px;margin-left: 10px;">活动新增申请审核</h3>
 		<hr>
 		<span style="margin-left:10px;">系：&nbsp;&nbsp;&nbsp;&nbsp;</span> <span>
-			<select name="department_CT.departmentId"
-			id="departmentSelection">
+			<select name="department_CT.departmentId" id="departmentSelection">
 				<c:forEach var="department" items="${departmentList }">
 					<option value="${department.departmentId }">${department.departmentName }</option>
 				</c:forEach>
 		</select>
-		</span>&nbsp;&nbsp;&nbsp;&nbsp;
-		<span>每页显示： <select
-			name="pageSize_CT" id="pageSizeSelection">
+		</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>每页显示： <select name="pageSize_CT"
+			id="pageSizeSelection">
 				<option value="1">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</option>
 				<option value="2">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;</option>
 				<option value="10">&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;</option>
@@ -123,7 +120,7 @@
 				<td>教师编号</td>
 				<td>教师姓名</td>
 				<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
-					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit"/></td>
+					<td>全通过&nbsp;<input type="checkbox" name="" id="allAudit" /></td>
 					<td>全不通过<input type="checkbox" id="allNotAudit"></td>
 				</c:if>
 				<c:if test="${sessionScope.checkOutStatus_CT=='1' }">
@@ -134,8 +131,7 @@
 				</c:if>
 
 			</tr>
-			<c:forEach var="VaAddJoinedAct"
-				items="${newActApplyList }">
+			<c:forEach var="VaAddJoinedAct" items="${newActApplyList }">
 				<tr>
 					<!-- 活动发布编号 -->
 					<td>${VaAddJoinedAct.actId }</td>
@@ -144,43 +140,53 @@
 					<!-- 参与人员 -->
 					<td>${VaAddJoinedAct.attendee }</td>
 					<!-- 活动类型 -->
-					<c:if test="${VaAddJoinedAct.actType==1 }"><td>规定性活动</td></c:if>
-					<c:if test="${VaAddJoinedAct.actType==2 }"><td>选择性活动</td></c:if>
-					<c:if test="${VaAddJoinedAct.actType==3 }"><td>其他活动</td></c:if>
+					<c:if test="${VaAddJoinedAct.actType==0 }">
+						<td>未选择活动类型</td>
+					</c:if>
+					<c:if test="${VaAddJoinedAct.actType==1 }">
+						<td>规定性活动</td>
+					</c:if>
+					<c:if test="${VaAddJoinedAct.actType==2 }">
+						<td>选择性活动</td>
+					</c:if>
+					<c:if test="${VaAddJoinedAct.actType==3 }">
+						<td>其他活动</td>
+					</c:if>
 					<!-- 说明 -->
-<!-- 					<td>${VaAddJoinedAct.actapplyfile }</td> -->
-<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->
-<!-- 					<td><a href="#" title="${VaAddJoinedAct.actapplyfile }" alt="">${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</a> -->
-<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->
-<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }…… <button class="button_set" onclick="alert('${VaAddJoinedAct.actapplyfile }')">查看</button></td> -->
-					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }…… <button class="button_set" data-toggle="modal" data-target="#myModal">查看</button>
-					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								${VaAddJoinedAct.actId }&nbsp; &nbsp; &nbsp;    ${VaAddJoinedAct.actName }
-							</div>
-							<div class="modal-body">
-							${VaAddJoinedAct.actapplyfile }
-							</div>
-							<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-							</button>
+					<!-- 					<td>${VaAddJoinedAct.actapplyfile }</td> -->
+					<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->
+					<!-- 					<td><a href="#" title="${VaAddJoinedAct.actapplyfile }" alt="">${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</a> -->
+					<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->
+					<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }…… <button class="button_set" onclick="alert('${VaAddJoinedAct.actapplyfile }')">查看</button></td> -->
+					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……
+						<button class="button_set" data-toggle="modal"
+							data-target="#myModal">查看</button>
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">${VaAddJoinedAct.actId }&nbsp;
+										&nbsp; &nbsp; ${VaAddJoinedAct.actName }</div>
+									<div class="modal-body">${VaAddJoinedAct.actapplyfile }</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">关闭</button>
 
+									</div>
+								</div>
 							</div>
 						</div>
-				</div>
-				</div>
 					</td>
 					<!-- 教师编号 -->
 					<td>${VaAddJoinedAct.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
 					<td>${VaAddJoinedAct.teacher.teacherName }</td>
 					<c:if test="${sessionScope.checkOutStatus_CT=='0' }">
-						<td class="c1">通过&nbsp;<input type="checkbox" name="chooseWhichToAudit"
-							value="${VaAddJoinedAct.actId}"   class="check1"/></td>
-						<td class="c2">不通过<input value="${VaAddJoinedAct.actId}" type="checkbox"
-						 name="notAudit" class="check2"/></td>
+						<td class="c1">通过&nbsp;<input type="checkbox"
+							name="chooseWhichToAudit" value="${VaAddJoinedAct.actId}"
+							class="check1" /></td>
+						<td class="c2">不通过<input value="${VaAddJoinedAct.actId}"
+							type="checkbox" name="notAudit" class="check2" /></td>
 					</c:if>
 					<c:if test="${sessionScope.checkOutStatus_CT=='1' }">
 						<td><font color="green"size:"3">√</td>
@@ -192,22 +198,21 @@
 			</c:forEach>
 		</table>
 	</form>
-	
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog">
-<div class="modal-content">
-<div class="modal-header">
-</div>
-<div class="modal-body">
-在这里添加一些文本
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-</button>
 
-</div>
-</div>
-</div>
-</div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">在这里添加一些文本</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- 分页页码显示处 -->
 	<div id="dividePageDev" style="height: 30px;">
 		<span style="font-size:12px;color:#727272;"> 当前是第<font
@@ -265,16 +270,24 @@
 	<script src="My97DatePicker/WdatePicker.js"></script>
 	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
-		$().ready(function(){
-			$("#pageSizeSelection option[value='${sessionScope.pageSize_CT}']").attr("selected",true);
-			$("#departmentSelection option[value='${sessionScope.department_CT.departmentId}']").attr("selected",true);
-			$("#checkoutStatus option[value='${sessionScope.checkOutStatus_CT}']").attr("selected",true);
-		});
-		$("#doCheckout").click(function(){
-			submitAudit("GTNewActApplyAudit!doCheckOutTask",
-					"GTNewActApplyAudit!getNewActApplyList");
-		});
-		
+		$()
+				.ready(
+						function() {
+							$(
+									"#pageSizeSelection option[value='${sessionScope.pageSize_CT}']")
+									.attr("selected", true);
+							$(
+									"#departmentSelection option[value='${sessionScope.department_CT.departmentId}']")
+									.attr("selected", true);
+							$(
+									"#checkoutStatus option[value='${sessionScope.checkOutStatus_CT}']")
+									.attr("selected", true);
+						});
+		$("#doCheckout").click(
+				function() {
+					submitAudit("GTNewActApplyAudit!doCheckOutTask",
+							"GTNewActApplyAudit!getNewActApplyList");
+				});
 	</script>
 </body>
 </html>
