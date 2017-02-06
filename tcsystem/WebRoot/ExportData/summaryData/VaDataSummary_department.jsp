@@ -16,7 +16,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SUMMARY-TEACHING-DATA</title>
+    <title>SUMMARs-DATA</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="../../css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -47,7 +47,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                    <div class="ibox-content" style="height:540px;">
 	                    	 <br>
 	                         <div>
-	                         	<form name="sumf" action="ATVaActDataSummary_departmentIframe!getVaSummaryDataByDepartment" method="post">
+	                         	<form name="sumf" action="ATVaActDataSummary_departmentIframe!getVaSummaryDataaaByDepartment" method="post">
 	                         		<a>[日期范围]&nbsp;&nbsp;从:
 										<input type="text" style="width:120px;height:25px;border-radius:3px;border:1px solid silver;" onClick="WdatePicker()" id="date1" class="Wdate addcheck nullcheck" name="foredate">									
 										到:

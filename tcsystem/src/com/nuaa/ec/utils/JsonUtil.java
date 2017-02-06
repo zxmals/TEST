@@ -1,7 +1,10 @@
 package com.nuaa.ec.utils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.nuaa.ec.dao.VacollectiveActDAO;
+import com.nuaa.ec.dao.VaunJoinRecordDAO;
 import com.nuaa.ec.model.PeriodicalPaperInfoUnionModel;
 import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.model.TeacherAndinvitedExpertsSpeech;
@@ -10,6 +13,8 @@ import com.nuaa.ec.model.TeacherAndmainUndertakeAcademicMeeting;
 import com.nuaa.ec.model.TeacherAndscientificResearchProject;
 import com.nuaa.ec.model.TeacherAndscientificResearchReward;
 import com.nuaa.ec.model.TeacherAndselectedTalentProject;
+import com.nuaa.ec.model.VateacherAndCollectiveAct;
+import com.nuaa.ec.model.VaunJoinRecord;
 /**
  * 用于拼接个人绩效数据汇总明细的json字符串
  * @author RayHauton
@@ -222,5 +227,62 @@ public class JsonUtil {
 		String jsonExceptDot = dataJson.substring(0, dataJson.length()-1);
 		jsonExceptDot+="]}";
 		return jsonExceptDot;
+	}
+	public static String getVAdetailsOfPersonPerf(String moduleName,Object list){
+		String temp;
+		StringBuffer stringBuffer = new StringBuffer("");
+		if (moduleName.equals("joinedActData")) {
+			List<VateacherAndCollectiveAct> vateacherAndCollectiveActs = (List<VateacherAndCollectiveAct>) list;
+			stringBuffer.append("{'moduleName':'公益参与绩效明细',"
+					+ "'field':['活动编号','活动名称','活动类型','活动时间','教师编号','教师姓名','分数'],"
+					+ "'dataArray':[");
+			for (VateacherAndCollectiveAct vateacherAndCollectiveAct : vateacherAndCollectiveActs) {
+				if (vateacherAndCollectiveAct.getId().getVacollectiveActivitiesPublish().getVacollectiveAct().getActType().equals("1")) {
+					temp = "规定性活动";
+				}else if (vateacherAndCollectiveAct.getId().getVacollectiveActivitiesPublish().getVacollectiveAct().getActType().equals("2")) {
+					temp = "选择性活动";
+				}else if (vateacherAndCollectiveAct.getId().getVacollectiveActivitiesPublish().getVacollectiveAct().getActType().equals("3")) {
+					temp = "其他活动";
+				}else {
+					temp = "未选择活动类型";
+				}
+				stringBuffer.append("['" + vateacherAndCollectiveAct.getId().getVacollectiveActivitiesPublish().getVacollectiveAct().getActId() +"',"
+						+ "'" + vateacherAndCollectiveAct.getId().getVacollectiveActivitiesPublish().getVacollectiveAct().getActName() + "',"
+						+ "'" + temp + "',"
+						+ "'" + vateacherAndCollectiveAct.getId().getVacollectiveActivitiesPublish().getActDate() + "',"
+						+ "'" + vateacherAndCollectiveAct.getId().getTeacher().getTeacherId() + "',"
+						+ "'" + vateacherAndCollectiveAct.getId().getTeacher().getTeacherName() + "',"
+						+ "'" +vateacherAndCollectiveAct.getId().getVacollectiveActivitiesPublish().getVacollectiveAct().getScore()+ "']"
+						);
+			}
+		}else if (moduleName.equals("unjoinedActData")) {
+			VacollectiveActDAO vacollectiveActDAO = new VacollectiveActDAO();
+			List<VaunJoinRecord> vaunJoinRecords = (List<VaunJoinRecord>) list;
+			stringBuffer.append("{'moduleName':'公益缺席绩效明细',"
+					+ "'field':['活动编号','活动名称','活动类型','活动时间','教师编号','教师姓名','分数'],"
+					+ "'dataArray':[");
+			for (VaunJoinRecord vaunJoinRecord : vaunJoinRecords) {
+				if (vacollectiveActDAO.findById(vaunJoinRecord.getActId()).getActType().equals("1")) {
+					temp = "规定性活动";
+				}else if (vacollectiveActDAO.findById(vaunJoinRecord.getActId()).getActType().equals("2")) {
+					temp = "选择性活动";
+				}else if (vacollectiveActDAO.findById(vaunJoinRecord.getActId()).getActType().equals("3")) {
+					temp = "其他活动";
+				}else {
+					temp = "未选择活动类型";
+				}
+				stringBuffer.append("['" +vaunJoinRecord.getActId() + "',"
+						+ "'" + vacollectiveActDAO.findById(vaunJoinRecord.getActId()).getActName() + "',"
+						+ "'" + temp + "',"
+						+ "'" + vaunJoinRecord.getActDate() +"',"
+						+ "'" + vaunJoinRecord.getTeacherId() + "',"
+						+ "'" + teachers.get(vaunJoinRecord.getTeacherId() )+ "',"
+						+ "'" + vaunJoinRecord.getResultscore() +"']"
+						);
+			}
+		}
+		stringBuffer.append("]}");
+		String resultString = stringBuffer.toString();
+		return resultString;
 	}
 }

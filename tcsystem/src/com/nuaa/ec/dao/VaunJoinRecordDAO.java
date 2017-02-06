@@ -460,4 +460,16 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		}
 	}
 
+	public List<VaunJoinRecord> getPersonDetailsOfUnjoinedAct(String teacherId, String foredate, String afterdate) {
+		// TODO Auto-generated method stub
+		List<VaunJoinRecord> vaunJoinRecords = new ArrayList<VaunJoinRecord>();
+		String hql = "from VaunJoinRecord VA where VA.sparetire = '1'"
+				+ " and VA.asparetire = '1'"
+				+ " and VA.actDate >= '" +  foredate + "'"
+				+ " and VA.actDate <= '" + afterdate + "'"
+				+ " and VA.teacherId ='" + teacherId + "'";
+		vaunJoinRecords = this.getSession().createQuery(hql).list();
+		return vaunJoinRecords;
+	}
+
 }

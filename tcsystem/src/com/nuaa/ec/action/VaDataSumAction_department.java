@@ -11,21 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 
 import com.nuaa.ec.dao.VaDataSumActDAO;
 import com.nuaa.ec.dao.VateacherAndCollectiveActDAO;
 import com.nuaa.ec.dao.VaunJoinRecordDAO;
 import com.nuaa.ec.model.Department;
-import com.nuaa.ec.model.ResearchLab;
-import com.nuaa.ec.model.VateacherAndCollectiveAct;
-import com.nuaa.ec.model.VaunJoinRecord;
-import com.nuaa.ec.utils.JsonUtil;
 import com.nuaa.ec.utils.StoreData;
 import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
 
-public class VaDataSummaryAction extends ActionSupport implements RequestAware {
-
+public class VaDataSumAction_department implements RequestAware,SessionAware{
 	private static List<String> departmentIds = new ArrayList<String>();
 	static {
 		List<Department> departments = StoreData.getDepartmentList();
@@ -33,85 +28,49 @@ public class VaDataSummaryAction extends ActionSupport implements RequestAware {
 			departmentIds.add(department.getDepartmentId());
 		}
 	}
-
-	/**
-	 * 根据TeacherId得到数据
-	 * @return
-	 * @throws Exception
-	 */
-	public String getVaDataByTeacher() throws Exception{
-		this.request.put("vaActSummaryDateByPerson", VaDataSumActDAO.VasummaryDataByPerson(teacherId, foredate, afterdate));
+	
+	public String getVaSummaryDataaaByDepartment() throws Exception {
+		List<VaActDataSum> vaActDataSumList = new ArrayList<VaActDataSum>();
+		if (departmentId.trim().equals("allDepartment")) {
+			vaActDataSumList = VaDataSumActDAO.vaActDataSummaryByDepartment(
+					departmentIds, foredate, afterdate);
+		} else {
+			List<String> departmentIds2 = new ArrayList<String>();
+			departmentIds2.add(departmentId);
+			vaActDataSumList = VaDataSumActDAO.vaActDataSummaryByDepartment(
+					departmentIds2, foredate, afterdate);
+		}
+		this.request.put("vaActSummaryDataByDepartment", vaActDataSumList);
+		/**
+		 * 用于导出汇总数据时候不用重新查询，直接从缓存中取出数据，导出以后 清掉session对应的项
+		 * session保存的总是最近一次查询的汇总结果
+		 */
+		session.put("vaActSummaryDataByDepartment", vaActDataSumList);
 		return "success";
 	}
 	
-	/**
-	 * 数据导出
-	 * @throws Exception
-	 */
-//	public void getSummaryDataExcel() throws Exception {
-//		ByteArrayOutputStream baos = VaDataSumActDAO.getExcelOutputStream(
-//				(String) session.get("department_summary1"),
-//				(String) session.get("foredate_summary1"),
-//				(String) session.put("afterdate_summary1", afterdate));
-//		HttpServletResponse response = ServletActionContext.getResponse();
-//		OutputStream outputStream = response.getOutputStream();
-//		response.setHeader("Content-Disposition", "attachment;filename="
-//				+ URLEncoder.encode("公益数据汇总", "UTF-8") + ".xls");
-//		byte[] by = baos.toByteArray();
-//		outputStream.write(by, 0, by.length);
-//		outputStream.flush();
-//		outputStream.close();
-//	}
-
-	public void getDetailDataInfoJson() throws Exception{
+	public void getSummaryDataExcel() throws Exception {
+		ByteArrayOutputStream baos = VaDataSumActDAO.getExcelOutputStream(
+				(String) session.get("department_summary1"),
+				(String) session.get("foredate_summary1"),
+				(String) session.put("afterdate_summary1", afterdate));
 		HttpServletResponse response = ServletActionContext.getResponse();
-		String json = null;
-		if (this.modulename.trim().equals("joinedActData")) {
-			vateacherAndCollectiveActDAO = new VateacherAndCollectiveActDAO();
-			List<VateacherAndCollectiveAct> vaJoinedActDataActs = vateacherAndCollectiveActDAO.getPersonDetailsOfJoinedAct(teacherId,foredate,afterdate);
-			json = JsonUtil.getVAdetailsOfPersonPerf(modulename, vaJoinedActDataActs);
-		}
-		if (this.modulename.trim().equals("unjoinedActData")) {
-			vaunJoinRecordDAO = new VaunJoinRecordDAO();
-			List<VaunJoinRecord> vaunJoinRecords = vaunJoinRecordDAO.getPersonDetailsOfUnjoinedAct(teacherId,foredate,afterdate);
-			json = JsonUtil.getVAdetailsOfPersonPerf(modulename, vaunJoinRecords);
-		}
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(json);
+		OutputStream outputStream = response.getOutputStream();
+		response.setHeader("Content-Disposition", "attachment;filename="
+				+ URLEncoder.encode("公益数据汇总", "UTF-8") + ".xls");
+		byte[] by = baos.toByteArray();
+		outputStream.write(by, 0, by.length);
+		outputStream.flush();
+		outputStream.close();
 	}
-	
-	/**
-	 * 按照xi汇总数据
-	 * 
-	 * @throws Exception
-	 */
-//	public String getVaSummaryDataaaByDepartment() throws Exception {
-//		List<VaActDataSum> vaActDataSumList = new ArrayList<VaActDataSum>();
-//		if (departmentId.trim().equals("allDepartment")) {
-//			vaActDataSumList = VaDataSumActDAO.vaActDataSummaryByDepartment(
-//					departmentIds, foredate, afterdate);
-//		} else {
-//			List<String> departmentIds2 = new ArrayList<String>();
-//			departmentIds2.add(departmentId);
-//			vaActDataSumList = VaDataSumActDAO.vaActDataSummaryByDepartment(
-//					departmentIds2, foredate, afterdate);
-//		}
-//		this.request.put("vaActSummaryDataByDepartment", vaActDataSumList);
-//		/**
-//		 * 用于导出汇总数据时候不用重新查询，直接从缓存中取出数据，导出以后 清掉session对应的项
-//		 * session保存的总是最近一次查询的汇总结果
-//		 */
-//		session.put("vaActSummaryDataByDepartment", vaActDataSumList);
-//		return "success";
-//	}
 	
 	public String execute() throws Exception {
 		return "success";
 	}
-
+	
 	private String foredate;
 	private String afterdate;
-	private String departmentId = null;
+	private String departmentId ;
 	private String teacherId;
 	private String modulename;
 	private VateacherAndCollectiveActDAO vateacherAndCollectiveActDAO;
@@ -119,13 +78,13 @@ public class VaDataSummaryAction extends ActionSupport implements RequestAware {
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
 	private Map<String, Object> request;
-
+	
 	public static List<String> getDepartmentIds() {
 		return departmentIds;
 	}
 
 	public static void setDepartmentIds(List<String> departmentIds) {
-		VaDataSummaryAction.departmentIds = departmentIds;
+		VaDataSumAction_department.departmentIds = departmentIds;
 	}
 
 	public String getDepartmentId() {
