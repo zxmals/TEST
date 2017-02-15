@@ -12,11 +12,11 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
   <head>
   <base> 
     </head>
-    <base target="result">
+    <base target="result1">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SUMMARY-TEACHING-DATA</title>
+    <title>SUMMARY--DATA</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="../../css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -48,7 +48,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 	                    	 <br>
 	                         
 	                         <div>
-	                         	<form name="sumf" action="ATVaActDataSummary_teacherIframe!getVaDataByTeacher" method="post">
+	                         	<form name="sumf1" action="ATVaActDataSummary_teacherIframe!getVaDataByTeacher" method="post">
 	                         		<a>[日期范围]&nbsp;&nbsp;从:
 										<input type="text" style="width:120px;height:25px;border-radius:3px;border:1px solid silver;" onClick="WdatePicker()" id="date1" class="Wdate addcheck nullcheck" name="foredate">									
 										到:
@@ -58,13 +58,13 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										<input type="text" name="teacherId" id="teacherId"
 											 style="width:120px;height:25px;border-radius:3px;border:1px solid #C0C0C0;"/>
 									</a>&nbsp;&nbsp;&nbsp;&nbsp;
-									<button class="btn  btn-primary" type="button" id="subcheck" data-backdrop="true">
+									<button class="btn  btn-primary" type="button" id="subcheck1" data-backdrop="true">
 		                        	 <strong>查询</strong>
 		                         	</button>
 	                         	</form>
 		                    </div>
 	                    <br><hr>
-	                    <iframe style="border: none;width: 100%;height: 400px" name="result" src=""></iframe>
+	                    <iframe style="border: none;width: 100%;height: 400px" name="result1" src=""></iframe>
 	                </div>
 	            </div>
 	        </div>
@@ -87,9 +87,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
 	
-    $('#subcheck').click(function() {
+    $('#subcheck1').click(function() {
 		if(checkadds()){
-			document.sumf.submit();
+			document.sumf1.submit();
 		}else{
 				swal("WARNING!","请完善所有信息后提交","warning");
 		}

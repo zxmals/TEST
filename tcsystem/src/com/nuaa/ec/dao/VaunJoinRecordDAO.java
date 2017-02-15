@@ -7,11 +7,15 @@ import com.nuaa.ec.model.TeacherAndacademicWork;
 import com.nuaa.ec.model.VacollectiveAct;
 import com.nuaa.ec.model.VaunJoinRecord;
 import com.nuaa.ec.utils.NumberFormatUtil;
+import com.nuaa.ec.utils.StoreData;
+import com.nuaa.ec.utils.stringstore;
 import com.nuaa.ec.va.exportdata.TeacherJoinedData;
 import com.nuaa.ec.va.exportdata.UnjoinedActData;
+import com.nuaa.ec.va.exportdata.VaActListExcel;
 import com.opensymphony.xwork2.ActionContext;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
+import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,6 +55,8 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 	public static final String RESULTSCORE = "resultscore";
 	public static final String SPARETIRE = "sparetire";
 	public static final String ASPARETIRE = "asparetire";
+	private TeacherDAO teacherDAO = new TeacherDAO();
+	private Map<String, Object> teacherMap = StoreData.getTeachertranslate();
 	private Map<String, Object> session = ActionContext.getContext().getSession();
 
 	public void save(VaunJoinRecord transientInstance) {
@@ -246,35 +252,31 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 		StringBuffer hql = null;
 		if (department.getDepartmentId() == null || department.getDepartmentId().length() == 0) {
 			hql = new StringBuffer(
-					" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,VA.teacher.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
-							+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP  "
-							+ " where UJ.asparetire='"
-							+ checkOut
-							+ "'"
-							+ " and VA.spareTire='1' and UJ.sparetire='1' and VP.spareTire='1' "
+					"select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,UJ.teacherId,VA.actId,VA.actName,UJ.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,T.teacherName) "
+							+ " from VaunJoinRecord UJ,VacollectiveAct VA,Teacher T "
+							+ " where UJ.sparetire ='1' "
+							+ " and UJ.asparetire = '" + checkOut + "'"
+							+ " and VA.spareTire ='1' "
+							+ " and UJ.teacherId = T.teacherId"
 							+ " and VA.actId = UJ.actId "
-							+ " and UJ.actId = VP.vacollectiveAct.actId "
-							+ " and VA.teacher.spareTire='1'" + " and VA.teacher.department.spareTire='1'"
-			// + " and VA.teacher.researchLab.researchLabId='" +
-			// researchLab.getResearchLabId()+"'"
+							+ " and T.spareTire='1'"
 			);
 		} else {
 			// 查出符合条件的全部的记录
 			hql = new StringBuffer(
-					" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,VA.teacher.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
-							+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP "
-							+ " where UJ.asparetire='"
-							+ checkOut
-							+ "'"
-							+ " and VA.spareTire='1' and UJ.sparetire='1' and VP.spareTire='1' "
+					"select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,UJ.teacherId,VA.actId,VA.actName,UJ.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,T.teacherName) "
+							+ " from VaunJoinRecord UJ,VacollectiveAct VA,Teacher T "
+							+ " where UJ.sparetire ='1' "
+							+ " and UJ.asparetire = '" + checkOut + "'"
+							+ " and VA.spareTire ='1' "
+							+ " and UJ.teacherId = T.teacherId"
 							+ " and VA.actId = UJ.actId "
-							+ " and UJ.actId = VP.vacollectiveAct.actId "
-							+ " and VA.teacher.spareTire='1'"
-							+ " and VA.teacher.department.spareTire='1'"
-							+ " and VA.teacher.department.departmentId='" + department.getDepartmentId() + "'");
+							+ " and T.spareTire='1'"
+							+ " and T.department.spareTire='1'"
+							+ " and T.department.departmentId='" + department.getDepartmentId() + "'");
 		}
 		list = new ArrayList<VaunJoinRecord>();
-		String append = " and VP.actDate between ? and ? ";
+		String append = " and UJ.actDate >= ? and UJ.actDate <= ? ";
 		String rank = " order by UJ.unjoinId desc";
 
 		if (foredate != null && afterdate != null && foredate.length() != 0 && afterdate.length() != 0) {
@@ -303,21 +305,33 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 			session.put("pageCount_UA", 0);
 			return list;
 		} else {
+//			hql = new StringBuffer(
+//					" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,UJ.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
+//							+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP "
+//							+ " where UJ.asparetire='"
+//							+ checkOut
+//							+ "'"
+//							+ " and VA.spareTire='1' and UJ.sparetire='1' and VP.spareTire='1' "
+//							+ " and VA.actId = UJ.actId "
+//							+ " and UJ.actId = VP.vacollectiveAct.actId "
+//							+ " and VA.teacher.spareTire='1'"
+//							+ " and VA.teacher.department.spareTire='1'"
+//							+ " and VA.teacher.department.departmentId='" + department.getDepartmentId() + "'");
 			hql = new StringBuffer(
-					" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,UJ.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
-							+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP "
-							+ " where UJ.asparetire='"
-							+ checkOut
-							+ "'"
-							+ " and VA.spareTire='1' and UJ.sparetire='1' and VP.spareTire='1' "
+					"select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,UJ.teacherId,VA.actId,VA.actName,UJ.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,T.teacherName) "
+							+ " from VaunJoinRecord UJ,VacollectiveAct VA,Teacher T "
+							+ " where UJ.sparetire ='1' "
+							+ " and UJ.asparetire = '" + checkOut + "'"
+							+ " and VA.spareTire ='1' "
+							+ " and UJ.teacherId = T.teacherId"
 							+ " and VA.actId = UJ.actId "
-							// + " and UJ.actId = VP.vacollectiveAct.actId "
-							+ " and VA.teacher.spareTire='1'"
-							+ " and VA.teacher.department.spareTire='1'"
-							+ " and VA.teacher.department.departmentId='" + department.getDepartmentId() + "'");
+							+ " and T.spareTire='1'"
+							+ " and T.department.spareTire='1'"
+							+ " and T.department.departmentId='" + department.getDepartmentId() + "'"
+					);
 		}
 		try {
-			String append = " and VP.actDate between ? and ? ";
+			String append = " and UJ.actDate >= ? and UJ.actDate <= ? ";
 			String rank = " order by UJ.unjoinId desc";
 			/*
 			 * 不一定有日期，所以要判断
@@ -423,6 +437,39 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 			unjoinedActData.setAverage(0);
 		}
 		return unjoinedActData;
+	}
+
+	public ByteArrayOutputStream findwithexport(String actId, String actDate, String actName) {
+		// TODO Auto-generated method stub
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		String queryString = "from VaunJoinRecord VA"
+				+ " where VA.sparetire = '1'"
+				+ " and VA.actDate = '" + actDate +"'"
+				;
+		Query query = this.getSession().createQuery(queryString);
+		if (query.list().size() > 0) {
+			try {
+				VaActListExcel.generateTeacherUnJoinedExcel(stringstore.vaUnjoinedAct, query.list(), actDate, actName).write(baos);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return baos;
+		}else {
+			return null;
+		}
+	}
+
+	public List<VaunJoinRecord> getPersonDetailsOfUnjoinedAct(String teacherId, String foredate, String afterdate) {
+		// TODO Auto-generated method stub
+		List<VaunJoinRecord> vaunJoinRecords = new ArrayList<VaunJoinRecord>();
+		String hql = "from VaunJoinRecord VA where VA.sparetire = '1'"
+				+ " and VA.asparetire = '1'"
+				+ " and VA.actDate >= '" +  foredate + "'"
+				+ " and VA.actDate <= '" + afterdate + "'"
+				+ " and VA.teacherId ='" + teacherId + "'";
+		vaunJoinRecords = this.getSession().createQuery(hql).list();
+		return vaunJoinRecords;
 	}
 
 }

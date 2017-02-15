@@ -95,7 +95,7 @@ public class VaDataSummaryExcel {
 				cell[6].setCellStyle(cellStyle);
 			}
 		}
-		ActionContext.getContext().getSession().remove("VaActSummaryData");
+		ActionContext.getContext().getSession().remove("vaActSummaryDataByDepartment");
 		return workbook;
 	}
 }

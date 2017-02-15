@@ -85,7 +85,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 		}
 	});
     function exportData(){
-    	window.open("ATVaActDataSummary_department!getSummaryDataExcel");
+    	window.open("ATVaActDataSummary_departmentExcel!getSummaryDataExcel");
     }
 	</script>
 	<!-- carry-data -->

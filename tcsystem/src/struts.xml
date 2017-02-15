@@ -456,11 +456,11 @@
 			<result>/ExportData/summaryData/VaDataSummary_teacherIframe.jsp</result>
 		</action>
 		<action name="ATVaActDataSummary_departmentIframe"
-			class="com.nuaa.ec.action.VaDataSummaryAction">
+			class="com.nuaa.ec.action.VaDataSumAction_department">
 			<result>/ExportData/summaryData/VaDataSummary_departmentIframe.jsp</result>
 		</action>
-		<action name="ATVaActDataSummary_department"
-			class="com.nuaa.ec.action.VaDataSummaryAction">
+		<action name="ATVaActDataSummary_departmentExcel"
+			class="com.nuaa.ec.action.VaDataSumAction_department">
 			<result>/ExportData/summaryData/VaDataSummary_departmentIframe.jsp</result>
 		</action>
 		
