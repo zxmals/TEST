@@ -132,18 +132,20 @@
 												<!-- 所在系 -->
 												<td>${Teacher.department.departmentName }</td>
 												<!-- 教师身份 -->
+												<td>
 												<c:if test="${Teacher.departAdmin==1 }">
-													<td>系主任</td>
+													系主任|
 												</c:if>
 												<c:if test="${Teacher.vaadmin==1 }">
-													<td>公益管理员</td>
+													公益管理员|
 												</c:if>
 												<c:if test="${Teacher.researchLabAdmin==1 }">
-													<td>研究所所长</td>
+													研究所所长|
 												</c:if>
 												<c:if test="${Teacher.researchLabAdmin==0 && Teacher.vaadmin==0 && Teacher.departAdmin==0 }">
-													<td>普通教师</td>
+													普通教师|
 												</c:if>
+												</td>
 												<!-- 教师职位 -->
 												<td>
 													<c:choose>
