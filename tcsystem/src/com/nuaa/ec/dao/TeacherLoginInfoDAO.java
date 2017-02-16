@@ -31,7 +31,20 @@ public class TeacherLoginInfoDAO extends BaseHibernateDAO {
 	public static final String LEVEL = "level";
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String LOGIN_TIME = "loginTime";
-
+	
+	public void update(TeacherLoginInfo teacherLoginInfo) throws Exception{
+		Session session = getSession();
+		session.update(teacherLoginInfo);
+		session.beginTransaction().commit();
+	}
+	
+	public TeacherLoginInfo getPasswordByTeacherId(String teacherId) throws Exception{
+		Session session = getSession();
+		String hql = "FROM TeacherLoginInfo WHERE teacherId=?";
+		TeacherLoginInfo teacherLoginInfo = (TeacherLoginInfo) session.createQuery(hql).setParameter(0, teacherId).uniqueResult();
+		return teacherLoginInfo;
+	}
+	
 	public String findLevelByTeacherId(String teacherId) throws Exception{
 		Session session = getSession();
 		String hql = "SELECT level FROM TeacherLoginInfo WHERE teacherId=?";

@@ -145,7 +145,16 @@
 													<td>普通教师</td>
 												</c:if>
 												<!-- 教师职位 -->
-												<td>${Teacher.teacherPost }</td>
+												<td>
+													<c:choose>
+														<c:when test="${Teacher.teacherPost!=null }">
+															${Teacher.teacherPost}
+														</c:when>
+														<c:otherwise>
+															''
+														</c:otherwise>
+													</c:choose>
+												</td>
 												<!-- 操作 -->
 												<td>
 													<a  class="btn btn-primary btn-sm update" data-toggle="modal" data-target="#update" id="submitUpdateRecord">修改</a>

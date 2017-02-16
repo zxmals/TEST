@@ -61,9 +61,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="J_menuItem" href="searchjiben.jsp">个人资料</a>
+                                <li><a class="J_menuItem" href="GTGetInfo!getPersonalInfo">个人资料</a>
                                 </li>
-                                <li><a class="J_menuItem" href="xiugaimima.jsp">修改密码</a>
+                                <li><a class="J_menuItem" href="${pageContext.request.contextPath }/personalInfoManager/alterPassword.jsp">修改密码</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li><a href="logout!out">安全退出</a>

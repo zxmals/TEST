@@ -3,12 +3,14 @@ package com.nuaa.ec.action;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 
 import com.nuaa.ec.dao.TeacherDAO;
 import com.nuaa.ec.dao.TeacherLoginInfoDAO;
 import com.nuaa.ec.model.Teacher;
 import com.nuaa.ec.model.TeacherCustom;
+import com.nuaa.ec.model.TeacherLoginInfo;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -18,7 +20,25 @@ public class PersonalInfoAction extends ActionSupport implements RequestAware {
 	 * 
 	 */
 	private static final long serialVersionUID = -125454097584030605L;
-
+	
+	/*
+	 * alter password
+	 */
+	public void alterPassword() throws Exception{
+		Teacher teacherLogin = (Teacher) session.get("teacher");
+		TeacherLoginInfoDAO teacherLoginInfoDao = new TeacherLoginInfoDAO();
+		TeacherLoginInfo teacherLoginInfo = teacherLoginInfoDao.getPasswordByTeacherId(teacherLogin.getTeacherId());
+		if(teacherLoginInfo.getPassword().equals(oriPassword)){
+			teacherLoginInfo.setPassword(newPassword);
+			teacherLoginInfoDao.update(teacherLoginInfo);
+			ServletActionContext.getResponse().getWriter().write("succ");
+		}else{
+			ServletActionContext.getResponse().getWriter().write("oriPassError！");
+		}
+	}
+	/*
+	 * get personal info
+	 */
 	public String getPersonalInfo() throws Exception {
 		Teacher teacherLogin = (Teacher) session.get("teacher");
 		Teacher teacher = new TeacherDAO()
@@ -49,11 +69,25 @@ public class PersonalInfoAction extends ActionSupport implements RequestAware {
 		return "success";
 	}
 
+	private String newPassword;
+	private String oriPassword;
 	private Map<String, Object> session = ActionContext.getContext()
 			.getSession();
 	private Map<String, Object> request;
 
 	public void setRequest(Map<String, Object> request) {
 		this.request = request;
+	}
+	public String getNewPassword() {
+		return newPassword;
+	}
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+	public String getOriPassword() {
+		return oriPassword;
+	}
+	public void setOriPassword(String oriPassword) {
+		this.oriPassword = oriPassword;
 	}
 }
