@@ -152,31 +152,10 @@
 					<c:if test="${VaAddJoinedAct.actType==3 }">
 						<td>其他活动</td>
 					</c:if>
-					<!-- 说明 -->
-					<!-- 					<td>${VaAddJoinedAct.actapplyfile }</td> -->
-					<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->
-					<!-- 					<td><a href="#" title="${VaAddJoinedAct.actapplyfile }" alt="">${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</a> -->
-					<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……</td> -->
-					<!-- 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }…… <button class="button_set" onclick="alert('${VaAddJoinedAct.actapplyfile }')">查看</button></td> -->
 					<td>${fn:substring(VaAddJoinedAct.actapplyfile,0,8)  }……
-						<button class="button_set" data-toggle="modal"
-							data-target="#myModal">查看</button>
-						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-							aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">${VaAddJoinedAct.actId }&nbsp;
-										&nbsp; &nbsp; ${VaAddJoinedAct.actName }</div>
-									<div class="modal-body">${VaAddJoinedAct.actapplyfile }</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default"
-											data-dismiss="modal">关闭</button>
-
-									</div>
-								</div>
-							</div>
-						</div>
+						<button id="information" class="button_set information" data-toggle="modal"  name="">查看</button>
 					</td>
+					<td style="display:none">${VaAddJoinedAct.actapplyfile }</td>
 					<!-- 教师编号 -->
 					<td>${VaAddJoinedAct.teacher.teacherId }</td>
 					<!-- 教师姓名 -->
@@ -203,12 +182,29 @@
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
+				<label>活动信息</label>
+				<div class="modal-header"></div>
+				<input id="actId_actName" value="" type="text" class="form-control" />
+				<div class="modal-body"></div>
+				<textarea id="actapplyfile" type="text" class="form-control"
+					rows="5" cols="10"></textarea>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						name="">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="1myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
 				<div class="modal-header"></div>
 				<div class="modal-body">在这里添加一些文本</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 					</button>
-
 				</div>
 			</div>
 		</div>
@@ -270,8 +266,17 @@
 	<script src="My97DatePicker/WdatePicker.js"></script>
 	<script src="js/AuditSubmitController.js"></script>
 	<script type="text/javascript">
-		$()
-				.ready(
+		$('.information').click(function(){
+			$('#actId_actName').attr("value",$(this).parent().parent()[0].cells[1].innerHTML.trim());
+			var textarea = $('#actapplyfile');
+// 			textarea[0].value = $(this).parent().parent()[0].value;
+// 			textarea[0].value = document.getElementById("information").value;
+// 			textarea[0].value = document.getElementByName("information").value;
+			textarea[0].value = $(this).parent().parent()[0].cells[5].innerHTML.trim();
+			$(this).attr("data-target","#myModal");
+		});
+	
+		$().ready(
 						function() {
 							$(
 									"#pageSizeSelection option[value='${sessionScope.pageSize_CT}']")

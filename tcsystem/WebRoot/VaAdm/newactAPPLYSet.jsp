@@ -138,32 +138,10 @@
 												<c:if test="${entity.actType==3 }">
 													<td>其他活动</td>
 												</c:if>
-												<td>${fn:substring(entity.actapplyfile,0,8)  }……<!-- 													<button class="button_set"  -->
-													<!-- 													data-toggle="modal" --> <!-- 														data-target="#myModal" >查看</button> -->
-													<button onclick="tanchu('${entity.actapplyfile }')">查看</button>
-													<!-- 														<button onclick="modal('${entity.actapplyfile }')">chakan</button> -->
+												<td>${fn:substring(entity.actapplyfile,0,8)  }……
+													<button class="information" data-toggle="modal" data-target="#chakan">查看</button>
 												</td>
-
-
-
-
-												<div class="modal fade" id="myModal" tabindex="-1"
-													role="dialog" aria-labelledby="myModalLabel"
-													aria-hidden="true">
-													<div class="modal-dialog">
-														<div class="modal-content">
-															<div class="modal-header">${entity.actId }&nbsp;&nbsp;
-																&nbsp; ${entity.actName }</div>
-															<div class="modal-body">${entity.actapplyfile }</div>
-															<div class="modal-footer">
-																<button type="button" class="btn btn-default"
-																	data-dismiss="modal">关闭</button>
-
-															</div>
-														</div>
-													</div>
-												</div>
-
+												<td style="display:none">${entity.actapplyfile }</td>
 												<td>${entity.teacher.teacherId }</td>
 												<td>${entity.teacher.teacherName }</td>
 												<td>${entity.score }</td>
@@ -171,7 +149,6 @@
 													<c:if test="${entity.aspareTire == '1'}">审核通过</c:if> <c:if
 														test="${entity.aspareTire == '2'}">不通过</c:if></td>
 												<td><c:if test="${entity.aspareTire == '0' }">
-														<!--                                                     <a href="" class="btn btn-primary btn-sm delwords delinf update"  data-toggle="modal" data-target="#update">修改</a> -->
 														<a class="btn btn-primary btn-sm delwords delinf1"
 															data-toggle="modal">删除</a>
 													</c:if> <c:if test="${entity.aspareTire == '1' }">
@@ -180,10 +157,15 @@
 															data-toggle="modal" data-target="#update">修改</a>
 														<a class="btn btn-primary btn-sm delwords delinf1"
 															data-toggle="modal">删除</a>
+													</c:if><c:if test="${entity.actType == '0' }">
+														<a href=""
+															class="btn btn-primary btn-sm delwords delinf update"
+															data-toggle="modal" data-target="#update">修改</a>
+														<a class="btn btn-primary btn-sm delwords delinf1"
+															data-toggle="modal">删除</a>
 													</c:if></td>
 											</tr>
 										</c:forEach>
-										<!--                                     </tbody> -->
 									</table>
 								</form>
 								<div style="text-align: center;">
@@ -258,6 +240,24 @@
 			</div>
 		</div>
 
+		<div class="modal fade" id="chakan" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<label>活动信息</label>
+				<div class="modal-header"></div>
+				<input id="actId_actName" value="" type="text" class="form-control" />
+				<div class="modal-body"></div>
+				<label>活动说明</label>
+				<textarea id="actapplyfile" type="text" class="form-control"
+					rows="5" cols="10"></textarea>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						name="">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
 		<!-- Bootstrap core JavaScript
     ================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
@@ -280,6 +280,7 @@
 		<script src="js/bootstrap.min.js?v=3.3.5"></script>
 		<script src="js/plugins/jeditable/jquery.jeditable.js"></script>
 		<script src="js/content.min.js?v=1.0.0"></script>
+		<script src="js/bootstrap-modal.js"></script>
 		<script src="js/plugins/iCheck/icheck.min.js"></script>
 		<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 		<!-- 		<script src="js/PublicCheck/PUB_SET.js"></script> -->
@@ -291,6 +292,11 @@
             for(var i=0;i<tds.length;i++){
                 tds[i].innerHTML = tds[i].title.substring(0,5)+"...";
             };
+        });
+        $('.information').click(function(){
+        	$('#actId_actName').attr("value",$(this).parent().parent()[0].cells[1].innerHTML.trim());
+        	var textarea = $('#actapplyfile');
+        	textarea[0].value = $(this).parent().parent()[0].cells[5].innerHTML.trim();
         });
         $('#updateInfo').click(function(){
        		var x = confirm("确认更新？");
