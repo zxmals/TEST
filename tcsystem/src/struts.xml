@@ -609,4 +609,29 @@
 			<result name="success">/userManager/userCRUD.jsp</result>
 		</action>
 	</package>
+	<package name="personalInfoManager" namespace="/" extends="struts-default">
+		<action name="ATGetInfo" class="com.nuaa.ec.action.PersonalInfoAction">
+			<result name="success">/personalInfoManager/personInfo.jsp</result>
+		</action>
+		<action name="AT_GT_AlterPassword" class="com.nuaa.ec.action.PersonalInfoAction">
+			<result name="success">/personalInfoManager/alterPassword.jsp</result>
+		</action>
+		<action name="GTGetInfo" class="com.nuaa.ec.action.PersonalInfoAction">
+			<result name="success">/personalInfoManager/personInfo.jsp</result>
+		</action>
+	</package>
 </struts>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

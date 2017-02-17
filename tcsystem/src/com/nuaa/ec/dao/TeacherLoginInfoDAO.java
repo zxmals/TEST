@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,27 @@ public class TeacherLoginInfoDAO extends BaseHibernateDAO {
 	public static final String LEVEL = "level";
 	public static final String SPARE_TIRE = "spareTire";
 	public static final String LOGIN_TIME = "loginTime";
-
+	
+	public void update(TeacherLoginInfo teacherLoginInfo) throws Exception{
+		Session session = getSession();
+		session.update(teacherLoginInfo);
+		session.beginTransaction().commit();
+	}
+	
+	public TeacherLoginInfo getPasswordByTeacherId(String teacherId) throws Exception{
+		Session session = getSession();
+		String hql = "FROM TeacherLoginInfo WHERE teacherId=?";
+		TeacherLoginInfo teacherLoginInfo = (TeacherLoginInfo) session.createQuery(hql).setParameter(0, teacherId).uniqueResult();
+		return teacherLoginInfo;
+	}
+	
+	public String findLevelByTeacherId(String teacherId) throws Exception{
+		Session session = getSession();
+		String hql = "SELECT level FROM TeacherLoginInfo WHERE teacherId=?";
+		String level = (String) session.createQuery(hql).setParameter(0, teacherId).uniqueResult();
+		return level;
+	}
+	
 	public void save(TeacherLoginInfo transientInstance) {
 		log.debug("saving TeacherLoginInfo instance");
 		try {
