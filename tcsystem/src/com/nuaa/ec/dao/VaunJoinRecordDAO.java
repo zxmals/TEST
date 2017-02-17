@@ -305,18 +305,6 @@ public class VaunJoinRecordDAO extends BaseHibernateDAO {
 			session.put("pageCount_UA", 0);
 			return list;
 		} else {
-//			hql = new StringBuffer(
-//					" select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,UJ.teacherId,VA.actId,VA.actName, VP.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,VA.teacher.teacherName)"
-//							+ " from VaunJoinRecord UJ,VacollectiveAct VA,VacollectiveActivitiesPublish VP "
-//							+ " where UJ.asparetire='"
-//							+ checkOut
-//							+ "'"
-//							+ " and VA.spareTire='1' and UJ.sparetire='1' and VP.spareTire='1' "
-//							+ " and VA.actId = UJ.actId "
-//							+ " and UJ.actId = VP.vacollectiveAct.actId "
-//							+ " and VA.teacher.spareTire='1'"
-//							+ " and VA.teacher.department.spareTire='1'"
-//							+ " and VA.teacher.department.departmentId='" + department.getDepartmentId() + "'");
 			hql = new StringBuffer(
 					"select new com.nuaa.ec.model.VaunJoinRecord(UJ.unjoinId,UJ.teacherId,VA.actId,VA.actName,UJ.actDate,VA.attendee,UJ.unjoinreason,UJ.leavereqobtain,UJ.resultscore,UJ.sparetire,UJ.asparetire,T.teacherName) "
 							+ " from VaunJoinRecord UJ,VacollectiveAct VA,Teacher T "
