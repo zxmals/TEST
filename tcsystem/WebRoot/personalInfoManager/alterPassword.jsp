@@ -14,7 +14,7 @@
 		style="width:500px;height:400px;font-family: 微软雅黑;margin:40px auto;">
 		<form action="" class="" id="form">
 			<div class="input-group">
-				<div class="input-group-addon input-group-addon-cus">原密码</div>
+				<div class="input-group-addon input-group-addon-cus"style="letter-spacing:5px;">原密码</div>
 				<input type="password" id="oriPassword" name="oriPassword"
 					required="required" class="form-control input-lg">
 			</div>
@@ -22,11 +22,19 @@
 
 			</div>
 			<div class="input-group">
-				<div class="input-group-addon input-group-addon-cus">新密码</div>
+				<div class="input-group-addon input-group-addon-cus" style="letter-spacing:5px;">新密码</div>
 				<input type="password" name="newPassword" id="newPassword"
 					class="form-control input-lg">
 			</div>
 			<div id="errInfo2" style="width:500px;height:30px;color:orange;text-align: center;">
+
+			</div>
+			<div class="input-group">
+				<div class="input-group-addon input-group-addon-cus">确认密码</div>
+				<input type="password" name="confrimPass" id="confrimPass"
+					class="form-control input-lg">
+			</div>
+			<div id="errInfo3" style="width:500px;height:30px;color:orange;text-align: center;">
 
 			</div>
 			<div class="input-group">
@@ -44,18 +52,27 @@
 	function alterPassword(){
 		var oriPassword = document.getElementById("oriPassword").value;
 		var newPassword = document.getElementById("newPassword").value;
+		var confrimPass = document.getElementById("confrimPass").value;
 		var errorInfo = document.getElementById("errInfo");
 		var errorInfo2 = document.getElementById("errInfo2");
+		var errorInfo3 = document.getElementById("errInfo3");
 		if(oriPassword=='' || oriPassword.length==0){
-			errorInfo.innerHTML="原始密码不能为空！"
+			errorInfo.innerHTML="原始密码不能为空！";
 			return;
 		}
+		errorInfo.innerHTML="";
 		if(newPassword=='' || newPassword.length==0){
-			errorInfo2.innerHTML="新密码不能为空！"
+			errorInfo2.innerHTML="新密码不能为空！";
 			return;
 		}
+		errorInfo2.innerHTML="";
+		if(newPassword!=confrimPass){
+			errorInfo3.innerHTML="确认密码与新密码不一致，请重新输入";
+			return;
+		}
+		errorInfo3.innerHTML="";
 		if(newPassword==oriPassword){
-			errorInfo2.innerHTML="新密码与原密码不能相同！"
+			errorInfo2.innerHTML="新密码与原密码不能相同！";
 			return;
 		}
 		$.ajax({
