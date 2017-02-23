@@ -84,6 +84,39 @@ public class TfjoinStudentActivityPerformanceDAO extends BaseHibernateDAO {
 		}
 	}
 	
+	/***
+	 * 获取 单个教师 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
+		try {
+			StringBuffer queryString = new StringBuffer();
+			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(JSA.finalScore),0),ISNULL(avg(JSA.finalScore),0)) "
+					+ "from TfjoinStudentActivityPerformance JSA,Tfterm TERM where TERM.termId=JSA.termId"
+					+ " and JSA.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and JSA.tfjoinStudentActivityTime.spareTire='1'"
+					+ " and JSA.teacher.spareTire='1'"
+					+ " and JSA.checkOut='3'"
+					+ " and JSA.termId between ? and ?");
+//					+ " and JSA.teacher.department=?";
+			if(null!=teacherId&&!"".equals(teacherId.trim())){
+				queryString.append(" and JSA.teacher.teacherId like %"+teacherId.trim()+"% ");
+			}
+			Query queryObject = getSession().createQuery(queryString.toString())
+					.setParameter(0, foreterm).setParameter(1, afterterm);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 * 参与学生活动指导模块的数据导出
 	 */

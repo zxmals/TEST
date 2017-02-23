@@ -1,37 +1,21 @@
 package com.nuaa.ec.action;
 
-import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
-import org.junit.Test;
 
-import com.nuaa.ec.dao.DepartmentDAO;
 import com.nuaa.ec.dao.TeachingSummaryDao;
-import com.nuaa.ec.dao.TfclassTeachPefromanceDAO;
-import com.nuaa.ec.dao.TfdegreeThesisGuidancePerformanceDAO;
-import com.nuaa.ec.dao.TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO;
-import com.nuaa.ec.dao.TffamousTeacherTeamPerformanceDAO;
-import com.nuaa.ec.dao.TffineCourseConstructionPerformanceDAO;
-import com.nuaa.ec.dao.TfjoinStudentActivityPerformanceDAO;
-import com.nuaa.ec.dao.TfoffCampusPracticeGuidancePerformanceDAO;
-import com.nuaa.ec.dao.TfpracticeInnovationGuidePerformanceDAO;
-import com.nuaa.ec.dao.TfprofessionalProjectDeclarePerformanceDAO;
-import com.nuaa.ec.dao.TfstudentCompetitionGuidancePerformanceDAO;
-import com.nuaa.ec.dao.TfsummerCourseInternationalConstructionPerformanceDAO;
-import com.nuaa.ec.dao.TfteachingAbilityImprovePerformanceDAO;
-import com.nuaa.ec.dao.TfteachingAchievementPerformanceDAO;
-import com.nuaa.ec.dao.TfteachingCompetitionPerformanceDAO;
-import com.nuaa.ec.dao.TfteachingPaperPerformanceDAO;
-import com.nuaa.ec.dao.TfteachingRearchPerformanceDAO;
-import com.nuaa.ec.dao.TftextbookConstructionPerformanceDAO;
-import com.nuaa.ec.dao.TfundergraduateTutorGuidancePerformanceDAO;
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.utils.E_SummaryOfTeaching;
-import com.nuaa.ec.utils.Statistics_asist;
 
 public class TeachingDataSummaryAction implements RequestAware, SessionAware {
 
@@ -46,6 +30,7 @@ public class TeachingDataSummaryAction implements RequestAware, SessionAware {
 	public String execute(){
 		return "success";
 	}
+	// 获取系汇总数据
 	public String getDepartSummaryData() throws Exception{
 		try {
 			if("alldepart".equals(depart.getDepartmentId().trim())){
@@ -60,7 +45,40 @@ public class TeachingDataSummaryAction implements RequestAware, SessionAware {
 		}
 		return "success";
 	}
+	//
+	public String getTeacherSummaryData(){
+		
+		return "success";
+	}
 	
+	// 导出数据 
+	public void exportData(){
+		ByteArrayOutputStream baos =  teachsumdao.genarateTeachingSUMExpot(foreterm, afterterm, depart.getDepartmentId(), (List<E_SummaryOfTeaching>) session.get("departsumdata"));
+			try {
+				if(baos!=null){
+					HttpServletResponse resp = ServletActionContext.getResponse();
+					OutputStream out = resp.getOutputStream();
+					resp.setHeader(
+							"Content-Disposition",
+							"attachment;filename="
+									+ URLEncoder.encode(
+											"教学汇总数据",
+											"UTF-8") + ".xls");
+					byte[] bt = baos.toByteArray();
+					out.write(bt, 0, bt.length);
+					out.flush();
+					out.close();
+				}else{
+					ServletActionContext.getResponse()
+					.setCharacterEncoding("utf-8");
+					ServletActionContext.getResponse().getWriter()
+					.write(" Opps..... 请返回到上一页 ");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
 	//Getter & Setter
 	public Map<String, Object> getSession() {
 		return session;

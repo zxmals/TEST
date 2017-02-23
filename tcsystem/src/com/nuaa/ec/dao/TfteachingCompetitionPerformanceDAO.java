@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.jgroups.util.Buffer;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +68,39 @@ public class TfteachingCompetitionPerformanceDAO extends BaseHibernateDAO  {
 			Query queryObject = getSession().createQuery(queryString)
 					.setParameter(0, foreterm).setParameter(1, afterterm)
 					.setParameter(2, depart);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	/***
+	 * 获取 单个教师   统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
+		try {
+			StringBuffer queryString = new StringBuffer();
+			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TCP.finalScore),0),ISNULL(avg(TCP.finalScore),0)) "
+					+ "from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
+					+ " and TERM.spareTire='1'"
+					+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
+					+ " and TCP.teacher.spareTire='1'"
+					+ " and TCP.checkOut='3'"
+					+ " and TCP.termId=TERM.termId"
+					+ " and TCP.termId between ? and ?");
+//					+ " and TCP.teacher.department=?";
+			if(null!=teacherId&&!"".equals(teacherId.trim())){
+				queryString.append(" and TCP.teacher.teacherId like %"+teacherId.trim()+"% ");
+			}
+			Query queryObject = getSession().createQuery(queryString.toString())
+					.setParameter(0, foreterm).setParameter(1, afterterm);
 			if(queryObject.list().size()>0){
 				return (Statistics_asist) queryObject.list().get(0);
 			}else return null;

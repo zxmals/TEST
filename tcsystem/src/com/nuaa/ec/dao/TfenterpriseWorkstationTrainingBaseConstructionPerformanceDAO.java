@@ -81,6 +81,42 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO
 		}
 	}
 	
+	/***
+	 * 获取 单个教师  统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
+		try {
+			StringBuffer queryString = new StringBuffer();
+			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(EWTB.singleScore),0),ISNULL(avg(EWTB.singleScore),0)) "
+					+ "from TfenterpriseWorkstationTrainingBaseConstructionPerformance EWTB where EWTB.spareTire='1'"
+					+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.spareTire='1'"
+					+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.spareTire='1'"
+					+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.termId between ? and ?"
+					+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfenterpriseWorkstationTrainingbaseConstructionLevel.spareTire='1'"
+					+ " and EWTB.selfUndertakeTask.spareTire='1'"
+					+ " and EWTB.teacher.spareTire='1'"
+					+ " and EWTB.checkOut='3'"
+					+ " and EWTB.teacher.department.spareTire='1'");
+//					+ " and EWTB.teacher.department=?";
+			if(null!=teacherId&&!"".equals(teacherId.trim())){
+				queryString.append(" and EWTB.teacher.teacherId like %"+teacherId.trim()+"% ");
+			}
+			Query queryObject = getSession().createQuery(queryString.toString())
+					.setParameter(0, foreterm).setParameter(1, afterterm);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	
 	/**
 	 *企业工作站和联合培养基地的数据导出
 	 */

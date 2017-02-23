@@ -75,6 +75,39 @@ public class TfundergraduateTutorGuidancePerformanceDAO extends BaseHibernateDAO
 		}
 	}
 	
+	/***
+	 * 获取 单个 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
+		try {
+			StringBuffer queryString = new StringBuffer();
+			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(UTG.finalScore),0),ISNULL(avg(UTG.finalScore),0)) "
+					+ "from TfundergraduateTutorGuidancePerformance UTG,Tfterm TERM where TERM.termId=UTG.termId"
+					+ " and UTG.spareTire='1'"
+					+ " and UTG.checkOut='3'"
+					+ " and TERM.spareTire='1'"
+					+ " and UTG.tfundergraduateTutorGuidanceCache.spareTire='1'"
+					+ " and UTG.teacher.spareTire='1'"
+					+ " and UTG.termId between ? and ?");
+//					+ " and UTG.teacher.department=?";
+			if(null!=teacherId&&!"".equals(teacherId.trim())){
+				queryString.append(" and UTG.teacher.teacherId like %"+teacherId.trim()+"% ");
+			}
+			Query queryObject = getSession().createQuery(queryString.toString())
+					.setParameter(0, foreterm).setParameter(1, afterterm);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 * 本科生导师指导模块的数据导出
 	 */
