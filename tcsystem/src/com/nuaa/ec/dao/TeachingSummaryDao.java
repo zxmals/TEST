@@ -1,7 +1,17 @@
 package com.nuaa.ec.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.model.Department;
 import com.nuaa.ec.utils.E_SummaryOfTeaching;
@@ -27,7 +37,9 @@ public class TeachingSummaryDao {
 	private TfjoinStudentActivityPerformanceDAO studentactivitydao = new TfjoinStudentActivityPerformanceDAO();
 	private TfundergraduateTutorGuidancePerformanceDAO undergraduateguidancedao = new TfundergraduateTutorGuidancePerformanceDAO();
 	private TfoffCampusPracticeGuidancePerformanceDAO offcampusdao = new TfoffCampusPracticeGuidancePerformanceDAO();
-	
+	/*
+	 * 根据所有系获取汇总信息
+	 */
 	public List<E_SummaryOfTeaching> getAllSum(String foreterm,String afterterm){
 		@SuppressWarnings("unchecked")
 		List<Department> departsli = new DepartmentDAO().findAll();
@@ -157,13 +169,16 @@ public class TeachingSummaryDao {
 		esotli.add(eso);
 		return esotli;
 	}
-	
+	/*
+	 * 根据单个系获取汇总信息
+	 */
 	public List<E_SummaryOfTeaching> getSingleSum(String foreterm,String afterterm,Department depart){
 		List<E_SummaryOfTeaching> esotli = new ArrayList<E_SummaryOfTeaching>();
+		DepartmentDAO departsdao = new DepartmentDAO();
 		E_SummaryOfTeaching es = null;
 			double sum = 0;
 			es = new E_SummaryOfTeaching();
-			es.setDeparts(depart);
+			es.setDeparts(departsdao.findById(depart.getDepartmentId()));
 			
 			es.setClassTeaching(classteachdao.getSA(foreterm, afterterm, depart));
 			sum += es.getClassTeaching().getSum();
@@ -222,5 +237,196 @@ public class TeachingSummaryDao {
 			es.setSumUP(new Statistics_asist(sum,(double)((int)((sum/18)/0.01))*0.01));
 			esotli.add(es);
 		return esotli;
+	}
+	
+	public ByteArrayOutputStream genarateTeachingSUMExpot(String foreterm,String afterterm,String departId,List<E_SummaryOfTeaching> exportsdata){
+		TftermDAO tftermdao = new TftermDAO();
+		DepartmentDAO departdao = new DepartmentDAO();
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet(tftermdao.findById(foreterm).getTerm()+"-"+tftermdao.findById(afterterm).getTerm());
+		//设置列宽
+		for(int i=0;i<19;i++){
+			sheet.setColumnWidth((short) i, 5000);
+		}
+		sheet.setColumnWidth((short) 2, 8000);
+		sheet.setColumnWidth((short) 5, 8000);
+		sheet.setColumnWidth((short) 11, 8000);
+		sheet.setColumnWidth((short) 12, 8000);
+		sheet.setColumnWidth((short) 13, 8000);
+		sheet.setColumnWidth((short) 19, 3000);
+		//创建预备居中格式
+		HSSFCellStyle cellStyle = wb.createCellStyle();
+		//创建预备居中大字体格式
+		HSSFCellStyle cellStyleforFonts = wb.createCellStyle();
+		//设置格式居中
+		cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyleforFonts.setAlignment(CellStyle.ALIGN_CENTER);
+		//创建字体
+		HSSFFont font = wb.createFont(); 
+		//设置字体大小
+		font.setFontHeightInPoints((short)14);
+		//合并字体到 居中大字体格式
+		cellStyleforFonts.setFont(font);
+		
+		//合并单元格  org.apache.poi.hssf.util.Region(short rowFrom,short colFrom,short rowTo,short colTo)
+		org.apache.poi.hssf.util.Region reg = new org.apache.poi.hssf.util.Region((short)0,(short)0,(short)1,(short)(19));
+		sheet.addMergedRegion(reg);
+		int rownum = 0;
+		HSSFRow row = sheet.createRow((short) rownum++);
+		HSSFCell cell = row.createCell(0);
+		cell = row.createCell(0);
+		cell.setCellValue("教学汇总  ["+("alldepart".equals(departId)?"所有系":departdao.findById(departId).getDepartmentName())+"]");
+		cell.setCellStyle(cellStyleforFonts);
+		reg = new org.apache.poi.hssf.util.Region((short)2,(short)1,(short)2,(short)(5));
+		sheet.addMergedRegion(reg);
+		reg = new org.apache.poi.hssf.util.Region((short)2,(short)6,(short)2,(short)(13));
+		sheet.addMergedRegion(reg);
+		reg = new org.apache.poi.hssf.util.Region((short)2,(short)14,(short)2,(short)(18));
+		sheet.addMergedRegion(reg);
+		rownum++;
+		row = sheet.createRow(rownum++);
+		cell = row.createCell(1); 
+		cell.setCellValue("教学能力与实效");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(6);
+		cell.setCellValue("综合改革与教学研究");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(14);
+		cell.setCellValue("学生指导工作");
+		cell.setCellStyle(cellStyle);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		row = sheet.createRow(rownum++);
+		//表头
+		cell = row.createCell(0);
+		cell.setCellValue("系");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(1);
+		cell.setCellValue("课堂教学(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(2);
+		cell.setCellValue("学位论文指导质量(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(3);
+		cell.setCellValue("教学竞赛(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(4);
+		cell.setCellValue("教学能力提升(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(5);
+		cell.setCellValue("教学名师和教学团队(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(6);
+		cell.setCellValue("教学研究(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(7);
+		cell.setCellValue("教学论文(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(8);
+		cell.setCellValue("教学成果奖(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(9);
+		cell.setCellValue("教材建设(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(10);
+		cell.setCellValue("精品课程建设(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(11);
+		cell.setCellValue("专业建设项目申报(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(12);
+		cell.setCellValue("企业工作站和联合培养基地建设(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(13);
+		cell.setCellValue("暑期课程与国际课程建设(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(14);
+		cell.setCellValue("实践创新指导(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(15);
+		cell.setCellValue("学生竞赛指导(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(16);
+		cell.setCellValue("参与学生活动(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(17);
+		cell.setCellValue("本科生导师指导(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(18);
+		cell.setCellValue("校外实践指导(总/均)");
+		cell.setCellStyle(cellStyle);
+		cell = row.createCell(19);
+		cell.setCellValue("总计(总/均)");
+		cell.setCellStyle(cellStyle);
+		for(int i=0;i<exportsdata.size();i++){
+			row = sheet.createRow(rownum++);
+			cell = row.createCell(0);
+			cell.setCellValue(exportsdata.get(i).getDeparts().getDepartmentName());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(1);
+			cell.setCellValue(exportsdata.get(i).getClassTeaching().getSum()+" / "+exportsdata.get(i).getClassTeaching().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(2);
+			cell.setCellValue(exportsdata.get(i).getDegreeGuidance().getSum()+" / "+exportsdata.get(i).getDegreeGuidance().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(3);
+			cell.setCellValue(exportsdata.get(i).getTeachingCompetition().getSum()+" / "+exportsdata.get(i).getTeachingCompetition().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(4);
+			cell.setCellValue(exportsdata.get(i).getTeachingAbilityImprove().getSum()+" / "+exportsdata.get(i).getTeachingAbilityImprove().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(5);
+			cell.setCellValue(exportsdata.get(i).getFamousTeacherTeam().getSum()+" / "+exportsdata.get(i).getFamousTeacherTeam().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(6);
+			cell.setCellValue(exportsdata.get(i).getTeachingResearch().getSum()+" / "+exportsdata.get(i).getTeachingResearch().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(7);
+			cell.setCellValue(exportsdata.get(i).getTeachingPaper().getSum()+" / "+exportsdata.get(i).getTeachingPaper().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(8);
+			cell.setCellValue(exportsdata.get(i).getTeachingAchievement().getSum()+" / "+exportsdata.get(i).getTeachingAchievement().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(9);
+			cell.setCellValue(exportsdata.get(i).getTextBookConstruction().getSum()+" / "+exportsdata.get(i).getTextBookConstruction().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(10);
+			cell.setCellValue(exportsdata.get(i).getFineCourse().getSum()+" / "+exportsdata.get(i).getFineCourse().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(11);
+			cell.setCellValue(exportsdata.get(i).getProfessionalProjectConstruction().getSum()+" / "+exportsdata.get(i).getProfessionalProjectConstruction().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(12);
+			cell.setCellValue(exportsdata.get(i).getFirmWorkstationTrainingBase().getSum()+" / "+exportsdata.get(i).getFirmWorkstationTrainingBase().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(13);
+			cell.setCellValue(exportsdata.get(i).getSummerInternationalCourse().getSum()+" / "+exportsdata.get(i).getSummerInternationalCourse().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(14);
+			cell.setCellValue(exportsdata.get(i).getPracticeInnovationGuidance().getSum()+" / "+exportsdata.get(i).getPracticeInnovationGuidance().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(15);
+			cell.setCellValue(exportsdata.get(i).getStudentsCompetitionGuidance().getSum()+" / "+exportsdata.get(i).getStudentsCompetitionGuidance().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(16);
+			cell.setCellValue(exportsdata.get(i).getStudentsActivity().getSum()+" / "+exportsdata.get(i).getStudentsActivity().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(17);
+			cell.setCellValue(exportsdata.get(i).getUndergraduateGuidance().getSum()+" / "+exportsdata.get(i).getUndergraduateGuidance().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(18);
+			cell.setCellValue(exportsdata.get(i).getOff_campusPracticeGuidance().getSum()+" / "+exportsdata.get(i).getOff_campusPracticeGuidance().getAvg());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(19);
+			cell.setCellValue(exportsdata.get(i).getSumUP().getSum()+" / "+exportsdata.get(i).getSumUP().getAvg());
+			cell.setCellStyle(cellStyle);
+		}
+		try {
+			wb.write(baos);
+			return  baos;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

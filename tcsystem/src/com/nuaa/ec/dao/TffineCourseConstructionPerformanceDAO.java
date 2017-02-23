@@ -81,6 +81,41 @@ public class TffineCourseConstructionPerformanceDAO extends BaseHibernateDAO {
 		}
 	}
 	
+	/***
+	 * 获取 单个教师  统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
+		try {
+			StringBuffer queryString = new StringBuffer();
+			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(FCC.singelScore),0),ISNULL(avg(FCC.singelScore),0)) "
+					+ "from TffineCourseConstructionPerformance FCC where FCC.spareTire='1'"
+					+ " and FCC.tffineCourseConstructionProject.spareTire='1'"
+					+ " and FCC.tffineCourseConstructionProject.tffineCourseConstructionLevel.spareTire='1'"
+					+ " and FCC.tffineCourseConstructionProject.tfterm.spareTire='1'"
+					+ " and FCC.selfUndertakeTask.spareTire='1'"
+					+ " and FCC.tffineCourseConstructionProject.tfterm.termId between ? and ?"
+					+ " and FCC.teacher.spareTire='1'"
+					+ " and FCC.checkOut='3'"
+					+ " and FCC.teacher.department.spareTire='1'");
+//					+ " and FCC.teacher.department=?";
+			if(teacherId!=null&&!"".equals(teacherId.trim())){
+				queryString.append(" and FCC.teacher.teacherId like %"+teacherId.trim()+"% ");
+			}
+			Query queryObject = getSession().createQuery(queryString.toString())
+					.setParameter(0, foreterm).setParameter(1, afterterm);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 *精品课程的数据导出
 	 */

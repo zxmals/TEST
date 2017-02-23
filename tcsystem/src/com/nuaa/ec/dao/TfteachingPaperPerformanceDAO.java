@@ -81,6 +81,41 @@ public class TfteachingPaperPerformanceDAO extends BaseHibernateDAO {
 		}
 	}
 	
+	/***
+	 * 获取 单个教师   统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
+		try {
+			StringBuffer queryString = new StringBuffer();
+			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TPP.singelScore),0),ISNULL(avg(TPP.singelScore),0)) "
+					+ "from TfteachingPaperPerformance TPP where TPP.spareTire='1'"
+					+ " and TPP.tfteachingPaperProject.spareTire='1'"
+					+ " and TPP.tfteachingPaperProject.tfteachingPaperRetrievalCondition.spareTire='1'"
+					+ " and TPP.tfteachingPaperProject.tfterm.spareTire='1'"
+					+ " and TPP.selfUndertakeTask.spareTire='1'"
+					+ " and TPP.tfteachingPaperProject.tfterm.termId between ? and ?"
+					+ " and TPP.teacher.spareTire='1'"
+					+ " and TPP.checkOut='3'"
+					+ " and TPP.teacher.department.spareTire='1'");
+//					+ " and TPP.teacher.department=?";
+			if(null!=teacherId&&!"".equals(teacherId.trim())){
+				queryString.append(" and TPP.teacher.teacherId like %"+teacherId+"% ");
+			}
+			Query queryObject = getSession().createQuery(queryString.toString())
+					.setParameter(0, foreterm).setParameter(1, afterterm);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 *教学论文的数据导出
 	 */

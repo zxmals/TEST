@@ -78,6 +78,41 @@ public class TfstudentCompetitionGuidancePerformanceDAO extends BaseHibernateDAO
 		}
 	}
 	
+	/***
+	 * 获取 单个教师  统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
+		try {
+			StringBuffer queryString = new StringBuffer();
+			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(SCG.finalScore),0),ISNULL(avg(SCG.finalScore),0)) "
+					+ "from TfstudentCompetitionGuidancePerformance SCG,Tfterm TERM where TERM.termId=SCG.termId"
+					+ " and SCG.spareTire='1'"
+					+ " and SCG.checkOut='3'"
+					+ " and TERM.spareTire='1'"
+					+ " and SCG.tfstudentCompetitionGuidanceScore.spareTire='1'"
+					+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceCompetitionType.spareTire='1'"
+					+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceRewardLevel.spareTire='1'"
+					+ " and SCG.teacher.spareTire='1'"
+					+ " and SCG.termId between ? and ?");
+//					+ " and SCG.teacher.department=?";
+			if(null!=teacherId&&!"".equals(teacherId.trim())){
+				queryString.append(" and SCG.teacher.teacherId like %"+teacherId.trim()+"% ");
+			}
+			Query queryObject = getSession().createQuery(queryString.toString())
+					.setParameter(0, foreterm).setParameter(1, afterterm);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 * 学生竞赛指导模块的数据导出
 	 */

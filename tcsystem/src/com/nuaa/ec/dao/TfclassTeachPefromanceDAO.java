@@ -88,6 +88,37 @@ public class TfclassTeachPefromanceDAO extends BaseHibernateDAO {
 			throw re;
 		}
 	}
+	/***
+	 * 获取单个教师 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param teacherId
+	 * @return
+	 */
+	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
+		try {
+			StringBuffer queryString = new StringBuffer(); 
+					queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(ct.finalScore),0),ISNULL(avg(ct.finalScore),0)) "
+					+ "from TfclassTeachPefromance ct,Tfterm term "
+					+ "where term.termId=ct.termId"
+					+ " and ct.spareTire='1'"
+					+ " and ct.checkOut='3'"
+					+ " and term.spareTire='1'"
+					+ " and ct.tfclassTeachEvaluation.spareTire='1'"
+					+ " and ct.tfclassTeachTime.spareTire='1'"
+					+ " and ct.teacher.spareTire='1'"
+					+ " and ct.termId BETWEEN ? and ? ");
+						queryString.append(" and ct.teacher.teacherId='"+teacherId.trim()+"' ");
+			Query queryObject = getSession().createQuery(queryString.toString())
+					.setParameter(0, foreterm).setParameter(1, afterterm);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	
 	/**
 	 * 课堂教学模块的数据导出

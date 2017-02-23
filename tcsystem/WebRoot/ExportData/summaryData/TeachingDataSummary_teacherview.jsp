@@ -15,7 +15,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Teaching-DATASUMMARY --DEPART-</title>
+    <title>Teaching-DATASUMMARY --TEACHER-</title>
     
     <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -63,9 +63,9 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 
 <body class="gray-bg">
 	                    <div class="ibox-content" style="height:540px;">
-	                    <button class="btn  btn-primary exportsumd" type="button" data-backdrop="true">
-	                        	 <strong>导出</strong>
-	                         </button>
+<!-- 	                    <button class="btn  btn-primary exportsumd" type="button" data-backdrop="true"> -->
+<!-- 	                        	 <strong>导出</strong> -->
+<!-- 	                         </button> -->
 	                    <br>
 	                        <div class="example" style="overflow: auto">
 	                       <table id="tb" class="table table-striped table-bordered table-hover dataTables-example">
@@ -77,7 +77,7 @@ request.setAttribute("teachermp", StoreData.getTeachertranslate());
 										<td></td>
 									</tr>
 									<tr>
-										<td>系</td>
+										<td>教师编号</td>
 										<td>课堂教学(总/均)</td>
 										<td>学位论文指导质量(总/均)</td>
 										<td>教学竞赛(总/均)</td>

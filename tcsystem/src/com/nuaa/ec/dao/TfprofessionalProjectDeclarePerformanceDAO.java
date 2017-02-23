@@ -82,6 +82,42 @@ public class TfprofessionalProjectDeclarePerformanceDAO extends
 		}
 	}
 	
+	/***
+	 * 获取 单个教师  统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
+		try {
+			StringBuffer queryString = new StringBuffer();
+			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(PPD.singleScore),0),ISNULL(avg(PPD.singleScore),0)) "
+					+ "from TfprofessionalProjectDeclarePerformance PPD where PPD.spareTire='1'"
+					+ " and PPD.tfprofessionalProjectDeclareProject.spareTire='1'"
+					+ " and PPD.tfprofessionalProjectDeclareProject.tfprofessionalProjectDeclareLevel.spareTire='1'"
+					+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.spareTire='1'"
+					+ " and PPD.selfUndertakeTask.spareTire='1'"
+					+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.termId between ? and ?"
+					+ " and PPD.teacher.spareTire='1'"
+					+ " and PPD.checkOut='3'"
+					+ " and PPD.teacher.department.spareTire='1'");
+//					+ " and PPD.teacher.department=?";
+			if(null!=teacherId&&!"".equals(teacherId.trim())){
+				queryString.append(" and PPD.teacher.teacherId like %"+teacherId.trim()+"% ");
+			}
+			Query queryObject = getSession().createQuery(queryString.toString())
+					.setParameter(0, foreterm).setParameter(1, afterterm);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	
 	/**
 	 *专业项目申报的数据导出
 	 */

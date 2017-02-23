@@ -82,6 +82,42 @@ public class TffamousTeacherTeamPerformanceDAO extends BaseHibernateDAO {
 		}
 	}
 	
+	/***
+	 * 获取 单个 统计信息
+	 * @param foreterm
+	 * @param afterterm
+	 * @param depart
+	 * @return
+	 */
+	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
+		try {
+			StringBuffer queryString =  new StringBuffer();
+			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(FTT.singelScore),0),ISNULL(avg(FTT.singelScore),0)) "
+					+ "from TffamousTeacherTeamPerformance FTT "
+					+ " where FTT.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.spareTire='1'"
+					+ " and FTT.selfUndertakeTask.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.tffamousTeacherTeamRewadLevel.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.tfterm.spareTire='1'"
+					+ " and FTT.tffamousTeacherTeamProject.tfterm.termId between ? and ?"
+					+ " and FTT.teacher.spareTire='1'"
+					+ " and FTT.checkOut='3'"
+					+ " and FTT.teacher.department.spareTire='1'");
+//					+ " and FTT.teacher.department=?";
+			if(teacherId!=null&&!"".equals(teacherId.trim())){
+				queryString.append(" and FTT.teacher.teacherId like %"+teacherId.trim()+"% ");
+			}
+			Query queryObject = getSession().createQuery(queryString.toString())
+					.setParameter(0, foreterm).setParameter(1, afterterm);
+			if(queryObject.list().size()>0){
+				return (Statistics_asist) queryObject.list().get(0);
+			}else return null;
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	/**
 	 *教学名师和教学团队模块的数据导出
 	 */
