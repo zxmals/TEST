@@ -87,8 +87,7 @@ public class TfstudentCompetitionGuidancePerformanceDAO extends BaseHibernateDAO
 	 */
 	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
 		try {
-			StringBuffer queryString = new StringBuffer();
-			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(SCG.finalScore),0),ISNULL(avg(SCG.finalScore),0)) "
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(SCG.finalScore),0),ISNULL(avg(SCG.finalScore),0)) "
 					+ "from TfstudentCompetitionGuidancePerformance SCG,Tfterm TERM where TERM.termId=SCG.termId"
 					+ " and SCG.spareTire='1'"
 					+ " and SCG.checkOut='3'"
@@ -97,13 +96,11 @@ public class TfstudentCompetitionGuidancePerformanceDAO extends BaseHibernateDAO
 					+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceCompetitionType.spareTire='1'"
 					+ " and SCG.tfstudentCompetitionGuidanceScore.tfstudentCompetitionGuidanceRewardLevel.spareTire='1'"
 					+ " and SCG.teacher.spareTire='1'"
-					+ " and SCG.termId between ? and ?");
-//					+ " and SCG.teacher.department=?";
-			if(null!=teacherId&&!"".equals(teacherId.trim())){
-				queryString.append(" and SCG.teacher.teacherId like %"+teacherId.trim()+"% ");
-			}
-			Query queryObject = getSession().createQuery(queryString.toString())
-					.setParameter(0, foreterm).setParameter(1, afterterm);
+					+ " and SCG.termId between ? and ?"
+					+ " and SCG.teacher.teacherId=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, teacherId);
 			if(queryObject.list().size()>0){
 				return (Statistics_asist) queryObject.list().get(0);
 			}else return null;

@@ -90,8 +90,7 @@ public class TfteachingAchievementPerformanceDAO extends BaseHibernateDAO {
 	 */
 	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
 		try {
-			StringBuffer queryString = new StringBuffer();
-			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TAP.singelScore),0),ISNULL(avg(TAP.singelScore),0)) "
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TAP.singelScore),0),ISNULL(avg(TAP.singelScore),0)) "
 					+ "from TfteachingAchievementPerformance TAP where TAP.spareTire='1'"
 					+ " and TAP.tfteachingAchievementProject.spareTire='1'"
 					+ " and TAP.tfteachingAchievementProject.tfteachingAchievementRewardLevel.spareTire='1'"
@@ -100,13 +99,11 @@ public class TfteachingAchievementPerformanceDAO extends BaseHibernateDAO {
 					+ " and TAP.tfteachingAchievementProject.tfterm.termId between ? and ?"
 					+ " and TAP.teacher.spareTire='1'"
 					+ " and TAP.checkOut='3'"
-					+ " and TAP.teacher.department.spareTire='1'");
-//					+ " and TAP.teacher.department=?";
-			if(null!=teacherId&&!"".equals(teacherId.trim())){
-				queryString.append(" and TAP.teacher.teacherId like %"+teacherId.trim()+"% ");
-			}
-			Query queryObject = getSession().createQuery(queryString.toString())
-					.setParameter(0, foreterm).setParameter(1, afterterm);
+					+ " and TAP.teacher.department.spareTire='1'"
+					+ " and TAP.teacher.teacherId=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, teacherId);
 			if(queryObject.list().size()>0){
 				return (Statistics_asist) queryObject.list().get(0);
 			}else return null;

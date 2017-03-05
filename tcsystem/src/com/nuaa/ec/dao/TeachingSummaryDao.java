@@ -14,6 +14,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.nuaa.ec.model.Department;
+import com.nuaa.ec.model.Teacher;
+import com.nuaa.ec.teachingData.exportData.TeachingCompetitionExcel;
+import com.nuaa.ec.utils.E_SummaryOfTeacher;
 import com.nuaa.ec.utils.E_SummaryOfTeaching;
 import com.nuaa.ec.utils.Statistics_asist;
 
@@ -37,6 +40,84 @@ public class TeachingSummaryDao {
 	private TfjoinStudentActivityPerformanceDAO studentactivitydao = new TfjoinStudentActivityPerformanceDAO();
 	private TfundergraduateTutorGuidancePerformanceDAO undergraduateguidancedao = new TfundergraduateTutorGuidancePerformanceDAO();
 	private TfoffCampusPracticeGuidancePerformanceDAO offcampusdao = new TfoffCampusPracticeGuidancePerformanceDAO();
+	
+	public List<E_SummaryOfTeacher> getTeacherSUM(String foreterm,String afterterm,String teacherId){
+		TeacherDAO teacherdao = new TeacherDAO();
+		List<Teacher> teacherli = teacherdao.findTeacherByFuzzyQuery(teacherId);
+		List<E_SummaryOfTeacher> sumteacherli = new ArrayList<E_SummaryOfTeacher>();
+		E_SummaryOfTeacher sumteacher = null;
+		double sum = 0;
+		for(int i=0;i<teacherli.size();i++){
+			sumteacher = new E_SummaryOfTeacher();
+			sum = 0;
+			
+			sumteacher.setTeacher(teacherli.get(i));
+			
+			sumteacher.setClassTeaching(classteachdao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getClassTeaching().getSum();
+			
+			sumteacher.setDegreeGuidance(paperguidancedao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getDegreeGuidance().getSum();
+			
+			sumteacher.setFamousTeacherTeam(famousteachteamdao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getFamousTeacherTeam().getSum();
+			
+			sumteacher.setFineCourse(finecoursedao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getFineCourse().getSum();
+			
+			sumteacher.setFirmWorkstationTrainingBase(firmworkstationdao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getFirmWorkstationTrainingBase().getSum();
+			
+			sumteacher.setOff_campusPracticeGuidance(offcampusdao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getOff_campusPracticeGuidance().getSum();
+			
+			sumteacher.setPracticeInnovationGuidance(practiceinnovationdao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getPracticeInnovationGuidance().getSum();
+			
+			sumteacher.setProfessionalProjectConstruction(professionprojectdao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getProfessionalProjectConstruction().getSum();
+			
+			sumteacher.setStudentsActivity(studentactivitydao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getStudentsActivity().getSum();
+			
+			sumteacher.setStudentsCompetitionGuidance(studentscompetdao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getStudentsCompetitionGuidance().getSum();
+			
+			sumteacher.setSummerInternationalCourse(summercoursedao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getSummerInternationalCourse().getSum();
+			
+			sumteacher.setTeachingAbilityImprove(teachingabilitydao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getTeachingAbilityImprove().getSum();
+			
+			sumteacher.setTeachingAchievement(teachingachievedao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getTeachingAchievement().getSum();
+			
+			sumteacher.setTeachingCompetition(teachingcompetedao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getTeachingCompetition().getSum();
+			
+			sumteacher.setTeachingPaper(teachingpaperdao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getTeachingPaper().getSum();
+			
+			sumteacher.setTeachingResearch(teachingresearchdao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getTeachingResearch().getSum();
+			
+			sumteacher.setTextBookConstruction(textbookdao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getTextBookConstruction().getSum();
+			
+			sumteacher.setUndergraduateGuidance(undergraduateguidancedao.getSAperson(foreterm, afterterm, teacherli.get(i).getTeacherId()));
+			sum += sumteacher.getUndergraduateGuidance().getSum();
+			
+			sumteacher.setSumUP(new Statistics_asist(sum, (double)((int)((sum/18)/0.01))*0.01));
+			
+			sumteacherli.add(sumteacher);
+		}
+		if(sumteacherli.size()>0){
+			return sumteacherli;
+		}else{
+			return null;
+		}
+	}
+	
 	/*
 	 * 根据所有系获取汇总信息
 	 */

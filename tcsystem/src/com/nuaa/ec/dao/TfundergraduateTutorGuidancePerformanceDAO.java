@@ -84,21 +84,18 @@ public class TfundergraduateTutorGuidancePerformanceDAO extends BaseHibernateDAO
 	 */
 	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
 		try {
-			StringBuffer queryString = new StringBuffer();
-			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(UTG.finalScore),0),ISNULL(avg(UTG.finalScore),0)) "
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(UTG.finalScore),0),ISNULL(avg(UTG.finalScore),0)) "
 					+ "from TfundergraduateTutorGuidancePerformance UTG,Tfterm TERM where TERM.termId=UTG.termId"
 					+ " and UTG.spareTire='1'"
 					+ " and UTG.checkOut='3'"
 					+ " and TERM.spareTire='1'"
 					+ " and UTG.tfundergraduateTutorGuidanceCache.spareTire='1'"
 					+ " and UTG.teacher.spareTire='1'"
-					+ " and UTG.termId between ? and ?");
-//					+ " and UTG.teacher.department=?";
-			if(null!=teacherId&&!"".equals(teacherId.trim())){
-				queryString.append(" and UTG.teacher.teacherId like %"+teacherId.trim()+"% ");
-			}
-			Query queryObject = getSession().createQuery(queryString.toString())
-					.setParameter(0, foreterm).setParameter(1, afterterm);
+					+ " and UTG.termId between ? and ?"
+					+ " and UTG.teacher.teacherId=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, teacherId);
 			if(queryObject.list().size()>0){
 				return (Statistics_asist) queryObject.list().get(0);
 			}else return null;

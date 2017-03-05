@@ -33,11 +33,12 @@ public class TeachingDataSummaryAction implements RequestAware, SessionAware {
 	// 获取系汇总数据
 	public String getDepartSummaryData() throws Exception{
 		try {
-			if("alldepart".equals(depart.getDepartmentId().trim())){
-				session.put("departsumdata", teachsumdao.getAllSum(foreterm,afterterm));
-			}else{
-				session.put("departsumdata", teachsumdao.getSingleSum(foreterm, afterterm, depart));
-			}
+			if(null!=depart)
+				if("alldepart".equals(depart.getDepartmentId().trim())){
+					session.put("departsumdata", teachsumdao.getAllSum(foreterm,afterterm));
+				}else{
+					session.put("departsumdata", teachsumdao.getSingleSum(foreterm, afterterm, depart));
+				}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -47,7 +48,7 @@ public class TeachingDataSummaryAction implements RequestAware, SessionAware {
 	}
 	//
 	public String getTeacherSummaryData(){
-		
+		request.put("teachersum", teachsumdao.getTeacherSUM(foreterm, afterterm, ServletActionContext.getRequest().getParameter("teacherId")));
 		return "success";
 	}
 	

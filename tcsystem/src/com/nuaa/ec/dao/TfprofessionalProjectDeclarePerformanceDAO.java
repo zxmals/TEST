@@ -91,8 +91,7 @@ public class TfprofessionalProjectDeclarePerformanceDAO extends
 	 */
 	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
 		try {
-			StringBuffer queryString = new StringBuffer();
-			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(PPD.singleScore),0),ISNULL(avg(PPD.singleScore),0)) "
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(PPD.singleScore),0),ISNULL(avg(PPD.singleScore),0)) "
 					+ "from TfprofessionalProjectDeclarePerformance PPD where PPD.spareTire='1'"
 					+ " and PPD.tfprofessionalProjectDeclareProject.spareTire='1'"
 					+ " and PPD.tfprofessionalProjectDeclareProject.tfprofessionalProjectDeclareLevel.spareTire='1'"
@@ -101,13 +100,11 @@ public class TfprofessionalProjectDeclarePerformanceDAO extends
 					+ " and PPD.tfprofessionalProjectDeclareProject.tfterm.termId between ? and ?"
 					+ " and PPD.teacher.spareTire='1'"
 					+ " and PPD.checkOut='3'"
-					+ " and PPD.teacher.department.spareTire='1'");
-//					+ " and PPD.teacher.department=?";
-			if(null!=teacherId&&!"".equals(teacherId.trim())){
-				queryString.append(" and PPD.teacher.teacherId like %"+teacherId.trim()+"% ");
-			}
-			Query queryObject = getSession().createQuery(queryString.toString())
-					.setParameter(0, foreterm).setParameter(1, afterterm);
+					+ " and PPD.teacher.department.spareTire='1'"
+					+ " and PPD.teacher.teacherId=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, teacherId);
 			if(queryObject.list().size()>0){
 				return (Statistics_asist) queryObject.list().get(0);
 			}else return null;

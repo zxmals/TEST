@@ -86,8 +86,7 @@ public class TfsummerCourseInternationalConstructionPerformanceDAO extends BaseH
 	 */
 	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
 		try {
-			StringBuffer queryString = new StringBuffer();
-			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(SCI.score),0),ISNULL(avg(SCI.score),0)) "
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(SCI.score),0),ISNULL(avg(SCI.score),0)) "
 					+ "from TfsummerCourseInternationalConstructionPerformance SCI,Tfterm TERM where TERM.termId=SCI.termId"
 					+ " and SCI.spareTire='1'"
 					+ " and SCI.checkOut='3'"
@@ -95,13 +94,11 @@ public class TfsummerCourseInternationalConstructionPerformanceDAO extends BaseH
 					+ " and SCI.tfsummerCourseInternationalConstructionLevel.spareTire='1'"
 					+ " and SCI.teacher.spareTire='1'"
 					+"  and SCI.checkOut='3' "
-					+ " and SCI.termId between ? and ?");
-//					+ " and SCI.teacher.department=?";
-			if(null!=teacherId&&!"".equals(teacherId.trim())){
-				queryString.append(" and SCI.teacher.teacherId like %"+teacherId.trim()+"% ");
-			}
-			Query queryObject = getSession().createQuery(queryString.toString())
-					.setParameter(0, foreterm).setParameter(1, afterterm);
+					+ " and SCI.termId between ? and ?"
+					+ " and SCI.teacher.teacherId=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2,teacherId);
 			if(queryObject.list().size()>0){
 				return (Statistics_asist) queryObject.list().get(0);
 			}else return null;

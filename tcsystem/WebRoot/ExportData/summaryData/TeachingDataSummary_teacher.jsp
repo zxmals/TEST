@@ -18,19 +18,19 @@ request.setAttribute("termList", StoreData.getTftermList());
 
     <title>EXPORT-TEACHING_teacher-DATA</title>
     
-    <link rel="shortcut icon" href="favicon.ico"> <link href="../../css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
-    <link href="../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     
     <!-- Sweet Alert -->
-    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
     <!-- Data Tables -->
-    <link href="../../css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
 
-	<link rel="stylesheet" type="text/css" href="../../css/zxma.css">
-    <link href="../../css/animate.min.css" rel="stylesheet">
-    <link href="../../css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
-    <link rel="stylesheet" href="../../css/mermberTab.css" >
+	<link rel="stylesheet" type="text/css" href="css/zxma.css">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
+    <link rel="stylesheet" href="css/mermberTab.css" >
 </head>
 
 <body class="gray-bg"  onload="">
@@ -64,7 +64,7 @@ request.setAttribute("termList", StoreData.getTftermList());
 										</select>									
 										&nbsp;&nbsp;</a>
 									<a>
-										[教师编号]:<input type="text" name="teacherId" id="teacherId" name="teacher.teacherId"
+										[教师编号]:<input type="text" name="teacherId" id="teacherId" 
 											 style="width:120px;height:25px;border-radius:3px;border:1px solid #C0C0C0;" placeholder="请输入教师编号"/>
 									</a>&nbsp;&nbsp;&nbsp;&nbsp;
 									</a>
@@ -83,18 +83,18 @@ request.setAttribute("termList", StoreData.getTftermList());
     
     
 	    
-    <script src="../../js/jquery.min.js?v=2.1.4"></script>
-    <script src="../../js/bootstrap.min.js?v=3.3.5"></script>
-    <script src="../../js/plugins/jeditable/jquery.jeditable.js"></script>
-    <script src="../../js/plugins/dataTables/dataTables.bootstrap.js"></script>
-    <script src="../../js/content.min.js?v=1.0.0"></script>
-    <script src="../../js/plugins/iCheck/icheck.min.js"></script>
-    <script  src="../../js/PublicCheck/PUB_SET.js"></script>
-    <script  src="../../My97DatePicker/WdatePicker.js"></script>
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.5"></script>
+    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="js/content.min.js?v=1.0.0"></script>
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script  src="js/PublicCheck/PUB_SET.js"></script>
+    <script  src="My97DatePicker/WdatePicker.js"></script>
     <!-- ISBN输入控制 -->
-    <script src="../../js/plugins/jasny/jasny-bootstrap.min.js"></script>
+    <script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
     <!-- sweet-alert -->
-    <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
     $('#subcheck').click(function() {
 		if(checkadds()){

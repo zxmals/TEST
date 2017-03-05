@@ -90,8 +90,7 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO
 	 */
 	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
 		try {
-			StringBuffer queryString = new StringBuffer();
-			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(EWTB.singleScore),0),ISNULL(avg(EWTB.singleScore),0)) "
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(EWTB.singleScore),0),ISNULL(avg(EWTB.singleScore),0)) "
 					+ "from TfenterpriseWorkstationTrainingBaseConstructionPerformance EWTB where EWTB.spareTire='1'"
 					+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.spareTire='1'"
 					+ " and EWTB.tfenterpriseWorkstationTrainingBaseConstructionProject.tfterm.spareTire='1'"
@@ -100,13 +99,11 @@ public class TfenterpriseWorkstationTrainingBaseConstructionPerformanceDAO
 					+ " and EWTB.selfUndertakeTask.spareTire='1'"
 					+ " and EWTB.teacher.spareTire='1'"
 					+ " and EWTB.checkOut='3'"
-					+ " and EWTB.teacher.department.spareTire='1'");
-//					+ " and EWTB.teacher.department=?";
-			if(null!=teacherId&&!"".equals(teacherId.trim())){
-				queryString.append(" and EWTB.teacher.teacherId like %"+teacherId.trim()+"% ");
-			}
-			Query queryObject = getSession().createQuery(queryString.toString())
-					.setParameter(0, foreterm).setParameter(1, afterterm);
+					+ " and EWTB.teacher.department.spareTire='1'"
+					+ " and EWTB.teacher.teacherId=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, teacherId);
 			if(queryObject.list().size()>0){
 				return (Statistics_asist) queryObject.list().get(0);
 			}else return null;

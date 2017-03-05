@@ -90,8 +90,7 @@ public class TffineCourseConstructionPerformanceDAO extends BaseHibernateDAO {
 	 */
 	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
 		try {
-			StringBuffer queryString = new StringBuffer();
-			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(FCC.singelScore),0),ISNULL(avg(FCC.singelScore),0)) "
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(FCC.singelScore),0),ISNULL(avg(FCC.singelScore),0)) "
 					+ "from TffineCourseConstructionPerformance FCC where FCC.spareTire='1'"
 					+ " and FCC.tffineCourseConstructionProject.spareTire='1'"
 					+ " and FCC.tffineCourseConstructionProject.tffineCourseConstructionLevel.spareTire='1'"
@@ -100,13 +99,11 @@ public class TffineCourseConstructionPerformanceDAO extends BaseHibernateDAO {
 					+ " and FCC.tffineCourseConstructionProject.tfterm.termId between ? and ?"
 					+ " and FCC.teacher.spareTire='1'"
 					+ " and FCC.checkOut='3'"
-					+ " and FCC.teacher.department.spareTire='1'");
-//					+ " and FCC.teacher.department=?";
-			if(teacherId!=null&&!"".equals(teacherId.trim())){
-				queryString.append(" and FCC.teacher.teacherId like %"+teacherId.trim()+"% ");
-			}
-			Query queryObject = getSession().createQuery(queryString.toString())
-					.setParameter(0, foreterm).setParameter(1, afterterm);
+					+ " and FCC.teacher.department.spareTire='1'"
+					+ " and FCC.teacher.teacherId=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, teacherId);
 			if(queryObject.list().size()>0){
 				return (Statistics_asist) queryObject.list().get(0);
 			}else return null;

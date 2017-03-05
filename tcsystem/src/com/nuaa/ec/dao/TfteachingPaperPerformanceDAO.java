@@ -90,8 +90,7 @@ public class TfteachingPaperPerformanceDAO extends BaseHibernateDAO {
 	 */
 	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
 		try {
-			StringBuffer queryString = new StringBuffer();
-			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TPP.singelScore),0),ISNULL(avg(TPP.singelScore),0)) "
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TPP.singelScore),0),ISNULL(avg(TPP.singelScore),0)) "
 					+ "from TfteachingPaperPerformance TPP where TPP.spareTire='1'"
 					+ " and TPP.tfteachingPaperProject.spareTire='1'"
 					+ " and TPP.tfteachingPaperProject.tfteachingPaperRetrievalCondition.spareTire='1'"
@@ -100,13 +99,11 @@ public class TfteachingPaperPerformanceDAO extends BaseHibernateDAO {
 					+ " and TPP.tfteachingPaperProject.tfterm.termId between ? and ?"
 					+ " and TPP.teacher.spareTire='1'"
 					+ " and TPP.checkOut='3'"
-					+ " and TPP.teacher.department.spareTire='1'");
-//					+ " and TPP.teacher.department=?";
-			if(null!=teacherId&&!"".equals(teacherId.trim())){
-				queryString.append(" and TPP.teacher.teacherId like %"+teacherId+"% ");
-			}
-			Query queryObject = getSession().createQuery(queryString.toString())
-					.setParameter(0, foreterm).setParameter(1, afterterm);
+					+ " and TPP.teacher.department.spareTire='1'"
+					+ " and TPP.teacher.teacherId=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, teacherId);
 			if(queryObject.list().size()>0){
 				return (Statistics_asist) queryObject.list().get(0);
 			}else return null;

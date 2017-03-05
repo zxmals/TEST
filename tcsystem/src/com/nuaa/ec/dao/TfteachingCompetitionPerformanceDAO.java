@@ -86,21 +86,18 @@ public class TfteachingCompetitionPerformanceDAO extends BaseHibernateDAO  {
 	 */
 	public Statistics_asist getSAperson(String foreterm,String afterterm,String teacherId){
 		try {
-			StringBuffer queryString = new StringBuffer();
-			queryString.append("select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TCP.finalScore),0),ISNULL(avg(TCP.finalScore),0)) "
+			String queryString = "select new com.nuaa.ec.utils.Statistics_asist(ISNULL(sum(TCP.finalScore),0),ISNULL(avg(TCP.finalScore),0)) "
 					+ "from TfteachingCompetitionPerformance TCP,Tfterm TERM where TCP.spareTire='1'"
 					+ " and TERM.spareTire='1'"
 					+ " and TCP.tfteachingCompetitionRewardLevel.spareTire='1'"
 					+ " and TCP.teacher.spareTire='1'"
 					+ " and TCP.checkOut='3'"
 					+ " and TCP.termId=TERM.termId"
-					+ " and TCP.termId between ? and ?");
-//					+ " and TCP.teacher.department=?";
-			if(null!=teacherId&&!"".equals(teacherId.trim())){
-				queryString.append(" and TCP.teacher.teacherId like %"+teacherId.trim()+"% ");
-			}
-			Query queryObject = getSession().createQuery(queryString.toString())
-					.setParameter(0, foreterm).setParameter(1, afterterm);
+					+ " and TCP.termId between ? and ?"
+					+ " and TCP.teacher.teacherId=?";
+			Query queryObject = getSession().createQuery(queryString)
+					.setParameter(0, foreterm).setParameter(1, afterterm)
+					.setParameter(2, teacherId);
 			if(queryObject.list().size()>0){
 				return (Statistics_asist) queryObject.list().get(0);
 			}else return null;
