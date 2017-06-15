@@ -69,6 +69,7 @@ public class BaseSetAction implements SessionAware{
 				 throw e2;
 			}
 			getDepartinfo();
+			
 		}
 		return "success";
 	}
